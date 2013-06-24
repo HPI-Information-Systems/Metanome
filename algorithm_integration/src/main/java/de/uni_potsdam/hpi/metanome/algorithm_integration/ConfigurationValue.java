@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithmIntegration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 /**
  * Represents configuration values for {@link Algorithm}s. Sets it's own value on an {@link Algorithm}

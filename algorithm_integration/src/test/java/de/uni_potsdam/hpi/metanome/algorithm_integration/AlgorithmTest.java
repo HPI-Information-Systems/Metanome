@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithmIntegration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -10,6 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ConfigurationValue;
 
 /**
  * Tests for {@link Algorithm}

@@ -1,13 +1,17 @@
 /**
  * 
  */
-package de.uni_potsdam.hpi.metanome.algorithmIntegration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ConfigurationValueString;
 
 /**
  * Tests for {@link ConfigurationValueString}

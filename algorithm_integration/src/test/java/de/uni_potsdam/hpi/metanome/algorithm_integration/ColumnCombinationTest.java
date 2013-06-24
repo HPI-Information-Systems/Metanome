@@ -1,10 +1,12 @@
-package de.uni_potsdam.hpi.metanome.algorithmIntegration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 
 /**
  * Tests for {@link ColumnCombination}

@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.uni-potsdam.hpi.metanome</groupId>
-  <artifactId>algorithmIntegration</artifactId>
+  <artifactId>algorithm_integration</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>algorithmIntegration</name>
+  <name>algorithm_integration</name>
   <url>http://maven.apache.org</url>
 
   <properties>

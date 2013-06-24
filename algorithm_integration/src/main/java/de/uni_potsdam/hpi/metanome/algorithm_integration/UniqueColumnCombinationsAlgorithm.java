@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithmIntegration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 /**
  * An {@link Algorithm} that calculates unique {@link ColumnCombination}s.
