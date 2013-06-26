@@ -15,12 +15,20 @@
  */
 package de.uni_potsdam.hpi.metanomefront.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
+import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
 
 /**
  * HelloWorld application.
@@ -28,12 +36,17 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Hello implements EntryPoint {
 
   public void onModuleLoad() {
-    Button b = new Button("Click me", new ClickHandler() {
+	ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+	paramList.add(new InputParameter("filename", Type.STRING));
+	ParameterTable pt = new ParameterTable(paramList);
+    
+	Button b = new Button("Click me", new ClickHandler() {
       public void onClick(ClickEvent event) {
         Window.alert("Hello, AJAX");
       }
     });
 
-    RootPanel.get().add(b);
+    RootPanel.get().add(pt);
   }
+
 }
