@@ -46,5 +46,25 @@ public class ColumnCombinationTest {
 		assertTrue(columnCombination.columnCombination.contains(expectedColumn1));
 		assertTrue(columnCombination.columnCombination.contains(expectedColumn2));
 	}
+	
+	/**
+	 * A {@link ColumnCombination} should return the ordered column identifiers as string representation.
+	 * E.g. "[column1, column2]".
+	 */
+	@Test
+	public void testToString() {
+		// Setup
+		String expectedColumn1 = "column1";
+		String expectedColumn2 = "column2";
+		ColumnCombination columnCombination = new ColumnCombination(expectedColumn2, expectedColumn1);
+		// Expected values
+		String expectedStringRepresentation = "[" + expectedColumn1 + ", " + expectedColumn2 + "]";
+		
+		// Execute functionality
+		String actualStringRepresentation = columnCombination.toString();
+		
+		// Check result
+		assertEquals(expectedStringRepresentation, actualStringRepresentation);
+	}
 
 }
