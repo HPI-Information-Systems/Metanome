@@ -35,6 +35,14 @@ public class AlgorithmJarLoaderTest {
 		
 	}
 
+	/**
+	 * A valid algorithm jar should be loadable and of correct class.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
 	@Test
 	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		// Setup
