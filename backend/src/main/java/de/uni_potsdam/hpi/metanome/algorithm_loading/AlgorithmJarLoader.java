@@ -19,6 +19,16 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 		this.algorithmSubclass = algorithmSubclass;
 	}
 	
+	/**
+	 * Loads a jar file containing an algorithm and returns an instance of the bootstrap class.
+	 * 
+	 * @param path
+	 * @return runnable algorithm
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
 	public Algorithm loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		File file = new File(path);
 		JarFile jar = new JarFile(file);
