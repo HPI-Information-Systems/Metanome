@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.Attributes;
@@ -28,8 +29,12 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 	 * @throws ClassNotFoundException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
-	public Algorithm loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public Algorithm loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		File file = new File(path);
 		JarFile jar = new JarFile(file);
 		
@@ -44,7 +49,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
         Class<? extends T> algorithmClass = 
         		Class.forName(className, true, loader).asSubclass(algorithmSubclass);
         
-		return algorithmClass.newInstance();
+		return algorithmClass.getConstructor().newInstance();
 	}
 	
 }

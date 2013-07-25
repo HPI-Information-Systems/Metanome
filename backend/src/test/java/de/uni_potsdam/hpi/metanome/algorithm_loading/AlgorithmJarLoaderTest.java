@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,9 +43,13 @@ public class AlgorithmJarLoaderTest {
 	 * @throws ClassNotFoundException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
 	@Test
-	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		// Setup
 		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
 				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
