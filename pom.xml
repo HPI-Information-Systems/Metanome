@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>metanome_root</name>
+  <name>metanome</name>
   <url>http://maven.apache.org</url>
 
   <properties>
