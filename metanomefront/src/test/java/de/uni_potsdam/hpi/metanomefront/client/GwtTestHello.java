@@ -14,7 +14,7 @@ import de.uni_potsdam.hpi.metanomefront.client.ParameterTable;
 import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
 import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
 
-public class HelloTest extends GWTTestCase{
+public class GwtTestHello extends GWTTestCase{
 
 	@Test
 	public void testJarLoaderInput() {

@@ -17,10 +17,8 @@
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
 
-    <!-- Don't let your Mac use a crazy non-standard encoding -->
+    <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
   </properties>
 
   <dependencies>
@@ -48,37 +46,19 @@
   
   <build>
     <!-- Generate compiled stuff in the folder used for development mode -->
-    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+    <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
     
     <plugins>
       <!-- GWT Maven Plugin-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.5.0-rc1</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>${gwtVersion}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <version>${gwtVersion}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-servlet</artifactId>
-            <version>${gwtVersion}</version>
-          </dependency>
-        </dependencies>
-        <!-- JS is only needed in the package phase, this speeds up testing --> 
+        <version>2.5.1</version>
         <executions>
           <execution>
-            <phase>prepare-package</phase>
             <goals>
               <goal>compile</goal>
+              <goal>generateAsync</goal>
             </goals>
           </execution>
         </executions>
@@ -87,31 +67,23 @@
         <configuration>
           <!-- URL that should be automatically opened in the GWT shell (gwt:run). -->
           <runTarget>Hello.html</runTarget>
-          <!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
-          <compileReport>true</compileReport>
-          <module>de.uni_potsdam.hpi.metanomefront.Hello</module>
-          <logLevel>INFO</logLevel>
-          <style>${gwt.style}</style>
-          <copyWebapp>true</copyWebapp> 
+          <hostedWebapp>${webappDirectory}</hostedWebapp>
         </configuration>
       </plugin>
       
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.6</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>2.5.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <additionalClasspathElements>
-            <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
-            <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-          </additionalClasspathElements>
-          <useManifestOnlyJar>false</useManifestOnlyJar>
-          <forkMode>always</forkMode>
-          <systemProperties>
-            <property>
-              <name>gwt.args</name>
-              <value>-out ${webAppDirectory}</value>
-            </property>
-          </systemProperties>
+          <mode>HtmlUnit</mode>
         </configuration>
       </plugin>
 
