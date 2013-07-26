@@ -7,7 +7,7 @@ import java.util.List;
  * configurations and receive the different configuration types.
  * Subclassing of this class will not lead to a functioning algorithm, as only more concrete algorithms can be started.
  */
-abstract class Algorithm {
+public abstract class Algorithm {
 	
 	/**
 	 * Algorithms should supply a list of needed configuration parameters.

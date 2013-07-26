@@ -1,4 +1,7 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 
 /**
  * Receives the results of a {@link UniqueColumnCombinationsAlgorithm}.

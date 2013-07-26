@@ -19,4 +19,10 @@ public class ColumnCombination {
 	public ColumnCombination(String... columnIdentifier) {
 		columnCombination = new HashSet<String>(Arrays.asList(columnIdentifier));
 	}
+	
+
+	@Override
+	public String toString() {
+		return columnCombination.toString();
+	}
 }

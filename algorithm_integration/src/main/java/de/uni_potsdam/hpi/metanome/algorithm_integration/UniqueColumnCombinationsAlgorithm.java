@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+
 /**
  * An {@link Algorithm} that calculates unique {@link ColumnCombination}s.
  */
