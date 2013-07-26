@@ -13,7 +13,7 @@ public abstract class ConfigurationSpecification {
 	
 	/**
 	 * Construct a configuration specification.
-	 * An string identifier is stored to identify configuration parameter.
+	 * A string identifier is stored to identify configuration parameter.
 	 * The identifier should be unique among all parameters of one algorithm.
 	 * 
 	 * @param identifier

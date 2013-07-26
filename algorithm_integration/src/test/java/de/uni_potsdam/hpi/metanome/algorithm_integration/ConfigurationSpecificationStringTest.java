@@ -11,7 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ConfigurationSpecificat
 /**
  * Tests for {@link ConfigurationSpecificationString}
  */
-public class ConfiguraationSpecificationStringTest {
+public class ConfigurationSpecificationStringTest {
 
 	/**
 	 * @throws Exception
