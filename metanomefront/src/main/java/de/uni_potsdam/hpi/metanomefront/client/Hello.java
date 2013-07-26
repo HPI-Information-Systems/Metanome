@@ -38,8 +38,8 @@ public class Hello implements EntryPoint {
   public void onModuleLoad() {
 	ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 	paramList.add(new InputParameter("filename", Type.STRING));
-	paramList.add(new InputParameter("filename", Type.BOOL));
-	paramList.add(new InputParameter("filename", Type.INT));
+	paramList.add(new InputParameter("Omit warnings", Type.BOOL));
+	paramList.add(new InputParameter("Number of Runs", Type.INT));
 	ParameterTable pt = new ParameterTable(paramList);
     
 	Button b = new Button("Click me", new ClickHandler() {
