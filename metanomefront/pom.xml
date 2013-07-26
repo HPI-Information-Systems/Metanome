@@ -39,11 +39,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>com.google.gwt</groupId>
-    	<artifactId>gwt-dev</artifactId>
-    	<version>${gwtVersion}</version>
-    </dependency>
-    <dependency>
     	<groupId>junit</groupId>
     	<artifactId>junit</artifactId>
     	<version>4.11</version>
@@ -97,6 +92,7 @@
           <module>de.uni_potsdam.hpi.metanomefront.Hello</module>
           <logLevel>INFO</logLevel>
           <style>${gwt.style}</style>
+          <copyWebapp>true</copyWebapp> 
         </configuration>
       </plugin>
       
