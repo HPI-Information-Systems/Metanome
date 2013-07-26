@@ -15,12 +15,12 @@ import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
 public class HelloTest extends GWTTestCase{
 
 	@Test
-	public void testJarLoaderInputPresent() {
-		String[] filenames = {"filename1.jar", "filename2.jar", "filename3.jar"};
+	public void testJarLoaderInput() {
+		String[] filenames = {"filename1.jar", "filename2.jar"};
 		JarChooser jarChooser = new JarChooser(filenames);
 		
 		assertEquals(3, jarChooser.getWidgetCount());
-		assertEquals(filenames, jarChooser.getListItemCount());
+		assertEquals(2, jarChooser.getListItemCount());
 	}
 	
 	@Test
