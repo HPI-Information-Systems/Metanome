@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+import de.uni_potsdam.hpi.metanomefront.client.JarChooser;
+import de.uni_potsdam.hpi.metanomefront.client.ParameterTable;
 import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
 import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
 

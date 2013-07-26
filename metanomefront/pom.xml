@@ -97,8 +97,25 @@
           <module>de.uni_potsdam.hpi.metanomefront.Hello</module>
           <logLevel>INFO</logLevel>
           <style>${gwt.style}</style>
-
-          <copyWebapp>true</copyWebapp>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
+            <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
+          </additionalClasspathElements>
+          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <forkMode>always</forkMode>
+          <systemProperties>
+            <property>
+              <name>gwt.args</name>
+              <value>-out ${webAppDirectory}</value>
+            </property>
+          </systemProperties>
         </configuration>
       </plugin>
 
