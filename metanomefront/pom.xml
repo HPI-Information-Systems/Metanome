@@ -58,6 +58,7 @@
           <execution>
             <goals>
               <goal>compile</goal>
+              <goal>test</goal>
               <goal>generateAsync</goal>
             </goals>
           </execution>
@@ -68,21 +69,6 @@
           <!-- URL that should be automatically opened in the GWT shell (gwt:run). -->
           <runTarget>Hello.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.5.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
           <mode>HtmlUnit</mode>
         </configuration>
       </plugin>
