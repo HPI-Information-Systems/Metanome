@@ -29,10 +29,9 @@ public class UniqueColumnCombinationPrinterTest {
 	@Test
 	public void test() {
 		// Setup
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		
-		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter();
+		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(new PrintStream(outStream));
 		ColumnCombination columnCombination1 = new ColumnCombination("column1", "column2");
 		ColumnCombination columnCombination2 = new ColumnCombination("column2", "column3");
 		// Expected values
@@ -46,11 +45,8 @@ public class UniqueColumnCombinationPrinterTest {
 		
 		// Check result
 		for (String output : expectedOutputs) {
-			assertTrue(outContent.toString().contains(output));
+			assertTrue(outStream.toString().contains(output));
 		}
-		
-		// Cleanup
-		System.setOut(null);
 	}
 
 }

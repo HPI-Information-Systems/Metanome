@@ -4,7 +4,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.After;
@@ -13,6 +15,7 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
 /**
 
@@ -60,7 +63,9 @@ public class AlgorithmJarLoaderTest {
 		
 		// Check result
 		assertNotNull(algorithm);
-		assertTrue(algorithm instanceof UniqueColumnCombinationsAlgorithm);		
+		assertTrue(algorithm instanceof UniqueColumnCombinationsAlgorithm);	
+		
+		UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
+		uccAlgorithm.start(new UniqueColumnCombinationPrinter(new PrintStream(new ByteArrayOutputStream())));
 	}
-
 }
