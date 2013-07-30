@@ -8,11 +8,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
 public abstract class UniqueColumnCombinationsAlgorithm extends Algorithm {
 
 	/**
-	 * Starts the execution of the {@link UniqueColumnCombinationsAlgorithm} and 
-	 * supplies an {@link UniqueColumnCombinationResultReceiver} to send results to. 
+	 * Starts the execution of the algorithm and sends the results to
+	 * an {@link UniqueColumnCombinationResultReceiver}. 
 	 * 
 	 * @param resultReceiver
-	 * @param configurationValues
 	 */
 	abstract public void start(UniqueColumnCombinationResultReceiver resultReceiver);
 }
