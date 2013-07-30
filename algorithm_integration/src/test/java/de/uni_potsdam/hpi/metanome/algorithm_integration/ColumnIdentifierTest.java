@@ -122,16 +122,18 @@ public class ColumnIdentifierTest {
 		String columnIdentifier1 = "column1";
 		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
 		ColumnIdentifier identifierNull1 = new ColumnIdentifier(tableIdentifier1, null);
-		ColumnIdentifier identifierNull2 = new ColumnIdentifier(null, columnIdentifier1);
+		ColumnIdentifier identifierNull2 = new ColumnIdentifier(tableIdentifier1, null);
+		ColumnIdentifier identifierNull3 = new ColumnIdentifier(null, columnIdentifier1);
+		ColumnIdentifier identifierNull4 = new ColumnIdentifier(null, columnIdentifier1);
 		
 		// Execute functionality
 		// Check results
 		assertNotEquals(identifierNull1, identifier1);
 		assertNotEquals(identifierNull1.hashCode(), identifier1.hashCode());
-		assertEquals(identifierNull1, identifierNull1);
-		assertNotEquals(identifierNull2, identifier1);
-		assertNotEquals(identifierNull2.hashCode(), identifier1.hashCode());
-		assertEquals(identifierNull2, identifierNull2);
+		assertEquals(identifierNull1, identifierNull2);
+		assertNotEquals(identifierNull3, identifier1);
+		assertNotEquals(identifierNull3.hashCode(), identifier1.hashCode());
+		assertEquals(identifierNull3, identifierNull4);
 	}
 	
 	/**
