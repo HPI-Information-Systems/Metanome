@@ -77,8 +77,8 @@ public class ColumnIdentifierTest {
 		// Check results
 		assertNotEquals(identifier1, identifier2);
 		assertNotEquals(identifier1.hashCode(), identifier2.hashCode());
-		assertNotEquals(identifier1, identifier3);
-		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
+		assertNotEquals(identifier2, identifier3);
+		assertNotEquals(identifier2.hashCode(), identifier3.hashCode());
 	}
 	
 	/**
