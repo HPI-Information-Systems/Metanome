@@ -46,19 +46,21 @@ public class ColumnIdentifierTest {
 		// Execute functionality
 		// Check results
 		// reflexivity
-		assertTrue(identifier1.equals(identifier1));
+		assertEquals(identifier1, identifier1);
 		// equals
-		assertTrue(identifier1.equals(identifier2));
+		assertEquals(identifier1, identifier2);
 		assertEquals(identifier1.hashCode(), identifier2.hashCode());
 		// not equals
-		assertFalse(identifier1.equals(identifier3));
+		assertNotEquals(identifier1, identifier3);
 		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
 		// not equals (null)
-		assertFalse(identifier1.equals(null));
+		assertNotEquals(identifier1, null);
 		// not equals (different class)
-		assertFalse(identifier1.equals("test"));
-		// hashCode contains null
+		assertNotEquals(identifier1, "test");
+		// identifier contain null
+		assertNotEquals(identifier1,identifierNull1);
 		assertNotEquals(identifier1.hashCode(), identifierNull1.hashCode());
+		assertNotEquals(identifier1, identifierNull2);
 		assertNotEquals(identifier1.hashCode(), identifierNull2.hashCode());
 		
 	}
