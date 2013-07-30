@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 
 public class UniqueColumnCombinationPrinterTest {
 
@@ -32,8 +33,12 @@ public class UniqueColumnCombinationPrinterTest {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		
 		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(new PrintStream(outStream));
-		ColumnCombination columnCombination1 = new ColumnCombination("column1", "column2");
-		ColumnCombination columnCombination2 = new ColumnCombination("column2", "column3");
+		ColumnCombination columnCombination1 = new ColumnCombination(
+				new ColumnIdentifier("table1", "column1"), 
+				new ColumnIdentifier("table2", "column2"));
+		ColumnCombination columnCombination2 = new ColumnCombination(
+				new ColumnIdentifier("table2", "column2"), 
+				new ColumnIdentifier("table3", "column3"));
 		// Expected values
 		List<String> expectedOutputs = new LinkedList<String>();
 		expectedOutputs.add(columnCombination1.toString());

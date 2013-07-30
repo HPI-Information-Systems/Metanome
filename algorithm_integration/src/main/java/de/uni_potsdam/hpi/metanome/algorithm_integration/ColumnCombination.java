@@ -9,15 +9,15 @@ import java.util.Set;
  */
 public class ColumnCombination {
 	
-	protected Set<String> columnCombination;
+	protected Set<ColumnIdentifier> columnCombination;
 	
 	/**
 	 * Store string identifiers for columns to form a column combination.
 	 * 
 	 * @param columnIdentifier
 	 */
-	public ColumnCombination(String... columnIdentifier) {
-		columnCombination = new HashSet<String>(Arrays.asList(columnIdentifier));
+	public ColumnCombination(ColumnIdentifier... columnIdentifier) {
+		columnCombination = new HashSet<ColumnIdentifier>(Arrays.asList(columnIdentifier));
 	}
 	
 
