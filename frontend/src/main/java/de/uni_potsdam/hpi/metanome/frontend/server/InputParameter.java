@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanomefront.server;
+package de.uni_potsdam.hpi.metanome.frontend.server;
 
 
 public class InputParameter {

@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanomefront.client;
+package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

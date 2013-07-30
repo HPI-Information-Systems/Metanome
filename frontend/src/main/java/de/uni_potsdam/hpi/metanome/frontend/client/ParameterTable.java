@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanomefront.client;
+package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 
 public class ParameterTable extends FlexTable {
 

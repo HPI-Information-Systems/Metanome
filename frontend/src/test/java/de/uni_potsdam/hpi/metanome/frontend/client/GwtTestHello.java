@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanomefront.client;
+package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.ArrayList;
 
@@ -9,10 +9,10 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-import de.uni_potsdam.hpi.metanomefront.client.JarChooser;
-import de.uni_potsdam.hpi.metanomefront.client.ParameterTable;
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 
 public class GwtTestHello extends GWTTestCase{
 
@@ -50,7 +50,7 @@ public class GwtTestHello extends GWTTestCase{
 
 	@Override
 	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanomefront.Hello";
+		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
 	}
 
 }

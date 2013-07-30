@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanomefront.client;
+package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter;
-import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 
 /**
  * HelloWorld application.
