@@ -25,13 +25,12 @@ public class UniqueColumnCombinationPrinterTest {
 	}
 
 	/**
-	 * TODO: docs
+	 * The UniqueColumnCombinationPrinter should print column combinations to the stream set on construction.
 	 */
 	@Test
-	public void test() {
+	public void testPrinting() {
 		// Setup
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		
 		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(new PrintStream(outStream));
 		ColumnCombination columnCombination1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 
