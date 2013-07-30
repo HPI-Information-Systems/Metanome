@@ -28,6 +28,21 @@ public class ColumnIdentifierTest {
 	}
 
 	/**
+	 * A ColumnIdentifier should be equal to itself.
+	 */
+	@Test
+	public void testEqualsReflexivity() {
+		// Setup
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+		
+		// Execute functionality
+		// Check results
+		assertEquals(identifier1, identifier1);
+	}
+	
+	/**
 	 * Only two ColumnIdentifier with the same table and column identifiers should be equal.
 	 */
 	@Test
@@ -45,8 +60,6 @@ public class ColumnIdentifierTest {
 		
 		// Execute functionality
 		// Check results
-		// reflexivity
-		assertEquals(identifier1, identifier1);
 		// equals
 		assertEquals(identifier1, identifier2);
 		assertEquals(identifier1.hashCode(), identifier2.hashCode());
@@ -58,11 +71,10 @@ public class ColumnIdentifierTest {
 		// not equals (different class)
 		assertNotEquals(identifier1, "test");
 		// identifier contain null
-		assertNotEquals(identifier1,identifierNull1);
-		assertNotEquals(identifier1.hashCode(), identifierNull1.hashCode());
-		assertNotEquals(identifier1, identifierNull2);
-		assertNotEquals(identifier1.hashCode(), identifierNull2.hashCode());
-		
+		assertNotEquals(identifierNull1, identifier1);
+		assertNotEquals(identifierNull1.hashCode(), identifier1.hashCode());
+		assertNotEquals(identifierNull2, identifier1);
+		assertNotEquals(identifierNull2.hashCode(), identifier1.hashCode());		
 	}
 	
 	/**
