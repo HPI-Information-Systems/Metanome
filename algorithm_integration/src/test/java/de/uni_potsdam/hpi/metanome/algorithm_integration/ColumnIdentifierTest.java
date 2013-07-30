@@ -39,14 +39,22 @@ public class ColumnIdentifierTest {
 		ColumnIdentifier identifier2 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
 		String tableIdentifier2 = "table2";
 		String columnIdentifier2 = "column2";
-		ColumnIdentifier identifier3 = new ColumnIdentifier(tableIdentifier2, columnIdentifier2);		
+		ColumnIdentifier identifier3 = new ColumnIdentifier(tableIdentifier2, columnIdentifier2);
+		ColumnIdentifier identifier4 = new ColumnIdentifier(tableIdentifier2, null);
 		
 		// Execute functionality
 		// Check results
+		// equals
 		assertTrue(identifier1.equals(identifier2));
 		assertEquals(identifier1.hashCode(), identifier2.hashCode());
+		// not equals
 		assertFalse(identifier1.equals(identifier3));
 		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
+		// not equals (null)
+		assertFalse(identifier1.equals(null));
+		// hashCode contains null
+		assertNotEquals(identifier1.hashCode(), identifier4.hashCode());
+		
 	}
 	
 	/**
