@@ -4,7 +4,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Inclusi
 
 
 /**
- * An {@link Algorithm} that calculates inclusion dependencies.
+ * An {@link Algorithm} that discovers inclusion dependencies.
  */
 public abstract class InclusionDependencyAlgorithm extends Algorithm {
 
