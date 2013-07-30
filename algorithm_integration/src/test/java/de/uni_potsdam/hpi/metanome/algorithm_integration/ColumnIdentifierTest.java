@@ -1,8 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,7 +44,9 @@ public class ColumnIdentifierTest {
 		// Execute functionality
 		// Check results
 		assertTrue(identifier1.equals(identifier2));
+		assertEquals(identifier1.hashCode(), identifier2.hashCode());
 		assertFalse(identifier1.equals(identifier3));
+		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
 	}
 	
 	/**
