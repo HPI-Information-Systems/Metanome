@@ -18,6 +18,10 @@ import de.uni_potsdam.hpi.metanomefront.server.InputParameter.Type;
 public class Hello implements EntryPoint {
 
   public void onModuleLoad() {
+	
+	String[] filenames = {"duplicateDetection.jar", "functionalDependencies.jar"};
+	JarChooser jc = new JarChooser(filenames);
+	
 	ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 	paramList.add(new InputParameter("filename", Type.STRING));
 	paramList.add(new InputParameter("Omit warnings", Type.BOOL));
@@ -30,6 +34,7 @@ public class Hello implements EntryPoint {
       }
     });
 
+	RootPanel.get().add(jc);
     RootPanel.get().add(pt);
   }
 
