@@ -40,7 +40,8 @@ public class ColumnIdentifierTest {
 		String tableIdentifier2 = "table2";
 		String columnIdentifier2 = "column2";
 		ColumnIdentifier identifier3 = new ColumnIdentifier(tableIdentifier2, columnIdentifier2);
-		ColumnIdentifier identifier4 = new ColumnIdentifier(tableIdentifier2, null);
+		ColumnIdentifier identifierNull1 = new ColumnIdentifier(tableIdentifier1, null);
+		ColumnIdentifier identifierNull2 = new ColumnIdentifier(null, columnIdentifier1);
 		
 		// Execute functionality
 		// Check results
@@ -54,8 +55,11 @@ public class ColumnIdentifierTest {
 		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
 		// not equals (null)
 		assertFalse(identifier1.equals(null));
+		// not equals (different class)
+		assertFalse(identifier1.equals("test"));
 		// hashCode contains null
-		assertNotEquals(identifier1.hashCode(), identifier4.hashCode());
+		assertNotEquals(identifier1.hashCode(), identifierNull1.hashCode());
+		assertNotEquals(identifier1.hashCode(), identifierNull2.hashCode());
 		
 	}
 	
