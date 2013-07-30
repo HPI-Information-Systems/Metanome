@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 /**
  * Concrete {@link ConfigurationSpecification} for strings.
