@@ -44,6 +44,8 @@ public class ColumnIdentifierTest {
 		
 		// Execute functionality
 		// Check results
+		// reflexivity
+		assertTrue(identifier1.equals(identifier1));
 		// equals
 		assertTrue(identifier1.equals(identifier2));
 		assertEquals(identifier1.hashCode(), identifier2.hashCode());
