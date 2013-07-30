@@ -43,38 +43,89 @@ public class ColumnIdentifierTest {
 	}
 	
 	/**
-	 * Only two ColumnIdentifier with the same table and column identifiers should be equal.
+	 * Two ColumnIdentifier with the same table and column identifiers should be equal.
 	 */
 	@Test
-	public void testEquals() {
+	public void testEqualsEqual() {
 		// Setup
 		String tableIdentifier1 = "table1";
 		String columnIdentifier1 = "column1";
 		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
 		ColumnIdentifier identifier2 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+
+		// Execute functionality
+		// Check results
+		assertEquals(identifier1, identifier2);
+		assertEquals(identifier1.hashCode(), identifier2.hashCode());
+	}
+	
+	/**
+	 * Two ColumnIdentifiers with different values should not be equal.
+	 */
+	@Test
+	public void testEqualsNotEqualValues() {
+		// Setup
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
 		String tableIdentifier2 = "table2";
 		String columnIdentifier2 = "column2";
 		ColumnIdentifier identifier3 = new ColumnIdentifier(tableIdentifier2, columnIdentifier2);
+		
+		// Execute functionality
+		// Check results
+		assertNotEquals(identifier1, identifier3);
+		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
+	}
+	
+	/**
+	 * A ColumnIdentifier should not be equal to null.
+	 */
+	@Test
+	public void testEqualsNotEqualNull() {
+		// Setup
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+		
+		// Execute functionality
+		// Check results
+		assertNotEquals(identifier1, null);
+	}
+	
+	/**
+	 * A ColumnIdentifier should not be equal to an instance of a different class.
+	 */
+	@Test
+	public void testEqualsNotEqualDifferentClass() {
+		// Setup
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+		
+		// Execute functionality
+		// Check results
+		assertNotEquals(identifier1, "test");
+	}
+	
+	/**
+	 * If one of the ColumnIdentifiers contains a null value as sub identifier the ColumnIdentifiers are not equal.
+	 */
+	@Test
+	public void testEqualsNotEqualContainingNull() {
+		//Setup
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
 		ColumnIdentifier identifierNull1 = new ColumnIdentifier(tableIdentifier1, null);
 		ColumnIdentifier identifierNull2 = new ColumnIdentifier(null, columnIdentifier1);
 		
 		// Execute functionality
 		// Check results
-		// equals
-		assertEquals(identifier1, identifier2);
-		assertEquals(identifier1.hashCode(), identifier2.hashCode());
-		// not equals
-		assertNotEquals(identifier1, identifier3);
-		assertNotEquals(identifier1.hashCode(), identifier3.hashCode());
-		// not equals (null)
-		assertNotEquals(identifier1, null);
-		// not equals (different class)
-		assertNotEquals(identifier1, "test");
-		// identifier contain null
 		assertNotEquals(identifierNull1, identifier1);
 		assertNotEquals(identifierNull1.hashCode(), identifier1.hashCode());
 		assertNotEquals(identifierNull2, identifier1);
-		assertNotEquals(identifierNull2.hashCode(), identifier1.hashCode());		
+		assertNotEquals(identifierNull2.hashCode(), identifier1.hashCode());
 	}
 	
 	/**
