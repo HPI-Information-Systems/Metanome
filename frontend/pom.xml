@@ -70,6 +70,7 @@
           <runTarget>Hello.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
+          <persistentunitcache>false</persistentunitcache>
         </configuration>
       </plugin>
 
