@@ -110,9 +110,10 @@ public class ColumnIdentifierTest {
 	
 	/**
 	 * If one of the ColumnIdentifiers contains a null value as sub identifier the ColumnIdentifiers are not equal.
+	 * If the two ColumnIdentifiers have the null values in the same places, they are equal.
 	 */
 	@Test
-	public void testEqualsNotEqualContainingNull() {
+	public void testEqualsContainingNull() {
 		//Setup
 		String tableIdentifier1 = "table1";
 		String columnIdentifier1 = "column1";
@@ -124,8 +125,10 @@ public class ColumnIdentifierTest {
 		// Check results
 		assertNotEquals(identifierNull1, identifier1);
 		assertNotEquals(identifierNull1.hashCode(), identifier1.hashCode());
+		assertEquals(identifierNull1, identifierNull1);
 		assertNotEquals(identifierNull2, identifier1);
 		assertNotEquals(identifierNull2.hashCode(), identifier1.hashCode());
+		assertEquals(identifierNull2, identifierNull2);
 	}
 	
 	/**
