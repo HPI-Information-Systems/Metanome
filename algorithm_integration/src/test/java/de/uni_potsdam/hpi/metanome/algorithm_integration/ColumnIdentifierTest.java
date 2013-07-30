@@ -1,6 +1,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,12 +30,23 @@ public class ColumnIdentifierTest {
 	}
 
 	/**
-	 * Two ColumnIdentifier with the same values should be equal.
+	 * Only two ColumnIdentifier with the same table and column identifiers should be equal.
 	 */
 	@Test
 	public void testEquals() {
 		// Setup
-		// TODO: implement
+		String tableIdentifier1 = "table1";
+		String columnIdentifier1 = "column1";
+		ColumnIdentifier identifier1 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+		ColumnIdentifier identifier2 = new ColumnIdentifier(tableIdentifier1, columnIdentifier1);
+		String tableIdentifier2 = "table2";
+		String columnIdentifier2 = "column2";
+		ColumnIdentifier identifier3 = new ColumnIdentifier(tableIdentifier2, columnIdentifier2);		
+		
+		// Execute functionality
+		// Check results
+		assertTrue(identifier1.equals(identifier2));
+		assertFalse(identifier1.equals(identifier3));
 	}
 	
 	/**
