@@ -17,6 +17,6 @@
   <modules>
     <module>algorithm_integration</module>
 	<module>backend</module>
-	<module>metanomefront</module>
+	<module>frontend</module>
   </modules>
 </project>

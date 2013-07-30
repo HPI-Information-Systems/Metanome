@@ -2,6 +2,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.util.List;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
+
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
  * configurations and receive the different configuration types.

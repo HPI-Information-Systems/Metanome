@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,24 +29,24 @@ public class UniqueColumnCombinationPrinterTest {
 	@Test
 	public void test() {
 		// Setup
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		
-		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter();
+		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(new PrintStream(outStream));
 		ColumnCombination columnCombination1 = new ColumnCombination("column1", "column2");
 		ColumnCombination columnCombination2 = new ColumnCombination("column2", "column3");
 		// Expected values
-		String expectedOutput = columnCombination1.toString() + "\n" + columnCombination2.toString() + "\n";
+		List<String> expectedOutputs = new LinkedList<String>();
+		expectedOutputs.add(columnCombination1.toString());
+		expectedOutputs.add(columnCombination2.toString());
 		
 		// Execute funtionality
 		printer.receiveResult(columnCombination1);
 		printer.receiveResult(columnCombination2);
 		
-		// Check result 
-		assertEquals(expectedOutput, outContent.toString());
-		
-		// Cleanup
-		System.setOut(null);
+		// Check result
+		for (String output : expectedOutputs) {
+			assertTrue(outStream.toString().contains(output));
+		}
 	}
 
 }

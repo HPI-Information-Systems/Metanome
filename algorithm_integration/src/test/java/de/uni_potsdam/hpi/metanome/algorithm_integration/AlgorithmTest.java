@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 /**
  * Tests for {@link Algorithm}
