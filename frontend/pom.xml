@@ -70,7 +70,7 @@
           <runTarget>Hello.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
-          <persistentunitcache>false</persistentunitcache>
+          <persistentunitcachedir>${project.build.directory}/gwt-unitCache</persistentunitcachedir>
         </configuration>
       </plugin>
 
