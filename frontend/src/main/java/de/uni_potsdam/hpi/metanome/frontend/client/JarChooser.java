@@ -38,10 +38,6 @@ public class JarChooser extends HorizontalPanel {
 	}
 
 	public void submit(){
-		submit(currentJar);
-	}
-	
-	private void submit(String pathToAlgorithmJar){
 		//load needed Parameters into paramList
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
     	paramList.add(new InputParameter("filename", Type.STRING));
