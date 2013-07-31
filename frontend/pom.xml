@@ -75,7 +75,7 @@
           <runTarget>Hello.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
-          <persistentunitcache>false</persistentunitcache>
+          <out>${project.build.directory}/www-test</out>
         </configuration>
       </plugin>
 

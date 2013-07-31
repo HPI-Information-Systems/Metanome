@@ -8,11 +8,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Button;
 
-
-import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
-import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 
