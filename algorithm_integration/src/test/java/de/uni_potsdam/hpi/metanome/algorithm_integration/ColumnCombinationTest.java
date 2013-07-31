@@ -36,8 +36,8 @@ public class ColumnCombinationTest {
 	public void testConstructor() {
 		// Setup
 		// Expected values
-		String expectedColumn1 = "column1";
-		String expectedColumn2 = "column2";
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
 		// Execute functionality
 		ColumnCombination columnCombination = new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 		
@@ -54,11 +54,11 @@ public class ColumnCombinationTest {
 	@Test
 	public void testToString() {
 		// Setup
-		String expectedColumn1 = "column1";
-		String expectedColumn2 = "column2";
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
 		ColumnCombination columnCombination = new ColumnCombination(expectedColumn2, expectedColumn1);
 		// Expected values
-		String expectedStringRepresentation = "[" + expectedColumn1 + ", " + expectedColumn2 + "]";
+		String expectedStringRepresentation = "[" + expectedColumn1.toString() + ", " + expectedColumn2.toString() + "]";
 		
 		// Execute functionality
 		String actualStringRepresentation = columnCombination.toString();

@@ -13,6 +13,5 @@ public interface UniqueColumnCombinationResultReceiver {
 	 * 
 	 * @param columnCombination
 	 */
-	void receiveResult(ColumnCombination columnCombination);
-
+	void receiveResult(ColumnCombination uniqueColumnCombination);
 }
