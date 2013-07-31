@@ -8,6 +8,8 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Button;
+
 
 import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
@@ -17,7 +19,7 @@ import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 public class GwtTestHello extends GWTTestCase{
 
 	@Test
-	public void testJarLoaderInput() {
+	public void testJarChooser() {
 		String[] filenames = {"filename1.jar", "filename2.jar"};
 		JarChooser jarChooser = new JarChooser(filenames);
 		
@@ -26,7 +28,17 @@ public class GwtTestHello extends GWTTestCase{
 	}
 	
 	@Test
-	public void testLayout() {
+	public void testJarChooserSubmit() {
+		BasePage basePage = new BasePage();
+		assertEquals(1, basePage.getWidgetCount());
+		
+		basePage.getJarChooser().submit();
+		assertEquals(2, basePage.getWidgetCount());
+		assertNotNull(basePage.getParameterTable());
+	}
+	
+	@Test
+	public void testParameterTable() {
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		paramList.add(new InputParameter("Filename", Type.STRING));
 		paramList.add(new InputParameter("Omit warnings", Type.BOOL));
