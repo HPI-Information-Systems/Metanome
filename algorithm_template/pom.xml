@@ -13,6 +13,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>metanome</id>
+      <url>http://myhpi.de/~jakob.zwiener/maven</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
