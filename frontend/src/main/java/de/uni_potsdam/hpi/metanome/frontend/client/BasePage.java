@@ -14,6 +14,7 @@ public class BasePage extends DockPanel {
 	private ParameterTable parameterTable;
   
   public BasePage() {
+	  //TODO: get available algorithms from server
 	String[] filenames = {"duplicateDetection.jar", "functionalDependencies.jar"};
 	jarChooser = new JarChooser(filenames);
 	this.add(jarChooser, DockPanel.NORTH);

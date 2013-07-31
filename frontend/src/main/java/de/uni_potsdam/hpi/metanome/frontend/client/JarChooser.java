@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
@@ -38,12 +37,15 @@ public class JarChooser extends HorizontalPanel {
 	}
 
 	public void submit(){
-		//load needed Parameters into paramList
+		String selectedValue = listbox.getValue(listbox.getSelectedIndex());
+		//TODO: load needed Parameters into paramList
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-    	paramList.add(new InputParameter("filename", Type.STRING));
-    	paramList.add(new InputParameter("Omit warnings", Type.BOOL));
-    	paramList.add(new InputParameter("Number of Runs", Type.INT));
-    	((BasePage) this.getParent()).addParameterTable(paramList);
+//		
+//    	paramList.add(new InputParameter("filename", Type.STRING));
+//    	paramList.add(new InputParameter("Omit warnings", Type.BOOL));
+//    	paramList.add(new InputParameter("Number of Runs", Type.INT));
+    	
+		((BasePage) this.getParent()).addParameterTable(paramList);
 	}
 	
 	public int getListItemCount() {
