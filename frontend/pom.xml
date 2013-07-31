@@ -58,8 +58,8 @@
           <execution>
             <goals>
               <goal>compile</goal>
-              <goal>generateAsync</goal>
               <goal>test</goal>
+              <goal>generateAsync</goal>
             </goals>
           </execution>
         </executions>
@@ -70,6 +70,7 @@
           <runTarget>Hello.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
+          <out>${project.build.directory}/www-test</out>
         </configuration>
       </plugin>
 
