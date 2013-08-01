@@ -43,6 +43,8 @@ public class AlgorithmFinder {
 		        return name.endsWith(".jar");
 		    }
 		});
+		
+		if (jars == null) jars = new File[0];
 		return jars;
 	}
 	
