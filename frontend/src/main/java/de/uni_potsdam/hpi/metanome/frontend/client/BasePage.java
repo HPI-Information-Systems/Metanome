@@ -1,36 +1,21 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.List;
+import com.google.gwt.user.client.ui.TabPanel;
 
-import com.google.gwt.user.client.ui.DockPanel;
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationTab;
 
 /**
- * HelloWorld application.
+ * Overall Application page that has one tab for each algorithm type.
+ * Should be added to RootPanel
  */
-public class BasePage extends DockPanel {
-
-	private JarChooser jarChooser;
-	private ParameterTable parameterTable;
+public class BasePage extends TabPanel {
   
   public BasePage() {
-	  //TODO: get available algorithms from server
-	String[] filenames = {"duplicateDetection.jar", "functionalDependencies.jar"};
-	jarChooser = new JarChooser(filenames);
-	this.add(jarChooser, DockPanel.NORTH);
-  }
-
-  public void addParameterTable(List<InputParameter> paramList){
-	  parameterTable = new ParameterTable(paramList);
-	  this.add(parameterTable, DockPanel.NORTH);
-  }
-  
-  public JarChooser getJarChooser() {
-	  return jarChooser;
-  }
-
-  public ParameterTable getParameterTable() {
-	  return parameterTable;
+	  this.add(new UniqueColumnCombinationTab(), "Unique Column Combinations");
+	  this.add(new InclusionDependencyTab(), "Inclusion Dependencies");
+	  this.add(new FunctionalDependencyTab(), "Functional Dependencies");
   }
 
 }

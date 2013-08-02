@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
 
 /**
@@ -18,7 +19,6 @@ public class JarChooser extends HorizontalPanel {
 	private Label label;
 	private ListBox listbox;
 	private Button button;
-	private String currentJar;
 	
 	public JarChooser(String[] jarFilenames){
 		super();
@@ -45,7 +45,7 @@ public class JarChooser extends HorizontalPanel {
 //    	paramList.add(new InputParameter("Omit warnings", Type.BOOL));
 //    	paramList.add(new InputParameter("Number of Runs", Type.INT));
     	
-		((BasePage) this.getParent()).addParameterTable(paramList);
+		((AlgorithmTab) this.getParent()).addParameterTable(paramList);
 	}
 	
 	public int getListItemCount() {
