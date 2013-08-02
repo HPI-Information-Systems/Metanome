@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -22,19 +23,33 @@ public class AlgorithmFinder {
 	
 	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
 
-	public List<AlgorithmDescriptor> getAvailableAlgorithms(String pathToFolder) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+	/**
+	 * 
+	 * @param pathToFolder		Path to the folder where the algorithm jars are located
+	 * @param algrithmSubclass	Class of algorithms to retrieve, or null if all subclasses
+	 * @return
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 */
+	public String[] getAvailableAlgorithms(String pathToFolder, Class<?> algrithmSubclass) throws IOException, ClassNotFoundException {
 		
-		ArrayList<AlgorithmDescriptor> availableAlgorithms = new ArrayList<AlgorithmDescriptor>();
-		File[] jars = retrieveJarFiles(pathToFolder);
+		LinkedList<String> availableAlgorithms = new LinkedList<String>();
+		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
-		for(File jar : jars){
-			AlgorithmDescriptor descriptor = new AlgorithmDescriptor(jar.getName(), getAlgorithmClass(jar));
-			availableAlgorithms.add(descriptor);
+		for(File jarFile : jarFiles){
+			if (getAlgorithmClass(jarFile).isAssignableFrom(algrithmSubclass))
+				availableAlgorithms.add(jarFile.getName());
 		}
 		
-		return availableAlgorithms;
+		String[] stringArray = new String[availableAlgorithms.size()];
+		return availableAlgorithms.toArray(stringArray);
 	}
 
+	/**
+	 * 
+	 * @param pathToFolder	Path to search for jar files
+	 * @return an array of Files with ".jar" ending
+	 */
 	private File[] retrieveJarFiles(String pathToFolder) {
 		File folder = new File(pathToFolder);
 		File[] jars = folder.listFiles(new FilenameFilter() {
@@ -48,7 +63,17 @@ public class AlgorithmFinder {
 		return jars;
 	}
 	
-	public Type getAlgorithmClass(File file) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+	/**
+	 * Finds out which subclass of Algorithm is implemented by the source code in the file. 
+	 * 
+	 * @param file The jar file that implements the algorithm
+	 * @return the superclass of the algorithm implementation in file, which should be a 
+	 * 			subclass of Algorithm
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public Class<?> getAlgorithmClass(File file) throws IOException, ClassNotFoundException {
 		JarFile jar = new JarFile(file);
 		
 		Manifest man = jar.getManifest();
@@ -60,12 +85,7 @@ public class AlgorithmFinder {
         
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
-		return algorithmClass.getGenericSuperclass();
-	}
-	
-	public Algorithm loadAlgorithmInstance(String path) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException{
-		//TODO: how to instantiate?
-		return null;
+		return algorithmClass.getSuperclass();
 	}
 	
 }
