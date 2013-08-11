@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -21,21 +23,21 @@ public class AlgorithmTabTest extends GWTTestCase {
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
 		
 		//Check
-		assertEquals(1, algoTab.getWidgetCount());
+		assertEquals(2, algoTab.getWidgetCount());
 	}
 	
 	@Test
-	public void testJarChooserSubmit() {
+	public void testAddParameterTable(){
 		//Setup
 		AlgorithmTab algoTab = new FunctionalDependencyTab();
-		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
-		
+		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+		int widgetCount = algoTab.getWidgetCount();
+				
 		//Execute
-		algoTab.getJarChooser().submit();
-		
+		algoTab.addParameterTable(paramList);
+				
 		//Check
-		assertEquals(2, algoTab.getWidgetCount());
-		assertNotNull(algoTab.getParameterTable());
+		assertEquals(widgetCount + 1, algoTab.getWidgetCount());
 	}
 
 	@Override

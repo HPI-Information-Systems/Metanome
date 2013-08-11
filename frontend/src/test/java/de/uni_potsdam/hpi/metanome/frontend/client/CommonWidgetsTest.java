@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
 
-public class GwtTestHello extends GWTTestCase{
+public class CommonWidgetsTest extends GWTTestCase{
 
 	@Test
 	public void testJarChooser() {
