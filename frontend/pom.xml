@@ -64,7 +64,6 @@
             <goals>
               <goal>compile</goal>
               <goal>test</goal>
-              <goal>generateAsync</goal>
             </goals>
           </execution>
         </executions>
