@@ -2,6 +2,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
 
 /**
  *
@@ -58,5 +60,31 @@ public class AlgorithmFinderTest {
 		// Check result
 		assertNotNull(algorithmType);
 		assertEquals(UniqueColumnCombinationsAlgorithm.class, algorithmType);	
+	}
+	
+	//@Test
+	public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
+		// Setup
+		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
+		AlgorithmFinder algoFinder = new AlgorithmFinder();
+		
+		//Execute
+		String[] algos = algoFinder.getAvailableAlgorithms(jarFilePath, null);
+		
+		//Check
+		assertTrue(algos.length > 0);
+	}
+	
+	//@Test
+	public void retrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
+		// Setup
+		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
+		AlgorithmFinder algoFinder = new AlgorithmFinder();
+		
+		//Execute
+		String[] algos = algoFinder.getAvailableAlgorithms(jarFilePath, UniqueColumnCombinationsAlgorithm.class);
+		
+		//Check
+		assertTrue(algos.length > 0);
 	}
 }

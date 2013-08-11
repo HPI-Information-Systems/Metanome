@@ -3,18 +3,12 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
 /**
  * Class that provides utilities to retrieve information on the available algorithm jars. 
@@ -66,7 +60,7 @@ public class AlgorithmFinder {
 	/**
 	 * Finds out which subclass of Algorithm is implemented by the source code in the file. 
 	 * 
-	 * @param file The jar file that implements the algorithm
+	 * @param file
 	 * @return the superclass of the algorithm implementation in file, which should be a 
 	 * 			subclass of Algorithm
 	 * 
