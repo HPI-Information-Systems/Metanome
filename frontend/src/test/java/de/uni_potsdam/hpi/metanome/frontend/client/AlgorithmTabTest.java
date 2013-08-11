@@ -5,13 +5,17 @@ import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
 
+/**
+ * Tests for the algorithm specific pages (tabs)
+ */
 public class AlgorithmTabTest extends GWTTestCase {
 
 	@Test
 	public void testAddJarChooser(){
 		//Setup
-		AlgorithmTab algoTab = new AlgorithmTab();
+		AlgorithmTab algoTab = new FunctionalDependencyTab();
 		
 		//Execute
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
@@ -23,7 +27,7 @@ public class AlgorithmTabTest extends GWTTestCase {
 	@Test
 	public void testJarChooserSubmit() {
 		//Setup
-		AlgorithmTab algoTab = new AlgorithmTab();
+		AlgorithmTab algoTab = new FunctionalDependencyTab();
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
 		
 		//Execute

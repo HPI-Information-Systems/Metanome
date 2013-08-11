@@ -1,11 +1,20 @@
-package de.uni_potsdam.hpi.metanome.frontend.server;
+package de.uni_potsdam.hpi.metanome.frontend.client;
+
+import java.io.Serializable;
 
 
-public class InputParameter {
+public class InputParameter implements Serializable{
+	private static final long serialVersionUID = -2023547438585673486L;
+
 	public enum Type {BOOL, INT, STRING}
-
+	
+	
 	private String identifier;
 	private Type type;
+	
+	public InputParameter(){
+		
+	}
 	
 	public InputParameter(String identifier, Type type){
 		this.setIdentifier(identifier);

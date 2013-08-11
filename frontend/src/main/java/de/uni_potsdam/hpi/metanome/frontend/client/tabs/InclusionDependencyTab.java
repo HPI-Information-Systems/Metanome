@@ -8,5 +8,4 @@ public class InclusionDependencyTab extends AlgorithmTab {
 		String[] filenames = {"Spider", "brute-force"};
 		this.addJarChooser(filenames);	
 	}
-
 }

@@ -8,5 +8,4 @@ public class UniqueColumnCombinationTab extends AlgorithmTab {
 		String[] filenames = {"DUCC", "HCA"};
 		this.addJarChooser(filenames);
 	}
-
 }

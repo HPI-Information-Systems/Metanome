@@ -4,8 +4,14 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+/**
+ * Tests related to the overall page.
+ */
 public class BasePageTest extends GWTTestCase{
 	
+	/**
+	 * Test BasePage constructor. 
+	 */
 	@Test
 	public void testNewBasePage(){
 		//Execute

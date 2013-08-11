@@ -8,7 +8,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationT
 
 /**
  * Overall Application page that has one tab for each algorithm type.
- * Should be added to RootPanel
+ * Should be added to RootPanel.
  */
 public class BasePage extends TabPanel {
   

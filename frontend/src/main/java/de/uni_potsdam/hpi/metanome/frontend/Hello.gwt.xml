@@ -1,9 +1,9 @@
 <module rename-to="hello">
 	<inherits name="com.google.gwt.user.User"/>
+		
 	<entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
 
 	<source path="client"/>
-	<source path="server"/>
 	
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
     <add-linker name="xsiframe"/>

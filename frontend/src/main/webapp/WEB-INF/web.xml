@@ -5,5 +5,16 @@
   <welcome-file-list>
     <welcome-file>Hello.html</welcome-file>
   </welcome-file-list>
+  
+  <!-- Servlets -->
+  <servlet>
+  	<servlet-name>parameterServiceImpl</servlet-name>
+  	<servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>parameterServiceImpl</servlet-name>
+  	<url-pattern>/hello/parameterService</url-pattern>
+  </servlet-mapping>
 
 </web-app>

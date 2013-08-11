@@ -9,9 +9,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
 
 public class GwtTestHello extends GWTTestCase{
 
@@ -21,7 +19,8 @@ public class GwtTestHello extends GWTTestCase{
 		String[] filenames = {"filename1.jar", "filename2.jar"};
 		
 		//Execute
-		JarChooser jarChooser = new JarChooser(filenames);
+		JarChooser jarChooser = new JarChooser(
+				filenames, "IND");
 		
 		//Test
 		assertEquals(3, jarChooser.getWidgetCount());

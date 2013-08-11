@@ -8,9 +8,7 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.server.InputParameter.Type;
-
+import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
 public class ParameterTable extends FlexTable {
 
 	public ParameterTable(List<InputParameter> requiredParams) {
@@ -26,9 +24,9 @@ public class ParameterTable extends FlexTable {
 
 	private Widget getWidgetForType(Type type) {
 		switch(type) {
-		case STRING: return new TextBox();
-		case BOOL: return new CheckBox();
-		case INT: return new IntegerBox();
+			case STRING: return new TextBox();
+			case BOOL: return new CheckBox();
+			case INT: return new IntegerBox();
 		}
 		return null;
 	}
