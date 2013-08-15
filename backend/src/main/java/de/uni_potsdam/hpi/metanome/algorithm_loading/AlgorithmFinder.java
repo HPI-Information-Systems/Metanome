@@ -20,18 +20,20 @@ public class AlgorithmFinder {
 	/**
 	 * 
 	 * @param pathToFolder		Path to the folder where the algorithm jars are located
-	 * @param algrithmSubclass	Class of algorithms to retrieve, or null if all subclasses
-	 * @return
+	 * @param algorithmSubclass	Class of algorithms to retrieve, or null if all subclasses
+	 * @return array with the names of the available algorithms
+	 * 
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 */
-	public String[] getAvailableAlgorithms(String pathToFolder, Class<?> algrithmSubclass) throws IOException, ClassNotFoundException {
+	public String[] getAvailableAlgorithms(String pathToFolder, Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for(File jarFile : jarFiles){
-			if (getAlgorithmClass(jarFile).isAssignableFrom(algrithmSubclass))
+			if (algorithmSubclass == null ||
+					getAlgorithmClass(jarFile).isAssignableFrom(algorithmSubclass))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		

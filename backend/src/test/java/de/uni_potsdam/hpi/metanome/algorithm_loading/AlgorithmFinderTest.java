@@ -62,10 +62,11 @@ public class AlgorithmFinderTest {
 		assertEquals(UniqueColumnCombinationsAlgorithm.class, algorithmType);	
 	}
 	
-	//@Test
+	@Test
 	public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
 		// Setup
 		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
+		jarFilePath = jarFilePath.substring(0, jarFilePath.lastIndexOf(File.separator));
 		AlgorithmFinder algoFinder = new AlgorithmFinder();
 		
 		//Execute
@@ -75,10 +76,11 @@ public class AlgorithmFinderTest {
 		assertTrue(algos.length > 0);
 	}
 	
-	//@Test
+	@Test
 	public void retrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
 		// Setup
 		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
+		jarFilePath = jarFilePath.substring(0, jarFilePath.lastIndexOf(File.separator));
 		AlgorithmFinder algoFinder = new AlgorithmFinder();
 		
 		//Execute
