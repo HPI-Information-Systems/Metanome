@@ -21,7 +21,7 @@ public class AlgorithmFinder {
 	 * 
 	 * @param pathToFolder		Path to the folder where the algorithm jars are located
 	 * @param algorithmSubclass	Class of algorithms to retrieve, or null if all subclasses
-	 * @return array with the names of the available algorithms
+	 * @return an array with the names of the available algorithms
 	 * 
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
