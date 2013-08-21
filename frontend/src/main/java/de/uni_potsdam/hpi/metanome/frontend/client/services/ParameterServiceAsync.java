@@ -8,7 +8,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
 
 public interface ParameterServiceAsync {
 
-	void retrieveParameters(String algorithmSubclass,
-			String selectedValue, AsyncCallback<List<InputParameter>> callback);
+	void retrieveInclusionDependencyParameters(String selectedValue, 
+			AsyncCallback<List<InputParameter>> callback);
+
+	void retrieveFunctionalDependencyParameters(String selectedValue,
+			AsyncCallback<List<InputParameter>> callback);
+
+	void retrieveUniqueColumnCombinationsParameters(String selectedValue,
+			AsyncCallback<List<InputParameter>> callback);
 
 }

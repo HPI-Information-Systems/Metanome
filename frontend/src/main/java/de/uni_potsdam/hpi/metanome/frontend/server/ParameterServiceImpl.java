@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
@@ -20,25 +22,57 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 public class ParameterServiceImpl extends RemoteServiceServlet implements ParameterService {
 
 	private static final long serialVersionUID = 1L;
+	
+	private AlgorithmJarLoader<InclusionDependencyAlgorithm> inclusionDependencyJarLoader = 
+			new AlgorithmJarLoader<InclusionDependencyAlgorithm>(InclusionDependencyAlgorithm.class);
+	private AlgorithmJarLoader<FunctionalDependencyAlgorithm> functionalDependencyJarLoader = 
+			new AlgorithmJarLoader<FunctionalDependencyAlgorithm>(FunctionalDependencyAlgorithm.class);
+	private AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> uniqueColumnCombinationsJarLoader = 
+			new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
 
-	public List<InputParameter> retrieveParameters(String algorithmSubclass, String algorithmFileName){
+	/**
+	 * 
+	 * @param algorithmFileName	name of the algorithm for which the configuration parameters shall be 
+	 * 							retrieved
+	 * @param jarLoader			an <link>AlgorithmJarLoader</link> instance for the correct algorithm 
+	 * 							type 
+	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
+	 */
+	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader<?> jarLoader){
 		Algorithm algorithm = null;
 		try {
-			//TODO correctly load algorithm
-			//algorithm = new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class).loadAlgorithm(algorithmFileName);
+			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO error handling
 		}
 		
-		// List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
+		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
 		
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-		//for (ConfigurationSpecification config : configList){
+		for (ConfigurationSpecification config : configList){
 			//TODO get correct parameter type
-			//paramList.add(new InputParameter(config.getIdentifier(), Type.INT));
-		//}
+			paramList.add(new InputParameter(config.getIdentifier(), Type.INT));
+		}
 		
 		return paramList;
+	}
+
+	@Override
+	public List<InputParameter> retrieveInclusionDependencyParameters(
+			String algorithmFileName) {
+		return retrieveParameters(algorithmFileName, inclusionDependencyJarLoader);
+	}
+
+	@Override
+	public List<InputParameter> retrieveFunctionalDependencyParameters(
+			String algorithmFileName) {
+		return retrieveParameters(algorithmFileName, functionalDependencyJarLoader);
+	}
+
+	@Override
+	public List<InputParameter> retrieveUniqueColumnCombinationsParameters(
+			String algorithmFileName) {
+		return retrieveParameters(algorithmFileName, uniqueColumnCombinationsJarLoader);
 	}
 }
