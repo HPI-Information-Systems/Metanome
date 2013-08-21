@@ -13,8 +13,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
  * Includes common functionality such ass adding a JarChooser or ParameterTable
  */
 public abstract class AlgorithmTab extends DockPanel{
-	private ParameterTable parameterTable;
-	private JarChooser jarChooser;
+	protected ParameterTable parameterTable;
+	protected JarChooser jarChooser;
 		
 	public void addParameterTable(List<InputParameter> paramList){
 		parameterTable = new ParameterTable(paramList);
@@ -25,10 +25,7 @@ public abstract class AlgorithmTab extends DockPanel{
 		return parameterTable;
 	}
 	
-	public void addJarChooser(String... filenames) {
-		jarChooser = new JarChooser(filenames, "FD");
-		this.add(jarChooser, DockPanel.NORTH);
-	}
+	public abstract void addJarChooser(String... filenames);
 	
 	public JarChooser getJarChooser() {
 		return jarChooser;

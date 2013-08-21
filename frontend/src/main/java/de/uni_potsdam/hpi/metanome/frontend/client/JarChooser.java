@@ -17,15 +17,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
  */
-public class JarChooser extends HorizontalPanel {
+public abstract class JarChooser extends HorizontalPanel {
 
 	private Label label;
 	private ListBox listbox;
 	private Button button;
-	
-	private String algorithmSubclass;
-	
-	private ParameterServiceAsync parameterService;
+		
+	protected ParameterServiceAsync parameterService;
 	
 	/**
 	 * Constructor. 
@@ -33,9 +31,8 @@ public class JarChooser extends HorizontalPanel {
 	 * @param jarFilenames
 	 * @param algorithmSubclass
 	 */
-	public JarChooser(String[] jarFilenames, String algorithmSubclass){
+	public JarChooser(String[] jarFilenames){
 		super();
-		this.algorithmSubclass = algorithmSubclass;
 		this.parameterService = GWT.create(ParameterService.class);
 		
 		this.label = new Label("Choose your algorithm:");
@@ -68,14 +65,25 @@ public class JarChooser extends HorizontalPanel {
 		    };
 
 		    // Make the call to the parameter service.
-		    parameterService.retrieveParameters(algorithmSubclass, selectedValue, callback);
-
+		    callParameterService(selectedValue, callback);
 	}
 
+	protected abstract void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback);
+
+	/**
+	 * Handles the incoming list of parameters by adding a ParameterTable to the corresponding
+	 * tab.
+	 * @param paramList list of parameters necessary for the chosen algorithm
+	 */
 	private void forwardParameters(List<InputParameter> paramList) {
 		((AlgorithmTab) this.getParent()).addParameterTable(paramList);
 	}
 	
+	/**
+	 * 
+	 * @return the number of items in the listbox, that is, the number of available
+	 * algorithms in this JarChooser
+	 */
 	public int getListItemCount() {
 		return this.listbox.getItemCount();
 	}
