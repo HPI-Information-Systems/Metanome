@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyJarChooser;
 
 public class CommonWidgetsTest extends GWTTestCase{
 
@@ -19,8 +20,7 @@ public class CommonWidgetsTest extends GWTTestCase{
 		String[] filenames = {"filename1.jar", "filename2.jar"};
 		
 		//Execute
-		JarChooser jarChooser = new JarChooser(
-				filenames, "IND");
+		JarChooser jarChooser = new InclusionDependencyJarChooser(filenames);
 		
 		//Test
 		assertEquals(3, jarChooser.getWidgetCount());

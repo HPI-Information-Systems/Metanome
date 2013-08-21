@@ -11,10 +11,18 @@
   	<servlet-name>parameterServiceImpl</servlet-name>
   	<servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl</servlet-class>
   </servlet>
-  
   <servlet-mapping>
   	<servlet-name>parameterServiceImpl</servlet-name>
   	<url-pattern>/hello/parameterService</url-pattern>
+  </servlet-mapping>
+  
+  <servlet> 
+  	<servlet-name>finderServiceImpl</servlet-name> 
+  	<servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl</servlet-class> 
+  </servlet> 
+  <servlet-mapping> 
+  	<servlet-name>finderServiceImpl</servlet-name> 
+  	<url-pattern>/hello/finderService</url-pattern> 
   </servlet-mapping>
 
 </web-app>
