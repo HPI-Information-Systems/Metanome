@@ -10,6 +10,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlg
 import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
@@ -52,7 +53,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		for (ConfigurationSpecification config : configList){
 			//TODO get correct parameter type
-			paramList.add(new InputParameter(config.getIdentifier(), Type.INT));
+			//paramList.add(new InputParameter(config.getIdentifier(), Type.STRING));
 		}
 		
 		return paramList;

@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.core.shared.GWT;
@@ -16,8 +17,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
 /**
  * Tests RPC calls to server
  */
-public class ServiceTest extends GWTTestCase {
-		
+public class ServiceCallTest extends GWTTestCase {
+    
 	//@Test
 //	public void testParameterService(){
 //		//Setup
@@ -33,6 +34,7 @@ public class ServiceTest extends GWTTestCase {
 //		    };
 //
 //		  ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
+//		  
 //		  
 //		  // Set a delay period
 //		  delayTestFinish(500);

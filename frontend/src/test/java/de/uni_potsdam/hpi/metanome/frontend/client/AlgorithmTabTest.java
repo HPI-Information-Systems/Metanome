@@ -24,6 +24,7 @@ public class AlgorithmTabTest extends GWTTestCase {
 		
 		//Check
 		assertEquals(2, algoTab.getWidgetCount());
+		assertTrue(algoTab.getJarChooser() instanceof FunctionalDependencyJarChooser);
 	}
 	
 	@Test

@@ -5,13 +5,15 @@ import com.google.gwt.user.client.ui.DockPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.FunctionalDependencyJarChooser;
 
 
-
 public class FunctionalDependencyTab extends AlgorithmTab {
 	
 	public FunctionalDependencyTab(){
-		//TODO retrieve available algorithms
-		String[] filenames = {"Gordian"};
-		this.addJarChooser(filenames);
+		super();
+		getFunctionalDependencyAlgorithms();
+	}
+
+	private void getFunctionalDependencyAlgorithms() {
+		finderService.listFunctionalDependencyAlgorithms(addJarChooserCallback);
 	}
 
 	@Override
