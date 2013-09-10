@@ -19,8 +19,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
 /**
-
- *
+ * Test for {@link AlgorithmJarLoader}
  */
 public class AlgorithmJarLoaderTest {
 
