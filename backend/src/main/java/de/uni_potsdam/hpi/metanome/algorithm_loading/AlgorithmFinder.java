@@ -55,7 +55,8 @@ public class AlgorithmFinder {
 		    }
 		});
 		
-		if (jars == null) jars = new File[0];
+		if (jars == null) 
+			jars = new File[0];
 		return jars;
 	}
 	
