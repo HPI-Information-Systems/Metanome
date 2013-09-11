@@ -24,6 +24,7 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 			algorithms = algorithmFinder.getAvailableAlgorithms("pathToFolder?", algorithmClass);
 		} catch (Exception e){
 			//TODO: error handling
+			e.printStackTrace();
 		}
 		return algorithms;
 	}

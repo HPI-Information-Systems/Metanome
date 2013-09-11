@@ -28,9 +28,10 @@ public abstract class AlgorithmTab extends DockPanel{
 		addJarChooserCallback = new AsyncCallback<String[]>() {
 		      public void onFailure(Throwable caught) {
 		        // TODO: Do something with errors.
+		    	  caught.printStackTrace();
 		      }
 
-		      public void onSuccess(String[] result) {  	  
+		      public void onSuccess(String[] result) { 
 		    	  addJarChooser(result);
 		      }
 		    };
