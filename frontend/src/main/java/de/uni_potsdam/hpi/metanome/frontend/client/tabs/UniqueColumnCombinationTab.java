@@ -6,9 +6,12 @@ import com.google.gwt.user.client.ui.DockPanel;
 public class UniqueColumnCombinationTab extends AlgorithmTab {
 
 	public UniqueColumnCombinationTab() {
-		//TODO retrieve available algorithms
-		String[] filenames = {"DUCC", "HCA"};
-		this.addJarChooser(filenames);
+		super();
+		getUniqueColumnCombinationsAlgorithms();
+	}
+
+	private void getUniqueColumnCombinationsAlgorithms() {
+		finderService.listUniqueColumnCombinationsAlgorithms(addJarChooserCallback);
 	}
 
 	@Override
