@@ -24,6 +24,9 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected AsyncCallback<String[]> addJarChooserCallback;
 	
 	public AlgorithmTab(){
+		this.setWidth("100%");
+		this.setHeight("100px");
+		
 		this.finderService = GWT.create(FinderService.class);
 		addJarChooserCallback = new AsyncCallback<String[]>() {
 		      public void onFailure(Throwable caught) {
