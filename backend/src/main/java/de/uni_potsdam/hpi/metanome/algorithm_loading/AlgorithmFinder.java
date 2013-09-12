@@ -16,24 +16,23 @@ import java.util.jar.Manifest;
 public class AlgorithmFinder {
 	
 	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-
+	
 	/**
 	 * 
-	 * @param pathToFolder		Path to the folder where the algorithm jars are located
 	 * @param algorithmSubclass	Class of algorithms to retrieve, or null if all subclasses
 	 * @return an array with the names of the available algorithms
 	 * 
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 */
-	public String[] getAvailableAlgorithms(String pathToFolder, Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
+	public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
-		File[] jarFiles = retrieveJarFiles(pathToFolder);
+		File[] jarFiles = retrieveJarFiles("/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/algorithms/");
 		
-		for(File jarFile : jarFiles){
+		for (File jarFile : jarFiles){
 			if (algorithmSubclass == null ||
-					getAlgorithmClass(jarFile).isAssignableFrom(algorithmSubclass))
+					algorithmSubclass.isAssignableFrom(getAlgorithmClass(jarFile)))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		
