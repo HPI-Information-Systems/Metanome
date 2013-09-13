@@ -39,7 +39,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getPath();
 		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
 		
-		File file = new File(pathToFolder + path);
+		File file = new File(pathToFolder + "/" + path);
 		JarFile jar = new JarFile(file);
 		
 		Manifest man = jar.getManifest();
