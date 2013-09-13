@@ -16,24 +16,26 @@ import java.util.jar.Manifest;
 public class AlgorithmFinder {
 	
 	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-
+	
 	/**
 	 * 
-	 * @param pathToFolder		Path to the folder where the algorithm jars are located
 	 * @param algorithmSubclass	Class of algorithms to retrieve, or null if all subclasses
 	 * @return an array with the names of the available algorithms
 	 * 
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 */
-	public String[] getAvailableAlgorithms(String pathToFolder, Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
+	public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
+		//TODO: locate actual folder
+		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getFile();
+		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
-		for(File jarFile : jarFiles){
+		for (File jarFile : jarFiles){
 			if (algorithmSubclass == null ||
-					getAlgorithmClass(jarFile).isAssignableFrom(algorithmSubclass))
+					algorithmSubclass.isAssignableFrom(getAlgorithmClass(jarFile)))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		
@@ -80,6 +82,7 @@ public class AlgorithmFinder {
         URL[] url = {file.toURI().toURL()};
         ClassLoader loader = new URLClassLoader(url);
         
+        System.out.println(className);
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
 		return algorithmClass.getSuperclass();

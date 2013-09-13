@@ -56,10 +56,11 @@ public class AlgorithmJarLoaderTest {
 		// Setup
 		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
 				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
-		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getFile();
+		//String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getFile();
+		//String jarFilePath = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/algorithms/testjar.jar";
 		
 		// Execute functionality
-		Algorithm algorithm = loader.loadAlgorithm(jarFilePath);
+		Algorithm algorithm = loader.loadAlgorithm("testjar.jar");
 		
 		// Check result
 		assertNotNull(algorithm);

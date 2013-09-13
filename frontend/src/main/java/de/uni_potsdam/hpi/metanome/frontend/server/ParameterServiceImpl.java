@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlg
 import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
@@ -44,6 +46,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 		try {
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
+			System.out.println("FAILED to LOAD algorithm");
 			e.printStackTrace();
 			// TODO error handling
 		}
@@ -51,12 +54,29 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
 		
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+		//TODO: check for possible errors in jar that causes cast fail
 		for (ConfigurationSpecification config : configList){
-			//TODO get correct parameter type
-			//paramList.add(new InputParameter(config.getIdentifier(), Type.STRING));
+			paramList.add(new InputParameter(config.getIdentifier(), getParameterType(config)));
 		}
 		
 		return paramList;
+	}
+	
+	/**
+	 * maps the <link>ConfigurationSpecification</link> subclass to the corresponding Type enum
+	 * element
+	 * 
+	 * @param config	the ConfigurationSpecification object to be mapped
+	 * @return the Type enum 
+	 */
+	private Type getParameterType(ConfigurationSpecification config) {
+		if (config instanceof ConfigurationSpecificationString) {
+			return Type.STRING;
+		} else if (config instanceof ConfigurationSpecificationBoolean) {
+			return Type.BOOL;
+		} else {
+			return null;
+		}
 	}
 
 	@Override

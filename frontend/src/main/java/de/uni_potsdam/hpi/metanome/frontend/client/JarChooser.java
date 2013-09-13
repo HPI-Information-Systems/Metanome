@@ -68,6 +68,13 @@ public abstract class JarChooser extends HorizontalPanel {
 		    callParameterService(selectedValue, callback);
 	}
 
+	/**
+	 * Calls the service to retrieve parameters to be specified by the user and display 
+	 * corresponding widget
+	 * 
+	 * @param selectedValue	the name of the selected algorithm
+	 * @param callback		callback object for RPC
+	 */
 	protected abstract void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback);
 
 	/**

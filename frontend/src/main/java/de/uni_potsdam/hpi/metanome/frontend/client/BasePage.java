@@ -13,6 +13,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationT
 public class BasePage extends TabPanel {
   
   public BasePage() {
+	  this.setWidth("100%");
+	  
 	  this.add(new UniqueColumnCombinationTab(), "Unique Column Combinations");
 	  this.add(new InclusionDependencyTab(), "Inclusion Dependencies");
 	  this.add(new FunctionalDependencyTab(), "Functional Dependencies");
