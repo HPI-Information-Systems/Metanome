@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 		try {
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
+			System.out.println("FAILED to LOAD algorithm");
 			e.printStackTrace();
 			// TODO error handling
 		}
@@ -60,6 +62,13 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 		return paramList;
 	}
 	
+	/**
+	 * maps the <link>ConfigurationSpecification</link> subclass to the corresponding Type enum
+	 * element
+	 * 
+	 * @param config	the ConfigurationSpecification object to be mapped
+	 * @return the Type enum 
+	 */
 	private Type getParameterType(ConfigurationSpecification config) {
 		if (config instanceof ConfigurationSpecificationString) {
 			return Type.STRING;

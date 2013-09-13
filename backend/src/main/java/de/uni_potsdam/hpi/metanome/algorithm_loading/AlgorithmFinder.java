@@ -28,7 +28,10 @@ public class AlgorithmFinder {
 	public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
-		File[] jarFiles = retrieveJarFiles("/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/algorithms/");
+		//TODO: locate actual folder
+		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getFile();
+		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
+		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for (File jarFile : jarFiles){
 			if (algorithmSubclass == null ||
@@ -79,6 +82,7 @@ public class AlgorithmFinder {
         URL[] url = {file.toURI().toURL()};
         ClassLoader loader = new URLClassLoader(url);
         
+        System.out.println(className);
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
 		return algorithmClass.getSuperclass();

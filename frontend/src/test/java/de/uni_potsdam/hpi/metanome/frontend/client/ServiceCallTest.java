@@ -2,7 +2,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.core.shared.GWT;
@@ -19,30 +18,30 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
  */
 public class ServiceCallTest extends GWTTestCase {
     
-	//@Test
-//	public void testParameterService(){
-//		//Setup
-//		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
-//		      public void onFailure(Throwable caught) {
-//		    	  fail();
-//		      }
-//
-//		      public void onSuccess(List<InputParameter> result) {  	  
-//		    	  assertNotNull(result);
-//		    	  finishTest();
-//		      }
-//		    };
-//
-//		  ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
-//		  
-//		  
-//		  // Set a delay period
-//		  delayTestFinish(500);
-//
-//		  //Execute
-//		  parameterService.retrieveInclusionDependencyParameters("spider", callback);
-//
-//	}
+	@Test
+	public void testParameterService(){
+		//Setup
+		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
+		      public void onFailure(Throwable caught) {
+		    	  fail();
+		      }
+
+		      public void onSuccess(List<InputParameter> result) {  	  
+		    	  assertNotNull(result);
+		    	  finishTest();
+		      }
+		    };
+
+		  ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
+		  
+		  
+		  // Set a delay period
+		  delayTestFinish(500);
+
+		  //Execute
+		  parameterService.retrieveInclusionDependencyParameters("spider", callback);
+
+	}
 	
 	@Test
 	public void testFinderService(){

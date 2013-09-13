@@ -79,9 +79,6 @@ public class AlgorithmFinderTest {
 	@Test
 	public void retrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
 		// Setup
-		//String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
-		//jarFilePath = jarFilePath.substring(0, jarFilePath.lastIndexOf(File.separator));
-//		String jarFilePath = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/frontend/target/algorithms/";
 		AlgorithmFinder algoFinder = new AlgorithmFinder();
 		
 		//Execute

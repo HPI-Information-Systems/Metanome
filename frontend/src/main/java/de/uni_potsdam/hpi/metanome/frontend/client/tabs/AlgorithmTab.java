@@ -23,7 +23,11 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected FinderServiceAsync finderService;
 	protected AsyncCallback<String[]> addJarChooserCallback;
 	
+	/**
+	 * Constructor. Initializes FinderService
+	 */
 	public AlgorithmTab(){
+		//TODO: style in CSS
 		this.setWidth("100%");
 		this.setHeight("100px");
 		
@@ -40,17 +44,36 @@ public abstract class AlgorithmTab extends DockPanel{
 		    };
 	}
 		
+	/**
+	 * Adds a widget for user's parameter input to the tab 
+	 * 
+	 * @param paramList	list of required parameters
+	 */
 	public void addParameterTable(List<InputParameter> paramList){
 		parameterTable = new ParameterTable(paramList);
 		this.add(parameterTable, DockPanel.WEST);
 	}
 
+	/**
+	 * 
+	 * @return	the <link>ParameterTable</link> object of this tab
+	 */
 	public ParameterTable getParameterTable() {
 		return parameterTable;
 	}
 	
+	/**
+	 * adds the JarChooser object for this tab.
+	 * must be implemented in subclasses to use algorithm specific JarChooser
+	 * 
+	 * @param filenames	list of filenames (without path) of matching algorithms
+	 */
 	public abstract void addJarChooser(String... filenames);
 	
+	/**
+	 * 
+	 * @return the <link>JarChooser</link> object of this tab
+	 */
 	public JarChooser getJarChooser() {
 		return jarChooser;
 	}
