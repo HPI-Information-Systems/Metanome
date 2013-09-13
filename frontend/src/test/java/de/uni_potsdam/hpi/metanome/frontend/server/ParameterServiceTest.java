@@ -23,6 +23,7 @@ public class ParameterServiceTest extends TestCase {
 	public void testRetrieveUniqueColumnCombinationsParameters() {
 		//Setup
 		ParameterServiceImpl parameterService = new ParameterServiceImpl();
+		//TODO: does not work because testjar is in backend project. 
 		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getFile();
 		
 		//Execute
