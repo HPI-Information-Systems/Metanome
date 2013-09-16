@@ -58,7 +58,7 @@
           </descriptorRefs>
           <archive>
             <manifestEntries>
-              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_algorithm</Algorithm-Bootstrap-Class>
+              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_algorithm.ExampleAlgorithm</Algorithm-Bootstrap-Class>
             </manifestEntries>
           </archive>
         </configuration>
