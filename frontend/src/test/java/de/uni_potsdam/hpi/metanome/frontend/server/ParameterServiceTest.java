@@ -23,11 +23,9 @@ public class ParameterServiceTest extends TestCase {
 	public void testRetrieveUniqueColumnCombinationsParameters() {
 		//Setup
 		ParameterServiceImpl parameterService = new ParameterServiceImpl();
-		//TODO: does not work because testjar is in backend project. 
-		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getFile();
 		
 		//Execute
-		List<InputParameter> inputParameters = parameterService.retrieveUniqueColumnCombinationsParameters(jarFilePath);
+		List<InputParameter> inputParameters = parameterService.retrieveUniqueColumnCombinationsParameters("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
 		
 		//Check
 		assertNotNull(inputParameters);
