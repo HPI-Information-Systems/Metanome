@@ -1,5 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
+
 
 public class InputParameterString extends InputParameter {
 	private static final long serialVersionUID = 7089599177559324612L;
@@ -31,5 +34,10 @@ public class InputParameterString extends InputParameter {
 		} else {
 			throw new ClassCastException();
 		}
+	}
+
+	@Override
+	public Widget getWidget() {
+		return new TextBox();
 	}
 }

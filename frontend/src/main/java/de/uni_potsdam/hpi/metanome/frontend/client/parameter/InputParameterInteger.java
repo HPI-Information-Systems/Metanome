@@ -1,5 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.Widget;
+
 public class InputParameterInteger extends InputParameter {
 	private static final long serialVersionUID = 5161219640594711634L;
 	
@@ -27,5 +30,10 @@ public class InputParameterInteger extends InputParameter {
 		} else {
 			throw new ClassCastException();
 		}
+	}
+
+	@Override
+	public Widget getWidget() {
+		return new IntegerBox();
 	}
 }

@@ -2,6 +2,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.ui.Widget;
+
 
 public abstract class InputParameter implements Serializable{
 	private static final long serialVersionUID = -2023547438585673486L;	
@@ -29,4 +31,6 @@ public abstract class InputParameter implements Serializable{
 	public abstract void setValue(Object obj);
 
 	public abstract Object getValue();
+	
+	public abstract Widget getWidget();
 }
