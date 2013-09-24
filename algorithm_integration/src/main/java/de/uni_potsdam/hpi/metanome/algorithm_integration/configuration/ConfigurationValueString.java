@@ -11,13 +11,13 @@ public class ConfigurationValueString implements ConfigurationValue {
 	protected final String value;
 	
 	/**
-	 * Constructs a ConfigurationValueString using the associated specification and the string value.
+	 * Constructs a ConfigurationValueString using the specification's identifier and the string value.
 	 * 
-	 * @param specification
+	 * @param identifier
 	 * @param value
 	 */
-	public ConfigurationValueString(ConfigurationSpecification specification, String value) {
-		this.identifier = specification.getIdentifier();
+	public ConfigurationValueString(String identifier, String value) {
+		this.identifier = identifier;
 		this.value = value;
 	}
 	

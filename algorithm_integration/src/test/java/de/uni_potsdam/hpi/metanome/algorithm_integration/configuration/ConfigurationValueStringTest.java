@@ -48,7 +48,7 @@ public class ConfigurationValueStringTest {
 		
 		// Execute functionality
 		ConfigurationValueString configValue = new ConfigurationValueString(
-				new ConfigurationSpecificationString(expectedIdentifier), expectedConfigurationValue);
+				new ConfigurationSpecificationString(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
 		configValue.triggerSetValue(algorithm);
 		
 		// Check result
