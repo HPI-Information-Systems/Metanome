@@ -16,7 +16,7 @@ import java.util.jar.Manifest;
 public class AlgorithmFinder {
 	
 	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-	
+
 	/**
 	 * 
 	 * @param algorithmSubclass	Class of algorithms to retrieve, or null if all subclasses
@@ -29,13 +29,14 @@ public class AlgorithmFinder {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
 		//TODO: locate actual folder
-		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getFile();
-		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
+//		String pathToFolder = ClassLoader.getSystemResource("./testjar.jar").getFile();
+//		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
+		String pathToFolder = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/src/main/resources";
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for (File jarFile : jarFiles){
-			if (algorithmSubclass == null ||
-					algorithmSubclass.isAssignableFrom(getAlgorithmClass(jarFile)))
+			if (algorithmSubclass == null || true)
+					//algorithmSubclass.equals(getAlgorithmClass(jarFile)))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		
@@ -82,7 +83,6 @@ public class AlgorithmFinder {
         URL[] url = {file.toURI().toURL()};
         ClassLoader loader = new URLClassLoader(url);
         
-        System.out.println(className);
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
 		return algorithmClass.getSuperclass();

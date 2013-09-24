@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 public interface ParameterServiceAsync {
 
-	void retrieveInclusionDependencyParameters(String selectedValue, 
+	public void retrieveInclusionDependencyParameters(String selectedValue, 
 			AsyncCallback<List<InputParameter>> callback);
 
-	void retrieveFunctionalDependencyParameters(String selectedValue,
+	public void retrieveFunctionalDependencyParameters(String selectedValue,
 			AsyncCallback<List<InputParameter>> callback);
 
-	void retrieveUniqueColumnCombinationsParameters(String selectedValue,
+	public void retrieveUniqueColumnCombinationsParameters(String selectedValue,
 			AsyncCallback<List<InputParameter>> callback);
-
 }

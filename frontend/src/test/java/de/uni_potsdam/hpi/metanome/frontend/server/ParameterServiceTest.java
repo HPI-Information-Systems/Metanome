@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import junit.framework.TestCase;
 
 public class ParameterServiceTest extends TestCase {
@@ -29,6 +29,7 @@ public class ParameterServiceTest extends TestCase {
 		
 		//Check
 		assertNotNull(inputParameters);
+		assertFalse(inputParameters.isEmpty());
+		assertNotNull(inputParameters.get(0));
 	}
-
 }

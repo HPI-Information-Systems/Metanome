@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 
 import org.junit.After;
 import org.junit.Before;
@@ -55,7 +54,7 @@ public class AlgorithmFinderTest {
 		File file = new File(jarFilePath);
 		
 		// Execute functionality
-		Type algorithmType = new AlgorithmFinder().getAlgorithmClass(file);
+		Class<?> algorithmType = new AlgorithmFinder().getAlgorithmClass(file);
 		
 		// Check result
 		assertNotNull(algorithmType);

@@ -1,6 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +13,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter.Type;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 
 /**
@@ -42,24 +42,26 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
 	 */
 	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader<?> jarLoader){
-		Algorithm algorithm = null;
-		try {
-			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
-		} catch (Exception e) {
+//		Algorithm algorithm = null;
+//		try {
+//			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
+//		} catch (Exception e) {
 			System.out.println("FAILED to LOAD algorithm");
-			e.printStackTrace();
-			// TODO error handling
-		}
-		
-		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
-		
-		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-		//TODO: check for possible errors in jar that causes cast fail
-		for (ConfigurationSpecification config : configList){
-			paramList.add(new InputParameter(config.getIdentifier(), getParameterType(config)));
-		}
-		
-		return paramList;
+			// TODO error handling, then remove default answer
+			ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+			paramList.add(new InputParameterString("tableName" + algorithmFileName.substring(0,5)));
+			paramList.add(new InputParameterBoolean("showProgress"));
+			return paramList;
+//		}
+//		
+//		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
+//		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+//		
+//		for (ConfigurationSpecification config : configList){
+//			paramList.add(getInputParameterInstance(config));
+//		}
+//		
+//		return paramList;
 	}
 	
 	/**
@@ -69,11 +71,11 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	 * @param config	the ConfigurationSpecification object to be mapped
 	 * @return the Type enum 
 	 */
-	private Type getParameterType(ConfigurationSpecification config) {
+	private InputParameter getInputParameterInstance(ConfigurationSpecification config) {
 		if (config instanceof ConfigurationSpecificationString) {
-			return Type.STRING;
+			return new InputParameterString(config.getIdentifier());
 		} else if (config instanceof ConfigurationSpecificationBoolean) {
-			return Type.BOOL;
+			return new InputParameterBoolean(config.getIdentifier());
 		} else {
 			return null;
 		}
@@ -96,4 +98,5 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			String algorithmFileName) {
 		return retrieveParameters(algorithmFileName, uniqueColumnCombinationsJarLoader);
 	}
+
 }

@@ -6,9 +6,9 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 
@@ -50,6 +50,11 @@ public abstract class AlgorithmTab extends DockPanel{
 	 * @param paramList	list of required parameters
 	 */
 	public void addParameterTable(List<InputParameter> paramList){
+		try {
+			this.remove(parameterTable);
+		} catch (NullPointerException e) {
+			//NullPointer is ok. It just means there was no parameterTable so far
+		}
 		parameterTable = new ParameterTable(paramList);
 		this.add(parameterTable, DockPanel.WEST);
 	}

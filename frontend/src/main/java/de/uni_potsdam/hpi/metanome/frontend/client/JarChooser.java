@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
@@ -21,7 +21,6 @@ public abstract class JarChooser extends HorizontalPanel {
 
 	private Label label;
 	private ListBox listbox;
-	private Button button;
 		
 	protected ParameterServiceAsync parameterService;
 	
@@ -43,9 +42,7 @@ public abstract class JarChooser extends HorizontalPanel {
 			this.listbox.addItem(filename);
 		}
 		this.add(listbox);
-		
-		this.button = new Button("OK", new JarChooserClickHandler());
-		this.add(button);
+		this.listbox.addChangeHandler(new JarChooserChangeHandler());
 	}
 
 	/**

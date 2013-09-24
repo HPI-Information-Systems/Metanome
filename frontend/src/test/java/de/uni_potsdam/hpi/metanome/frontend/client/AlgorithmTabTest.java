@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
 
@@ -23,7 +24,7 @@ public class AlgorithmTabTest extends GWTTestCase {
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
 		
 		//Check
-		assertEquals(2, algoTab.getWidgetCount());
+		assertEquals(1, algoTab.getWidgetCount());
 		assertTrue(algoTab.getJarChooser() instanceof FunctionalDependencyJarChooser);
 	}
 	

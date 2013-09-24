@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 public class UniqueColumnCombinationsJarChooser extends JarChooser {
 

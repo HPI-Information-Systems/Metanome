@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+
 public class InclusionDependencyJarChooser extends JarChooser {
 
 	public InclusionDependencyJarChooser(String[] jarFilenames) {

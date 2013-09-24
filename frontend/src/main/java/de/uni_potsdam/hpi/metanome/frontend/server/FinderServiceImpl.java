@@ -32,9 +32,7 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 			System.out.println("FAILED to FIND algorithms");
 			e.printStackTrace();
 		}
-		//TODO: why is this not working on server but in tests?
-		//return algorithms;
-		return new String[] {"testjar.jar"};
+		return algorithms;
 	}
 
 	@Override
