@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.DockPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 
@@ -21,6 +23,8 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected JarChooser jarChooser;
 	
 	protected FinderServiceAsync finderService;
+	protected ExecutionServiceAsync executionService;
+	
 	protected AsyncCallback<String[]> addJarChooserCallback;
 	
 	/**
@@ -32,6 +36,8 @@ public abstract class AlgorithmTab extends DockPanel{
 		this.setHeight("100px");
 		
 		this.finderService = GWT.create(FinderService.class);
+		this.executionService = GWT.create(ExecutionService.class);
+		
 		addJarChooserCallback = new AsyncCallback<String[]>() {
 		      public void onFailure(Throwable caught) {
 		        // TODO: Do something with errors.
@@ -82,4 +88,16 @@ public abstract class AlgorithmTab extends DockPanel{
 	public JarChooser getJarChooser() {
 		return jarChooser;
 	}
+	
+	protected String getCurrentlySelectedAlgorithm(){
+		return this.jarChooser.getSelectedAlgorithm();
+	}
+
+	/**
+	 * adds the JarChooser object for this tab.
+	 * must be implemented in subclasses to use algorithm specific JarChooser
+	 * 
+	 * @param filenames	list of filenames (without path) of matching algorithms
+	 */
+	public abstract void callExecutionService(List<InputParameter> parameters);
 }

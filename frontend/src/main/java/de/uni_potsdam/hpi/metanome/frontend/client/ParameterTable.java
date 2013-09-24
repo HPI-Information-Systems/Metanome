@@ -2,7 +2,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -14,6 +13,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 
 public class ParameterTable extends FlexTable {
 
@@ -54,23 +54,12 @@ public class ParameterTable extends FlexTable {
 	}
 	
 	/**
-	 * specifies the action undertaken when parameter values are submitted
+	 * When parameter values are submitted, there values are set and used to call
+	 * the execution service corresponding to the current tab.
 	 */
 	public void submit(){
 		setParameterValues();
- 
-		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-		      public void onFailure(Throwable caught) {
-		    	  // TODO: Do something with errors.
-		      }
-
-		      public void onSuccess(Void v) {  	  
-		    	  //results are displayed by the ResultReceiver through double dispatch
-		      }
-		    };
-
-		// Make the call to the parameter service.
-		callExecutionService(callback);
+		getAlgorithmTab().callExecutionService(this.parameters);
 	}
 
 	/**
@@ -85,18 +74,23 @@ public class ParameterTable extends FlexTable {
 				value = ((TextBox) widget).getValue();
 			} else if (widget instanceof CheckBox){
 				value = ((CheckBox) widget).getValue();
-			} 
+			} else if (widget instanceof IntegerBox){
+				value = ((IntegerBox) widget).getValue();
+			}
 			//TODO check validity before setting value
 			param.setValue(value);
 			i++;
 		}
 	}
 
-	protected void callExecutionService(AsyncCallback<Void> callback){
-		for (InputParameter param : this.parameters){
-			System.out.println(param.getIdentifier() + ":" + param.getValue());
-		}
+	/**
+	 * The AlgorithmTabs implement algorithm type specific methods, which can
+	 * be called via the AlgorithmTab's interface.
+	 * 
+	 * @return the parent AlgorithmTab 
+	 */
+	private AlgorithmTab getAlgorithmTab() {
+		return (AlgorithmTab) this.getParent();
 	}
-	// TODO call service method to set parameter values and run algorithm (in subclasses)
 
 }

@@ -49,7 +49,7 @@ public abstract class JarChooser extends HorizontalPanel {
 	 * specifies the action undertaken when a jar file is chosen
 	 */
 	public void submit(){
-		String selectedValue = listbox.getValue(listbox.getSelectedIndex());
+		String selectedValue = getSelectedAlgorithm();
 		
 		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
 		      public void onFailure(Throwable caught) {
@@ -90,5 +90,13 @@ public abstract class JarChooser extends HorizontalPanel {
 	 */
 	public int getListItemCount() {
 		return this.listbox.getItemCount();
+	}
+
+	/**
+	 * TODO: docs
+	 * @return
+	 */
+	public String getSelectedAlgorithm() {
+		return listbox.getValue(listbox.getSelectedIndex());
 	}
 }
