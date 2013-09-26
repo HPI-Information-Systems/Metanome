@@ -42,26 +42,26 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
 	 */
 	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader<?> jarLoader){
-//		Algorithm algorithm = null;
-//		try {
-//			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
-//		} catch (Exception e) {
+		Algorithm algorithm = null;
+		try {
+			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
+		} catch (Exception e) {
 			System.out.println("FAILED to LOAD algorithm");
 			// TODO error handling, then remove default answer
 			ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 			paramList.add(new InputParameterString("tableName" + algorithmFileName.substring(0,5)));
 			paramList.add(new InputParameterBoolean("showProgress"));
 			return paramList;
-//		}
-//		
-//		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
-//		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-//		
-//		for (ConfigurationSpecification config : configList){
-//			paramList.add(getInputParameterInstance(config));
-//		}
-//		
-//		return paramList;
+		}
+		
+		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
+		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+		
+		for (ConfigurationSpecification config : configList){
+			paramList.add(getInputParameterInstance(config));
+		}
+		
+		return paramList;
 	}
 	
 	/**

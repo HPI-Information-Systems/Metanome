@@ -3,7 +3,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ListBox;
 
 public class ParameterTableSubmitHandler implements ClickHandler {
 

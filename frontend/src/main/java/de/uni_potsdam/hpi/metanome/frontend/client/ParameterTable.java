@@ -10,9 +10,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 
 public class ParameterTable extends FlexTable {
@@ -27,7 +24,7 @@ public class ParameterTable extends FlexTable {
 		int i = 0;
 		for (InputParameter param : this.parameters) {
 			this.setText(i, 0, param.getIdentifier());
-			this.setWidget(i, 1, getInputWidget(param));
+			this.setWidget(i, 1, param.getWidget());
 			i++;
 		}
 		
@@ -35,22 +32,6 @@ public class ParameterTable extends FlexTable {
 		this.executeButton.addClickHandler(new ParameterTableSubmitHandler());
 		
 		this.setWidget(i, 0, executeButton);
-	}
-
-	/**
-	 * Translates <link>InputParameter.Type</link>s into appropriate input fields
-	 * @param type	The type of the parameter
-	 * @return		The input field corresponding to the parameter type
-	 */
-	private Widget getInputWidget(InputParameter parameter) {
-		if (parameter instanceof InputParameterString)
-			return new TextBox();
-		else if (parameter instanceof InputParameterBoolean)
-			return new CheckBox();
-		else if (parameter instanceof InputParameterInteger) 
-			return new IntegerBox();
-		else
-			return null;
 	}
 	
 	/**
@@ -70,6 +51,7 @@ public class ParameterTable extends FlexTable {
 		for (InputParameter param : this.parameters) {
 			Widget widget = this.getWidget(i, 1);
 			Object value = null;
+			//TODO make ParameterInput interface to clean up this code
 			if (widget instanceof TextBox){
 				value = ((TextBox) widget).getValue();
 			} else if (widget instanceof CheckBox){
@@ -77,7 +59,7 @@ public class ParameterTable extends FlexTable {
 			} else if (widget instanceof IntegerBox){
 				value = ((IntegerBox) widget).getValue();
 			}
-			//TODO check validity before setting value
+
 			param.setValue(value);
 			i++;
 		}

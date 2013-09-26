@@ -43,7 +43,7 @@ public class CommonWidgetsTest extends GWTTestCase{
 		ParameterTable pt = new ParameterTable(paramList);
 		
 		//Check
-		assertEquals(3, pt.getRowCount());
+		assertEquals(4, pt.getRowCount());
 		
 		//STRING row
 		assertEquals(2, pt.getCellCount(0));
