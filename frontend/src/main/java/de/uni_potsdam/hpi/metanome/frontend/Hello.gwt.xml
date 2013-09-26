@@ -9,6 +9,8 @@
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl" />
 	<servlet path="/finderService"
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl" />
+	<servlet path="/executionService"
+			 class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl" />
 			 
 	
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
