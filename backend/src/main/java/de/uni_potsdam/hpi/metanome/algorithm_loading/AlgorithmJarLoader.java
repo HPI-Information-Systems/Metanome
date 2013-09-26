@@ -3,13 +3,18 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
 public class AlgorithmJarLoader<T extends Algorithm> {
 	
@@ -34,7 +39,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
 	 */
-	public Algorithm loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		//TODO remove / replace by correct folder
 		//String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getPath();
 		String pathToFolder = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/src/test/resources";
@@ -48,8 +53,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
         String className = attr.getValue(bootstrapClassTagName);
         
         URL[] url = {file.toURI().toURL()};
-        
-        ClassLoader loader = new URLClassLoader(url);
+        ClassLoader loader = new URLClassLoader(url, algorithmSubclass.getClassLoader());
         
         Class<? extends T> algorithmClass = 
         		Class.forName(className, true, loader).asSubclass(algorithmSubclass);
