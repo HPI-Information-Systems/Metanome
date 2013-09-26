@@ -10,6 +10,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+
 /**
  * Class that provides utilities to retrieve information on the available algorithm jars. 
  */
@@ -35,8 +37,8 @@ public class AlgorithmFinder {
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for (File jarFile : jarFiles){
-			if (algorithmSubclass == null || true)
-					//algorithmSubclass.equals(getAlgorithmClass(jarFile)))
+			if (algorithmSubclass == null || 
+					algorithmSubclass.isAssignableFrom(getAlgorithmClass(jarFile)))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		
@@ -81,7 +83,7 @@ public class AlgorithmFinder {
         String className = attr.getValue(bootstrapClassTagName);
         
         URL[] url = {file.toURI().toURL()};
-        ClassLoader loader = new URLClassLoader(url);
+        ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());
         
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
