@@ -32,10 +32,12 @@ public class UniqueColumnCombinationTab extends AlgorithmTab {
 		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 		      public void onFailure(Throwable caught) {
 		    	  // TODO: Do something with errors.
+		    	  caught.printStackTrace();
 		      }
 
 		      public void onSuccess(Void v) {  	  
 		    	  //TODO results are displayed by the ResultReceiver through double dispatch
+		    	  System.out.println("successful execution");
 		      }
 		    };
 
