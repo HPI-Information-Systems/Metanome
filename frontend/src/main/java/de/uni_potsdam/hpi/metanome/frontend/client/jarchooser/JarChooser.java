@@ -38,6 +38,12 @@ public abstract class JarChooser extends HorizontalPanel {
 		this.add(label);
 		
 		this.listbox = new ListBox();
+		
+		//unselectable default entry
+		this.listbox.addItem("--");
+		this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+		this.listbox.setSelectedIndex(0);
+		
 		for (String filename : jarFilenames){
 			this.listbox.addItem(filename);
 		}
