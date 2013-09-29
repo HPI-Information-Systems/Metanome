@@ -36,9 +36,9 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 	 */
 	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		//TODO remove / replace by correct folder
-		//String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getPath();
-		String pathToFolder = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/src/test/resources";
-		//pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
+		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getPath();
+//		String pathToFolder = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/src/test/resources";
+		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
 		
 		File file = new File(pathToFolder + "/" + path);
 		JarFile jar = new JarFile(file);
