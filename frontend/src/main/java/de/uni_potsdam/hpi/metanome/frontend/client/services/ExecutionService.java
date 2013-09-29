@@ -13,5 +13,6 @@ public interface ExecutionService extends RemoteService {
 	public void executeInclusionDependencyAlgorithm(String algorithmName, List<InputParameter> parameters);
 	public void executeFunctionalDependencyAlgorithm(String algorithmName, List<InputParameter> parameters);
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName, List<InputParameter> parameters);
-
+	public void executeBasicStatisticsAlgorithm(String algorithmName, List<InputParameter> parameters);
+	
 }

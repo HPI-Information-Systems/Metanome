@@ -19,7 +19,7 @@ public class BasePageTest extends GWTTestCase{
 		
 		//Check
 		//Page should have a tab each for the 3 algorithm types
-		assertEquals(3, page.getWidgetCount()); 
+		assertEquals(4, page.getWidgetCount()); 
 	}
 
 	@Override

@@ -80,6 +80,17 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
 		System.out.println("Successfully executed " + algorithmName);
 	}
+
+
+	@Override
+	public void executeBasicStatisticsAlgorithm(String algorithmName,
+			List<InputParameter> parameters) {
+		List<ConfigurationValue> configs = convertInputParameters(parameters);
+		FunctionalDependencyResultReceiver resultReceiver = null; //TODO instantiate
+		
+		//TODO implement execution logic executer.executeBasicStatisticsAlgorithm(algorithmName, configs, resultReceiver);
+				
+	}
 	
 
 

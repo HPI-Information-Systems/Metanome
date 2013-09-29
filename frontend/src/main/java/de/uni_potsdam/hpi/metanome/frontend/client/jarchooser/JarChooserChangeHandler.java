@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.jarchooser;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

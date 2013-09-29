@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.jarchooser;
 
 
 import java.util.List;

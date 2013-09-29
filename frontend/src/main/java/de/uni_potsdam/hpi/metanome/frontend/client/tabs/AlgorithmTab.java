@@ -6,9 +6,9 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.JarChooser;
-import de.uni_potsdam.hpi.metanome.frontend.client.ParameterTable;
+import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;

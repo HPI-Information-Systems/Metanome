@@ -5,30 +5,30 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.FunctionalDependencyJarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.BasicStatisticsJarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 
-public class FunctionalDependencyTab extends AlgorithmTab {
+public class BasicStatisticsTab extends AlgorithmTab {
 	
 	/**
 	 * Constructor.
 	 */
-	public FunctionalDependencyTab(){
+	public BasicStatisticsTab(){
 		super();
-		getFunctionalDependencyAlgorithms();
+		getBasicStatisticsAlgorithms();
 	}
 
 	/**
 	 * Service call to retrieve available FD algorithms
 	 */
-	private void getFunctionalDependencyAlgorithms() {
-		finderService.listFunctionalDependencyAlgorithms(addJarChooserCallback);
+	private void getBasicStatisticsAlgorithms() {
+		finderService.listBasicStatisticsAlgorithms(addJarChooserCallback);
 	}
 
 	@Override
 	public void addJarChooser(String... filenames) {
-		jarChooser = new FunctionalDependencyJarChooser(filenames);
+		jarChooser = new BasicStatisticsJarChooser(filenames);
 		this.add(jarChooser, DockPanel.NORTH);
 	}
 
@@ -47,6 +47,6 @@ public class FunctionalDependencyTab extends AlgorithmTab {
 		    };
 
 		// Make the call to the parameter service.
-		executionService.executeFunctionalDependencyAlgorithm(algorithmName, parameters, callback);
+		executionService.executeBasicStatisticsAlgorithm(algorithmName, parameters, callback);
 	}
 }

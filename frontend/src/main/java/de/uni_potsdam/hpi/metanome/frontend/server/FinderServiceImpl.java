@@ -50,4 +50,10 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 		return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
 	}
 
+	@Override
+	public String[] listBasicStatisticsAlgorithms() {
+		//TODO create class return listAlgorithms(BasicStatisticsAlgorithm.class);
+		return null;
+	}
+
 }

@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.jarchooser;
 
 import java.util.List;
 
@@ -7,14 +7,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 
-public class FunctionalDependencyJarChooser extends JarChooser {
+public class BasicStatisticsJarChooser extends JarChooser {
 
-	public FunctionalDependencyJarChooser(String[] jarFilenames) {
+	public BasicStatisticsJarChooser(String[] jarFilenames) {
 		super(jarFilenames);
 	}
 	
 	public void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback) {
-	    parameterService.retrieveFunctionalDependencyParameters(selectedValue, callback);
+	    //TODO parameterService.retrieveBasicStatisticsParameters(selectedValue, callback);
 	}
 
 }

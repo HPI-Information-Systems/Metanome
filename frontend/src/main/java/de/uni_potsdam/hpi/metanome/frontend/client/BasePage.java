@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.user.client.ui.TabPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationTab;
@@ -18,6 +19,7 @@ public class BasePage extends TabPanel {
 	  this.add(new UniqueColumnCombinationTab(), "Unique Column Combinations");
 	  this.add(new InclusionDependencyTab(), "Inclusion Dependencies");
 	  this.add(new FunctionalDependencyTab(), "Functional Dependencies");
+	  this.add(new BasicStatisticsTab(), "Basic Statistics");
   }
 
 }

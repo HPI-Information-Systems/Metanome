@@ -16,4 +16,7 @@ public interface ExecutionServiceAsync {
 
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName, List<InputParameter> parameters,
 			AsyncCallback<Void> callback);
+
+	public void executeBasicStatisticsAlgorithm(String algorithmName, List<InputParameter> parameters, 
+			AsyncCallback<Void> callback);
 }

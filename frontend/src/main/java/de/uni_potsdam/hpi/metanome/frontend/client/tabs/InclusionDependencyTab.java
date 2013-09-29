@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.InclusionDependencyJarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 
