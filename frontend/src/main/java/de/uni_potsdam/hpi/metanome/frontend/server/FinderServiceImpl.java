@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.BasicStatisticsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
@@ -52,8 +53,7 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public String[] listBasicStatisticsAlgorithms() {
-		//TODO create class return listAlgorithms(BasicStatisticsAlgorithm.class);
-		return null;
+		return listAlgorithms(BasicStatisticsAlgorithm.class);
 	}
 
 }

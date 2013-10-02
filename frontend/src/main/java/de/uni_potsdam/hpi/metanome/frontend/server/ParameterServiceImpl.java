@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.BasicStatisticsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
@@ -32,7 +33,9 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			new AlgorithmJarLoader<FunctionalDependencyAlgorithm>(FunctionalDependencyAlgorithm.class);
 	private AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> uniqueColumnCombinationsJarLoader = 
 			new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
-
+	private AlgorithmJarLoader<BasicStatisticsAlgorithm> basicStatisticsJarLoader =
+			new AlgorithmJarLoader<BasicStatisticsAlgorithm>(BasicStatisticsAlgorithm.class);
+	
 	/**
 	 * 
 	 * @param algorithmFileName	name of the algorithm for which the configuration parameters shall be 
@@ -97,6 +100,12 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	public List<InputParameter> retrieveUniqueColumnCombinationsParameters(
 			String algorithmFileName) {
 		return retrieveParameters(algorithmFileName, uniqueColumnCombinationsJarLoader);
+	}
+
+	@Override
+	public List<InputParameter> retrieveBasicStatisticsParameters(
+			String algorithmFileName) {
+		return retrieveParameters(algorithmFileName, basicStatisticsJarLoader);
 	}
 
 }

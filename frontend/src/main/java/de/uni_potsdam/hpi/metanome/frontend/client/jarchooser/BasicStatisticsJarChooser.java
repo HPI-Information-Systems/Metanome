@@ -14,7 +14,7 @@ public class BasicStatisticsJarChooser extends JarChooser {
 	}
 	
 	public void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback) {
-	    //TODO parameterService.retrieveBasicStatisticsParameters(selectedValue, callback);
+	    parameterService.retrieveBasicStatisticsParameters(selectedValue, callback);
 	}
 
 }

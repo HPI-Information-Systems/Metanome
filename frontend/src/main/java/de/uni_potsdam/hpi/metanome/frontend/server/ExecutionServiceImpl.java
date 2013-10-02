@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +16,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecuter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
-import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
+import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
+import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
+import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
 
 /**
  * Service Implementation for service that triggers algorithm execution
@@ -54,7 +56,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	public void executeInclusionDependencyAlgorithm(String algorithmName,
 			List<InputParameter> parameters) {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		InclusionDependencyResultReceiver resultReceiver = null; //TODO instantiate
+		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
+				getResultFileName(algorithmName));
 		
 		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
@@ -64,21 +67,26 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	public void executeFunctionalDependencyAlgorithm(String algorithmName,
 			List<InputParameter> parameters) {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		FunctionalDependencyResultReceiver resultReceiver = null; //TODO instantiate
+		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
+				getResultFileName(algorithmName));
 		
 		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
+	}
+
+
+	protected String getResultFileName(String algorithmName) {
+		return "results/" + algorithmName + DateFormat.getInstance().format(new Date()) + ".txt";
 	}
 
 	@Override
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
 			List<InputParameter> parameters) {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationPrinter(
-				new PrintStream(new ByteArrayOutputStream())); //TODO instantiate useful one
+		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
+				getResultFileName(algorithmName));
 		
 		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
-		System.out.println("Successfully executed " + algorithmName);
 	}
 
 

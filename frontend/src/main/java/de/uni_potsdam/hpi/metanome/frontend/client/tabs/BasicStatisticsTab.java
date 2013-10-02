@@ -42,11 +42,11 @@ public class BasicStatisticsTab extends AlgorithmTab {
 		      }
 
 		      public void onSuccess(Void v) {  	  
-		    	  //TODO: results are displayed by the ResultReceiver through double dispatch
+		    	  //TODO: results are displayed by the ResultReceiver somehow
 		      }
 		    };
 
-		// Make the call to the parameter service.
+		// Make the call to the execution service.
 		executionService.executeBasicStatisticsAlgorithm(algorithmName, parameters, callback);
 	}
 }

@@ -16,4 +16,7 @@ public interface ParameterServiceAsync {
 
 	public void retrieveUniqueColumnCombinationsParameters(String selectedValue,
 			AsyncCallback<List<InputParameter>> callback);
+
+	public void retrieveBasicStatisticsParameters(String selectedValue,
+			AsyncCallback<List<InputParameter>> callback);
 }

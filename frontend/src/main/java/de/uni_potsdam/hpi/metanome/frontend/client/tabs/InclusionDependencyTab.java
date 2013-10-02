@@ -35,7 +35,7 @@ public class InclusionDependencyTab extends AlgorithmTab {
 		      }
 
 		      public void onSuccess(Void v) {  	  
-		    	  //TODO results are displayed by the ResultReceiver through double dispatch
+		    	  //TODO results are displayed by the ResultReceiver somehow
 		      }
 		    };
 
