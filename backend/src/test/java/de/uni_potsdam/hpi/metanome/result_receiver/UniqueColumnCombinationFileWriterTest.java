@@ -37,7 +37,7 @@ public class UniqueColumnCombinationFileWriterTest {
 	@Test
 	public void testFileWriting() throws IOException {
 		// Setup
-		String fileName = "uccTest_" + DateFormat.getInstance().format(new Date());
+		String fileName = "uccTest_" + DateFormat.getInstance().format(new Date()) + ".txt";
 		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter(fileName);
 		ColumnCombination columnCombination1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 

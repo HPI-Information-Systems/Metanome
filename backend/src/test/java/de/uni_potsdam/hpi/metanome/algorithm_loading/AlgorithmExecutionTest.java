@@ -18,7 +18,7 @@ import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinte
 public class AlgorithmExecutionTest {
 
 	@Test
-	public void executeUniqueColumnCombinationsTest() {
+	public void executeUniqueColumnCombinationsAlgorithmTest() {
 		// Setup
 		AlgorithmExecuter executer = new AlgorithmExecuter();
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -36,5 +36,42 @@ public class AlgorithmExecutionTest {
 		
 		// Check result
 		assertTrue(outStream.toString().contains(columnCombination.toString()));
+	}
+	
+	@Test
+	public void executeFunctionalDependencyAlgorithmTest() {
+		// Setup
+		AlgorithmExecuter executer = new AlgorithmExecuter();
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+		configs.add(new ConfigurationValueString("pathToInputFile", "blub"));
+
+		// Expected values
+		ColumnCombination columnCombination = new ColumnCombination(
+				new ColumnIdentifier("table1", "column1"), 
+				new ColumnIdentifier("table2", "column2"));
+				
+		// Execute TODO
+//		executer.executeFunctionalDependencyAlgorithm("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", configs, 
+//				null);
+		
+		// Check result
+		//assertTrue(outStream.toString().contains(columnCombination.toString()));
+	}
+	
+	@Test
+	public void executeInclusionDependencyTest() {
+		// Setup
+		AlgorithmExecuter executer = new AlgorithmExecuter();
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+		configs.add(new ConfigurationValueString("pathToInputFile", "blub"));
+				
+		// Execute
+		// TODO executer.executeInclusionDependencyAlgorithm("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", configs, 
+				//null);
+		
+		// Check result
+		
 	}
 }
