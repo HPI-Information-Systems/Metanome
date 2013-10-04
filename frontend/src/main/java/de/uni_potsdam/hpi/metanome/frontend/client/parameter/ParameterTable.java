@@ -3,10 +3,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
@@ -46,19 +44,11 @@ public class ParameterTable extends FlexTable {
 	 * TODO docs
 	 * @param parameters 
 	 */
-	private void setParameterValues(List<InputParameter> params) {
+	public void setParameterValues(List<InputParameter> params) {
 		int i = 0;
 		for (InputParameter param : params) {
 			Widget widget = this.getWidget(i, 1);
-			Object value = null;
-			//TODO make ParameterInput interface to clean up this code
-			if (widget instanceof TextBox){
-				value = ((TextBox) widget).getValue();
-			} else if (widget instanceof CheckBox){
-				value = ((CheckBox) widget).getValue();
-			} else if (widget instanceof IntegerBox){
-				value = ((IntegerBox) widget).getValue();
-			}
+			Object value = ((HasValue<?>) widget).getValue();
 
 			param.setValue(value);
 			i++;
