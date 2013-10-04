@@ -44,14 +44,14 @@ public class ParameterTest extends GWTTestCase {
 		assertEquals(pt.getWidget(2, 1).getClass(), IntegerBox.class);
 		
 		//Execute - submit
-		pt.submit();
+		pt.setParameterValues(paramList);
 	}
 	
 	@Test
 	public void testInputParameterSetInvalidValue() {
 		//Setup
 		InputParameter string = new InputParameterString("Filename");
-		InputParameter integer = new InputParameterString("");
+		InputParameter integer = new InputParameterInteger("");
 		InputParameter bool = new InputParameterBoolean();
 		Object nonStringValue = 4;
 		Object nonIntegerValue = "oh-no";
@@ -70,13 +70,13 @@ public class ParameterTest extends GWTTestCase {
 		try {			
 			integer.setValue(nonIntegerValue);	
 		} catch (ClassCastException e) {
-			exceptionString = true;
+			exceptionInteger = true;
 		}
 		
 		try {			
 			bool.setValue(nonBoolValue);	
 		} catch (ClassCastException e) {
-			exceptionString = true;
+			exceptionBool = true;
 		}
 		
 		//Check
