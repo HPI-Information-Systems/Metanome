@@ -43,7 +43,7 @@ public class UniqueColumnCombinationPrinterTest {
 		expectedOutputs.add(columnCombination1.toString());
 		expectedOutputs.add(columnCombination2.toString());
 		
-		// Execute funtionality
+		// Execute functionality
 		printer.receiveResult(columnCombination1);
 		printer.receiveResult(columnCombination2);
 		

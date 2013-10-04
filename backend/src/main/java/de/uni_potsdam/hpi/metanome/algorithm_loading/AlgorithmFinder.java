@@ -30,10 +30,7 @@ public class AlgorithmFinder {
 	public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
-		//TODO: locate actual folder
-		String pathToFolder = ClassLoader.getSystemResource("./testjar.jar").getFile();
-		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
-//		String pathToFolder = "/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/backend/src/main/resources";
+		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for (File jarFile : jarFiles){
