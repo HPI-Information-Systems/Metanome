@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -40,7 +41,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		return configValuesList;
 	}
 
-
 	private ConfigurationValue convertToConfigurationValue(
 			InputParameter parameter) {
 		//TODO different types of ConfigurationValues
@@ -49,12 +49,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 					(String) parameter.getValue());
 		else
 			return null;
-	}
-	
+	}	
 
 	@Override
 	public void executeInclusionDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) {
+			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
 				getResultFileName(algorithmName));
@@ -65,7 +64,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void executeFunctionalDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) {
+			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
 				getResultFileName(algorithmName));
@@ -81,7 +80,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
-			List<InputParameter> parameters) {
+			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
 				getResultFileName(algorithmName));
