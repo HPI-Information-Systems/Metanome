@@ -1,6 +1,9 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
+import java.io.IOException;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
 /**
@@ -8,13 +11,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
  */
 public class UniqueColumnCombinationFileWriter extends ResultFileWriter implements UniqueColumnCombinationResultReceiver {
 
-	public UniqueColumnCombinationFileWriter(String fileName) {
+	public UniqueColumnCombinationFileWriter(String fileName) throws IOException {
 		super(fileName);
 	}
 
 	@Override
-	public void receiveResult(ColumnCombination columnCombination) {
-		appendToResultFile(columnCombination.toString());
+	public void receiveResult(ColumnCombination columnCombination) throws CouldNotReceiveResultException {
+		try {
+			appendToResultFile(columnCombination.toString());
+		} catch (IOException e) {
+			throw new CouldNotReceiveResultException("Could not write to result to file.");
+		}
 	}
 
 }

@@ -67,5 +67,11 @@
     	<artifactId>algorithm_integration</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>com.google.guava</groupId>
+    	<artifactId>guava</artifactId>
+    	<version>15.0</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

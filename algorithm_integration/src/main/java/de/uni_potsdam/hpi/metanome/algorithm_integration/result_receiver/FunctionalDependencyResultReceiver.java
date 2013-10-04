@@ -15,6 +15,7 @@ public interface FunctionalDependencyResultReceiver {
 	 * 
 	 * @param determinant
 	 * @param dependent
+	 * @throws CouldNotReceiveResultException 
 	 */
-	void receiveResult(ColumnCombination determinant, ColumnIdentifier dependent);
+	void receiveResult(ColumnCombination determinant, ColumnIdentifier dependent) throws CouldNotReceiveResultException;
 }

@@ -14,6 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -31,7 +32,7 @@ public class AlgorithmExecutionTest {
 	}
 
 	@Test
-	public void executeUniqueColumnCombinationsAlgorithmTest() {
+	public void executeUniqueColumnCombinationsAlgorithmTest() throws CouldNotReceiveResultException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToInputFile", "blub"));
@@ -46,7 +47,7 @@ public class AlgorithmExecutionTest {
 	}
 	
 	@Test
-	public void executeFunctionalDependencyAlgorithmTest() {
+	public void executeFunctionalDependencyAlgorithmTest() throws CouldNotReceiveResultException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "blub"));
@@ -61,7 +62,7 @@ public class AlgorithmExecutionTest {
 	}
 	
 	@Test
-	public void executeInclusionDependencyTest() {
+	public void executeInclusionDependencyTest() throws CouldNotReceiveResultException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("tableName", "blub"));

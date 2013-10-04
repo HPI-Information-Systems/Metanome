@@ -13,6 +13,7 @@ public interface InclusionDependencyResultReceiver {
 	 * 
 	 * @param dependent
 	 * @param referenced
+	 * @throws CouldNotReceiveResultException 
 	 */
-	void receiveResult(ColumnCombination dependent, ColumnCombination referenced);
+	void receiveResult(ColumnCombination dependent, ColumnCombination referenced) throws CouldNotReceiveResultException;
 }

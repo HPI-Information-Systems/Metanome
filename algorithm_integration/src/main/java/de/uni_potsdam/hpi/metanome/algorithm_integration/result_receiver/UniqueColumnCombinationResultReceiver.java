@@ -12,6 +12,7 @@ public interface UniqueColumnCombinationResultReceiver {
 	 * Receives an unique column combination from an {@link UniqueColumnCombinationsAlgorithm}.
 	 * 
 	 * @param columnCombination
+	 * @throws CouldNotReceiveResultException 
 	 */
-	void receiveResult(ColumnCombination uniqueColumnCombination);
+	void receiveResult(ColumnCombination uniqueColumnCombination) throws CouldNotReceiveResultException;
 }

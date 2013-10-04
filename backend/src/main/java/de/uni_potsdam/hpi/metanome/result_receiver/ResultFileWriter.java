@@ -1,27 +1,22 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
-import java.io.File;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class ResultFileWriter {
 
-	protected File file;
+	protected BufferedWriter fileWriter;
 
-	public ResultFileWriter(String fileName) {
-		super();
-		this.file = new File(fileName);
-	}
+	public ResultFileWriter(String fileName) throws IOException {
+		this.fileWriter = new BufferedWriter(new FileWriter(fileName, true));
+	}	
 	
-	protected void appendToResultFile(String string) {
-		try {
-			FileWriter writer = new FileWriter(this.file, true);
-			writer.write(string + "\n");
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	protected void appendToResultFile(String string) throws IOException {
+		fileWriter.write(string);
+		fileWriter.newLine();
+		fileWriter.flush();
 	}
 
 }
