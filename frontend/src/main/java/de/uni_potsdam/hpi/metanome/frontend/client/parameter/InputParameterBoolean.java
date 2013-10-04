@@ -27,11 +27,7 @@ public class InputParameterBoolean extends InputParameter {
 
 	@Override
 	public void setValue(Object obj) {
-		if (obj instanceof Boolean){
-			this.value = (Boolean) obj;
-		} else {
-			throw new ClassCastException();
-		}
+		this.value = (Boolean) obj;
 	}
 
 	@Override
