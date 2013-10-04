@@ -50,7 +50,7 @@ public class AlgorithmFinderTest {
 	@Test
 	public void getAlgorithmType() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		// Setup
-		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getFile();
+		String jarFilePath = ClassLoader.getSystemResource("algorithms/testjar.jar").getFile();
 		File file = new File(jarFilePath);
 		
 		// Execute functionality
@@ -64,8 +64,6 @@ public class AlgorithmFinderTest {
 	@Test
 	public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
 		// Setup
-		String jarFilePath = ClassLoader.getSystemResource("testjar.jar").getPath();
-		jarFilePath = jarFilePath.substring(0, jarFilePath.lastIndexOf(File.separator));
 		AlgorithmFinder algoFinder = new AlgorithmFinder();
 		
 		//Execute
@@ -85,5 +83,6 @@ public class AlgorithmFinderTest {
 		
 		//Check
 		assertTrue(algos.length > 0);
+		//TODO make sure no wrong algorithms are returned
 	}
 }
