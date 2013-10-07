@@ -25,11 +25,10 @@ public class InputParameterInteger extends InputParameter {
 	
 	@Override
 	public void setValue(Object obj) {
-		if (obj instanceof Integer){
+		if (obj == null)
+			this.value = 0;
+		else
 			this.value = (Integer) obj;
-		} else {
-			throw new ClassCastException();
-		}
 	}
 
 	@Override

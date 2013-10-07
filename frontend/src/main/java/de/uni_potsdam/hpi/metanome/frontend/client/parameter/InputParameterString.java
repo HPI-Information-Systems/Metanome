@@ -29,11 +29,7 @@ public class InputParameterString extends InputParameter {
 	
 	@Override
 	public void setValue(Object obj) {
-		if (obj instanceof String){
-			this.value = (String) obj;
-		} else {
-			throw new ClassCastException();
-		}
+		this.value = (String) obj;
 	}
 
 	@Override

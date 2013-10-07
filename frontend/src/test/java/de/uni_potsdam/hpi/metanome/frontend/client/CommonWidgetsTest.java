@@ -19,7 +19,7 @@ public class CommonWidgetsTest extends GWTTestCase{
 		
 		//Test
 		assertEquals(2, jarChooser.getWidgetCount());
-		assertEquals(2, jarChooser.getListItemCount());
+		assertEquals(filenames.length + 1, jarChooser.getListItemCount());
 	}
 
 	@Override
