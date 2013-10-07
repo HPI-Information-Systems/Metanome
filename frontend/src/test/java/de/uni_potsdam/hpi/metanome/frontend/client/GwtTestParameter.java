@@ -15,7 +15,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteg
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 
-public class ParameterTest extends GWTTestCase {
+public class GwtTestParameter extends GWTTestCase {
 	
 	@Test
 	public void testParameterTable() {

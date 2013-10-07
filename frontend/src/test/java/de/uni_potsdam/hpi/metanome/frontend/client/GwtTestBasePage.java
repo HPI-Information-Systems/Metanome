@@ -7,7 +7,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /**
  * Tests related to the overall page.
  */
-public class BasePageTest extends GWTTestCase{
+public class GwtTestBasePage extends GWTTestCase{
 	
 	/**
 	 * Test BasePage constructor. 

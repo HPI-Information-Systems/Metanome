@@ -21,7 +21,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
 /**
  * Tests RPC calls to server
  */
-public class ServiceCallTest extends GWTTestCase {
+public class GwtTestServiceCall extends GWTTestCase {
     
 	@Test
 	public void testExecutionService(){

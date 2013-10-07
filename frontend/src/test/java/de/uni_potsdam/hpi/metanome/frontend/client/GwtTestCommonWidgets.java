@@ -7,7 +7,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.InclusionDependencyJarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 
-public class CommonWidgetsTest extends GWTTestCase{
+public class GwtTestCommonWidgets extends GWTTestCase{
 
 	@Test
 	public void testJarChooser() {

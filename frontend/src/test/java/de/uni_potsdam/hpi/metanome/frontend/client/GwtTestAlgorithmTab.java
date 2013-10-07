@@ -16,7 +16,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
 /**
  * Tests for the algorithm specific pages (tabs)
  */
-public class AlgorithmTabTest extends GWTTestCase {
+public class GwtTestAlgorithmTab extends GWTTestCase {
 
 	@Test
 	public void testAddJarChooserFD(){
