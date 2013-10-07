@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/Algorithm.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="133" width="334" x="317" y="88"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/UniqueColumnCombinationsAlgorithm.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="118" y="157"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/InclusionDependencyAlgorithm.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="481" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/FunctionalDependencyAlgorithm.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="850" y="165"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/ColumnCombination.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="905" y="412"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.BasicStatisticsAlgorithm" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/BasicStatisticsAlgorithm.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="831" y="295"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/ColumnIdentifier.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="905" y="585"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecificationString.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="50" y="632"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="182" y="437"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecificationBoolean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="343" y="632"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationValueString.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="639" y="496"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationValue.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="639" y="632"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="13" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/FunctionalDependencyResultReceiver.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1544" y="657"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="14" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/BasicStatisticsResultReceiver.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1274" y="384"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="15" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/UniqueColumnCombinationResultReceiver.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1242" y="516"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="16" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/CouldNotReceiveResultException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1262" y="249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver" 
+    project="algorithm_integration" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/InclusionDependencyResultReceiver.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="959" y="732"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="18" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter" 
+    project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationFileWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1239" y="636"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecuter" 
+    project="backend" file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmExecuter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1454" y="946"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder" project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmFinder.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1852" y="535"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader" 
+    project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmJarLoader.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="444" y="866"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter" 
+    project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/InclusionDependencyFileWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="956" y="846"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter" 
+    project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationPrinter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1580" y="519"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.ResultFileWriter" project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1252" y="810"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter" 
+    project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/FunctionalDependencyFileWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1541" y="792"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.BasePage" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/BasePage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="354" y="1237"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/MetanomeEntryPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2201" y="1185"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" 
+    name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.UniqueColumnCombinationsJarChooser" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/UniqueColumnCombinationsJarChooser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="482" y="1642"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" 
+    name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.InclusionDependencyJarChooser" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/InclusionDependencyJarChooser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="92" y="1653"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/JarChooser.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="696" y="1250"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.BasicStatisticsJarChooser" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/BasicStatisticsJarChooser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="99" y="1413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" 
+    name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.FunctionalDependencyJarChooser" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/FunctionalDependencyJarChooser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1426" y="1623"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooserChangeHandler" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/jarchooser/JarChooserChangeHandler.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="79" y="1256"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/InputParameter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="410" y="2173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/InputParameterInteger.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="118" y="2264"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/InputParameterString.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="413" y="2474"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" 
+    name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTableSubmitHandler" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/ParameterTableSubmitHandler.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="71" y="2077"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/InputParameterBoolean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="716" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/parameter/ParameterTable.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="381" y="1950"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="40" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/FinderService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1819" y="1676"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="41" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/ExecutionServiceAsync.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1344" y="1921"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="42" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/ParameterServiceAsync.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="977" y="1610"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="43" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/ParameterService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1359" y="1415"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="44" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/FinderServiceAsync.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1423" y="1748"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="45" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/services/ExecutionService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1788" y="1493"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="46" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationTab" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/tabs/UniqueColumnCombinationTab.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="909" y="2207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/tabs/BasicStatisticsTab.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="672" y="2067"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/tabs/FunctionalDependencyTab.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1185" y="2262"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyTab" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/tabs/InclusionDependencyTab.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1193" y="2082"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="50" language="java" name="de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/client/tabs/AlgorithmTab.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="730" y="1820"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="51" language="java" name="de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/server/ParameterServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1221" y="1213"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="52" language="java" name="de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl" project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/server/FinderServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2169" y="1529"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl" 
+    project="frontend" 
+    file="/frontend/src/main/java/de/uni_potsdam/hpi/metanome/frontend/server/ExecutionServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1734" y="1221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="55">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="56" name="finderService"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="44" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="58">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="59">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <realization id="60">    
+    <end type="SOURCE" refId="51"/>    
+    <end type="TARGET" refId="43"/>  
+  </realization>  
+  <generalization id="61">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <association id="62">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="63" name="uniqueColumnCombinationsJarLoader"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="65">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="50"/>  
+  </generalization>  
+  <generalization id="66">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="67">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="24"/>  
+  </generalization>  
+  <generalization id="68">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <association id="69">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="70" name="columnCombination"/>      
+      <multiplicity id="71" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="72">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="50"/>  
+  </generalization>  
+  <realization id="73">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="40"/>  
+  </realization>  
+  <realization id="74">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="13"/>  
+  </realization>  
+  <association id="75">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="76" name="basicStatisticsJarLoader"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="79" name="executionService"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <end type="SOURCE" refId="52" navigable="false">      
+      <attribute id="82" name="algorithmFinder"/>      
+      <multiplicity id="83" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="84">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="85">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="50"/>  
+  </generalization>  
+  <association id="86">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="87" name="parameterService"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="89">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="45"/>  
+  </realization>  
+  <association id="90">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="91" name="parameterTable"/>      
+      <multiplicity id="92" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="93">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="15"/>  
+  </realization>  
+  <generalization id="94">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="95">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="24"/>  
+  </generalization>  
+  <generalization id="96">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="50"/>  
+  </generalization>  
+  <generalization id="97">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <association id="98">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="99" name="inclusionDependencyJarLoader"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="101">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <realization id="102">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <generalization id="103">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <realization id="104">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="105">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="106" name="parameters"/>      
+      <multiplicity id="107" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="108">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="24"/>  
+  </generalization>  
+  <association id="109">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="110" name="jarChooser"/>      
+      <multiplicity id="111" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="112">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="15"/>  
+  </realization>  
+  <generalization id="113">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="114">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="115">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="116" name="executer"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="118">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="119" name="functionalDependencyJarLoader"/>      
+      <multiplicity id="120" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
