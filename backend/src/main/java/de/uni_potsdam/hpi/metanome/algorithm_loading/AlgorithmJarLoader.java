@@ -35,7 +35,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 	 * @throws IllegalArgumentException 
 	 */
 	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
-		String pathToFolder = ClassLoader.getSystemResource("testjar.jar").getPath();
+		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
 		pathToFolder = pathToFolder.substring(0, pathToFolder.lastIndexOf(File.separator));
 		
 		File file = new File(pathToFolder + "/" + path);
