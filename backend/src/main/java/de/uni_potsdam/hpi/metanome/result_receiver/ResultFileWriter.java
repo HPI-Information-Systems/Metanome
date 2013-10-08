@@ -14,7 +14,7 @@ public class ResultFileWriter {
 		if (!directory.exists())
 			directory.mkdirs();
 		this.fileWriter = new BufferedWriter(new FileWriter(
-				subdirectoryName + File.pathSeparator + fileName, true));
+				subdirectoryName + "/" + fileName, true));
 	}	
 	
 	

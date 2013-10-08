@@ -41,7 +41,7 @@ public class UniqueColumnCombinationFileWriterTest {
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()) + ".txt";
-		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter("results/test", fileName);
+		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter(fileName, "results/test");
 		ColumnCombination columnCombination1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 
 				new ColumnIdentifier("table2", "column2"));
@@ -58,7 +58,7 @@ public class UniqueColumnCombinationFileWriterTest {
 		writer.receiveResult(columnCombination2);
 		
 		// Check result
-		File actualFile = new File(fileName);
+		File actualFile = new File("results/test/" + fileName);
 		assertTrue(actualFile.exists());
 
 	    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
