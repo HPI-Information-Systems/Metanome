@@ -1,7 +1,9 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
-				getResultFileName(algorithmName));
+				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
@@ -67,23 +69,19 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
-				getResultFileName(algorithmName));
+				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
 	}
 
 
-	protected String getResultFileName(String algorithmName) {
-		return "results/" + algorithmName + DateFormat.getInstance().format(new Date()) + ".txt";
-	}
-
 	@Override
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
 			List<InputParameter> parameters) throws IOException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
-				getResultFileName(algorithmName));
+				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
 	}
@@ -99,6 +97,13 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 				
 	}
 	
+	protected String getResultDirectoryName() {
+		return "results";
+	}
+	
+	protected String getResultFileName(String algorithmName) {
+		return algorithmName + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()) + ".txt";
+	}
 
 
 }

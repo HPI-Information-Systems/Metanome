@@ -11,8 +11,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
  */
 public class UniqueColumnCombinationFileWriter extends ResultFileWriter implements UniqueColumnCombinationResultReceiver {
 
-	public UniqueColumnCombinationFileWriter(String fileName) throws IOException {
-		super(fileName);
+	public UniqueColumnCombinationFileWriter(String fileName, String subdirectoryName) throws IOException {
+		super(fileName, subdirectoryName);
 	}
 
 	@Override

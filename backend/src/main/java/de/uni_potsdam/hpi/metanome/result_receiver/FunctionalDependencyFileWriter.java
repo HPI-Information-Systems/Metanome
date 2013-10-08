@@ -10,8 +10,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 public class FunctionalDependencyFileWriter extends ResultFileWriter implements
 		FunctionalDependencyResultReceiver {
 
-	public FunctionalDependencyFileWriter(String fileName) throws IOException {
-		super(fileName);
+	public FunctionalDependencyFileWriter(String fileName, String subdirectoryName) throws IOException {
+		super(fileName, subdirectoryName);
 	}
 
 	@Override

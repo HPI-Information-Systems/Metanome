@@ -11,8 +11,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Inclusi
  */
 public class InclusionDependencyFileWriter extends ResultFileWriter implements InclusionDependencyResultReceiver {
 
-	public InclusionDependencyFileWriter(String fileName) throws IOException {
-		super(fileName);
+	public InclusionDependencyFileWriter(String fileName, String subdirectoryName) throws IOException {
+		super(fileName, subdirectoryName);
 	}
 
 	@Override
