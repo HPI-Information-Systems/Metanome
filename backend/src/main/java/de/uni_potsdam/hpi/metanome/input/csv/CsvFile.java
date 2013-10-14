@@ -1,5 +1,10 @@
 package de.uni_potsdam.hpi.metanome.input.csv;
 
+import java.io.IOException;
+import java.io.Reader;
+
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
@@ -9,21 +14,44 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalI
  */
 public class CsvFile implements SimpleRelationalInput {
 
-	@Override
-	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+	protected CSVReader csvReader;
+	protected ImmutableList<String> nextLine;
+	
+	public CsvFile(Reader reader) throws IOException {
+		this.csvReader = new CSVReader(reader);
+		this.nextLine = readNextLine();
 	}
 
 	@Override
-	public ImmutableList<String> next() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean hasNext() throws IOException {
+		if (this.nextLine == null) {
+			this.csvReader.close();
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	@Override
+	public ImmutableList<String> next() throws IOException {
+		ImmutableList<String> currentLine = this.nextLine;
+		this.nextLine = readNextLine();
+		return currentLine;
 	}
 
 	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
-
+	
+	protected ImmutableList<String> readNextLine() throws IOException {
+		String[] lineArray = this.csvReader.readNext();
+		if (lineArray == null) {
+			return null;
+		}
+		else {
+			return ImmutableList.copyOf(lineArray);
+		}
+	}
 }

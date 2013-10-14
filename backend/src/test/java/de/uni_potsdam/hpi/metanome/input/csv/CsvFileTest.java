@@ -1,6 +1,11 @@
 package de.uni_potsdam.hpi.metanome.input.csv;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,17 +13,43 @@ import org.junit.Test;
 
 public class CsvFileTest {
 
-	protected CsvFile csvFile;
+	CsvFileFixtureOneLine fixture;
+	CsvFile csvFile;
 	
 	@Before
 	public void setUp() throws Exception {
-		this.csvFile = new CsvFile();
+		this.fixture = new CsvFileFixtureOneLine();
+		this.csvFile = this.fixture.getTestData();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Has next should be true once and false after calling next once (one csv line).
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void testHasNext() throws IOException {
+		// Check result
+		assertTrue(this.csvFile.hasNext());
+		this.csvFile.next();
+		assertFalse(this.csvFile.hasNext());
+	}
+	
+	/**
+	 * A one line csv should be parsed correctly. And all the values in the line should be equal.
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testNext() throws IOException {
+		// Check result
+		assertEquals(this.fixture.getExpectedStrings(), this.csvFile.next());
+	}
+	
 	/**
 	 * The remove method should always throw an {@link UnsupportedOperationException}.
 	 */
@@ -32,7 +63,5 @@ public class CsvFileTest {
 		catch (UnsupportedOperationException actualException) {
 
 		}
-		
 	}
-
 }
