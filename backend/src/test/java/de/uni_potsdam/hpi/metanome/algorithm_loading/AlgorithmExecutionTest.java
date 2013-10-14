@@ -1,8 +1,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
