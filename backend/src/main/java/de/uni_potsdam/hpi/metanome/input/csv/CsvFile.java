@@ -1,7 +1,6 @@
 package de.uni_potsdam.hpi.metanome.input.csv;
 
 import java.io.IOException;
-import java.io.Reader;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -13,16 +12,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalI
  * {@link CsvFile}s are Iterators over lines in a csv file.
  */
 public class CsvFile implements SimpleRelationalInput {
-
+	
 	protected CSVReader csvReader;
 	protected ImmutableList<String> nextLine;
 	
-	public CsvFile(Reader reader) throws IOException {
-		this(reader, ',');
-	}
-
-	public CsvFile(Reader reader, char separator) throws IOException {
-		this.csvReader = new CSVReader(reader, separator);
+	public CsvFile(CSVReader csvReader) throws IOException {
+		this.csvReader = csvReader;
 		this.nextLine = readNextLine();
 	}
 
