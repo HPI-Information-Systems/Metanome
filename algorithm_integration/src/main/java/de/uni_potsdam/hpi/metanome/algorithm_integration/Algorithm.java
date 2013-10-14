@@ -38,5 +38,13 @@ public abstract class Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	abstract public void setConfigurationValue(String identifier, String value);	
+	abstract public void setConfigurationValue(String identifier, String value);
+	
+	/**
+	 * Sets a boolean configuration value on the algorithm.
+	 * 
+	 * @param identifier
+	 * @param value
+	 */
+	abstract public void setConfigurationValue(String identifier, boolean value);
 }

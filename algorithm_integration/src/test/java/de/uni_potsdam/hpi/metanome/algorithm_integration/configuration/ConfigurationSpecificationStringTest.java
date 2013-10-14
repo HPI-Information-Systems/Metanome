@@ -45,5 +45,4 @@ public class ConfigurationSpecificationStringTest {
 		// Check result
 		assertEquals(expectedIdentifier, actualIdentifier);
 	}
-
 }
