@@ -18,7 +18,11 @@ public class CsvFile implements SimpleRelationalInput {
 	protected ImmutableList<String> nextLine;
 	
 	public CsvFile(Reader reader) throws IOException {
-		this.csvReader = new CSVReader(reader);
+		this(reader, ',');
+	}
+
+	public CsvFile(Reader reader, char separator) throws IOException {
+		this.csvReader = new CSVReader(reader, separator);
 		this.nextLine = readNextLine();
 	}
 

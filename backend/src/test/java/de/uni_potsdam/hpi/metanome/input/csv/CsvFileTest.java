@@ -51,6 +51,21 @@ public class CsvFileTest {
 	}
 	
 	/**
+	 * A one line csv with differing should be parsed correctly. And all the values in the line should be equal.
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testNextSeparator() throws IOException {
+		// Setup
+		CsvFileFixtureOneLine fixtureSeparator = new CsvFileFixtureOneLine(';');
+		CsvFile csvFileSeparator = fixtureSeparator.getTestData();
+		
+		// Check result 
+		assertEquals(fixtureSeparator.getExpectedStrings(), csvFileSeparator.next());
+	}
+	
+	/**
 	 * The remove method should always throw an {@link UnsupportedOperationException}.
 	 */
 	@Test
@@ -61,7 +76,7 @@ public class CsvFileTest {
 			fail("Expected an UnsupportedOperationException to be thrown.");
 		}
 		catch (UnsupportedOperationException actualException) {
-
+			// Intentionally left blank
 		}
 	}
 }
