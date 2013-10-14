@@ -40,7 +40,7 @@ public class UniqueColumnCombinationFileWriterTest {
 	@Test
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
-		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()) + ".txt";
+		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
 		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter(fileName, "results/test");
 		ColumnCombination columnCombination1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 

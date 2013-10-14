@@ -102,7 +102,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	protected String getResultFileName(String algorithmName) {
-		return algorithmName + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()) + ".txt";
+		return algorithmName + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
 	}
 
 
