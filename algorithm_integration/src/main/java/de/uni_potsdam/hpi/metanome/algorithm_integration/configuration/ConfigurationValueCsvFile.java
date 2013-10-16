@@ -3,12 +3,12 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
 /**
- * Represents boolean configuration values for {@link Algorithm}s.
+ * Represents csv file configuration values for {@link Algorithm}s.
  */
-public class ConfigurationValueBoolean implements ConfigurationValue {
+public class ConfigurationValueCsvFile implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final boolean value;
+	protected final CsvFileConfiguration value;
 	
 	/**
 	 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
@@ -16,7 +16,7 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 	 * @param identifier
 	 * @param value
 	 */
-	public ConfigurationValueBoolean(String identifier, boolean value) {
+	public ConfigurationValueCsvFile(String identifier, CsvFileConfiguration value) {
 		this.identifier = identifier;
 		this.value = value;
 	}
