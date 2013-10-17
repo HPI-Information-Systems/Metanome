@@ -16,6 +16,7 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
 public class ExampleAlgorithmTest {
@@ -71,9 +72,10 @@ public class ExampleAlgorithmTest {
 
 	/**
 	 * When the algorithm is started after configuration a result should be received.
+	 * @throws CouldNotReceiveResultException 
 	 */
 	@Test
-	public void testStart() {
+	public void testStart() throws CouldNotReceiveResultException {
 		// Setup
 		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
 		this.algorithm.setConfigurationValue(pathIdentifier, "something");
