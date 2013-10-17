@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input.csv;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
