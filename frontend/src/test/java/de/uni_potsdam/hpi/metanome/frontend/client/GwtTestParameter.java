@@ -8,9 +8,11 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ValueListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
@@ -24,12 +26,13 @@ public class GwtTestParameter extends GWTTestCase {
 		paramList.add(new InputParameterString("Filename"));
 		paramList.add(new InputParameterBoolean("Omit warnings"));
 		paramList.add(new InputParameterInteger("Number of runs"));
+		paramList.add(new InputParameterCsvFile("inputData"));
 		
 		//Execute - create
 		ParameterTable pt = new ParameterTable(paramList);
 		
 		//Check
-		assertEquals(4, pt.getRowCount());
+		assertEquals(5, pt.getRowCount());
 		
 		// - STRING row
 		assertEquals(2, pt.getCellCount(0));
@@ -43,6 +46,10 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals(2, pt.getCellCount(0));
 		assertEquals(pt.getWidget(2, 1).getClass(), IntegerBox.class);
 		
+		// - CSV FILE row
+		assertEquals(2, pt.getCellCount(0));
+		assertEquals(pt.getWidget(3, 1).getClass(), ValueListBox.class);
+		
 		//Execute - submit
 		pt.setParameterValues(paramList);
 	}
@@ -53,12 +60,14 @@ public class GwtTestParameter extends GWTTestCase {
 		InputParameter string = new InputParameterString("Filename");
 		InputParameter integer = new InputParameterInteger("");
 		InputParameter bool = new InputParameterBoolean();
+		InputParameter csv = new InputParameterCsvFile("inputFile");
 		Object nonStringValue = 4;
 		Object nonIntegerValue = "oh-no";
 		Object nonBoolValue = 1;
 		boolean exceptionString = false;
 		boolean exceptionInteger = false;
 		boolean exceptionBool = false;
+		boolean exceptionCsv = false;
 		
 		//Execute
 		try {			
@@ -79,10 +88,17 @@ public class GwtTestParameter extends GWTTestCase {
 			exceptionBool = true;
 		}
 		
+		try {			
+			csv.setValue(nonStringValue);	
+		} catch (ClassCastException e) {
+			exceptionCsv = true;
+		}
+		
 		//Check
 		assertTrue(exceptionString);
 		assertTrue(exceptionInteger);
 		assertTrue(exceptionBool);
+		assertTrue(exceptionCsv);
 	}
 	
 	@Test
@@ -94,18 +110,22 @@ public class GwtTestParameter extends GWTTestCase {
 		Object intValue = 4;
 		InputParameter bool = new InputParameterBoolean("bool");
 		Object boolValue = true;
+		InputParameter csv = new InputParameterCsvFile("inputFile");
+		Object csvValue = "test.csv";
 		
 		//Execute
 		string.setValue(stringValue);	
 		integer.setValue(intValue);
 		bool.setValue(boolValue);
+		csv.setValue(csvValue);
 		
 		//Check
 		assertEquals("test", string.getValue());
 		assertEquals(4, integer.getValue());
 		assertEquals(true, bool.getValue());
+		assertEquals("test.csv", csv.getValue());
 	}
-
+	
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Hello";

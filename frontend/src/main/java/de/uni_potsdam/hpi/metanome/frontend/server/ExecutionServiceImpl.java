@@ -1,8 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -11,12 +9,17 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecuter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
@@ -43,16 +46,22 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		return configValuesList;
 	}
 
-	private ConfigurationValue convertToConfigurationValue(
+	public ConfigurationValue convertToConfigurationValue(
 			InputParameter parameter) {
-		//TODO different types of ConfigurationValues
+		//TODO all types of ConfigurationValues
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
 					(String) parameter.getValue());
+		else if (parameter instanceof InputParameterBoolean)
+			return new ConfigurationValueBoolean(parameter.getIdentifier(), 
+					(Boolean) parameter.getValue());
+		else if (parameter instanceof InputParameterCsvFile)
+			return new ConfigurationValueCsvFile(parameter.getIdentifier(), 
+					new CsvFileGenerator((String) parameter.getValue()));
 		else
 			return null;
 	}	
-
+	
 	@Override
 	public void executeInclusionDependencyAlgorithm(String algorithmName,
 			List<InputParameter> parameters) throws IOException {
