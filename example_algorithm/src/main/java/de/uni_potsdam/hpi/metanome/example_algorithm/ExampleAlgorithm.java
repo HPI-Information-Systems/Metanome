@@ -7,6 +7,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -20,6 +21,7 @@ public class ExampleAlgorithm extends UniqueColumnCombinationsAlgorithm {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 		
 		configurationSpecification.add(new ConfigurationSpecificationString("pathToInputFile"));
+		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
 		
 		return configurationSpecification;
 	}
