@@ -94,10 +94,10 @@ public abstract class AlgorithmTab extends DockPanel{
 	}
 
 	/**
-	 * adds the JarChooser object for this tab.
-	 * must be implemented in subclasses to use algorithm specific JarChooser
+	 * calls the backend to execute the currently selected Algorithm
 	 * 
-	 * @param filenames	list of filenames (without path) of matching algorithms
+	 * @param parameters	a List of InputParameter subclass instances, corresponding to 
+	 * 						the ConfigurationSpecification of the Algorithm
 	 */
 	public abstract void callExecutionService(List<InputParameter> parameters);
 }
