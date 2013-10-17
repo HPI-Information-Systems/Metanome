@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input.csv;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
 import java.io.IOException;
 
@@ -6,12 +6,10 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
-
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
  */
-public class CsvFile implements SimpleRelationalInput {
+class CsvFile implements SimpleRelationalInput {
 	
 	protected CSVReader csvReader;
 	protected ImmutableList<String> nextLine;
