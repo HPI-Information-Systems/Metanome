@@ -8,12 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 
 /**
  * Tests for {@link ConfigurationValueCsvFile}
  */
 public class ConfigurationValueCsvFileTest {
-
+	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -34,7 +35,7 @@ public class ConfigurationValueCsvFileTest {
 		Algorithm algorithm = mock(Algorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		CsvFileConfiguration expectedConfigurationValue = new CsvFileConfiguration();
+		CsvFileGenerator expectedConfigurationValue = mock(CsvFileGenerator.class);
 		
 		// Execute functionality
 		ConfigurationValueCsvFile configValue = new ConfigurationValueCsvFile(

@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.CsvFileConfiguration;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
@@ -50,11 +50,11 @@ public abstract class Algorithm {
 	abstract public void setConfigurationValue(String identifier, boolean value);
 
 	/**
-	 * Sets a csv file configuration value on the algorithm.
+	 * Sets a CsvFileGenerator configuration value on the algorithm.
 	 * 
 	 * @param identifier
 	 * @param value
 	 */
-	abstract public void setConfigurationValue(String identifier, CsvFileConfiguration value);
+	abstract public void setConfigurationValue(String identifier, CsvFileGenerator value);
 	
 }

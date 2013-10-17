@@ -1,6 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 
 /**
  * Represents csv file configuration values for {@link Algorithm}s.
@@ -8,7 +9,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 public class ConfigurationValueCsvFile implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final CsvFileConfiguration value;
+	protected final CsvFileGenerator value;
 	
 	/**
 	 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
@@ -16,7 +17,7 @@ public class ConfigurationValueCsvFile implements ConfigurationValue {
 	 * @param identifier
 	 * @param value
 	 */
-	public ConfigurationValueCsvFile(String identifier, CsvFileConfiguration value) {
+	public ConfigurationValueCsvFile(String identifier, CsvFileGenerator value) {
 		this.identifier = identifier;
 		this.value = value;
 	}
