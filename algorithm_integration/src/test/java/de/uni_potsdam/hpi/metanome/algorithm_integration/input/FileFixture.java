@@ -15,10 +15,11 @@ public class FileFixture {
 	public String getTestDataPath(String fileName) throws FileNotFoundException {
 		String filePath = ClassLoader.getSystemResource("").getPath();
 		filePath += fileName;
+		File file = new File(filePath);
 		// Mark files for deletion once vm exits.
-		new File(filePath).deleteOnExit();
+		file.deleteOnExit();
 		
-		PrintWriter writer = new PrintWriter(filePath);
+		PrintWriter writer = new PrintWriter(file);
 		
 		writer.print(fileData);
 		writer.close();
