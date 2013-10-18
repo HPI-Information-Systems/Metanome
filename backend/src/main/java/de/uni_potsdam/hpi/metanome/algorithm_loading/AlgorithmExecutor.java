@@ -10,7 +10,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-public class AlgorithmExecuter {
+public class AlgorithmExecutor {
 
 	/**
 	 * 

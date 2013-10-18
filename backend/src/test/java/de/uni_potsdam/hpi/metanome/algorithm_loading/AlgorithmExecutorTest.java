@@ -22,13 +22,13 @@ import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWrite
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
 
-public class AlgorithmExecutionTest {
+public class AlgorithmExecutorTest {
 	
-	private AlgorithmExecuter executer;
+	private AlgorithmExecutor executer;
 	
 	@Before
 	public void setUp(){
-		executer = new AlgorithmExecuter();
+		executer = new AlgorithmExecutor();
 	}
 
 	@Test
