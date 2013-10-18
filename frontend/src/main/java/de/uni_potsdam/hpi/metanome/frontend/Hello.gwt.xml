@@ -11,6 +11,8 @@
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl" />
 	<servlet path="/executionService"
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl" />
+	<servlet path="/inputDataService"
+			 class="de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl" />
 			 
 	
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
