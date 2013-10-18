@@ -126,6 +126,16 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals("test.csv", csv.getValue());
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInputParameterCsvFile() {
+		//Setup
+		InputParameter csv = new InputParameterCsvFile("inputFile");
+
+		assertEquals("--", ((ValueListBox<String>) csv.getWidget()).getValue());
+		//TODO: how to test if correct values are there?
+	}
+	
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
