@@ -2,6 +2,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.LinkedList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.LinkedList;
  */
 public class InputDataFinder {
 
-	public String[] getAvailableCsvs() {
+	public String[] getAvailableCsvs() throws UnsupportedEncodingException {
 		LinkedList<String> availableCsvs = new LinkedList<String>();
 		String pathToFolder = ClassLoader.getSystemResource("inputData").getPath();
 		File[] csvFiles = retrieveCsvFiles(pathToFolder);
@@ -23,13 +25,15 @@ public class InputDataFinder {
 
 	/**
 	 * retrieves all CSV Files located directly in the given directory
-	 * TODO consider sharing code with algorithm finding mtehods
+	 * TODO consider sharing code with algorithm finding methods
 	 * 
 	 * @param pathToFolder	path to the folder to be searched in 
 	 * @return names of all CSV files located directly in the given directory (no subfolders)
+	 * 
+	 * @throws UnsupportedEncodingException 
 	 */
-	public File[] retrieveCsvFiles(String pathToFolder) {
-		File folder = new File(pathToFolder);
+	protected File[] retrieveCsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+		File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
 		File[] csvs = folder.listFiles(new FilenameFilter() {
 		    @Override
 		    public boolean accept(File file, String name) {

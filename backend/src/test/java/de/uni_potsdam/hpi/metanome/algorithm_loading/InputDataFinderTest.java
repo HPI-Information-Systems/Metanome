@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class InputDataFinderTest {
 	}
 
 	@Test
-	public void testRetrieveCsvFiles() {
+	public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
 		//Setup
 		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
 		
