@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
 
 import org.junit.After;
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class AlgorithmFinderTest {
 	public void getAlgorithmType() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		// Setup
 		String jarFilePath = ClassLoader.getSystemResource("algorithms/testjar.jar").getFile();
-		File file = new File(jarFilePath);
+		File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 		
 		// Execute functionality
 		Class<?> algorithmType = new AlgorithmFinder().getAlgorithmClass(file);
