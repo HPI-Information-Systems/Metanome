@@ -3,8 +3,10 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.LinkedList;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -47,9 +49,11 @@ public class AlgorithmFinder {
 	 * 
 	 * @param pathToFolder	Path to search for jar files
 	 * @return an array of Files with ".jar" ending
+	 * 
+	 * @throws UnsupportedEncodingException 
 	 */
-	private File[] retrieveJarFiles(String pathToFolder) {
-		File folder = new File(pathToFolder);
+	private File[] retrieveJarFiles(String pathToFolder) throws UnsupportedEncodingException {
+		File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
 		File[] jars = folder.listFiles(new FilenameFilter() {
 		    @Override
 		    public boolean accept(File file, String name) {
