@@ -14,7 +14,7 @@ public class FileFixture {
 		this.fileData = fileData;
 	}
 	
-	public String getTestDataPath(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+	public File getTestData(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		String filePath = ClassLoader.getSystemResource("").getPath();
 		filePath += fileName;
 		File file = new File(URLDecoder.decode(filePath, "utf-8"));
@@ -26,6 +26,6 @@ public class FileFixture {
 		writer.print(fileData);
 		writer.close();
 		
-		return filePath;
+		return file;
 	}
 }
