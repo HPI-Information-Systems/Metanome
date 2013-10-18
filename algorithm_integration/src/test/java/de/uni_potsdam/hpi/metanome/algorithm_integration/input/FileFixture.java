@@ -3,6 +3,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class FileFixture {
 
@@ -12,10 +14,10 @@ public class FileFixture {
 		this.fileData = fileData;
 	}
 	
-	public String getTestDataPath(String fileName) throws FileNotFoundException {
+	public String getTestDataPath(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		String filePath = ClassLoader.getSystemResource("").getPath();
 		filePath += fileName;
-		File file = new File(filePath);
+		File file = new File(URLDecoder.decode(filePath, "utf-8"));
 		// Mark files for deletion once vm exits.
 		file.deleteOnExit();
 		
