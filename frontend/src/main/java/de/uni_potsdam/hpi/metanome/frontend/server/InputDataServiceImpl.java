@@ -3,8 +3,9 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 
-public class InputDataServiceImpl extends RemoteServiceServlet {
+public class InputDataServiceImpl extends RemoteServiceServlet implements InputDataService {
 
 	private static final long serialVersionUID = -4303653997579507943L;
 	
