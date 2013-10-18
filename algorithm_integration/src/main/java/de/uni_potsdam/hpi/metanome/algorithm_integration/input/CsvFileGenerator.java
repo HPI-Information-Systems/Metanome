@@ -17,6 +17,10 @@ public class CsvFileGenerator {
 	protected boolean strictQuotes;
 	protected boolean ignoreLeadingWhiteSpace;
 	
+	public CsvFileGenerator(File inputFile) {
+		this.inputFile = inputFile;
+	}
+	
 	public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int line, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
 		this.inputFile = inputFile;
 		this.separator = separator;
@@ -29,6 +33,7 @@ public class CsvFileGenerator {
 	}
 
 	public SimpleRelationalInput generateNewCsvFile() throws FileNotFoundException, IOException {
+		// TODO: call more sofisticated constructor.
 		return new CsvFile(new CSVReader(new FileReader(inputFile)));	
 	}
 
