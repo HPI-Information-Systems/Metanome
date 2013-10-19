@@ -12,7 +12,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
 public class InputParameterCsvFile extends InputParameter {
 	private static final long serialVersionUID = -4018145396259206308L;
 
-	private String valueFileName;
+	private String filePath;
 	
 	public InputParameterCsvFile(){
 		super();
@@ -28,12 +28,12 @@ public class InputParameterCsvFile extends InputParameter {
 	}
 	
 	public void setValue(String value) {
-		this.valueFileName = value;
+		this.filePath = value;
 	}
 
 	@Override
-	public Object getValue() {
-		return valueFileName;
+	public String getValue() {
+		return filePath;
 	}
 
 	@Override
@@ -57,13 +57,19 @@ public class InputParameterCsvFile extends InputParameter {
 
 		      public void onSuccess(String[] result) { 
 		    	  for (String value : result){
-		    		  listbox.addItem(value);
+		    		  String displayName = value.substring(value.lastIndexOf("/") + 1);
+		    		  listbox.addItem(displayName, value);
 		    	  }
 		      }
 		    };
 		    
 		InputDataServiceAsync service = GWT.create(InputDataService.class);  
 		service.listCsvInputFiles(callback);
+	}
+
+	public boolean isAdvanced() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

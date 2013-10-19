@@ -4,23 +4,17 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.LinkedList;
 
 /**
  * 
  */
 public class InputDataFinder {
 
-	public String[] getAvailableCsvs() throws UnsupportedEncodingException {
-		LinkedList<String> availableCsvs = new LinkedList<String>();
+	public File[] getAvailableCsvs() throws UnsupportedEncodingException {
 		String pathToFolder = ClassLoader.getSystemResource("inputData").getPath();
 		File[] csvFiles = retrieveCsvFiles(pathToFolder);
-		for (File csvFile : csvFiles){
-			availableCsvs.add(csvFile.getName());
-		}
 		
-		String[] stringArray = new String[availableCsvs.size()];
-		return availableCsvs.toArray(stringArray);
+		return csvFiles;
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
@@ -17,7 +19,7 @@ public class InputDataServiceImpl extends RemoteServiceServlet implements InputD
 	 * @return	a list of filenames (without path)
 	 */
 	public String[] listCsvInputFiles () {
-		String[] csvInputFiles = null;
+		File[] csvInputFiles = null;
 		try {
 			csvInputFiles = inputDataFinder.getAvailableCsvs();
 		} catch (Exception e){
@@ -25,7 +27,13 @@ public class InputDataServiceImpl extends RemoteServiceServlet implements InputD
 			System.out.println("FAILED to FIND input CSV files");
 			e.printStackTrace();
 		}
-		return csvInputFiles;
+		
+		String[] csvInputFilePaths = new String[csvInputFiles.length];
+		for (int i=0; i<csvInputFiles.length; i++){
+			csvInputFilePaths[i] = csvInputFiles[i].getPath();
+		}
+		
+		return csvInputFilePaths;
 	}
 
 }

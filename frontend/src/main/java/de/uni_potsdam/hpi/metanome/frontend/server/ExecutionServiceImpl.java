@@ -1,7 +1,10 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -58,9 +61,18 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 					(Boolean) parameter.getValue());
 		else if (parameter instanceof InputParameterCsvFile)
 			return new ConfigurationValueCsvFile(parameter.getIdentifier(), 
-					new CsvFileGenerator(new File((String) parameter.getValue())));
-		//TODO instantiate CsvFileGenerator correctly
+					buildCsvFileGenerator((InputParameterCsvFile) parameter));
 		return null;
+	}
+
+	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) {
+		File file = new File(parameter.getValue());
+		//TODO make sure the file exists?
+		//TODO instantiate CsvFileGenerator correctly
+		if (parameter.isAdvanced())
+			return new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
+		else 
+			return new CsvFileGenerator(file);
 	}	
 	
 	@Override
