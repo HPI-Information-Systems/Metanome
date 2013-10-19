@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecuter;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
@@ -34,7 +35,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 
 	private static final long serialVersionUID = 1L;
 	
-	AlgorithmExecuter executer = new AlgorithmExecuter();
+	AlgorithmExecutor executer = new AlgorithmExecutor();
 	
 	private List<ConfigurationValue> convertInputParameters(
 			List<InputParameter> parameters) {
@@ -57,9 +58,9 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 					(Boolean) parameter.getValue());
 		else if (parameter instanceof InputParameterCsvFile)
 			return new ConfigurationValueCsvFile(parameter.getIdentifier(), 
-					new CsvFileGenerator((String) parameter.getValue()));
-		else
-			return null;
+					new CsvFileGenerator(new File((String) parameter.getValue())));
+		//TODO instantiate CsvFileGenerator correctly
+		return null;
 	}	
 	
 	@Override
