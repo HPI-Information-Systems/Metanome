@@ -129,11 +129,13 @@ public class GwtTestParameter extends GWTTestCase {
 	public void testInputParameterCsvFile() {
 		//Setup
 		InputParameter csv = new InputParameterCsvFile("inputFile");
-
+		
+		//Execute
 		MetanomeListBox listbox = (MetanomeListBox) csv.getWidget();
 		assertEquals("--", listbox.getValue());
-		//TODO: test if correct values are there
 	}
+	
+	//TODO separate test to check that available options are added
 	
 	@Override
 	public String getModuleName() {
