@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -32,7 +33,7 @@ public class InputDataFinderTest {
 	@Test
 	public void testRetrieveAllCsvFiles() throws IOException, ClassNotFoundException {		
 		//Execute
-		String[] csvs = inputDataFinder.getAvailableCsvs();
+		File[] csvs = inputDataFinder.getAvailableCsvs();
 		
 		//Check
 		assertTrue(csvs.length > 0);
