@@ -30,6 +30,7 @@ public class ExecutionServiceTest extends TestCase {
 		InputParameterString stringParam = new InputParameterString("test");
 		InputParameterBoolean boolParam = new InputParameterBoolean("boolean");
 		InputParameterCsvFile csvParam = new InputParameterCsvFile("inputFile");
+		csvParam.setValue("inputA.csv");
 		
 		//Execute
 		ConfigurationValue confString = executionService.convertToConfigurationValue(stringParam);
