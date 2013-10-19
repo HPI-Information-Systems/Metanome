@@ -31,7 +31,7 @@ public class CsvFileGeneratorTest {
 		this.expectedSeparator = CsvFileFixture.SEPARATOR;
 		this.expectedQuotechar = CsvFileFixture.QUOTE_CHAR;
 		this.expectedEscape = '\\';
-		this.expectedLine = 1;
+		this.expectedLine = 0;
 		this.expectedStrictQuotes = true;
 		this.expectedIgnoreLeadingWhiteSpace = true;
 		this.generator = new CsvFileGenerator(expectedFile, expectedSeparator, expectedQuotechar, expectedEscape, expectedLine, expectedStrictQuotes, expectedIgnoreLeadingWhiteSpace);
@@ -55,7 +55,6 @@ public class CsvFileGeneratorTest {
 		assertEquals(expectedLine, generator.line);
 		assertEquals(expectedStrictQuotes, generator.strictQuotes);
 		assertEquals(expectedIgnoreLeadingWhiteSpace, generator.ignoreLeadingWhiteSpace);
-		
 	}
 	
 	/**
