@@ -8,7 +8,6 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ValueListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
@@ -48,7 +47,7 @@ public class GwtTestParameter extends GWTTestCase {
 		
 		// - CSV FILE row
 		assertEquals(2, pt.getCellCount(0));
-		assertEquals(pt.getWidget(3, 1).getClass(), ValueListBox.class);
+		assertEquals(pt.getWidget(3, 1).getClass(), MetanomeListBox.class);
 		
 		//Execute - submit
 		pt.setParameterValues(paramList);
@@ -126,14 +125,14 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals("test.csv", csv.getValue());
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testInputParameterCsvFile() {
 		//Setup
 		InputParameter csv = new InputParameterCsvFile("inputFile");
 
-		assertEquals("--", ((ValueListBox<String>) csv.getWidget()).getValue());
-		//TODO: how to test if correct values are there?
+		MetanomeListBox listbox = (MetanomeListBox) csv.getWidget();
+		assertEquals("--", listbox.getValue());
+		//TODO: test if correct values are there
 	}
 	
 	@Override

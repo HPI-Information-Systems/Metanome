@@ -2,9 +2,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.util.List;
 
+import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
@@ -48,7 +48,7 @@ public class ParameterTable extends FlexTable {
 		int i = 0;
 		for (InputParameter param : params) {
 			Widget widget = this.getWidget(i, 1);
-			Object value = ((HasValue<?>) widget).getValue();
+			Object value = ((TakesValue<?>) widget).getValue();
 
 			param.setValue(value);
 			i++;

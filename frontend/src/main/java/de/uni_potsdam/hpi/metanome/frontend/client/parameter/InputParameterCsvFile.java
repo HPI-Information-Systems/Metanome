@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.MetanomeListBox;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -37,7 +38,7 @@ public class InputParameterCsvFile extends InputParameter {
 
 	@Override
 	public Widget getWidget() {
-		ListBox listbox = new ListBox();
+		ListBox listbox = new MetanomeListBox();
 		
 		//unselectable default entry
 		listbox.addItem("--");
