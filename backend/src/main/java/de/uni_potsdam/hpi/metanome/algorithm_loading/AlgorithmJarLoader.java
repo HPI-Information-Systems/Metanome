@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -37,7 +38,7 @@ public class AlgorithmJarLoader<T extends Algorithm> {
 	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
 		
-		File file = new File(pathToFolder + "/" + path);
+		File file = new File(URLDecoder.decode(pathToFolder + "/" + path, "utf-8"));
 		JarFile jar = new JarFile(file);
 		
 		Manifest man = jar.getManifest();

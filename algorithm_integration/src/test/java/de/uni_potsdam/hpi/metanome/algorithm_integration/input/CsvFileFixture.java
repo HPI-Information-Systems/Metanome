@@ -1,6 +1,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +20,8 @@ public class CsvFileFixture {
 		this.fileFixture = new FileFixture(getCsvFileData());
 	}
 	
-	public String getTestDataPath(String fileName) throws FileNotFoundException {
-		return fileFixture.getTestDataPath(fileName);
+	public File getTestDataPath(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+		return fileFixture.getTestData(fileName);
 	}
 	
 	protected String getCsvFileData() {
