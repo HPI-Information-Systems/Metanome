@@ -13,9 +13,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-public class ExampleAlgorithm extends UniqueColumnCombinationsAlgorithm {
+public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 
 	protected String path = null;
+	protected UniqueColumnCombinationResultReceiver resultReceiver;
 
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
@@ -26,9 +27,7 @@ public class ExampleAlgorithm extends UniqueColumnCombinationsAlgorithm {
 		return configurationSpecification;
 	}
 
-	
-	@Override
-	public void start(UniqueColumnCombinationResultReceiver resultReceiver) {
+	public void start() {
 		if (path != null) {
 			try {
 				resultReceiver.receiveResult(
@@ -42,23 +41,22 @@ public class ExampleAlgorithm extends UniqueColumnCombinationsAlgorithm {
 		}
 	}
 
-	@Override
+	public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
+		this.resultReceiver = resultReceiver;
+	}
+
 	public void setConfigurationValue(String identifier, String value) {
 		if (identifier.equals("pathToInputFile")) {
 			path = value;
-		}
+		}		
 	}
 
-	@Override
 	public void setConfigurationValue(String identifier, boolean value) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();		
 	}
 
-	@Override
 	public void setConfigurationValue(String identifier, CsvFileGenerator value) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();		
 	}
 
 }

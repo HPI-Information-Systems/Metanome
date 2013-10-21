@@ -16,8 +16,8 @@
 
   <repositories>
     <repository>
-      <id>metanome</id>
-      <url>http://myhpi.de/~jakob.zwiener/maven</url>
+      <id>metanomeRepo</id>
+      <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url>
     </repository>
   </repositories>
 

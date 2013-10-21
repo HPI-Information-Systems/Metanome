@@ -81,9 +81,10 @@ public class ExampleAlgorithmTest {
 		this.algorithm.setConfigurationValue(pathIdentifier, "something");
 		
 		// Execute functionality
-		this.algorithm.start(resultReceiver);
+		this.algorithm.setResultReceiver(resultReceiver);
+		this.algorithm.start();
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));
-		}
+	}
 }
