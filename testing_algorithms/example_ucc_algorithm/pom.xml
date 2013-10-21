@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.uni-potsdam.hpi.metanome</groupId>
-  <artifactId>example_algorithm</artifactId>
+  <artifactId>example_ucc_algorithm</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>example_algorithm</name>
+  <name>example_ucc_algorithm</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -53,14 +53,15 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2.1</version>
         <configuration>
+          <archive>
+            <manifestEntries>
+              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_ucc_algorithm.ExampleAlgorithm</Algorithm-Bootstrap-Class>
+            </manifestEntries>
+          </archive>
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-          <archive>
-            <manifestEntries>
-              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_algorithm.ExampleAlgorithm</Algorithm-Bootstrap-Class>
-            </manifestEntries>
-          </archive>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
         <executions>
           <execution>

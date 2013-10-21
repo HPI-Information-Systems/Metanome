@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.example_algorithm;
+package de.uni_potsdam.hpi.metanome.example_ucc_algorithm;
 
 import java.util.ArrayList;
 import java.util.List;

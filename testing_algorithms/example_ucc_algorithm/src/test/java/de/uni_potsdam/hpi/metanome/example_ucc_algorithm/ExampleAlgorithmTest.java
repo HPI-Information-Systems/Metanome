@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.example_algorithm;
+package de.uni_potsdam.hpi.metanome.example_ucc_algorithm;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
@@ -18,6 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.example_ucc_algorithm.ExampleAlgorithm;
 
 public class ExampleAlgorithmTest {
 
