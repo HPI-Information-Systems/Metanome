@@ -11,10 +11,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
+import de.uni_potsdam.hpi.metanome.input.CsvFileGenerator;
 import junit.framework.TestCase;
 
 public class ExecutionServiceTest extends TestCase {

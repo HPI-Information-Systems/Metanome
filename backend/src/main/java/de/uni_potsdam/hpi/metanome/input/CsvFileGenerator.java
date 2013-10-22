@@ -1,10 +1,13 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
+package de.uni_potsdam.hpi.metanome.input;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 

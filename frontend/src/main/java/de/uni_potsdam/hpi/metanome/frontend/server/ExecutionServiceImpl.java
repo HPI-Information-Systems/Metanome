@@ -14,7 +14,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -25,6 +24,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoole
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
+import de.uni_potsdam.hpi.metanome.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
