@@ -7,7 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -37,7 +39,7 @@ public class AlgorithmFinder {
 		
 		for (File jarFile : jarFiles){
 			if (algorithmSubclass == null || 
-					algorithmSubclass.isAssignableFrom(getAlgorithmClass(jarFile)))
+					getAlgorithmInterfaces(jarFile).contains(algorithmSubclass))
 				availableAlgorithms.add(jarFile.getName());
 		}
 		
@@ -76,7 +78,7 @@ public class AlgorithmFinder {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public Class<?> getAlgorithmClass(File file) throws IOException, ClassNotFoundException {
+	public List<Class<?>> getAlgorithmInterfaces(File file) throws IOException, ClassNotFoundException {
 		JarFile jar = new JarFile(file);
 		
 		Manifest man = jar.getManifest();
@@ -88,7 +90,6 @@ public class AlgorithmFinder {
         
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
-		return algorithmClass.getSuperclass();
-	}
-	
+		return Arrays.asList(algorithmClass.getInterfaces());
+	}	
 }

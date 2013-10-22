@@ -15,20 +15,20 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Inclusi
 
 public class ExampleAlgorithm implements InclusionDependencyAlgorithm {
 
-	protected String path = null;
+	protected String tableName = null;
 	protected InclusionDependencyResultReceiver resultReceiver;
 
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 		
-		configurationSpecification.add(new ConfigurationSpecificationString("pathToInputFile"));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
+		configurationSpecification.add(new ConfigurationSpecificationString("tableName"));
 		
 		return configurationSpecification;
 	}
 
 	public void start() {
-		if (path != null) {
+		if (tableName != null) {
 			try {
 				resultReceiver.receiveResult(
 						new ColumnCombination(
@@ -49,8 +49,8 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm {
 	}
 
 	public void setConfigurationValue(String identifier, String value) {
-		if (identifier.equals("pathToInputFile")) {
-			path = value;
+		if (identifier.equals("tableName")) {
+			tableName = value;
 		}		
 	}
 

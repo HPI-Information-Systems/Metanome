@@ -4,6 +4,8 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +34,14 @@ public class AlgorithmExecutorTest {
 	}
 
 	@Test
-	public void executeUniqueColumnCombinationsAlgorithmTest() throws CouldNotReceiveResultException {
+	public void executeFunctionalDependencyAlgorithmTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
-		configs.add(new ConfigurationValueString("pathToInputFile", "blub"));
-		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationFileWriter.class);
-				
-		// Execute
-		executer.executeUniqueColumnCombinationsAlgorithm("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", configs, 
-				resultReceiver);
-		
-		// Check result
-		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));
-	}
-	
-	@Test
-	public void executeFunctionalDependencyAlgorithmTest() throws CouldNotReceiveResultException {
-		// Setup
-		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
-		configs.add(new ConfigurationValueString("pathToOutputFile", "blub"));
+		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 		FunctionalDependencyResultReceiver resultReceiver = mock(FunctionalDependencyFileWriter.class);
 				
 		// Execute TODO
-		executer.executeFunctionalDependencyAlgorithm("example_fd_algorithm_0.0.1.jar", configs, 
+		executer.executeFunctionalDependencyAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs, 
 				resultReceiver);
 		
 		// Check result
@@ -62,18 +49,33 @@ public class AlgorithmExecutorTest {
 	}
 	
 	@Test
-	public void executeInclusionDependencyTest() throws CouldNotReceiveResultException {
+	public void executeInclusionDependencyTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
-		configs.add(new ConfigurationValueString("tableName", "blub"));
+		configs.add(new ConfigurationValueString("tableName", "table1"));
 		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyFileWriter.class);		
 		
 		// Execute
-		executer.executeInclusionDependencyAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", configs, 
+		executer.executeInclusionDependencyAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs, 
 				resultReceiver);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
 
+	}
+	
+	@Test
+	public void executeUniqueColumnCombinationsAlgorithmTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		// Setup
+		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
+		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationFileWriter.class);
+				
+		// Execute
+		executer.executeUniqueColumnCombinationsAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, 
+				resultReceiver);
+		
+		// Check result
+		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));
 	}
 }

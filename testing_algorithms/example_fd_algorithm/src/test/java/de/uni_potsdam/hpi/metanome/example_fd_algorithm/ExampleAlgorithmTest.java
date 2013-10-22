@@ -31,7 +31,7 @@ public class ExampleAlgorithmTest {
 	@Before
 	public void setUp() throws Exception {
 		algorithm = new ExampleAlgorithm();
-		pathIdentifier = "pathToInputFile";
+		pathIdentifier = "pathToOutputFile";
 	}
 
 	/**

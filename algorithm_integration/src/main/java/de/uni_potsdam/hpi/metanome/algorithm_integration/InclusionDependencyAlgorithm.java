@@ -2,17 +2,16 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
-
 /**
  * An {@link Algorithm} that discovers inclusion dependencies.
  */
-public abstract class InclusionDependencyAlgorithm extends Algorithm {
+public interface InclusionDependencyAlgorithm extends Algorithm {
 
 	/**
-	 * Starts the execution of the algorithm and sends the results to 
-	 * an {@link InclusionDependencyResultReceiver}.
+	 * Sets a {@link InclusionDependencyResultReceiver} to send the results to.
 	 * 
 	 * @param resultReceiver
 	 */
-	abstract public void start(InclusionDependencyResultReceiver resultReceiver);
+	void setResultReceiver(InclusionDependencyResultReceiver resultReceiver);
+	
 }
