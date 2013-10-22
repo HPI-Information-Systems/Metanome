@@ -25,7 +25,7 @@ public class ParameterServiceTest extends TestCase {
 		ParameterServiceImpl parameterService = new ParameterServiceImpl();
 		
 		//Execute
-		List<InputParameter> inputParameters = parameterService.retrieveUniqueColumnCombinationsParameters("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+		List<InputParameter> inputParameters = parameterService.retrieveUniqueColumnCombinationsParameters("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");
 		
 		//Check
 		assertNotNull(inputParameters);

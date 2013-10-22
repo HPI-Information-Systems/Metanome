@@ -23,83 +23,91 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
  */
 public class GwtTestServiceCall extends GWTTestCase {
     
+	/**
+	 * TODO: docs
+	 */
 	@Test
-	public void testExecutionService(){
-		//Setup
+	public void testExecutionService() {
+		// Setup
 		List<InputParameter> configs = new ArrayList<InputParameter>();
-		InputParameterString inputParameter = new InputParameterString("pathToInputFile");
-		inputParameter.setValue("blub");
+		InputParameterString inputParameter = new InputParameterString(
+				"pathToInputFile");
+		inputParameter.setValue("path/to/file");
 		configs.add(inputParameter);
-		
+
 		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-		      public void onFailure(Throwable caught) {
-		    	  fail();
-		      }
+			public void onFailure(Throwable caught) {
+				fail();
+			}
 
-		      public void onSuccess(Void result) {  	  
-		    	  finishTest();
-		      }
-		    };
+			public void onSuccess(Void result) {
+				finishTest();
+			}
+		};
 
-		  ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-		  
-		  
-		  // Set a delay period
-		  delayTestFinish(500);
+		ExecutionServiceAsync executionService = GWT
+				.create(ExecutionService.class);
 
-		  //Execute
-		  executionService.executeUniqueColumnCombinationsAlgorithm(
-				  "example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", 
-				  configs, callback);
+		// Set a delay period
+		delayTestFinish(500);
 
+		// Execute
+		executionService.executeUniqueColumnCombinationsAlgorithm(
+				"example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, callback);
 	}
-	
+
+	/**
+	 * TODO: docs
+	 */
 	@Test
-	public void testParameterService(){
-		//Setup
+	public void testParameterService() {
+		// Setup
 		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
-		      public void onFailure(Throwable caught) {
-		    	  fail();
-		      }
+			public void onFailure(Throwable caught) {
+				fail();
+			}
 
-		      public void onSuccess(List<InputParameter> result) {  	  
-		    	  assertNotNull(result);
-		    	  finishTest();
-		      }
-		    };
+			public void onSuccess(List<InputParameter> result) {
+				assertNotNull(result);
+				finishTest();
+			}
+		};
 
-		  ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
-		  
-		  
-		  // Set a delay period
-		  delayTestFinish(500);
+		ParameterServiceAsync parameterService = GWT
+				.create(ParameterService.class);
 
-		  //Execute
-		  parameterService.retrieveUniqueColumnCombinationsParameters(
-				  "example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar", callback);
+		// Set a delay period
+		delayTestFinish(500);
+
+		// Execute
+		parameterService.retrieveUniqueColumnCombinationsParameters(
+				"example_ucc_algorithm-0.0.1-SNAPSHOT.jar", callback);
 
 	}
 	
+	/**
+	 * TODO: docs
+	 */
 	@Test
-	public void testFinderService(){
-		//Setup
+	public void testFinderService() {
+		// Setup
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
-		      public void onFailure(Throwable caught) {
-		    	  fail();
-		      }
+			public void onFailure(Throwable caught) {
+				fail();
+			}
 
-		      public void onSuccess(String[] result) {  	  
-		    	  assertNotNull(result);
-		    	  finishTest();
-		      }
-		    };
+			public void onSuccess(String[] result) {
+				assertNotNull(result);
+				finishTest();
+			}
+		};
 
-		  FinderServiceAsync finderService = GWT.create(FinderService.class);
-		  
-		  // Set a delay period
-		  delayTestFinish(500);
+		FinderServiceAsync finderService = GWT.create(FinderService.class);
 
-		  finderService.listInclusionDependencyAlgorithms(callback);
+		// Set a delay period
+		delayTestFinish(500);
+
+		finderService.listInclusionDependencyAlgorithms(callback);
 
 	}
 	
