@@ -21,7 +21,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm {
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 		
-		configurationSpecification.add(new ConfigurationSpecificationString("pathToInputFile"));
+		configurationSpecification.add(new ConfigurationSpecificationString("pathToOutputFile"));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
 		
 		return configurationSpecification;
@@ -47,7 +47,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm {
 	}
 
 	public void setConfigurationValue(String identifier, String value) {
-		if (identifier.equals("pathToInputFile")) {
+		if (identifier.equals("pathToOutputFile")) {
 			path = value;
 		}		
 	}

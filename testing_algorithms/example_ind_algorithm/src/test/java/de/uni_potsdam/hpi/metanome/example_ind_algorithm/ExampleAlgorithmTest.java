@@ -1,8 +1,6 @@
 package de.uni_potsdam.hpi.metanome.example_ind_algorithm;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -15,14 +13,13 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
 public class ExampleAlgorithmTest {
 
 	protected ExampleAlgorithm algorithm;
-	protected String pathIdentifier;
+	protected String tableIdentifier;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -30,7 +27,7 @@ public class ExampleAlgorithmTest {
 	@Before
 	public void setUp() throws Exception {
 		algorithm = new ExampleAlgorithm();
-		pathIdentifier = "pathToInputFile";
+		tableIdentifier = "tableName";
 	}
 
 	/**
@@ -51,7 +48,6 @@ public class ExampleAlgorithmTest {
 		
 		// Check result
 		assertEquals(2, actualConfigurationRequirements.size());
-		assertThat(actualConfigurationRequirements.get(0), instanceOf(ConfigurationSpecificationString.class));
 	}
 
 	/**
@@ -64,10 +60,10 @@ public class ExampleAlgorithmTest {
 		String expectedConfigurationValue = "test";
 		
 		// Execute functionality
-		this.algorithm.setConfigurationValue(pathIdentifier, expectedConfigurationValue);
+		this.algorithm.setConfigurationValue(tableIdentifier, expectedConfigurationValue);
 		
 		// Check result
-		assertEquals(expectedConfigurationValue, this.algorithm.path);
+		assertEquals(expectedConfigurationValue, this.algorithm.tableName);
 	}
 
 	/**
@@ -78,7 +74,7 @@ public class ExampleAlgorithmTest {
 	public void testStart() throws CouldNotReceiveResultException {
 		// Setup
 		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyResultReceiver.class);
-		this.algorithm.setConfigurationValue(pathIdentifier, "something");
+		this.algorithm.setConfigurationValue(tableIdentifier, "something");
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
