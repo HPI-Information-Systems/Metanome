@@ -9,7 +9,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlg
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 
@@ -56,8 +56,8 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm {
 		throw new UnsupportedOperationException();		
 	}
 
-	public void setConfigurationValue(String identifier, CsvFileGenerator value) {
-		throw new UnsupportedOperationException();		
+	public void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) {
+		throw new UnsupportedOperationException();	
 	}
 
 }

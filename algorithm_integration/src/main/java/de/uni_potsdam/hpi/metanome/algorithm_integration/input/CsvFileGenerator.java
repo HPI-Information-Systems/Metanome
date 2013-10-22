@@ -8,7 +8,7 @@ import java.io.IOException;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-public class CsvFileGenerator {
+public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 
 	protected File inputFile;
 	protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -32,8 +32,13 @@ public class CsvFileGenerator {
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
 
-	public SimpleRelationalInput generateNewCsvFile() throws FileNotFoundException, IOException {
-		return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));	
+	public SimpleRelationalInput generateNewCopy() throws SimpleRelationalInputGenerationException {
+		try {
+			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
+		} catch (FileNotFoundException e) {
+			throw new SimpleRelationalInputGenerationException();
+		} catch (IOException e) {
+			throw new SimpleRelationalInputGenerationException();
+		}	
 	}
-
 }

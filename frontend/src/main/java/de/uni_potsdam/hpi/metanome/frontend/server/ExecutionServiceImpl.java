@@ -12,7 +12,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
@@ -59,7 +59,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			return new ConfigurationValueBoolean(parameter.getIdentifier(), 
 					(Boolean) parameter.getValue());
 		else if (parameter instanceof InputParameterCsvFile)
-			return new ConfigurationValueCsvFile(parameter.getIdentifier(), 
+			return new ConfigurationValueSimpleRelationalInputGenerator(parameter.getIdentifier(), 
 					buildCsvFileGenerator((InputParameterCsvFile) parameter));
 		return null;
 	}

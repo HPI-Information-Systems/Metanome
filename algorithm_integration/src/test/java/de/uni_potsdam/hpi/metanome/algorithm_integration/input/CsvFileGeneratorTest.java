@@ -60,19 +60,20 @@ public class CsvFileGeneratorTest {
 	/**
 	 * The generator should generate fresh csv files iterable from the start.
 	 * 
+	 * @throws SimpleRelationalInputGenerationException 
 	 * @throws IOException 
 	 */
 	@Test
-	public void testGenerateNewCsvFile() throws IOException {
+	public void testGenerateNewCsvFile() throws SimpleRelationalInputGenerationException, IOException {
 		// Setup
-		SimpleRelationalInput csv = generator.generateNewCsvFile();
+		SimpleRelationalInput csv = generator.generateNewCopy();
 		
 		// Check result
 		// The csv should contain both lines and iterate through them with next.
 		assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
 		assertEquals(csvFileFixture.expectedSecondLine(), csv.next());
 		// A new CsvFile should iterate from the start.
-		SimpleRelationalInput csv2 = generator.generateNewCsvFile();
+		SimpleRelationalInput csv2 = generator.generateNewCopy();
 		assertEquals(csvFileFixture.expectedFirstLine(), csv2.next());
 		assertEquals(csvFileFixture.expectedSecondLine(), csv2.next());		
 	}
