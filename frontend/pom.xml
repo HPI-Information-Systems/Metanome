@@ -81,6 +81,7 @@
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
           <out>${project.build.directory}/www-test</out>
+          <testTimeOut>120</testTimeOut>
         </configuration>
       </plugin>
 
