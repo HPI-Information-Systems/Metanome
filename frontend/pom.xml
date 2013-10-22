@@ -47,6 +47,12 @@
     	<artifactId>backend</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+    	<artifactId>example_ucc_algorithm</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	<scope>runtime</scope>
+    </dependency>
   </dependencies> 
   
   <build>
@@ -75,6 +81,7 @@
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <mode>HtmlUnit</mode>
           <out>${project.build.directory}/www-test</out>
+          <testTimeOut>120</testTimeOut>
         </configuration>
       </plugin>
 
@@ -99,7 +106,6 @@
           </execution>
         </executions>
       </plugin>
-
 
       <plugin>
         <artifactId>maven-eclipse-plugin</artifactId>
@@ -132,6 +138,64 @@
 	    </executions>
       </plugin>
       
+      <plugin>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-dependency-plugin</artifactId>
+      	<executions>
+      	  <execution>
+            <id>copyTestArtifacts</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                  <artifactId>example_ucc_algorithm</artifactId>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>src/main/resources/algorithms</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+      	</executions>
+      </plugin>
+      
     </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.apache.maven.plugins
+    								</groupId>
+    								<artifactId>
+    									maven-dependency-plugin
+    								</artifactId>
+    								<versionRange>[2.1,)</versionRange>
+    								<goals>
+    									<goal>copy</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
 </project>
