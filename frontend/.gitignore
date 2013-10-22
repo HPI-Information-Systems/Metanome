@@ -5,3 +5,5 @@
 /.gwt
 /gwt-unitCache
 /www-test
+/src/main/resources/algorithms
+/results
