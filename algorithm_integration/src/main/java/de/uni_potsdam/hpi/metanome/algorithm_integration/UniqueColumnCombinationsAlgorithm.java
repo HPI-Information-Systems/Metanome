@@ -5,13 +5,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
 /**
  * An {@link Algorithm} that discovers unique {@link ColumnCombination}s.
  */
-public abstract class UniqueColumnCombinationsAlgorithm extends Algorithm {
+public interface UniqueColumnCombinationsAlgorithm extends Algorithm {
 
 	/**
-	 * Starts the execution of the algorithm and sends the results to
-	 * an {@link UniqueColumnCombinationResultReceiver}. 
+	 * Sets a {@link UniqueColumnCombinationResultReceiver} to send the results to.
 	 * 
 	 * @param resultReceiver
 	 */
-	abstract public void start(UniqueColumnCombinationResultReceiver resultReceiver);
+	void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver);
+	
 }

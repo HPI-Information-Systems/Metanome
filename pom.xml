@@ -18,5 +18,6 @@
     <module>algorithm_integration</module>
 	<module>backend</module>
 	<module>frontend</module>
+	<module>testing_algorithms</module>
   </modules>
 </project>

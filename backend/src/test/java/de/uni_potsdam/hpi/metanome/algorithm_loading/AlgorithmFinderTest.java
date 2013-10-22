@@ -1,7 +1,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -52,15 +53,16 @@ public class AlgorithmFinderTest {
 	@Test
 	public void getAlgorithmType() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		// Setup
-		String jarFilePath = ClassLoader.getSystemResource("algorithms/testjar.jar").getFile();
+		String jarFilePath = ClassLoader.getSystemResource("algorithms/example_ucc_algorithm-0.0.1-SNAPSHOT.jar").getFile();
 		File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 		
 		// Execute functionality
-		Class<?> algorithmType = new AlgorithmFinder().getAlgorithmClass(file);
+		List<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
 		
 		// Check result
-		assertNotNull(algorithmType);
-		assertEquals(UniqueColumnCombinationsAlgorithm.class, algorithmType);	
+		assertNotNull(algorithmInterfaces);
+		assertNotEquals(0, algorithmInterfaces.size());
+		assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));	
 	}
 	
 	@Test

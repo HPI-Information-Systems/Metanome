@@ -3,7 +3,6 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
 
 /**
@@ -11,27 +10,14 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
  * configurations and receive the different configuration types.
  * Subclassing of this class will not lead to a functioning algorithm, as only more concrete algorithms can be started.
  */
-public abstract class Algorithm {
+public interface Algorithm {
 	
 	/**
 	 * Algorithms should supply a list of needed configuration parameters.
 	 * 
 	 * @return a list of ConfigurationSpecifications
 	 */
-	abstract public List<ConfigurationSpecification> getConfigurationRequirements();
-	
-	/**
-	 * When receiving a list of {@link ConfigurationValue} the setting of these values should be initiated.
-	 * Double dispatch is used to determine the type and have the appropriate setConfigurationValue method 
-	 * called.
-	 * 
-	 * @param configurationValues
-	 */
-	public void configure(List<ConfigurationValue> configurationValues) {
-		for (ConfigurationValue configurationValue : configurationValues) {
-			configurationValue.triggerSetValue(this);
-		}
-	}
+	List<ConfigurationSpecification> getConfigurationRequirements();
 	
 	/**
 	 * Sets a string configuration value on the algorithm.
@@ -39,7 +25,7 @@ public abstract class Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	abstract public void setConfigurationValue(String identifier, String value);
+	void setConfigurationValue(String identifier, String value);
 	
 	/**
 	 * Sets a boolean configuration value on the algorithm.
@@ -47,7 +33,7 @@ public abstract class Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	abstract public void setConfigurationValue(String identifier, boolean value);
+	void setConfigurationValue(String identifier, boolean value);
 
 	/**
 	 * Sets a CsvFileGenerator configuration value on the algorithm.
@@ -55,6 +41,10 @@ public abstract class Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	abstract public void setConfigurationValue(String identifier, CsvFileGenerator value);
+	void setConfigurationValue(String identifier, CsvFileGenerator value);
 	
+	/**
+	 * Starts the execution of the algorithm.
+	 */
+	void start();
 }

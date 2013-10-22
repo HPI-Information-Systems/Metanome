@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
@@ -17,22 +19,29 @@ public class AlgorithmExecutor {
 	 * @param algorithmName
 	 * @param configs
 	 * @param resultReceiver
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
 	public void executeInclusionDependencyAlgorithm(String algorithmName,
-			List<ConfigurationValue> configs, InclusionDependencyResultReceiver resultReceiver) {
+			List<ConfigurationValue> configs, InclusionDependencyResultReceiver resultReceiver) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		
 		AlgorithmJarLoader<InclusionDependencyAlgorithm> loader = 
 				new AlgorithmJarLoader<InclusionDependencyAlgorithm>(InclusionDependencyAlgorithm.class);
 		InclusionDependencyAlgorithm algorithm = null;
 		
-		try {
-			algorithm = loader.loadAlgorithm(algorithmName);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		algorithm = loader.loadAlgorithm(algorithmName);
 		
-		algorithm.configure(configs);
-		algorithm.start(resultReceiver);		
+		for (ConfigurationValue configValue : configs) {
+			configValue.triggerSetValue(algorithm);
+		}
+		algorithm.setResultReceiver(resultReceiver);
+		algorithm.start();		
 	}
 
 	/**
@@ -40,22 +49,28 @@ public class AlgorithmExecutor {
 	 * @param algorithmName
 	 * @param configs
 	 * @param resultReceiver
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
 	public void executeFunctionalDependencyAlgorithm(String algorithmName,
-			List<ConfigurationValue> configs, FunctionalDependencyResultReceiver resultReceiver) {
+			List<ConfigurationValue> configs, FunctionalDependencyResultReceiver resultReceiver) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		AlgorithmJarLoader<FunctionalDependencyAlgorithm> loader = 
 				new AlgorithmJarLoader<FunctionalDependencyAlgorithm>(FunctionalDependencyAlgorithm.class);
 		FunctionalDependencyAlgorithm algorithm = null;
+
+		algorithm = loader.loadAlgorithm(algorithmName);
 		
-		try {
-			algorithm = loader.loadAlgorithm(algorithmName);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		algorithm.configure(configs);
-		algorithm.start(resultReceiver);
+		for (ConfigurationValue configValue : configs) {
+			configValue.triggerSetValue(algorithm);
+		}
+		algorithm.setResultReceiver(resultReceiver);
+		algorithm.start();
 	}
 
 	/**
@@ -63,21 +78,27 @@ public class AlgorithmExecutor {
 	 * @param algorithmName
 	 * @param configs
 	 * @param resultReceiver
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
-			List<ConfigurationValue> configs, UniqueColumnCombinationResultReceiver resultReceiver) {
+			List<ConfigurationValue> configs, UniqueColumnCombinationResultReceiver resultReceiver) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
 				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
 		UniqueColumnCombinationsAlgorithm algorithm = null;
 		
-		try {
-			algorithm = loader.loadAlgorithm(algorithmName);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		algorithm = loader.loadAlgorithm(algorithmName);
 		
-		algorithm.configure(configs);
-		algorithm.start(resultReceiver);
+		for (ConfigurationValue configValue : configs) {
+			configValue.triggerSetValue(algorithm);
+		}
+		algorithm.setResultReceiver(resultReceiver);
+		algorithm.start();
 	}
 }

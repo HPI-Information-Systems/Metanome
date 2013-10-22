@@ -57,13 +57,14 @@ public class AlgorithmJarLoaderTest {
 				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
 		
 		// Execute functionality
-		Algorithm algorithm = loader.loadAlgorithm("example_algorithm-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");
 		
 		// Check result
 		assertNotNull(algorithm);
 		assertTrue(algorithm instanceof UniqueColumnCombinationsAlgorithm);	
 		
 		UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-		uccAlgorithm.start(new UniqueColumnCombinationPrinter(new PrintStream(new ByteArrayOutputStream())));
+		uccAlgorithm.setResultReceiver(new UniqueColumnCombinationPrinter(new PrintStream(new ByteArrayOutputStream())));
+		uccAlgorithm.start();
 	}
 }
