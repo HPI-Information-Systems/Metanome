@@ -2,7 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.io.Serializable;
 
-import com.google.gwt.user.client.ui.Widget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 
 public abstract class InputParameter implements Serializable{
@@ -28,9 +28,7 @@ public abstract class InputParameter implements Serializable{
 		this.identifier = identifier;
 	}
 
-	public abstract void setValue(Object obj);
-
 	public abstract Object getValue();
-	
-	public abstract Widget getWidget();
+
+	public abstract InputParameterWidget createWrappingWidget();
 }

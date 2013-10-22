@@ -26,7 +26,7 @@ public class ExecutionServiceTest extends TestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		csvParam.setValue("some/file/path");
+		csvParam.setFileNameValue("some/file/path");
 	}
 
 	@After

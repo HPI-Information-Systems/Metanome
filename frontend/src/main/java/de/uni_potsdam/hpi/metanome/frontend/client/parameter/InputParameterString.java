@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterStringWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 
 public class InputParameterString extends InputParameter {
@@ -26,14 +26,9 @@ public class InputParameterString extends InputParameter {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	@Override
-	public void setValue(Object obj) {
-		this.value = (String) obj;
-	}
 
 	@Override
-	public Widget getWidget() {
-		return new TextBox();
+	public InputParameterWidget createWrappingWidget() {
+		return new InputParameterStringWidget(this);
 	}
 }

@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Widget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterBooleanWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 public class InputParameterBoolean extends InputParameter {
 	private static final long serialVersionUID = 5161219640594711634L;
@@ -26,12 +26,7 @@ public class InputParameterBoolean extends InputParameter {
 	}
 
 	@Override
-	public void setValue(Object obj) {
-		this.value = (Boolean) obj;
-	}
-
-	@Override
-	public Widget getWidget() {
-		return new CheckBox();
+	public InputParameterWidget createWrappingWidget() {
+		return new InputParameterBooleanWidget(this);
 	}
 }

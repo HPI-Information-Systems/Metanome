@@ -52,11 +52,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
 			System.out.println("FAILED to LOAD algorithm");
-			// TODO error handling, then remove default answer
-			ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-			paramList.add(new InputParameterString("tableName" + algorithmFileName.substring(0,5)));
-			paramList.add(new InputParameterBoolean("showProgress"));
-			return paramList;
+			// TODO error handling
 		}
 		
 		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
@@ -72,6 +68,8 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	/**
 	 * maps the <link>ConfigurationSpecification</link> subclass to the corresponding Type enum
 	 * element
+	 * 
+	 * TODO find a more appropriate style to do this
 	 * 
 	 * @param config	the ConfigurationSpecification object to be mapped
 	 * @return the Type enum 

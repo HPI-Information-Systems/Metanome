@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.Widget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterIntegerWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 public class InputParameterInteger extends InputParameter {
 	private static final long serialVersionUID = 5161219640594711634L;
@@ -22,17 +22,9 @@ public class InputParameterInteger extends InputParameter {
 	public void setValue(int value) {
 		this.value = value;
 	}
-	
-	@Override
-	public void setValue(Object obj) {
-		if (obj == null)
-			this.value = 0;
-		else
-			this.value = (Integer) obj;
-	}
 
 	@Override
-	public Widget getWidget() {
-		return new IntegerBox();
+	public InputParameterWidget createWrappingWidget() {
+		return new InputParameterIntegerWidget(this);
 	}
 }

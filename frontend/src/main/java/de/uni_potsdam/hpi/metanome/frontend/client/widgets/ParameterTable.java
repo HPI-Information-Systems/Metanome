@@ -1,27 +1,29 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTableSubmitHandler;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 
 public class ParameterTable extends FlexTable {
 
-	private List<InputParameter> parameters;
+	private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
 	private Button executeButton;
 
 	public ParameterTable(List<InputParameter> requiredParams) {
-		super();
-		this.parameters = requiredParams;		
+		super();	
 		
 		int i = 0;
-		for (InputParameter param : this.parameters) {
+		for (InputParameter param : requiredParams) {
 			this.setText(i, 0, param.getIdentifier());
-			this.setWidget(i, 1, param.getWidget());
+			InputParameterWidget currentWidget = param.createWrappingWidget();
+			this.setWidget(i, 1, currentWidget);
+			this.childWidgets.add(currentWidget);
 			i++;
 		}
 		
@@ -36,24 +38,19 @@ public class ParameterTable extends FlexTable {
 	 * the execution service corresponding to the current tab.
 	 */
 	public void submit(){
-		setParameterValues(this.parameters);
-		getAlgorithmTab().callExecutionService(this.parameters);
+		List<InputParameter> parameters = getInputParametersFromChildren();
+		 //change to loop that gets children's input parameters
+		getAlgorithmTab().callExecutionService(parameters);
 	}
 
-	/**
-	 * TODO docs
-	 * @param parameters 
-	 */
-	public void setParameterValues(List<InputParameter> params) {
-		int i = 0;
-		for (InputParameter param : params) {
-			Widget widget = this.getWidget(i, 1);
-			Object value = ((TakesValue<?>) widget).getValue();
-
-			param.setValue(value);
-			i++;
+	private List<InputParameter> getInputParametersFromChildren() {
+		LinkedList<InputParameter> parameterList = new LinkedList<InputParameter>();
+		for (InputParameterWidget childWidget : this.childWidgets){
+			parameterList.add(childWidget.getInputParameter());
 		}
+		return parameterList;
 	}
+
 
 	/**
 	 * The AlgorithmTabs implement algorithm type specific methods, which can
