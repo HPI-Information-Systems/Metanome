@@ -8,20 +8,12 @@ import org.junit.Test;
 
 public class AlgorithmTemplateTest {
 
-	/**
-	 * @throws Exception
-	 */
 	@Before
 	public void setUp() throws Exception {
-		
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	@After
 	public void tearDown() throws Exception {
-		
 	}
 
 	@Test
@@ -30,12 +22,32 @@ public class AlgorithmTemplateTest {
 	}
 
 	@Test
-	public void testSetConfigurationValue() {
+	public void testSetConfigurationValueStringString() {
 		fail("Not yet implemented");
 	}
-	
+
+	@Test
+	public void testSetConfigurationValueStringBoolean() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetConfigurationValueStringSimpleRelationalInputGenerator() {
+		fail("Not yet implemented");
+	}
+
 	@Test
 	public void testStart() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetResultReceiverFunctionalDependencyResultReceiver() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetResultReceiverUniqueColumnCombinationResultReceiver() {
 		fail("Not yet implemented");
 	}
 

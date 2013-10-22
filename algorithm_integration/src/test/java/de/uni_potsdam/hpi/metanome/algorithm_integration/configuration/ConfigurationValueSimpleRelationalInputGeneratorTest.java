@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 
 /**
- * Tests for {@link ConfigurationValueCsvFile}
+ * Tests for {@link ConfigurationValueSimpleRelationalInputGenerator}
  */
-public class ConfigurationValueCsvFileTest {
+public class ConfigurationValueSimpleRelationalInputGeneratorTest {
 	
 	@Before
 	public void setUp() throws Exception {
@@ -35,10 +35,10 @@ public class ConfigurationValueCsvFileTest {
 		Algorithm algorithm = mock(Algorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		CsvFileGenerator expectedConfigurationValue = mock(CsvFileGenerator.class);
+		SimpleRelationalInputGenerator expectedConfigurationValue = mock(SimpleRelationalInputGenerator.class);
 		
 		// Execute functionality
-		ConfigurationValueCsvFile configValue = new ConfigurationValueCsvFile(
+		ConfigurationValueSimpleRelationalInputGenerator configValue = new ConfigurationValueSimpleRelationalInputGenerator(
 				new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
 		configValue.triggerSetValue(algorithm);
 		

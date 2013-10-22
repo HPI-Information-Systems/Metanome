@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <artifactId>algorithm_template</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -14,11 +15,11 @@
   </properties>
 
   <repositories>
-    <repository>
-      <id>metanome</id>
-      <url>http://myhpi.de/~jakob.zwiener/maven</url>
-    </repository>
-  </repositories>
+    <repository> 
+      <id>metanomeRepo</id> 
+      <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url> 
+    </repository> 
+  </repositories> 
 
   <dependencies>
     <dependency>
@@ -38,17 +39,30 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <compilerArgument>-Xlint:all</compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2.1</version>
         <configuration>
+          <archive>
+            <manifestEntries>
+              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_fd_algorithm.ExampleAlgorithm</Algorithm-Bootstrap-Class>
+            </manifestEntries>
+          </archive>
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-          <archive>
-            <manifestEntries>
-              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.algorithm_template.AlgorithmTemplate</Algorithm-Bootstrap-Class>
-            </manifestEntries>
-          </archive>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
         <executions>
           <execution>
@@ -62,6 +76,4 @@
       </plugin>
     </plugins>   
   </build>
-    
-  <artifactId>algorithm_template</artifactId>
 </project>

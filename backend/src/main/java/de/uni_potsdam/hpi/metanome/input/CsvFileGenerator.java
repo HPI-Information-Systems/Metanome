@@ -1,14 +1,17 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
+package de.uni_potsdam.hpi.metanome.input;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-public class CsvFileGenerator {
+public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 
 	protected File inputFile;
 	protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -32,8 +35,13 @@ public class CsvFileGenerator {
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
 
-	public SimpleRelationalInput generateNewCsvFile() throws FileNotFoundException, IOException {
-		return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));	
+	public SimpleRelationalInput generateNewCopy() throws SimpleRelationalInputGenerationException {
+		try {
+			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
+		} catch (FileNotFoundException e) {
+			throw new SimpleRelationalInputGenerationException();
+		} catch (IOException e) {
+			throw new SimpleRelationalInputGenerationException();
+		}	
 	}
-
 }

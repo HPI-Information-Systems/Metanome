@@ -3,7 +3,6 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
@@ -83,30 +82,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
 	}
 
@@ -117,30 +93,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);
 		
 	}
 
@@ -152,30 +105,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
 	}
 
 

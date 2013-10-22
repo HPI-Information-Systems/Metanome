@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
+package de.uni_potsdam.hpi.metanome.input;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -10,6 +10,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+
+import de.uni_potsdam.hpi.metanome.input.CsvFile;
 
 public class CsvFileFixtureOneLine {
 

@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
+package de.uni_potsdam.hpi.metanome.input;
 
 import java.io.File;
 import java.io.FileNotFoundException;

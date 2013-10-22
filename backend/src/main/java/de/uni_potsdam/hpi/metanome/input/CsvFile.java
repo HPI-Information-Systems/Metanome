@@ -1,10 +1,12 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
+package de.uni_potsdam.hpi.metanome.input;
 
 import java.io.IOException;
 
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.common.collect.ImmutableList;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.

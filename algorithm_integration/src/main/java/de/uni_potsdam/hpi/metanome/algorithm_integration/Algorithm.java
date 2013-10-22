@@ -3,7 +3,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
@@ -41,7 +41,7 @@ public interface Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, CsvFileGenerator value);
+	void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value);
 	
 	/**
 	 * Starts the execution of the algorithm.
