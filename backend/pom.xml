@@ -157,6 +157,12 @@
     	<scope>compile</scope>
     </dependency>
     <dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.26</version>
+		<scope>compile</scope>
+	</dependency>
+    <dependency>
     	<groupId>de.uni-potsdam.hpi.metanome</groupId>
     	<artifactId>example_fd_algorithm</artifactId>
     	<version>0.0.1-SNAPSHOT</version>

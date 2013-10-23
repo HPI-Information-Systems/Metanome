@@ -24,7 +24,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoole
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
-import de.uni_potsdam.hpi.metanome.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
