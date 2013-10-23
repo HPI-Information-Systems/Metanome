@@ -26,7 +26,6 @@ public class ExecutionServiceTest extends TestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		csvParam.setFileNameValue("some/file/path");
 	}
 
 	@After
@@ -35,7 +34,10 @@ public class ExecutionServiceTest extends TestCase {
 
 	
 	@Test
-	public void testConvertToInputParameter() {
+	public void testConvertToInputParameter() throws FileNotFoundException {
+		//Setup
+		csvParam.setFileNameValue(ClassLoader.getSystemResource("inputData").getPath() + "/inputA.csv");
+		
 		//Execute
 		ConfigurationValue confString = executionService.convertToConfigurationValue(stringParam);
 		ConfigurationValue confBool = executionService.convertToConfigurationValue(boolParam);
@@ -49,8 +51,18 @@ public class ExecutionServiceTest extends TestCase {
 	
 	@Test
 	public void testBuildCsvFileGenerator() throws FileNotFoundException, IOException{		
+		//Setup 
+		boolean exception = false;
+		csvParam.setFileNameValue("some/file/path");
+		
 		//Execute
-		CsvFileGenerator generator = executionService.buildCsvFileGenerator(csvParam);
-		//TODO should notice that file does not exist
+		try {
+			CsvFileGenerator generator = executionService.buildCsvFileGenerator(csvParam);
+		} catch (FileNotFoundException e){
+			exception = true;
+		}
+
+		//Check
+		assertTrue(exception);
 	}
 }

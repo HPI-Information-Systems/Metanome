@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	AlgorithmExecutor executer = new AlgorithmExecutor();
 	
 	private List<ConfigurationValue> convertInputParameters(
-			List<InputParameter> parameters) {
+			List<InputParameter> parameters) throws FileNotFoundException {
 		List<ConfigurationValue> configValuesList = new LinkedList<ConfigurationValue>();
 		for (InputParameter parameter : parameters){
 			ConfigurationValue configValue = convertToConfigurationValue(parameter);
@@ -50,7 +50,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public ConfigurationValue convertToConfigurationValue(
-			InputParameter parameter) {
+			InputParameter parameter) throws FileNotFoundException {
 		//TODO all types of ConfigurationValues
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
@@ -64,14 +64,12 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
-	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) {
-		File file = new File(parameter.getValue());
-		//TODO make sure the file exists?
+	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) throws FileNotFoundException {
 		//TODO instantiate CsvFileGenerator correctly
 		if (parameter.isAdvanced())
-			return new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
+			return null;//new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
 		else 
-			return new CsvFileGenerator(file);
+			return new CsvFileGenerator(parameter.getValue());
 	}	
 	
 	@Override
@@ -162,7 +160,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void executeBasicStatisticsAlgorithm(String algorithmName,
 			List<InputParameter> parameters) {
-		List<ConfigurationValue> configs = convertInputParameters(parameters);
+		//List<ConfigurationValue> configs = convertInputParameters(parameters);
 		FunctionalDependencyResultReceiver resultReceiver = null; //TODO instantiate
 		
 		//TODO implement execution logic executer.executeBasicStatisticsAlgorithm(algorithmName, configs, resultReceiver);
