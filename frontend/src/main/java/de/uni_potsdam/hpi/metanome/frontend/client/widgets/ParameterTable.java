@@ -15,6 +15,13 @@ public class ParameterTable extends FlexTable {
 	private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
 	private Button executeButton;
 
+	/**
+	 * Creates a ParameterTable for user input for the given parameters. 
+	 * Prompt and type specific input field are created for each parameter,
+	 * and a button added at the bottom that triggers algorithm execution.
+	 * 
+	 * @param requiredParams the list of parameters asked for by the algorithm.
+	 */
 	public ParameterTable(List<InputParameter> requiredParams) {
 		super();	
 		
@@ -39,11 +46,10 @@ public class ParameterTable extends FlexTable {
 	 */
 	public void submit(){
 		List<InputParameter> parameters = getInputParametersFromChildren();
-		 //change to loop that gets children's input parameters
 		getAlgorithmTab().callExecutionService(parameters);
 	}
 
-	private List<InputParameter> getInputParametersFromChildren() {
+	public List<InputParameter> getInputParametersFromChildren() {
 		LinkedList<InputParameter> parameterList = new LinkedList<InputParameter>();
 		for (InputParameterWidget childWidget : this.childWidgets){
 			parameterList.add(childWidget.getInputParameter());
