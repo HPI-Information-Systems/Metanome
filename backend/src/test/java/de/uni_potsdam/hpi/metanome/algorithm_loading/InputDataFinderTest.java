@@ -21,13 +21,16 @@ public class InputDataFinderTest {
 	@Test
 	public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
 		//Setup
-		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
+		String pathToAlgorithmsFolder = ClassLoader.getSystemResource("algorithms").getPath();
+		String pathToCsvFolder = ClassLoader.getSystemResource("inputData").getPath();
 		
 		//Execute
-		int noOfFoundCsvs = inputDataFinder.retrieveCsvFiles(pathToFolder).length;
-		
+		File[] csvsInAlgorithmsFolder = inputDataFinder.retrieveCsvFiles(pathToAlgorithmsFolder);
+		File[] csvsInCsvFolder = inputDataFinder.retrieveCsvFiles(pathToCsvFolder);
+
 		//Check
-		assertTrue(noOfFoundCsvs == 0);
+		assertTrue(csvsInAlgorithmsFolder.length == 0);
+		assertTrue(csvsInCsvFolder.length > 0);
 	}
 
 	@Test
