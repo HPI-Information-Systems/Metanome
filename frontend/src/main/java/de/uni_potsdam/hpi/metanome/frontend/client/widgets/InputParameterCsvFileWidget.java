@@ -16,7 +16,8 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 
 	private InputParameterCsvFile inputParameter;
 	
-	private ListBox listbox;
+	/** Dropdown menu for choosing a CSV file */
+	protected ListBox listbox;
 
 	public InputParameterCsvFileWidget(InputParameterCsvFile inputParameter) {
 		super();
@@ -39,11 +40,20 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		initWidget(panel);
 	}
 
-
+	/**
+	 * Sets the inputParameter's fileName value to the item currently selected in listbox.
+	 */
 	protected void setCurrentFileNameValue() {
 		inputParameter.setFileNameValue(listbox.getValue(listbox.getSelectedIndex()));
 	}
 
+	/**
+	 * Finds all available CSV files and adds them to a dropdown menu with an empty
+	 * entry ("--"), which is selected by default but cannot be selected (it is disabled
+	 * because it does not represent a valid input file).
+	 * 
+	 * @return a GWT ListBox containing all currently available CSV files
+	 */
 	private ListBox createListbox() {
 		ListBox listbox = new ListBox();
 		
@@ -56,6 +66,13 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		return listbox;
 	}
 	
+	/**
+	 * Calls the InputDataService to retrieve available CSV files (specified by their 
+	 * file paths) and adds them as entries to the given ListBox. Only the actual file 
+	 * name (not the preceding directories) are displayed.
+	 * 
+	 * @param listbox the ListBox to add the available files' names to
+	 */
 	private void addAvailableCsvsToListbox(final ListBox listbox) {
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
 		      public void onFailure(Throwable caught) {
@@ -79,5 +96,16 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 	@Override
 	public InputParameter getInputParameter() {
 		return inputParameter;
+	}
+	
+	/** 
+	 * @return a list of the values displayed in the listbox, one String per entry
+	 */
+	public String[] getListboxItemTexts() {
+		String[] itemTexts = new String[listbox.getItemCount()];
+		for(int i=0; i<listbox.getItemCount(); i++){
+			itemTexts[i] = listbox.getItemText(i);
+		}
+		return itemTexts;
 	}
 }

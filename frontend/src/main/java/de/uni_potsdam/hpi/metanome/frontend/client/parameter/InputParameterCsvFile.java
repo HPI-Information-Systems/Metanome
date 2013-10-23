@@ -8,10 +8,17 @@ public class InputParameterCsvFile extends InputParameter {
 
 	private String filePath;
 	
+	/** Default no-argument constructor. 
+	 * Use <link>InputParameterCsvFile(String identifier) instead</link> **/
 	public InputParameterCsvFile(){
 		super();
 	}
 
+	/** 
+	 * Creates an instance with the given identifier and no value.
+	 * 
+	 * @param identifier
+	 */
 	public InputParameterCsvFile(String identifier){
 		super(identifier);
 	}

@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
@@ -20,6 +17,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterBoolean
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterCsvFileWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterIntegerWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterStringWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 public class GwtTestParameter extends GWTTestCase {
@@ -71,10 +69,10 @@ public class GwtTestParameter extends GWTTestCase {
 		//Setup
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		
-		InputParameterString inputParameterString = new InputParameterString("Filename");
-		InputParameterBoolean inputParameterBoolean = new InputParameterBoolean("Omit warnings");
-		InputParameterInteger inputParameterInteger = new InputParameterInteger("Number of runs");
-		InputParameterCsvFile inputParameterCsvFile = new InputParameterCsvFile("inputData");
+		InputParameterString inputParameterString = new InputParameterString("string");
+		InputParameterBoolean inputParameterBoolean = new InputParameterBoolean("bool");
+		InputParameterInteger inputParameterInteger = new InputParameterInteger("int");
+		InputParameterCsvFile inputParameterCsvFile = new InputParameterCsvFile("csv");
 		
 		paramList.add(inputParameterString);
 		paramList.add(inputParameterBoolean);
@@ -92,91 +90,40 @@ public class GwtTestParameter extends GWTTestCase {
 		assertTrue(retrievedParams.contains(inputParameterInteger));
 		assertTrue(retrievedParams.contains(inputParameterCsvFile));
 	}
-//	
-//	@Test
-//	public void testInputParameterSetInvalidValue() {
-//		//Setup
-//		InputParameter string = new InputParameterString("Filename");
-//		InputParameter integer = new InputParameterInteger("");
-//		InputParameter bool = new InputParameterBoolean();
-//		InputParameter csv = new InputParameterCsvFile("inputFile");
-//		Object nonStringValue = 4;
-//		Object nonIntegerValue = "oh-no";
-//		Object nonBoolValue = 1;
-//		boolean exceptionString = false;
-//		boolean exceptionInteger = false;
-//		boolean exceptionBool = false;
-//		boolean exceptionCsv = false;
-//		
-//		//Execute
-//		try {			
-//			string.setValue(nonStringValue);	
-//		} catch (ClassCastException e) {
-//			exceptionString = true;
-//		}
-//		
-//		try {			
-//			integer.setValue(nonIntegerValue);	
-//		} catch (ClassCastException e) {
-//			exceptionInteger = true;
-//		}
-//		
-//		try {			
-//			bool.setValue(nonBoolValue);	
-//		} catch (ClassCastException e) {
-//			exceptionBool = true;
-//		}
-//		
-//		try {			
-//			csv.setValue(nonStringValue);	
-//		} catch (ClassCastException e) {
-//			exceptionCsv = true;
-//		}
-//		
-//		//Check
-//		assertTrue(exceptionString);
-//		assertTrue(exceptionInteger);
-//		assertTrue(exceptionBool);
-//		assertTrue(exceptionCsv);
-//	}
-//	
-//	@Test
-//	public void testInputParameterSetValidValue() {
-//		//Setup
-//		InputParameter string = new InputParameterString("Filename");
-//		Object stringValue = "test";
-//		InputParameter integer = new InputParameterInteger();
-//		Object intValue = 4;
-//		InputParameter bool = new InputParameterBoolean("bool");
-//		Object boolValue = true;
-//		InputParameter csv = new InputParameterCsvFile("inputFile");
-//		Object csvValue = "test.csv";
-//		
-//		//Execute
-//		string.setValue(stringValue);	
-//		integer.setValue(intValue);
-//		bool.setValue(boolValue);
-//		csv.setValue(csvValue);
-//		
-//		//Check
-//		assertEquals("test", string.getValue());
-//		assertEquals(4, integer.getValue());
-//		assertEquals(true, bool.getValue());
-//		assertEquals("test.csv", csv.getValue());
-//	}
 	
-//	@Test
-//	public void testInputParameterCsvFile() {
-//		//Setup
-//		InputParameter csv = new InputParameterCsvFile("inputFile");
-//		
-//		//Execute
-//		MetanomeListBox listbox = (MetanomeListBox) csv.getWidget();
-//		assertEquals("--", listbox.getValue());
-//	}
-	
-	//TODO separate test to check that available options are added
-	
+	@Test
+	public void testInputParameterWidgetCreation(){
+		//Setup
+		String identifierString = "stringParam";
+		InputParameter stringParam = new InputParameterString(identifierString);
+		String identifierBoolean = "boolParam";
+		InputParameter boolParam = new InputParameterBoolean(identifierBoolean);
+		String identifierInteger = "intParam";
+		InputParameter intParam = new InputParameterInteger(identifierInteger);
+		String identifierCsv = "csvParam";
+		InputParameter csvParam = new InputParameterCsvFile(identifierCsv);
+		
+		//Execute
+		InputParameterWidget stringWidget = stringParam.createWrappingWidget();
+		InputParameterWidget boolWidget = boolParam.createWrappingWidget();
+		InputParameterWidget intWidget = intParam.createWrappingWidget();
+		InputParameterWidget csvWidget = csvParam.createWrappingWidget();
+		
+		//Check
+		assertTrue(stringWidget instanceof InputParameterStringWidget);
+		assertEquals(identifierString, stringWidget.getInputParameter().getIdentifier());
+		
+		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
+		assertEquals(identifierBoolean, boolWidget.getInputParameter().getIdentifier());
+		
+		assertTrue(intWidget instanceof InputParameterIntegerWidget);
+		assertEquals(identifierInteger, intWidget.getInputParameter().getIdentifier());
+		
+		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
+		assertEquals(identifierCsv, csvWidget.getInputParameter().getIdentifier());
+	}
+
+		
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
