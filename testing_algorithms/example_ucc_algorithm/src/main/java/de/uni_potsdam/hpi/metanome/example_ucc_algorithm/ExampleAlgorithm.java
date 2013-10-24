@@ -27,7 +27,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 		return configurationSpecification;
 	}
 
-	public void start() {
+	public void execute() {
 		if (path != null) {
 			try {
 				resultReceiver.receiveResult(

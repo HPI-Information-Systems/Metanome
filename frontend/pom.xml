@@ -44,8 +44,15 @@
     </dependency>
     <dependency>
     	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+    	<artifactId>algorithm_integration</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
     	<artifactId>backend</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
+    	<scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>de.uni-potsdam.hpi.metanome</groupId>
@@ -82,6 +89,10 @@
           <mode>HtmlUnit</mode>
           <out>${project.build.directory}/www-test</out>
           <testTimeOut>120</testTimeOut>
+          <compileSourcesArtifacts>
+            <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:algorithm_integration</compileSourcesArtifact>
+            <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
+          </compileSourcesArtifacts>
         </configuration>
       </plugin>
 

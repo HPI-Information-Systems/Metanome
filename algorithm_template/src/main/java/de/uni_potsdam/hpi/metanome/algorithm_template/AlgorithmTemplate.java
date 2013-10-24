@@ -32,7 +32,7 @@ public class AlgorithmTemplate implements UniqueColumnCombinationsAlgorithm, Fun
 		
 	}
 
-	public void start() {
+	public void execute() {
 		// TODO Auto-generated method stub
 		
 	}

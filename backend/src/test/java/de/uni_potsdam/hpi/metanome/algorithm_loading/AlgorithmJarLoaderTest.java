@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
@@ -49,9 +50,10 @@ public class AlgorithmJarLoaderTest {
 	 * @throws InvocationTargetException 
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
+	 * @throws AlgorithmExecutionException 
 	 */
 	@Test
-	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
 		// Setup
 		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
 				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
@@ -65,6 +67,6 @@ public class AlgorithmJarLoaderTest {
 		
 		UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
 		uccAlgorithm.setResultReceiver(new UniqueColumnCombinationPrinter(new PrintStream(new ByteArrayOutputStream())));
-		uccAlgorithm.start();
+		uccAlgorithm.execute();
 	}
 }

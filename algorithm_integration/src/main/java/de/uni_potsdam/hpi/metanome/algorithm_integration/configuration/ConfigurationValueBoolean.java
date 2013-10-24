@@ -1,6 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
  * Represents boolean configuration values for {@link Algorithm}s.
@@ -25,9 +26,11 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 	 * Sets it's own value on the algorithm (second call of double dispatch).
 	 * 
 	 * @param algorithm
+	 * 
+	 * @throws AlgorithmConfigurationException 
 	 */
 	@Override
-	public void triggerSetValue(Algorithm algorithm) {
+	public void triggerSetValue(Algorithm algorithm) throws AlgorithmConfigurationException {
 		algorithm.setConfigurationValue(identifier, value);		
 	}
 

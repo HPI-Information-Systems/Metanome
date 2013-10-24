@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
  * Tests for {@link ConfigurationValueBoolean}
@@ -27,9 +28,10 @@ public class ConfigurationValueBooleanTest {
 	/**
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
+	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
-	public void testTriggerSetValue() {
+	public void testTriggerSetValue() throws AlgorithmConfigurationException {
 		// Setup
 		Algorithm algorithm = mock(Algorithm.class);
 		// Expected values

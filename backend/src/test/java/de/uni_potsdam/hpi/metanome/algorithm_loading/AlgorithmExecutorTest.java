@@ -4,14 +4,14 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -33,8 +33,16 @@ public class AlgorithmExecutorTest {
 		executer = new AlgorithmExecutor();
 	}
 
+	/**
+	 * TODO docs
+	 * 
+	 * @throws AlgorithmLoadingException 
+	 * @throws AlgorithmConfigurationException 
+	 * @throws CouldNotReceiveResultException 
+	 * @throws AlgorithmExecutionException 
+	 */
 	@Test
-	public void executeFunctionalDependencyAlgorithmTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, CouldNotReceiveResultException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
@@ -48,8 +56,16 @@ public class AlgorithmExecutorTest {
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
 	}
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @throws AlgorithmConfigurationException
+	 * @throws AlgorithmLoadingException
+	 * @throws CouldNotReceiveResultException
+	 * @throws AlgorithmExecutionException 
+	 */
 	@Test
-	public void executeInclusionDependencyTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void executeInclusionDependencyTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, CouldNotReceiveResultException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("tableName", "table1"));
@@ -61,11 +77,18 @@ public class AlgorithmExecutorTest {
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
-
 	}
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @throws AlgorithmConfigurationException 
+	 * @throws AlgorithmLoadingException 
+	 * @throws CouldNotReceiveResultException 
+	 * @throws AlgorithmExecutionException 
+	 */
 	@Test
-	public void executeUniqueColumnCombinationsAlgorithmTest() throws CouldNotReceiveResultException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmConfigurationException, CouldNotReceiveResultException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
