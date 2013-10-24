@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input;
+package de.uni_potsdam.hpi.metanome.input.csv;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalI
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
  */
-class CsvFile implements SimpleRelationalInput {
+public class CsvFile implements SimpleRelationalInput {
 	
 	protected CSVReader csvReader;
 	protected ImmutableList<String> nextLine;

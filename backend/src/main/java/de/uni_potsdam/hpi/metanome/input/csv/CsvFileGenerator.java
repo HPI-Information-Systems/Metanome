@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input;
+package de.uni_potsdam.hpi.metanome.input.csv;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +8,6 @@ import java.io.IOException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -21,14 +20,6 @@ public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 	protected int line = CSVParser.INITIAL_READ_SIZE;
 	protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
 	protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-	
-	public CsvFileGenerator(String inputFilePath) throws FileNotFoundException{
-		File inputFile = new File(inputFilePath);
-		if(!inputFile.exists()){
-			throw new FileNotFoundException();
-		}
-		this.inputFile = inputFile;
-	}
 	
 	public CsvFileGenerator(File inputFile) {
 		this.inputFile = inputFile;

@@ -25,7 +25,7 @@ public interface Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, String value);
+	void setConfigurationValue(String identifier, String value) throws AlgorithmConfigurationException;
 	
 	/**
 	 * Sets a boolean configuration value on the algorithm.
@@ -33,7 +33,7 @@ public interface Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, boolean value);
+	void setConfigurationValue(String identifier, boolean value) throws AlgorithmConfigurationException;
 
 	/**
 	 * Sets a CsvFileGenerator configuration value on the algorithm.
@@ -41,10 +41,10 @@ public interface Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value);
+	void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) throws AlgorithmConfigurationException;
 	
 	/**
 	 * Starts the execution of the algorithm.
 	 */
-	void start();
+	void execute() throws AlgorithmExecutionException;
 }

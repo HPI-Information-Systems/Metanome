@@ -27,7 +27,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm {
 		return configurationSpecification;
 	}
 
-	public void start() {
+	public void execute() {
 		if (path != null) {
 			try {
 				resultReceiver.receiveResult(

@@ -27,7 +27,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm {
 		return configurationSpecification;
 	}
 
-	public void start() {
+	public void execute() {
 		if (tableName != null) {
 			try {
 				resultReceiver.receiveResult(

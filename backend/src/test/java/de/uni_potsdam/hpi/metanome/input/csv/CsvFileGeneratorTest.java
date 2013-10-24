@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input;
+package de.uni_potsdam.hpi.metanome.input.csv;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
-import de.uni_potsdam.hpi.metanome.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 
 /**
  * Tests for {@link CsvFileGenerator}

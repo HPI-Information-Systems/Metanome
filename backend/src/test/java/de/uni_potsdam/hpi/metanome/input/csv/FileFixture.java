@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.input;
+package de.uni_potsdam.hpi.metanome.input.csv;
 
 import java.io.File;
 import java.io.FileNotFoundException;

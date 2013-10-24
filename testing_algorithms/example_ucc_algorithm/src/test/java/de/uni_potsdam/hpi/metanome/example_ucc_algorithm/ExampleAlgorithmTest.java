@@ -83,7 +83,7 @@ public class ExampleAlgorithmTest {
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
-		this.algorithm.start();
+		this.algorithm.execute();
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));

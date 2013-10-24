@@ -1,5 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.4.0/distro-source/core/src/gwt-module.dtd">
+
 <module rename-to="hello">
 	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="de.uni_potsdam.hpi.metanome.Metanome_Dependencies"/>
 		
 	<entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
 
@@ -13,7 +17,6 @@
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl" />
 	<servlet path="/inputDataService"
 			 class="de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl" />
-			 
 	
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
     <add-linker name="xsiframe"/>

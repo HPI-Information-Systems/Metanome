@@ -1,8 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
@@ -18,13 +20,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
-import de.uni_potsdam.hpi.metanome.frontend.client.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
-import de.uni_potsdam.hpi.metanome.input.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
@@ -69,91 +71,41 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 		if (parameter.isAdvanced())
 			return null;//new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
 		else 
-			return new CsvFileGenerator(parameter.getValue());
+			return new CsvFileGenerator(new File(parameter.getValue()));
 	}	
 	
 	@Override
 	public void executeInclusionDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws IOException, AlgorithmExecutionException {
+			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
+		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			throw new AlgorithmExecutionException();
-		} catch (SecurityException e) {
-			throw new AlgorithmExecutionException();
-		} catch (ClassNotFoundException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InstantiationException e) {
-			throw new AlgorithmExecutionException();
-		} catch (IllegalAccessException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InvocationTargetException e) {
-			throw new AlgorithmExecutionException();
-		} catch (NoSuchMethodException e) {
-			throw new AlgorithmExecutionException();
-		}
+		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
 	}
 
 	@Override
 	public void executeFunctionalDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws IOException, AlgorithmExecutionException {
+			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
+		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			throw new AlgorithmExecutionException();
-		} catch (SecurityException e) {
-			throw new AlgorithmExecutionException();
-		} catch (IOException e) {
-			throw new AlgorithmExecutionException();
-		} catch (ClassNotFoundException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InstantiationException e) {
-			throw new AlgorithmExecutionException();
-		} catch (IllegalAccessException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InvocationTargetException e) {
-			throw new AlgorithmExecutionException();
-		} catch (NoSuchMethodException e) {
-			throw new AlgorithmExecutionException();
-		}
-		
+		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);		
 	}
 
 
 	@Override
 	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws IOException, AlgorithmExecutionException {
+			List<InputParameter> parameters) throws AlgorithmLoadingException, AlgorithmConfigurationException, IOException, AlgorithmExecutionException {
+		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
-		try {
-			executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
-		} catch (IllegalArgumentException e) {
-			throw new AlgorithmExecutionException();
-		} catch (SecurityException e) {
-			throw new AlgorithmExecutionException();
-		} catch (IOException e) {
-			throw new AlgorithmExecutionException();
-		} catch (ClassNotFoundException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InstantiationException e) {
-			throw new AlgorithmExecutionException();
-		} catch (IllegalAccessException e) {
-			throw new AlgorithmExecutionException();
-		} catch (InvocationTargetException e) {
-			throw new AlgorithmExecutionException();
-		} catch (NoSuchMethodException e) {
-			throw new AlgorithmExecutionException();
-		}
+		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
 	}
 
 
