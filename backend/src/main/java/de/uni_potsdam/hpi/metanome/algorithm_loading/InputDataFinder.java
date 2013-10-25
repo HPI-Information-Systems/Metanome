@@ -34,9 +34,7 @@ public class InputDataFinder {
 		        return name.endsWith(".csv");
 		    }
 		});
-		
-		if (csvs == null) 
-			csvs = new File[0];
+
 		return csvs;
 	}
 
