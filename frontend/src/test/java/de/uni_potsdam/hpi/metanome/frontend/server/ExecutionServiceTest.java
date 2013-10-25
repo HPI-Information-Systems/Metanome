@@ -1,7 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
+
+import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,8 +15,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
-import junit.framework.TestCase;
 
 public class ExecutionServiceTest extends TestCase {
 	
@@ -33,6 +32,11 @@ public class ExecutionServiceTest extends TestCase {
 	}
 
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void testConvertToInputParameter() throws FileNotFoundException {
 		//Setup
@@ -47,22 +51,23 @@ public class ExecutionServiceTest extends TestCase {
 		assertTrue(confString instanceof ConfigurationValueString);
 		assertTrue(confBool instanceof ConfigurationValueBoolean);
 		assertTrue(confCsv instanceof ConfigurationValueSimpleRelationalInputGenerator);
-	}
-	
+	}	
+
+	/**
+	 * TODO docs
+	 */
 	@Test
-	public void testBuildCsvFileGenerator() throws FileNotFoundException, IOException{		
-		//Setup 
-		boolean exception = false;
+	public void testBuildCsvFileGenerator() {		
+		//Setup
 		csvParam.setFileNameValue("some/file/path");
 		
 		//Execute
 		try {
-			CsvFileGenerator generator = executionService.buildCsvFileGenerator(csvParam);
+			executionService.buildCsvFileGenerator(csvParam);
+			fail("Expected exception was not thrown.");
 		} catch (FileNotFoundException e){
-			exception = true;
+
 		}
 
-		//Check
-		assertTrue(exception);
 	}
 }

@@ -21,7 +21,10 @@ public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 	protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
 	protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
 	
-	public CsvFileGenerator(File inputFile) {
+	public CsvFileGenerator(File inputFile) throws FileNotFoundException {
+		if (!inputFile.isFile()) {
+			throw new FileNotFoundException();
+		}
 		this.inputFile = inputFile;
 	}
 	
