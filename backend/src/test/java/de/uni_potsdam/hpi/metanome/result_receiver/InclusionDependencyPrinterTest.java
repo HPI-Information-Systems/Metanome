@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
  */
 public class InclusionDependencyPrinterTest {
 
+	protected String testResultFilePath;
+	protected File testResultDirectory;
 	protected ColumnCombination determinant1;
 	protected ColumnCombination referenced1;
 	protected ColumnCombination determinant2;
@@ -34,6 +37,9 @@ public class InclusionDependencyPrinterTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		testResultFilePath = "results/test";
+		testResultDirectory = new File(testResultFilePath);
+		
 		determinant1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"),
 				new ColumnIdentifier("table1", "column2"));
@@ -92,14 +98,14 @@ public class InclusionDependencyPrinterTest {
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
-		InclusionDependencyPrinter writer = new InclusionDependencyPrinter(fileName, "results/test");
+		InclusionDependencyPrinter writer = new InclusionDependencyPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
 		writer.receiveResult(determinant1, referenced1);
 		writer.receiveResult(determinant2, referenced2);
 		
 		// Check result
-		File actualFile = new File("results/test/" + fileName);
+		File actualFile = new File(testResultFilePath + "/" + fileName);
 		assertTrue(actualFile.exists());
 
 	    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -109,6 +115,7 @@ public class InclusionDependencyPrinterTest {
 		}
 		
 		// Cleanup
+		FileUtils.deleteDirectory(testResultDirectory.getParentFile());
 		actualFile.delete();
 		writer.close();
 	}

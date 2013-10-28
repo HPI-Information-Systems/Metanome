@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
  */
 public class FunctionalDependencyPrinterTest {
 
+	protected String testResultFilePath;
+	protected File testResultDirectory;
 	protected ColumnCombination determinant1;
 	protected ColumnIdentifier dependent1;
 	protected ColumnCombination determinant2;
@@ -34,6 +37,9 @@ public class FunctionalDependencyPrinterTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		testResultFilePath = "results/test";
+		testResultDirectory = new File(testResultFilePath);
+		
 		determinant1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"),
 				new ColumnIdentifier("table1", "column2"));
@@ -41,11 +47,12 @@ public class FunctionalDependencyPrinterTest {
 		determinant2 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column5"),
 				new ColumnIdentifier("table1", "column3"));
-		dependent2 = new ColumnIdentifier("table1", "column9");	
+		dependent2 = new ColumnIdentifier("table1", "column9");
+		
 		// Expected values
 		expectedOutputs = new LinkedList<String>();
 		expectedOutputs.add(determinant1 + FunctionalDependencyPrinter.FD_SEPARATOR + dependent1);
-		expectedOutputs.add(determinant2 + FunctionalDependencyPrinter.FD_SEPARATOR + dependent2);
+		expectedOutputs.add(determinant2 + FunctionalDependencyPrinter.FD_SEPARATOR + dependent2);		
 	}
 
 	@After
@@ -88,14 +95,14 @@ public class FunctionalDependencyPrinterTest {
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
-		FunctionalDependencyPrinter writer = new FunctionalDependencyPrinter(fileName, "results/test");
+		FunctionalDependencyPrinter writer = new FunctionalDependencyPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
 		writer.receiveResult(determinant1, dependent1);
 		writer.receiveResult(determinant2, dependent2);
 		
 		// Check result
-		File actualFile = new File("results/test/" + fileName);
+		File actualFile = new File(testResultFilePath + "/" + fileName);
 		assertTrue(actualFile.exists());
 
 	    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -105,6 +112,7 @@ public class FunctionalDependencyPrinterTest {
 		}
 		
 		// Cleanup
+		FileUtils.deleteDirectory(testResultDirectory.getParentFile());
 		actualFile.delete();
 		writer.close();
 	}

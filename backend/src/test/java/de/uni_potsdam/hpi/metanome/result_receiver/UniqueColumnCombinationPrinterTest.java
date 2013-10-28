@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +27,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
  */
 public class UniqueColumnCombinationPrinterTest {
 	
+	protected String testResultFilePath;
+	protected File testResultDirectory;
 	protected ColumnCombination columnCombination1;
 	protected ColumnCombination columnCombination2;
 	protected List<String> expectedOutputs;
 
 	@Before
 	public void setUp() throws Exception {
+		testResultFilePath = "results/test";
+		testResultDirectory = new File(testResultFilePath);
+		
 		columnCombination1 = new ColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 
 				new ColumnIdentifier("table2", "column2"));
@@ -83,14 +89,14 @@ public class UniqueColumnCombinationPrinterTest {
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
-		UniqueColumnCombinationPrinter writer = new UniqueColumnCombinationPrinter(fileName, "results/test");
+		UniqueColumnCombinationPrinter writer = new UniqueColumnCombinationPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
 		writer.receiveResult(columnCombination1);
 		writer.receiveResult(columnCombination2);
 		
 		// Check result
-		File actualFile = new File("results/test/" + fileName);
+		File actualFile = new File(testResultFilePath + "/" + fileName);
 		assertTrue(actualFile.exists());
 
 	    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -100,6 +106,7 @@ public class UniqueColumnCombinationPrinterTest {
 		}
 		
 		// Cleanup
+		FileUtils.deleteDirectory(testResultDirectory.getParentFile());
 		actualFile.delete();
 		writer.close();
 	}
