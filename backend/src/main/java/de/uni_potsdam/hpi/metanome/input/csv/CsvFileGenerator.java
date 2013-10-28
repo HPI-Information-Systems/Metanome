@@ -3,13 +3,13 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
-import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
 
 public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 
@@ -42,9 +42,9 @@ public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 		try {
 			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
 		} catch (FileNotFoundException e) {
-			throw new SimpleRelationalInputGenerationException();
-		} catch (IOException e) {
-			throw new SimpleRelationalInputGenerationException();
+			throw new SimpleRelationalInputGenerationException("File not found.");
+		} catch (InputIterationException e) {
+			throw new SimpleRelationalInputGenerationException("Could not iterate over the first line of the csv file.");
 		}	
 	}
 }

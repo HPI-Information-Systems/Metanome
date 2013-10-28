@@ -3,15 +3,14 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 
 /**
  * Tests for {@link CsvFileGenerator}
@@ -65,10 +64,10 @@ public class CsvFileGeneratorTest {
 	 * The generator should generate fresh csv files iterable from the start.
 	 * 
 	 * @throws SimpleRelationalInputGenerationException 
-	 * @throws IOException 
+	 * @throws InputIterationException 
 	 */
 	@Test
-	public void testGenerateNewCsvFile() throws SimpleRelationalInputGenerationException, IOException {
+	public void testGenerateNewCsvFile() throws SimpleRelationalInputGenerationException, InputIterationException {
 		// Setup
 		SimpleRelationalInput csv = generator.generateNewCopy();
 		

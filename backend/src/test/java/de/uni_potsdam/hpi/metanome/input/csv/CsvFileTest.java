@@ -5,13 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
 public class CsvFileTest {
 
@@ -31,10 +29,10 @@ public class CsvFileTest {
 	/**
 	 * Has next should be true once and false after calling next once (one csv line).
 	 * 
-	 * @throws IOException
+	 * @throws InputIterationException 
 	 */
 	@Test
-	public void testHasNext() throws IOException {
+	public void testHasNext() throws InputIterationException {
 		// Check result
 		assertTrue(this.csvFile.hasNext());
 		this.csvFile.next();
@@ -44,10 +42,10 @@ public class CsvFileTest {
 	/**
 	 * A one line csv should be parsed correctly. And all the values in the line should be equal.
 	 * 
-	 * @throws IOException 
+	 * @throws InputIterationException 
 	 */
 	@Test
-	public void testNext() throws IOException {
+	public void testNext() throws InputIterationException {
 		// Check result
 		assertEquals(this.fixture.getExpectedStrings(), this.csvFile.next());
 	}
@@ -55,10 +53,10 @@ public class CsvFileTest {
 	/**
 	 * A one line csv with differing should be parsed correctly. And all the values in the line should be equal.
 	 * 
-	 * @throws IOException 
+	 * @throws InputIterationException 
 	 */
 	@Test
-	public void testNextSeparator() throws IOException {
+	public void testNextSeparator() throws InputIterationException {
 		// Setup
 		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
 		CsvFile csvFileSeparator = fixtureSeparator.getTestData();
@@ -80,5 +78,27 @@ public class CsvFileTest {
 		catch (UnsupportedOperationException actualException) {
 			// Intentionally left blank
 		}
+	}
+	
+	/**
+	 * TODO docs
+	 * 
+	 * @throws InputIterationException 
+	 */
+	@Test
+	public void testShort() throws InputIterationException {
+		// Setup
+		CsvFile shortCsvFile = new CsvFileShortLineFixture().getTestData();
+		
+		// Check result
+		try {
+			shortCsvFile.next();
+			shortCsvFile.next();
+			fail("Expected an InputIterationException to be thrown.");
+		}
+		catch (InputIterationException actualException) {
+			// Intentionally left blank
+		}
+		
 	}
 }
