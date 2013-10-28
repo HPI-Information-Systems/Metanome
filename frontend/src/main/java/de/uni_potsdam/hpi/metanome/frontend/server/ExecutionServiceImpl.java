@@ -27,9 +27,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFi
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
-import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
-import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
-import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
+import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
+import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyPrinter;
+import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
 /**
  * Service Implementation for service that triggers algorithm execution
@@ -79,7 +79,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyFileWriter(
+		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyPrinter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
@@ -90,7 +90,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyFileWriter(
+		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyPrinter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);		
@@ -102,7 +102,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 			List<InputParameter> parameters) throws AlgorithmLoadingException, AlgorithmConfigurationException, IOException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationFileWriter(
+		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationPrinter(
 				getResultFileName(algorithmName), getResultDirectoryName());
 		
 		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
