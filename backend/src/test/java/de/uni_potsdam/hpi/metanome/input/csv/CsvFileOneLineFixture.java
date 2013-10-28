@@ -13,20 +13,20 @@ import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 
-public class CsvFileFixtureOneLine {
+public class CsvFileOneLineFixture {
 
 	protected char separator;
 	protected char quoteChar;
 
-	public CsvFileFixtureOneLine() {
+	public CsvFileOneLineFixture() {
 		this(CSVParser.DEFAULT_SEPARATOR);
 	}
 	
-	public CsvFileFixtureOneLine(char separator) {
+	public CsvFileOneLineFixture(char separator) {
 		this(separator, CSVParser.DEFAULT_QUOTE_CHARACTER);
 	}
 	
-	public CsvFileFixtureOneLine(char separator, char quoteChar) {
+	public CsvFileOneLineFixture(char separator, char quoteChar) {
 		this.separator = separator;
 		this.quoteChar = quoteChar;
 	}

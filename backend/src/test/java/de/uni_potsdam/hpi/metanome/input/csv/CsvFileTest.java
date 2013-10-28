@@ -15,12 +15,12 @@ import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 
 public class CsvFileTest {
 
-	CsvFileFixtureOneLine fixture;
+	CsvFileOneLineFixture fixture;
 	CsvFile csvFile;
 	
 	@Before
 	public void setUp() throws Exception {
-		this.fixture = new CsvFileFixtureOneLine();
+		this.fixture = new CsvFileOneLineFixture();
 		this.csvFile = this.fixture.getTestData();
 	}
 
@@ -60,7 +60,7 @@ public class CsvFileTest {
 	@Test
 	public void testNextSeparator() throws IOException {
 		// Setup
-		CsvFileFixtureOneLine fixtureSeparator = new CsvFileFixtureOneLine(';');
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
 		CsvFile csvFileSeparator = fixtureSeparator.getTestData();
 		
 		// Check result 
