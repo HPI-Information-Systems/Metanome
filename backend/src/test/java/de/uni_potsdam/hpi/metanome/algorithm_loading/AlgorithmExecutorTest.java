@@ -20,9 +20,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
-import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyFileWriter;
-import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyFileWriter;
-import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationFileWriter;
+import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
 
 public class AlgorithmExecutorTest {
 	
@@ -46,7 +44,7 @@ public class AlgorithmExecutorTest {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
-		FunctionalDependencyResultReceiver resultReceiver = mock(FunctionalDependencyFileWriter.class);
+		FunctionalDependencyResultReceiver resultReceiver = mock(FunctionalDependencyResultReceiver.class);
 				
 		// Execute TODO
 		executer.executeFunctionalDependencyAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs, 
@@ -69,7 +67,7 @@ public class AlgorithmExecutorTest {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("tableName", "table1"));
-		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyFileWriter.class);		
+		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyResultReceiver.class);		
 		
 		// Execute
 		executer.executeInclusionDependencyAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs, 
@@ -92,7 +90,7 @@ public class AlgorithmExecutorTest {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
-		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationFileWriter.class);
+		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
 				
 		// Execute
 		executer.executeUniqueColumnCombinationsAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, 

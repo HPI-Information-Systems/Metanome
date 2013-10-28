@@ -22,26 +22,34 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 
 /**
- * Tests for {@link UniqueColumnCombinationPrinter}.
+ * Tests for {@link InclusionDependencyPrinter}.
  */
-public class UniqueColumnCombinationPrinterTest {
-	
-	protected ColumnCombination columnCombination1;
-	protected ColumnCombination columnCombination2;
-	protected List<String> expectedOutputs;
+public class InclusionDependencyPrinterTest {
 
+	protected ColumnCombination determinant1;
+	protected ColumnCombination referenced1;
+	protected ColumnCombination determinant2;
+	protected ColumnCombination referenced2;
+	protected List<String> expectedOutputs;
+	
 	@Before
 	public void setUp() throws Exception {
-		columnCombination1 = new ColumnCombination(
-				new ColumnIdentifier("table1", "column1"), 
+		determinant1 = new ColumnCombination(
+				new ColumnIdentifier("table1", "column1"),
+				new ColumnIdentifier("table1", "column2"));
+		referenced1 = new ColumnCombination(
+				new ColumnIdentifier("table2", "column5"),
 				new ColumnIdentifier("table2", "column2"));
-		columnCombination2 = new ColumnCombination(
-				new ColumnIdentifier("table2", "column2"), 
-				new ColumnIdentifier("table3", "column3"));
+		determinant2 = new ColumnCombination(
+				new ColumnIdentifier("table1", "column5"),
+				new ColumnIdentifier("table1", "column3"));
+		referenced2 = new ColumnCombination(
+				new ColumnIdentifier("table5", "column7"),
+				new ColumnIdentifier("table5", "column3"));
 		// Expected values
 		expectedOutputs = new LinkedList<String>();
-		expectedOutputs.add(columnCombination1.toString());
-		expectedOutputs.add(columnCombination2.toString());
+		expectedOutputs.add(determinant1 + InclusionDependencyPrinter.IND_SEPARATOR + referenced1);
+		expectedOutputs.add(determinant2 + InclusionDependencyPrinter.IND_SEPARATOR + referenced2);
 	}
 
 	@After
@@ -49,19 +57,20 @@ public class UniqueColumnCombinationPrinterTest {
 	}
 
 	/**
-	 * The {@link UniqueColumnCombinationPrinter} should print column combinations to the stream set on construction.
+	 * The {@link InclusionDependencyPrinter} should print inclusion dependencies to the stream set on construction.
 	 * 
 	 * @throws IOException 
+	 * @throws CouldNotReceiveResultException 
 	 */
 	@Test
-	public void testPrinting() throws IOException {
+	public void testPrinting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(outStream);
+		InclusionDependencyPrinter printer = new InclusionDependencyPrinter(outStream);
 		
 		// Execute functionality
-		printer.receiveResult(columnCombination1);
-		printer.receiveResult(columnCombination2);
+		printer.receiveResult(determinant1, referenced1);
+		printer.receiveResult(determinant2, referenced2);
 		
 		// Check result
 		for (String output : expectedOutputs) {
@@ -73,7 +82,7 @@ public class UniqueColumnCombinationPrinterTest {
 	}
 	
 	/**
-	 * The {@link UniqueColumnCombinationPrinter} should write column combinations to a new
+	 * The {@link InclusionDependencyPrinter} should write inclusion dependencies to a new
 	 * file with the specified name.
 	 * 
 	 * @throws IOException 
@@ -83,11 +92,11 @@ public class UniqueColumnCombinationPrinterTest {
 	public void testFileWriting() throws IOException, CouldNotReceiveResultException {
 		// Setup
 		String fileName = "uccTest_" + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
-		UniqueColumnCombinationPrinter writer = new UniqueColumnCombinationPrinter(fileName, "results/test");
+		InclusionDependencyPrinter writer = new InclusionDependencyPrinter(fileName, "results/test");
 		
 		// Execute functionality
-		writer.receiveResult(columnCombination1);
-		writer.receiveResult(columnCombination2);
+		writer.receiveResult(determinant1, referenced1);
+		writer.receiveResult(determinant2, referenced2);
 		
 		// Check result
 		File actualFile = new File("results/test/" + fileName);
