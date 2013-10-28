@@ -81,7 +81,7 @@ public class CsvFileTest {
 	}
 	
 	/**
-	 * TODO docs
+	 * When iterating over a csv file with alternating line length an exception should be thrown.
 	 * 
 	 * @throws InputIterationException 
 	 */
