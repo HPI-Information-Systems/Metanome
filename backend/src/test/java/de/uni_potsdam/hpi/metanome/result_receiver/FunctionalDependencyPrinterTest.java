@@ -112,9 +112,9 @@ public class FunctionalDependencyPrinterTest {
 		}
 		
 		// Cleanup
+		writer.close();
 		FileUtils.deleteDirectory(testResultDirectory.getParentFile());
 		actualFile.delete();
-		writer.close();
 	}
 
 }

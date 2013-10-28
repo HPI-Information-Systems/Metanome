@@ -106,9 +106,9 @@ public class UniqueColumnCombinationPrinterTest {
 		}
 		
 		// Cleanup
+		writer.close();
 		FileUtils.deleteDirectory(testResultDirectory.getParentFile());
 		actualFile.delete();
-		writer.close();
 	}
 
 }
