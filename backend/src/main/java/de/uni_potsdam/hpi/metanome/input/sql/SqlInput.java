@@ -40,7 +40,15 @@ public class SqlInput implements SimpleRelationalInput {
 
 	@Override
 	public ImmutableList<String> next() throws InputIterationException {
-		// FIXME call next if necessary
+		
+		if (!nextCalled) {
+			try {
+				resultSet.next();
+			} catch (SQLException e) {
+				throw new InputIterationException("Could not retrieve next row.");
+			}
+		}
+		
 		nextCalled = false;
 		
 		String[] resultRow = new String[numberOfColumns];
@@ -58,8 +66,7 @@ public class SqlInput implements SimpleRelationalInput {
 
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 }

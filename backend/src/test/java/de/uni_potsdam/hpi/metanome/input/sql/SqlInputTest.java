@@ -2,6 +2,8 @@ package de.uni_potsdam.hpi.metanome.input.sql;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
@@ -10,7 +12,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
@@ -79,12 +80,53 @@ public class SqlInputTest {
 			assertEquals(expectedRecords.get(i), sqlInput.next());
 		}
 		assertEquals(expectedNextValues.get(fixture.numberOfRows()), sqlInput.hasNext());
+		// Next should have been called.
+		verify(resultSet, times(3)).next();
+		
+	}
+	
+	/**
+	 * Next should return the correct rows and call next on the result set although hasNext has not been called.
+	 * 
+	 * @throws SQLException
+	 * @throws InputIterationException
+	 */
+	@Test
+	public void testNextWithoutHasNext() throws SQLException, InputIterationException {
+		// Setup
+		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
+		ResultSet resultSet = fixture.getTestData();
+		SqlInput sqlInput = new SqlInput(resultSet);
+		
+		// Check result
+		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
+		for (int i = 0; i < fixture.numberOfRows(); i++) {
+			assertEquals(expectedRecords.get(i), sqlInput.next());
+		}
+		// Next should have been called (although hasNext has not been called on sqlInput).
+		verify(resultSet, times(2)).next();
 	}
 
-	@Ignore
+	/**
+	 * The remove method should always throw an {@link UnsupportedOperationException}.
+	 * 
+	 * @throws SQLException 
+	 */
 	@Test
-	public void testRemove() {
-		fail("Not yet implemented");
+	public void testRemove() throws SQLException {
+		// Setup 
+		ResultSetFixture fixture = new ResultSetFixture();
+		ResultSet resultSet = fixture.getTestData();
+		SqlInput sqlInput = new SqlInput(resultSet);
+
+		// Check result
+		try {
+			sqlInput.remove();
+			fail("Expected an UnsupportedOperationException to be thrown.");
+		}
+		catch (UnsupportedOperationException actualException) {
+			// Intentionally left blank
+		}
 	}
 
 }
