@@ -13,7 +13,7 @@
 \maketitle
 
 \section{Configuration and Execution}
-\label{sec_ConfigurationAndExecution}
+\label{sec_configurationAndExecution}
 
 Metanome supplies a framework to develop data profiling algorithms that integrate into the Metanome tool. Algorthms are packaged in jars that contain a bootstrap class that implements one or several of the specific algorithm interfaces shown in Figure~\ref{fig_algorithmClass}.
 \begin{figure}[h]
@@ -67,5 +67,19 @@ A typical execution sequence of the configuration and execution of an algorithm 
 \caption{Configuration and execution sequence}
 \label{fig_integrationSequence}
 \end{figure}
+
+\section{Sample Algorithm}
+\label{sec_sampleAlgorithm}
+
+To simplify the development of algorithms for the Metanome tool a maven sample project is provided. Necessary changes to the template are described in the following:
+
+\begin{itemize}
+\item Rename the project directory and change the \texttt{groupId}, \texttt{artifactId} and \texttt{name} in the pom.
+\item Rename the \texttt{AlgorithmTemplate.java} and \texttt{AlgorithmTemplateTest.java}.
+\item Update the algorithm bootstrap class in the \texttt{Algorithm-Bootstrap-Class} tag in the pom.
+\item Declare algorithm types in the bootstrap class by implementing one or several of the algorithm interfaces shown in Figure~\ref{fig_algorithmClass}.
+\item Update the package names according to the entries in the pom.
+\item Build the algorithm jar with \texttt{mvn package}.
+\end{itemize}
 
 \end{document}
