@@ -1,3 +1,5 @@
+.classpath
+/.settings
 .aux
 .log
 .synctex.gz
