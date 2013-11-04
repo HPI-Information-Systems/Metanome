@@ -2,11 +2,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.uni-potsdam.hpi.metanome.docs</groupId>
-  <artifactId>algorithm_integration</artifactId>
+  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <artifactId>docs</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>algorithm_integration</name>
+  <name>docs</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
