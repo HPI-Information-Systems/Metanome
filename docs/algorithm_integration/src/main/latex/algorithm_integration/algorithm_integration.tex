@@ -1,0 +1,73 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Jakob Zwiener}
+\title{Metanome Algorithm Integration}
+
+\begin{document}
+
+\maketitle
+
+\section{Configuration and Execution}
+\label{sec_ConfigurationAndExecution}
+
+Metanome supplies a framework to develop data profiling algorithms that integrate into the Metanome tool. Algorthms are packaged in jars that contain a bootstrap class that implements one or several of the specific algorithm interfaces shown in Figure~\ref{fig_algorithmClass}.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{algorithm_class}
+\caption{Algorithm interfaces}
+\label{fig_algorithmClass}
+\end{figure}
+The algorithm bootstrap class needs to be declared in the manifest of the jar in an \texttt{Algorithm-Bootstrap-Class} tag and needs to implement the following methods:
+
+\begin{itemize}
+\item \texttt{List <ConfigurationSpecification> getConfigurationRequirements()}
+
+The algorithm should generate a list of necessary configuration parameters. Configuration parameters that can be requested are shown in Figure~\ref{fig_configurationSpecificationClass}.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{configurationSpecification_class}
+\caption{Configuration specifications}
+\label{fig_configurationSpecificationClass}
+\end{figure}
+
+\item \texttt{void setConfigurationValue(String, ?)}
+
+The algorithm should receive the results of the requested configuration through the \texttt{setConfigurationValue} methods. Possible configuration values are shown in Figure~\ref{fig_configurationValueClass}. If a certain type of configuration value is not needed an \texttt{UnsupportedOperationException} may be thrown.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{configurationValue_class}
+\caption{Configuration values}
+\label{fig_configurationValueClass}
+\end{figure}
+
+\item \texttt{void setResultReceiver(ResultReceiver)}
+
+Algorithms generate certain types of results and send these to the Metanome tool through a callback. To enable this one or several \texttt{ResultReceiver} are set on the algorithm, depending on the algorithm type. Existing result receiver are shown in Figure~\ref{fig_resultReceiverClass}.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{resultReceiver_class}
+\caption{Result receiver}
+\label{fig_resultReceiverClass}
+\end{figure}
+
+\item \texttt{void execute()}
+
+Algorithm execution can be started by calling the execute method.
+
+\end{itemize}
+
+A typical execution sequence of the configuration and execution of an algorithm in the Metanome tool is shown in Figure~\ref{fig_integrationSequence}.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{algorithm_sequence}
+\caption{Configuration and execution sequence}
+\label{fig_integrationSequence}
+\end{figure}
+
+
+
+\end{document}
