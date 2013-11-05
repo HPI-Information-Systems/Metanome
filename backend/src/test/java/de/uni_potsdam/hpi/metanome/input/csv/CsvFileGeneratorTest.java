@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 
 /**
  * Tests for {@link CsvFileGenerator}
@@ -63,11 +63,11 @@ public class CsvFileGeneratorTest {
 	/**
 	 * The generator should generate fresh csv files iterable from the start.
 	 * 
-	 * @throws SimpleRelationalInputGenerationException 
+	 * @throws InputGenerationException 
 	 * @throws InputIterationException 
 	 */
 	@Test
-	public void testGenerateNewCsvFile() throws SimpleRelationalInputGenerationException, InputIterationException {
+	public void testGenerateNewCsvFile() throws InputGenerationException, InputIterationException {
 		// Setup
 		SimpleRelationalInput csv = generator.generateNewCopy();
 		

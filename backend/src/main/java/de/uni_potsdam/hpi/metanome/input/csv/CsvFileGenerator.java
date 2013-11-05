@@ -8,7 +8,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 
 public class CsvFileGenerator implements SimpleRelationalInputGenerator {
@@ -38,13 +38,13 @@ public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
 
-	public SimpleRelationalInput generateNewCopy() throws SimpleRelationalInputGenerationException {
+	public SimpleRelationalInput generateNewCopy() throws InputGenerationException {
 		try {
 			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
 		} catch (FileNotFoundException e) {
-			throw new SimpleRelationalInputGenerationException("File not found.");
+			throw new InputGenerationException("File not found.");
 		} catch (InputIterationException e) {
-			throw new SimpleRelationalInputGenerationException("Could not iterate over the first line of the csv file.");
+			throw new InputGenerationException("Could not iterate over the first line of the csv file.");
 		}	
 	}
 }
