@@ -24,13 +24,12 @@ public class SqlInput implements SimpleRelationalInput {
 	}
 
 	@Override
-	public boolean hasNext() {		
+	public boolean hasNext() throws InputIterationException {		
 		if (!nextCalled) {
 			try {
 				hasNext = resultSet.next();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new InputIterationException("Could not retrieve next row.");
 			}
 			nextCalled = true;
 		}
