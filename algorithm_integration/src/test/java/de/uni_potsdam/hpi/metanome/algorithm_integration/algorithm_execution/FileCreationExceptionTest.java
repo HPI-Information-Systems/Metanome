@@ -33,7 +33,7 @@ public class FileCreationExceptionTest {
 	/**
 	 * Test method for {@link FileCreationException#FileCreationException()}
 	 * 
-	 * TODO docs
+	 * The exception should store the message.
 	 */
 	@Test
 	public void testFileCreationException() {

@@ -9,7 +9,7 @@ import java.io.File;
 public interface FileGenerator extends Closeable {
 
 	/**
-	 * Returns a temporary file that will be deleted on termination of vm.
+	 * Returns a temporary file that will be deleted on close.
 	 * 
 	 * @return temporary file
 	 * 

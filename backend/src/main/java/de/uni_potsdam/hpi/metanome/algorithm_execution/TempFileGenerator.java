@@ -15,7 +15,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Fil
 /**
  * @author Jakob Zwiener
  *
- * TODO docs
+ * The generator builds empty, readable, writable files with random file names, that are deleted on close.
  */
 public class TempFileGenerator implements FileGenerator {
 
