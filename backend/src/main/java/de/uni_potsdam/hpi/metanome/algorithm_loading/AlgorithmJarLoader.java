@@ -51,6 +51,8 @@ public class AlgorithmJarLoader<T extends Algorithm> {
         Class<? extends T> algorithmClass = 
         		Class.forName(className, true, loader).asSubclass(algorithmSubclass);
         
+        jar.close();
+        
 		return algorithmClass.getConstructor().newInstance();
 	}
 	

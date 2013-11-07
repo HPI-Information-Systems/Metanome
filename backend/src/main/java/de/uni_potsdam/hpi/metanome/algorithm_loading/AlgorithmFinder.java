@@ -90,6 +90,8 @@ public class AlgorithmFinder {
         
         Class<?> algorithmClass = Class.forName(className, false, loader);
         
+        jar.close();
+        
 		return Arrays.asList(algorithmClass.getInterfaces());
 	}	
 }
