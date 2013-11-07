@@ -4,6 +4,10 @@ public class AlgorithmExecutionException extends Exception {
 
 	private static final long serialVersionUID = 3323364350205621228L;
 	
+	public AlgorithmExecutionException() {
+		super();
+	}
+	
 	public AlgorithmExecutionException(String message) {
 		super(message);
 	}
