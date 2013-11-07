@@ -9,14 +9,14 @@ import com.google.common.collect.ImmutableList;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 
-public class SqlInput implements SimpleRelationalInput {
+public class SqlIterator implements SimpleRelationalInput {
 
 	protected ResultSet resultSet;
 	protected int numberOfColumns;
 	protected boolean nextCalled;
 	protected boolean hasNext;
 	
-	public SqlInput(ResultSet resultSet) throws SQLException {
+	public SqlIterator(ResultSet resultSet) throws SQLException {
 		this.resultSet = resultSet;
 		ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 		this.numberOfColumns = resultSetMetaData.getColumnCount();

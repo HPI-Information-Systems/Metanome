@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
-public class SqlInputTest {
+public class SqlIteratorTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -40,7 +40,7 @@ public class SqlInputTest {
 		// Setup 
 		ResultSetFixture fixture = new ResultSetFixture();
 		ResultSet resultSet = fixture.getTestData();
-		SqlInput sqlInput = new SqlInput(resultSet);
+		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		// Expected values
 		boolean expectedFirstNext = true;
 		boolean expectedSecondNext = false;
@@ -51,12 +51,12 @@ public class SqlInputTest {
 		
 		// Execute functionality
 		// Check result
-		assertEquals(expectedFirstNext, sqlInput.hasNext());
+		assertEquals(expectedFirstNext, sqlIterator.hasNext());
 		// This should give the cached next result.
-		assertEquals(expectedFirstNext, sqlInput.hasNext());
-		// After having called next on the SqlInput the second next call should be made to the ResultSet
-		sqlInput.next();
-		assertEquals(expectedSecondNext, sqlInput.hasNext());
+		assertEquals(expectedFirstNext, sqlIterator.hasNext());
+		// After having called next on the SqlIterator the second next call should be made to the ResultSet
+		sqlIterator.next();
+		assertEquals(expectedSecondNext, sqlIterator.hasNext());
 	}
 
 	/**
@@ -70,16 +70,16 @@ public class SqlInputTest {
 		// Setup
 		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
 		ResultSet resultSet = fixture.getTestData();
-		SqlInput sqlInput = new SqlInput(resultSet);
+		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
 		List<Boolean> expectedNextValues = fixture.getExpectedNextValues();
 		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
 		for (int i = 0; i < fixture.numberOfRows(); i++) {
-			assertEquals(expectedNextValues.get(i), sqlInput.hasNext());
-			assertEquals(expectedRecords.get(i), sqlInput.next());
+			assertEquals(expectedNextValues.get(i), sqlIterator.hasNext());
+			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
-		assertEquals(expectedNextValues.get(fixture.numberOfRows()), sqlInput.hasNext());
+		assertEquals(expectedNextValues.get(fixture.numberOfRows()), sqlIterator.hasNext());
 		// Next should have been called.
 		verify(resultSet, times(3)).next();
 		
@@ -96,14 +96,14 @@ public class SqlInputTest {
 		// Setup
 		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
 		ResultSet resultSet = fixture.getTestData();
-		SqlInput sqlInput = new SqlInput(resultSet);
+		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
 		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
 		for (int i = 0; i < fixture.numberOfRows(); i++) {
-			assertEquals(expectedRecords.get(i), sqlInput.next());
+			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
-		// Next should have been called (although hasNext has not been called on sqlInput).
+		// Next should have been called (although hasNext has not been called on sqlIterator).
 		verify(resultSet, times(2)).next();
 	}
 
@@ -117,11 +117,11 @@ public class SqlInputTest {
 		// Setup 
 		ResultSetFixture fixture = new ResultSetFixture();
 		ResultSet resultSet = fixture.getTestData();
-		SqlInput sqlInput = new SqlInput(resultSet);
+		SqlIterator sqlIterator = new SqlIterator(resultSet);
 
 		// Check result
 		try {
-			sqlInput.remove();
+			sqlIterator.remove();
 			fail("Expected an UnsupportedOperationException to be thrown.");
 		}
 		catch (UnsupportedOperationException actualException) {
