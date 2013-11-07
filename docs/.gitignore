@@ -1,7 +1,7 @@
 .classpath
 /.settings
-.aux
-.log
-.synctex.gz
 /target
-
+**.aux
+**.log
+**.synctex.gz
+**.pdf
