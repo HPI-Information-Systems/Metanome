@@ -13,7 +13,8 @@ public class ConfigurationValueSQLInputGenerator implements ConfigurationValue {
 		protected final SQLInputGenerator value;
 		
 		/**
-		 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
+		 * Constructs a ConfigurationValueSQLInputGenerator using the specification's identifier and 
+		 * a SQLInputGenerator as value.
 		 * 
 		 * @param identifier
 		 * @param value

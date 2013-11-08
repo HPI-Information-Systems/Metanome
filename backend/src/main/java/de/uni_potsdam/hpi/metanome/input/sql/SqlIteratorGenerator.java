@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
@@ -14,8 +15,12 @@ public class SqlIteratorGenerator implements SQLInputGenerator {
 
 	protected Connection dbConnection;
 	
-	public SqlIteratorGenerator(String dbUrl, String userName, String password) throws SQLException {
-		this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
+	public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException{
+		try {
+			this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
+		} catch (SQLException e) {
+			throw new AlgorithmConfigurationException("Failed to get Database Connection");
+		}
 	}
 
 	@Override
