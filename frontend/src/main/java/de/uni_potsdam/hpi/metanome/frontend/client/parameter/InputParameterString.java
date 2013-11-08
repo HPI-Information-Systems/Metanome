@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterStringWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
@@ -15,6 +16,7 @@ public class InputParameterString extends InputParameter {
 	
 	public InputParameterString(String identifier) {
 		super(identifier);
+		new ConfigurationSpecificationString(identifier);
 	}
 
 	// **** GETTERS & SETTERS ****
