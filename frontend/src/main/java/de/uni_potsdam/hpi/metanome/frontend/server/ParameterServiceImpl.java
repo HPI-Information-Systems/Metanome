@@ -13,11 +13,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombination
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 
@@ -79,8 +81,10 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			return new InputParameterString(config.getIdentifier());
 		} else if (config instanceof ConfigurationSpecificationBoolean) {
 			return new InputParameterBoolean(config.getIdentifier());
-		} else if (config instanceof ConfigurationSpecificationCsvFile){
+		} else if (config instanceof ConfigurationSpecificationCsvFile) {
 			return new InputParameterCsvFile(config.getIdentifier());
+		} else if (config instanceof ConfigurationSpecificationSQLIterator) {
+			return new InputParameterSQLIterator(config.getIdentifier());
 		} else {
 			return null;
 		}
