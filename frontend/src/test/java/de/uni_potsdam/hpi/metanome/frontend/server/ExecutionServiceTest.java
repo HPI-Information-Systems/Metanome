@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
@@ -36,9 +37,10 @@ public class ExecutionServiceTest extends TestCase {
 	 * TODO docs
 	 * 
 	 * @throws FileNotFoundException
+	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
-	public void testConvertToInputParameter() throws FileNotFoundException {
+	public void testConvertToInputParameter() throws AlgorithmConfigurationException {
 		//Setup
 		csvParam.setFileNameValue(ClassLoader.getSystemResource("inputData").getPath() + "/inputA.csv");
 		
@@ -65,8 +67,8 @@ public class ExecutionServiceTest extends TestCase {
 		try {
 			executionService.buildCsvFileGenerator(csvParam);
 			fail("Expected exception was not thrown.");
-		} catch (FileNotFoundException e){
-
+		} catch (AlgorithmConfigurationException e) {
+			//Test succesful.
 		}
 
 	}
