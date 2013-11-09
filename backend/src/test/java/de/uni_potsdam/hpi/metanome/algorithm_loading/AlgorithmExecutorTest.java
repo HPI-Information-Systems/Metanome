@@ -55,7 +55,7 @@ public class AlgorithmExecutorTest {
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
-		// Execute TODO
+		// Execute functionality
 		executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
@@ -75,7 +75,7 @@ public class AlgorithmExecutorTest {
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("tableName", "table1"));
 		
-		// Execute
+		// Execute functionality
 		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
@@ -95,7 +95,7 @@ public class AlgorithmExecutorTest {
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
 				
-		// Execute
+		// Execute functionality
 		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result

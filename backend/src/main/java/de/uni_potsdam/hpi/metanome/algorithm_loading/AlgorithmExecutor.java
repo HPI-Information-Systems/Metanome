@@ -27,7 +27,7 @@ public class AlgorithmExecutor {
 	protected FileGenerator fileGenerator;
 	
 	/**
-	 * TODO docs
+	 * Constructs a new executor with new result receivers and generators.
 	 * 
 	 * @param fdResultReceiver
 	 * @param indResultReceiver
@@ -47,7 +47,8 @@ public class AlgorithmExecutor {
 	}
 	
 	/**
-	 * TODO docs
+	 * Executes an algorithm. The algorithm is loaded from the jar, 
+	 * configured and all receivers and generators are set before execution.
 	 * 
 	 * @param algorithmName
 	 * @param configs

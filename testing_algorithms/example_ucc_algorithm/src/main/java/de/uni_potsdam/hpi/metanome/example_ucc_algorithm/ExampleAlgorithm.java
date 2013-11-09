@@ -28,17 +28,12 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 		return configurationSpecification;
 	}
 
-	public void execute() {
+	public void execute() throws CouldNotReceiveResultException {
 		if (path != null) {
-			try {
-				resultReceiver.receiveResult(
-						new ColumnCombination(
-								new ColumnIdentifier("table1", "column1"), 
-								new ColumnIdentifier("table2", "column2")));
-			} catch (CouldNotReceiveResultException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
+			resultReceiver.receiveResult(
+					new ColumnCombination(
+							new ColumnIdentifier("table1", "column1"), 
+							new ColumnIdentifier("table2", "column2")));			
 		}
 	}
 
