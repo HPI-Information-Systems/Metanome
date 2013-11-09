@@ -11,7 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -68,7 +68,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm,
 	}
 
 	public void setConfigurationValue(String identifier,
-			SimpleRelationalInputGenerator value) {
+			RelationalInputGenerator value) {
 		throw new UnsupportedOperationException();
 	}
 

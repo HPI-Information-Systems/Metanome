@@ -12,7 +12,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 
 /**
- * Tests for {@link ConfigurationValueSimpleRelationalInputGenerator}
+ * @author Jakob Zwiener
+ * 
+ * Tests for {@link ConfigurationValueRelationalInputGenerator}
  */
 public class ConfigurationValueSQLInputGeneratorTest {
 	
@@ -29,6 +31,7 @@ public class ConfigurationValueSQLInputGeneratorTest {
 	/**
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
+	 * 
 	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test

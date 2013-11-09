@@ -7,11 +7,11 @@ import java.io.FileReader;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
-public class CsvFileGenerator implements SimpleRelationalInputGenerator {
+public class CsvFileGenerator implements RelationalInputGenerator {
 
 	protected File inputFile;
 	protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -38,7 +38,7 @@ public class CsvFileGenerator implements SimpleRelationalInputGenerator {
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
 
-	public SimpleRelationalInput generateNewCopy() throws InputGenerationException {
+	public RelationalInput generateNewCopy() throws InputGenerationException {
 		try {
 			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
 		} catch (FileNotFoundException e) {

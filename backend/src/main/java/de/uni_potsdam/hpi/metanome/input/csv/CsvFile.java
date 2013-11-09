@@ -8,12 +8,12 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
  */
-public class CsvFile implements SimpleRelationalInput, Closeable {
+public class CsvFile implements RelationalInput, Closeable {
 	
 	protected CSVReader csvReader;
 	protected ImmutableList<String> nextLine;

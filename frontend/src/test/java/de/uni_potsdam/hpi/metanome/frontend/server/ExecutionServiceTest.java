@@ -11,7 +11,7 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
@@ -52,7 +52,7 @@ public class ExecutionServiceTest extends TestCase {
 		//Check
 		assertTrue(confString instanceof ConfigurationValueString);
 		assertTrue(confBool instanceof ConfigurationValueBoolean);
-		assertTrue(confCsv instanceof ConfigurationValueSimpleRelationalInputGenerator);
+		assertTrue(confCsv instanceof ConfigurationValueRelationalInputGenerator);
 	}	
 
 	/**

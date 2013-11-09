@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
-public class SqlIterator implements SimpleRelationalInput {
+public class SqlIterator implements RelationalInput {
 
 	protected ResultSet resultSet;
 	protected int numberOfColumns;

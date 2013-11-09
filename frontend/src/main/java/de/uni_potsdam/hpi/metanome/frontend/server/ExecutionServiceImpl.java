@@ -17,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Fil
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
@@ -76,7 +76,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 			return new ConfigurationValueBoolean(parameter.getIdentifier(), 
 					((InputParameterBoolean) parameter).getValue());
 		else if (parameter instanceof InputParameterCsvFile)
-			return new ConfigurationValueSimpleRelationalInputGenerator(parameter.getIdentifier(), 
+			return new ConfigurationValueRelationalInputGenerator(parameter.getIdentifier(), 
 					buildCsvFileGenerator((InputParameterCsvFile) parameter));
 		else if (parameter instanceof InputParameterSQLIterator)
 			return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(), 
