@@ -19,7 +19,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -31,7 +30,7 @@ public class AlgorithmExecutorTest {
 	protected UniqueColumnCombinationResultReceiver uccResultReceiver;
 	protected FileGenerator fileGenerator;
 	
-	protected AlgorithmExecutor executer;
+	protected AlgorithmExecutor executor;
 	
 	@Before
 	public void setUp() throws UnsupportedEncodingException{
@@ -40,7 +39,7 @@ public class AlgorithmExecutorTest {
 		uccResultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
 		fileGenerator = new TempFileGenerator();
 		
-		executer = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
+		executor = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
 	}
 
 	/**
@@ -48,17 +47,16 @@ public class AlgorithmExecutorTest {
 	 * 
 	 * @throws AlgorithmLoadingException 
 	 * @throws AlgorithmConfigurationException 
-	 * @throws CouldNotReceiveResultException 
 	 * @throws AlgorithmExecutionException 
 	 */
 	@Test
-	public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, CouldNotReceiveResultException, AlgorithmExecutionException {
+	public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
 		// Execute TODO
-		executer.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
@@ -69,17 +67,16 @@ public class AlgorithmExecutorTest {
 	 * 
 	 * @throws AlgorithmConfigurationException
 	 * @throws AlgorithmLoadingException
-	 * @throws CouldNotReceiveResultException
 	 * @throws AlgorithmExecutionException 
 	 */
 	@Test
-	public void executeInclusionDependencyTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, CouldNotReceiveResultException, AlgorithmExecutionException {
+	public void executeInclusionDependencyTest() throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("tableName", "table1"));
 		
 		// Execute
-		executer.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
 		verify(indResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
@@ -90,19 +87,38 @@ public class AlgorithmExecutorTest {
 	 * 
 	 * @throws AlgorithmConfigurationException 
 	 * @throws AlgorithmLoadingException 
-	 * @throws CouldNotReceiveResultException 
 	 * @throws AlgorithmExecutionException 
 	 */
 	@Test
-	public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmConfigurationException, CouldNotReceiveResultException, AlgorithmExecutionException {
+	public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
 				
 		// Execute
-		executer.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
+		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
+	}
+	
+	/**
+	 * TODO docs
+	 * @throws AlgorithmExecutionException 
+	 * @throws AlgorithmConfigurationException 
+	 * @throws AlgorithmLoadingException 
+	 */
+	@Test
+	public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
+		// Setup
+		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
+		
+		// Execute functionality
+		executor.executeAlgorithm("example_holistic_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		
+		// Check result
+		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
 		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
 	}
 }
