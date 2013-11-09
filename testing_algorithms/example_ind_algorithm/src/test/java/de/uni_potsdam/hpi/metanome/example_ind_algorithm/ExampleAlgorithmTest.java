@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
 public class ExampleAlgorithmTest {
@@ -68,10 +68,11 @@ public class ExampleAlgorithmTest {
 
 	/**
 	 * When the algorithm is started after configuration a result should be received.
-	 * @throws CouldNotReceiveResultException 
+	 * 
+	 * @throws AlgorithmExecutionException 
 	 */
 	@Test
-	public void testStart() throws CouldNotReceiveResultException {
+	public void testStart() throws AlgorithmExecutionException {
 		// Setup
 		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyResultReceiver.class);
 		this.algorithm.setConfigurationValue(tableIdentifier, "something");
