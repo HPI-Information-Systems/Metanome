@@ -35,6 +35,11 @@ public class AlgorithmTemplateTest {
 	public void testSetConfigurationValueStringSimpleRelationalInputGenerator() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testSetConfigurationValueStringSQLInputGenerator() {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testStart() {
