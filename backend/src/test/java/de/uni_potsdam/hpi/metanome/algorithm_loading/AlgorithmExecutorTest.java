@@ -43,7 +43,7 @@ public class AlgorithmExecutorTest {
 	}
 
 	/**
-	 * TODO docs
+	 * Tests the execution of an fd algorithm.
 	 * 
 	 * @throws AlgorithmLoadingException 
 	 * @throws AlgorithmConfigurationException 
@@ -63,7 +63,7 @@ public class AlgorithmExecutorTest {
 	}
 	
 	/**
-	 * TODO docs
+	 * Tests the execution of an ind algorithm.
 	 * 
 	 * @throws AlgorithmConfigurationException
 	 * @throws AlgorithmLoadingException
@@ -83,7 +83,7 @@ public class AlgorithmExecutorTest {
 	}
 	
 	/**
-	 * TODO docs
+	 * Tests the execution of an ucc algorithm.
 	 * 
 	 * @throws AlgorithmConfigurationException 
 	 * @throws AlgorithmLoadingException 
@@ -103,7 +103,8 @@ public class AlgorithmExecutorTest {
 	}
 	
 	/**
-	 * TODO docs
+	 * Tests the execution of an holistic algorithm.
+	 * 
 	 * @throws AlgorithmExecutionException 
 	 * @throws AlgorithmConfigurationException 
 	 * @throws AlgorithmLoadingException 
