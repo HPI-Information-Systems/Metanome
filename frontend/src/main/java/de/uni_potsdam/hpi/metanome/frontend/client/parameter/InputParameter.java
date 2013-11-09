@@ -16,7 +16,6 @@ public abstract class InputParameter implements Serializable{
 	public InputParameter(String identifier){
 		this.setIdentifier(identifier);
 	}
-
 	
 	// **** GETTERS & SETTERS ****
 	
@@ -28,7 +27,7 @@ public abstract class InputParameter implements Serializable{
 		this.identifier = identifier;
 	}
 
-	public abstract Object getValue();
+	//public abstract Object getValue();
 
 	public abstract InputParameterWidget createWrappingWidget();
 }

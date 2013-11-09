@@ -18,6 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Fil
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
@@ -86,5 +87,10 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	@Override
 	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
 		this.tempFileGenerator = tempFileGenerator;
+	}
+
+	@Override
+	public void setConfigurationValue(String identifier, SQLInputGenerator value) {
+		throw new UnsupportedOperationException();
 	}
 }

@@ -27,7 +27,6 @@ public class InputParameterCsvFile extends InputParameter {
 		this.filePath = value;
 	}
 
-	@Override
 	public String getValue() {
 		return filePath;
 	}

@@ -14,8 +14,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSimpleRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -24,9 +26,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
@@ -42,7 +46,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	AlgorithmExecutor executer = new AlgorithmExecutor();
 	
 	private List<ConfigurationValue> convertInputParameters(
-			List<InputParameter> parameters) throws FileNotFoundException {
+			List<InputParameter> parameters) throws AlgorithmConfigurationException {
 		List<ConfigurationValue> configValuesList = new LinkedList<ConfigurationValue>();
 		for (InputParameter parameter : parameters){
 			ConfigurationValue configValue = convertToConfigurationValue(parameter);
@@ -52,26 +56,39 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public ConfigurationValue convertToConfigurationValue(
-			InputParameter parameter) throws FileNotFoundException {
+			InputParameter parameter) throws AlgorithmConfigurationException {
 		//TODO all types of ConfigurationValues
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
-					(String) parameter.getValue());
+					((InputParameterString) parameter).getValue());
 		else if (parameter instanceof InputParameterBoolean)
 			return new ConfigurationValueBoolean(parameter.getIdentifier(), 
-					(Boolean) parameter.getValue());
+					((InputParameterBoolean) parameter).getValue());
 		else if (parameter instanceof InputParameterCsvFile)
 			return new ConfigurationValueSimpleRelationalInputGenerator(parameter.getIdentifier(), 
 					buildCsvFileGenerator((InputParameterCsvFile) parameter));
-		return null;
+		else if (parameter instanceof InputParameterSQLIterator)
+			return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(), 
+					buildSQLInputGenerator((InputParameterSQLIterator) parameter));
+		else
+			return null;
 	}
 
-	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) throws FileNotFoundException {
-		//TODO instantiate CsvFileGenerator correctly
+	private SQLInputGenerator buildSQLInputGenerator(
+			InputParameterSQLIterator parameter) throws AlgorithmConfigurationException {
+		return new SqlIteratorGenerator(parameter.getDbUrl(), parameter.getUserName(), parameter.getPassword());
+	}
+
+	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) throws AlgorithmConfigurationException {
+		//TODO advanced CsvFileGenerator construction
 		if (parameter.isAdvanced())
 			return null;//new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
-		else 
-			return new CsvFileGenerator(new File(parameter.getValue()));
+		else
+			try {
+				return new CsvFileGenerator(new File(parameter.getValue()));
+			} catch (FileNotFoundException e) {
+				throw new AlgorithmConfigurationException("Could not find specified CSV file.");		
+			}
 	}	
 	
 	@Override

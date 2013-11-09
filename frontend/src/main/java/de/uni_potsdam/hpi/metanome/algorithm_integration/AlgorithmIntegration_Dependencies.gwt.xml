@@ -3,11 +3,7 @@
 
 <module>
   <inherits name="com.google.gwt.user.User"/>
-  <source path="algorithm_integration">
-    <include name="AlgorithmConfigurationException.java"/>
-    <include name="AlgorithmExecutionException.java"/>
-  </source>
-  <source path="algorithm_loading">
-    <include name="AlgorithmLoadingException.java"/>
+  <source path="configuration">
+    <include name="ConfigurationSpecificationString.java"/>
   </source>
 </module>

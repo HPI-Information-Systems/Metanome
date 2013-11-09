@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
 
 /**
@@ -42,9 +43,18 @@ public interface Algorithm {
 	 * @param value
 	 */
 	void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) throws AlgorithmConfigurationException;
+
+	/**
+	 * Sets a SQLInputGenerator configuration value on the algorithm.
+	 * 
+	 * @param identifier
+	 * @param value
+	 */
+	void setConfigurationValue(String identifier, SQLInputGenerator value);
 	
 	/**
 	 * Starts the execution of the algorithm.
 	 */
 	void execute() throws AlgorithmExecutionException;
+
 }
