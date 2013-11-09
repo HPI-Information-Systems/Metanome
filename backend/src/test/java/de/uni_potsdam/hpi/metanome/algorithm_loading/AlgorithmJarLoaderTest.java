@@ -55,8 +55,7 @@ public class AlgorithmJarLoaderTest {
 	@Test
 	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
 		// Setup
-		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
-				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
+		AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		
 		// Execute functionality
 		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");

@@ -52,8 +52,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 		delayTestFinish(500);
 
 		// Execute
-		executionService.executeUniqueColumnCombinationsAlgorithm(
-				"example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, callback);
+		executionService.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, callback);
 	}
 
 	/**
@@ -80,8 +79,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 		delayTestFinish(500);
 
 		// Execute
-		parameterService.retrieveUniqueColumnCombinationsParameters(
-				"example_ucc_algorithm-0.0.1-SNAPSHOT.jar", callback);
+		parameterService.retrieveParameters("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", callback);
 
 	}
 	

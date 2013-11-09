@@ -4,7 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.junit.After;
@@ -13,6 +16,7 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
@@ -70,18 +74,29 @@ public class ExampleAlgorithmTest {
 	 * When the algorithm is started after configuration a result should be received.
 	 * 
 	 * @throws AlgorithmExecutionException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	public void testStart() throws AlgorithmExecutionException {
+	public void testStart() throws AlgorithmExecutionException, UnsupportedEncodingException {
 		// Setup
 		InclusionDependencyResultReceiver resultReceiver = mock(InclusionDependencyResultReceiver.class);
+		File tempFile = new File("testFile");
+		tempFile.deleteOnExit();
+		FileGenerator fileGenerator = mock(FileGenerator.class);
+		when(fileGenerator.getTemporaryFile())
+			.thenReturn(tempFile);
 		this.algorithm.setConfigurationValue(tableIdentifier, "something");
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
+		this.algorithm.setTempFileGenerator(fileGenerator);
 		this.algorithm.execute();
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
+		verify(fileGenerator).getTemporaryFile();
+		
+		// Cleanup
+		tempFile.delete();
 	}
 }

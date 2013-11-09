@@ -2,7 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,8 +10,10 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
@@ -38,12 +40,21 @@ import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinte
 /**
  * Service Implementation for service that triggers algorithm execution
  */
-public class ExecutionServiceImpl extends RemoteServiceServlet implements
-		ExecutionService {
-
-	private static final long serialVersionUID = 1L;
+public class ExecutionServiceImpl extends RemoteServiceServlet implements ExecutionService {
 	
-	AlgorithmExecutor executer = new AlgorithmExecutor();
+	private static final long serialVersionUID = -2758103927345131933L;
+	
+	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
+		FunctionalDependencyResultReceiver fdResultReceiver = 
+				new FunctionalDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
+		InclusionDependencyResultReceiver indResultReceiver = 
+				new InclusionDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
+		UniqueColumnCombinationResultReceiver uccResultReceiver = 
+				new UniqueColumnCombinationPrinter(getResultFileName(algorithmName), getResultDirectoryName());
+		FileGenerator fileGenerator = new TempFileGenerator();
+		
+		return new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
+	}
 	
 	private List<ConfigurationValue> convertInputParameters(
 			List<InputParameter> parameters) throws AlgorithmConfigurationException {
@@ -92,48 +103,17 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements
 	}	
 	
 	@Override
-	public void executeInclusionDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
+	public void executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		InclusionDependencyResultReceiver resultReceiver = new InclusionDependencyPrinter(
-				getResultFileName(algorithmName), getResultDirectoryName());
-		
-		executer.executeInclusionDependencyAlgorithm(algorithmName, configs, resultReceiver);
-	}
 
-	@Override
-	public void executeFunctionalDependencyAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, IOException, AlgorithmExecutionException {
-		
-		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		FunctionalDependencyResultReceiver resultReceiver = new FunctionalDependencyPrinter(
-				getResultFileName(algorithmName), getResultDirectoryName());
-		
-		executer.executeFunctionalDependencyAlgorithm(algorithmName, configs, resultReceiver);		
-	}
-
-
-	@Override
-	public void executeUniqueColumnCombinationsAlgorithm(String algorithmName,
-			List<InputParameter> parameters) throws AlgorithmLoadingException, AlgorithmConfigurationException, IOException, AlgorithmExecutionException {
-		
-		List<ConfigurationValue> configs = convertInputParameters(parameters);
-		UniqueColumnCombinationResultReceiver resultReceiver = new UniqueColumnCombinationPrinter(
-				getResultFileName(algorithmName), getResultDirectoryName());
-		
-		executer.executeUniqueColumnCombinationsAlgorithm(algorithmName, configs, resultReceiver);
-	}
-
-
-	@Override
-	public void executeBasicStatisticsAlgorithm(String algorithmName,
-			List<InputParameter> parameters) {
-		//List<ConfigurationValue> configs = convertInputParameters(parameters);
-		FunctionalDependencyResultReceiver resultReceiver = null; //TODO instantiate
-		
-		//TODO implement execution logic executer.executeBasicStatisticsAlgorithm(algorithmName, configs, resultReceiver);
-				
+		try {
+			buildExecutor(algorithmName).executeAlgorithm(algorithmName, configs);
+		} catch (FileNotFoundException e) {
+			throw new AlgorithmExecutionException("Could not generate result file.");
+		} catch (UnsupportedEncodingException e) {
+			throw new AlgorithmExecutionException("Could not build temporary file generator.");
+		}
 	}
 	
 	protected String getResultDirectoryName() {

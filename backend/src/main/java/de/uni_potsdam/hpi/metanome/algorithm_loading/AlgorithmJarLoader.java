@@ -12,30 +12,26 @@ import java.util.jar.Manifest;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
-public class AlgorithmJarLoader<T extends Algorithm> {
+public class AlgorithmJarLoader {
 	
 	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-	protected Class<T> algorithmSubclass;
-	
-	public AlgorithmJarLoader(Class<T> algorithmSubclass) {
-		this.algorithmSubclass = algorithmSubclass;
-	}
+	protected Algorithm algorithmSubclass;
 	
 	/**
 	 * Loads a jar file containing an algorithm and returns an instance of the bootstrap class.
 	 * 
 	 * @param path
-	 * @return runnable algorithm
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
+	 * @return runnable algorithm 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws SecurityException 
 	 * @throws NoSuchMethodException 
 	 * @throws InvocationTargetException 
-	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+	public Algorithm loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
 		
 		File file = new File(URLDecoder.decode(pathToFolder + "/" + path, "utf-8"));
@@ -46,10 +42,10 @@ public class AlgorithmJarLoader<T extends Algorithm> {
         String className = attr.getValue(bootstrapClassTagName);
         
         URL[] url = {file.toURI().toURL()};
-        ClassLoader loader = new URLClassLoader(url, algorithmSubclass.getClassLoader());
+        ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());
         
-        Class<? extends T> algorithmClass = 
-        		Class.forName(className, true, loader).asSubclass(algorithmSubclass);
+        Class<? extends Algorithm> algorithmClass = 
+        		Class.forName(className, true, loader).asSubclass(Algorithm.class);
         
         jar.close();
         

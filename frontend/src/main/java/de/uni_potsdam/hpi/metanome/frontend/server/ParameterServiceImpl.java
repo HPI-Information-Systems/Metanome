@@ -6,10 +6,6 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.BasicStatisticsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -29,26 +25,18 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
  */
 public class ParameterServiceImpl extends RemoteServiceServlet implements ParameterService {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7343803695093136183L;
 	
-	private AlgorithmJarLoader<InclusionDependencyAlgorithm> inclusionDependencyJarLoader = 
-			new AlgorithmJarLoader<InclusionDependencyAlgorithm>(InclusionDependencyAlgorithm.class);
-	private AlgorithmJarLoader<FunctionalDependencyAlgorithm> functionalDependencyJarLoader = 
-			new AlgorithmJarLoader<FunctionalDependencyAlgorithm>(FunctionalDependencyAlgorithm.class);
-	private AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> uniqueColumnCombinationsJarLoader = 
-			new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
-	private AlgorithmJarLoader<BasicStatisticsAlgorithm> basicStatisticsJarLoader =
-			new AlgorithmJarLoader<BasicStatisticsAlgorithm>(BasicStatisticsAlgorithm.class);
+	protected AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
 	
 	/**
 	 * 
 	 * @param algorithmFileName	name of the algorithm for which the configuration parameters shall be 
 	 * 							retrieved
-	 * @param jarLoader			an <link>AlgorithmJarLoader</link> instance for the correct algorithm 
-	 * 							type 
+	 * @param jarLoader			an <link>AlgorithmJarLoader</link> instance 
 	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
 	 */
-	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader<?> jarLoader){
+	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader jarLoader){
 		Algorithm algorithm = null;
 		try {
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
@@ -91,27 +79,8 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 	}
 
 	@Override
-	public List<InputParameter> retrieveInclusionDependencyParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, inclusionDependencyJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveFunctionalDependencyParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, functionalDependencyJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveUniqueColumnCombinationsParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, uniqueColumnCombinationsJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveBasicStatisticsParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, basicStatisticsJarLoader);
+	public List<InputParameter> retrieveParameters(String algorithmFileName) {
+		return retrieveParameters(algorithmFileName, jarLoader);
 	}
 
 }

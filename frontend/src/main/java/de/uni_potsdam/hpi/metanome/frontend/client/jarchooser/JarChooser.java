@@ -17,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
  */
-public abstract class JarChooser extends HorizontalPanel {
+public class JarChooser extends HorizontalPanel {
 
 	private Label label;
 	private ListBox listbox;
@@ -78,7 +78,9 @@ public abstract class JarChooser extends HorizontalPanel {
 	 * @param selectedValue	the name of the selected algorithm
 	 * @param callback		callback object for RPC
 	 */
-	protected abstract void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback);
+	public void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback) {
+	    parameterService.retrieveParameters(selectedValue, callback);
+	}
 
 	/**
 	 * Handles the incoming list of parameters by adding a ParameterTable to the corresponding
@@ -105,4 +107,6 @@ public abstract class JarChooser extends HorizontalPanel {
 	public String getSelectedAlgorithm() {
 		return listbox.getValue(listbox.getSelectedIndex());
 	}
+	
+	
 }

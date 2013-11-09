@@ -79,7 +79,10 @@ public abstract class AlgorithmTab extends DockPanel{
 	 * 
 	 * @param filenames	list of filenames (without path) of matching algorithms
 	 */
-	public abstract void addJarChooser(String... filenames);
+	public void addJarChooser(String... filenames) {
+		jarChooser = new JarChooser(filenames);
+		this.add(jarChooser, DockPanel.NORTH);
+	}
 	
 	/**
 	 * 
@@ -92,12 +95,21 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected String getCurrentlySelectedAlgorithm(){
 		return this.jarChooser.getSelectedAlgorithm();
 	}
+	
+	public void callExecutionService(List<InputParameter> parameters) {
+		String algorithmName = getCurrentlySelectedAlgorithm();
 
-	/**
-	 * calls the backend to execute the currently selected Algorithm
-	 * 
-	 * @param parameters	a List of InputParameter subclass instances, corresponding to 
-	 * 						the ConfigurationSpecification of the Algorithm
-	 */
-	public abstract void callExecutionService(List<InputParameter> parameters);
+		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+		      public void onFailure(Throwable caught) {
+		    	  // TODO: Do something with errors.
+		      }
+
+		      public void onSuccess(Void v) {  	  
+		    	  //TODO: results are displayed by the ResultReceiver somehow
+		      }
+		    };
+
+		// Make the call to the execution service.
+		executionService.executeAlgorithm(algorithmName, parameters, callback);
+	}
 }

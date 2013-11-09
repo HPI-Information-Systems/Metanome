@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.BasicStatisticsJarChooser;
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.FunctionalDependencyJarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab;
@@ -28,7 +27,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 		
 		//Check
 		assertEquals(1, algoTab.getWidgetCount());
-		assertTrue(algoTab.getJarChooser() instanceof FunctionalDependencyJarChooser);
+		assertTrue(algoTab.getJarChooser() instanceof JarChooser);
 	}
 	
 	@Test
@@ -55,7 +54,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 		
 		//Check
 		assertEquals(1, algoTab.getWidgetCount());
-		assertTrue(algoTab.getJarChooser() instanceof BasicStatisticsJarChooser);
+		assertTrue(algoTab.getJarChooser() instanceof JarChooser);
 	}
 	
 	@Test
