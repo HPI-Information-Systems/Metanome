@@ -93,6 +93,7 @@
             <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:algorithm_integration</compileSourcesArtifact>
             <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
           </compileSourcesArtifacts>
+          <strict>true</strict>
         </configuration>
       </plugin>
 

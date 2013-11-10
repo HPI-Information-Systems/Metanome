@@ -11,7 +11,7 @@ import java.net.URLDecoder;
 public class InputDataFinder {
 
 	public File[] getAvailableCsvs() throws UnsupportedEncodingException {
-		String pathToFolder = ClassLoader.getSystemResource("inputData").getPath();
+		String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 		File[] csvFiles = retrieveCsvFiles(pathToFolder);
 		
 		return csvFiles;

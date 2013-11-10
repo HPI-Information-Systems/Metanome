@@ -56,10 +56,8 @@ public abstract class AlgorithmTab extends DockPanel{
 	 * @param paramList	list of required parameters
 	 */
 	public void addParameterTable(List<InputParameter> paramList){
-		try {
+		if (parameterTable != null) {
 			this.remove(parameterTable);
-		} catch (NullPointerException e) {
-			//NullPointer is ok. It just means there was no parameterTable so far
 		}
 		parameterTable = new ParameterTable(paramList);
 		this.add(parameterTable, DockPanel.WEST);

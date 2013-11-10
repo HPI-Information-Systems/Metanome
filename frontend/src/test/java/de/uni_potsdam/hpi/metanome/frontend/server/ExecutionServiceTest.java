@@ -42,7 +42,7 @@ public class ExecutionServiceTest extends TestCase {
 	@Test
 	public void testConvertToInputParameter() throws AlgorithmConfigurationException {
 		//Setup
-		csvParam.setFileNameValue(ClassLoader.getSystemResource("inputData").getPath() + "/inputA.csv");
+		csvParam.setFileNameValue(Thread.currentThread().getContextClassLoader().getResource("inputData").getPath() + "/inputA.csv");
 		
 		//Execute
 		ConfigurationValue confString = executionService.convertToConfigurationValue(stringParam);

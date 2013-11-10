@@ -15,7 +15,7 @@ public class FileFixture {
 	}
 	
 	public File getTestData(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
-		String filePath = ClassLoader.getSystemResource("").getPath();
+		String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		filePath += fileName;
 		File file = new File(URLDecoder.decode(filePath, "utf-8"));
 		// Mark files for deletion once vm exits.

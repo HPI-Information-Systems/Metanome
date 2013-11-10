@@ -34,7 +34,7 @@ public class AlgorithmFinder {
 	public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 		
 		LinkedList<String> availableAlgorithms = new LinkedList<String>();
-		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
+		String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
 		File[] jarFiles = retrieveJarFiles(pathToFolder);
 		
 		for (File jarFile : jarFiles){

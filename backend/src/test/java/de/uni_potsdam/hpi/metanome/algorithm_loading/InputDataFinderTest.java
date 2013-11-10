@@ -21,8 +21,8 @@ public class InputDataFinderTest {
 	@Test
 	public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
 		//Setup
-		String pathToAlgorithmsFolder = ClassLoader.getSystemResource("algorithms").getPath();
-		String pathToCsvFolder = ClassLoader.getSystemResource("inputData").getPath();
+		String pathToAlgorithmsFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+		String pathToCsvFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 		
 		//Execute
 		File[] csvsInAlgorithmsFolder = inputDataFinder.retrieveCsvFiles(pathToAlgorithmsFolder);
