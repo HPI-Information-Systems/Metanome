@@ -5,10 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 public class CsvFileGenerator implements RelationalInputGenerator {
@@ -20,6 +19,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 	protected int line = CSVParser.INITIAL_READ_SIZE;
 	protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
 	protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+	protected boolean hasHeader = CsvFile.DEFAULT_HAS_HEADER;
 	
 	public CsvFileGenerator(File inputFile) throws FileNotFoundException {
 		if (!inputFile.isFile()) {
@@ -40,11 +40,11 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 
 	public RelationalInput generateNewCopy() throws InputGenerationException {
 		try {
-			return new CsvFile(new CSVReader(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace));
+			return new CsvFile(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
 		} catch (FileNotFoundException e) {
 			throw new InputGenerationException("File not found.");
 		} catch (InputIterationException e) {
 			throw new InputGenerationException("Could not iterate over the first line of the csv file.");
-		}	
+		} 	
 	}
 }

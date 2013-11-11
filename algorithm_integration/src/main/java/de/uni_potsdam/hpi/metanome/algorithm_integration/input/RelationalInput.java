@@ -37,4 +37,11 @@ public interface RelationalInput {
 	 * @return the number of columns.
 	 */
 	int numberOfColumns();
+	
+	/**
+	 * Returns the column names. 
+	 * 
+	 * @return the column names.
+	 */
+	ImmutableList<String> columnNames();
 }

@@ -72,5 +72,11 @@ public class SqlIterator implements RelationalInput {
 	public int numberOfColumns() {
 		return numberOfColumns;
 	}
+	
+	@Override
+	public ImmutableList<String> columnNames() {
+		// TODO implement
+		return null;
+	}
 
 }
