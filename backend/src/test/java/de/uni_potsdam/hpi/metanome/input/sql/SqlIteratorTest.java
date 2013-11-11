@@ -151,5 +151,21 @@ public class SqlIteratorTest {
 		// Check result
 		assertEquals(twoLinesResultSetFixture.numberOfColumns(), sqlIterator.numberOfColumns());
 	}
+	
+	/**
+	 * Test method for {@link SqlIterator#columnNames()}
+	 * 
+	 * A {@link SqlIterator} should return the column names from the meta data.
+	 * 
+	 * @throws SQLException 
+	 */
+	@Test 
+	public void testColumnNames() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Check result
+		assertEquals(twoLinesResultSetFixture.getExpectedColumnNames(), sqlIterator.columnNames());
+	}
 
 }

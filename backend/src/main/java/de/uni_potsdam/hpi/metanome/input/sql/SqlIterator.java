@@ -3,6 +3,8 @@ package de.uni_potsdam.hpi.metanome.input.sql;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
@@ -15,12 +17,24 @@ public class SqlIterator implements RelationalInput {
 	protected int numberOfColumns;
 	protected boolean nextCalled;
 	protected boolean hasNext;
+	protected ImmutableList<String> columnNames;
 	
 	public SqlIterator(ResultSet resultSet) throws SQLException {
 		this.resultSet = resultSet;
 		ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 		this.numberOfColumns = resultSetMetaData.getColumnCount();
 		this.nextCalled = false;
+		this.columnNames = retrieveColumnNames(resultSetMetaData);
+	}
+	
+	protected ImmutableList<String> retrieveColumnNames(ResultSetMetaData resultSetMetaData) throws SQLException {
+		List<String> columnNames = new LinkedList<String>();
+		
+		for (int i = 0; i < numberOfColumns; i++) {
+			columnNames.add(resultSetMetaData.getColumnLabel(i));
+		}
+		
+		return ImmutableList.copyOf(columnNames);
 	}
 
 	@Override
@@ -75,8 +89,7 @@ public class SqlIterator implements RelationalInput {
 	
 	@Override
 	public ImmutableList<String> columnNames() {
-		// TODO implement
-		return null;
+		return columnNames;
 	}
 
 }
