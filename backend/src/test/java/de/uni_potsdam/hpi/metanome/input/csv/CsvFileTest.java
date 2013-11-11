@@ -104,7 +104,7 @@ public class CsvFileTest {
 	/**
 	 * Test method for {@link CsvFile#numberOfColumns()}
 	 * 
-	 * A CsvFile should return the correct number of columns of the file.
+	 * A {@link CsvFile} should return the correct number of columns of the file.
 	 * 
 	 * @throws InputIterationException
 	 */

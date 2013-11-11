@@ -11,30 +11,30 @@ import com.google.common.collect.ImmutableList;
 public interface RelationalInput {
 	
 	/**
-	 * TODO docs
+	 * If the {@link RelationalInput} has another row this method returns true.
 	 * 
-	 * @return
+	 * @return the {@link RelationalInput} has another row
 	 * @throws InputIterationException
 	 */
 	boolean hasNext() throws InputIterationException;
 	
 	/**
-	 * TODO docs
+	 * Retrieves the next row.
 	 * 
-	 * @return
+	 * @return the next row
 	 * @throws InputIterationException
 	 */
 	ImmutableList<String> next() throws InputIterationException;
 	
 	/**
-	 * TODO docs
+	 * Removes the current row.
 	 */
 	void remove();
 	
 	/**
-	 * TODO docs
+	 * Returns the number of columns.
 	 * 
-	 * @return
+	 * @return the number of columns.
 	 */
 	int numberOfColumns();
 }
