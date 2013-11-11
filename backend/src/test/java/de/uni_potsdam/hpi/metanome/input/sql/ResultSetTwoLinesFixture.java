@@ -70,7 +70,7 @@ public class ResultSetTwoLinesFixture {
 		return 2;
 	}
 	
-	protected int numberOfColumns() {
+	public int numberOfColumns() {
 		return 3;
 	}
 

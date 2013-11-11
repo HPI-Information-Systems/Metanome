@@ -48,4 +48,8 @@ public class CsvFileOneLineFixture {
 		return ImmutableList.of("value1", "value2", "value3");
 	}
 	
+	public int getExpectedNumberOfColumns() {
+		return getExpectedStrings().size();
+	}
+	
 }

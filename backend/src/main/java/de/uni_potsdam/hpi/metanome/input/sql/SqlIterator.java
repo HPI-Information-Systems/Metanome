@@ -67,5 +67,10 @@ public class SqlIterator implements RelationalInput {
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Override
+	public int numberOfColumns() {
+		return numberOfColumns;
+	}
 
 }

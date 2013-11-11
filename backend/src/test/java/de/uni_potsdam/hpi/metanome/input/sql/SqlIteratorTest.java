@@ -18,10 +18,16 @@ import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
+/**
+ * @author Jakob Zwiener
+ * 
+ * Test for {@link SqlIterator}
+ */
 public class SqlIteratorTest {
 
 	@Before
 	public void setUp() throws Exception {
+		// TODO initialise fixtures here
 	}
 
 	@After
@@ -127,6 +133,17 @@ public class SqlIteratorTest {
 		catch (UnsupportedOperationException actualException) {
 			// Intentionally left blank
 		}
+	}
+	
+	@Test
+	public void testNumberOfColumns() throws SQLException {
+		// Setup
+		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
+		ResultSet resultSet = fixture.getTestData();
+		SqlIterator sqlIterator = new SqlIterator(resultSet);
+		
+		// Check result
+		assertEquals(fixture.numberOfColumns(), sqlIterator.numberOfColumns());
 	}
 
 }

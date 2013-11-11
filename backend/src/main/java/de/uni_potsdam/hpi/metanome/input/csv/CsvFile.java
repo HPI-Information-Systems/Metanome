@@ -64,4 +64,9 @@ public class CsvFile implements RelationalInput, Closeable {
 	public void close() throws IOException {
 		csvReader.close();
 	}
+	
+	@Override
+	public int numberOfColumns() {
+		return numberOfColumns;
+	}
 }

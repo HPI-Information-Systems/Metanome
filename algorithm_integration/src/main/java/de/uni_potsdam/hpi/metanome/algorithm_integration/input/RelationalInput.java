@@ -10,9 +10,31 @@ import com.google.common.collect.ImmutableList;
  */
 public interface RelationalInput {
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @return
+	 * @throws InputIterationException
+	 */
 	boolean hasNext() throws InputIterationException;
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @return
+	 * @throws InputIterationException
+	 */
 	ImmutableList<String> next() throws InputIterationException;
 	
+	/**
+	 * TODO docs
+	 */
 	void remove();
+	
+	/**
+	 * TODO docs
+	 * 
+	 * @return
+	 */
+	int numberOfColumns();
 }

@@ -99,6 +99,22 @@ public class CsvFileTest {
 		catch (InputIterationException actualException) {
 			// Intentionally left blank
 		}
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#numberOfColumns()}
+	 * 
+	 * A CsvFile should return the correct number of columns of the file.
+	 * 
+	 * @throws InputIterationException
+	 */
+	@Test
+	public void testNumberOfColumns() throws InputIterationException {
+		// Setup 
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+		CsvFile csvFile = fixtureSeparator.getTestData();
 		
+		// Check result
+		assertEquals(fixture.getExpectedNumberOfColumns(), csvFile.numberOfColumns());
 	}
 }
