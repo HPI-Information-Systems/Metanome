@@ -14,8 +14,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 
 public class PLIBuilder {
+	
 	protected List<HashMap<String, LongOpenHashSet>> columns = new LinkedList<HashMap<String, LongOpenHashSet>>();
-	RelationalInput input;
+	protected RelationalInput input;
 	
 	public PLIBuilder(RelationalInput input) {
 		this.input = input;
