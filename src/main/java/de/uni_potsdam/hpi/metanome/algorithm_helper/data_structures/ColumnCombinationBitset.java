@@ -156,5 +156,30 @@ public class ColumnCombinationBitset {
 			return nCombinationsList;
 		}
 	}
+
+	/**
+	 * Returns the difference between the two sets.
+	 * 
+	 * @param otherColumnCombination
+	 * @return The difference {@link ColumnCombinationBitset}
+	 */
+	public ColumnCombinationBitset minus(
+			ColumnCombinationBitset otherColumnCombination) {
+		
+		OpenBitSet temporaryBitset = bitset.clone();
+		temporaryBitset.andNot(otherColumnCombination.bitset);
+
+		return new ColumnCombinationBitset().setColumns(temporaryBitset);
+	}
+
+	public List<ColumnCombinationBitset> getSetBits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ColumnCombinationBitset union(ColumnCombinationBitset a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
