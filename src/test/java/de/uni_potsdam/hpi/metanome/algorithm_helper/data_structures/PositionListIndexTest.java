@@ -1,14 +1,18 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex;
 
 public class PositionListIndexTest {
 
@@ -88,8 +92,36 @@ public class PositionListIndexTest {
 		//expected Values
 		Long2LongOpenHashMap expectedHashMap = fixture.getFirstPLIAsHashMap();
 		
-		assertEquals(expectedHashMap ,firstPLI.asHashMap());
+		assertEquals(expectedHashMap, firstPLI.asHashMap());
 	}
 	
-
+	/**
+	 * Test method for {@link PositionListIndex#size()}
+	 * 
+	 * Size should return the correct number of noon unary clusters of the {@link PositionListIndex}.
+	 */
+	@Test
+	public void testSize() {
+		// Setup
+		PositionListIndex pli = fixture.getFirstPLI();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getFirstPLISize(), pli.size());
+	}
+	
+	@Test
+	public void testIsEmptyUnique() {
+		// Setup 
+		List<LongOpenHashSet> clusters = new LinkedList<LongOpenHashSet>();
+		PositionListIndex emptyPli = new PositionListIndex(clusters);
+		PositionListIndex nonEmptyPli = fixture.getFirstPLI();
+		
+		// Execute functionality
+		// Check result
+		assertTrue(emptyPli.isEmpty());
+		assertTrue(emptyPli.isUnique());
+		assertFalse(nonEmptyPli.isEmpty());
+		assertFalse(nonEmptyPli.isUnique());		
+	}
 }
