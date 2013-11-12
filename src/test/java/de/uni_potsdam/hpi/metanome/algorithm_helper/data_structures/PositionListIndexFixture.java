@@ -21,7 +21,11 @@ public class PositionListIndexFixture {
 		return new PositionListIndex(clusters);
 	}
 	
-	PositionListIndex getPermutatedFirstPLI() {
+	public long getFirstPLISize() {
+		return getFirstPLI().clusters.size();
+	}
+	
+	protected PositionListIndex getPermutatedFirstPLI() {
 		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
 		
 		long[] cluster1 = {7, 6, 5};
@@ -32,7 +36,7 @@ public class PositionListIndexFixture {
 		return new PositionListIndex(clusters);
 	}
 	
-	PositionListIndex getSupersetOfFirstPLI() {
+	protected PositionListIndex getSupersetOfFirstPLI() {
 		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
 		
 		long[] cluster1 = {7, 6, 5};
@@ -45,7 +49,7 @@ public class PositionListIndexFixture {
 		return new PositionListIndex(clusters);
 	}
 	
-	Long2LongOpenHashMap getFirstPLIAsHashMap() {
+	protected Long2LongOpenHashMap getFirstPLIAsHashMap() {
 		Long2LongOpenHashMap pliMap = new Long2LongOpenHashMap();
 		
 		pliMap.addTo(5, 1);
@@ -59,7 +63,7 @@ public class PositionListIndexFixture {
 		return pliMap;
 	}
 	
-	PositionListIndex getSecondPLI() {
+	protected PositionListIndex getSecondPLI() {
 		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
 		
 		long[] cluster1 = {1, 2, 5, 8};
@@ -70,7 +74,7 @@ public class PositionListIndexFixture {
 		return new PositionListIndex(clusters);
 	}
 	
-	PositionListIndex getExpectedIntersectedPLI() {
+	protected PositionListIndex getExpectedIntersectedPLI() {
 		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
 		
 		long[] cluster1 = {2, 8};

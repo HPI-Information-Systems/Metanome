@@ -129,6 +129,8 @@ public class PositionListIndex {
 	}
 
 	/**
+	 * TODO fix docs
+	 * 
 	 * @return {@link Long2LongOpenHashMap} Creates
 	 */
 	public Long2LongOpenHashMap asHashMap() {
@@ -141,6 +143,29 @@ public class PositionListIndex {
 			uniqueValueCount++;
 		}
 		return hashedPLI;
+	}
+
+	/**
+	 * Returns the number of non unary clusters.
+	 * 
+	 * @return the number of clusters in the {@link PositionListIndex}
+	 */
+	public long size() {
+		return clusters.size();
+	}
+
+	/**
+	 * @return the {@link PositionListIndex} contains only unary clusters.
+	 */
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+	
+	/**
+	 * @return the column represented by the {@link PositionListIndex} is unique.
+	 */
+	public boolean isUnique() {
+		return isEmpty();
 	}
 
 }
