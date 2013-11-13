@@ -15,10 +15,7 @@ import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset;
 
 public class ColumnCombinationBitsetTest {
 
@@ -164,6 +161,9 @@ public class ColumnCombinationBitsetTest {
 		assertFalse(subSet.containsSubset(superSet));		
 	}
 	
+	/**
+	 * TODO docs
+	 */
 	@Test
 	public void testContainsRealSubset() {
 		// Setup
@@ -182,18 +182,31 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testIsSubsetOf() {
 		// Setup
-		int[] subSetColumns = {0, 3};
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset();
-		subSet.setColumns(subSetColumns);
-		int[] superSetColumns = {0, 2, 3};
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset();
-		superSet.setColumns(superSetColumns);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
 		assertTrue(subSet.isSubsetOf(superSet));
 		assertTrue(subSet.isSubsetOf(subSet));
 		assertFalse(superSet.isSubsetOf(subSet));
+	}
+	
+	/**
+	 * TODO docs
+	 */
+	@Test
+	public void testIsRealSubsetOf() {
+		// Setup
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		
+		// Execute functionality
+		// Check result
+		assertTrue(subSet.isRealSubsetOf(superSet));
+		assertFalse(subSet.isRealSubsetOf(subSet));
+		assertFalse(superSet.isRealSubsetOf(subSet));
+		assertFalse(superSet.isRealSubsetOf(superSet));	
 	}
 	
 	/**
@@ -301,10 +314,12 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * 
+	 * The method should return also return the unreal subset when requested with a parameter
+	 * n that is equal to the set bits in the given superset. 
 	 */
-	// FIXME implement
-	@Test @Ignore
+	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOf2() {
 		// Setup
 		ColumnCombinationBitset superset = new ColumnCombinationBitset().setColumns(0, 1);

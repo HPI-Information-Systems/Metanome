@@ -84,9 +84,19 @@ public class ColumnCombinationBitset {
 	 * @param potentialSuperset
 	 * @return potentialSuperset is a super set
 	 */
-	// FIXME rename
 	public boolean isSubsetOf(ColumnCombinationBitset potentialSuperset) {
 		return potentialSuperset.containsSubset(this);
+	}
+	
+	/**
+	 * Returns true iff the potentialRealSuperSet contains all columns of this column combination
+	 * and the potentialRealSuperSet is not equal to this column combination (e.g. real superset).
+	 * 
+	 * @param potentialRealSuperSet
+	 * @return potentialRealSuperSet is a real superset
+	 */
+	public boolean isRealSubsetOf(ColumnCombinationBitset potentialRealSuperSet) {
+		return (this.isSubsetOf(potentialRealSuperSet)) && (!this.equals(potentialRealSuperSet));
 	}
 
 	/**
@@ -109,7 +119,7 @@ public class ColumnCombinationBitset {
 	 * @return potentialRealSubset is a real subset
 	 */
 	public boolean containsRealSubset(ColumnCombinationBitset potentialRealSubset) {
-		return (containsSubset(potentialRealSubset) && (!this.equals(potentialRealSubset)));
+		return (this.containsSubset(potentialRealSubset) && (!this.equals(potentialRealSubset)));
 	}
 	
 	/**
@@ -155,9 +165,18 @@ public class ColumnCombinationBitset {
 			setBitIndex++;
 		}
 		
+		// If n is actually the number of set bits in the superset (the unreal subset is wanted), return the superSet.
+		if (numberOfSetBits == n) {
+			nSubsets.clear();
+			nSubsets.add(superSet);
+			return nSubsets;
+		}
+		// The correct size n of subsets was reached.
 		if (numberOfSetBits - 1 == n) {
 			return nSubsets;
-		} else {
+		} 
+		// Further subsets need to be generated recursively.
+		else {
 			Set<ColumnCombinationBitset> nCombinations = new HashSet<ColumnCombinationBitset>();
 			for (ColumnCombinationBitset nPlusOneCombination : nSubsets) {
 				nCombinations.addAll(getNSubsetColumnCombinationsSupersetOf(nPlusOneCombination, subSet, n));
