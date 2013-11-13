@@ -281,7 +281,7 @@ public class ColumnCombinationBitsetTest {
 		// Execute functionality
 		// FIXME method call should not contain this
 		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = 
-				superSet.getNSubsetColumnCombinationsSupersetOf(superSet, subSet, 3);
+				superSet.getNSubsetColumnCombinationsSupersetOf(subSet, 3);
 		
 		// Check result
 		assertThat(actual3SubsetColumnCombinations,
@@ -314,7 +314,7 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
 	 * 
 	 * The method should return also return the unreal subset when requested with a parameter
 	 * n that is equal to the set bits in the given superset. 
@@ -326,11 +326,28 @@ public class ColumnCombinationBitsetTest {
 		ColumnCombinationBitset subset = new ColumnCombinationBitset().setColumns(1);
 		
 		// Execute functionality
-		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = superset.getNSubsetColumnCombinationsSupersetOf(superset, subset, 2);
+		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = superset.getNSubsetColumnCombinationsSupersetOf(subset, 2);
 		
 		// Check result
 		assertEquals(1, actual3SubsetColumnCombinations.size());
 		assertEquals(superset, actual3SubsetColumnCombinations.get(0));
+	}
+	
+	@Test
+	public void testGetNSubsetColumnCombinationsSupersetOfInversed() {
+		// Setup
+		ColumnCombinationBitset AB = new ColumnCombinationBitset().setColumns(0, 1);
+		ColumnCombinationBitset B = new ColumnCombinationBitset().setColumns(1);
+		ColumnCombinationBitset ABC = new ColumnCombinationBitset().setColumns(0, 1, 2);
+		ColumnCombinationBitset BC = new ColumnCombinationBitset().setColumns(1, 2);
+		
+		// Execute functionality
+		List<ColumnCombinationBitset> actualSubsetColumnCombinations = ABC.getNSubsetColumnCombinationsSupersetOf(B, 2);
+		
+		// Check result
+		assertEquals(2, actualSubsetColumnCombinations.size());
+		assertEquals(BC, actualSubsetColumnCombinations.get(0));
+		assertEquals(AB, actualSubsetColumnCombinations.get(1));
 	}
 	
 	/**
