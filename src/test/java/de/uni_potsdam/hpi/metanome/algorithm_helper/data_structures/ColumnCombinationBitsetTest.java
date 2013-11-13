@@ -101,15 +101,11 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testEqualsHashCode() {
 		// Setup
-		int[] columnCombination1Columns = {0, 3};
-		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset();
-		columnCombination1.setColumns(columnCombination1Columns);
-		int[] columnCombination2EqualsColumns = {0, 3};
-		ColumnCombinationBitset columnCombination2Equals = new ColumnCombinationBitset();
-		columnCombination2Equals.setColumns(columnCombination2EqualsColumns);
-		int[] columnCombination3UnequalsColumns = {0, 2, 3};
-		ColumnCombinationBitset columnCombination3Unequals = new ColumnCombinationBitset();
-		columnCombination3Unequals.setColumns(columnCombination3UnequalsColumns);
+		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset columnCombination2Equals = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset columnCombination3Unequals = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset columnCombination1WrongSize = new ColumnCombinationBitset().setColumns(0, 3);
+		columnCombination1WrongSize.size = 0;
 		
 		// Execute functionality
 		// Check result
@@ -118,7 +114,10 @@ public class ColumnCombinationBitsetTest {
 		assertNotSame(columnCombination1, columnCombination2Equals);
 		assertEquals(columnCombination1, columnCombination2Equals);
 		assertEquals(columnCombination1.hashCode(), columnCombination2Equals.hashCode());
-		assertNotEquals(columnCombination1, columnCombination3Unequals);		
+		assertNotEquals(columnCombination1, columnCombination3Unequals);
+		assertNotEquals(columnCombination1.hashCode(), columnCombination3Unequals.hashCode());
+		assertNotEquals(columnCombination1, columnCombination1WrongSize);
+		assertNotEquals(columnCombination1.hashCode(), columnCombination1WrongSize.hashCode());
 	}
 	
 	/**
@@ -349,6 +348,42 @@ public class ColumnCombinationBitsetTest {
 		
 		// Check result
 		assertEquals(expectedColumnCombination, actualColumnCombination);
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#size()}
+	 * 
+	 * When setting bits using the setColumns method with contained column indices the correct size should be computed.
+	 */
+	@Test
+	public void testSizeSetColumns() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(1, 3, 4);
+		// Expected values 
+		int expectedSize = 3;
+		
+		// Execute functionality
+		// Check result 
+		assertEquals(expectedSize, columnCombination.size());
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#size()}
+	 * 
+	 * When setting bits using the raw bitset setColumns method the correct size should be computed. 
+	 */
+	@Test
+	public void testSizeBitset() {
+		// Setup
+		long[] columnCombinationSetBits = {0xb}; // 1011
+		OpenBitSet columnCombinationBitset = new OpenBitSet(columnCombinationSetBits, 1);		
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(columnCombinationBitset);
+		// Expected values 
+		int expectedSize = 3;
+		
+		// Execute functionality
+		// Check result 
+		assertEquals(expectedSize, columnCombination.size());
 	}
 
 }
