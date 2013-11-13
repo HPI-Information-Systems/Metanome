@@ -85,12 +85,12 @@ public class ColumnCombinationBitset {
 	 * @return potentialSuperset is a super set
 	 */
 	// FIXME rename
-	public boolean containsSuperset(ColumnCombinationBitset potentialSuperset) {
+	public boolean isSubsetOf(ColumnCombinationBitset potentialSuperset) {
 		return potentialSuperset.containsSubset(this);
 	}
 
 	/**
-	 * Returns true if the potentialSubset contains no columns that are not in this column combination.
+	 * Returns true iff the potentialSubset contains no columns that are not in this column combination.
 	 * 
 	 * @param potentialSubset
 	 * @return potentialSubset is a sub set
@@ -101,6 +101,17 @@ public class ColumnCombinationBitset {
 		return bitset.equals(ored);
 	}
 
+	/**
+	 * Returns true iff the potentialRealSubset contains no columns that are not in this column combination
+	 * and the potentialRealSubset is not equal to this column combination (e.g. real subset).
+	 * 
+	 * @param potentialRealSubset
+	 * @return potentialRealSubset is a real subset
+	 */
+	public boolean containsRealSubset(ColumnCombinationBitset potentialRealSubset) {
+		return (containsSubset(potentialRealSubset) && (!this.equals(potentialRealSubset)));
+	}
+	
 	/**
 	 * TODO docs
 	 * 
@@ -136,7 +147,7 @@ public class ColumnCombinationBitset {
 				nSubset = new ColumnCombinationBitset();
 				nSubset.setColumns(superSet.bitset.clone());
 				nSubset.bitset.clear(setBitIndex);
-				if (subSet.containsSuperset(nSubset)) {
+				if (subSet.isSubsetOf(nSubset)) {
 					nSubsets.add(nSubset);
 				}
 			}

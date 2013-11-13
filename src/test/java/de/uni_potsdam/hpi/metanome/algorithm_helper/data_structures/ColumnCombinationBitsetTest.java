@@ -128,7 +128,7 @@ public class ColumnCombinationBitsetTest {
 	 * TODO docs
 	 */
 	@Test
-	public void testIsSupersetDowNotWriteSets() {
+	public void testContainsSubsetDoesNotWriteSets() {
 		// Setup
 		// TODO fixture
 		int[] subSetColumns = {0, 3};
@@ -154,12 +154,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testContainsSubset() {
 		// Setup
-		int[] subSetColumns = {0, 3};
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset();
-		subSet.setColumns(subSetColumns);
-		int[] superSetColumns = {0, 2, 3};
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset();
-		superSet.setColumns(superSetColumns);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
@@ -167,12 +163,24 @@ public class ColumnCombinationBitsetTest {
 		assertTrue(superSet.containsSubset(superSet));
 		assertFalse(subSet.containsSubset(superSet));		
 	}
+	
+	@Test
+	public void testContainsRealSubset() {
+		// Setup
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		
+		// Execute functionality
+		// Check result
+		assertTrue(superSet.containsRealSubset(subSet));
+		assertFalse(superSet.containsRealSubset(superSet));
+	}
 
 	/**
 	 * TODO docs
 	 */
 	@Test
-	public void testContainsSuperset() {
+	public void testIsSubsetOf() {
 		// Setup
 		int[] subSetColumns = {0, 3};
 		ColumnCombinationBitset subSet = new ColumnCombinationBitset();
@@ -183,9 +191,9 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		assertTrue(subSet.containsSuperset(superSet));
-		assertTrue(subSet.containsSuperset(subSet));
-		assertFalse(superSet.containsSuperset(subSet));
+		assertTrue(subSet.isSubsetOf(superSet));
+		assertTrue(subSet.isSubsetOf(subSet));
+		assertFalse(superSet.isSubsetOf(subSet));
 	}
 	
 	/**
@@ -299,7 +307,7 @@ public class ColumnCombinationBitsetTest {
 	@Test @Ignore
 	public void testGetNSubsetColumnCombinationsSupersetOf2() {
 		// Setup
-		ColumnCombinationBitset superset = new ColumnCombinationBitset().setColumns(0,1);
+		ColumnCombinationBitset superset = new ColumnCombinationBitset().setColumns(0, 1);
 		ColumnCombinationBitset subset = new ColumnCombinationBitset().setColumns(1);
 		
 		// Execute functionality
@@ -310,6 +318,9 @@ public class ColumnCombinationBitsetTest {
 		assertEquals(superset, actual3SubsetColumnCombinations.get(0));
 	}
 	
+	/**
+	 * TODO docs
+	 */
 	@Test
 	public void testMinus() {
 		// Setup
