@@ -2,6 +2,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,12 +50,40 @@ public class ColumnCombinationTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombination#getColumnIdentifiers()}
+	 * 
+	 * A {@link ColumnCombination} should return its columnIdentifiers as a set.
+	 */
+	@Test
+	public void testGetColumnIdentifiers() {
+		// Setup
+		// Expected values
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
+		ColumnIdentifier expectedColumn3 = new ColumnIdentifier("table3", "column3");
+		ColumnCombination columnCombination = new ColumnCombination(expectedColumn2, expectedColumn3, expectedColumn1);
+		
+		// Execute functionality
+		Set<ColumnIdentifier> actualColumnIdentifiers = columnCombination.getColumnIdentifiers();
+		
+		// Check result
+		assertTrue(3 == actualColumnIdentifiers.size());
+		assertTrue(actualColumnIdentifiers.contains(expectedColumn1));
+		assertTrue(actualColumnIdentifiers.contains(expectedColumn2));
+		assertTrue(actualColumnIdentifiers.contains(expectedColumn3));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombination#toString()}
+	 * 
 	 * A {@link ColumnCombination} should return the ordered column identifiers as string representation.
 	 * E.g. "[column1, column2]".
 	 */
 	@Test
 	public void testToString() {
 		// Setup
+		// FIXME
+		// switch "table1" to "table56" and the test will fail, because the order of column identifiers is not guaranteed
 		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
 		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
 		ColumnCombination columnCombination = new ColumnCombination(expectedColumn2, expectedColumn1);

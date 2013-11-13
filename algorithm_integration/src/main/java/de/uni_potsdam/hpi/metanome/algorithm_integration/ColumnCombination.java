@@ -20,6 +20,15 @@ public class ColumnCombination {
 		columnCombination = new HashSet<ColumnIdentifier>(Arrays.asList(columnIdentifier));
 	}
 	
+	/**
+	 * Get column identifiers as set.
+	 * 
+	 * @return Set<ColumnIdentifier>
+	 */
+	public Set<ColumnIdentifier> getColumnIdentifiers() {
+		return columnCombination;
+	}
+	
 
 	@Override
 	public String toString() {
