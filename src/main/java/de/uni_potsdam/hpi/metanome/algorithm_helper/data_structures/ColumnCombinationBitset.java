@@ -129,17 +129,28 @@ public class ColumnCombinationBitset {
 	 * @return all subsets of the column combinations with n columns
 	 */
 	public List<ColumnCombinationBitset> getNSubsetColumnCombinations(int n) {
-		return getNSubsetColumnCombinationsSupersetOf(this, new ColumnCombinationBitset(), n);
+		return getNSubsetColumnCombinationsSupersetOf(new ColumnCombinationBitset(), n);
 	}
-
+	
 	/**
 	 * TODO docs
 	 * 
 	 * @param subSet
-	 * @param i
+	 * @param n
 	 * @return
 	 */
-	public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
+	public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset subSet, int n) {
+		return getNSubsetColumnCombinationsSupersetOf(this, subSet, n);
+	}
+
+	/**
+	 * @param superSet
+	 * @param subSet
+	 * @param n
+	 * @return
+	 */
+	// TODO bottom up
+	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
 
 		List<ColumnCombinationBitset> nSubsets = new LinkedList<ColumnCombinationBitset>();
@@ -210,6 +221,11 @@ public class ColumnCombinationBitset {
 	public ColumnCombinationBitset union(ColumnCombinationBitset a) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void or(ColumnCombinationBitset ored) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
