@@ -9,7 +9,8 @@ import org.apache.lucene.util.OpenBitSet;
 
 public class ColumnCombinationBitset {
 
-	protected OpenBitSet bitset = new OpenBitSet();;
+	protected OpenBitSet bitset = new OpenBitSet();
+	protected long size = 0;
 	
 	/**
 	 * TODO docs
@@ -21,17 +22,34 @@ public class ColumnCombinationBitset {
 		// TODO optimisation implement clear
 		bitset = new OpenBitSet();
 		for (int columnIndex : containedColumns) {
-			bitset.set(columnIndex);
+			// If the bit was not yet set, increase the size.
+			if (!bitset.getAndSet(columnIndex)) {
+				size++;
+			}
 		}
 		
 		return this;		
 	}
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @param bitset
+	 * @return the instance
+	 */
+	public ColumnCombinationBitset setColumns(OpenBitSet bitset) {
+		this.bitset = bitset;
+		size = bitset.cardinality();
+		
+		return this;
+	} 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bitset == null) ? 0 : bitset.hashCode());
+		result = prime * result + (int) (size ^ (size >>> 32));
 		return result;
 	}
 
@@ -49,8 +67,10 @@ public class ColumnCombinationBitset {
 				return false;
 		} else if (!bitset.equals(other.bitset))
 			return false;
+		if (size != other.size)
+			return false;
 		return true;
-	}	
+	}
 
 	@Override
 	public String toString() {
@@ -66,17 +86,6 @@ public class ColumnCombinationBitset {
 		
 		return stringBuilder.toString();
 	}
-
-	/**
-	 * TODO docs
-	 * 
-	 * @param bitset
-	 * @return the instance
-	 */
-	public ColumnCombinationBitset setColumns(OpenBitSet bitset) {
-		this.bitset = bitset;
-		return this;
-	} 
 
 	/**
 	 * Returns true if the potentialSuperset contains all columns of this column combination.
@@ -158,6 +167,7 @@ public class ColumnCombinationBitset {
 		int setBitIndex = 0;
 		int numberOfSetBits = 0;
 		ColumnCombinationBitset nSubset;
+		OpenBitSet nSubsetBitSet;
 		while (true) {
 			setBitIndex = superSet.bitset.nextSetBit(setBitIndex);
 			
@@ -166,8 +176,9 @@ public class ColumnCombinationBitset {
 			} else {
 				numberOfSetBits++;
 				nSubset = new ColumnCombinationBitset();
-				nSubset.setColumns(superSet.bitset.clone());
-				nSubset.bitset.clear(setBitIndex);
+				nSubsetBitSet = superSet.bitset.clone();
+				nSubsetBitSet.clear(setBitIndex);
+				nSubset.setColumns(nSubsetBitSet);
 				if (subSet.isSubsetOf(nSubset)) {
 					nSubsets.add(nSubset);
 				}
@@ -226,6 +237,15 @@ public class ColumnCombinationBitset {
 	public void or(ColumnCombinationBitset ored) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * Returns the number of columns in the combination.
+	 * 
+	 * @return the number of columns in the combination.
+	 */
+	public long size() {
+		return size;
 	}
 }
 
