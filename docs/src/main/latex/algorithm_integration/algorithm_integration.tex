@@ -5,6 +5,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{hyperref}
+
 \author{Jakob Zwiener}
 \title{Metanome Algorithm Integration}
 
@@ -81,5 +83,10 @@ To simplify the development of algorithms for the Metanome tool a maven sample p
 \item Update the package names according to the entries in the pom.
 \item Build the algorithm jar with \texttt{mvn package}.
 \end{itemize}
+
+\section{Executing Algorithms}
+\label{sec_executingAlgortithms}
+
+Algorithms are executed using the Metanome tool. A Metanome installation can be downloaded from the metanome file share\footnote{\url{https://www.hpi.uni-potsdam.de/naumann/sites/metanome/files/}}. The installation contains the Metanome tool and the Jetty web server for execution. Algorithms should be placed in the \texttt{metanome/WEB-INF/classes/algorithms/} directory; input files should be placed in the \texttt{metanome/WEB-INF/classes/inputData/} directory.
 
 \end{document}
