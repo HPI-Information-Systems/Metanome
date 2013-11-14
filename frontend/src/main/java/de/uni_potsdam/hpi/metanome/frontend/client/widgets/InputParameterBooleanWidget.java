@@ -14,6 +14,12 @@ public class InputParameterBooleanWidget extends CheckBox implements InputParame
 		super();
 		this.inputParameter = inputParameter;
 	}
+	
+	@Override
+	public void setValue(Boolean value){
+		super.setValue(value);
+		inputParameter.setValue(value);
+	}
 
 	@Override
 	public InputParameter getInputParameter() {

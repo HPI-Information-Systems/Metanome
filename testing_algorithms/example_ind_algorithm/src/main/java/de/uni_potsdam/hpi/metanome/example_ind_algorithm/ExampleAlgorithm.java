@@ -14,14 +14,16 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
-public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm {
+public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
 	protected String tableName = null;
 	protected InclusionDependencyResultReceiver resultReceiver;
@@ -82,5 +84,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	@Override
 	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
 		this.tempFileGenerator = tempFileGenerator;
+	}
+	
+	@Override
+	public void setConfigurationValue(String identifier, RelationalInputGenerator value){
+		if (identifier.equals("input file")){
+			System.out.println("Input file is not being set on algorithm.");
+		}			
 	}
 }
