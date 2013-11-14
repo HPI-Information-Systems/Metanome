@@ -8,8 +8,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 public abstract class InputParameter implements Serializable{
 	private static final long serialVersionUID = -2023547438585673486L;	
 	
-	private String identifier;
-	
+	private String identifier;	
 	
 	public InputParameter(){}
 	
@@ -26,8 +25,6 @@ public abstract class InputParameter implements Serializable{
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
-
-	//public abstract Object getValue();
 
 	public abstract InputParameterWidget createWrappingWidget();
 }
