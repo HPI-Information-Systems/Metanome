@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -17,7 +17,7 @@ public class ColumnCombination {
 	 * @param columnIdentifier
 	 */
 	public ColumnCombination(ColumnIdentifier... columnIdentifier) {
-		columnCombination = new HashSet<ColumnIdentifier>(Arrays.asList(columnIdentifier));
+		columnCombination = new LinkedHashSet<ColumnIdentifier>(Arrays.asList(columnIdentifier));
 	}
 	
 	/**
