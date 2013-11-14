@@ -7,12 +7,29 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>${project.basedir}</directory>
+      <directory>${project.basedir}/target/</directory>
       <outputDirectory>/</outputDirectory>
       <useDefaultExcludes>true</useDefaultExcludes>
 	  <includes>
-		<include>target/frontend*/**</include>
+		<include>/metanome/**</include>
 	  </includes>
+	  <excludes>
+	    <exclude>*.jar</exclude>
+	    <exclude>*.war</exclude>
+	  </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/target/dependency/</directory>
+      <outputDirectory>/</outputDirectory>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <includes>
+        <include>jetty-runner.jar</include>
+      </includes>
     </fileSet>
   </fileSets>
+  <files>
+    <file>
+      <source>${project.basedir}/run.sh</source>
+    </file>
+  </files>
 </assembly>
