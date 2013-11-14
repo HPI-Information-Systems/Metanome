@@ -31,5 +31,8 @@
     <file>
       <source>${project.basedir}/run.sh</source>
     </file>
+    <file>
+      <source>${project.basedir}/run.bat</source>
+    </file>
   </files>
 </assembly>
