@@ -89,7 +89,7 @@ public class ExampleAlgorithmTest {
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
-		//this.algorithm.setTempFileGenerator(fileGenerator);
+		this.algorithm.setTempFileGenerator(fileGenerator);
 		this.algorithm.execute();
 		
 		// Check result
