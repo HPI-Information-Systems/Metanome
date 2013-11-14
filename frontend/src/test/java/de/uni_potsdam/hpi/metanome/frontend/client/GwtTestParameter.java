@@ -7,6 +7,12 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
@@ -65,7 +71,7 @@ public class GwtTestParameter extends GWTTestCase {
 	}
 	
 	@Test
-	public void testRetrieveParameterValues(){	
+	public void testRetrieveSimpleParameterValues(){	
 		//Setup
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		
@@ -121,6 +127,44 @@ public class GwtTestParameter extends GWTTestCase {
 		
 		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
 		assertEquals(identifierCsv, csvWidget.getInputParameter().getIdentifier());
+	}
+	
+	@Test
+	public void testCsvFileWidget(){
+		//Setup
+		InputParameterCsvFile inputParameter = new InputParameterCsvFile("identifierCsv");
+		inputParameter.setAdvanced(true);
+		InputParameterCsvFileWidget csvWidget = new InputParameterCsvFileWidget(inputParameter);
+		FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
+		String characterString = "X";
+		int line = 5;
+		boolean boolTrue = true;
+		boolean exceptionCaught = false;
+
+		//Execute
+		((TextBox) advancedPanel.getWidget(0,1)).setValue(characterString);
+		((TextBox) advancedPanel.getWidget(1,1)).setValue(characterString);
+		((IntegerBox) advancedPanel.getWidget(3,1)).setValue(line);
+		((CheckBox) advancedPanel.getWidget(4,1)).setValue(boolTrue);
+		((CheckBox) advancedPanel.getWidget(5,1)).setValue(boolTrue);
+		try{			
+			inputParameter = csvWidget.getInputParameter();
+		} catch (StringIndexOutOfBoundsException e){
+			//TODO make sure some nice exception is thrown when not all values are set.
+			exceptionCaught = true;
+		}
+		((TextBox) advancedPanel.getWidget(2,1)).setValue(characterString);
+		inputParameter = csvWidget.getInputParameter();
+		
+		//Check
+		assertTrue(exceptionCaught);
+
+		assertEquals(characterString.charAt(0), inputParameter.getSeparatorChar());
+		assertEquals(characterString.charAt(0), inputParameter.getQuoteChar());
+		assertEquals(characterString.charAt(0), inputParameter.getEscapeChar());
+		assertEquals(line, inputParameter.getLine());
+		assertEquals(boolTrue, inputParameter.isStrictQuotes());
+		assertEquals(boolTrue, inputParameter.isIgnoreLeadingWhiteSpace());		
 	}
 
 		

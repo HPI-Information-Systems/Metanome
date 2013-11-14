@@ -1,27 +1,21 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
-public class InputParameterCsvFileWidget extends Composite implements InputParameterWidget {
+public class InputParameterCsvFileWidget extends VerticalPanel implements InputParameterWidget {
 
 	private InputParameterCsvFile inputParameter;
 	/** Dropdown menu for choosing a CSV file */
@@ -44,12 +38,8 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		super();
 		this.inputParameter = inputParameter;
 		
-		VerticalPanel surroundingPanel = new VerticalPanel();
-		// All composites must call initWidget() in their constructors.
-		initWidget(surroundingPanel);
-		
 		HorizontalPanel standardPanel = new HorizontalPanel();
-		surroundingPanel.add(standardPanel);
+		this.add(standardPanel);
 		
 		listbox = createListbox();		
 		standardPanel.add(listbox);
@@ -59,7 +49,7 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		
 		advancedPanel = new FlexTable();
 		advancedPanel.setVisible(false);
-		surroundingPanel.add(advancedPanel);
+		this.add(advancedPanel);
 		
 		separatorTextbox = getNewOneCharTextbox();
 		advancedPanel.setText(0,0,"Separator Character");
@@ -94,9 +84,21 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		return textbox;
 	}
 
+	protected void setCurrentValues(InputParameterCsvFile inputParameter2) {
+		inputParameter.setFileNameValue(this.listbox.getValue(this.listbox.getSelectedIndex()));
+		if (this.advancedCheckbox.getValue()){
+			inputParameter.setSeparatorChar(this.separatorTextbox.getValue().charAt(0));
+			inputParameter.setQuoteChar(this.quoteTextbox.getValue().charAt(0));
+			inputParameter.setEscapeChar(this.escapeTextbox.getValue().charAt(0));
+			inputParameter.setLine(this.lineIntegerbox.getValue());
+			inputParameter.setStrictQuotes(this.strictQuotesCheckbox.getValue());
+			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
+		}
+	}
+
 	protected CheckBox createAdvancedCheckbox() {
 		CheckBox checkbox = new CheckBox("Use Advanced Configuration");
-		checkbox.setValue(false);
+		checkbox.setValue(this.inputParameter.isAdvanced());
 		checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			
 			@Override
@@ -123,14 +125,6 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
 		//other entries
 		addAvailableCsvsToListbox(listbox);
-		
-		listbox.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				setCurrentFileNameValue();
-			}
-		});
-
 		return listbox;
 	}
 	
@@ -159,16 +153,8 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 		InputDataServiceAsync service = GWT.create(InputDataService.class);  
 		service.listCsvInputFiles(callback);
 	}
-
-	/**
-	 * Sets the inputParameter's fileName value to the item currently selected in listbox.
-	 */
-	protected void setCurrentFileNameValue() {
-		this.inputParameter.setFileNameValue(this.listbox.getValue(this.listbox.getSelectedIndex()));
-	}
 	
 	protected void setInputParameterAdvanced() {
-		this.inputParameter.setAdvanced(this.advancedCheckbox.getValue());
 		this.advancedPanel.setVisible(this.advancedCheckbox.getValue());
 	}
 	
@@ -184,8 +170,9 @@ public class InputParameterCsvFileWidget extends Composite implements InputParam
 	}
 	
 	@Override
-	public InputParameter getInputParameter() {
-		return inputParameter;
+	public InputParameterCsvFile getInputParameter() {
+		this.setCurrentValues(this.inputParameter);
+		return this.inputParameter;
 	}
 
 }
