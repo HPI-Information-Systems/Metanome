@@ -2,7 +2,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 
 /**
  * Receives the results of a {@link FunctionalDependencyAlgorithm}.

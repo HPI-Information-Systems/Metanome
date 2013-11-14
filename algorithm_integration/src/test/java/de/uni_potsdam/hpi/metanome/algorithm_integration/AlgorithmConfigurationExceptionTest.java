@@ -20,7 +20,7 @@ public class AlgorithmConfigurationExceptionTest {
 	}
 
 	/**
-	 * Test method for {@link AlgorithmExecutionException#AlgorithmExecutionException(String)}
+	 * Test method for {@link AlgorithmConfigurationException#AlgorithmConfigurationException(String)}
 	 * 
 	 * The exception should store the message.
 	 */

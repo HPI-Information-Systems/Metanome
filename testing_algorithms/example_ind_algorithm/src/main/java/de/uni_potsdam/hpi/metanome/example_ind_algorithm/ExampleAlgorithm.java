@@ -12,22 +12,22 @@ import org.apache.commons.io.FileUtils;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 
-public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm {
+public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm {
 
 	protected String tableName = null;
 	protected InclusionDependencyResultReceiver resultReceiver;
 	protected FileGenerator tempFileGenerator;
 
+	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 		
@@ -37,6 +37,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		return configurationSpecification;
 	}
 
+	@Override
 	public void execute() throws AlgorithmExecutionException {
 		File tempFile = tempFileGenerator.getTemporaryFile();
 		PrintWriter tempWriter;
@@ -66,31 +67,20 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		}
 	}
 
+	@Override
 	public void setResultReceiver(InclusionDependencyResultReceiver resultReceiver) {
 		this.resultReceiver = resultReceiver;
 	}
 
+	@Override
 	public void setConfigurationValue(String identifier, String value) {
 		if (identifier.equals("tableName")) {
 			tableName = value;
 		}		
 	}
 
-	public void setConfigurationValue(String identifier, boolean value) {
-		throw new UnsupportedOperationException();		
-	}
-
-	public void setConfigurationValue(String identifier, RelationalInputGenerator value) {
-		throw new UnsupportedOperationException();		
-	}
-
 	@Override
 	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
 		this.tempFileGenerator = tempFileGenerator;
-	}
-
-	@Override
-	public void setConfigurationValue(String identifier, SQLInputGenerator value) {
-		throw new UnsupportedOperationException();
 	}
 }

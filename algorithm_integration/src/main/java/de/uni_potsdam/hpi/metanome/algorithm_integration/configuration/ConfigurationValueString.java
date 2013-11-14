@@ -1,9 +1,14 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import java.util.Set;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 
 /**
+ * @author Jakob Zwiener
+ * 
  * Represents string configuration values for {@link Algorithm}s.
  */
 public class ConfigurationValueString implements ConfigurationValue {
@@ -22,15 +27,13 @@ public class ConfigurationValueString implements ConfigurationValue {
 		this.value = value;
 	}
 	
-	/**
-	 * Sets it's own value on the algorithm (second call of double dispatch).
-	 * 
-	 * @param algorithm
-	 * @throws AlgorithmConfigurationException 
-	 */
 	@Override
-	public void triggerSetValue(Algorithm algorithm) throws AlgorithmConfigurationException {
-		algorithm.setConfigurationValue(identifier, value);
+	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
+		if (!algorithmInterfaces.contains(StringParameterAlgorithm.class)) {
+			throw new AlgorithmConfigurationException("Algorithm does not accept string configuration values.");
+		}
+		
+		StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;
+		stringParameterAlgorithm.setConfigurationValue(identifier, value);
 	}
-
 }

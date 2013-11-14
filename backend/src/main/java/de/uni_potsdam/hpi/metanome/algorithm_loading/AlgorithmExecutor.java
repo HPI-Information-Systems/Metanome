@@ -2,17 +2,19 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.TempFileAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
@@ -79,11 +81,11 @@ public class AlgorithmExecutor {
 			throw new AlgorithmLoadingException("No such method.");
 		}
 		
-		for (ConfigurationValue configValue : configs) {
-			configValue.triggerSetValue(algorithm);
-		}
+		Set<Class<?>> interfaces = getInterfaces(algorithm);
 		
-		List<Class<?>> interfaces = Arrays.asList(algorithm.getClass().getInterfaces());
+		for (ConfigurationValue configValue : configs) {
+			configValue.triggerSetValue(algorithm, interfaces);
+		}	
 		
 		if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
 			FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
@@ -106,5 +108,11 @@ public class AlgorithmExecutor {
 		}
 				
 		algorithm.execute();
+	}
+
+	protected Set<Class<?>> getInterfaces(Object object) {
+		Set<Class<?>> interfaces = new HashSet<Class<?>>();
+		Collections.addAll(interfaces, object.getClass().getInterfaces());
+		return interfaces;
 	}
 }

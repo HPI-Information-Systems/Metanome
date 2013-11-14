@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import java.util.Set;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 
@@ -14,9 +16,9 @@ public interface ConfigurationValue {
 	 * The type of the configuration value is resolved in the implementations. 
 	 * 
 	 * @param algorithm
-	 * 
+	 * @param algorithmInterfaces
 	 * @throws AlgorithmConfigurationException 
 	 */
-	abstract void triggerSetValue(Algorithm algorithm) throws AlgorithmConfigurationException;
+	void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException;
 	
 }

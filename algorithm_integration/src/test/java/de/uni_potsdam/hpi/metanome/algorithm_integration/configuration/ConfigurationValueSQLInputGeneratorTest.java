@@ -3,12 +3,15 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 
 /**
@@ -37,7 +40,9 @@ public class ConfigurationValueSQLInputGeneratorTest {
 	@Test
 	public void testTriggerSetValue() throws AlgorithmConfigurationException {
 		// Setup
-		Algorithm algorithm = mock(Algorithm.class);
+		SqlInputParameterAlgorithm algorithm = mock(SqlInputParameterAlgorithm.class);
+		Set<Class<?>> interfaces = new HashSet<Class<?>>();
+		interfaces.add(SqlInputParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
 		SQLInputGenerator expectedConfigurationValue = mock(SQLInputGenerator.class);
@@ -45,7 +50,7 @@ public class ConfigurationValueSQLInputGeneratorTest {
 		// Execute functionality
 		ConfigurationValueSQLInputGenerator configValue = new ConfigurationValueSQLInputGenerator(
 				new ConfigurationSpecificationSQLIterator(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm);
+		configValue.triggerSetValue(algorithm ,interfaces);
 		
 		// Check result
 		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);		
