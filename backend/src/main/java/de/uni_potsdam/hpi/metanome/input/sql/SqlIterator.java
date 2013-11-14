@@ -76,11 +76,6 @@ public class SqlIterator implements RelationalInput {
 		
 		return ImmutableList.copyOf(resultRow);
 	}
-
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
 	
 	@Override
 	public int numberOfColumns() {

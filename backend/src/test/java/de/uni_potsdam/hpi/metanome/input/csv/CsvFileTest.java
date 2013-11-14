@@ -68,21 +68,6 @@ public class CsvFileTest {
 	}
 	
 	/**
-	 * The remove method should always throw an {@link UnsupportedOperationException}.
-	 */
-	@Test
-	public void testRemove() {
-		// Check result
-		try {
-			this.csvFile.remove();
-			fail("Expected an UnsupportedOperationException to be thrown.");
-		}
-		catch (UnsupportedOperationException actualException) {
-			// Intentionally left blank
-		}
-	}
-	
-	/**
 	 * When iterating over a csv file with alternating line length an exception should be thrown.
 	 * 
 	 * @throws InputIterationException 

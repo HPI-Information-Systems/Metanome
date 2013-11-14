@@ -1,7 +1,6 @@
 package de.uni_potsdam.hpi.metanome.input.sql;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -114,26 +113,6 @@ public class SqlIteratorTest {
 		}
 		// Next should have been called (although hasNext has not been called on sqlIterator).
 		verify(resultSet, times(2)).next();
-	}
-
-	/**
-	 * The remove method should always throw an {@link UnsupportedOperationException}.
-	 * 
-	 * @throws SQLException 
-	 */
-	@Test
-	public void testRemove() throws SQLException {
-		// Setup 
-		SqlIterator sqlIterator = new SqlIterator(minimalResultSetFixture.getTestData());
-
-		// Check result
-		try {
-			sqlIterator.remove();
-			fail("Expected an UnsupportedOperationException to be thrown.");
-		}
-		catch (UnsupportedOperationException actualException) {
-			// Intentionally left blank
-		}
 	}
 	
 	/**

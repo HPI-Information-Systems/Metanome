@@ -59,11 +59,6 @@ public class CsvFile implements RelationalInput, Closeable {
 		}
 		return currentLine;
 	}
-
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
 	
 	protected ImmutableList<String> readNextLine() throws InputIterationException {
 		String[] lineArray;

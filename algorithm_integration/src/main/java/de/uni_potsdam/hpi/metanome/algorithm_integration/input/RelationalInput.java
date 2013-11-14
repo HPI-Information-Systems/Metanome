@@ -27,11 +27,6 @@ public interface RelationalInput {
 	ImmutableList<String> next() throws InputIterationException;
 	
 	/**
-	 * Removes the current row.
-	 */
-	void remove();
-	
-	/**
 	 * Returns the number of columns.
 	 * 
 	 * @return the number of columns.
