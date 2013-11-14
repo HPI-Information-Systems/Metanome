@@ -44,6 +44,14 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	
 	private static final long serialVersionUID = -2758103927345131933L;
 	
+	/**
+	 * TODO docs
+	 * 
+	 * @param algorithmName
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
 	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
 		FunctionalDependencyResultReceiver fdResultReceiver = 
 				new FunctionalDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
@@ -66,40 +74,67 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		return configValuesList;
 	}
 
+	/**
+	 * TODO docs
+	 * 
+	 * @param parameter
+	 * @return
+	 * @throws AlgorithmConfigurationException
+	 */
 	public ConfigurationValue convertToConfigurationValue(
 			InputParameter parameter) throws AlgorithmConfigurationException {
 		//TODO all types of ConfigurationValues
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
 					((InputParameterString) parameter).getValue());
+		
 		else if (parameter instanceof InputParameterBoolean)
 			return new ConfigurationValueBoolean(parameter.getIdentifier(), 
 					((InputParameterBoolean) parameter).getValue());
+		
 		else if (parameter instanceof InputParameterCsvFile)
 			return new ConfigurationValueRelationalInputGenerator(parameter.getIdentifier(), 
 					buildCsvFileGenerator((InputParameterCsvFile) parameter));
+		
 		else if (parameter instanceof InputParameterSQLIterator)
 			return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(), 
 					buildSQLInputGenerator((InputParameterSQLIterator) parameter));
+		
 		else
 			return null;
 	}
 
+	/**
+	 * TODO docs
+	 * 
+	 * @param parameter
+	 * @return
+	 * @throws AlgorithmConfigurationException
+	 */
 	private SQLInputGenerator buildSQLInputGenerator(
 			InputParameterSQLIterator parameter) throws AlgorithmConfigurationException {
 		return new SqlIteratorGenerator(parameter.getDbUrl(), parameter.getUserName(), parameter.getPassword());
 	}
 
-	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile parameter) throws AlgorithmConfigurationException {
+	/**
+	 * TODO docs
+	 * 
+	 * @param param
+	 * @return
+	 * @throws AlgorithmConfigurationException
+	 */
+	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {
 		//TODO advanced CsvFileGenerator construction
-		if (parameter.isAdvanced())
-			return null;//new CsvFileGenerator(file, ' ', ' ', ' ', ' ', false, false) ;
-		else
-			try {
-				return new CsvFileGenerator(new File(parameter.getValue()));
-			} catch (FileNotFoundException e) {
-				throw new AlgorithmConfigurationException("Could not find specified CSV file.");		
-			}
+		try {
+			if (param.isAdvanced())
+				return new CsvFileGenerator(new File(param.getFileNameValue()), param.getSeparatorChar(), 
+						param.getQuoteChar(), param.getEscapeChar(), param.getLine(), 
+						param.isStrictQuotes(), param.isIgnoreLeadingWhiteSpace()) ;
+			else
+				return new CsvFileGenerator(new File(param.getFileNameValue()));
+		} catch (FileNotFoundException e) {
+			throw new AlgorithmConfigurationException("Could not find specified CSV file.");		
+		}
 	}	
 	
 	@Override

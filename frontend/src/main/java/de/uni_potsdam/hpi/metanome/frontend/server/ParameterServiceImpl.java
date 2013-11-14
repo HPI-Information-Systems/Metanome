@@ -26,18 +26,17 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 public class ParameterServiceImpl extends RemoteServiceServlet implements ParameterService {
 
 	private static final long serialVersionUID = 7343803695093136183L;
-	
-	protected AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
-	
+		
 	/**
 	 * 
 	 * @param algorithmFileName	name of the algorithm for which the configuration parameters shall be 
 	 * 							retrieved
-	 * @param jarLoader			an <link>AlgorithmJarLoader</link> instance 
 	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
 	 */
-	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader jarLoader){
+	@Override
+	public List<InputParameter> retrieveParameters(String algorithmFileName){
 		Algorithm algorithm = null;
+		AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
 		try {
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
@@ -77,10 +76,5 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			return null;
 		}
 	}
-
-	@Override
-	public List<InputParameter> retrieveParameters(String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, jarLoader);
-	}
-
+	
 }

@@ -17,6 +17,7 @@ public class InputParameterIntegerWidget extends IntegerBox implements InputPara
 	
 	@Override
 	public void setValue(Integer value){
+		super.setValue(value);
 		this.inputParameter.setValue(value);
 	}
 
