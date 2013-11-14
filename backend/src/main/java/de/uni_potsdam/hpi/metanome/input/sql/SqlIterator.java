@@ -17,6 +17,7 @@ public class SqlIterator implements RelationalInput {
 	protected int numberOfColumns;
 	protected boolean nextCalled;
 	protected boolean hasNext;
+	protected String relationName;
 	protected ImmutableList<String> columnNames;
 	
 	public SqlIterator(ResultSet resultSet) throws SQLException {
@@ -24,6 +25,7 @@ public class SqlIterator implements RelationalInput {
 		ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 		this.numberOfColumns = resultSetMetaData.getColumnCount();
 		this.nextCalled = false;
+		this.relationName = resultSetMetaData.getTableName(0);
 		this.columnNames = retrieveColumnNames(resultSetMetaData);
 	}
 	
@@ -80,6 +82,11 @@ public class SqlIterator implements RelationalInput {
 	@Override
 	public int numberOfColumns() {
 		return numberOfColumns;
+	}
+	
+	@Override
+	public String relationName() {
+		return relationName;
 	}
 	
 	@Override

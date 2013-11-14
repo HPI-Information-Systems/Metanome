@@ -86,6 +86,11 @@ public class CsvFile implements RelationalInput, Closeable {
 	}
 	
 	@Override
+	public String relationName() {
+		return null;
+	}
+	
+	@Override
 	public ImmutableList<String> columnNames() {		
 		return headerLine;
 	}

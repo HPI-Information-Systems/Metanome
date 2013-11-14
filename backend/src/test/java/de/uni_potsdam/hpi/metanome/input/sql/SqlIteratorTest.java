@@ -132,6 +132,23 @@ public class SqlIteratorTest {
 	}
 	
 	/**
+	 * Test method for {@link SqlIterator#relationName()}
+	 * 
+	 * A {@link SqlIterator} should return the table name of the first column from the meta data.
+	 * 
+	 * @throws SQLException 
+	 */
+	@Test
+	public void testRelationName() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Execute functionality
+		// Check result
+		assertEquals(twoLinesResultSetFixture.getExpectedRelationName(), sqlIterator.relationName());
+	}
+	
+	/**
 	 * Test method for {@link SqlIterator#columnNames()}
 	 * 
 	 * A {@link SqlIterator} should return the column names from the meta data.
@@ -143,6 +160,7 @@ public class SqlIteratorTest {
 		// Setup
 		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
 		
+		// Execute functionality
 		// Check result
 		assertEquals(twoLinesResultSetFixture.getExpectedColumnNames(), sqlIterator.columnNames());
 	}
