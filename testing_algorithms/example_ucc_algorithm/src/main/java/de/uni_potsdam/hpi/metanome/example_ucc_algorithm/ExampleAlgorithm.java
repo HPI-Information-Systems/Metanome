@@ -57,10 +57,12 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 	}
 
 	public void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) {
-		throw new UnsupportedOperationException();		
+		if (identifier.equals("input file")){
+			System.out.println("Input file is not being set on algorithm.");
+		}			
 	}
 
 	public void setConfigurationValue(String identifier, SQLInputGenerator value) {
-		throw new UnsupportedOperationException();				
+		throw new UnsupportedOperationException();		
 	}
 }

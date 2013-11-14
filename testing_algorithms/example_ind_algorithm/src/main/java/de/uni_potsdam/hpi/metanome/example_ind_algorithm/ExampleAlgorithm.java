@@ -60,7 +60,9 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm {
 	}
 
 	public void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) {
-		throw new UnsupportedOperationException();		
+		if (identifier.equals("input file")){
+			System.out.println("Input file is not being set on algorithm.");
+		}	
 	}
 
 	public void setConfigurationValue(String identifier, SQLInputGenerator value) {
