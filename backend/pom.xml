@@ -73,6 +73,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_fd_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -80,6 +81,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ind_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -87,6 +89,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ucc_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -94,6 +97,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_holistic_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -174,30 +178,6 @@
     	<artifactId>commons-lang</artifactId>
     	<version>2.4</version>
     	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-    	<artifactId>example_fd_algorithm</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    	<scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-    	<artifactId>example_ind_algorithm</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    	<scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-    	<artifactId>example_ucc_algorithm</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    	<scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-    	<artifactId>example_holistic_algorithm</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>commons-io</groupId>

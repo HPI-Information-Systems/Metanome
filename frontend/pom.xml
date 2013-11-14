@@ -54,12 +54,6 @@
     	<version>0.0.1-SNAPSHOT</version>
     	<scope>compile</scope>
     </dependency>
-    <dependency>
-    	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-    	<artifactId>example_ucc_algorithm</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    	<scope>runtime</scope>
-    </dependency>
   </dependencies> 
   
   <build>
@@ -165,6 +159,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ucc_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/main/resources/algorithms</outputDirectory>
