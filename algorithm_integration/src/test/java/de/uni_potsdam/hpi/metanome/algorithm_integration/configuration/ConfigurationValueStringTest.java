@@ -1,15 +1,17 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 
 /**
  * Tests for {@link ConfigurationValueString}
@@ -40,7 +42,9 @@ public class ConfigurationValueStringTest {
 	@Test
 	public void testTriggerSetValue() throws AlgorithmConfigurationException {
 		// Setup
-		Algorithm algorithm = mock(Algorithm.class);
+		StringParameterAlgorithm algorithm = mock(StringParameterAlgorithm.class);
+		Set<Class<?>> interfaces = new HashSet<Class<?>>();
+		interfaces.add(StringParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
 		String expectedConfigurationValue = "value1";
@@ -48,7 +52,7 @@ public class ConfigurationValueStringTest {
 		// Execute functionality
 		ConfigurationValueString configValue = new ConfigurationValueString(
 				new ConfigurationSpecificationString(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm);
+		configValue.triggerSetValue(algorithm, interfaces);
 		
 		// Check result
 		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);		

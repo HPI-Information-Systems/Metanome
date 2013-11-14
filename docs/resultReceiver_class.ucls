@@ -1,66 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" 
-    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString" 
+  <interface id="1" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver" 
     project="algorithm_integration" 
-    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecificationString.java" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/FunctionalDependencyResultReceiver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="79" width="283" x="453" y="280"/>    
+    <position height="-1" width="-1" x="392" y="507"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
-  <class id="2" language="java" 
-    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile" 
+  </interface>  
+  <interface id="2" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver" 
     project="algorithm_integration" 
-    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecificationCsvFile.java" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/UniqueColumnCombinationResultReceiver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="79" width="283" x="130" y="280"/>    
+    <position height="-1" width="-1" x="717" y="507"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
-  <class id="3" language="java" 
-    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification" 
+  </interface>  
+  <interface id="3" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver" 
     project="algorithm_integration" 
-    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecification.java" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/InclusionDependencyResultReceiver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="283" x="453" y="125"/>    
+    <position height="-1" width="-1" x="711" y="412"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
-  <class id="4" language="java" 
-    name="de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean" 
+  </interface>  
+  <interface id="4" language="java" 
+    name="de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver" 
     project="algorithm_integration" 
-    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/configuration/ConfigurationSpecificationBoolean.java" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/result_receiver/BasicStatisticsResultReceiver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="79" width="283" x="776" y="280"/>    
+    <position height="-1" width="-1" x="390" y="412"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
-  <generalization id="5">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="6">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="7">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
+  </interface>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

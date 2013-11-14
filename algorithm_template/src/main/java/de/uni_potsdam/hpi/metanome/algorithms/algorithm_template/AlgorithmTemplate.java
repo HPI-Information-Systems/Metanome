@@ -2,54 +2,52 @@ package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
 
 import java.util.List;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-public class AlgorithmTemplate implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm {
+public class AlgorithmTemplate implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm {
 
+	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void setConfigurationValue(String identifier, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setConfigurationValue(String identifier, boolean value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setConfigurationValue(String identifier,
-			RelationalInputGenerator value) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	@Override
-	public void setConfigurationValue(String identifier, SQLInputGenerator value) {
+	public void execute() throws AlgorithmExecutionException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void execute() {
+	@Override
+	public void setConfigurationValue(String identifier, String value)
+			throws AlgorithmConfigurationException {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void setResultReceiver(
 			FunctionalDependencyResultReceiver resultReceiver) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void setResultReceiver(
 			UniqueColumnCombinationResultReceiver resultReceiver) {
 		// TODO Auto-generated method stub

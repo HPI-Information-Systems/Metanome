@@ -3,12 +3,15 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 
 /**
  * Tests for {@link ConfigurationValueBoolean}
@@ -33,7 +36,9 @@ public class ConfigurationValueBooleanTest {
 	@Test
 	public void testTriggerSetValue() throws AlgorithmConfigurationException {
 		// Setup
-		Algorithm algorithm = mock(Algorithm.class);
+		BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
+		Set<Class<?>> interfaces = new HashSet<Class<?>>();
+		interfaces.add(BooleanParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
 		boolean expectedConfigurationValue = true;
@@ -41,7 +46,7 @@ public class ConfigurationValueBooleanTest {
 		// Execute functionality
 		ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
 				new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm);
+		configValue.triggerSetValue(algorithm, interfaces);
 		
 		// Check result
 		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);		

@@ -3,8 +3,6 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
@@ -19,38 +17,6 @@ public interface Algorithm {
 	 * @return a list of ConfigurationSpecifications
 	 */
 	List<ConfigurationSpecification> getConfigurationRequirements();
-	
-	/**
-	 * Sets a string configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param value
-	 */
-	void setConfigurationValue(String identifier, String value) throws AlgorithmConfigurationException;
-	
-	/**
-	 * Sets a boolean configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param value
-	 */
-	void setConfigurationValue(String identifier, boolean value) throws AlgorithmConfigurationException;
-
-	/**
-	 * Sets a CsvFileGenerator configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param value
-	 */
-	void setConfigurationValue(String identifier, RelationalInputGenerator value) throws AlgorithmConfigurationException;
-
-	/**
-	 * Sets a SQLInputGenerator configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param value
-	 */
-	void setConfigurationValue(String identifier, SQLInputGenerator value);
 	
 	/**
 	 * Starts the execution of the algorithm.

@@ -82,11 +82,9 @@ public class ColumnCombinationTest {
 	@Test
 	public void testToString() {
 		// Setup
-		// FIXME
-		// switch "table1" to "table56" and the test will fail, because the order of column identifiers is not guaranteed
-		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table56", "column1");
 		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-		ColumnCombination columnCombination = new ColumnCombination(expectedColumn2, expectedColumn1);
+		ColumnCombination columnCombination = new ColumnCombination(expectedColumn1, expectedColumn2);
 		// Expected values
 		String expectedStringRepresentation = "[" + expectedColumn1.toString() + ", " + expectedColumn2.toString() + "]";
 		

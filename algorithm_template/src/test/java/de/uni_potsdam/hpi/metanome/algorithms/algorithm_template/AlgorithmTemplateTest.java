@@ -22,27 +22,17 @@ public class AlgorithmTemplateTest {
 	}
 
 	@Test
-	public void testSetConfigurationValueStringString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetConfigurationValueStringBoolean() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetConfigurationValueStringSimpleRelationalInputGenerator() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetConfigurationValueStringSQLInputGenerator() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testExecute() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetConfigurationValue() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetTempFileGenerator() {
 		fail("Not yet implemented");
 	}
 
