@@ -1,0 +1,1 @@
+java -jar jetty-runner.jar metanome
