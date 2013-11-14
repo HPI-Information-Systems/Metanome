@@ -4,8 +4,7 @@
 <module rename-to="hello">
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="de.uni_potsdam.hpi.metanome.Metanome_Dependencies"/>
-	<inherits name="de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmIntegration_Dependencies"/>
-		
+	
 	<entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
 
 	<source path="client"/>

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 
@@ -24,7 +24,7 @@ public class SqlIteratorGenerator implements SQLInputGenerator {
 	}
 
 	@Override
-	public SimpleRelationalInput generateSimpleRelationalInputFromSql(String queryString) throws InputGenerationException {
+	public RelationalInput generateRelationalInputFromSql(String queryString) throws InputGenerationException {
 		
 		ResultSet resultSet = executeQuery(queryString);
 		

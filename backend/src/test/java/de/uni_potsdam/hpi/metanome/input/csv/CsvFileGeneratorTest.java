@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 
 /**
@@ -69,14 +69,14 @@ public class CsvFileGeneratorTest {
 	@Test
 	public void testGenerateNewCsvFile() throws InputGenerationException, InputIterationException {
 		// Setup
-		SimpleRelationalInput csv = generator.generateNewCopy();
+		RelationalInput csv = generator.generateNewCopy();
 		
 		// Check result
 		// The csv should contain both lines and iterate through them with next.
 		assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
 		assertEquals(csvFileFixture.expectedSecondLine(), csv.next());
 		// A new CsvFile should iterate from the start.
-		SimpleRelationalInput csv2 = generator.generateNewCopy();
+		RelationalInput csv2 = generator.generateNewCopy();
 		assertEquals(csvFileFixture.expectedFirstLine(), csv2.next());
 		assertEquals(csvFileFixture.expectedSecondLine(), csv2.next());		
 	}

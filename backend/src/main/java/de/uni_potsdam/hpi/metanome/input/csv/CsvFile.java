@@ -2,25 +2,45 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.Reader;
 
+import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInput;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
  */
-public class CsvFile implements SimpleRelationalInput, Closeable {
+public class CsvFile implements RelationalInput, Closeable {
+	
+	protected static final boolean DEFAULT_HAS_HEADER = false;
 	
 	protected CSVReader csvReader;
+	protected ImmutableList<String> headerLine;
 	protected ImmutableList<String> nextLine;
 	protected int numberOfColumns;
 	
-	public CsvFile(CSVReader csvReader) throws InputIterationException {
-		this.csvReader = csvReader;
+	public CsvFile(Reader reader, char separator, char quotechar) throws InputIterationException {
+		this(reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
+	}
+	
+	public CsvFile(Reader reader, char separator, char quoteChar, int skipLines) throws InputIterationException {
+		this(reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
+	}
+	
+	public CsvFile(Reader reader, char separator, char quotechar, int skipLines, boolean hasHeader) throws InputIterationException {
+		this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
+	}
+
+	public CsvFile(Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
+		this.csvReader = new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace);
+		if (hasHeader) {
+			this.headerLine = readNextLine();
+		}
 		this.nextLine = readNextLine();
 		this.numberOfColumns = this.nextLine.size();
 	}
@@ -63,5 +83,15 @@ public class CsvFile implements SimpleRelationalInput, Closeable {
 	@Override
 	public void close() throws IOException {
 		csvReader.close();
+	}
+	
+	@Override
+	public int numberOfColumns() {
+		return numberOfColumns;
+	}
+	
+	@Override
+	public ImmutableList<String> columnNames() {		
+		return headerLine;
 	}
 }

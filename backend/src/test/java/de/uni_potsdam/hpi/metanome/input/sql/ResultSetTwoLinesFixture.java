@@ -20,6 +20,11 @@ public class ResultSetTwoLinesFixture {
 		// Expected column count
 		when(resultSetMetaData.getColumnCount())
 			.thenReturn(numberOfColumns());
+		ImmutableList<String> expectedColumnNames = getExpectedColumnNames();
+		for (int i = 0; i < expectedColumnNames.size(); i++) {
+			when(resultSetMetaData.getColumnLabel(i))
+			.thenReturn(expectedColumnNames.get(i));
+		}		
 		// Expected values when calling getMetaData
 		when(resultSet.getMetaData())
 			.thenReturn(resultSetMetaData);
@@ -65,12 +70,16 @@ public class ResultSetTwoLinesFixture {
 		
 		return expectedRecords;
 	}
+	
+	public ImmutableList<String> getExpectedColumnNames() {
+		return ImmutableList.of("column1", "column2", "column3");
+	}
 
 	public int numberOfRows() {
 		return 2;
 	}
 	
-	protected int numberOfColumns() {
+	public int numberOfColumns() {
 		return 3;
 	}
 

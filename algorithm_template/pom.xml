@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
   <artifactId>algorithm_template</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -32,6 +32,7 @@
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   
@@ -56,7 +57,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Algorithm-Bootstrap-Class>de.uni-potsdam.hpi.metanome.algorithm_template.AlgorithmTemplate</Algorithm-Bootstrap-Class>
+              <Algorithm-Bootstrap-Class>de.uni-potsdam.hpi.metanome.algorithm_template.algorithms.AlgorithmTemplate</Algorithm-Bootstrap-Class>
             </manifestEntries>
           </archive>
           <descriptorRefs>

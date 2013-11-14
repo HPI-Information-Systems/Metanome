@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_template;
+package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
 
 import static org.junit.Assert.*;
 
@@ -35,9 +35,14 @@ public class AlgorithmTemplateTest {
 	public void testSetConfigurationValueStringSimpleRelationalInputGenerator() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testSetConfigurationValueStringSQLInputGenerator() {
+		fail("Not yet implemented");
+	}
 
 	@Test
-	public void testStart() {
+	public void testExecute() {
 		fail("Not yet implemented");
 	}
 

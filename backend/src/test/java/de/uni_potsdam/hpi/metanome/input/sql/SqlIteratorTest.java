@@ -18,10 +18,22 @@ import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
+/**
+ * @author Jakob Zwiener
+ * 
+ * Test for {@link SqlIterator}
+ */
 public class SqlIteratorTest {
 
+	protected ResultSetFixture minimalResultSetFixture;
+	protected ResultSetTwoLinesFixture twoLinesResultSetFixture;
+	
 	@Before
 	public void setUp() throws Exception {
+		// TODO initialise fixtures here
+		
+		minimalResultSetFixture = new ResultSetFixture();
+		twoLinesResultSetFixture = new ResultSetTwoLinesFixture();
 	}
 
 	@After
@@ -38,8 +50,7 @@ public class SqlIteratorTest {
 	@Test
 	public void testHasNext() throws SQLException, InputIterationException {
 		// Setup 
-		ResultSetFixture fixture = new ResultSetFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = minimalResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		// Expected values
 		boolean expectedFirstNext = true;
@@ -68,18 +79,17 @@ public class SqlIteratorTest {
 	@Test
 	public void testNext() throws SQLException, InputIterationException {
 		// Setup
-		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = twoLinesResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
-		List<Boolean> expectedNextValues = fixture.getExpectedNextValues();
-		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
-		for (int i = 0; i < fixture.numberOfRows(); i++) {
+		List<Boolean> expectedNextValues = twoLinesResultSetFixture.getExpectedNextValues();
+		List<ImmutableList<String>> expectedRecords = twoLinesResultSetFixture.getExpectedRecords();
+		for (int i = 0; i < twoLinesResultSetFixture.numberOfRows(); i++) {
 			assertEquals(expectedNextValues.get(i), sqlIterator.hasNext());
 			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
-		assertEquals(expectedNextValues.get(fixture.numberOfRows()), sqlIterator.hasNext());
+		assertEquals(expectedNextValues.get(twoLinesResultSetFixture.numberOfRows()), sqlIterator.hasNext());
 		// Next should have been called.
 		verify(resultSet, times(3)).next();
 		
@@ -94,13 +104,12 @@ public class SqlIteratorTest {
 	@Test
 	public void testNextWithoutHasNext() throws SQLException, InputIterationException {
 		// Setup
-		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = twoLinesResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
-		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
-		for (int i = 0; i < fixture.numberOfRows(); i++) {
+		List<ImmutableList<String>> expectedRecords = twoLinesResultSetFixture.getExpectedRecords();
+		for (int i = 0; i < twoLinesResultSetFixture.numberOfRows(); i++) {
 			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
 		// Next should have been called (although hasNext has not been called on sqlIterator).
@@ -115,9 +124,7 @@ public class SqlIteratorTest {
 	@Test
 	public void testRemove() throws SQLException {
 		// Setup 
-		ResultSetFixture fixture = new ResultSetFixture();
-		ResultSet resultSet = fixture.getTestData();
-		SqlIterator sqlIterator = new SqlIterator(resultSet);
+		SqlIterator sqlIterator = new SqlIterator(minimalResultSetFixture.getTestData());
 
 		// Check result
 		try {
@@ -127,6 +134,38 @@ public class SqlIteratorTest {
 		catch (UnsupportedOperationException actualException) {
 			// Intentionally left blank
 		}
+	}
+	
+	/**
+	 * Test method for {@link SqlIterator#numberOfColumns()}
+	 * 
+	 * A {@link SqlIterator} should return the correct number of columns of the result.
+	 * 
+	 * @throws SQLException
+	 */
+	@Test
+	public void testNumberOfColumns() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Check result
+		assertEquals(twoLinesResultSetFixture.numberOfColumns(), sqlIterator.numberOfColumns());
+	}
+	
+	/**
+	 * Test method for {@link SqlIterator#columnNames()}
+	 * 
+	 * A {@link SqlIterator} should return the column names from the meta data.
+	 * 
+	 * @throws SQLException 
+	 */
+	@Test 
+	public void testColumnNames() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Check result
+		assertEquals(twoLinesResultSetFixture.getExpectedColumnNames(), sqlIterator.columnNames());
 	}
 
 }

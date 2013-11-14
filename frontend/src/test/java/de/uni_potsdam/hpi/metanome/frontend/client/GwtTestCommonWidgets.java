@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.InclusionDependencyJarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 
 public class GwtTestCommonWidgets extends GWTTestCase{
@@ -15,7 +14,7 @@ public class GwtTestCommonWidgets extends GWTTestCase{
 		String[] filenames = {"filename1.jar", "filename2.jar"};
 		
 		//Execute
-		JarChooser jarChooser = new InclusionDependencyJarChooser(filenames);
+		JarChooser jarChooser = new JarChooser(filenames);
 		
 		//Test
 		assertEquals(2, jarChooser.getWidgetCount());

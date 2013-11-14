@@ -9,12 +9,14 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
- * Tests for {@link ConfigurationValueSimpleRelationalInputGenerator}
+ * @author Jakob Zwiener
+ * 
+ * Tests for {@link ConfigurationValueRelationalInputGenerator}
  */
-public class ConfigurationValueSimpleRelationalInputGeneratorTest {
+public class ConfigurationValueRelationalInputGeneratorTest {
 	
 	@Before
 	public void setUp() throws Exception {
@@ -29,6 +31,7 @@ public class ConfigurationValueSimpleRelationalInputGeneratorTest {
 	/**
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
+	 * 
 	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
@@ -37,10 +40,10 @@ public class ConfigurationValueSimpleRelationalInputGeneratorTest {
 		Algorithm algorithm = mock(Algorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		SimpleRelationalInputGenerator expectedConfigurationValue = mock(SimpleRelationalInputGenerator.class);
+		RelationalInputGenerator expectedConfigurationValue = mock(RelationalInputGenerator.class);
 		
 		// Execute functionality
-		ConfigurationValueSimpleRelationalInputGenerator configValue = new ConfigurationValueSimpleRelationalInputGenerator(
+		ConfigurationValueRelationalInputGenerator configValue = new ConfigurationValueRelationalInputGenerator(
 				new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
 		configValue.triggerSetValue(algorithm);
 		

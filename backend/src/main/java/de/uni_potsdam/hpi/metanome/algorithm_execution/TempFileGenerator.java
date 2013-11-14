@@ -27,7 +27,7 @@ public class TempFileGenerator implements FileGenerator {
 	
 	public TempFileGenerator() throws UnsupportedEncodingException {
 		// Get path to resource dir.
-		String pathToFolder = ClassLoader.getSystemResource("").getPath();
+		String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		pathToFolder += "/" + TEMP_FILE_PATH;
 		this.pathToFolder = URLDecoder.decode(pathToFolder, "utf-8");
 		// Create subdir.

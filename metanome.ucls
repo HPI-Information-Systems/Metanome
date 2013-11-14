@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm" 
+  <class id="1" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_integration.Configurable" 
     project="algorithm_integration" 
-    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/Algorithm.java" 
+    file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/Configurable.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="133" width="334" x="317" y="88"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -210,8 +210,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecuter" 
-    project="backend" file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmExecuter.java" 
+  <class id="19" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor" 
+    project="backend" file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmExecutor.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1454" y="946"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -263,8 +263,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="24" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.ResultFileWriter" project="backend" 
-    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java" binary="false" 
+  <class id="24" language="java" name="de.uni_potsdam.hpi.metanome.result_receiver.ResultWriter" project="backend" 
+    file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultWriter.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1252" y="810"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

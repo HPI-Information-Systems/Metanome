@@ -2,23 +2,25 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
+ * @author Jakob Zwiener
+ * 
  * Represents csv file configuration values for {@link Algorithm}s.
  */
-public class ConfigurationValueSimpleRelationalInputGenerator implements ConfigurationValue {
+public class ConfigurationValueRelationalInputGenerator implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final SimpleRelationalInputGenerator value;
+	protected final RelationalInputGenerator value;
 	
 	/**
-	 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
+	 * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier and the boolean value.
 	 * 
 	 * @param identifier
 	 * @param value
 	 */
-	public ConfigurationValueSimpleRelationalInputGenerator(String identifier, SimpleRelationalInputGenerator value) {
+	public ConfigurationValueRelationalInputGenerator(String identifier, RelationalInputGenerator value) {
 		this.identifier = identifier;
 		this.value = value;
 	}

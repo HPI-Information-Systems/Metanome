@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SimpleRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
@@ -42,7 +42,7 @@ public interface Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, SimpleRelationalInputGenerator value) throws AlgorithmConfigurationException;
+	void setConfigurationValue(String identifier, RelationalInputGenerator value) throws AlgorithmConfigurationException;
 
 	/**
 	 * Sets a SQLInputGenerator configuration value on the algorithm.
