@@ -41,7 +41,7 @@
     project="algorithm_integration" 
     file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/algorithm_types/FunctionalDependencyAlgorithm.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="784" y="431"/>    
+    <position height="-1" width="-1" x="719" y="433"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -53,7 +53,7 @@
     project="algorithm_integration" 
     file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/algorithm_types/InclusionDependencyAlgorithm.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1138" y="430"/>    
+    <position height="-1" width="-1" x="1049" y="431"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -65,7 +65,7 @@
     project="algorithm_integration" 
     file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/algorithm_types/BasicStatisticsAlgorithm.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="453" y="431"/>    
+    <position height="-1" width="-1" x="403" y="431"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -101,7 +101,7 @@
     project="algorithm_integration" 
     file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/algorithm_types/UniqueColumnCombinationsAlgorithm.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1502" y="428"/>    
+    <position height="-1" width="-1" x="1388" y="432"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -113,7 +113,7 @@
     project="algorithm_integration" 
     file="/algorithm_integration/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_integration/algorithm_types/StringParameterAlgorithm.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1405" y="129"/>    
+    <position height="-1" width="-1" x="1373" y="129"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

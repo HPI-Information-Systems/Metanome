@@ -21,7 +21,7 @@ Metanome supplies a framework to develop data profiling algorithms that integrat
 \caption{Algorithm interfaces}
 \label{fig_algorithmClass}
 \end{figure}
-The algorithm bootstrap class needs to be declared in the manifest of the jar in an \texttt{Algorithm-Bootstrap-Class} tag and needs to implement the following methods:
+There are interfaces that determine the \texttt{ResultReceiver} of the algorithm and thus the types of results an algorithm can produce. Other interfaces determine the type of parameters that can be set on the algorithm upon configuration. The \texttt{TempFileAlgorithm} interface allows the algorithm to request temporary files from the framework. An algorithm bootstrap class needs to be declared in the manifest of the jar in an \texttt{Algorithm-Bootstrap-Class} tag and needs to implement the following methods:
 
 \begin{itemize}
 \item \texttt{List <ConfigurationSpecification> getConfigurationRequirements()}
@@ -36,7 +36,7 @@ The algorithm should generate a list of necessary configuration parameters. Conf
 
 \item \texttt{void setConfigurationValue(String, ?)}
 
-The algorithm should receive the results of the requested configuration through the \texttt{setConfigurationValue} methods. Possible configuration values are shown in Figure~\ref{fig_configurationValueClass}. If a certain type of configuration value is not needed an \texttt{UnsupportedOperationException} may be thrown.
+The algorithm should receive the results of the requested configuration through the \texttt{setConfigurationValue} methods. Possible configuration values are shown in Figure~\ref{fig_configurationValueClass}. The algorithm needs to declare all interfaces of requested configuration types.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{configurationValue_class}
@@ -46,7 +46,7 @@ The algorithm should receive the results of the requested configuration through 
 
 \item \texttt{void setResultReceiver(ResultReceiver)}
 
-Algorithms generate certain types of results and send these to the Metanome tool through a callback. To enable this one or several \texttt{ResultReceiver} are set on the algorithm, depending on the algorithm type. Existing result receiver are shown in Figure~\ref{fig_resultReceiverClass}.
+Algorithms generate certain types of results and send those to the Metanome tool through a callback. To enable this one or several \texttt{ResultReceiver} are set on the algorithm, depending on the algorithm type. Existing result receiver are shown in Figure~\ref{fig_resultReceiverClass}.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{resultReceiver_class}
@@ -77,7 +77,7 @@ To simplify the development of algorithms for the Metanome tool a maven sample p
 \item Rename the project directory and change the \texttt{groupId}, \texttt{artifactId} and \texttt{name} in the pom.
 \item Rename the \texttt{AlgorithmTemplate.java} and \texttt{AlgorithmTemplateTest.java}.
 \item Update the algorithm bootstrap class in the \texttt{Algorithm-Bootstrap-Class} tag in the pom.
-\item Declare algorithm types in the bootstrap class by implementing one or several of the algorithm interfaces shown in Figure~\ref{fig_algorithmClass}.
+\item Declare algorithm types in the bootstrap class by implementing one or several of the algorithm interfaces shown in Figure~\ref{fig_algorithmClass}. 
 \item Update the package names according to the entries in the pom.
 \item Build the algorithm jar with \texttt{mvn package}.
 \end{itemize}
