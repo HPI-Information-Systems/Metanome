@@ -40,7 +40,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 
 	public RelationalInput generateNewCopy() throws InputGenerationException {
 		try {
-			return new CsvFile(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
+			return new CsvFile(inputFile.getName(), new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
 		} catch (FileNotFoundException e) {
 			throw new InputGenerationException("File not found.");
 		} catch (InputIterationException e) {

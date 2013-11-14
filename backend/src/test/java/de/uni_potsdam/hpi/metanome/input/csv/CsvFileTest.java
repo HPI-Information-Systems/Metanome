@@ -107,6 +107,25 @@ public class CsvFileTest {
 	}
 	
 	/**
+	 * Test method for {@link CsvFile#relationName()}
+	 * 
+	 * A {@link CsvFile} should return a relation name.
+	 * 
+	 * @throws InputGenerationException 
+	 * @throws InputIterationException 
+	 */
+	@Test
+	public void testRelationName() throws InputIterationException, InputGenerationException {
+		// Setup
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+		CsvFile csvFile = fixtureSeparator.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedRelationName(), csvFile.relationName());
+	}
+	
+	/**
 	 * Test method for {@link CsvFile#columnNames()}
 	 * 
 	 * A {@link CsvFile} should return the correct column names.
@@ -120,6 +139,7 @@ public class CsvFileTest {
 		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
 		CsvFile csvFile = fixtureSeparator.getTestData();
 		
+		// Execute functionality
 		// Check result
 		assertEquals(fixture.getExpectedColumnNames(), csvFile.columnNames());
 	}

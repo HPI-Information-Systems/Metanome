@@ -31,7 +31,7 @@ public class CsvFileOneLineFixture {
 	}
 
 	public CsvFile getTestData() throws InputIterationException, InputGenerationException {
-		return new CsvFile(new StringReader(getCsvInputString()), this.separator, this.quoteChar, 0, true);
+		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 0, true);
 	}
 	
 	protected String getCsvInputString() {
@@ -69,6 +69,10 @@ public class CsvFileOneLineFixture {
 	
 	public ImmutableList<String> getExpectedStrings() {
 		return ImmutableList.of("value1", "value2", "value3");
+	}
+	
+	public String getExpectedRelationName() {
+		return "some_relation";
 	}
 	
 	public ImmutableList<String> getExpectedColumnNames() {
