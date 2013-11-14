@@ -22,14 +22,12 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 	protected boolean hasHeader = CsvFile.DEFAULT_HAS_HEADER;
 	
 	public CsvFileGenerator(File inputFile) throws FileNotFoundException {
-		if (!inputFile.isFile()) {
-			throw new FileNotFoundException();
-		}
-		this.inputFile = inputFile;
+		this.setInputFile(inputFile);
 	}
 	
-	public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int line, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
-		this.inputFile = inputFile;
+	public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int line, 
+			boolean strictQuotes, boolean ignoreLeadingWhiteSpace) throws FileNotFoundException {
+		this.setInputFile(inputFile);
 		this.separator = separator;
 		this.quotechar = quotechar;
 		this.escape = escape;
@@ -37,10 +35,18 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 		this.strictQuotes = strictQuotes;
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
+	
+	private void setInputFile(File inputFile) throws FileNotFoundException{
+		if (!inputFile.isFile()) {
+			throw new FileNotFoundException();
+		}
+		this.inputFile = inputFile;
+	}
 
 	public RelationalInput generateNewCopy() throws InputGenerationException {
 		try {
-			return new CsvFile(new FileReader(inputFile), separator, quotechar, escape, line, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
+			return new CsvFile(new FileReader(inputFile), separator, quotechar, escape, line, 
+					strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
 		} catch (FileNotFoundException e) {
 			throw new InputGenerationException("File not found.");
 		} catch (InputIterationException e) {

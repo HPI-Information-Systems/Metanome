@@ -6,7 +6,16 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 public class InputParameterCsvFile extends InputParameter {
 	private static final long serialVersionUID = -4018145396259206308L;
 
+	/** path of the currently selected input file **/
 	private String filePath;
+	/** advanced means that the parameter does not use default separator chars **/
+	private boolean advanced = false;
+	private char separatorChar;
+	private char quoteChar;
+	private char escapeChar;
+	private int line;
+	private boolean strictQuotes;
+	private boolean ignoreLeadingWhiteSpace;
 	
 	/** Default no-argument constructor. 
 	 * Use <link>InputParameterCsvFile(String identifier) instead</link> **/
@@ -23,19 +32,62 @@ public class InputParameterCsvFile extends InputParameter {
 		super(identifier);
 	}
 	
+	public String getFileNameValue() {
+		return filePath;
+	}
 	public void setFileNameValue(String value) {
 		this.filePath = value;
 	}
 
-	public String getValue() {
-		return filePath;
-	}
-
 	public boolean isAdvanced() {
-		// TODO Auto-generated method stub
-		return false;
+		return advanced;
+	}
+	public void setAdvanced(boolean isAdvanced) {
+		this.advanced = isAdvanced;
 	}
 
+	public char getSeparatorChar() {
+		return separatorChar;
+	}
+	public void setSeparatorChar(char separatorChar) {
+		this.separatorChar = separatorChar;
+	}
+
+	public char getQuoteChar() {
+		return quoteChar;
+	}
+	public void setQuoteChar(char quoteChar) {
+		this.quoteChar = quoteChar;
+	}
+
+	public char getEscapeChar() {
+		return escapeChar;
+	}
+	public void setEscapeChar(char escapeChar){
+		this.escapeChar = escapeChar;
+	}
+
+	public int getLine() {
+		return line;
+	}
+	public void setLine(int line){
+		this.line = line;
+	}
+
+	public boolean isStrictQuotes() {
+		return strictQuotes;
+	}
+	public void setStrictQuotes(boolean strictQuotes){
+		this.strictQuotes = strictQuotes;
+	}
+
+	public boolean isIgnoreLeadingWhiteSpace() {
+		return ignoreLeadingWhiteSpace;
+	}
+	public void setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace){
+		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+	}
+	
 	@Override
 	public InputParameterWidget createWrappingWidget() {
 		return new InputParameterCsvFileWidget(this);
