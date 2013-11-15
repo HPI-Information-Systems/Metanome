@@ -358,11 +358,6 @@ public class ColumnCombinationBitset {
 		unionBitSet.or(other.bitset);
 		return new ColumnCombinationBitset().setColumns(unionBitSet);
 	}
-
-	public void or(ColumnCombinationBitset ored) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	/**
 	 * Generates the direct super sets. Supersets are bounded by the maximum number of columns.
@@ -409,8 +404,8 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @return the number of columns in the combination.
 	 */
-	public long size() {
-		return size;
+	public int size() {
+		return (int) size;
 	}
 }
 
