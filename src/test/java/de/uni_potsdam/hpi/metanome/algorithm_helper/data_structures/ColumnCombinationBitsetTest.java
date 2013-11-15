@@ -17,6 +17,7 @@ import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ColumnCombinationBitsetTest {
@@ -458,7 +459,7 @@ public class ColumnCombinationBitsetTest {
 	/**
 	 * Test method for {@link ColumnCombinationBitset#addColumn(int)}
 	 * 
-	 * After adding columns the size should be updated.
+	 * After adding columns the size should be updated and the column's bit be set on the bit set.
 	 */
 	@Test
 	public void testAddColumn() {
@@ -467,8 +468,33 @@ public class ColumnCombinationBitsetTest {
 		ColumnCombinationBitset columnCombination = fixture.getTestData();
 		
 		// Execute functionality
+		columnCombination.addColumn(256);
+		columnCombination.addColumn(2);
 		// Check result
-		assertEquals(fixture.getExpectedSize(), columnCombination.size());
+		assertEquals(fixture.getExpectedSize() + 1, columnCombination.size());
+		assertTrue(columnCombination.bitset.get(256));
+		assertTrue(columnCombination.bitset.get(2));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#removeColumn(int)}
+	 * 
+	 * After removing a column the size should be updated and the column be removed from the bitset.
+	 */
+	@Test
+	public void testRemoveColumn() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(0, 2, 3, 4);
+		// Expected values
+		int expectedSize = 4;
+		
+		// Execute functionality
+		columnCombination.removeColumn(2);
+		columnCombination.removeColumn(362);
+		// Check result
+		assertEquals(expectedSize - 1, columnCombination.size());
+		assertFalse(columnCombination.bitset.get(2));
+		assertFalse(columnCombination.bitset.get(362));
 	}
 	
 	/**
@@ -486,6 +512,23 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()), 
 				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets()));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getDirectSubsets()}
+	 * 
+	 * Generates the direct subset column combinations.
+	 */
+	@Test @Ignore
+	public void testGetDirectSubsets() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertThat(columnCombination.getDirectSubsets(),
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets()));
 	}
 
 }

@@ -37,13 +37,23 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSupersets() {
-
 		ColumnCombinationBitset[] directSupersets = {
 				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 1),
 				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 5),
 				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 6)};
 		
 		return directSupersets;
+	}
+	
+	public ColumnCombinationBitset[] getExpectedDirectSubsets() {
+		ColumnCombinationBitset[] directSubsets = {
+				new ColumnCombinationBitset().setColumns(2, 3, 4),
+				new ColumnCombinationBitset().setColumns(0, 3, 4),
+				new ColumnCombinationBitset().setColumns(0, 2, 4),
+				new ColumnCombinationBitset().setColumns(0, 2, 3)};
+		
+		
+		return directSubsets;
 	}
 	
 	public int getExpectedSize() {

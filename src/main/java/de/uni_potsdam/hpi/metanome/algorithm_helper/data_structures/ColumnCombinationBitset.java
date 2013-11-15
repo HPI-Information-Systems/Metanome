@@ -43,14 +43,31 @@ public class ColumnCombinationBitset {
 	} 
 	
 	/**
-	 * Adds a column to the bitset.
+	 * Adds a column to the bit set.
 	 * 
 	 * @param columnIndex
 	 */
 	public void addColumn(int columnIndex) {
+		if (columnIndex > bitset.capacity()) {
+			bitset.set(columnIndex);
+			size++;
+		}
 		if (!bitset.getAndSet(columnIndex)) {
 			size++;
 		}
+	}
+	
+	/**
+	 * Removes a column from the bit set.
+	 * 
+	 * @param columnIndex
+	 */
+	public void removeColumn(int columnIndex) {
+		if (bitset.get(columnIndex)) {
+			size--;
+		}
+		
+		bitset.clear(columnIndex);
 	}
 
 	@Override
@@ -351,9 +368,22 @@ public class ColumnCombinationBitset {
 		return supersets;
 	}
 	
+	/**
+	 * Generates the direct subset column combinations.
+	 * 
+	 * @return the direct sub sets
+	 */
 	public List<ColumnCombinationBitset> getDirectSubsets() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ColumnCombinationBitset> subsets = new LinkedList<ColumnCombinationBitset>();
+		
+		ColumnCombinationBitset subset;
+		for (int columnIndex : getSetBits()) {
+			subset = new ColumnCombinationBitset().setColumns(bitset.clone());
+			subset.removeColumn(columnIndex);
+			subsets.add(subset);
+		}
+		
+		return subsets;
 	}
 
 	/**
