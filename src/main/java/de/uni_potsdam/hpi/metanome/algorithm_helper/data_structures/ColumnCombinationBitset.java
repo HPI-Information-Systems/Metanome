@@ -162,14 +162,21 @@ public class ColumnCombinationBitset {
 	}
 
 	/**
+	 * If n is closer to the super set the top down strategy should be chosen otherwise bottom up generation is used.
+	 * 
 	 * @param superSet
 	 * @param subSet
 	 * @param n
-	 * @return
+	 * @return n column combinations that are super set of the sub set and sub set of the super set
 	 */
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
-		return getNSubsetColumnCombinationsSupersetOfBottomUp(superSet, subSet, n);
+		// If n is closer to the super set go top down.
+		if ((superSet.size() - n) < (n - subSet.size())) {
+			return getNSubsetColumnCombinationsSupersetOfTopDown(superSet, subSet, n);
+		} else {
+			return getNSubsetColumnCombinationsSupersetOfBottomUp(superSet, subSet, n);
+		}		
 	}
 	
 	/**

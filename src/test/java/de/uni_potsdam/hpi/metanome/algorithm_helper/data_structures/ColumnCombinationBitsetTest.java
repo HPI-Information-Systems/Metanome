@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -254,6 +256,25 @@ public class ColumnCombinationBitsetTest {
 				IsIterableContainingInAnyOrder.containsInAnyOrder(
 						expected2SubsetColumnCombinations.toArray(
 								new ColumnCombinationBitset[expected2SubsetColumnCombinations.size()])));	
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * 
+	 * If n is closer to the super set the top down strategy should be chosen otherwise bottom up generation is used.
+	 */
+	@Test
+	public void testGetNSubsetColumnCombinationsSupersetOfChoosesEfficientImplementation() {
+		// Setup
+		ColumnCombinationBitset abcdeg = spy(new ColumnCombinationBitset()).setColumns(0, 1, 2, 3, 4, 6);
+		ColumnCombinationBitset c = new ColumnCombinationBitset().setColumns(2);
+		
+		// Execute functionality 
+		// Check result
+		abcdeg.getNSubsetColumnCombinationsSupersetOf(c, 4);
+		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfTopDown(abcdeg, c, 4);
+		abcdeg.getNSubsetColumnCombinationsSupersetOf(c, 3);
+		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfBottomUp(abcdeg, c, 3);
 	}
 	
 	/**
