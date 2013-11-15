@@ -430,12 +430,12 @@ public class ColumnCombinationBitsetTest {
 	public void testGetContainedOneColumnCombinations() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
-		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
 		
 		// Execute functionality 
 		// Check result
 		assertThat(columnCombination.getContainedOneColumnCombinations(),
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedOneColumnCombinations()));		
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedOneColumnCombinations1()));		
 	}
 	
 	/**
@@ -458,6 +458,28 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#union(ColumnCombinationBitset)}
+	 * 
+	 * Union should return a {@link ColumnCombinationBitset} with all the columns from both column combinations
+	 * and no other columns. The original {@link ColumnCombinationBitset}s should remain unchanged.
+	 */
+	@Test
+	public void testUnion() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination1 = fixture.getColumnCombination1();
+		ColumnCombinationBitset columnCombination2 = fixture.getColumnCombination2();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedUnionColumnCombination(), columnCombination1.union(columnCombination2));
+		assertEquals(fixture.getExpectedUnionColumnCombination(), columnCombination2.union(columnCombination1));
+		// Originals should not have changed
+		assertEquals(fixture.getColumnCombination1(), columnCombination1);
+		assertEquals(fixture.getColumnCombination2(), columnCombination2);
+	}
+	
+	/**
 	 * Test method for {@link ColumnCombinationBitset#getSetBits()}
 	 * 
 	 * Returns a list of column indexes contained in the column combination.
@@ -466,12 +488,12 @@ public class ColumnCombinationBitsetTest {
 	public void testGetSetBits() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
-		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
 		
 		// Execute functionality
 		// Check result 
 		assertThat(columnCombination.getSetBits(), 
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits()));
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits1()));
 	}
 	
 	/**
@@ -483,13 +505,13 @@ public class ColumnCombinationBitsetTest {
 	public void testAddColumn() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
-		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
 		
 		// Execute functionality
 		columnCombination.addColumn(256);
 		columnCombination.addColumn(2);
 		// Check result
-		assertEquals(fixture.getExpectedSize() + 1, columnCombination.size());
+		assertEquals(fixture.getExpectedSize1() + 1, columnCombination.size());
 		assertTrue(columnCombination.bitset.get(256));
 		assertTrue(columnCombination.bitset.get(2));
 	}
@@ -524,12 +546,12 @@ public class ColumnCombinationBitsetTest {
 	public void testGetDirectSupersets() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
-		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
 		
 		// Execute functionality
 		// Check result
 		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()), 
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets()));
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
 	}
 	
 	/**
@@ -541,12 +563,12 @@ public class ColumnCombinationBitsetTest {
 	public void testGetDirectSubsets() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
-		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
 		
 		// Execute functionality
 		// Check result
 		assertThat(columnCombination.getDirectSubsets(),
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets()));
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
 	}
 
 }

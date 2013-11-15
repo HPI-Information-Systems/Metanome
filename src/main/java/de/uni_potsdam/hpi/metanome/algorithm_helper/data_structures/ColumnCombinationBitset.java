@@ -346,9 +346,17 @@ public class ColumnCombinationBitset {
 		return oneColumnCombinations;
 	}
 
-	public ColumnCombinationBitset union(ColumnCombinationBitset a) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Union should return a {@link ColumnCombinationBitset} with all the columns from both column combinations
+	 * and no other columns. The original {@link ColumnCombinationBitset}s should remain unchanged.
+	 * 
+	 * @param other
+	 * @return the union of the two column combinations
+	 */
+	public ColumnCombinationBitset union(ColumnCombinationBitset other) {
+		OpenBitSet unionBitSet = bitset.clone();
+		unionBitSet.or(other.bitset);
+		return new ColumnCombinationBitset().setColumns(unionBitSet);
 	}
 
 	public void or(ColumnCombinationBitset ored) {
