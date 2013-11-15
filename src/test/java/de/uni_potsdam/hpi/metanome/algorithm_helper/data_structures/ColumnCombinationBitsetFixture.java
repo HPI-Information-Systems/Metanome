@@ -32,6 +32,20 @@ public class ColumnCombinationBitsetFixture {
 		return setBits;
 	}
 	
+	public int getMaxNumberOfColumns() {
+		return 7;
+	}
+	
+	public ColumnCombinationBitset[] getExpectedDirectSupersets() {
+
+		ColumnCombinationBitset[] directSupersets = {
+				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 1),
+				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 5),
+				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 6)};
+		
+		return directSupersets;
+	}
+	
 	public int getExpectedSize() {
 		return getSetBitList().size();
 	}

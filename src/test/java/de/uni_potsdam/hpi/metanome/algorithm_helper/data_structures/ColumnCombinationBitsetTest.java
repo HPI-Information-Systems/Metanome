@@ -470,5 +470,22 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertEquals(fixture.getExpectedSize(), columnCombination.size());
 	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getDirectSupersets(int)}
+	 * 
+	 * Generates the direct super sets. Supersets are bounded by the maximum number of columns.
+	 */
+	@Test
+	public void testGetDirectSupersets() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()), 
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets()));
+	}
 
 }
