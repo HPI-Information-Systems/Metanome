@@ -278,7 +278,6 @@ public class ColumnCombinationBitsetTest {
 		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected3SubSet2));
 		
 		// Execute functionality
-		// FIXME method call should not contain this
 		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = 
 				superSet.getNSubsetColumnCombinationsSupersetOf(subSet, 3);
 		
@@ -401,6 +400,39 @@ public class ColumnCombinationBitsetTest {
 		// Execute functionality
 		// Check result 
 		assertEquals(expectedSize, columnCombination.size());
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getSetBits()}
+	 * 
+	 * Returns a list of column indexes contained in the column combination.
+	 */
+	@Test
+	public void testGetSetBits() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		
+		// Execute functionality
+		// Check result 
+		assertThat(columnCombination.getSetBits(), 
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits()));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#addColumn(int)}
+	 * 
+	 * After adding columns the size should be updated.
+	 */
+	@Test
+	public void testAddColumn() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedSize(), columnCombination.size());
 	}
 
 }

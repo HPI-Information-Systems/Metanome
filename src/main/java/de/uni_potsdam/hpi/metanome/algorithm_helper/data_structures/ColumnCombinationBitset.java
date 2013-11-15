@@ -23,9 +23,7 @@ public class ColumnCombinationBitset {
 		bitset = new OpenBitSet();
 		for (int columnIndex : containedColumns) {
 			// If the bit was not yet set, increase the size.
-			if (!bitset.getAndSet(columnIndex)) {
-				size++;
-			}
+			addColumn(columnIndex);
 		}
 		
 		return this;		
@@ -43,6 +41,17 @@ public class ColumnCombinationBitset {
 		
 		return this;
 	} 
+	
+	/**
+	 * Adds a column to the bitset.
+	 * 
+	 * @param columnIndex
+	 */
+	public void addColumn(int columnIndex) {
+		if (!bitset.getAndSet(columnIndex)) {
+			size++;
+		}
+	}
 
 	@Override
 	public int hashCode() {
@@ -158,14 +167,60 @@ public class ColumnCombinationBitset {
 	 * @param n
 	 * @return
 	 */
-	// TODO bottom up
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
+			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
+		return getNSubsetColumnCombinationsSupersetOfTopDown(superSet, subSet, n);
+	}
+	
+	/**
+	 * @param superSet
+	 * @param subSet
+	 * @param n
+	 * @return
+	 */
+	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(
+			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
+		return null;
+	}
+	
+	protected List<Integer> getSetBits() {
+		List<Integer> setBits = new LinkedList<Integer>();
+		
+		int setBitIndex = 0;
+		 while (true) {
+			 setBitIndex = bitset.nextSetBit(setBitIndex);
+			 
+			 if (setBitIndex == -1) {
+				break;
+			 } else {
+				 setBits.add(setBitIndex);
+			 }
+			 
+			 setBitIndex++;
+		 }
+		 
+		 return setBits;
+	}
+	
+	/**
+	 * @param superSet
+	 * @param subSet
+	 * @param n
+	 * @return
+	 */
+	// TODO bottom up
+	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
 
 		List<ColumnCombinationBitset> nSubsets = new LinkedList<ColumnCombinationBitset>();
 		
+		// If n is actually the number of set bits in the superset (the unreal subset is wanted), return the superSet.
+		if (superSet.size() == n) {
+			nSubsets.add(superSet);
+			return nSubsets;
+		}
+		
 		int setBitIndex = 0;
-		int numberOfSetBits = 0;
 		ColumnCombinationBitset nSubset;
 		OpenBitSet nSubsetBitSet;
 		while (true) {
@@ -174,7 +229,6 @@ public class ColumnCombinationBitset {
 			if (setBitIndex == -1) {
 				break;
 			} else {
-				numberOfSetBits++;
 				nSubset = new ColumnCombinationBitset();
 				nSubsetBitSet = superSet.bitset.clone();
 				nSubsetBitSet.clear(setBitIndex);
@@ -187,16 +241,10 @@ public class ColumnCombinationBitset {
 			setBitIndex++;
 		}
 		
-		// If n is actually the number of set bits in the superset (the unreal subset is wanted), return the superSet.
-		if (numberOfSetBits == n) {
-			nSubsets.clear();
-			nSubsets.add(superSet);
+		// The correct size n of subsets was reached.
+		if (superSet.size() - 1 == n) {
 			return nSubsets;
 		}
-		// The correct size n of subsets was reached.
-		if (numberOfSetBits - 1 == n) {
-			return nSubsets;
-		} 
 		// Further subsets need to be generated recursively.
 		else {
 			Set<ColumnCombinationBitset> nCombinations = new HashSet<ColumnCombinationBitset>();
@@ -224,7 +272,7 @@ public class ColumnCombinationBitset {
 		return new ColumnCombinationBitset().setColumns(temporaryBitset);
 	}
 
-	public List<ColumnCombinationBitset> getSetBits() {
+	public List<ColumnCombinationBitset> getContainedOneColumnCombinations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
