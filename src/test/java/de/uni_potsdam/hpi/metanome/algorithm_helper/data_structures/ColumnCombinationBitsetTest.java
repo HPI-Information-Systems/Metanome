@@ -349,6 +349,21 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * 
+	 * When generating subsets that should be greater than the superset an empty list should be returned.
+	 */
+	@Test
+	public void testGetNSubsetColumnCombinationsSupersetOfTopDownNGreaterSuperset() {
+		// Setup
+		ColumnCombinationBitset abc = new ColumnCombinationBitset().setColumns(0, 1, 2);
+		
+		// Execute functionality
+		// Check result
+		assertTrue(abc.getNSubsetColumnCombinationsSupersetOfTopDown(abc, new ColumnCombinationBitset(), 4).isEmpty());
+	}
+	
+	/**
 	 * TODO docs
 	 */
 	@Test

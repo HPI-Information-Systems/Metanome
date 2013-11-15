@@ -248,7 +248,9 @@ public class ColumnCombinationBitset {
 		List<ColumnCombinationBitset> nSubsets = new LinkedList<ColumnCombinationBitset>();
 		
 		// If n is actually the number of set bits in the superset (the unreal subset is wanted), return the superSet.
-		if (superSet.size() == n) {
+		if (superSet.size() < n) {
+			return nSubsets;
+		} else if (superSet.size() == n) {
 			nSubsets.add(superSet);
 			return nSubsets;
 		}
