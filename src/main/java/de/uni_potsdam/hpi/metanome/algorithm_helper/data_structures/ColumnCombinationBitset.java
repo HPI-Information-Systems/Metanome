@@ -331,9 +331,19 @@ public class ColumnCombinationBitset {
 		return new ColumnCombinationBitset().setColumns(temporaryBitset);
 	}
 
+	/**
+	 * Returns the subset column combinations of size one.
+	 * 
+	 * @return the contained 1 column combinations
+	 */
 	public List<ColumnCombinationBitset> getContainedOneColumnCombinations() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
+		
+		for (int columnIndex : getSetBits()) {
+			oneColumnCombinations.add(new ColumnCombinationBitset().setColumns(columnIndex));
+		}
+		
+		return oneColumnCombinations;
 	}
 
 	public ColumnCombinationBitset union(ColumnCombinationBitset a) {

@@ -421,6 +421,24 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#getContainedOneColumnCombinations()}
+	 * 
+	 * {@link ColumnCombinationBitset}s should return all the contained column combinations
+	 * of size 1.
+	 */
+	@Test
+	public void testGetContainedOneColumnCombinations() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getTestData();
+		
+		// Execute functionality 
+		// Check result
+		assertThat(columnCombination.getContainedOneColumnCombinations(),
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedOneColumnCombinations()));		
+	}
+	
+	/**
 	 * Test method for {@link ColumnCombinationBitset#size()}
 	 * 
 	 * When setting bits using the raw bitset setColumns method the correct size should be computed. 

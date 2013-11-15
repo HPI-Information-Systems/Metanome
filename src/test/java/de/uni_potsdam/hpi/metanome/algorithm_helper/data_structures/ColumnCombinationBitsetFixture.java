@@ -32,6 +32,16 @@ public class ColumnCombinationBitsetFixture {
 		return setBits;
 	}
 	
+	public ColumnCombinationBitset[] getExpectedOneColumnCombinations() {
+		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
+		
+		for (int columnIndex : getSetBitList()) {
+			oneColumnCombinations.add(new ColumnCombinationBitset().setColumns(columnIndex));
+		}
+		
+		return oneColumnCombinations.toArray(new ColumnCombinationBitset[oneColumnCombinations.size()]);
+	}
+	
 	public int getMaxNumberOfColumns() {
 		return 7;
 	}
