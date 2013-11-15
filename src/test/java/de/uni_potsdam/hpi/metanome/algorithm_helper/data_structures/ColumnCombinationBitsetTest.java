@@ -334,18 +334,18 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfInversed() {
 		// Setup
-		ColumnCombinationBitset AB = new ColumnCombinationBitset().setColumns(0, 1);
-		ColumnCombinationBitset B = new ColumnCombinationBitset().setColumns(1);
-		ColumnCombinationBitset ABC = new ColumnCombinationBitset().setColumns(0, 1, 2);
-		ColumnCombinationBitset BC = new ColumnCombinationBitset().setColumns(1, 2);
+		ColumnCombinationBitset ab = new ColumnCombinationBitset().setColumns(0, 1);
+		ColumnCombinationBitset b = new ColumnCombinationBitset().setColumns(1);
+		ColumnCombinationBitset abc = new ColumnCombinationBitset().setColumns(0, 1, 2);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
 		
 		// Execute functionality
-		List<ColumnCombinationBitset> actualSubsetColumnCombinations = ABC.getNSubsetColumnCombinationsSupersetOf(B, 2);
+		List<ColumnCombinationBitset> actualSubsetColumnCombinations = abc.getNSubsetColumnCombinationsSupersetOf(b, 2);
 		
 		// Check result
 		assertEquals(2, actualSubsetColumnCombinations.size());
-		assertEquals(BC, actualSubsetColumnCombinations.get(0));
-		assertEquals(AB, actualSubsetColumnCombinations.get(1));
+		assertTrue(actualSubsetColumnCombinations.contains(bc));
+		assertTrue(actualSubsetColumnCombinations.contains(ab));
 	}
 	
 	/**
