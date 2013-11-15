@@ -328,6 +328,16 @@ public class ColumnCombinationBitset {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public List<ColumnCombinationBitset> getDirectSupersets(int numberOfColumns) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<ColumnCombinationBitset> getDirectSubsets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/**
 	 * Returns the number of columns in the combination.
