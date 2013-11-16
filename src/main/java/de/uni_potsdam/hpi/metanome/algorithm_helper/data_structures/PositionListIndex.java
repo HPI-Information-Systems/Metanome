@@ -167,5 +167,21 @@ public class PositionListIndex {
 	public boolean isUnique() {
 		return isEmpty();
 	}
+	
+	/**
+	 * Returns the number of columns to remove in order to make column unique.
+	 * (raw key error) 
+	 * 
+	 * @return raw key error
+	 */
+	public long getRawKeyError() {
+		long sumClusterSize = 0;
+		
+		for (LongOpenHashSet cluster : clusters) {
+			sumClusterSize += cluster.size();
+		}
+		
+		return sumClusterSize - clusters.size();
+	}
 
 }

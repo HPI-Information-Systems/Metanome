@@ -21,6 +21,10 @@ public class PositionListIndexFixture {
 		return new PositionListIndex(clusters);
 	}
 	
+	public long getExpectedFirstPLIRawKeyError() {
+		return 4;
+	}
+	
 	public long getFirstPLISize() {
 		return getFirstPLI().clusters.size();
 	}
@@ -72,6 +76,10 @@ public class PositionListIndexFixture {
 		clusters.add(new LongOpenHashSet(cluster2));
 		
 		return new PositionListIndex(clusters);
+	}
+	
+	public long getExpectedSecondPLIRawKeyError() {
+		return 5;
 	}
 	
 	protected PositionListIndex getExpectedIntersectedPLI() {
