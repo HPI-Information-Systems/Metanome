@@ -110,6 +110,11 @@ public class PositionListIndexTest {
 		assertEquals(fixture.getFirstPLISize(), pli.size());
 	}
 	
+	/**
+	 * Test method for {@link PositionListIndex#isEmpty()}, {@link PositionListIndex#isUnique()}
+	 * 
+	 * Empty plis should return true on isEmpty and is Unique.
+	 */
 	@Test
 	public void testIsEmptyUnique() {
 		// Setup 
@@ -123,5 +128,22 @@ public class PositionListIndexTest {
 		assertTrue(emptyPli.isUnique());
 		assertFalse(nonEmptyPli.isEmpty());
 		assertFalse(nonEmptyPli.isUnique());		
+	}
+	
+	/**
+	 * Test method for {@link PositionListIndex#getRawKeyError()}
+	 * 
+	 * The key error should be calculated correctly.
+	 */
+	@Test
+	public void testGetRawKeyError() {
+		// Setup
+		PositionListIndex firstPli = fixture.getFirstPLI();
+		PositionListIndex secondPli = fixture.getSecondPLI();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedFirstPLIRawKeyError(), firstPli.getRawKeyError());
+		assertEquals(fixture.getExpectedSecondPLIRawKeyError(), secondPli.getRawKeyError());
 	}
 }
