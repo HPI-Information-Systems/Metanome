@@ -23,7 +23,7 @@ public class CsvFile implements RelationalInput, Closeable {
 	protected ImmutableList<String> headerLine;
 	protected ImmutableList<String> nextLine;
 	protected String relationName;
-	protected int numberOfColumns;
+	protected int numberOfColumns = 0;
 	
 	public CsvFile(String relationName, Reader reader, char separator, char quotechar) throws InputIterationException {
 		this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
@@ -44,7 +44,9 @@ public class CsvFile implements RelationalInput, Closeable {
 			this.headerLine = readNextLine();
 		}
 		this.nextLine = readNextLine();
-		this.numberOfColumns = this.nextLine.size();
+		if (this.nextLine != null) {
+			this.numberOfColumns = this.nextLine.size();
+		} 		
 	}
 
 	@Override

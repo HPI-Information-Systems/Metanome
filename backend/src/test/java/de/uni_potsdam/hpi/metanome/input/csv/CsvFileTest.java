@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.io.StringReader;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -142,5 +145,27 @@ public class CsvFileTest {
 		// Execute functionality
 		// Check result
 		assertEquals(fixture.getExpectedColumnNames(), csvFile.columnNames());
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char)}
+	 * 
+	 * A {@link CsvFile} generated from an empty file should be constructable without
+	 * exceptions, return false on hasNext and return 0 as numberOfColumns.
+	 * 
+	 * @throws InputIterationException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testConstructWithEmptyFile() throws InputIterationException, IOException {
+		// Execute functionality
+		// Check result
+		// Should not throw exception
+		CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"');
+		assertFalse(csvFile.hasNext());
+		assertEquals(0, csvFile.numberOfColumns());
+		
+		// Cleanup
+		csvFile.close();
 	}
 }
