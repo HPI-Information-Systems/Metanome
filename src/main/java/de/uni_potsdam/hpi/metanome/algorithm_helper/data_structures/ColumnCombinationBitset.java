@@ -280,7 +280,7 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @return
 	 */
-	public List<Integer> getClearedBits() {
+	public List<Integer> getClearedBits(int numberOfColumns) {
 		// TODO implement
 		return null;
 	}
