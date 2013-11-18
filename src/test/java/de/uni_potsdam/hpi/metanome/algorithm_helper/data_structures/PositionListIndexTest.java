@@ -26,6 +26,21 @@ public class PositionListIndexTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	/**
+	 * Test method for {@link PositionListIndex#PositionListIndex()}
+	 * 
+	 * {@link PositionListIndex} should be empty after construction.
+	 */
+	@Test
+	public void testConstructor() {
+		// Execute functionality 
+		PositionListIndex pli = new PositionListIndex();
+		
+		// Check result
+		assertTrue(pli.clusters.isEmpty());
+		assertTrue(pli.isEmpty());
+	}
 
 	/**
 	 * Two {@link PositionListIndex} should be correctly intersected.
