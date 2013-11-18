@@ -17,7 +17,6 @@ import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ColumnCombinationBitsetTest {
@@ -578,7 +577,7 @@ public class ColumnCombinationBitsetTest {
 	 * 
 	 * Generates the direct subset column combinations.
 	 */
-	@Test @Ignore
+	@Test
 	public void testGetDirectSubsets() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
