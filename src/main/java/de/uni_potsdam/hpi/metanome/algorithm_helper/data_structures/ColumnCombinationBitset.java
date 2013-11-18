@@ -9,9 +9,22 @@ import org.apache.lucene.util.OpenBitSet;
 
 public class ColumnCombinationBitset {
 
-	protected OpenBitSet bitset = new OpenBitSet();
+	protected OpenBitSet bitset;
 	protected long size = 0;
 	
+	public ColumnCombinationBitset(){
+		bitset = new OpenBitSet();
+	}
+	
+	/**
+	 * Creates a copy of the current instance.
+	 * 
+	 * @param  a copy column combination
+	 */
+	public ColumnCombinationBitset(ColumnCombinationBitset columnCombination) {
+		setColumns(columnCombination.bitset);
+	}
+
 	/**
 	 * TODO docs
 	 * 
