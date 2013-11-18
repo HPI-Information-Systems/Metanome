@@ -1,12 +1,17 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * @author Jakob Zwiener
+ * 
  * Test for {@link ColumnIdentifier}
  */
 public class ColumnIdentifierTest {
@@ -153,6 +158,24 @@ public class ColumnIdentifierTest {
 		
 		// Check result
 		assertEquals(expectedIdentifier, actualIdentifier);		
+	}
+	
+	/**
+	 * Test method for {@link ColumnIdentifier#compareTo(ColumnIdentifier)}
+	 * 
+	 * Should compare the table name and column name alphabetically.
+	 */
+	@Test
+	public void testCompareTo() {
+		// Setup
+		ColumnIdentifier identifier1 = new ColumnIdentifier("tableA", "ab");
+		ColumnIdentifier identifier2 = new ColumnIdentifier("tableA", "ac");
+		ColumnIdentifier identifier3 = new ColumnIdentifier("tableB", "ab");
+		
+		// Execute functionality
+		// Check result
+		assertThat(identifier2, greaterThan(identifier1));
+		assertThat(identifier3, greaterThan(identifier2));
 	}
 
 }

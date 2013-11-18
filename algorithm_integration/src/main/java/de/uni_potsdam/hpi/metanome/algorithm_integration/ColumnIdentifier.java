@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-public class ColumnIdentifier {
+public class ColumnIdentifier implements Comparable<ColumnIdentifier> {
 
 	protected final String tableIdentifier;
 	protected final String columnIdentifier;
@@ -58,6 +58,15 @@ public class ColumnIdentifier {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public int compareTo(ColumnIdentifier other) {
+		int tableIdentifierComparison = tableIdentifier.compareTo(other.tableIdentifier);
+		if (0 != tableIdentifierComparison) {
+			return tableIdentifierComparison;
+		} else {
+			return columnIdentifier.compareTo(other.columnIdentifier);
+		}
+	}
 	
 }
