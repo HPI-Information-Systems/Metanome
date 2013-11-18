@@ -253,7 +253,7 @@ public class ColumnCombinationBitset {
 		}
 	}
 	
-	protected List<Integer> getSetBits() {
+	public List<Integer> getSetBits() {
 		List<Integer> setBits = new LinkedList<Integer>();
 		
 		int setBitIndex = 0;
