@@ -46,6 +46,25 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#ColumnCombinationBitset(ColumnCombinationBitset)}
+	 * 
+	 * The constructor should create a copy (new instance) of the current column combination.
+	 */
+	@Test
+	public void testColumnCombinationBitsetCopy() {
+		// Setup
+		// Expected values
+		ColumnCombinationBitset expectedFirstColumnCombination = new ColumnCombinationBitset().setColumns(2, 3, 6);
+		
+		// Execute functionality
+		ColumnCombinationBitset actualCopy = new ColumnCombinationBitset(expectedFirstColumnCombination);
+		
+		// Check result
+		assertNotSame(expectedFirstColumnCombination, actualCopy);
+		assertEquals(expectedFirstColumnCombination, actualCopy);
+	}
+	
+	/**
 	 * TODO docs
 	 */
 	@Test
