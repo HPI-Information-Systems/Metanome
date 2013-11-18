@@ -276,6 +276,16 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
+	 * TODO docs
+	 * 
+	 * @return
+	 */
+	public List<Integer> getClearedBits() {
+		// TODO implement
+		return null;
+	}
+	
+	/**
 	 * @param superSet
 	 * @param subSet
 	 * @param n
