@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -559,7 +560,7 @@ public class ColumnCombinationBitsetTest {
 	 * 
 	 * Generates the direct subset column combinations.
 	 */
-	@Test @Ignore
+	@Test
 	public void testGetDirectSubsets() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
@@ -570,5 +571,4 @@ public class ColumnCombinationBitsetTest {
 		assertThat(columnCombination.getDirectSubsets(),
 				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
 	}
-
 }

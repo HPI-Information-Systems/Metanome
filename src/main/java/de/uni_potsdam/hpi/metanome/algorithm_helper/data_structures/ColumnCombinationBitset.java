@@ -240,7 +240,10 @@ public class ColumnCombinationBitset {
 		}
 	}
 	
-	protected List<Integer> getSetBits() {
+	/**TODO docs
+	 * @return
+	 */
+	public List<Integer> getSetBits() {
 		List<Integer> setBits = new LinkedList<Integer>();
 		
 		int setBitIndex = 0;
