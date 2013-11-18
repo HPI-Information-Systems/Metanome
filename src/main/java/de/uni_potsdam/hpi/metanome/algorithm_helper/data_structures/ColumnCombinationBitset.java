@@ -253,6 +253,9 @@ public class ColumnCombinationBitset {
 		}
 	}
 	
+	/**TODO docs
+	 * @return
+	 */
 	public List<Integer> getSetBits() {
 		List<Integer> setBits = new LinkedList<Integer>();
 		
