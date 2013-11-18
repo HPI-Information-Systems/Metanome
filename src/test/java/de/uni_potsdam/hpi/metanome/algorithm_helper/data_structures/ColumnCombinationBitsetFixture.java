@@ -29,6 +29,10 @@ public class ColumnCombinationBitsetFixture {
 		return convertToArray(getSetBitList1());
 	}
 	
+	public Integer[] getExpectedClearedBits1() {
+		return convertToArray(getClearedBitList1());
+	}
+	
 	public Integer[] getExpectedBits2() {
 		return convertToArray(getSetBitList2());
 	}
@@ -46,6 +50,16 @@ public class ColumnCombinationBitsetFixture {
 		setBits1.add(4);
 		
 		return setBits1;
+	}
+	
+	protected List<Integer> getClearedBitList1() {
+		List<Integer> clearedBits1 = new LinkedList<Integer>();
+		
+		clearedBits1.add(1);
+		clearedBits1.add(5);
+		clearedBits1.add(6);
+		
+		return clearedBits1;
 	}
 	
 	protected List<Integer> getSetBitList2() {

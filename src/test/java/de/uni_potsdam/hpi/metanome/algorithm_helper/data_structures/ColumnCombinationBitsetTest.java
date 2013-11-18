@@ -515,6 +515,23 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#getClearedBits(int)}
+	 * 
+	 * Returns all the cleared bits within the maximum of all the number of columns.
+	 */
+	@Test
+	public void testGetClearedBits() {
+		// Setup 
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+		
+		// Execute functionality
+		// Check result
+		assertThat(columnCombination.getClearedBits(fixture.getMaxNumberOfColumns()), 
+				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedClearedBits1()));
+	}
+	
+	/**
 	 * Test method for {@link ColumnCombinationBitset#addColumn(int)}
 	 * 
 	 * After adding columns the size should be updated and the column's bit be set on the bit set.

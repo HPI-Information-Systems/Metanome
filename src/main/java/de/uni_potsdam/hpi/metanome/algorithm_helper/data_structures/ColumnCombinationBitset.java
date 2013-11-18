@@ -260,7 +260,7 @@ public class ColumnCombinationBitset {
 		List<Integer> setBits = new LinkedList<Integer>();
 		
 		int setBitIndex = 0;
-		 while (true) {
+		while (true) {
 			 setBitIndex = bitset.nextSetBit(setBitIndex);
 			 
 			 if (setBitIndex == -1) {
@@ -276,13 +276,20 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * TODO docs
+	 * Returns all the cleared bits within the maximum of all the number of columns.
 	 * 
-	 * @return
+	 * @return all the cleared bits in the number of columns
 	 */
 	public List<Integer> getClearedBits(int numberOfColumns) {
-		// TODO implement
-		return null;
+		List<Integer> clearedBits = new LinkedList<Integer>();
+		
+		for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+			if (!bitset.get(columnIndex)) {
+				clearedBits.add(columnIndex);
+			}
+		}
+		
+		return clearedBits;
 	}
 	
 	/**
