@@ -47,7 +47,8 @@ public class ColumnCombinationBitsetTest {
 	/**
 	 * Test method for {@link ColumnCombinationBitset#ColumnCombinationBitset(ColumnCombinationBitset)}
 	 * 
-	 * The constructor should create a copy (new instance) of the current column combination.
+	 * The constructor should create a copy (new instance) of the current column combination. The bitset in the copy
+	 * should be cloned.
 	 */
 	@Test
 	public void testColumnCombinationBitsetCopy() {
@@ -61,6 +62,9 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertNotSame(expectedFirstColumnCombination, actualCopy);
 		assertEquals(expectedFirstColumnCombination, actualCopy);
+		expectedFirstColumnCombination.removeColumn(3);
+		// Column 3 should still be set on copy.
+		assertTrue(actualCopy.bitset.get(3));
 	}
 	
 	/**

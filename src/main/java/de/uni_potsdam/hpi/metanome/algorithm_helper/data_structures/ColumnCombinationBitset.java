@@ -22,7 +22,7 @@ public class ColumnCombinationBitset {
 	 * @param  a copy column combination
 	 */
 	public ColumnCombinationBitset(ColumnCombinationBitset columnCombination) {
-		setColumns(columnCombination.bitset);
+		setColumns(columnCombination.bitset.clone());
 	}
 
 	/**
