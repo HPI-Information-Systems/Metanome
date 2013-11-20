@@ -1,7 +1,11 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterSQLIteratorWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
+/**
+ * TODO
+ */
 public class InputParameterSQLIterator extends InputParameter {
 
 	private static final long serialVersionUID = -8258047430500209172L;
@@ -23,19 +27,27 @@ public class InputParameterSQLIterator extends InputParameter {
 	public String getDbUrl() {
 		return dbUrl;
 	}
+	public void setDbUrl(String dbUrl){
+		this.dbUrl = dbUrl;
+	}
 
 	public String getUserName() {
 		return userName;
+	}
+	public void setUserName(String userName){
+		this.userName = userName;
 	}
 
 	public String getPassword() {
 		return password;
 	}
+	public void setPassword(String password){
+		this.password = password;
+	}
 	
 	@Override
 	public InputParameterWidget createWrappingWidget() {
-		// TODO Auto-generated method stub
-		return null;
+		return new InputParameterSQLIteratorWidget(this);
 	}
 
 }

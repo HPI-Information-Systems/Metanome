@@ -8,8 +8,11 @@ public class InputParameterCsvFile extends InputParameter {
 
 	/** path of the currently selected input file **/
 	private String filePath;
-	/** advanced means that the parameter does not use default separator chars **/
+	
+	/** advanced means that the parameter does not use default separator chars etc. **/
 	private boolean advanced = false;
+	
+	/** character that marks beginning of a new field */
 	private char separatorChar;
 	private char quoteChar;
 	private char escapeChar;

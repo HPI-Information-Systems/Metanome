@@ -11,6 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Relatio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -27,6 +28,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		
 		configurationSpecification.add(new ConfigurationSpecificationString("pathToOutputFile"));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
+		configurationSpecification.add(new ConfigurationSpecificationSQLIterator("DB-connection"));
 		
 		return configurationSpecification;
 	}

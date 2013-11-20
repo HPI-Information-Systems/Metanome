@@ -11,17 +11,21 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
 public class InputParameterCsvFileWidget extends VerticalPanel implements InputParameterWidget {
 
+	/** Corresponding inputParameter, where the value is going to be written */
 	private InputParameterCsvFile inputParameter;
+	
 	/** Dropdown menu for choosing a CSV file */
 	protected ListBox listbox;
 	protected CheckBox advancedCheckbox;
-	protected FlexTable advancedPanel;
+	protected FlexTable advancedTable;
 	protected TextBox separatorTextbox;
 	protected TextBox quoteTextbox;
 	protected TextBox escapeTextbox;
@@ -47,34 +51,33 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		advancedCheckbox = createAdvancedCheckbox();
 		standardPanel.add(advancedCheckbox);
 		
-		advancedPanel = new FlexTable();
-		advancedPanel.setVisible(false);
-		this.add(advancedPanel);
+		advancedTable = new FlexTable();
+		advancedTable.setVisible(false);
+		this.add(advancedTable);
 		
 		separatorTextbox = getNewOneCharTextbox();
-		advancedPanel.setText(0,0,"Separator Character");
-		advancedPanel.setWidget(0,1,separatorTextbox);
+		addRow(advancedTable, separatorTextbox, "Separator Character", 0);
 		
 		quoteTextbox = getNewOneCharTextbox();
-		advancedPanel.setText(1,0,"Quote Character");
-		advancedPanel.setWidget(1,1,quoteTextbox);
+		addRow(advancedTable, quoteTextbox, "Quote Character", 1);
 		
 		escapeTextbox = getNewOneCharTextbox();
-		advancedPanel.setText(2,0,"Escape Character");
-		advancedPanel.setWidget(2,1,escapeTextbox);
+		addRow(advancedTable, escapeTextbox, "Escape Character", 2);
 		
 		lineIntegerbox = new IntegerBox();
 		lineIntegerbox.setWidth("5em");
-		advancedPanel.setText(3,0,"Line");
-		advancedPanel.setWidget(3,1,lineIntegerbox);
+		addRow(advancedTable, lineIntegerbox, "Line", 3);
 		
 		strictQuotesCheckbox = new CheckBox();
-		advancedPanel.setText(4,0,"Strict Quotes");
-		advancedPanel.setWidget(4,1,strictQuotesCheckbox);
+		addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes", 4);
 		
 		ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-		advancedPanel.setText(5,0,"Ignore Leading Whitespace");
-		advancedPanel.setWidget(5,1,ignoreLeadingWhiteSpaceCheckbox);
+		addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace", 5);
+	}
+
+	protected void addRow(FlexTable table, Widget inputWidget, String name, int row) {
+		table.setText(row, 0, name);
+		table.setWidget(row, 1, inputWidget);
 	}
 	
 	private TextBox getNewOneCharTextbox(){
@@ -155,7 +158,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	}
 	
 	protected void setInputParameterAdvanced() {
-		this.advancedPanel.setVisible(this.advancedCheckbox.getValue());
+		this.advancedTable.setVisible(this.advancedCheckbox.getValue());
 	}
 	
 	/** 
