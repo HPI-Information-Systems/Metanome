@@ -19,11 +19,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
 
 public class InputParameterCsvFileWidget extends VerticalPanel implements InputParameterWidget {
 
+	/** Corresponding inputParameter, where the value is going to be written */
 	private InputParameterCsvFile inputParameter;
+	
 	/** Dropdown menu for choosing a CSV file */
 	protected ListBox listbox;
 	protected CheckBox advancedCheckbox;
-	protected FlexTable advancedPanel;
+	protected FlexTable advancedTable;
 	protected TextBox separatorTextbox;
 	protected TextBox quoteTextbox;
 	protected TextBox escapeTextbox;
@@ -49,28 +51,28 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		advancedCheckbox = createAdvancedCheckbox();
 		standardPanel.add(advancedCheckbox);
 		
-		advancedPanel = new FlexTable();
-		advancedPanel.setVisible(false);
-		this.add(advancedPanel);
+		advancedTable = new FlexTable();
+		advancedTable.setVisible(false);
+		this.add(advancedTable);
 		
 		separatorTextbox = getNewOneCharTextbox();
-		addRow(advancedPanel, separatorTextbox, "Separator Character", 0);
+		addRow(advancedTable, separatorTextbox, "Separator Character", 0);
 		
 		quoteTextbox = getNewOneCharTextbox();
-		addRow(advancedPanel, quoteTextbox, "Quote Character", 1);
+		addRow(advancedTable, quoteTextbox, "Quote Character", 1);
 		
 		escapeTextbox = getNewOneCharTextbox();
-		addRow(advancedPanel, escapeTextbox, "Escape Character", 2);
+		addRow(advancedTable, escapeTextbox, "Escape Character", 2);
 		
 		lineIntegerbox = new IntegerBox();
 		lineIntegerbox.setWidth("5em");
-		addRow(advancedPanel, lineIntegerbox, "Line", 3);
+		addRow(advancedTable, lineIntegerbox, "Line", 3);
 		
 		strictQuotesCheckbox = new CheckBox();
-		addRow(advancedPanel, strictQuotesCheckbox, "Strict Quotes", 4);
+		addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes", 4);
 		
 		ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-		addRow(advancedPanel, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace", 5);
+		addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace", 5);
 	}
 
 	protected void addRow(FlexTable table, Widget inputWidget, String name, int row) {
@@ -156,7 +158,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	}
 	
 	protected void setInputParameterAdvanced() {
-		this.advancedPanel.setVisible(this.advancedCheckbox.getValue());
+		this.advancedTable.setVisible(this.advancedCheckbox.getValue());
 	}
 	
 	/** 
