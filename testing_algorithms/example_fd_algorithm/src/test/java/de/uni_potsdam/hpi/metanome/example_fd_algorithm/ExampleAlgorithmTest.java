@@ -51,7 +51,7 @@ public class ExampleAlgorithmTest {
 		List<ConfigurationSpecification> actualConfigurationRequirements = this.algorithm.getConfigurationRequirements();
 		
 		// Check result
-		assertEquals(2, actualConfigurationRequirements.size());
+		assertEquals(3, actualConfigurationRequirements.size());
 		assertThat(actualConfigurationRequirements.get(0), instanceOf(ConfigurationSpecificationString.class));
 	}
 
