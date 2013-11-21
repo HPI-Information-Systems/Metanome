@@ -16,10 +16,12 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterBooleanWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterCsvFileWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterIntegerWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterSQLIteratorWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterStringWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
@@ -77,11 +79,13 @@ public class GwtTestParameter extends GWTTestCase {
 		InputParameterBoolean inputParameterBoolean = new InputParameterBoolean("bool");
 		InputParameterInteger inputParameterInteger = new InputParameterInteger("int");
 		InputParameterCsvFile inputParameterCsvFile = new InputParameterCsvFile("csv");
+		InputParameterSQLIterator inputParameterSQLIterator = new InputParameterSQLIterator("sql");
 		
 		paramList.add(inputParameterString);
 		paramList.add(inputParameterBoolean);
 		paramList.add(inputParameterInteger);
 		paramList.add(inputParameterCsvFile);
+		paramList.add(inputParameterSQLIterator);
 		
 		ParameterTable pt = new ParameterTable(paramList);
 
@@ -93,6 +97,7 @@ public class GwtTestParameter extends GWTTestCase {
 		assertTrue(retrievedParams.contains(inputParameterBoolean));
 		assertTrue(retrievedParams.contains(inputParameterInteger));
 		assertTrue(retrievedParams.contains(inputParameterCsvFile));
+		assertTrue(retrievedParams.contains(inputParameterSQLIterator));
 	}
 	
 	@Test
@@ -106,12 +111,15 @@ public class GwtTestParameter extends GWTTestCase {
 		InputParameter intParam = new InputParameterInteger(identifierInteger);
 		String identifierCsv = "csvParam";
 		InputParameter csvParam = new InputParameterCsvFile(identifierCsv);
+		String identifierSql = "sqlParam";
+		InputParameter sqlParam = new InputParameterSQLIterator(identifierSql);
 		
 		//Execute
 		InputParameterWidget stringWidget = stringParam.createWrappingWidget();
 		InputParameterWidget boolWidget = boolParam.createWrappingWidget();
 		InputParameterWidget intWidget = intParam.createWrappingWidget();
 		InputParameterWidget csvWidget = csvParam.createWrappingWidget();
+		InputParameterWidget sqlWidget = sqlParam.createWrappingWidget();
 		
 		//Check
 		assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -125,6 +133,9 @@ public class GwtTestParameter extends GWTTestCase {
 		
 		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
 		assertEquals(identifierCsv, csvWidget.getInputParameter().getIdentifier());
+		
+		assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
+		assertEquals(identifierSql, sqlWidget.getInputParameter().getIdentifier());
 	}
 	
 	@Test
