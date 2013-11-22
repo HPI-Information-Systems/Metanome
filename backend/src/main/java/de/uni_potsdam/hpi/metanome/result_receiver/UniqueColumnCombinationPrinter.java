@@ -22,5 +22,6 @@ public class UniqueColumnCombinationPrinter extends ResultPrinter implements Uni
 	@Override
 	public void receiveResult(ColumnCombination columnCombination) {
 		this.outStream.println(columnCombination);
+		addResult(columnCombination.toString());
 	}
 }
