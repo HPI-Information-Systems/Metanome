@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyPrinter;
+import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
 /**
@@ -43,6 +45,8 @@ import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinte
 public class ExecutionServiceImpl extends RemoteServiceServlet implements ExecutionService {
 	
 	private static final long serialVersionUID = -2758103927345131933L;
+	
+	private HashMap<String, List<ResultPrinter>> currentResultPrinters = new HashMap<String, List<ResultPrinter>>();
 	
 	/**
 	 * TODO docs
@@ -53,15 +57,25 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * @throws UnsupportedEncodingException
 	 */
 	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
-		FunctionalDependencyResultReceiver fdResultReceiver = 
+		LinkedList<ResultPrinter> resultPrinters = new LinkedList<ResultPrinter>();
+		
+		FunctionalDependencyPrinter fdResultReceiver = 
 				new FunctionalDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		InclusionDependencyResultReceiver indResultReceiver = 
+		resultPrinters.add(fdResultReceiver);
+		
+		InclusionDependencyPrinter indResultReceiver = 
 				new InclusionDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		UniqueColumnCombinationResultReceiver uccResultReceiver = 
+		resultPrinters.add(indResultReceiver);
+		
+		UniqueColumnCombinationPrinter uccResultReceiver = 
 				new UniqueColumnCombinationPrinter(getResultFileName(algorithmName), getResultDirectoryName());
+		resultPrinters.add(uccResultReceiver);
+		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
-		return new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
+		AlgorithmExecutor executor = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
+		currentResultPrinters.put(algorithmName, resultPrinters);
+		return executor;
 	}
 	
 	private List<ConfigurationValue> convertInputParameters(
@@ -141,14 +155,29 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	public void executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
-
+		AlgorithmExecutor executor = null;
+		
 		try {
-			buildExecutor(algorithmName).executeAlgorithm(algorithmName, configs);
+			executor = buildExecutor(algorithmName);
 		} catch (FileNotFoundException e) {
 			throw new AlgorithmExecutionException("Could not generate result file.");
 		} catch (UnsupportedEncodingException e) {
 			throw new AlgorithmExecutionException("Could not build temporary file generator.");
 		}
+		System.out.println("before execution");
+		executor.executeAlgorithm(algorithmName, configs);
+		System.out.println("after execution & wait");
+	}
+	
+	public List<String> fetchNewResults(String algorithmName){
+		List<String> newResults = new LinkedList<String>();
+		
+		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
+			System.out.println("Getting results from " + printer.toString());
+			newResults.addAll(printer.getNewResults());
+		}
+		
+		return newResults;
 	}
 	
 	protected String getResultDirectoryName() {

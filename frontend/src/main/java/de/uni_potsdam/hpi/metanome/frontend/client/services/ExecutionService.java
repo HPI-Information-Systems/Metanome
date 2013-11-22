@@ -15,4 +15,5 @@ public interface ExecutionService extends RemoteService {
 
 	public void executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException;
 
+	public List<String> fetchNewResults(String algorithmName);
 }
