@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
@@ -16,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 /**
  * Superclass for all algorithm specific tabs on the page.
- * Includes common functionality such ass adding a JarChooser or ParameterTable
+ * Includes common functionality such as adding a JarChooser or ParameterTable
  */
 public abstract class AlgorithmTab extends DockPanel{
 	protected ParameterTable parameterTable;
@@ -26,6 +27,7 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected ExecutionServiceAsync executionService;
 	
 	protected AsyncCallback<String[]> addJarChooserCallback;
+	protected Timer timer;
 	
 	/**
 	 * Constructor. Initializes FinderService
@@ -95,19 +97,47 @@ public abstract class AlgorithmTab extends DockPanel{
 	}
 	
 	public void callExecutionService(List<InputParameter> parameters) {
-		String algorithmName = getCurrentlySelectedAlgorithm();
-
+		final String algorithmName = getCurrentlySelectedAlgorithm();
 		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 		      public void onFailure(Throwable caught) {
 		    	  // TODO: Do something with errors.
+		    	  System.out.println("callReturned");
+				  cancelTimer();
 		      }
 
-		      public void onSuccess(Void v) {  	  
-		    	  //TODO: results are displayed by the ResultReceiver somehow
+		      public void onSuccess(Void v) {  	
+		    	  System.out.println("callReturned");
+				  cancelTimer();
 		      }
 		    };
 
 		// Make the call to the execution service.
 		executionService.executeAlgorithm(algorithmName, parameters, callback);
+		
+		this.timer = new Timer() {
+		      public void run() {		    	  
+		    	  executionService.fetchNewResults(algorithmName, new AsyncCallback<List<String>>() {
+		    		  
+		    		  @Override
+		    		  public void onFailure(Throwable caught) {
+		    			  // TODO Auto-generated method stub
+		    		  }
+		    		  
+		    		  @Override
+		    		  public void onSuccess(List<String> result) {
+		    			  // TODO Auto-generated method stub
+		    			  for (String s : result) {
+		    				  System.out.println(s);
+		    			  }
+		    		  }
+		    	  });
+		      }
+		    };
+
+		    this.timer.scheduleRepeating(2000);
+	}
+	
+	public void cancelTimer(){
+		this.timer.cancel();
 	}
 }

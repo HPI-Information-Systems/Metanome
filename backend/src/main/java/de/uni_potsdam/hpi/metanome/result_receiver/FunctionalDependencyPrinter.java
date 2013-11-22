@@ -23,6 +23,7 @@ public class FunctionalDependencyPrinter extends ResultPrinter implements Functi
 	@Override
 	public void receiveResult(ColumnCombination determinant, ColumnIdentifier dependent) throws CouldNotReceiveResultException {
 		outStream.println(determinant + FD_SEPARATOR + dependent);
+		addResult(determinant + FD_SEPARATOR + dependent);
 	}
 	
 }

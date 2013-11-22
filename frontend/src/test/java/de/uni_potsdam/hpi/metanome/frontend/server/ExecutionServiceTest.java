@@ -15,6 +15,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 
 public class ExecutionServiceTest extends TestCase {
@@ -23,6 +24,7 @@ public class ExecutionServiceTest extends TestCase {
 	InputParameterString stringParam = new InputParameterString("test");
 	InputParameterBoolean boolParam = new InputParameterBoolean("boolean");
 	InputParameterCsvFile csvParam = new InputParameterCsvFile("inputFile");
+	InputParameterSQLIterator sqlParam = new InputParameterSQLIterator("db connection");
 	
 	@Before
 	public void setUp() throws Exception {
@@ -66,10 +68,23 @@ public class ExecutionServiceTest extends TestCase {
 		//Execute
 		try {
 			executionService.buildCsvFileGenerator(csvParam);
-			fail("Expected exception was not thrown.");
+			fail("Expected ConfigurationException due to unavailable file was not thrown.");
 		} catch (AlgorithmConfigurationException e) {
-			//Test succesful.
+			//Test successful.
 		}
+
+	}
+	
+	@Test
+	public void testBuildSqlIteratorGenerator() {
+		try{
+			executionService.convertToConfigurationValue(sqlParam);
+			fail("Expected ConfigurationException due to failed DB connection was not thrown.");
+		} catch(AlgorithmConfigurationException e) {
+			//Test successful.
+		}
+		
+		//TODO: Test whether correct parameter values are given (using mock)
 
 	}
 }

@@ -87,16 +87,23 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		return textbox;
 	}
 
-	protected void setCurrentValues(InputParameterCsvFile inputParameter2) {
+	protected InputParameterCsvFile setCurrentValues(InputParameterCsvFile inputParameter) {
 		inputParameter.setFileNameValue(this.listbox.getValue(this.listbox.getSelectedIndex()));
-		if (this.advancedCheckbox.getValue()){
+		inputParameter.setAdvanced(this.advancedCheckbox.getValue());
+		
+		if (inputParameter.isAdvanced()){
 			inputParameter.setSeparatorChar(this.separatorTextbox.getValue().charAt(0));
 			inputParameter.setQuoteChar(this.quoteTextbox.getValue().charAt(0));
 			inputParameter.setEscapeChar(this.escapeTextbox.getValue().charAt(0));
-			inputParameter.setLine(this.lineIntegerbox.getValue());
 			inputParameter.setStrictQuotes(this.strictQuotesCheckbox.getValue());
-			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
+			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());			
+			if (this.lineIntegerbox.getValue() != null)
+				inputParameter.setLine(this.lineIntegerbox.getValue());
+			else
+				inputParameter.setLine(0);
 		}
+		
+		return inputParameter;
 	}
 
 	protected CheckBox createAdvancedCheckbox() {
@@ -174,8 +181,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	
 	@Override
 	public InputParameterCsvFile getInputParameter() {
-		this.setCurrentValues(this.inputParameter);
-		return this.inputParameter;
+		return this.setCurrentValues(this.inputParameter);
 	}
 
 }

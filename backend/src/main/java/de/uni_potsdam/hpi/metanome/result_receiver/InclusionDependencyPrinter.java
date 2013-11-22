@@ -22,5 +22,6 @@ public class InclusionDependencyPrinter extends ResultPrinter implements Inclusi
 	@Override
 	public void receiveResult(ColumnCombination dependent, ColumnCombination referenced) throws CouldNotReceiveResultException {
 		outStream.println(dependent + IND_SEPARATOR + referenced);
+		addResult(dependent + IND_SEPARATOR + referenced);
 	}
 }

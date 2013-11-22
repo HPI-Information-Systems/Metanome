@@ -13,15 +13,10 @@ public class InputParameterStringWidget extends TextBox implements InputParamete
 		super();
 		this.inputParameter = inputParameter;
 	}
-
-	@Override
-	public void setValue(String value){
-		super.setValue(value);
-		this.inputParameter.setValue(value);
-	}
 	
 	@Override
 	public InputParameter getInputParameter() {
+		this.inputParameter.setValue(this.getValue());
 		return inputParameter;
 	}
 	

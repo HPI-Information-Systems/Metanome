@@ -34,6 +34,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 	@Override
 	public void execute() {
 		if (path != null) {
+			System.out.println("UCC Algorithm executing");
 			try {
 				resultReceiver.receiveResult(
 						new ColumnCombination(
@@ -42,7 +43,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 			} catch (CouldNotReceiveResultException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
+			}		
 		}
 	}
 
@@ -53,6 +54,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 
 	@Override
 	public void setConfigurationValue(String identifier, String value) {
+		System.out.println("setting value for " + identifier);
 		if (identifier.equals("pathToInputFile")) {
 			path = value;
 		}		

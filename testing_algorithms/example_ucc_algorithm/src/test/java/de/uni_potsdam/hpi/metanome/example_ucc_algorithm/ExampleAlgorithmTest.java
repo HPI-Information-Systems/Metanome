@@ -74,9 +74,10 @@ public class ExampleAlgorithmTest {
 	/**
 	 * When the algorithm is started after configuration a result should be received.
 	 * @throws CouldNotReceiveResultException 
+	 * @throws InterruptedException 
 	 */
 	@Test
-	public void testStart() throws CouldNotReceiveResultException {
+	public void testStart() throws CouldNotReceiveResultException, InterruptedException {
 		// Setup
 		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
 		this.algorithm.setConfigurationValue(pathIdentifier, "something");
@@ -84,7 +85,7 @@ public class ExampleAlgorithmTest {
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
 		this.algorithm.execute();
-		
+				
 		// Check result
 		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));
 	}
