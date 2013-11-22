@@ -90,17 +90,17 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	protected InputParameterCsvFile setCurrentValues(InputParameterCsvFile inputParameter) {
 		inputParameter.setFileNameValue(this.listbox.getValue(this.listbox.getSelectedIndex()));
 		inputParameter.setAdvanced(this.advancedCheckbox.getValue());
+		
 		if (inputParameter.isAdvanced()){
 			inputParameter.setSeparatorChar(this.separatorTextbox.getValue().charAt(0));
 			inputParameter.setQuoteChar(this.quoteTextbox.getValue().charAt(0));
 			inputParameter.setEscapeChar(this.escapeTextbox.getValue().charAt(0));
-			try {
-				inputParameter.setLine(this.lineIntegerbox.getValue());
-			} catch (NullPointerException e) {
-				inputParameter.setLine(0);
-			}
 			inputParameter.setStrictQuotes(this.strictQuotesCheckbox.getValue());
-			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
+			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());			
+			if (this.lineIntegerbox.getValue() != null)
+				inputParameter.setLine(this.lineIntegerbox.getValue());
+			else
+				inputParameter.setLine(0);
 		}
 		
 		return inputParameter;

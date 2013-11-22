@@ -17,7 +17,11 @@ public class InputParameterIntegerWidget extends IntegerBox implements InputPara
 
 	@Override
 	public InputParameter getInputParameter() {
-		this.inputParameter.setValue(this.getValue());
+		if (this.getValue() != null)
+			this.inputParameter.setValue(this.getValue());
+		else
+			this.inputParameter.setValue(0);
+		
 		return inputParameter;
 	}
 
