@@ -19,6 +19,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 
 public class AlgorithmExecutor {
 
@@ -43,7 +44,7 @@ public class AlgorithmExecutor {
 			FileGenerator fileGenerator) {
 		this.fdResultReceiver = fdResultReceiver;
 		this.indResultReceiver = indResultReceiver;
-		this.uccResultReceiver = uccResultReceiver;	
+		this.uccResultReceiver = uccResultReceiver;
 		
 		this.fileGenerator = fileGenerator;
 	}
@@ -108,6 +109,30 @@ public class AlgorithmExecutor {
 		}
 				
 		algorithm.execute();
+		
+		//FIXME
+		//TODO: close opened result file
+//		if(this.fdResultReceiver != null) {
+//			try {
+//				((ResultPrinter)this.fdResultReceiver).close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		else if(this.indResultReceiver != null) {
+//			try {
+//				((ResultPrinter)this.indResultReceiver).close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		else if(this.uccResultReceiver != null) {
+//			try {
+//				((ResultPrinter)this.uccResultReceiver).close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	protected Set<Class<?>> getInterfaces(Object object) {
