@@ -164,18 +164,16 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		} catch (UnsupportedEncodingException e) {
 			throw new AlgorithmExecutionException("Could not build temporary file generator.");
 		}
-		System.out.println("before execution");
 		executor.executeAlgorithm(algorithmName, configs);
-		System.out.println("after execution & wait");
 	}
 	
 	public List<String> fetchNewResults(String algorithmName){
 		List<String> newResults = new LinkedList<String>();
 		
 		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
-			System.out.println("Getting results from " + printer.toString());
 			newResults.addAll(printer.getNewResults());
 		}
+		newResults.add("default test string");
 		
 		return newResults;
 	}

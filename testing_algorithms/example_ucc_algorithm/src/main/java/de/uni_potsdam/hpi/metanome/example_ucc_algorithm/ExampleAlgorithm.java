@@ -33,7 +33,6 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 
 	@Override
 	public void execute() {
-		System.out.println(path);
 		if (path != null) {
 			System.out.println("UCC Algorithm executing");
 			try {
