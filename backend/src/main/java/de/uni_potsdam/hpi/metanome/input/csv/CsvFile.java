@@ -46,7 +46,11 @@ public class CsvFile implements RelationalInput, Closeable {
 		this.nextLine = readNextLine();
 		if (this.nextLine != null) {
 			this.numberOfColumns = this.nextLine.size();
-		} 		
+		}
+
+		if (!hasHeader) {
+			this.headerLine = generateHeaderLine();
+		}
 	}
 
 	@Override
@@ -62,6 +66,14 @@ public class CsvFile implements RelationalInput, Closeable {
 			throw new InputIterationException("Csv line length did not match.");
 		}
 		return currentLine;
+	}
+	
+	protected ImmutableList<String> generateHeaderLine() {
+		String[] headerArray = new String[this.numberOfColumns];
+		for(Integer i = 1; i <= this.numberOfColumns; i++) {
+			headerArray[i-1] = "Column #" + i.toString();
+		}
+		return ImmutableList.copyOf(headerArray);
 	}
 	
 	protected ImmutableList<String> readNextLine() throws InputIterationException {

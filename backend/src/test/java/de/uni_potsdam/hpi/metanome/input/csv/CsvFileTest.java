@@ -148,6 +148,28 @@ public class CsvFileTest {
 	}
 	
 	/**
+	 * Test method for {@link CsvFile#generateHeaderLine()}
+	 * 
+	 * A {@link CsvFile} should return the correct header names.
+	 * 
+	 * @throws InputIterationException
+	 * @throws InputGenerationException 
+	 */
+	@Test
+	public void testGenerateHeaderLine() throws InputIterationException, InputGenerationException {
+		// Setup
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+
+		CsvFile csvFileWithHeader = fixtureSeparator.getTestData();
+		CsvFile csvFileWithoutHeader = fixtureSeparator.getTestDataWithoutHeader();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedColumnNames(), csvFileWithHeader.columnNames());
+		assertEquals(fixture.getExpectedDefaultColumnNames(), csvFileWithoutHeader.columnNames());
+	}
+	
+	/**
 	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char)}
 	 * 
 	 * A {@link CsvFile} generated from an empty file should be constructable without
