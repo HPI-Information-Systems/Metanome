@@ -14,15 +14,10 @@ public class InputParameterIntegerWidget extends IntegerBox implements InputPara
 		super();
 		this.inputParameter = inputParameter;
 	}
-	
-	@Override
-	public void setValue(Integer value){
-		super.setValue(value);
-		this.inputParameter.setValue(value);
-	}
 
 	@Override
 	public InputParameter getInputParameter() {
+		this.inputParameter.setValue(this.getValue());
 		return inputParameter;
 	}
 
