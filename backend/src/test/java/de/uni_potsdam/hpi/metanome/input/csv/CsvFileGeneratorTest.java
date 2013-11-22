@@ -55,7 +55,7 @@ public class CsvFileGeneratorTest {
 		assertEquals(expectedSeparator, generator.separator);
 		assertEquals(expectedQuotechar, generator.quotechar);
 		assertEquals(expectedEscape, generator.escape);
-		assertEquals(expectedLine, generator.line);
+		assertEquals(expectedLine, generator.skipLines);
 		assertEquals(expectedStrictQuotes, generator.strictQuotes);
 		assertEquals(expectedIgnoreLeadingWhiteSpace, generator.ignoreLeadingWhiteSpace);
 	}
