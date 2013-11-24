@@ -1,13 +1,15 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+
 
 public class BasicStatisticsTab extends AlgorithmTab {
 	
 	/**
 	 * Constructor.
 	 */
-	public BasicStatisticsTab(){
-		super();
+	public BasicStatisticsTab(BasePage basePage){
+		super(basePage);
 		getBasicStatisticsAlgorithms();
 	}
 

@@ -16,11 +16,14 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
  * Tests for the algorithm specific pages (tabs)
  */
 public class GwtTestAlgorithmTab extends GWTTestCase {
+	
+	private BasePage page;
 
 	@Test
 	public void testAddJarChooserFD(){
 		//Setup
-		AlgorithmTab algoTab = new FunctionalDependencyTab();
+		page = new BasePage();
+		AlgorithmTab algoTab = new FunctionalDependencyTab(page);
 		
 		//Execute
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
@@ -33,7 +36,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddParameterTableFD(){
 		//Setup
-		AlgorithmTab algoTab = new FunctionalDependencyTab();
+		AlgorithmTab algoTab = new FunctionalDependencyTab(page);
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		int widgetCount = algoTab.getWidgetCount();
 				
@@ -47,7 +50,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddJarChooserBS(){
 		//Setup
-		AlgorithmTab algoTab = new BasicStatisticsTab();
+		AlgorithmTab algoTab = new BasicStatisticsTab(page);
 		
 		//Execute
 		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
@@ -60,7 +63,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddParameterTableBS(){
 		//Setup
-		AlgorithmTab algoTab = new BasicStatisticsTab();
+		AlgorithmTab algoTab = new BasicStatisticsTab(page);
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		int widgetCount = algoTab.getWidgetCount();
 				
