@@ -1,9 +1,11 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
@@ -51,16 +53,15 @@ public class BasePage extends TabLayoutPanel {
 		return resultsPage;
 	}
 
-	public AsyncCallback<Void> showResults(ExecutionServiceAsync executionService,
-			String algorithmName) {
+	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
+			String algorithmName, List<InputParameter> parameters) {
 		ResultsTab resultsTab = new ResultsTab(executionService, algorithmName);
+		executionService.executeAlgorithm(algorithmName, parameters, resultsTab.getCancelCallback());
 		resultsTab.startPolling();
 		
 		this.selectTab(resultsPage);
 		resultsPage.add(resultsTab, algorithmName);
 		resultsPage.selectTab(resultsTab);
-		
-		return resultsTab.getCancelCallback();
 	}
 
 }
