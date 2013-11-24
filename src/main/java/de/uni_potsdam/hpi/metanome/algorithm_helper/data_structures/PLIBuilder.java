@@ -4,7 +4,6 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -15,7 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 public class PLIBuilder {
 	
-	protected List<HashMap<String, LongOpenHashSet>> columns = new LinkedList<HashMap<String, LongOpenHashSet>>();
+	protected List<HashMap<String, LongOpenHashSet>> columns = new ArrayList<HashMap<String, LongOpenHashSet>>();
 	protected RelationalInput input;
 	
 	public PLIBuilder(RelationalInput input) {
@@ -61,7 +60,7 @@ public class PLIBuilder {
 	}
 
 	protected List<PositionListIndex> purgePLIEntries() {
-		List<PositionListIndex> pliList = new LinkedList<PositionListIndex>();
+		List<PositionListIndex> pliList = new ArrayList<PositionListIndex>();
 		for (int columnIndex = 0; columnIndex < columns.size(); columnIndex++) {
 			List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
 			for (LongOpenHashSet cluster : columns.get(columnIndex).values()) {
