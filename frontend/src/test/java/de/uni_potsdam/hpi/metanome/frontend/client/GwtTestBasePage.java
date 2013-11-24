@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * Tests related to the overall page.
@@ -18,8 +19,10 @@ public class GwtTestBasePage extends GWTTestCase{
 		BasePage page = new BasePage();
 		
 		//Check
-		//Page should have a tab each for the 3 algorithm types
-		assertEquals(4, page.getWidgetCount()); 
+		// -- Algorithm page
+		assertTrue(page.getWidget(0) instanceof TabLayoutPanel);
+		// -- Results page
+		assertTrue(page.getWidget(1) instanceof TabLayoutPanel);
 	}
 
 	@Override

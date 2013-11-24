@@ -7,6 +7,7 @@ public class MetanomeEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		RootPanel.get().setHeight("100%");
 		RootPanel.get().add(new BasePage());		
 	}
 

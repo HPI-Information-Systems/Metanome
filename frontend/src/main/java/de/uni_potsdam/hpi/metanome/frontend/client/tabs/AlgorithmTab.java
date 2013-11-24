@@ -3,10 +3,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
  * Includes common functionality such as adding a JarChooser or ParameterTable
  */
 public abstract class AlgorithmTab extends DockPanel{
+	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
 	
@@ -27,15 +28,16 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected ExecutionServiceAsync executionService;
 	
 	protected AsyncCallback<String[]> addJarChooserCallback;
-	protected Timer timer;
 	
 	/**
 	 * Constructor. Initializes FinderService
 	 */
-	public AlgorithmTab(){
+	public AlgorithmTab(BasePage basePage){
 		//TODO: style in CSS
 		this.setWidth("100%");
 		this.setHeight("100px");
+		
+		this.basePage = basePage;
 		
 		this.finderService = GWT.create(FinderService.class);
 		this.executionService = GWT.create(ExecutionService.class);
@@ -98,46 +100,12 @@ public abstract class AlgorithmTab extends DockPanel{
 	
 	public void callExecutionService(List<InputParameter> parameters) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
-		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-		      public void onFailure(Throwable caught) {
-		    	  // TODO: Do something with errors.
-		    	  System.out.println("callReturned");
-				  cancelTimer();
-		      }
 
-		      public void onSuccess(Void v) {  	
-		    	  System.out.println("callReturned");
-				  cancelTimer();
-		      }
-		    };
-
+		// Switch to results page
+		AsyncCallback<Void> callback = basePage.showResults(executionService, algorithmName);
+		
 		// Make the call to the execution service.
 		executionService.executeAlgorithm(algorithmName, parameters, callback);
+	}
 		
-		this.timer = new Timer() {
-		      public void run() {		    	  
-		    	  executionService.fetchNewResults(algorithmName, new AsyncCallback<List<String>>() {
-		    		  
-		    		  @Override
-		    		  public void onFailure(Throwable caught) {
-		    			  // TODO Auto-generated method stub
-		    		  }
-		    		  
-		    		  @Override
-		    		  public void onSuccess(List<String> result) {
-		    			  // TODO Auto-generated method stub
-		    			  for (String s : result) {
-		    				  System.out.println(s);
-		    			  }
-		    		  }
-		    	  });
-		      }
-		    };
-
-		    this.timer.scheduleRepeating(2000);
-	}
-	
-	public void cancelTimer(){
-		this.timer.cancel();
-	}
 }
