@@ -8,7 +8,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationExc
 public class CsvFileShortLineFixture {
 
 	public CsvFile getTestData() throws InputIterationException, InputGenerationException {
-		return new CsvFile(new StringReader("'one','two','three'\n'four','five'\n'six','seven','eight'"), ',', '\'');
+		return new CsvFile("some_file", new StringReader("'one','two','three'\n'four','five'\n'six','seven','eight'"), ',', '\'');
 	}
 	
 }

@@ -5,8 +5,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * @author Jakob Zwiener
  * 
- * Relational inputs can be iterated, but different than iterators may throw {@link InputIterationException}s when iterating
- *
+ * Relational inputs can be iterated, but iterators may throw {@link InputIterationException}s when iterating.
  */
 public interface RelationalInput {
 	
@@ -27,16 +26,18 @@ public interface RelationalInput {
 	ImmutableList<String> next() throws InputIterationException;
 	
 	/**
-	 * Removes the current row.
-	 */
-	void remove();
-	
-	/**
 	 * Returns the number of columns.
 	 * 
 	 * @return the number of columns.
 	 */
 	int numberOfColumns();
+	
+	/**
+	 * Returns the relation's name
+	 * 
+	 * @return the relation's name
+	 */
+	String relationName();
 	
 	/**
 	 * Returns the column names. 

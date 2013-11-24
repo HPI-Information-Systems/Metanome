@@ -4,12 +4,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.mysql.jdbc.ResultSetMetaData;
 
 public class ResultSetTwoLinesFixture {
 
@@ -20,6 +20,8 @@ public class ResultSetTwoLinesFixture {
 		// Expected column count
 		when(resultSetMetaData.getColumnCount())
 			.thenReturn(numberOfColumns());
+		when(resultSetMetaData.getTableName(0))
+			.thenReturn(getExpectedRelationName());
 		ImmutableList<String> expectedColumnNames = getExpectedColumnNames();
 		for (int i = 0; i < expectedColumnNames.size(); i++) {
 			when(resultSetMetaData.getColumnLabel(i))
@@ -69,6 +71,10 @@ public class ResultSetTwoLinesFixture {
 		expectedRecords.add(ImmutableList.of("cell4", "cell5", "cell6"));
 		
 		return expectedRecords;
+	}
+	
+	public String getExpectedRelationName() {
+		return "some_table";
 	}
 	
 	public ImmutableList<String> getExpectedColumnNames() {

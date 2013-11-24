@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
@@ -16,7 +17,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 	protected char separator = CSVParser.DEFAULT_SEPARATOR;
 	protected char quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
 	protected char escape = CSVParser.DEFAULT_ESCAPE_CHARACTER;
-	protected int line = CSVParser.INITIAL_READ_SIZE;
+	protected int skipLines = CSVReader.DEFAULT_SKIP_LINES;
 	protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
 	protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
 	protected boolean hasHeader = CsvFile.DEFAULT_HAS_HEADER;
@@ -25,13 +26,13 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 		this.setInputFile(inputFile);
 	}
 	
-	public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int line, 
+	public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int skipLines, 
 			boolean strictQuotes, boolean ignoreLeadingWhiteSpace) throws FileNotFoundException {
 		this.setInputFile(inputFile);
 		this.separator = separator;
 		this.quotechar = quotechar;
 		this.escape = escape;
-		this.line = line;
+		this.skipLines = skipLines;
 		this.strictQuotes = strictQuotes;
 		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;		
 	}
@@ -45,8 +46,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
 
 	public RelationalInput generateNewCopy() throws InputGenerationException {
 		try {
-			return new CsvFile(new FileReader(inputFile), separator, quotechar, escape, line, 
-					strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
+			return new CsvFile(inputFile.getName(), new FileReader(inputFile), separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
 		} catch (FileNotFoundException e) {
 			throw new InputGenerationException("File not found.");
 		} catch (InputIterationException e) {

@@ -22,27 +22,35 @@ public class CsvFile implements RelationalInput, Closeable {
 	protected CSVReader csvReader;
 	protected ImmutableList<String> headerLine;
 	protected ImmutableList<String> nextLine;
-	protected int numberOfColumns;
+	protected String relationName;
+	protected int numberOfColumns = 0;
 	
-	public CsvFile(Reader reader, char separator, char quotechar) throws InputIterationException {
-		this(reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
+	public CsvFile(String relationName, Reader reader, char separator, char quotechar) throws InputIterationException {
+		this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
 	}
 	
-	public CsvFile(Reader reader, char separator, char quoteChar, int skipLines) throws InputIterationException {
-		this(reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
+	public CsvFile(String relationName, Reader reader, char separator, char quoteChar, int skipLines) throws InputIterationException {
+		this(relationName, reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
 	}
 	
-	public CsvFile(Reader reader, char separator, char quotechar, int skipLines, boolean hasHeader) throws InputIterationException {
-		this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
+	public CsvFile(String relationName, Reader reader, char separator, char quotechar, int skipLines, boolean hasHeader) throws InputIterationException {
+		this(relationName, reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
 	}
 
-	public CsvFile(Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
+	public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
+		this.relationName = relationName;
 		this.csvReader = new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace);
 		if (hasHeader) {
 			this.headerLine = readNextLine();
 		}
 		this.nextLine = readNextLine();
-		this.numberOfColumns = this.nextLine.size();
+		if (this.nextLine != null) {
+			this.numberOfColumns = this.nextLine.size();
+		}
+
+		if (!hasHeader) {
+			this.headerLine = generateHeaderLine();
+		}
 	}
 
 	@Override
@@ -59,10 +67,13 @@ public class CsvFile implements RelationalInput, Closeable {
 		}
 		return currentLine;
 	}
-
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
+	
+	protected ImmutableList<String> generateHeaderLine() {
+		String[] headerArray = new String[this.numberOfColumns];
+		for(Integer i = 1; i <= this.numberOfColumns; i++) {
+			headerArray[i-1] = "Column #" + i.toString();
+		}
+		return ImmutableList.copyOf(headerArray);
 	}
 	
 	protected ImmutableList<String> readNextLine() throws InputIterationException {
@@ -88,6 +99,11 @@ public class CsvFile implements RelationalInput, Closeable {
 	@Override
 	public int numberOfColumns() {
 		return numberOfColumns;
+	}
+	
+	@Override
+	public String relationName() {
+		return relationName;
 	}
 	
 	@Override
