@@ -98,14 +98,13 @@ public abstract class AlgorithmTab extends DockPanel{
 		return this.jarChooser.getSelectedAlgorithm();
 	}
 	
+	/**
+	 * Execute the currently selected algorithm and switch to results page
+	 * @param parameters
+	 */
 	public void callExecutionService(List<InputParameter> parameters) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
-
-		// Switch to results page
-		AsyncCallback<Void> callback = basePage.showResults(executionService, algorithmName);
-		
-		// Make the call to the execution service.
-		executionService.executeAlgorithm(algorithmName, parameters, callback);
+		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
 	}
 		
 }
