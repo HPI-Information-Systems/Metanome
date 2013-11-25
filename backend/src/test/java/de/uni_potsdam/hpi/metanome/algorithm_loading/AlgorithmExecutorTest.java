@@ -4,6 +4,7 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,4 +123,23 @@ public class AlgorithmExecutorTest {
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
 		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
 	}
+	
+	/**
+	 * Test method for {@link AlgorithmExecutor#close()}
+	 * 
+	 * When closing the executor all attached result receiver should be closed.
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testClose() throws IOException {
+		// Execute functionality
+		executor.close();
+		
+		// Check result
+		verify(fdResultReceiver).close();
+		verify(indResultReceiver).close();
+		verify(uccResultReceiver).close();
+	}
+	
 }

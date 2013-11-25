@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -19,9 +20,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
-import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 
-public class AlgorithmExecutor {
+public class AlgorithmExecutor implements Closeable {
 
 	protected FunctionalDependencyResultReceiver fdResultReceiver;
 	protected InclusionDependencyResultReceiver indResultReceiver;
@@ -139,5 +139,12 @@ public class AlgorithmExecutor {
 		Set<Class<?>> interfaces = new HashSet<Class<?>>();
 		Collections.addAll(interfaces, object.getClass().getInterfaces());
 		return interfaces;
+	}
+
+	@Override
+	public void close() throws IOException {
+		fdResultReceiver.close();
+		indResultReceiver.close();
+		uccResultReceiver.close();
 	}
 }

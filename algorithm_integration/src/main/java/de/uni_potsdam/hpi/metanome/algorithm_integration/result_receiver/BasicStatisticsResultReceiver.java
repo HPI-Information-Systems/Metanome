@@ -1,11 +1,13 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
+import java.io.Closeable;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 
 /**
  * Receives the results of a {@link BasicStatisticsAlgorithm}.
  */
-public interface BasicStatisticsResultReceiver {
+public interface BasicStatisticsResultReceiver extends Closeable {
 
 	/**
 	 * Receives a basic statistic, consisting of the concerned columns, a name and a value 
