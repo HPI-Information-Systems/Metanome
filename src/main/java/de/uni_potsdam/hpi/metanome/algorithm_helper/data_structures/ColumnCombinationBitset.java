@@ -12,7 +12,7 @@ public class ColumnCombinationBitset {
 	protected OpenBitSet bitset;
 	protected long size = 0;
 	
-	public ColumnCombinationBitset(){
+	public ColumnCombinationBitset() {
 		bitset = new OpenBitSet();
 	}
 	
@@ -390,6 +390,19 @@ public class ColumnCombinationBitset {
 		OpenBitSet unionBitSet = bitset.clone();
 		unionBitSet.or(other.bitset);
 		return new ColumnCombinationBitset().setColumns(unionBitSet);
+	}
+	
+	/**
+	 * Intersect should return a {@link ColumnCombinationBitset} with only the columns that are contained in both
+	 * combinations. The original {@link ColumnCombinationBitset}s should remain unchanged. 
+	 * 
+	 * @param other
+	 * @return the intersection of the two column combinations
+	 */
+	public ColumnCombinationBitset intersect(ColumnCombinationBitset other) {
+		OpenBitSet intersectionBitSet = bitset.clone();
+		intersectionBitSet.and(other.bitset);
+		return new ColumnCombinationBitset().setColumns(intersectionBitSet);
 	}
 	
 	/**

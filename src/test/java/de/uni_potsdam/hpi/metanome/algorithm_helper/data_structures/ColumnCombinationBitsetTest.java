@@ -502,6 +502,28 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#intersect(ColumnCombinationBitset)}
+	 * 
+	 * Intersect should return a {@link ColumnCombinationBitset} with only the columns that are contained in both
+	 * combinations. The original {@link ColumnCombinationBitset}s should remain unchanged. 
+	 */
+	@Test
+	public void testIntersection() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination1 = fixture.getColumnCombination1();
+		ColumnCombinationBitset columnCombination2 = fixture.getColumnCombination2();
+		
+		// Execute functionality 
+		// Check result
+		assertEquals(fixture.getExpectedIntersectionColumnCombination(), columnCombination1.intersect(columnCombination2));
+		assertEquals(fixture.getExpectedIntersectionColumnCombination(), columnCombination2.intersect(columnCombination1));
+		// Originals should not have changed
+		assertEquals(fixture.getColumnCombination1(), columnCombination1);
+		assertEquals(fixture.getColumnCombination2(), columnCombination2);
+	}
+	
+	/**
 	 * Test method for {@link ColumnCombinationBitset#getSetBits()}
 	 * 
 	 * Returns a list of column indexes contained in the column combination.

@@ -86,6 +86,10 @@ public class ColumnCombinationBitsetFixture {
 		return unionColumnCombination;
 	}
 	
+	public ColumnCombinationBitset getExpectedIntersectionColumnCombination() {
+		return new ColumnCombinationBitset().setColumns(4);
+	}
+	
 	public ColumnCombinationBitset[] getExpectedOneColumnCombinations1() {
 		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
 		
