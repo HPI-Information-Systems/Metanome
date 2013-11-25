@@ -35,7 +35,7 @@ public class CsvFileOneLineFixture {
 	}
 
 	public CsvFile getTestDataWithoutHeader() throws InputIterationException, InputGenerationException {
-		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 0, false);
+		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 1, false);
 	}
 	
 	protected String getCsvInputString() {

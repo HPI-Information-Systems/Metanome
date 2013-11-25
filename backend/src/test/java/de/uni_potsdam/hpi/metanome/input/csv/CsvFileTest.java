@@ -167,6 +167,7 @@ public class CsvFileTest {
 		// Check result
 		assertEquals(fixture.getExpectedColumnNames(), csvFileWithHeader.columnNames());
 		assertEquals(fixture.getExpectedDefaultColumnNames(), csvFileWithoutHeader.columnNames());
+		assertEquals(fixture.getExpectedStrings(), csvFileWithoutHeader.next());
 	}
 	
 	/**
