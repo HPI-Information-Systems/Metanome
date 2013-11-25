@@ -109,30 +109,6 @@ public class AlgorithmExecutor implements Closeable {
 		}
 				
 		algorithm.execute();
-		
-		//FIXME
-		//TODO: close opened result file
-//		if(this.fdResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.fdResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		else if(this.indResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.indResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		else if(this.uccResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.uccResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	protected Set<Class<?>> getInterfaces(Object object) {

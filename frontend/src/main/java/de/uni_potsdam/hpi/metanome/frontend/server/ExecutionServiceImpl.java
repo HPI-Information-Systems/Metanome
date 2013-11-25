@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -162,6 +163,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 			throw new AlgorithmExecutionException("Could not build temporary file generator.");
 		}
 		executor.executeAlgorithm(algorithmName, configs);
+		try {
+			executor.close();
+		} catch (IOException e) {
+			throw new AlgorithmExecutionException("Could not close algorithm executor.");
+		}
 	}
 	
 	public List<String> fetchNewResults(String algorithmName){
