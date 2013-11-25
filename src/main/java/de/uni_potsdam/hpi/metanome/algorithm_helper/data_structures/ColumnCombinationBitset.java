@@ -257,6 +257,7 @@ public class ColumnCombinationBitset {
 	 * @return
 	 */
 	public List<Integer> getSetBits() {
+		//FIXME use array list here
 		List<Integer> setBits = new LinkedList<Integer>();
 		
 		int setBitIndex = 0;
