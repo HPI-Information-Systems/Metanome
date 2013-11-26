@@ -102,6 +102,14 @@
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                  <artifactId>example_wrong_bootstrap_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>src/test/resources/algorithms</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -180,6 +188,12 @@
       <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>de.uni-potsdam.hpi.metanome</groupId>
+      <artifactId>example_wrong_bootstrap_algorithm</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>    
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
