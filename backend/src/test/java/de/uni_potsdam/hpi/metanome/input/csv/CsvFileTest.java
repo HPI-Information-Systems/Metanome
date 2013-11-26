@@ -2,6 +2,7 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -173,8 +174,8 @@ public class CsvFileTest {
 	/**
 	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char)}
 	 * 
-	 * A {@link CsvFile} generated from an empty file should be constructable without
-	 * exceptions, return false on hasNext and return 0 as numberOfColumns.
+	 * A {@link CsvFile} generated from an empty file should be constructable without exceptions, 
+	 * return false on hasNext, return 0 as numberOfColumns and have a valid standard header.
 	 * 
 	 * @throws InputIterationException 
 	 * @throws IOException 
@@ -187,6 +188,31 @@ public class CsvFileTest {
 		CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"');
 		assertFalse(csvFile.hasNext());
 		assertEquals(0, csvFile.numberOfColumns());
+		assertNotNull(csvFile.columnNames());
+		
+		// Cleanup
+		csvFile.close();
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char, int, boolean)}
+	 * 
+	 * A {@link CsvFile} with header generated from an empty file should be constructable without
+	 * exceptions, return false on hasNext, return 0 as numberOfColumns and have a valid standard
+	 * header.
+	 * 
+	 * @throws InputIterationException
+	 * @throws IOException 
+	 */
+	@Test
+	public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
+		// Execute functionality
+		// Check result
+		// Should not throw exception
+		CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"', 0, true);
+		assertFalse(csvFile.hasNext());
+		assertEquals(0, csvFile.numberOfColumns());
+		assertNotNull(csvFile.columnNames());
 		
 		// Cleanup
 		csvFile.close();

@@ -18,6 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 public class CsvFile implements RelationalInput, Closeable {
 	
 	protected static final boolean DEFAULT_HAS_HEADER = false;
+	protected static final String DEFAULT_HEADER_STRING = "column";
 	
 	protected CSVReader csvReader;
 	protected ImmutableList<String> headerLine;
@@ -43,12 +44,14 @@ public class CsvFile implements RelationalInput, Closeable {
 		if (hasHeader) {
 			this.headerLine = readNextLine();
 		}
+		
 		this.nextLine = readNextLine();
 		if (this.nextLine != null) {
 			this.numberOfColumns = this.nextLine.size();
 		}
 
-		if (!hasHeader) {
+		// If the header is still null generate a standard header the size of number of columns.
+		if (this.headerLine == null) {
 			this.headerLine = generateHeaderLine();
 		}
 	}
@@ -71,7 +74,7 @@ public class CsvFile implements RelationalInput, Closeable {
 	protected ImmutableList<String> generateHeaderLine() {
 		String[] headerArray = new String[this.numberOfColumns];
 		for(Integer i = 1; i <= this.numberOfColumns; i++) {
-			headerArray[i-1] = "Column #" + i.toString();
+			headerArray[i-1] = DEFAULT_HEADER_STRING + i.toString();
 		}
 		return ImmutableList.copyOf(headerArray);
 	}

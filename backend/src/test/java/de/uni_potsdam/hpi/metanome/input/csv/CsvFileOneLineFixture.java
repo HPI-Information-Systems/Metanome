@@ -84,7 +84,13 @@ public class CsvFileOneLineFixture {
 	}
 	
 	public ImmutableList<String> getExpectedDefaultColumnNames() {
-		return ImmutableList.of("Column #1", "Column #2", "Column #3");
+		List<String> defaultColumnNames = new LinkedList<String>();
+		
+		for (int i = 0; i < getExpectedNumberOfColumns(); i++) {
+			defaultColumnNames.add(CsvFile.DEFAULT_HEADER_STRING + (i+1));
+		}
+		
+		return ImmutableList.copyOf(defaultColumnNames);
 	}
 	
 	public int getExpectedNumberOfColumns() {
