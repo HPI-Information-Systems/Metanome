@@ -176,7 +176,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
 			newResults.addAll(printer.getNewResults());
 		}
-		newResults.add("default test string");
 		
 		return newResults;
 	}
