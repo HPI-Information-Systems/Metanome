@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -44,7 +45,9 @@ public class AlgorithmExecutorTest {
 	}
 
 	/**
-	 * Tests the execution of an fd algorithm.
+	 * Test method for {@link AlgorithmExecutor#executeAlgorithm(String, List)}
+	 * 
+	 * Tests the execution of an fd algorithm. The elapsed time should be greater than 0ns.
 	 * 
 	 * @throws AlgorithmLoadingException 
 	 * @throws AlgorithmConfigurationException 
@@ -57,10 +60,11 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
 		// Execute functionality
-		executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
+		assertTrue(0 <= elapsedTime);
 	}
 	
 	/**

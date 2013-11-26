@@ -52,14 +52,18 @@ public class AlgorithmExecutor implements Closeable {
 	/**
 	 * Executes an algorithm. The algorithm is loaded from the jar, 
 	 * configured and all receivers and generators are set before execution.
+	 * The elapsed time while executing the algorithm in nano seconds is 
+	 * returned as long.
 	 * 
 	 * @param algorithmName
 	 * @param configs
+	 * @return elapsed time in ns
+	 * 
 	 * @throws AlgorithmLoadingException
 	 * @throws AlgorithmConfigurationException
 	 * @throws AlgorithmExecutionException
 	 */
-	public void executeAlgorithm(String algorithmName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
+	public long executeAlgorithm(String algorithmName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
 		AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		Algorithm algorithm;
 		try {
@@ -108,7 +112,11 @@ public class AlgorithmExecutor implements Closeable {
 			tempFileAlgorithm.setTempFileGenerator(fileGenerator);
 		}
 				
+		long before = System.nanoTime();
 		algorithm.execute();
+		long after = System.nanoTime();
+		
+		return after - before;
 	}
 
 	protected Set<Class<?>> getInterfaces(Object object) {
