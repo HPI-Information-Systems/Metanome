@@ -45,6 +45,11 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 				e.printStackTrace();
 			}		
 		}
+		try {
+		    Thread.sleep(1000);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 	}
 
 	@Override
