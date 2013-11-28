@@ -13,12 +13,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
-import de.uni_potsdam.hpi.metanome.example_ucc_algorithm.ExampleAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ExampleAlgorithmTest {
 
@@ -87,6 +86,6 @@ public class ExampleAlgorithmTest {
 		this.algorithm.execute();
 				
 		// Check result
-		verify(resultReceiver).receiveResult(isA(ColumnCombination.class));
+		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 }

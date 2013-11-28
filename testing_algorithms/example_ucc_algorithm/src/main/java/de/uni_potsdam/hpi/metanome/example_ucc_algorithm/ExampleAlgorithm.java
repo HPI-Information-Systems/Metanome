@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
@@ -15,6 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
@@ -37,7 +37,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 			System.out.println("UCC Algorithm executing");
 			try {
 				resultReceiver.receiveResult(
-						new ColumnCombination(
+						new UniqueColumnCombination(
 								new ColumnIdentifier("table1", "column1"), 
 								new ColumnIdentifier("table2", "column2")));
 			} catch (CouldNotReceiveResultException e) {

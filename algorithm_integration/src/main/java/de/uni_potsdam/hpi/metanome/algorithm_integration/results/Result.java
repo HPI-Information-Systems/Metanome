@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 /**
@@ -13,7 +14,9 @@ public interface Result {
 	 * Sends a result to an {@link OmniscientResultReceiver}.
 	 * 
 	 * @param resultReceiver
+	 * 
+	 * @throws CouldNotReceiveResultException 
 	 */
-	public void sendResultTo(OmniscientResultReceiver resultReceiver);
+	public void sendResultTo(OmniscientResultReceiver resultReceiver) throws CouldNotReceiveResultException;
 	
 }
