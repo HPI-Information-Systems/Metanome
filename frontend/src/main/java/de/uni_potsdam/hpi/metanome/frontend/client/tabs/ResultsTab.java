@@ -13,6 +13,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
@@ -70,7 +71,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	protected void fetchNewResults() {
-		executionService.fetchNewResults(algorithmName, new AsyncCallback<List<String>>() {
+		executionService.fetchNewResults(algorithmName, new AsyncCallback<List<Result>>() {
 			  
 			  @Override
 			  public void onFailure(Throwable caught) {
@@ -78,16 +79,21 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 			  }
 			  
 			  @Override
-			  public void onSuccess(List<String> result) {
-//				  for (Result r : result) {
-//					  r.sendResultTo(this);
-//				  }
+			  public void onSuccess(List<Result> result) {
+				  displayResults(result);
 			  }
 		  });
 	}
 	
-	protected void displayResults(List<String> results){
-		System.out.println("this is old result displaying");
+	protected void displayResults(List<Result> results) {
+		for (Result r : results){
+			try {
+				r.sendResultTo(this);
+			} catch (CouldNotReceiveResultException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	
