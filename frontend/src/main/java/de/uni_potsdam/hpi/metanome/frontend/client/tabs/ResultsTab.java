@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -15,10 +16,13 @@ public class ResultsTab extends DockPanel {
 	
 	protected Timer timer;
 	protected String algorithmName;
+	protected FlexTable resultTable;
 
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
 		this.algorithmName = algorithmName;
+		this.resultTable = new FlexTable();
+		this.add(resultTable, DockPanel.NORTH);
 		//TODO add UI elements
 	}
 
@@ -32,24 +36,25 @@ public class ResultsTab extends DockPanel {
 	    this.timer.scheduleRepeating(200);
 	}
 	
-	public AsyncCallback<Void> getCancelCallback() {
-		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+	public AsyncCallback<Long> getCancelCallback() {
+		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
 		      public void onFailure(Throwable caught) {
 		    	  // TODO: Do something with errors.
 		    	  System.out.println("Algorithm did not execute successfully");
 				  cancelTimerOnFail(caught);
 		      }
 
-		      public void onSuccess(Void v) {  	
-				  cancelTimerOnSuccess();
+		      public void onSuccess(Long executionTime) {  	
+				  cancelTimerOnSuccess(executionTime);
 		      }
 		};
 		return callback;
 	}
 	
-	public void cancelTimerOnSuccess(){
+	public void cancelTimerOnSuccess(Long executionTime){
 		this.timer.cancel();
 		fetchNewResults();
+		this.add(new Label("Algorithm executed in " +  executionTime/1000000d + " ms."), DockPanel.NORTH);
 	}
 	
 	public void cancelTimerOnFail(Throwable caught){
@@ -76,6 +81,6 @@ public class ResultsTab extends DockPanel {
 	
 	protected void displayResults(List<String> results){
 		for (String s : results)
-			this.add(new Label(s), DockPanel.NORTH);
+			resultTable.setText(resultTable.getRowCount(), 0, s);
 	}
 }
