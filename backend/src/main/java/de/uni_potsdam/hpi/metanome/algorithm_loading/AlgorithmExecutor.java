@@ -127,8 +127,6 @@ public class AlgorithmExecutor implements Closeable {
 
 	@Override
 	public void close() throws IOException {
-		fdResultReceiver.close();
-		indResultReceiver.close();
-		uccResultReceiver.close();
+		// FIXME Close Printer
 	}
 }
