@@ -22,5 +22,8 @@ public class UniqueColumnCombination implements Result {
 	public void sendResultTo(OmniscientResultReceiver resultReceiver) throws CouldNotReceiveResultException {
 		resultReceiver.receiveResult(this);
 	}
-
+	
+	public String toString() {
+		return columnCombination.toString();
+	}
 }
