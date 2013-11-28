@@ -1,14 +1,12 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
-import java.io.Closeable;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 
 /**
  * Receives the results of a {@link InclusionDependencyAlgorithm}.
  */
-public interface InclusionDependencyResultReceiver extends Closeable {
+public interface InclusionDependencyResultReceiver {
 
 	/**
 	 * Receives two unique column combinations from an {@link InclusionDependencyAlgorithm}.

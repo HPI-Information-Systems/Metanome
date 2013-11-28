@@ -1,7 +1,5 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
-import java.io.Closeable;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
@@ -9,7 +7,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Functio
 /**
  * Receives the results of a {@link FunctionalDependencyAlgorithm}.
  */
-public interface FunctionalDependencyResultReceiver extends Closeable {
+public interface FunctionalDependencyResultReceiver {
 
 	/**
 	 * Receives a functional dependency as a determinant {@link ColumnCombination} and
