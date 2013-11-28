@@ -13,13 +13,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ExampleAlgorithmTest {
@@ -90,7 +89,7 @@ public class ExampleAlgorithmTest {
 		this.algorithm.execute();
 		
 		// Check result
-		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
+		verify(fdResultReceiver).receiveResult(isA(FunctionalDependency.class));
 		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 }

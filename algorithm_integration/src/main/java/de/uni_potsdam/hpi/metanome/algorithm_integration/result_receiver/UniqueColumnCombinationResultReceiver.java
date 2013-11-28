@@ -9,9 +9,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 public interface UniqueColumnCombinationResultReceiver {
 	
 	/**
-	 * Receives an unique column combination from an {@link UniqueColumnCombinationsAlgorithm}.
+	 * Receives a {@link UniqueColumnCombination} from a {@link UniqueColumnCombinationsAlgorithm}.
 	 * 
-	 * @param columnCombination
+	 * @param uniqueColumnCombination
 	 * @throws CouldNotReceiveResultException 
 	 */
 	void receiveResult(UniqueColumnCombination uniqueColumnCombination) throws CouldNotReceiveResultException;

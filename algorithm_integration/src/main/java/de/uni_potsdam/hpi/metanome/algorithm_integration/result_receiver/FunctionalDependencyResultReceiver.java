@@ -1,8 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 
 /**
  * Receives the results of a {@link FunctionalDependencyAlgorithm}.
@@ -10,12 +9,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Functio
 public interface FunctionalDependencyResultReceiver {
 
 	/**
-	 * Receives a functional dependency as a determinant {@link ColumnCombination} and
-	 * a dependent {@link ColumnIdentifier}.
+	 * Receives a {@link FunctionalDependency} from a {@link FunctionalDependencyAlgorithm}.
 	 * 
-	 * @param determinant
-	 * @param dependent
+	 * @param functionalDependency
 	 * @throws CouldNotReceiveResultException 
 	 */
-	void receiveResult(ColumnCombination determinant, ColumnIdentifier dependent) throws CouldNotReceiveResultException;
+	void receiveResult(FunctionalDependency functionalDependency) throws CouldNotReceiveResultException;
 }

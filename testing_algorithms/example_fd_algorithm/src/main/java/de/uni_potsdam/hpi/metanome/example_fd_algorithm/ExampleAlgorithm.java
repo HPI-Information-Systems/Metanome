@@ -16,6 +16,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 
 public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
@@ -38,10 +39,11 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		if (path != null) {
 			try {
 				resultReceiver.receiveResult(
-						new ColumnCombination(
-								new ColumnIdentifier("table1", "column1"), 
-								new ColumnIdentifier("table1", "column2")),
-								new ColumnIdentifier("table1", "column5"));
+						new FunctionalDependency(
+							new ColumnCombination(
+									new ColumnIdentifier("table1", "column1"), 
+									new ColumnIdentifier("table1", "column2")),
+							new ColumnIdentifier("table1", "column5")));
 			} catch (CouldNotReceiveResultException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
