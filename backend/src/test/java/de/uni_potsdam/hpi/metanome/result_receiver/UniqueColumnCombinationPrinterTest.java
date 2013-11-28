@@ -18,9 +18,9 @@ import org.junit.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
  * Tests for {@link UniqueColumnCombinationPrinter}.
@@ -29,8 +29,8 @@ public class UniqueColumnCombinationPrinterTest {
 	
 	protected String testResultFilePath;
 	protected File testResultDirectory;
-	protected ColumnCombination columnCombination1;
-	protected ColumnCombination columnCombination2;
+	protected UniqueColumnCombination columnCombination1;
+	protected UniqueColumnCombination columnCombination2;
 	protected List<String> expectedOutputs;
 
 	@Before
@@ -38,10 +38,10 @@ public class UniqueColumnCombinationPrinterTest {
 		testResultFilePath = "results/test";
 		testResultDirectory = new File(testResultFilePath);
 		
-		columnCombination1 = new ColumnCombination(
+		columnCombination1 = new UniqueColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 
 				new ColumnIdentifier("table2", "column2"));
-		columnCombination2 = new ColumnCombination(
+		columnCombination2 = new UniqueColumnCombination(
 				new ColumnIdentifier("table2", "column2"), 
 				new ColumnIdentifier("table3", "column3"));
 		// Expected values

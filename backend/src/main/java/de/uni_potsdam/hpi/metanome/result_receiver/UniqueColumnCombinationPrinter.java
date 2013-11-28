@@ -3,8 +3,8 @@ package de.uni_potsdam.hpi.metanome.result_receiver;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
  * TODO: docs
@@ -20,8 +20,8 @@ public class UniqueColumnCombinationPrinter extends ResultPrinter implements Uni
 	}
 
 	@Override
-	public void receiveResult(ColumnCombination columnCombination) {
-		this.outStream.println(columnCombination);
-		addResult(columnCombination.toString());
+	public void receiveResult(UniqueColumnCombination uniqueColumnCombination) {
+		this.outStream.println(uniqueColumnCombination);
+		addResult(uniqueColumnCombination.toString());
 	}
 }
