@@ -15,6 +15,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
@@ -22,6 +23,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
@@ -172,12 +175,13 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		return executionTime;
 	}
 	
-	public List<String> fetchNewResults(String algorithmName){
-		List<String> newResults = new LinkedList<String>();
+	public List<Result> fetchNewResults(String algorithmName){
+		List<Result> newResults = new LinkedList<Result>();
 		
 		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
-			newResults.addAll(printer.getNewResults());
+			//newResults.addAll(printer.getNewResults());
 		}
+		newResults.add(new UniqueColumnCombination(new ColumnIdentifier("table", "col1")));
 		
 		return newResults;
 	}
