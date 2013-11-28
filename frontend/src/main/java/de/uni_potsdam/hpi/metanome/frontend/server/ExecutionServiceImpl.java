@@ -179,7 +179,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		List<Result> newResults = new LinkedList<Result>();
 		
 		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
-			//newResults.addAll(printer.getNewResults());
+//			newResults.addAll(printer.getNewResults());
 		}
 		newResults.add(new UniqueColumnCombination(new ColumnIdentifier("table", "col1")));
 		

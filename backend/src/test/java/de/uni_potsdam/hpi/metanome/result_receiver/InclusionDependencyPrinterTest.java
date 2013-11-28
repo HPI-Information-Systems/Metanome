@@ -21,6 +21,7 @@ import com.google.common.io.Files;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
 /**
  * Tests for {@link InclusionDependencyPrinter}.
@@ -29,10 +30,8 @@ public class InclusionDependencyPrinterTest {
 
 	protected String testResultFilePath;
 	protected File testResultDirectory;
-	protected ColumnCombination determinant1;
-	protected ColumnCombination referenced1;
-	protected ColumnCombination determinant2;
-	protected ColumnCombination referenced2;
+	protected InclusionDependency ind1;
+	protected InclusionDependency ind2;
 	protected List<String> expectedOutputs;
 	
 	@Before
@@ -40,22 +39,24 @@ public class InclusionDependencyPrinterTest {
 		testResultFilePath = "results/test";
 		testResultDirectory = new File(testResultFilePath);
 		
-		determinant1 = new ColumnCombination(
-				new ColumnIdentifier("table1", "column1"),
-				new ColumnIdentifier("table1", "column2"));
-		referenced1 = new ColumnCombination(
-				new ColumnIdentifier("table2", "column5"),
-				new ColumnIdentifier("table2", "column2"));
-		determinant2 = new ColumnCombination(
-				new ColumnIdentifier("table1", "column5"),
-				new ColumnIdentifier("table1", "column3"));
-		referenced2 = new ColumnCombination(
-				new ColumnIdentifier("table5", "column7"),
-				new ColumnIdentifier("table5", "column3"));
+		ind1 = new InclusionDependency(
+				new ColumnCombination(
+					new ColumnIdentifier("table1", "column1"),
+					new ColumnIdentifier("table1", "column2")),
+				new ColumnCombination(
+					new ColumnIdentifier("table2", "column5"),
+					new ColumnIdentifier("table2", "column2")));
+		ind2 = new InclusionDependency(
+				new ColumnCombination(
+					new ColumnIdentifier("table1", "column5"),
+					new ColumnIdentifier("table1", "column3")),
+				new ColumnCombination(
+					new ColumnIdentifier("table5", "column7"),
+					new ColumnIdentifier("table5", "column3")));
 		// Expected values
 		expectedOutputs = new LinkedList<String>();
-		expectedOutputs.add(determinant1 + InclusionDependencyPrinter.IND_SEPARATOR + referenced1);
-		expectedOutputs.add(determinant2 + InclusionDependencyPrinter.IND_SEPARATOR + referenced2);
+		expectedOutputs.add(ind1.toString());
+		expectedOutputs.add(ind2.toString());
 	}
 
 	@After
@@ -75,8 +76,8 @@ public class InclusionDependencyPrinterTest {
 		InclusionDependencyPrinter printer = new InclusionDependencyPrinter(outStream);
 		
 		// Execute functionality
-		printer.receiveResult(determinant1, referenced1);
-		printer.receiveResult(determinant2, referenced2);
+		printer.receiveResult(ind1);
+		printer.receiveResult(ind2);
 		
 		// Check result
 		for (String output : expectedOutputs) {
@@ -101,8 +102,8 @@ public class InclusionDependencyPrinterTest {
 		InclusionDependencyPrinter writer = new InclusionDependencyPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
-		writer.receiveResult(determinant1, referenced1);
-		writer.receiveResult(determinant2, referenced2);
+		writer.receiveResult(ind1);
+		writer.receiveResult(ind2);
 		
 		// Check result
 		File actualFile = new File(testResultFilePath + "/" + fileName);

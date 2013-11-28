@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
 /**
  * Receives the results of a {@link InclusionDependencyAlgorithm}.
@@ -9,11 +9,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 public interface InclusionDependencyResultReceiver {
 
 	/**
-	 * Receives two unique column combinations from an {@link InclusionDependencyAlgorithm}.
+	 * Receives an {@link InclusionDependency} from an {@link InclusionDependencyAlgorithm}.
 	 * 
-	 * @param dependent
-	 * @param referenced
+	 * @param inclusionDependency
 	 * @throws CouldNotReceiveResultException 
 	 */
-	void receiveResult(ColumnCombination dependent, ColumnCombination referenced) throws CouldNotReceiveResultException;
+	void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException;
 }

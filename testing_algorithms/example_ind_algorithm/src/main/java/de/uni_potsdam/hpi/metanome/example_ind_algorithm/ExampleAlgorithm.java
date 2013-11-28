@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
 public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
@@ -60,12 +61,13 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		
 		if (tableName != null) {
 			resultReceiver.receiveResult(
-					new ColumnCombination(
-							new ColumnIdentifier(tableName1, "column1"), 
-							new ColumnIdentifier("table1", "column2")),
-					new ColumnCombination(
-							new ColumnIdentifier("table2", "column3"),
-							new ColumnIdentifier("table2", "column2")));		
+					new InclusionDependency(
+						new ColumnCombination(
+								new ColumnIdentifier(tableName1, "column1"), 
+								new ColumnIdentifier("table1", "column2")),
+						new ColumnCombination(
+								new ColumnIdentifier("table2", "column3"),
+								new ColumnIdentifier("table2", "column2"))));		
 		}
 	}
 

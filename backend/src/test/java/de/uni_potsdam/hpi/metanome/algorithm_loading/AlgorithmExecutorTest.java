@@ -16,7 +16,6 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
@@ -24,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class AlgorithmExecutorTest {
@@ -85,7 +85,7 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(indResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
+		verify(indResultReceiver).receiveResult(isA(InclusionDependency.class));
 	}
 	
 	/**

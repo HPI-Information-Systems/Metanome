@@ -15,10 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
 public class ExampleAlgorithmTest {
 
@@ -93,7 +93,7 @@ public class ExampleAlgorithmTest {
 		this.algorithm.execute();
 		
 		// Check result
-		verify(resultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnCombination.class));
+		verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
 		verify(fileGenerator).getTemporaryFile();
 		
 		// Cleanup

@@ -13,6 +13,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -107,10 +108,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	@Override
-	public void receiveResult(ColumnCombination dependent,
-			ColumnCombination referenced) throws CouldNotReceiveResultException {
-		indTable.setText(indTable.getRowCount(), 0, dependent.toString());
-		indTable.setText(indTable.getRowCount(), 1, referenced.toString());
+	public void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException {
+		indTable.setText(indTable.getRowCount(), 0, inclusionDependency.getDependant().toString());
+		indTable.setText(indTable.getRowCount(), 1, inclusionDependency.getReferenced().toString());
 	}
 
 	@Override

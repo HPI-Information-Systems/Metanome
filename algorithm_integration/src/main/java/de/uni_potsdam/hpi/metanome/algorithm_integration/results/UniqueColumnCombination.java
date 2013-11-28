@@ -16,6 +16,13 @@ public class UniqueColumnCombination implements Result {
 	
 	protected ColumnCombination columnCombination;
 	
+	/**
+	 * Exists for GWT serialization.
+	 */
+	public UniqueColumnCombination() {
+		this.columnCombination = new ColumnCombination();
+	}
+	
 	public UniqueColumnCombination(ColumnIdentifier... columnIdentifier) {
 		this.columnCombination = new ColumnCombination(columnIdentifier);
 	}

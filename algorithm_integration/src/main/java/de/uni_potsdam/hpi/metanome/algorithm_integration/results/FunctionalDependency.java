@@ -19,16 +19,30 @@ public class FunctionalDependency implements Result {
 	protected ColumnCombination determinant;
 	protected ColumnIdentifier dependant;
 
+	/**
+	 * Exists for GWT serialization.
+	 */
+	public FunctionalDependency() {
+		this.determinant = new ColumnCombination();
+		this.dependant = new ColumnIdentifier("", "");
+	}
+	
 	public FunctionalDependency(ColumnCombination determinant,
 			ColumnIdentifier dependant) {
 		this.determinant = determinant;
 		this.dependant = dependant;
 	}
 	
+	/**
+	 * @return determinant
+	 */
 	public ColumnCombination getDeterminant() {
 		return determinant;
 	}
 
+	/**
+	 * @return dependant
+	 */
 	public ColumnIdentifier getDependant() {
 		return dependant;
 	}
