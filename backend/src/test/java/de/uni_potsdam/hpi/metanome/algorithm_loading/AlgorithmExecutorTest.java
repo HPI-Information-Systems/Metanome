@@ -1,9 +1,11 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,9 @@ public class AlgorithmExecutorTest {
 	}
 
 	/**
-	 * Tests the execution of an fd algorithm.
+	 * Test method for {@link AlgorithmExecutor#executeAlgorithm(String, List)}
+	 * 
+	 * Tests the execution of an fd algorithm. The elapsed time should be greater than 0ns.
 	 * 
 	 * @throws AlgorithmLoadingException 
 	 * @throws AlgorithmConfigurationException 
@@ -56,10 +60,11 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
 		// Execute functionality
-		executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
+		assertTrue(0 <= elapsedTime);
 	}
 	
 	/**
@@ -122,4 +127,23 @@ public class AlgorithmExecutorTest {
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
 		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
 	}
+	
+	/**
+	 * Test method for {@link AlgorithmExecutor#close()}
+	 * 
+	 * When closing the executor all attached result receiver should be closed.
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testClose() throws IOException {
+		// Execute functionality
+		executor.close();
+		
+		// Check result
+		verify(fdResultReceiver).close();
+		verify(indResultReceiver).close();
+		verify(uccResultReceiver).close();
+	}
+	
 }

@@ -88,10 +88,16 @@ public class AlgorithmFinder {
         URL[] url = {file.toURI().toURL()};
         ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());
         
-        Class<?> algorithmClass = Class.forName(className, false, loader);
-        
-        jar.close();
-        
+        Class<?> algorithmClass;
+		try {
+			algorithmClass = Class.forName(className, false, loader);
+		} catch (ClassNotFoundException e) {
+			System.out.println("Could not find class " + className);
+			return new LinkedList<Class<?>>();
+		} finally {
+			jar.close();
+		}
+                
 		return Arrays.asList(algorithmClass.getInterfaces());
 	}	
 }

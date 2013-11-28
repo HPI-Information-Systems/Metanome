@@ -35,6 +35,7 @@ public class ResultPrinter implements Closeable {
 		List<String> returnResults = new LinkedList<String>();
 		returnResults.addAll(newResults);
 		newResults.clear();
+		outStream.flush();
 		return returnResults;
 	}
 	

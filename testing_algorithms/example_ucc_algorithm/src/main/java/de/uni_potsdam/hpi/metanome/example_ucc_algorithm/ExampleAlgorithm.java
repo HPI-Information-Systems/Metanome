@@ -45,6 +45,11 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 				e.printStackTrace();
 			}		
 		}
+		try {
+		    Thread.sleep(1000);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 	}
 
 	@Override
@@ -64,7 +69,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 	public void setConfigurationValue(String identifier,
 			RelationalInputGenerator value)
 			throws AlgorithmConfigurationException {
-		if (identifier.equals("input file")){
+		if (identifier.equals("input file")) {
 			System.out.println("Input file is not being set on algorithm.");
 		}			
 	}

@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-public class AlgorithmExecutor {
+public class AlgorithmExecutor implements Closeable {
 
 	protected FunctionalDependencyResultReceiver fdResultReceiver;
 	protected InclusionDependencyResultReceiver indResultReceiver;
@@ -51,14 +52,18 @@ public class AlgorithmExecutor {
 	/**
 	 * Executes an algorithm. The algorithm is loaded from the jar, 
 	 * configured and all receivers and generators are set before execution.
+	 * The elapsed time while executing the algorithm in nano seconds is 
+	 * returned as long.
 	 * 
 	 * @param algorithmName
 	 * @param configs
+	 * @return elapsed time in ns
+	 * 
 	 * @throws AlgorithmLoadingException
 	 * @throws AlgorithmConfigurationException
 	 * @throws AlgorithmExecutionException
 	 */
-	public void executeAlgorithm(String algorithmName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
+	public long executeAlgorithm(String algorithmName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
 		AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		Algorithm algorithm;
 		try {
@@ -107,36 +112,23 @@ public class AlgorithmExecutor {
 			tempFileAlgorithm.setTempFileGenerator(fileGenerator);
 		}
 				
+		long before = System.nanoTime();
 		algorithm.execute();
+		long after = System.nanoTime();
 		
-		//FIXME
-		//TODO: close opened result file
-//		if(this.fdResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.fdResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		else if(this.indResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.indResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		else if(this.uccResultReceiver != null) {
-//			try {
-//				((ResultPrinter)this.uccResultReceiver).close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		return after - before;
 	}
 
 	protected Set<Class<?>> getInterfaces(Object object) {
 		Set<Class<?>> interfaces = new HashSet<Class<?>>();
 		Collections.addAll(interfaces, object.getClass().getInterfaces());
 		return interfaces;
+	}
+
+	@Override
+	public void close() throws IOException {
+		fdResultReceiver.close();
+		indResultReceiver.close();
+		uccResultReceiver.close();
 	}
 }

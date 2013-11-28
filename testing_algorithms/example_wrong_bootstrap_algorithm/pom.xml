@@ -2,24 +2,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
-  <artifactId>algorithm_template</artifactId>
+  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <artifactId>example_wrong_bootstrap_algorithm</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>algorithm_template</name>
+  <name>example_wrong_bootstrap_algorithm</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <repositories>
-    <repository> 
-      <id>metanomeRepo</id> 
-      <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url> 
-    </repository> 
-  </repositories> 
 
   <dependencies>
     <dependency>
@@ -32,7 +25,6 @@
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
   
@@ -57,7 +49,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.algorithm_template.algorithms.AlgorithmTemplate</Algorithm-Bootstrap-Class>
+              <Algorithm-Bootstrap-Class>de.uni_potsdam.hpi.metanome.example_wrong_bootstrap_algorithm.ExampleAlgorithmX</Algorithm-Bootstrap-Class>
             </manifestEntries>
           </archive>
           <descriptorRefs>
@@ -77,4 +69,5 @@
       </plugin>
     </plugins>   
   </build>
+    
 </project>

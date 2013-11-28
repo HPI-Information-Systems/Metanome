@@ -1,6 +1,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -77,8 +78,17 @@ public class AlgorithmFinderTest {
 		assertTrue(algos.length > 0);
 	}
 	
+	/**
+	 * Test method for {@link AlgorithmFinder#getAvailableAlgorithms(Class)}
+	 * 
+	 * Should return the algorithms implementing the asked interface. Should not fail the whole search only, 
+	 * because one algorithm does not have the bootstrap class parameter set correclty.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	@Test
-	public void retrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
+	public void testRetrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
 		// Setup
 		AlgorithmFinder algoFinder = new AlgorithmFinder();
 		
@@ -86,7 +96,7 @@ public class AlgorithmFinderTest {
 		String[] algos = algoFinder.getAvailableAlgorithms(UniqueColumnCombinationsAlgorithm.class);
 		
 		//Check
-		assertTrue(algos.length > 0);
+		assertEquals(2, algos.length);
 		//TODO make sure no wrong algorithms are returned
 	}
 }

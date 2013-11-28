@@ -35,7 +35,7 @@ public class CsvFileOneLineFixture {
 	}
 
 	public CsvFile getTestDataWithoutHeader() throws InputIterationException, InputGenerationException {
-		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 0, false);
+		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 1, false);
 	}
 	
 	protected String getCsvInputString() {
@@ -84,7 +84,13 @@ public class CsvFileOneLineFixture {
 	}
 	
 	public ImmutableList<String> getExpectedDefaultColumnNames() {
-		return ImmutableList.of("Column #1", "Column #2", "Column #3");
+		List<String> defaultColumnNames = new LinkedList<String>();
+		
+		for (int i = 0; i < getExpectedNumberOfColumns(); i++) {
+			defaultColumnNames.add(CsvFile.DEFAULT_HEADER_STRING + (i+1));
+		}
+		
+		return ImmutableList.copyOf(defaultColumnNames);
 	}
 	
 	public int getExpectedNumberOfColumns() {
