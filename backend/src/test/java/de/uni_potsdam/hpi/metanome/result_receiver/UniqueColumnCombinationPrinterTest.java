@@ -29,8 +29,8 @@ public class UniqueColumnCombinationPrinterTest {
 	
 	protected String testResultFilePath;
 	protected File testResultDirectory;
-	protected UniqueColumnCombination columnCombination1;
-	protected UniqueColumnCombination columnCombination2;
+	protected UniqueColumnCombination uniqueColumnCombination1;
+	protected UniqueColumnCombination uniqueColumnCombination2;
 	protected List<String> expectedOutputs;
 
 	@Before
@@ -38,16 +38,16 @@ public class UniqueColumnCombinationPrinterTest {
 		testResultFilePath = "results/test";
 		testResultDirectory = new File(testResultFilePath);
 		
-		columnCombination1 = new UniqueColumnCombination(
+		uniqueColumnCombination1 = new UniqueColumnCombination(
 				new ColumnIdentifier("table1", "column1"), 
 				new ColumnIdentifier("table2", "column2"));
-		columnCombination2 = new UniqueColumnCombination(
+		uniqueColumnCombination2 = new UniqueColumnCombination(
 				new ColumnIdentifier("table2", "column2"), 
 				new ColumnIdentifier("table3", "column3"));
 		// Expected values
 		expectedOutputs = new LinkedList<String>();
-		expectedOutputs.add(columnCombination1.toString());
-		expectedOutputs.add(columnCombination2.toString());
+		expectedOutputs.add(uniqueColumnCombination1.toString());
+		expectedOutputs.add(uniqueColumnCombination2.toString());
 	}
 
 	@After
@@ -66,8 +66,8 @@ public class UniqueColumnCombinationPrinterTest {
 		UniqueColumnCombinationPrinter printer = new UniqueColumnCombinationPrinter(outStream);
 		
 		// Execute functionality
-		printer.receiveResult(columnCombination1);
-		printer.receiveResult(columnCombination2);
+		printer.receiveResult(uniqueColumnCombination1);
+		printer.receiveResult(uniqueColumnCombination2);
 		
 		// Check result
 		for (String output : expectedOutputs) {
@@ -92,8 +92,8 @@ public class UniqueColumnCombinationPrinterTest {
 		UniqueColumnCombinationPrinter writer = new UniqueColumnCombinationPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
-		writer.receiveResult(columnCombination1);
-		writer.receiveResult(columnCombination2);
+		writer.receiveResult(uniqueColumnCombination1);
+		writer.receiveResult(uniqueColumnCombination2);
 		
 		// Check result
 		File actualFile = new File(testResultFilePath + "/" + fileName);
