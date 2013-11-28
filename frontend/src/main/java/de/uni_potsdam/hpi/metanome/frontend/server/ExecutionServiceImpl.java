@@ -150,7 +150,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}	
 	
 	@Override
-	public void executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
+	public long executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		AlgorithmExecutor executor = null;
@@ -162,12 +162,14 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		} catch (UnsupportedEncodingException e) {
 			throw new AlgorithmExecutionException("Could not build temporary file generator.");
 		}
-		executor.executeAlgorithm(algorithmName, configs);
+		long executionTime = executor.executeAlgorithm(algorithmName, configs);
 		try {
 			executor.close();
 		} catch (IOException e) {
 			throw new AlgorithmExecutionException("Could not close algorithm executor.");
 		}
+		
+		return executionTime;
 	}
 	
 	public List<String> fetchNewResults(String algorithmName){
