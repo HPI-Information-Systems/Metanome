@@ -68,6 +68,23 @@ public class UniqueColumnCombinationTest {
 		UniqueColumnCombination uniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 		
 		// Check result
-		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2), uniqueColumnCombination.columnCombination);
+		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2), uniqueColumnCombination.getColumnCombination());
+	}
+	
+	/**
+	 * A {@link UniqueColumnCombination} should return the contained {@link ColumnCombination}s string representation.
+	 */
+	@Test
+	public void testToString() {
+		// Setup
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
+		UniqueColumnCombination uniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2);
+		// Expected values
+		String expectedStringRepresentation = new ColumnCombination(expectedColumn1, expectedColumn2).toString();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedStringRepresentation, uniqueColumnCombination.toString());
 	}
 }

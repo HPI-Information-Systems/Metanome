@@ -22,5 +22,15 @@ public class UniqueColumnCombination implements Result {
 	public void sendResultTo(OmniscientResultReceiver resultReceiver) throws CouldNotReceiveResultException {
 		resultReceiver.receiveResult(this);
 	}
+	
+	/**
+	 * @return the column combination
+	 */
+	public ColumnCombination getColumnCombination() {
+		return columnCombination;
+	}
 
+	public String toString() {
+		return columnCombination.toString();
+	}
 }
