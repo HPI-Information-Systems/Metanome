@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ExampleAlgorithmTest {
 
@@ -90,6 +91,6 @@ public class ExampleAlgorithmTest {
 		
 		// Check result
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
-		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
+		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 }

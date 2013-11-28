@@ -24,6 +24,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class AlgorithmExecutorTest {
 	
@@ -104,7 +105,7 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
+		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 	
 	/**
@@ -125,7 +126,7 @@ public class AlgorithmExecutorTest {
 		
 		// Check result
 		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
-		verify(uccResultReceiver).receiveResult(isA(ColumnCombination.class));
+		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 	
 	/**
