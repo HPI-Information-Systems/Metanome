@@ -38,6 +38,8 @@ public class UniqueColumnCombinationTest {
 	}
 
 	/**
+	 * Test method for {@link UniqueColumnCombination#sendResultTo(OmniscientResultReceiver)}
+	 * 
 	 * The {@link UniqueColumnCombination} should be sendable to the {@link OmniscientResultReceiver}.
 	 * 
 	 * @throws CouldNotReceiveResultException 
@@ -56,6 +58,8 @@ public class UniqueColumnCombinationTest {
 	}
 	
 	/**
+	 * Test method for {@link UniqueColumnCombination#UniqueColumnCombination(ColumnIdentifier...)} 
+	 * 
 	 * A {@link UniqueColumnCombination} should store all it's identifiers. Identifiers can only appear once in the {@link UniqueColumnCombination}.
 	 */
 	@Test
@@ -72,6 +76,8 @@ public class UniqueColumnCombinationTest {
 	}
 	
 	/**
+	 * Test method for {@link UniqueColumnCombination#toString()}
+	 * 
 	 * A {@link UniqueColumnCombination} should return the contained {@link ColumnCombination}s string representation.
 	 */
 	@Test

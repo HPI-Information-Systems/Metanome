@@ -8,7 +8,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Omnisci
 /**
  * @author Jakob Zwiener
  * 
- * Represents unique column combinations.
+ * Represents a unique column combination.
  */
 public class UniqueColumnCombination implements Result {
 
