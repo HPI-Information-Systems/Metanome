@@ -13,6 +13,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
 public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
@@ -114,12 +115,12 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	@Override
-	public void receiveResult(ColumnCombination uniqueColumnCombination)
+	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
-		for(ColumnIdentifier col : uniqueColumnCombination.getColumnIdentifiers()) {
-			int row = uccTable.getRowCount();
-			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
-		}
+//		for(ColumnIdentifier col : uniqueColumnCombination.getColumnIdentifiers()) {
+//			int row = uccTable.getRowCount();
+//			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
+//		}		
 	}
 
 	@Override
