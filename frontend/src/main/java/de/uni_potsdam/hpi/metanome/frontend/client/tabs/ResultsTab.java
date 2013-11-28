@@ -12,6 +12,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -106,13 +107,6 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	@Override
-	public void receiveResult(ColumnCombination determinant,
-			ColumnIdentifier dependent) throws CouldNotReceiveResultException {
-		fdTable.setText(fdTable.getRowCount(), 0, determinant.toString());
-		fdTable.setText(fdTable.getRowCount(), 1, dependent.toString());
-	}
-
-	@Override
 	public void receiveResult(ColumnCombination dependent,
 			ColumnCombination referenced) throws CouldNotReceiveResultException {
 		indTable.setText(indTable.getRowCount(), 0, dependent.toString());
@@ -126,5 +120,12 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 			int row = uccTable.getRowCount();
 			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
 		}		
+	}
+
+	@Override
+	public void receiveResult(FunctionalDependency functionalDependency)
+			throws CouldNotReceiveResultException {
+		fdTable.setText(fdTable.getRowCount(), 0, functionalDependency.getDeterminant().toString());
+		fdTable.setText(fdTable.getRowCount(), 1, functionalDependency.getDependant().toString());		
 	}
 }
