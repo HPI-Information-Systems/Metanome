@@ -35,12 +35,13 @@ public class GwtTestServiceCall extends GWTTestCase {
 		inputParameter.setValue("path/to/file");
 		configs.add(inputParameter);
 
-		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
 			public void onFailure(Throwable caught) {
 				fail();
 			}
 
-			public void onSuccess(Void result) {
+			public void onSuccess(Long executionTime) {
+				assertTrue(executionTime > 0);
 				finishTest();
 			}
 		};
