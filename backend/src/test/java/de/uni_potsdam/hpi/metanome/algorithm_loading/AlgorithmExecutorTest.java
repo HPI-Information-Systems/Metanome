@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,13 +17,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class AlgorithmExecutorTest {
@@ -64,7 +64,7 @@ public class AlgorithmExecutorTest {
 		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
+		verify(fdResultReceiver).receiveResult(isA(FunctionalDependency.class));
 		assertTrue(0 <= elapsedTime);
 	}
 	
@@ -125,7 +125,7 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_holistic_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(fdResultReceiver).receiveResult(isA(ColumnCombination.class), isA(ColumnIdentifier.class));
+		verify(fdResultReceiver).receiveResult(isA(FunctionalDependency.class));
 		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 	

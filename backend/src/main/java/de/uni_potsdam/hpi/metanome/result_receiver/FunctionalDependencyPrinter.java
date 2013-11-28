@@ -3,10 +3,9 @@ package de.uni_potsdam.hpi.metanome.result_receiver;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 
 public class FunctionalDependencyPrinter extends ResultPrinter implements FunctionalDependencyResultReceiver {
 
@@ -21,9 +20,9 @@ public class FunctionalDependencyPrinter extends ResultPrinter implements Functi
 	}
 	
 	@Override
-	public void receiveResult(ColumnCombination determinant, ColumnIdentifier dependent) throws CouldNotReceiveResultException {
-		outStream.println(determinant + FD_SEPARATOR + dependent);
-		addResult(determinant + FD_SEPARATOR + dependent);
+	public void receiveResult(FunctionalDependency functionalDependency) throws CouldNotReceiveResultException {
+		outStream.println(functionalDependency);
+		addResult(functionalDependency.toString());
 	}
 	
 }

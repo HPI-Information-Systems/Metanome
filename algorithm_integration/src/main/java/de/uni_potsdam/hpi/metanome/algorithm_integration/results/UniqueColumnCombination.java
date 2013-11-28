@@ -12,6 +12,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Omnisci
  */
 public class UniqueColumnCombination implements Result {
 
+	private static final long serialVersionUID = 6744030409666817339L;
+	
 	protected ColumnCombination columnCombination;
 	
 	public UniqueColumnCombination(ColumnIdentifier... columnIdentifier) {
@@ -30,6 +32,7 @@ public class UniqueColumnCombination implements Result {
 		return columnCombination;
 	}
 
+	@Override
 	public String toString() {
 		return columnCombination.toString();
 	}

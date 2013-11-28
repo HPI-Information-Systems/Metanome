@@ -21,6 +21,7 @@ import com.google.common.io.Files;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 
 /**
  * Tests for {@link FunctionalDependencyPrinter}.
@@ -29,10 +30,8 @@ public class FunctionalDependencyPrinterTest {
 
 	protected String testResultFilePath;
 	protected File testResultDirectory;
-	protected ColumnCombination determinant1;
-	protected ColumnIdentifier dependent1;
-	protected ColumnCombination determinant2;
-	protected ColumnIdentifier dependent2;
+	protected FunctionalDependency fd1;
+	protected FunctionalDependency fd2;
 	protected List<String> expectedOutputs;
 	
 	@Before
@@ -40,19 +39,21 @@ public class FunctionalDependencyPrinterTest {
 		testResultFilePath = "results/test";
 		testResultDirectory = new File(testResultFilePath);
 		
-		determinant1 = new ColumnCombination(
-				new ColumnIdentifier("table1", "column1"),
-				new ColumnIdentifier("table1", "column2"));
-		dependent1 = new ColumnIdentifier("table1", "column3");
-		determinant2 = new ColumnCombination(
-				new ColumnIdentifier("table1", "column5"),
+		fd1 = new FunctionalDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column1"),
+						new ColumnIdentifier("table1", "column2")),
 				new ColumnIdentifier("table1", "column3"));
-		dependent2 = new ColumnIdentifier("table1", "column9");
+		fd2 = new FunctionalDependency(
+				new ColumnCombination(
+					new ColumnIdentifier("table1", "column5"),
+					new ColumnIdentifier("table1", "column3")),
+				new ColumnIdentifier("table1", "column9"));
 		
 		// Expected values
 		expectedOutputs = new LinkedList<String>();
-		expectedOutputs.add(determinant1 + FunctionalDependencyPrinter.FD_SEPARATOR + dependent1);
-		expectedOutputs.add(determinant2 + FunctionalDependencyPrinter.FD_SEPARATOR + dependent2);		
+		expectedOutputs.add(fd1.toString());
+		expectedOutputs.add(fd2.toString());
 	}
 
 	@After
@@ -72,8 +73,8 @@ public class FunctionalDependencyPrinterTest {
 		FunctionalDependencyPrinter printer = new FunctionalDependencyPrinter(outStream);
 		
 		// Execute functionality
-		printer.receiveResult(determinant1, dependent1);
-		printer.receiveResult(determinant2, dependent2);
+		printer.receiveResult(fd1);
+		printer.receiveResult(fd2);
 		
 		// Check result
 		for (String output : expectedOutputs) {
@@ -98,8 +99,8 @@ public class FunctionalDependencyPrinterTest {
 		FunctionalDependencyPrinter writer = new FunctionalDependencyPrinter(fileName, testResultFilePath);
 		
 		// Execute functionality
-		writer.receiveResult(determinant1, dependent1);
-		writer.receiveResult(determinant2, dependent2);
+		writer.receiveResult(fd1);
+		writer.receiveResult(fd2);
 		
 		// Check result
 		File actualFile = new File(testResultFilePath + "/" + fileName);

@@ -14,6 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, UniqueColumnCombinationsAlgorithm, StringParameterAlgorithm {
@@ -37,10 +38,12 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, UniqueCo
 	@Override
 	public void execute() throws CouldNotReceiveResultException {
 		if (path != null) {
-			fdResultReceiver.receiveResult(new ColumnCombination(
-					new ColumnIdentifier("table1", "column1"),
-					new ColumnIdentifier("table1", "column2")),
-					new ColumnIdentifier("table1", "column5"));
+			fdResultReceiver.receiveResult(
+					new FunctionalDependency(
+							new ColumnCombination(
+								new ColumnIdentifier("table1", "column1"),
+								new ColumnIdentifier("table1", "column2")),
+							new ColumnIdentifier("table1", "column5")));
 			uccResultReceiver.receiveResult(new UniqueColumnCombination(
 					new ColumnIdentifier("table1", "column5"),
 					new ColumnIdentifier("table1", "column6")));
