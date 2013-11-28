@@ -68,7 +68,7 @@ public class UniqueColumnCombinationTest {
 		UniqueColumnCombination uniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 		
 		// Check result
-		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2), uniqueColumnCombination.columnCombination);
+		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2), uniqueColumnCombination.getColumnCombination());
 	}
 	
 	/**
