@@ -1,6 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.google.gwt.user.client.Timer;
@@ -123,15 +122,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
-//		for(ColumnIdentifier col : uniqueColumnCombination.getColumnIdentifiers()) {
-//			int row = uccTable.getRowCount();
-//			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
-//		}		
-	}
-
-	@Override
-	public void close() throws IOException {
-		// TODO Auto-generated method stub
-		
+		for(ColumnIdentifier col : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
+			int row = uccTable.getRowCount();
+			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
+		}		
 	}
 }
