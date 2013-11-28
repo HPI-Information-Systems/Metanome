@@ -7,6 +7,13 @@
     <include name="AlgorithmConfigurationException.java"/>
     <include name="AlgorithmExecutionException.java"/>
   </source>
+  <source path="algorithm_integration/result_receiver">
+    <include name="OmniscientResultReceiver.java"/>
+    <include name="BasicStatisticsResultReceiver.java"/>
+    <include name="FunctionalDependencyResultReceiver.java"/>
+    <include name="InclusionDependencyResultReceiver.java"/>
+    <include name="UniqueColumnCombinationResultReceiver.java"/>
+  </source>
   <source path="algorithm_loading">
     <include name="AlgorithmLoadingException.java"/>
   </source>
