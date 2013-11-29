@@ -82,7 +82,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	
 	private TextBox getNewOneCharTextbox(){
 		TextBox textbox = new TextBox();
-		textbox.setMaxLength(1);
+		textbox.setMaxLength(2);
 		textbox.setWidth("2em");
 		return textbox;
 	}
