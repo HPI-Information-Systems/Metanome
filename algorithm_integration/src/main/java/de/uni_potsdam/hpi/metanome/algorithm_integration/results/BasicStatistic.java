@@ -9,6 +9,9 @@ public class BasicStatistic implements Result {
 
 	private static final long serialVersionUID = 3334423877877174177L;
 
+	public static final String NAME_COLUMN_SEPARATOR = " of ";
+	public static final String COLUMN_VALUE_SEPARATOR = ": ";
+	
 	ColumnCombination columns;
 	String statisticName;
 	Object statisticValue;
@@ -57,7 +60,7 @@ public class BasicStatistic implements Result {
 
 	@Override
 	public String toString() {
-		return statisticName + " of " + columns.toString() + ": " + statisticValue.toString();
+		return statisticName + NAME_COLUMN_SEPARATOR + columns.toString() + COLUMN_VALUE_SEPARATOR + statisticValue.toString();
 	}
 
 }

@@ -69,4 +69,26 @@ public class BasicStatisticTest {
 		assertEquals(expectedStatisticValue, statistic.getStatisticValue());
 		assertEquals(expectedColumnCombination, statistic.getColumnCombination());
 	}
+	
+	/**
+	 * Test method for {@link BasicStatistic#toString()}
+	 * 
+	 * A {@link BasicStatistic} should return a human readable string representation.
+	 */
+	@Test
+	public void testToString() {
+		// Setup
+		String expectedStatisticName = "Min";
+		String expectedStatisticValue = "minValue";
+		ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
+		ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
+		BasicStatistic statistic = new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+		// Expected values
+		String expectedStringRepresentation = expectedStatisticName + BasicStatistic.NAME_COLUMN_SEPARATOR + 
+				expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR + expectedStatisticValue;
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedStringRepresentation, statistic.toString());
+	}
 }
