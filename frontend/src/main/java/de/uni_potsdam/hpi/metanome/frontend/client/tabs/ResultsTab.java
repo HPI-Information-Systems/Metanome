@@ -12,6 +12,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
@@ -100,11 +101,10 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
 	
 	@Override
-	public void receiveResult(ColumnCombination columns, String statisticName,
-			Object statisticValue) {
-		basicsTable.setText(basicsTable.getRowCount(), 0, columns.toString());
-		basicsTable.setText(basicsTable.getRowCount(), 1, statisticName);
-		basicsTable.setText(basicsTable.getRowCount(), 2, statisticName.toString());
+	public void receiveResult(BasicStatistic statistic) {
+		basicsTable.setText(basicsTable.getRowCount(), 0, statistic.getColumnCombination().toString());
+		basicsTable.setText(basicsTable.getRowCount(), 1, statistic.getStatisticName());
+		basicsTable.setText(basicsTable.getRowCount(), 2, statistic.getStatisticValue().toString());
 	}
 
 	@Override
