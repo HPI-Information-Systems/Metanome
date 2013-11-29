@@ -22,6 +22,7 @@
     <include name="UniqueColumnCombination.java"/>
     <include name="FunctionalDependency.java"/>
     <include name="InclusionDependency.java"/>
+    <include name="BasicStatistic.java"/>
   </source>
   <source path="algorithm_loading">
     <include name="AlgorithmLoadingException.java"/>
