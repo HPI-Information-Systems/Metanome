@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
@@ -107,23 +106,18 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	@Override
-	public void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException {
+	public void receiveResult(InclusionDependency inclusionDependency) {
 		indTable.setText(indTable.getRowCount(), 0, inclusionDependency.getDependant().toString());
 		indTable.setText(indTable.getRowCount(), 1, inclusionDependency.getReferenced().toString());
 	}
 
 	@Override
-	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-			throws CouldNotReceiveResultException {
-		for(ColumnIdentifier col : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
-			int row = uccTable.getRowCount();
-			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
-		}		
+	public void receiveResult(UniqueColumnCombination uniqueColumnCombination) {
+		uccTable.setText(uccTable.getRowCount(), 0, uniqueColumnCombination.getColumnCombination().toString());		
 	}
 
 	@Override
-	public void receiveResult(FunctionalDependency functionalDependency)
-			throws CouldNotReceiveResultException {
+	public void receiveResult(FunctionalDependency functionalDependency) {
 		fdTable.setText(fdTable.getRowCount(), 0, functionalDependency.getDeterminant().toString());
 		fdTable.setText(fdTable.getRowCount(), 1, functionalDependency.getDependant().toString());		
 	}
