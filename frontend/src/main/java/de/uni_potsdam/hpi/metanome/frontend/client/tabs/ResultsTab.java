@@ -39,6 +39,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.resultsPanel = new HorizontalPanel();
 		this.add(resultsPanel, DockPanel.NORTH);
 		
+		indTable = new FlexTable();
+		this.resultsPanel.add(indTable);
 		uccTable = new FlexTable();
 		this.resultsPanel.add(uccTable);
 		fdTable = new FlexTable();
