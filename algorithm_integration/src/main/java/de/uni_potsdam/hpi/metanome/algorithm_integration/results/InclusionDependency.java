@@ -63,5 +63,38 @@ public class InclusionDependency implements Result {
 		
 		return builder.toString();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dependant == null) ? 0 : dependant.hashCode());
+		result = prime * result
+				+ ((referenced == null) ? 0 : referenced.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InclusionDependency other = (InclusionDependency) obj;
+		if (dependant == null) {
+			if (other.dependant != null)
+				return false;
+		} else if (!dependant.equals(other.dependant))
+			return false;
+		if (referenced == null) {
+			if (other.referenced != null)
+				return false;
+		} else if (!referenced.equals(other.referenced))
+			return false;
+		return true;
+	}
 	
 }
