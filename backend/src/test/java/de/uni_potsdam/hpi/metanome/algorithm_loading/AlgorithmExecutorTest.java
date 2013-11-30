@@ -19,30 +19,24 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionExcep
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class AlgorithmExecutorTest {
 	
-	protected FunctionalDependencyResultReceiver fdResultReceiver;
-	protected InclusionDependencyResultReceiver indResultReceiver;
-	protected UniqueColumnCombinationResultReceiver uccResultReceiver;
+	protected OmniscientResultReceiver resultReceiver;
 	protected FileGenerator fileGenerator;
 	
 	protected AlgorithmExecutor executor;
 	
 	@Before
 	public void setUp() throws UnsupportedEncodingException{
-		fdResultReceiver = mock(FunctionalDependencyResultReceiver.class);
-		indResultReceiver = mock(InclusionDependencyResultReceiver.class);
-		uccResultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
+		resultReceiver = mock(OmniscientResultReceiver.class);
 		fileGenerator = new TempFileGenerator();
 		
-		executor = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
+		executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
 	}
 
 	/**
@@ -64,7 +58,7 @@ public class AlgorithmExecutorTest {
 		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(fdResultReceiver).receiveResult(isA(FunctionalDependency.class));
+		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
 		assertTrue(0 <= elapsedTime);
 	}
 	
@@ -85,7 +79,7 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(indResultReceiver).receiveResult(isA(InclusionDependency.class));
+		verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
 	}
 	
 	/**
@@ -105,7 +99,7 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 	
 	/**
@@ -125,8 +119,8 @@ public class AlgorithmExecutorTest {
 		executor.executeAlgorithm("example_holistic_algorithm-0.0.1-SNAPSHOT.jar", configs);
 		
 		// Check result
-		verify(fdResultReceiver).receiveResult(isA(FunctionalDependency.class));
-		verify(uccResultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
+		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
 	
 	/**

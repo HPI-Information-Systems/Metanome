@@ -17,34 +17,24 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 public class AlgorithmExecutor implements Closeable {
 
-	protected FunctionalDependencyResultReceiver fdResultReceiver;
-	protected InclusionDependencyResultReceiver indResultReceiver;
-	protected UniqueColumnCombinationResultReceiver uccResultReceiver;
+	protected OmniscientResultReceiver resultReceiver;
 	
 	protected FileGenerator fileGenerator;
 	
 	/**
 	 * Constructs a new executor with new result receivers and generators.
 	 * 
-	 * @param fdResultReceiver
-	 * @param indResultReceiver
-	 * @param uccResultReceiver
+	 * @param resultReceiver
 	 * @param fileGenerator
 	 */
 	public AlgorithmExecutor(
-			FunctionalDependencyResultReceiver fdResultReceiver,
-			InclusionDependencyResultReceiver indResultReceiver, 
-			UniqueColumnCombinationResultReceiver uccResultReceiver, 
+			OmniscientResultReceiver resultReceiver,
 			FileGenerator fileGenerator) {
-		this.fdResultReceiver = fdResultReceiver;
-		this.indResultReceiver = indResultReceiver;
-		this.uccResultReceiver = uccResultReceiver;
+		this.resultReceiver = resultReceiver;
 		
 		this.fileGenerator = fileGenerator;
 	}
@@ -94,17 +84,17 @@ public class AlgorithmExecutor implements Closeable {
 		
 		if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
 			FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
-			fdAlgorithm.setResultReceiver(fdResultReceiver);
+			fdAlgorithm.setResultReceiver(resultReceiver);
 		}
 		
 		if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
 			InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
-			indAlgorithm.setResultReceiver(indResultReceiver);
+			indAlgorithm.setResultReceiver(resultReceiver);
 		}
 		
 		if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
 			UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-			uccAlgorithm.setResultReceiver(uccResultReceiver);
+			uccAlgorithm.setResultReceiver(resultReceiver);
 		}
 		
 		if (interfaces.contains(TempFileAlgorithm.class)) {

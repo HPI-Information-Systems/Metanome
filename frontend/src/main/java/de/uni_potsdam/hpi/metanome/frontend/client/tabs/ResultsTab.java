@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -71,21 +71,22 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	protected void fetchNewResults() {
-		executionService.fetchNewResults(algorithmName, new AsyncCallback<List<Result>>() {
+		executionService.fetchNewResults(algorithmName, new AsyncCallback<ArrayList<Result>>() {
 			  
 			  @Override
 			  public void onFailure(Throwable caught) {
 				  // TODO Auto-generated method stub
+				  System.out.println("Could not fetch results");
 			  }
 			  
 			  @Override
-			  public void onSuccess(List<Result> result) {
+			  public void onSuccess(ArrayList<Result> result) {
 				  displayResults(result);
 			  }
 		  });
 	}
 	
-	protected void displayResults(List<Result> results) {
+	protected void displayResults(ArrayList<Result> results) {
 		for (Result r : results){
 			try {
 				r.sendResultTo(this);
@@ -96,8 +97,6 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		}
 	}
 
-	
-	
 	@Override
 	public void receiveResult(BasicStatistic statistic) {
 		basicsTable.setText(basicsTable.getRowCount(), 0, statistic.getColumnCombination().toString());
