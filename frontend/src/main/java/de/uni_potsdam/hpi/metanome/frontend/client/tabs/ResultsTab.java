@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -24,6 +25,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	protected Timer timer;
 	protected String algorithmName;
 	
+	protected HorizontalPanel resultsPanel;
+	
 	protected FlexTable uccTable;
 	protected FlexTable indTable;
 	protected FlexTable fdTable;
@@ -32,8 +35,16 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
 		this.algorithmName = algorithmName;
-		this.uccTable = new FlexTable();
-		this.add(uccTable, DockPanel.NORTH);
+		
+		this.resultsPanel = new HorizontalPanel();
+		this.add(resultsPanel, DockPanel.NORTH);
+		
+		uccTable = new FlexTable();
+		this.resultsPanel.add(uccTable);
+		fdTable = new FlexTable();
+		this.resultsPanel.add(fdTable);
+		basicsTable = new FlexTable();
+		this.resultsPanel.add(basicsTable);		
 	}
 
 	public void startPolling() {
@@ -99,25 +110,29 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(BasicStatistic statistic) {
-		basicsTable.setText(basicsTable.getRowCount(), 0, statistic.getColumnCombination().toString());
-		basicsTable.setText(basicsTable.getRowCount(), 1, statistic.getStatisticName());
-		basicsTable.setText(basicsTable.getRowCount(), 2, statistic.getStatisticValue().toString());
+		int row = basicsTable.getRowCount();
+		basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
+		basicsTable.setText(row, 1, statistic.getStatisticName());
+		basicsTable.setText(row, 2, statistic.getStatisticValue().toString());
 	}
 
 	@Override
 	public void receiveResult(InclusionDependency inclusionDependency) {
-		indTable.setText(indTable.getRowCount(), 0, inclusionDependency.getDependant().toString());
-		indTable.setText(indTable.getRowCount(), 1, inclusionDependency.getReferenced().toString());
+		int row = indTable.getRowCount();
+		indTable.setText(row, 0, inclusionDependency.getDependant().toString());
+		indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
 	}
 
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination) {
-		uccTable.setText(uccTable.getRowCount(), 0, uniqueColumnCombination.getColumnCombination().toString());		
+		int row = uccTable.getRowCount();
+		uccTable.setText(row, 0, uniqueColumnCombination.getColumnCombination().toString());		
 	}
 
 	@Override
 	public void receiveResult(FunctionalDependency functionalDependency) {
-		fdTable.setText(fdTable.getRowCount(), 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(fdTable.getRowCount(), 1, functionalDependency.getDependant().toString());		
+		int row = fdTable.getRowCount();
+		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
+		fdTable.setText(row, 1, functionalDependency.getDependant().toString());		
 	}
 }
