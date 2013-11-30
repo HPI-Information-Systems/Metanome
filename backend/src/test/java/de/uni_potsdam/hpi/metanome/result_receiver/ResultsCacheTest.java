@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
@@ -53,7 +53,7 @@ public class ResultsCacheTest {
 		resultsCache.receiveResult(expectedStatistic);
 		resultsCache.receiveResult(expectedFd);
 		
-		ImmutableList<Result> actualResults = resultsCache.getNewResults();
+		List<Result> actualResults = resultsCache.getNewResults();
 		
 		// Check result
 		assertEquals(2, actualResults.size());

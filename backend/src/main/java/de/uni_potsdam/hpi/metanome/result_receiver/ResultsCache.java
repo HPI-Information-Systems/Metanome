@@ -1,9 +1,8 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
@@ -46,8 +45,8 @@ public class ResultsCache implements OmniscientResultReceiver {
 	 * 
 	 * @return new results
 	 */
-	public ImmutableList<Result> getNewResults() {
-		ImmutableList<Result> currentResults = ImmutableList.copyOf(results);
+	public ArrayList<Result> getNewResults() {
+		ArrayList<Result> currentResults = new ArrayList<Result>(results);
 		results.clear();
 		return currentResults;
 	}
