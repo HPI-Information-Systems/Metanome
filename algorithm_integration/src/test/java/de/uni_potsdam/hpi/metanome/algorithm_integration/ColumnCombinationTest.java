@@ -99,7 +99,7 @@ public class ColumnCombinationTest {
 	/**
 	 * Test method for {@link ColumnCombination#equals(Object)} and {@link ColumnCombination#hashCode()}
 	 * 
-	 * {@link ColumnCombination}s containign the same {@link ColumnIdentifier}s in different order should be equal.
+	 * {@link ColumnCombination}s containing the same {@link ColumnIdentifier}s in different order should be equal.
 	 */
 	@Test
 	public void testEqualsHashCode() {
