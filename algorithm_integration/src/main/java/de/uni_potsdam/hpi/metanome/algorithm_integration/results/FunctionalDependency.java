@@ -22,7 +22,7 @@ public class FunctionalDependency implements Result {
 	/**
 	 * Exists for GWT serialization.
 	 */
-	public FunctionalDependency() {
+	protected FunctionalDependency() {
 		this.determinant = new ColumnCombination();
 		this.dependant = new ColumnIdentifier("", "");
 	}

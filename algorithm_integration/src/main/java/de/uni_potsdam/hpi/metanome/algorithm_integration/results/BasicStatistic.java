@@ -19,7 +19,7 @@ public class BasicStatistic implements Result {
 	/**
 	 * Exists for GWT serialization.
 	 */
-	public BasicStatistic() {
+	protected BasicStatistic() {
 		this.columns = new ColumnCombination();
 		this.statisticName = "";
 	}

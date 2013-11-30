@@ -19,7 +19,7 @@ public class UniqueColumnCombination implements Result {
 	/**
 	 * Exists for GWT serialization.
 	 */
-	public UniqueColumnCombination() {
+	protected UniqueColumnCombination() {
 		this.columnCombination = new ColumnCombination();
 	}
 	

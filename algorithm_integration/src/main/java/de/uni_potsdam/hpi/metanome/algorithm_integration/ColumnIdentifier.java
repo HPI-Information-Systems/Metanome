@@ -1,9 +1,21 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-public class ColumnIdentifier implements Comparable<ColumnIdentifier> {
+import java.io.Serializable;
 
-	protected final String tableIdentifier;
-	protected final String columnIdentifier;
+public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
+
+	private static final long serialVersionUID = 6071753577078585888L;
+	
+	protected String tableIdentifier;
+	protected String columnIdentifier;
+	
+	/**
+	 * Exists for GWT serialization.
+	 */
+	protected ColumnIdentifier() {
+		this.tableIdentifier = "";
+		this.columnIdentifier = "";
+	}
 	
 	/**
 	 * @param tableIdentifier

@@ -21,7 +21,7 @@ public class InclusionDependency implements Result {
 	/**
 	 * Exists for GWT serialization.
 	 */
-	public InclusionDependency() {
+	protected InclusionDependency() {
 		this.referenced = new ColumnCombination();
 		this.dependant = new ColumnCombination();
 	}
