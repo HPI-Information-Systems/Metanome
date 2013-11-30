@@ -1,6 +1,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -90,5 +92,49 @@ public class BasicStatisticTest {
 		// Execute functionality
 		// Check result
 		assertEquals(expectedStringRepresentation, statistic.toString());
+	}
+	
+	/**
+	 * Test method for {@link BasicStatistic#equals(Object)} and {@link BasicStatistic#hashCode()}
+	 * 
+	 * TODO docs
+	 */
+	@Test
+	public void testEqualsHashCode() {
+		// Setup
+		BasicStatistic expectedStatistic = new BasicStatistic(
+				"Min",
+				"MinValue",
+				new ColumnIdentifier("table2", "column47"));
+		BasicStatistic expectedEqualStatistic = new BasicStatistic(
+				"Min",
+				"MinValue",
+				new ColumnIdentifier("table2", "column47")); 
+		BasicStatistic expectedNotEqualNameStatistic = new BasicStatistic(
+				"Max",
+				"MinValue",
+				new ColumnIdentifier("table2", "column47")); 
+		BasicStatistic expectedNotEqualValueStatistic = new BasicStatistic(
+				"Min",
+				"MaxValue",
+				new ColumnIdentifier("table2", "column47"));
+		BasicStatistic expectedNotEqualColumnStatistic = new BasicStatistic(
+				"Min",
+				"MinValue",
+				new ColumnIdentifier("table2", "column42"));
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedStatistic, expectedStatistic);
+		assertEquals(expectedStatistic.hashCode(), expectedStatistic.hashCode());
+		assertNotSame(expectedStatistic, expectedEqualStatistic);
+		assertEquals(expectedStatistic, expectedEqualStatistic);
+		assertEquals(expectedStatistic.hashCode(), expectedEqualStatistic.hashCode());
+		assertNotEquals(expectedStatistic, expectedNotEqualNameStatistic);
+		assertNotEquals(expectedStatistic.hashCode(), expectedNotEqualNameStatistic.hashCode());
+		assertNotEquals(expectedStatistic, expectedNotEqualValueStatistic);
+		assertNotEquals(expectedStatistic.hashCode(), expectedNotEqualValueStatistic.hashCode());
+		assertNotEquals(expectedStatistic, expectedNotEqualColumnStatistic);
+		assertNotEquals(expectedStatistic.hashCode(), expectedNotEqualColumnStatistic.hashCode());
 	}
 }
