@@ -65,4 +65,37 @@ public class FunctionalDependency implements Result {
 		return builder.toString();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dependant == null) ? 0 : dependant.hashCode());
+		result = prime * result
+				+ ((determinant == null) ? 0 : determinant.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FunctionalDependency other = (FunctionalDependency) obj;
+		if (dependant == null) {
+			if (other.dependant != null)
+				return false;
+		} else if (!dependant.equals(other.dependant))
+			return false;
+		if (determinant == null) {
+			if (other.determinant != null)
+				return false;
+		} else if (!determinant.equals(other.determinant))
+			return false;
+		return true;
+	}
+
 }
