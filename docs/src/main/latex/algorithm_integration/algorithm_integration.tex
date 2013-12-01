@@ -48,7 +48,13 @@ The algorithm should receive the results of the requested configuration through 
 
 \item \texttt{void setResultReceiver(ResultReceiver)}
 
-Algorithms generate certain types of results and send those to the Metanome tool through a callback. To enable this one or several \texttt{ResultReceiver} are set on the algorithm, depending on the algorithm type. Existing result receiver are shown in Figure~\ref{fig_resultReceiverClass}.
+Algorithms generate certain types of results shown in Figure~\ref{fig_resultsClass} and send those to the Metanome tool through a callback.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{results_class}
+\caption{Results}
+\label{fig_resultsClass}
+\end{figure}
+To enable this one or several \texttt{ResultReceiver} are set on the algorithm, depending on the algorithm type. Existing result receiver are shown in Figure~\ref{fig_resultReceiverClass}.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{resultReceiver_class}
