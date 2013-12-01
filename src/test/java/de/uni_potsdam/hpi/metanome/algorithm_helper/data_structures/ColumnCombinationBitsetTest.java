@@ -578,6 +578,24 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
+	 * Test method for {@link ColumnCombinationBitset#addColumn(int)}
+	 * 
+	 * When setting the first overflow bit the bit set should be properly expanded and the bit be set.
+	 */
+	@Test
+	public void testAddColumnOverflow() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
+		
+		// Execute functionality
+		columnCombination.addColumn(64);
+		
+		// Check result
+		assertEquals(1, columnCombination.size());
+		assertTrue(columnCombination.bitset.get(64));
+	}
+	
+	/**
 	 * Test method for {@link ColumnCombinationBitset#removeColumn(int)}
 	 * 
 	 * After removing a column the size should be updated and the column be removed from the bitset.
