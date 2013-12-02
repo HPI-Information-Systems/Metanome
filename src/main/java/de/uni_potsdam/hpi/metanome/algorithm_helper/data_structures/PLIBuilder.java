@@ -1,9 +1,11 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -14,7 +16,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 public class PLIBuilder {
 	
-	protected List<HashMap<String, LongOpenHashSet>> columns = new ArrayList<HashMap<String, LongOpenHashSet>>();
+	protected List<HashMap<String, LongSet>> columns = new ArrayList<HashMap<String, LongSet>>();
 	protected RelationalInput input;
 	
 	public PLIBuilder(RelationalInput input) {
@@ -48,12 +50,12 @@ public class PLIBuilder {
 
 	protected void addValue(long rowCount, int columnCount, String attributeCell) {
 		if (columns.size() <= columnCount) {
-			columns.add(new HashMap<String, LongOpenHashSet>());
+			columns.add(new HashMap<String, LongSet>());
 		}
 		if (columns.get(columnCount).containsKey(attributeCell)) {
 			columns.get(columnCount).get(attributeCell).add(rowCount);
 		} else {
-			LongOpenHashSet newList = new LongOpenHashSet();
+			LongSet newList = new LongAVLTreeSet();
 			newList.add(rowCount);
 			columns.get(columnCount).put(attributeCell, newList);
 		}
@@ -61,15 +63,18 @@ public class PLIBuilder {
 
 	protected List<PositionListIndex> purgePLIEntries() {
 		List<PositionListIndex> pliList = new ArrayList<PositionListIndex>();
-		for (int columnIndex = 0; columnIndex < columns.size(); columnIndex++) {
-			List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
-			for (LongOpenHashSet cluster : columns.get(columnIndex).values()) {
+		Iterator<HashMap<String, LongSet>> columnsIterator = columns.iterator();
+		while(columnsIterator.hasNext()) {
+			List<LongSet> clusters = new ArrayList<LongSet>();
+			for (LongSet cluster : columnsIterator.next().values()) {
 				if (cluster.size() < 2) {
 					continue;
 				}
 				clusters.add(cluster);
 			}
 			pliList.add(new PositionListIndex(clusters));
+			// Free value Maps.
+			columnsIterator.remove();
 		}
 		return pliList;
 	}

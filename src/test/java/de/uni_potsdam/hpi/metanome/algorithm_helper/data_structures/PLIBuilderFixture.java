@@ -2,7 +2,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
@@ -71,12 +71,12 @@ public class PLIBuilderFixture {
 
 	public List<PositionListIndex> getExpectedPLIList() {
 		List<PositionListIndex> expectedPLIList = new LinkedList<PositionListIndex>();
-		List<LongOpenHashSet> list1 = new LinkedList<LongOpenHashSet>();
+		List<LongSet> list1 = new LinkedList<LongSet>();
 		PositionListIndex PLI1 = new PositionListIndex(list1);
 		expectedPLIList.add(PLI1);
 		
-		List<LongOpenHashSet> list2 = new LinkedList<LongOpenHashSet>();
-		LongOpenHashSet arrayList21 = new LongOpenHashSet();
+		List<LongSet> list2 = new LinkedList<LongSet>();
+		LongAVLTreeSet arrayList21 = new LongAVLTreeSet();
 		arrayList21.add(0);
 		arrayList21.add(1);
 		arrayList21.add(2);
@@ -86,9 +86,9 @@ public class PLIBuilderFixture {
 		PositionListIndex PLI2 = new PositionListIndex(list2);
 		expectedPLIList.add(PLI2);
 		
-		List<LongOpenHashSet> list3 = new LinkedList<LongOpenHashSet>();
-		LongOpenHashSet arrayList31 = new LongOpenHashSet();
-		LongOpenHashSet arrayList32 = new LongOpenHashSet();
+		List<LongSet> list3 = new LinkedList<LongSet>();
+		LongAVLTreeSet arrayList31 = new LongAVLTreeSet();
+		LongAVLTreeSet arrayList32 = new LongAVLTreeSet();
 		
 		arrayList31.add(0);
 		arrayList31.add(1);
@@ -102,8 +102,8 @@ public class PLIBuilderFixture {
 		PositionListIndex PLI3 = new PositionListIndex(list3);
 		expectedPLIList.add(PLI3);
 		
-		List<LongOpenHashSet> list4 = new LinkedList<LongOpenHashSet>();
-		LongOpenHashSet arrayList41 = new LongOpenHashSet();
+		List<LongSet> list4 = new LinkedList<LongSet>();
+		LongAVLTreeSet arrayList41 = new LongAVLTreeSet();
 		
 		arrayList41.add(0);
 		arrayList41.add(2);
