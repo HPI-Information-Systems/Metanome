@@ -62,6 +62,12 @@
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
+      <artifactId>example_holistic_algorithm</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
       <version>0.0.1-SNAPSHOT</version>
       <scope>runtime</scope>
@@ -100,6 +106,7 @@
             <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
           </compileSourcesArtifacts>
           <strict>true</strict>
+         <extraJvmArgs>-Xmx4G</extraJvmArgs>
         </configuration>
       </plugin>
 
@@ -172,6 +179,14 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ucc_algorithm</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>src/main/resources/algorithms</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                  <artifactId>example_holistic_algorithm</artifactId>
                   <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>

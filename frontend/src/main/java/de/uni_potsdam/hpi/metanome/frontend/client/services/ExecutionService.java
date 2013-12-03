@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -16,5 +17,5 @@ public interface ExecutionService extends RemoteService {
 
 	public long executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException;
 
-	public List<Result> fetchNewResults(String algorithmName);
+	public ArrayList<Result> fetchNewResults(String algorithmName);
 }

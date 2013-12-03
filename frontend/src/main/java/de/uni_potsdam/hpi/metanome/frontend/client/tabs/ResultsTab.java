@@ -1,11 +1,12 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
@@ -25,6 +26,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	protected Timer timer;
 	protected String algorithmName;
 	
+	protected HorizontalPanel resultsPanel;
+	
 	protected FlexTable uccTable;
 	protected FlexTable indTable;
 	protected FlexTable fdTable;
@@ -33,8 +36,18 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
 		this.algorithmName = algorithmName;
-		this.uccTable = new FlexTable();
-		this.add(uccTable, DockPanel.NORTH);
+		
+		this.resultsPanel = new HorizontalPanel();
+		this.add(resultsPanel, DockPanel.NORTH);
+		
+		indTable = new FlexTable();
+		this.resultsPanel.add(indTable);
+		uccTable = new FlexTable();
+		this.resultsPanel.add(uccTable);
+		fdTable = new FlexTable();
+		this.resultsPanel.add(fdTable);
+		basicsTable = new FlexTable();
+		this.resultsPanel.add(basicsTable);		
 	}
 
 	public void startPolling() {
@@ -72,21 +85,22 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	protected void fetchNewResults() {
-		executionService.fetchNewResults(algorithmName, new AsyncCallback<List<Result>>() {
+		executionService.fetchNewResults(algorithmName, new AsyncCallback<ArrayList<Result>>() {
 			  
 			  @Override
 			  public void onFailure(Throwable caught) {
 				  // TODO Auto-generated method stub
+				  System.out.println("Could not fetch results");
 			  }
 			  
 			  @Override
-			  public void onSuccess(List<Result> result) {
+			  public void onSuccess(ArrayList<Result> result) {
 				  displayResults(result);
 			  }
 		  });
 	}
 	
-	protected void displayResults(List<Result> results) {
+	protected void displayResults(ArrayList<Result> results) {
 		for (Result r : results){
 			try {
 				r.sendResultTo(this);
@@ -97,19 +111,19 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		}
 	}
 
-	
-	
 	@Override
 	public void receiveResult(BasicStatistic statistic) {
-		basicsTable.setText(basicsTable.getRowCount(), 0, statistic.getColumnCombination().toString());
-		basicsTable.setText(basicsTable.getRowCount(), 1, statistic.getStatisticName());
-		basicsTable.setText(basicsTable.getRowCount(), 2, statistic.getStatisticValue().toString());
+		int row = basicsTable.getRowCount();
+		basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
+		basicsTable.setText(row, 1, statistic.getStatisticName());
+		basicsTable.setText(row, 2, statistic.getStatisticValue().toString());
 	}
 
 	@Override
-	public void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException {
-		indTable.setText(indTable.getRowCount(), 0, inclusionDependency.getDependant().toString());
-		indTable.setText(indTable.getRowCount(), 1, inclusionDependency.getReferenced().toString());
+	public void receiveResult(InclusionDependency inclusionDependency) {
+		int row = indTable.getRowCount();
+		indTable.setText(row, 0, inclusionDependency.getDependant().toString());
+		indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
 	}
 
 	@Override
@@ -124,9 +138,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	}
 
 	@Override
-	public void receiveResult(FunctionalDependency functionalDependency)
-			throws CouldNotReceiveResultException {
-		fdTable.setText(fdTable.getRowCount(), 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(fdTable.getRowCount(), 1, functionalDependency.getDependant().toString());		
+	public void receiveResult(FunctionalDependency functionalDependency) {
+		int row = fdTable.getRowCount();
+		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
+		fdTable.setText(row, 1, functionalDependency.getDependant().toString());		
 	}
 }

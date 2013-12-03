@@ -1,6 +1,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -12,6 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
  * @author Jakob Zwiener
@@ -85,5 +88,51 @@ public class FunctionalDependencyTest {
 		// Check result
 		assertEquals(expectedStringRepresentation, functionalDependency.toString());
 	}
-
+	
+	/**
+	 * Test method for {@link FunctionalDependency#equals(Object)} and {@link FunctionalDependency#hashCode()} 
+	 * 
+	 * {@link FunctionalDependency}s with equal determinant and dependants should be equal.
+	 */
+	@Test
+	public void testEqualsHashCode() {
+		// Setup
+		FunctionalDependency expectedFd = new FunctionalDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnIdentifier("table1", "column47"));
+		FunctionalDependency expectedEqualFd = new FunctionalDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnIdentifier("table1", "column47")); 
+		FunctionalDependency expectedNotEqualDeterminantFd = new FunctionalDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column4")),
+				new ColumnIdentifier("table1", "column47"));
+		FunctionalDependency expectedNotEqualDependantFd = new FunctionalDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnIdentifier("table1", "column57"));
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedFd, expectedFd);
+		assertEquals(expectedFd.hashCode(), expectedFd.hashCode());
+		assertNotSame(expectedFd, expectedEqualFd);
+		assertEquals(expectedFd, expectedEqualFd);
+		assertEquals(expectedFd.hashCode(), expectedEqualFd.hashCode());
+		assertNotEquals(expectedFd, expectedNotEqualDeterminantFd);
+		assertNotEquals(expectedFd.hashCode(), expectedNotEqualDeterminantFd.hashCode());
+		assertNotEquals(expectedFd, expectedNotEqualDependantFd);
+		assertNotEquals(expectedFd.hashCode(), expectedNotEqualDependantFd.hashCode());
+	}
+	
+	/**
+	 * Tests that the instances of {@link FunctionalDependency} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new FunctionalDependency(mock(ColumnCombination.class), mock(ColumnIdentifier.class)));
+	}
+	
 }

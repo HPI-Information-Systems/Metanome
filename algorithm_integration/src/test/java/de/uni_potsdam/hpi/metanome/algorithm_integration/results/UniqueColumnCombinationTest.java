@@ -4,6 +4,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -15,6 +17,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
  * @author Jakob Zwiener
@@ -93,4 +96,42 @@ public class UniqueColumnCombinationTest {
 		// Check result
 		assertEquals(expectedStringRepresentation, uniqueColumnCombination.toString());
 	}
+	
+	/**
+	 * Test method for {@link UniqueColumnCombination#equals(Object)} and {@link UniqueColumnCombination#hashCode()}
+	 * 
+	 * {@link UniqueColumnCombination}s containing the same {@link ColumnIdentifier}s in different order should be equal.
+	 */
+	@Test
+	public void testEqualsHashCode() {
+		// Setup
+		ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
+		ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
+		UniqueColumnCombination expectedColumnCombination1 = new UniqueColumnCombination(column12, column13, column11);
+		ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
+		ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
+		UniqueColumnCombination expectedColumnCombination2 = new UniqueColumnCombination(column21, column22, column23);
+		UniqueColumnCombination expectedColumnCombinationNotEquals = new UniqueColumnCombination(column21, column23);
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedColumnCombination1, expectedColumnCombination1);
+		assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination1.hashCode());
+		assertNotSame(expectedColumnCombination1, expectedColumnCombination2);
+		assertEquals(expectedColumnCombination1, expectedColumnCombination2);
+		assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2.hashCode());
+		assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals);
+		assertNotEquals(expectedColumnCombination1.hashCode(), expectedColumnCombinationNotEquals.hashCode());
+	}
+	
+	/**
+	 * Tests that the instances of {@link UniqueColumnCombination} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new UniqueColumnCombination(mock(ColumnIdentifier.class)));
+	}
+	
 }

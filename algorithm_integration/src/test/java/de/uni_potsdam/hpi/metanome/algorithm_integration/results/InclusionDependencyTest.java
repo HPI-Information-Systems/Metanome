@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -12,6 +12,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
  * @author Jakob Zwiener
@@ -39,7 +40,7 @@ public class InclusionDependencyTest {
 	public void testSendResultTo() throws CouldNotReceiveResultException {
 		// Setup
 		OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
-		InclusionDependency ind = new InclusionDependency();
+		InclusionDependency ind = new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class));
 		
 		// Execute functionality 
 		ind.sendResultTo(resultReceiver);
@@ -93,4 +94,55 @@ public class InclusionDependencyTest {
 		// Check result
 		assertEquals(expectedStringRepresentation, ind.toString());
 	}
+	
+	/**
+	 * Test method for {@link InclusionDependency#equals(Object)} and {@link InclusionDependency#hashCode()}
+	 * 
+	 * {@link InclusionDependency}s containing equals dependant and referenced should be equal and have same hash codes.
+	 */
+	@Test
+	public void testEqualsHashCode() {
+		// Setup
+		InclusionDependency expectedInd = new InclusionDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnCombination(
+						new ColumnIdentifier("table2", "column47")));
+		InclusionDependency expectedEqualInd = new InclusionDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnCombination(
+						new ColumnIdentifier("table2", "column47"))); 
+		InclusionDependency expectedNotEqualDependantInd = new InclusionDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column4")),
+				new ColumnCombination(
+						new ColumnIdentifier("table2", "column47")));
+		InclusionDependency expectedNotEqualReferencedInd = new InclusionDependency(
+				new ColumnCombination(
+						new ColumnIdentifier("table1", "column2")),
+				new ColumnCombination(
+						new ColumnIdentifier("table5", "column47")));
+		
+		// Execute functionality
+		// Check result
+		assertEquals(expectedInd, expectedInd);
+		assertEquals(expectedInd.hashCode(), expectedInd.hashCode());
+		assertNotSame(expectedInd, expectedEqualInd);
+		assertEquals(expectedInd, expectedEqualInd);
+		assertEquals(expectedInd.hashCode(), expectedEqualInd.hashCode());
+		assertNotEquals(expectedInd, expectedNotEqualDependantInd);
+		assertNotEquals(expectedInd.hashCode(), expectedNotEqualDependantInd.hashCode());
+		assertNotEquals(expectedInd, expectedNotEqualReferencedInd);
+		assertNotEquals(expectedInd.hashCode(), expectedNotEqualReferencedInd.hashCode());
+	}
+	
+	/**
+	 * Tests that the instances of {@link InclusionDependency} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class)));
+	}
+	
 }

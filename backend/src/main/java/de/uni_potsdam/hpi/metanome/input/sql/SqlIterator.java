@@ -25,7 +25,7 @@ public class SqlIterator implements RelationalInput {
 		ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 		this.numberOfColumns = resultSetMetaData.getColumnCount();
 		this.nextCalled = false;
-		this.relationName = resultSetMetaData.getTableName(0);
+		this.relationName = resultSetMetaData.getTableName(1);
 		this.columnNames = retrieveColumnNames(resultSetMetaData);
 	}
 	
@@ -33,7 +33,7 @@ public class SqlIterator implements RelationalInput {
 		List<String> columnNames = new LinkedList<String>();
 		
 		for (int i = 0; i < numberOfColumns; i++) {
-			columnNames.add(resultSetMetaData.getColumnLabel(i));
+			columnNames.add(resultSetMetaData.getColumnLabel(i+1));
 		}
 		
 		return ImmutableList.copyOf(columnNames);
@@ -70,7 +70,7 @@ public class SqlIterator implements RelationalInput {
 		
 		for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
 			try {
-				resultRow[columnIndex] = resultSet.getString(columnIndex);
+				resultRow[columnIndex] = resultSet.getString(columnIndex+1);
 			} catch (SQLException e) {
 				throw new InputIterationException("Could not retrieve values from result set.");
 			}

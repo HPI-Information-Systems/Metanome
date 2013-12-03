@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 /**
  * @author Jakob Zwiener
  * 
@@ -176,6 +178,14 @@ public class ColumnIdentifierTest {
 		// Check result
 		assertThat(identifier2, greaterThan(identifier1));
 		assertThat(identifier3, greaterThan(identifier2));
+	}
+	
+	/**
+	 * Tests that the instances of {@link ColumnIdentifier} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new ColumnIdentifier("table1", "column1"));
 	}
 
 }

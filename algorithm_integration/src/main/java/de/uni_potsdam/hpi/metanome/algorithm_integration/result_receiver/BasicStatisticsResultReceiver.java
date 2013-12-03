@@ -13,6 +13,8 @@ public interface BasicStatisticsResultReceiver {
 	 * of the statistic
 	 
 	 * @param statisticValue	the calculated value of the statistic on the columns
+	 * 
+	 * @throws CouldNotReceiveResultException
 	 */
-	void receiveResult(BasicStatistic statistic);
+	void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException;
 }

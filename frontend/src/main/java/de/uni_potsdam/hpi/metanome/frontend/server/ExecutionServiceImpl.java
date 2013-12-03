@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueBoolean;
@@ -23,9 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
@@ -36,9 +32,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStrin
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
-import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
-import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyPrinter;
-import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
+import de.uni_potsdam.hpi.metanome.result_receiver.ResultsCache;
 
 /**
  * Service Implementation for service that triggers algorithm execution
@@ -47,7 +41,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	
 	private static final long serialVersionUID = -2758103927345131933L;
 	
-	private HashMap<String, OmniscientResultReceiver> currentResultReceivers = new HashMap<String, OmniscientResultReceiver>();
+	private HashMap<String, ResultsCache> currentResultReceiver = new HashMap<String, ResultsCache>();
 	
 	/**
 	 * TODO docs
@@ -57,22 +51,13 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * @throws FileNotFoundException
 	 * @throws UnsupportedEncodingException
 	 */
-	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
-		//TODO: change this to only use one omniscient result receiver
-		
-		FunctionalDependencyPrinter fdResultReceiver = 
-				new FunctionalDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		
-		InclusionDependencyPrinter indResultReceiver = 
-				new InclusionDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		
-		UniqueColumnCombinationPrinter uccResultReceiver = 
-				new UniqueColumnCombinationPrinter(getResultFileName(algorithmName), getResultDirectoryName());
+	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {		
+		ResultsCache resultReceiver = new ResultsCache();
 		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
-		AlgorithmExecutor executor = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
-		//currentResultReceivers.put(algorithmName, resultPrinters);
+		AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
+		currentResultReceiver.put(algorithmName, resultReceiver);
 		return executor;
 	}
 	
@@ -172,22 +157,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		return executionTime;
 	}
 	
-	public List<Result> fetchNewResults(String algorithmName){
-		List<Result> newResults = new LinkedList<Result>();
-		
-		//newResults.add(currentResultReceivers.get(algorithmName).getNewResults());
-		newResults.add(new UniqueColumnCombination(new ColumnIdentifier("table", "col1")));
-		
-		return newResults;
+	@Override
+	public ArrayList<Result> fetchNewResults(String algorithmName){		
+		return currentResultReceiver.get(algorithmName).getNewResults();
 	}
-	
-	protected String getResultDirectoryName() {
-		return "results";
-	}
-	
-	protected String getResultFileName(String algorithmName) {
-		return algorithmName + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date()) + ".txt";
-	}
-
-
 }
