@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.SortedSet;
@@ -8,9 +9,20 @@ import java.util.TreeSet;
 /**
  * Represents column combinations.
  */
-public class ColumnCombination {
+public class ColumnCombination implements Serializable {
+	
+	private static final long serialVersionUID = 5994284083803031188L;
 	
 	protected SortedSet<ColumnIdentifier> columnCombination;
+	
+	
+	/**
+	 * Default no-argument constructor for GWT serialization. 
+	 * Use <link>ColumnCombination(ColumnIdentifier... columnIdentifier)</link> instead
+	 */
+	public ColumnCombination(){
+		columnCombination = new TreeSet<ColumnIdentifier>();
+	}
 	
 	/**
 	 * Store string identifiers for columns to form a column combination.
