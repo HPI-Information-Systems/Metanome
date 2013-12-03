@@ -12,6 +12,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
  * @author Jakob Zwiener
@@ -39,7 +40,7 @@ public class InclusionDependencyTest {
 	public void testSendResultTo() throws CouldNotReceiveResultException {
 		// Setup
 		OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
-		InclusionDependency ind = new InclusionDependency();
+		InclusionDependency ind = new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class));
 		
 		// Execute functionality 
 		ind.sendResultTo(resultReceiver);
@@ -135,4 +136,13 @@ public class InclusionDependencyTest {
 		assertNotEquals(expectedInd, expectedNotEqualReferencedInd);
 		assertNotEquals(expectedInd.hashCode(), expectedNotEqualReferencedInd.hashCode());
 	}
+	
+	/**
+	 * Tests that the instances of {@link InclusionDependency} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class)));
+	}
+	
 }

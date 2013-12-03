@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 /**
  * Tests for {@link ColumnCombination}
  */
@@ -124,5 +126,12 @@ public class ColumnCombinationTest {
 		assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals);
 		assertNotEquals(expectedColumnCombination1.hashCode(), expectedColumnCombinationNotEquals.hashCode());
 	}
-
+	
+	/**
+	 * Tests that the instances of {@link ColumnCombination} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new ColumnCombination(new ColumnIdentifier("table1", "column1")));
+	}
 }

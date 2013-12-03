@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 /**
  * Test for {@link InputIterationException}
  */
@@ -46,6 +48,14 @@ public class InputIterationExceptionTest {
 		
 		// Check result 
 		assertEquals(expectedMessage, actualMessage);
+	}
+	
+	/**
+	 * Tests that the instances of {@link InputIterationException} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new InputIterationException(""));
 	}
 
 }

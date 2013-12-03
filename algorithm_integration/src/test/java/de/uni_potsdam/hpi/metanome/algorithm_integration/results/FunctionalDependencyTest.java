@@ -14,6 +14,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
  * @author Jakob Zwiener
@@ -125,5 +126,13 @@ public class FunctionalDependencyTest {
 		assertNotEquals(expectedFd, expectedNotEqualDependantFd);
 		assertNotEquals(expectedFd.hashCode(), expectedNotEqualDependantFd.hashCode());
 	}
-
+	
+	/**
+	 * Tests that the instances of {@link FunctionalDependency} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new FunctionalDependency(mock(ColumnCombination.class), mock(ColumnIdentifier.class)));
+	}
+	
 }
