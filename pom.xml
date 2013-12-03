@@ -19,5 +19,6 @@
     <module>backend</module>
     <module>frontend</module>
     <module>testing_algorithms</module>
+	<module>test_helper</module>
   </modules>
 </project>
