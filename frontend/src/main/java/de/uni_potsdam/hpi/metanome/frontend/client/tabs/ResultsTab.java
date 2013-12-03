@@ -115,9 +115,11 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
-		for(ColumnIdentifier col : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
-			int row = uccTable.getRowCount();
-			uccTable.setText(row, uccTable.getCellCount(row), col.toString());
+		int row = uccTable.getRowCount();
+		int col = 0;
+		for(ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
+			uccTable.setText(row, col, colId.toString());
+			col++;
 		}		
 	}
 
