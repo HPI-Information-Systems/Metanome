@@ -134,8 +134,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		for(ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
 			uccTable.setText(row, col, colId.toString());
 			col++;
-		}		
-	}
+		}
+	}		
 
 	@Override
 	public void receiveResult(FunctionalDependency functionalDependency) {
