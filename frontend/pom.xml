@@ -106,6 +106,7 @@
             <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
           </compileSourcesArtifacts>
           <strict>true</strict>
+         <extraJvmArgs>-Xmx4G</extraJvmArgs>
         </configuration>
       </plugin>
 

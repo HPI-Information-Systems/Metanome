@@ -96,8 +96,6 @@ public class GwtTestResultsTab extends GWTTestCase {
 		assertEquals(1, resultsTab.fdTable.getRowCount());
 	}
 	
-	
-	
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
