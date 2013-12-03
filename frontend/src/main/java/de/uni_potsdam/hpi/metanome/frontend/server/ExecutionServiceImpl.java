@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
@@ -37,7 +38,6 @@ import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.FunctionalDependencyPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.InclusionDependencyPrinter;
-import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
 
 /**
@@ -47,7 +47,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	
 	private static final long serialVersionUID = -2758103927345131933L;
 	
-	private HashMap<String, List<ResultPrinter>> currentResultPrinters = new HashMap<String, List<ResultPrinter>>();
+	private HashMap<String, OmniscientResultReceiver> currentResultReceivers = new HashMap<String, OmniscientResultReceiver>();
 	
 	/**
 	 * TODO docs
@@ -58,24 +58,21 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * @throws UnsupportedEncodingException
 	 */
 	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
-		LinkedList<ResultPrinter> resultPrinters = new LinkedList<ResultPrinter>();
+		//TODO: change this to only use one omniscient result receiver
 		
 		FunctionalDependencyPrinter fdResultReceiver = 
 				new FunctionalDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		resultPrinters.add(fdResultReceiver);
 		
 		InclusionDependencyPrinter indResultReceiver = 
 				new InclusionDependencyPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		resultPrinters.add(indResultReceiver);
 		
 		UniqueColumnCombinationPrinter uccResultReceiver = 
 				new UniqueColumnCombinationPrinter(getResultFileName(algorithmName), getResultDirectoryName());
-		resultPrinters.add(uccResultReceiver);
 		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
 		AlgorithmExecutor executor = new AlgorithmExecutor(fdResultReceiver, indResultReceiver, uccResultReceiver, fileGenerator);
-		currentResultPrinters.put(algorithmName, resultPrinters);
+		//currentResultReceivers.put(algorithmName, resultPrinters);
 		return executor;
 	}
 	
@@ -178,9 +175,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	public List<Result> fetchNewResults(String algorithmName){
 		List<Result> newResults = new LinkedList<Result>();
 		
-		for (ResultPrinter printer : currentResultPrinters.get(algorithmName)) {
-//			newResults.addAll(printer.getNewResults());
-		}
+		//newResults.add(currentResultReceivers.get(algorithmName).getNewResults());
 		newResults.add(new UniqueColumnCombination(new ColumnIdentifier("table", "col1")));
 		
 		return newResults;
