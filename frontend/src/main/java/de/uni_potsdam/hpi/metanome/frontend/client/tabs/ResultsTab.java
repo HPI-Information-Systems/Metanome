@@ -57,7 +57,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	      }
 	    };
 
-	    this.timer.scheduleRepeating(1000);
+	    this.timer.scheduleRepeating(10000);
 	}
 	
 	public AsyncCallback<Long> getCancelCallback() {
