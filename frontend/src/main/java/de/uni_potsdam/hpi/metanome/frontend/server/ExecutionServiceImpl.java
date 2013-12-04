@@ -121,7 +121,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * @throws AlgorithmConfigurationException
 	 */
 	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {
-		//TODO advanced CsvFileGenerator construction
 		try {
 			if (param.isAdvanced())
 				return new CsvFileGenerator(new File(param.getFileNameValue()), param.getSeparatorChar(), 
@@ -130,7 +129,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 			else
 				return new CsvFileGenerator(new File(param.getFileNameValue()));
 		} catch (FileNotFoundException e) {
-			throw new AlgorithmConfigurationException("Could not find specified CSV file.");		
+			throw new AlgorithmConfigurationException("Error opening¶ specified CSV file.");		
 		}
 	}	
 	
