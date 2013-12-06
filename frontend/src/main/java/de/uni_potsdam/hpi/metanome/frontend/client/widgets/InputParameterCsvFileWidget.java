@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
@@ -92,9 +93,9 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		inputParameter.setAdvanced(this.advancedCheckbox.getValue());
 		
 		if (inputParameter.isAdvanced()){
-			inputParameter.setSeparatorChar(this.separatorTextbox.getValue().charAt(0));
-			inputParameter.setQuoteChar(this.quoteTextbox.getValue().charAt(0));
-			inputParameter.setEscapeChar(this.escapeTextbox.getValue().charAt(0));
+			inputParameter.setSeparatorChar(StringHelper.getFirstCharFromInput(this.separatorTextbox.getValue()));
+			inputParameter.setQuoteChar(StringHelper.getFirstCharFromInput(this.quoteTextbox.getValue()));
+			inputParameter.setEscapeChar(StringHelper.getFirstCharFromInput(this.escapeTextbox.getValue())	);
 			inputParameter.setStrictQuotes(this.strictQuotesCheckbox.getValue());
 			inputParameter.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());			
 			if (this.lineIntegerbox.getValue() != null)
