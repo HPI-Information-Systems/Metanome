@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -29,10 +28,10 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
 	protected HorizontalPanel resultsPanel;
 	
-	protected FlexTable uccTable;
+	protected ResultTable uccTable;
 	protected ResultTable indTable;
-	protected FlexTable fdTable;
-	protected FlexTable basicsTable;
+	protected ResultTable fdTable;
+	protected ResultTable basicsTable;
 	
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
@@ -43,17 +42,11 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		
 		indTable = new ResultTable("Inclusion Dependencies");
 		
-		uccTable = new FlexTable();
-		uccTable.setBorderWidth(1);
-		uccTable.setText(0, 0, "Unique Column Combinations");
+		uccTable = new ResultTable("Unique Column Combinations");
 		
-		fdTable = new FlexTable();
-		fdTable.setBorderWidth(1);
-		fdTable.setText(0, 0, "Functional Dependencies");
+		fdTable = new ResultTable("Functional Dependencies");
 		
-		basicsTable = new FlexTable();
-		basicsTable.setBorderWidth(1);
-		basicsTable.setText(0, 0, "Basic Statistics");
+		basicsTable = new ResultTable("Basic Statistics");
 	}
 
 	public void startPolling() {
@@ -159,6 +152,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 		int row = fdTable.getRowCount();
 		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(row, 1, functionalDependency.getDependant().toString());		
+		fdTable.setText(row, 1, "-->");
+		fdTable.setText(row, 2, functionalDependency.getDependant().toString());		
 	}
 }

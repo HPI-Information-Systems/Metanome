@@ -14,6 +14,8 @@ public class ResultTable extends VerticalPanel {
 		this.table = new FlexTable();
 		this.table.setBorderWidth(1);
 		this.add(table);
+		
+		this.setSpacing(5);
 	}
 	
 	public void setText(int row, int column, String text) {
