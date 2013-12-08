@@ -18,6 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ResultTable;
 
 public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
@@ -29,7 +30,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	protected HorizontalPanel resultsPanel;
 	
 	protected FlexTable uccTable;
-	protected FlexTable indTable;
+	protected ResultTable indTable;
 	protected FlexTable fdTable;
 	protected FlexTable basicsTable;
 	
@@ -40,14 +41,19 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.resultsPanel = new HorizontalPanel();
 		this.add(resultsPanel, DockPanel.NORTH);
 		
-		indTable = new FlexTable();
-		this.resultsPanel.add(indTable);
+		indTable = new ResultTable("Inclusion Dependencies");
+		
 		uccTable = new FlexTable();
-		this.resultsPanel.add(uccTable);
+		uccTable.setBorderWidth(1);
+		uccTable.setText(0, 0, "Unique Column Combinations");
+		
 		fdTable = new FlexTable();
-		this.resultsPanel.add(fdTable);
+		fdTable.setBorderWidth(1);
+		fdTable.setText(0, 0, "Functional Dependencies");
+		
 		basicsTable = new FlexTable();
-		this.resultsPanel.add(basicsTable);		
+		basicsTable.setBorderWidth(1);
+		basicsTable.setText(0, 0, "Basic Statistics");
 	}
 
 	public void startPolling() {
@@ -113,6 +119,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(BasicStatistic statistic) {
+		if (this.resultsPanel.getWidgetIndex(basicsTable) < 0)
+			this.resultsPanel.add(basicsTable);
+
 		int row = basicsTable.getRowCount();
 		basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
 		basicsTable.setText(row, 1, statistic.getStatisticName());
@@ -121,6 +130,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(InclusionDependency inclusionDependency) {
+		if (this.resultsPanel.getWidgetIndex(indTable) < 0)
+			this.resultsPanel.add(indTable);
+
 		int row = indTable.getRowCount();
 		indTable.setText(row, 0, inclusionDependency.getDependant().toString());
 		indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
@@ -129,6 +141,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
+		if (this.resultsPanel.getWidgetIndex(uccTable) < 0)
+			this.resultsPanel.add(uccTable);
+
 		int row = uccTable.getRowCount();
 		int col = 0;
 		for(ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
@@ -139,6 +154,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(FunctionalDependency functionalDependency) {
+		if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
+			this.resultsPanel.add(fdTable);
+
 		int row = fdTable.getRowCount();
 		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
 		fdTable.setText(row, 1, functionalDependency.getDependant().toString());		
