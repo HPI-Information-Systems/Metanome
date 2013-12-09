@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -20,7 +20,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ResultTable;
 
-public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
+public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver {
 	
 	protected ExecutionServiceAsync executionService;
 	
@@ -42,7 +42,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		
 		this.resultsPanel = new HorizontalPanel();
 		this.setWidth("100%");
-		this.add(resultsPanel, DockPanel.NORTH);
+		this.add(resultsPanel);
 		
 		indTable = new ResultTable("Inclusion Dependencies");
 		uccTable = new ResultTable("Unique Column Combinations");
@@ -50,7 +50,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		basicsTable = new ResultTable("Basic Statistics");
 		
 		runningIndicator = new Image("ajax-loader.gif");
-		this.add(runningIndicator, DockPanel.SOUTH);
+		this.add(runningIndicator);
 	}
 
 	public void startPolling() {
@@ -80,13 +80,13 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.timer.cancel();
 		this.remove(runningIndicator);
 		fetchNewResults();
-		this.add(new Label("Algorithm executed in " +  executionTime/1000000d + " ms."), DockPanel.NORTH);
+		this.add(new Label("Algorithm executed in " +  executionTime/1000000d + " ms."));
 	}
 	
 	public void cancelTimerOnFail(Throwable caught){
 		this.timer.cancel();
 		this.remove(runningIndicator);
-		this.add(new Label("Algorithm did not execute successfully"), DockPanel.NORTH);
+		this.add(new Label("Algorithm did not execute successfully"));
 	}
 
 	protected void fetchNewResults() {

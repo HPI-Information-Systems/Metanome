@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
@@ -26,7 +27,7 @@ public class BasePage extends TabLayoutPanel {
 	public BasePage() {
 		super(1, Unit.CM);
 		this.setWidth("100%");
-		this.setHeight("100%");
+		this.setHeight("95%");
 		  
 		this.add(createAlgorithmsTab(), "Algorithms");
 		this.add(createResultsTab(), "Results");
@@ -49,7 +50,7 @@ public class BasePage extends TabLayoutPanel {
 	private TabLayoutPanel createResultsTab() {
 		resultsPage = new TabLayoutPanel(1, Unit.CM);
 		resultsPage.setHeight("100%");
-		resultsPage.setWidth("100%");
+		resultsPage.setWidth("99%");
 
 		return resultsPage;
 	}
@@ -61,8 +62,10 @@ public class BasePage extends TabLayoutPanel {
 		resultsTab.startPolling();
 		
 		this.selectTab(resultsPage);
-		resultsPage.add(resultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
-		resultsPage.selectTab(resultsTab);
+		
+		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
+		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
+		resultsPage.selectTab(scrollableResultsTab);
 	}
 
 }
