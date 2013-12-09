@@ -60,11 +60,11 @@ public class BasePage extends TabLayoutPanel {
 		ResultsTab resultsTab = new ResultsTab(executionService, algorithmName);
 		executionService.executeAlgorithm(algorithmName, parameters, resultsTab.getCancelCallback());
 		resultsTab.startPolling();
-		
-		this.selectTab(resultsPage);
-		
+				
 		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
-		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
+		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, scrollableResultsTab, resultsPage));
+
+		this.selectTab(resultsPage);
 		resultsPage.selectTab(scrollableResultsTab);
 	}
 
