@@ -158,7 +158,7 @@ public class GwtTestParameter extends GWTTestCase {
 		((CheckBox) advancedPanel.getWidget(5,1)).setValue(boolTrue);
 		try{			
 			inputParameter = csvWidget.getInputParameter();
-		} catch (StringIndexOutOfBoundsException e){
+		} catch (Exception e){
 			//TODO make sure some nice exception is thrown when not all values are set.
 			exceptionCaught = true;
 		}

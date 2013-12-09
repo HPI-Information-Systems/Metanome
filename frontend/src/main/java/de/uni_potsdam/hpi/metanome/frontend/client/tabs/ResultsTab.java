@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -18,6 +17,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ResultTable;
 
 public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
@@ -28,10 +28,10 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
 	protected HorizontalPanel resultsPanel;
 	
-	protected FlexTable uccTable;
-	protected FlexTable indTable;
-	protected FlexTable fdTable;
-	protected FlexTable basicsTable;
+	protected ResultTable uccTable;
+	protected ResultTable indTable;
+	protected ResultTable fdTable;
+	protected ResultTable basicsTable;
 	
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
@@ -40,14 +40,13 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.resultsPanel = new HorizontalPanel();
 		this.add(resultsPanel, DockPanel.NORTH);
 		
-		indTable = new FlexTable();
-		this.resultsPanel.add(indTable);
-		uccTable = new FlexTable();
-		this.resultsPanel.add(uccTable);
-		fdTable = new FlexTable();
-		this.resultsPanel.add(fdTable);
-		basicsTable = new FlexTable();
-		this.resultsPanel.add(basicsTable);		
+		indTable = new ResultTable("Inclusion Dependencies");
+		
+		uccTable = new ResultTable("Unique Column Combinations");
+		
+		fdTable = new ResultTable("Functional Dependencies");
+		
+		basicsTable = new ResultTable("Basic Statistics");
 	}
 
 	public void startPolling() {
@@ -113,6 +112,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(BasicStatistic statistic) {
+		if (this.resultsPanel.getWidgetIndex(basicsTable) < 0)
+			this.resultsPanel.add(basicsTable);
+
 		int row = basicsTable.getRowCount();
 		basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
 		basicsTable.setText(row, 1, statistic.getStatisticName());
@@ -121,6 +123,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(InclusionDependency inclusionDependency) {
+		if (this.resultsPanel.getWidgetIndex(indTable) < 0)
+			this.resultsPanel.add(indTable);
+
 		int row = indTable.getRowCount();
 		indTable.setText(row, 0, inclusionDependency.getDependant().toString());
 		indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
@@ -129,6 +134,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
+		if (this.resultsPanel.getWidgetIndex(uccTable) < 0)
+			this.resultsPanel.add(uccTable);
+
 		int row = uccTable.getRowCount();
 		int col = 0;
 		for(ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
@@ -139,8 +147,12 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 
 	@Override
 	public void receiveResult(FunctionalDependency functionalDependency) {
+		if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
+			this.resultsPanel.add(fdTable);
+
 		int row = fdTable.getRowCount();
 		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(row, 1, functionalDependency.getDependant().toString());		
+		fdTable.setText(row, 1, "-->");
+		fdTable.setText(row, 2, functionalDependency.getDependant().toString());		
 	}
 }

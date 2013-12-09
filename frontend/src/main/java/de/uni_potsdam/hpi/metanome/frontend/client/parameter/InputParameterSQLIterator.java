@@ -4,7 +4,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterSQLIter
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 /**
- * TODO
+ * Client compatible parameter for a requested SQLInputGenerator
  */
 public class InputParameterSQLIterator extends InputParameter {
 
@@ -14,8 +14,10 @@ public class InputParameterSQLIterator extends InputParameter {
 	private String userName;
 	private String password;
 	
-	/** Default no-argument constructor. 
-	 * Use <link>InputParameterSQLIterator(String identifier) instead</link> **/
+	/** 
+	 * Default no-argument constructor. 
+	 * Use <link>InputParameterSQLIterator(String identifier) instead</link> 
+	 **/
 	public InputParameterSQLIterator(){
 		super();
 	}
