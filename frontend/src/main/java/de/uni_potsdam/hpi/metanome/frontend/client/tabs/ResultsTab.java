@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
@@ -33,6 +34,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	protected ResultTable fdTable;
 	protected ResultTable basicsTable;
 	
+	protected Image runningIndicator;
+	
 	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
 		this.executionService = executionService;
 		this.algorithmName = algorithmName;
@@ -45,6 +48,9 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		uccTable = new ResultTable("Unique Column Combinations");
 		fdTable = new ResultTable("Functional Dependencies");
 		basicsTable = new ResultTable("Basic Statistics");
+		
+		runningIndicator = new Image("ajax-loader.gif");
+		this.add(runningIndicator, DockPanel.SOUTH);
 	}
 
 	public void startPolling() {
@@ -72,12 +78,14 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 	
 	public void cancelTimerOnSuccess(Long executionTime){
 		this.timer.cancel();
+		this.remove(runningIndicator);
 		fetchNewResults();
 		this.add(new Label("Algorithm executed in " +  executionTime/1000000d + " ms."), DockPanel.NORTH);
 	}
 	
 	public void cancelTimerOnFail(Throwable caught){
 		this.timer.cancel();
+		this.remove(runningIndicator);
 		this.add(new Label("Algorithm did not execute successfully"), DockPanel.NORTH);
 	}
 
