@@ -35,7 +35,6 @@ public abstract class AlgorithmTab extends DockPanel{
 	public AlgorithmTab(BasePage basePage){
 		//TODO: style in CSS
 		this.setWidth("100%");
-		this.setHeight("100px");
 		
 		this.basePage = basePage;
 		
