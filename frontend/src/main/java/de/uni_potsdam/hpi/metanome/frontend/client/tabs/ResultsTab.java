@@ -41,11 +41,8 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.add(resultsPanel, DockPanel.NORTH);
 		
 		indTable = new ResultTable("Inclusion Dependencies");
-		
 		uccTable = new ResultTable("Unique Column Combinations");
-		
 		fdTable = new ResultTable("Functional Dependencies");
-		
 		basicsTable = new ResultTable("Basic Statistics");
 	}
 
