@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.ResultsTab;
-
 /**
  * Widget to be put into the tab bars of result tabs. Includes the algorithm name as well
  * as a close button.
@@ -25,11 +23,11 @@ public class TabHeader extends HorizontalPanel {
 	 * Constructor.
 	 * 
 	 * @param algorithmName	the name of the algorithm or whatever should be displayed as tab title
-	 * @param resultsTab	the panel holding the corresponding tab's contents
+	 * @param tabContent	the panel holding the corresponding tab's contents
 	 * @param parent		the TabLayoutPanel where resultsTab will be added to
 	 */
-	public TabHeader(String algorithmName, ResultsTab resultsTab, TabLayoutPanel parent) {
-		this.tab = resultsTab;
+	public TabHeader(String algorithmName, Panel tabContent, TabLayoutPanel parent) {
+		this.tab = tabContent;
 		this.tabPanel = parent;
 		
 		this.setSpacing(3);
