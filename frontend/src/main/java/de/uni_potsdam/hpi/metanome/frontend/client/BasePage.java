@@ -12,6 +12,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
 
 /**
  * Overall Application page that has one tab for each algorithm type.
@@ -60,7 +61,7 @@ public class BasePage extends TabLayoutPanel {
 		resultsTab.startPolling();
 		
 		this.selectTab(resultsPage);
-		resultsPage.add(resultsTab, algorithmName);
+		resultsPage.add(resultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
 		resultsPage.selectTab(resultsTab);
 	}
 
