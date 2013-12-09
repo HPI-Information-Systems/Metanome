@@ -10,11 +10,24 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.tabs.ResultsTab;
 
+/**
+ * Widget to be put into the tab bars of result tabs. Includes the algorithm name as well
+ * as a close button.
+ * 
+ * @author Claudia
+ */
 public class TabHeader extends HorizontalPanel {
 	
 	private final Panel tab;
 	private final TabLayoutPanel tabPanel;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param algorithmName	the name of the algorithm or whatever should be displayed as tab title
+	 * @param resultsTab	the panel holding the corresponding tab's contents
+	 * @param parent		the TabLayoutPanel where resultsTab will be added to
+	 */
 	public TabHeader(String algorithmName, ResultsTab resultsTab, TabLayoutPanel parent) {
 		this.tab = resultsTab;
 		this.tabPanel = parent;
