@@ -38,6 +38,7 @@ public class ResultsTab extends DockPanel implements OmniscientResultReceiver {
 		this.algorithmName = algorithmName;
 		
 		this.resultsPanel = new HorizontalPanel();
+		this.setWidth("100%");
 		this.add(resultsPanel, DockPanel.NORTH);
 		
 		indTable = new ResultTable("Inclusion Dependencies");
