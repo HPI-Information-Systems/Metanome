@@ -23,7 +23,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
  */
 public class BasePage extends TabLayoutPanel {
   
-	private TabLayoutPanel algorithmsPage;
+	private TabLayoutPanel runsPage;
 	private TabLayoutPanel resultsPage;
 	
 	public BasePage() {
@@ -32,8 +32,15 @@ public class BasePage extends TabLayoutPanel {
 		this.setHeight("95%");
 		  
 		this.add(createDataSourcesPage(), "Data Sources");
+		this.add(createAlgorithmsPage(), "Algorithms");
 		this.add(createRunsPage(), "New Run");
 		this.add(createResultsPage(), "Results");
+	}
+	
+	private Widget createAlgorithmsPage() {
+		Label temporaryContent = new Label();
+		temporaryContent.setText("To add a new algorithm, put its jar in the designated folder.");
+		return temporaryContent;
 	}
 
 	private Widget createDataSourcesPage() {
@@ -44,17 +51,17 @@ public class BasePage extends TabLayoutPanel {
 	}
 
 	private TabLayoutPanel createRunsPage() {
-		algorithmsPage = new TabLayoutPanel(1, Unit.CM);
-		algorithmsPage.setHeight("100%");
-		algorithmsPage.setWidth("100%");
+		runsPage = new TabLayoutPanel(1, Unit.CM);
+		runsPage.setHeight("100%");
+		runsPage.setWidth("100%");
 		
-		algorithmsPage.add(new UniqueColumnCombinationTab(this), "Unique Column Combinations");
-		algorithmsPage.add(new InclusionDependencyTab(this), "Inclusion Dependencies");
-		algorithmsPage.add(new FunctionalDependencyTab(this), "Functional Dependencies");
-		algorithmsPage.add(new BasicStatisticsTab(this), "Basic Statistics");
+		runsPage.add(new UniqueColumnCombinationTab(this), "Unique Column Combinations");
+		runsPage.add(new InclusionDependencyTab(this), "Inclusion Dependencies");
+		runsPage.add(new FunctionalDependencyTab(this), "Functional Dependencies");
+		runsPage.add(new BasicStatisticsTab(this), "Basic Statistics");
 		
-		algorithmsPage.selectTab(0);
-		return algorithmsPage;
+		runsPage.selectTab(0);
+		return runsPage;
 	}
 	
 	private TabLayoutPanel createResultsPage() {
