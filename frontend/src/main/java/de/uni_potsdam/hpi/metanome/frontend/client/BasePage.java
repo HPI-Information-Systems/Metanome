@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.BasicStatisticsTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.FunctionalDependencyTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.InclusionDependencyTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.UniqueColumnCombinationTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.InclusionDependencyTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.ResultsTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.UniqueColumnCombinationTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
 
 /**

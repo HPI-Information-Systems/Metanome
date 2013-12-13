@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTableSubmitHandler;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
 
 public class ParameterTable extends FlexTable {
 
