@@ -3,8 +3,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -29,11 +31,19 @@ public class BasePage extends TabLayoutPanel {
 		this.setWidth("100%");
 		this.setHeight("95%");
 		  
-		this.add(createAlgorithmsTab(), "Algorithms");
-		this.add(createResultsTab(), "Results");
+		this.add(createDataSourcesPage(), "Data Sources");
+		this.add(createRunsPage(), "New Run");
+		this.add(createResultsPage(), "Results");
 	}
 
-	private TabLayoutPanel createAlgorithmsTab() {
+	private Widget createDataSourcesPage() {
+		Label temporaryContent = new Label();
+		temporaryContent.setText("As data sources, you can configure any database connection in the Run Configurations,"
+				+ "or choose from any CSV-files in the designated folder.");
+		return temporaryContent;
+	}
+
+	private TabLayoutPanel createRunsPage() {
 		algorithmsPage = new TabLayoutPanel(1, Unit.CM);
 		algorithmsPage.setHeight("100%");
 		algorithmsPage.setWidth("100%");
@@ -47,7 +57,7 @@ public class BasePage extends TabLayoutPanel {
 		return algorithmsPage;
 	}
 	
-	private TabLayoutPanel createResultsTab() {
+	private TabLayoutPanel createResultsPage() {
 		resultsPage = new TabLayoutPanel(1, Unit.CM);
 		resultsPage.setHeight("100%");
 		resultsPage.setWidth("99%");
