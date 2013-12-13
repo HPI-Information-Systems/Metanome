@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use

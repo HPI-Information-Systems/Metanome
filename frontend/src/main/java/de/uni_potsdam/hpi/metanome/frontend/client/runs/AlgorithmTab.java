@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.tabs;
+package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import java.util.List;
 

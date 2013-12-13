@@ -19,10 +19,10 @@ public class GwtTestBasePage extends GWTTestCase{
 		BasePage page = new BasePage();
 		
 		//Check
-		// -- Algorithm page
-		assertTrue(page.getWidget(0) instanceof TabLayoutPanel);
+		// -- New Run page
+		assertTrue(page.getWidget(2) instanceof TabLayoutPanel);
 		// -- Results page
-		assertTrue(page.getWidget(1) instanceof TabLayoutPanel);
+		assertTrue(page.getWidget(3) instanceof TabLayoutPanel);
 	}
 
 	@Override

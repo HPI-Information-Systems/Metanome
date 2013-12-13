@@ -8,9 +8,9 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.AlgorithmTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.BasicStatisticsTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.tabs.FunctionalDependencyTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.BasicStatisticsTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.FunctionalDependencyTab;
 
 /**
  * Tests for the algorithm specific pages (tabs)
