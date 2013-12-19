@@ -32,7 +32,7 @@ public class BasePage extends TabLayoutPanel {
 		  
 		this.add(createAboutPage(), "About");
 		this.add(createDataSourcesPage(), "Data Sources");
-		this.add(new AlgorithmsPage(), "Algorithms");
+		this.add(new AlgorithmsPage(this), "Algorithms");
 		this.add(createRunsPage(), "New Run");
 		this.add(createResultsPage(), "Results");
 	}
@@ -79,6 +79,11 @@ public class BasePage extends TabLayoutPanel {
 
 		this.selectTab(resultsPage);
 		resultsPage.selectTab(scrollableResultsTab);
+	}
+
+	public void jumpToRunConfiguration(String algorithmName) {
+		// TODO Auto-generated method stub
+		System.out.println("Jump to " + algorithmName);
 	}
 
 }
