@@ -20,8 +20,7 @@ public class GwtTestBasePage extends GWTTestCase{
 		
 		//Check
 		assertEquals(5, page.getWidgetCount());
-		// -- New Run page
-		assertTrue(page.getWidget(3) instanceof TabLayoutPanel);
+		
 		// -- Results page
 		assertTrue(page.getWidget(4) instanceof TabLayoutPanel);
 	}
