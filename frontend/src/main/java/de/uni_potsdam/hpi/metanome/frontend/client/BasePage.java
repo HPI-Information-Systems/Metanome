@@ -17,7 +17,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsyn
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
 
 /**
- * Overall Application page that has one tab for each algorithm type.
+ * Overall Application page that has tabs for the various functions (subpages).
+ * It also coordinates control between these subpages.
  * Should be added to RootPanel.
  */
 public class BasePage extends TabLayoutPanel {
@@ -25,6 +26,9 @@ public class BasePage extends TabLayoutPanel {
 	private VerticalPanel runsPage;
 	private TabLayoutPanel resultsPage;
 	
+	/**
+	 * Constructor. Initiate creation of subpages.
+	 */
 	public BasePage() {
 		super(1, Unit.CM);
 		this.setWidth("100%");
@@ -37,12 +41,23 @@ public class BasePage extends TabLayoutPanel {
 		this.add(createResultsPage(), "Results");
 	}
 	
+	/**
+	 * Create the "About" Page, which should include information about the project.
+	 * 
+	 * @return Widget with contents to be placed on the page.
+	 */
 	private Widget createAboutPage() {
 		Label temporaryContent = new Label();
 		temporaryContent.setText("Metanome Version 0.0.1.");
 		return temporaryContent;	
 	}
 
+	/**
+	 * Create the "Data Sources" page, which should list available data sources and
+	 * allow to configure new ones.
+	 * 
+	 * @return Widget with contents to be placed on the page.
+	 */
 	private Widget createDataSourcesPage() {
 		Label temporaryContent = new Label();
 		temporaryContent.setText("As data sources, you can configure any database connection in the Run Configurations,"
@@ -50,6 +65,12 @@ public class BasePage extends TabLayoutPanel {
 		return temporaryContent;
 	}
 
+	/**
+	 * Create the "Run Configuration" page, which allows to configure and start
+	 * a new algorithm run.
+	 * 
+	 * @return Widget with contents to be placed on the page.
+	 */
 	private VerticalPanel createRunsPage() {
 		runsPage = new VerticalPanel();
 		runsPage.setHeight("100%");
@@ -68,6 +89,14 @@ public class BasePage extends TabLayoutPanel {
 		return resultsPage;
 	}
 
+	/**
+	 * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
+	 * and fetch results at a regular interval.
+	 * 
+	 * @param executionService
+	 * @param algorithmName		
+	 * @param parameters
+	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
 			String algorithmName, List<InputParameter> parameters) {
 		ResultsTab resultsTab = new ResultsTab(executionService, algorithmName);
@@ -81,6 +110,12 @@ public class BasePage extends TabLayoutPanel {
 		resultsPage.selectTab(scrollableResultsTab);
 	}
 
+	/**
+	 * Hand control from Algorithms page to Run Configurations, and preconfigure the latter with 
+	 * the algorithm.
+	 * 
+	 * @param algorithmName	algorithm that shall be run
+	 */
 	public void jumpToRunConfiguration(String algorithmName) {
 		// TODO Auto-generated method stub
 		System.out.println("Jump to " + algorithmName);
