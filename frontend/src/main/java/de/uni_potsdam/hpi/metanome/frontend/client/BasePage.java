@@ -31,12 +31,18 @@ public class BasePage extends TabLayoutPanel {
 		this.setWidth("100%");
 		this.setHeight("95%");
 		  
+		this.add(createAboutPage(), "About");
 		this.add(createDataSourcesPage(), "Data Sources");
 		this.add(createAlgorithmsPage(), "Algorithms");
 		this.add(createRunsPage(), "New Run");
 		this.add(createResultsPage(), "Results");
 	}
 	
+	private Widget createAboutPage() {
+		Label temporaryContent = new Label();
+		temporaryContent.setText("Metanome Version 0.0.1.");
+		return temporaryContent;	}
+
 	private Widget createAlgorithmsPage() {
 		Label temporaryContent = new Label();
 		temporaryContent.setText("To add a new algorithm, put its jar in the designated folder.");
