@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.BasicStatisticsTab;
@@ -31,16 +32,17 @@ public class BasePage extends TabLayoutPanel {
 		this.setWidth("100%");
 		this.setHeight("95%");
 		  
+		this.add(createAboutPage(), "About");
 		this.add(createDataSourcesPage(), "Data Sources");
-		this.add(createAlgorithmsPage(), "Algorithms");
+		this.add(new AlgorithmsPage(), "Algorithms");
 		this.add(createRunsPage(), "New Run");
 		this.add(createResultsPage(), "Results");
 	}
 	
-	private Widget createAlgorithmsPage() {
+	private Widget createAboutPage() {
 		Label temporaryContent = new Label();
-		temporaryContent.setText("To add a new algorithm, put its jar in the designated folder.");
-		return temporaryContent;
+		temporaryContent.setText("Metanome Version 0.0.1.");
+		return temporaryContent;	
 	}
 
 	private Widget createDataSourcesPage() {
