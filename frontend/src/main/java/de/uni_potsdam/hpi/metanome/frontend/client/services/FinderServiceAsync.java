@@ -8,5 +8,6 @@ public interface FinderServiceAsync {
 	public void listFunctionalDependencyAlgorithms(AsyncCallback<String[]> callback);
 	public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<String[]> callback);
 	public void listBasicStatisticsAlgorithms(AsyncCallback<String[]> addJarChooserCallback);
+	public void listAllAlgorithms(AsyncCallback<String[]> addJarChooserCallback);
 
 }

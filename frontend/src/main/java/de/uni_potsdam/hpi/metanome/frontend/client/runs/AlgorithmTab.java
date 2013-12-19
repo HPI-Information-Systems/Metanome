@@ -19,7 +19,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
  * Superclass for all algorithm specific tabs on the page.
  * Includes common functionality such as adding a JarChooser or ParameterTable
  */
-public abstract class AlgorithmTab extends DockPanel{
+public class AlgorithmTab extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
@@ -27,13 +27,11 @@ public abstract class AlgorithmTab extends DockPanel{
 	protected FinderServiceAsync finderService;
 	protected ExecutionServiceAsync executionService;
 	
-	protected AsyncCallback<String[]> addJarChooserCallback;
 	
 	/**
 	 * Constructor. Initializes FinderService
 	 */
 	public AlgorithmTab(BasePage basePage){
-		//TODO: style in CSS
 		this.setWidth("100%");
 		
 		this.basePage = basePage;
@@ -41,16 +39,7 @@ public abstract class AlgorithmTab extends DockPanel{
 		this.finderService = GWT.create(FinderService.class);
 		this.executionService = GWT.create(ExecutionService.class);
 		
-		addJarChooserCallback = new AsyncCallback<String[]>() {
-		      public void onFailure(Throwable caught) {
-		        // TODO: Do something with errors.
-		    	  caught.printStackTrace();
-		      }
-
-		      public void onSuccess(String[] result) { 
-		    	  addJarChooser(result);
-		      }
-		    };
+		this.getAvailableAlgorithms();
 	}
 		
 	/**
@@ -95,6 +84,23 @@ public abstract class AlgorithmTab extends DockPanel{
 	
 	protected String getCurrentlySelectedAlgorithm(){
 		return this.jarChooser.getSelectedAlgorithm();
+	}
+	
+	/**
+	 * TODO docs
+	 */
+	private void getAvailableAlgorithms() {
+		finderService.listAllAlgorithms(new AsyncCallback<String[]>() {
+		      public void onFailure(Throwable caught) {
+			        // TODO: Do something with errors.
+			    	  caught.printStackTrace();
+			      }
+
+			      public void onSuccess(String[] result) { 
+			    	  addJarChooser(result);
+			      }
+			    }
+		);
 	}
 	
 	/**

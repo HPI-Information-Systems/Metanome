@@ -56,4 +56,9 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 		return listAlgorithms(BasicStatisticsAlgorithm.class);
 	}
 
+	@Override
+	public String[] listAllAlgorithms() {
+		return listAlgorithms(null);
+	}
+
 }

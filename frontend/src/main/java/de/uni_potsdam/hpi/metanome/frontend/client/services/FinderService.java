@@ -10,4 +10,5 @@ public interface FinderService extends RemoteService {
 	public String[] listFunctionalDependencyAlgorithms();
 	public String[] listUniqueColumnCombinationsAlgorithms();
 	public String[] listBasicStatisticsAlgorithms();
+	public String[] listAllAlgorithms();
 }
