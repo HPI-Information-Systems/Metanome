@@ -83,6 +83,7 @@ public class AlgorithmsPage extends VerticalPanel {
 			
 			public void onSuccess(String[] result) { 
 				addAlgorithmsToList(result, list);
+				basePage.addAlgorithmsToRunConfigurations(result);
 			}
 		};
 	}
