@@ -44,9 +44,7 @@ public class JarChooser extends HorizontalPanel {
 		this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
 		this.listbox.setSelectedIndex(0);
 		
-		for (String filename : jarFilenames){
-			this.listbox.addItem(filename);
-		}
+		this.addAlgorithms(jarFilenames);
 		this.add(listbox);
 		this.listbox.addChangeHandler(new JarChooserChangeHandler());
 	}
@@ -106,6 +104,23 @@ public class JarChooser extends HorizontalPanel {
 	 */
 	public String getSelectedAlgorithm() {
 		return listbox.getValue(listbox.getSelectedIndex());
+	}
+	
+	public void setSelectedAlgorithm(String algorithmName) {
+		for (int i=0; i<listbox.getItemCount(); i++){
+			if(listbox.getValue(i).equals(algorithmName)){
+				this.listbox.setSelectedIndex(i);
+				return;
+			}
+		}
+		
+		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser");
+	}
+
+	public void addAlgorithms(String[] algorithmNames) {
+		for (String filename : algorithmNames){
+			this.listbox.addItem(filename);
+		}		
 	}
 	
 	

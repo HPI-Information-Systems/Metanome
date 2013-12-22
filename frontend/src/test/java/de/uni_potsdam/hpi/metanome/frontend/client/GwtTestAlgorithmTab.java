@@ -19,14 +19,10 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 
 	@Test
 	public void testAddJarChooser(){
-		//Setup
-		page = new BasePage();
+		//Execute
 		AlgorithmTab algoTab = new AlgorithmTab(page);
 		
-		//Execute
-		algoTab.addJarChooser("Algo1", "Algo2", "Algo3");
-		
-		//Check
+		//Check - should contain only the jarChooser so far
 		assertEquals(1, algoTab.getWidgetCount());
 		assertTrue(algoTab.getJarChooser() instanceof JarChooser);
 	}
@@ -43,6 +39,19 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 				
 		//Check
 		assertEquals(widgetCount + 1, algoTab.getWidgetCount());
+	}
+	
+	@Test
+	public void testAddAlgorithms() {
+		//Setup
+		AlgorithmTab algoTab = new AlgorithmTab(page);
+		int noOfAlgorithms = algoTab.getJarChooser().getListItemCount();
+		
+		//Execute
+		algoTab.addAlgorithms("Additional 1", "Additional 2");
+		
+		//Check
+		assertEquals(noOfAlgorithms + 2, algoTab.getJarChooser().getListItemCount());
 	}
 
 	@Override

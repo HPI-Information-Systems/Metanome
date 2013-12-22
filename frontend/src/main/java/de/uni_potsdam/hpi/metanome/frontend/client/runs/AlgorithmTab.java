@@ -3,7 +3,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
@@ -11,8 +10,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 /**
@@ -24,23 +21,23 @@ public class AlgorithmTab extends DockPanel{
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
 	
-	protected FinderServiceAsync finderService;
 	protected ExecutionServiceAsync executionService;
 	
 	
 	/**
-	 * Constructor. Initializes FinderService
+	 * Constructor. Initializes FinderService and adds all given algorithms
+	 * 
+	 * @param algorithmNames 
 	 */
-	public AlgorithmTab(BasePage basePage){
+	public AlgorithmTab(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
 		
 		this.basePage = basePage;
+		this.addJarChooser(algorithmNames);
 		
-		this.finderService = GWT.create(FinderService.class);
 		this.executionService = GWT.create(ExecutionService.class);
-		
-		this.getAvailableAlgorithms();
 	}
+	
 		
 	/**
 	 * Adds a widget for user's parameter input to the tab 
@@ -64,6 +61,21 @@ public class AlgorithmTab extends DockPanel{
 	}
 	
 	/**
+	 * Method to add more algorithms after construction.
+	 * 
+	 * @param algorithmNames
+	 */
+	public void addAlgorithms(String... algorithmNames){
+//		try {
+//			this.remove(jarChooser);
+//		} catch (NullPointerException e) {
+//			// There was no jarChooser yet, so just add one
+//		}
+		
+		this.jarChooser.addAlgorithms(algorithmNames);
+	}
+	
+	/**
 	 * adds the JarChooser object for this tab.
 	 * must be implemented in subclasses to use algorithm specific JarChooser
 	 * 
@@ -82,25 +94,12 @@ public class AlgorithmTab extends DockPanel{
 		return jarChooser;
 	}
 	
-	protected String getCurrentlySelectedAlgorithm(){
+	public String getCurrentlySelectedAlgorithm(){
 		return this.jarChooser.getSelectedAlgorithm();
 	}
 	
-	/**
-	 * TODO docs
-	 */
-	private void getAvailableAlgorithms() {
-		finderService.listAllAlgorithms(new AsyncCallback<String[]>() {
-		      public void onFailure(Throwable caught) {
-			        // TODO: Do something with errors.
-			    	  caught.printStackTrace();
-			      }
-
-			      public void onSuccess(String[] result) { 
-			    	  addJarChooser(result);
-			      }
-			    }
-		);
+	public void selectAlgorithm(String algorithmName) {
+		this.jarChooser.setSelectedAlgorithm(algorithmName);
 	}
 	
 	/**
@@ -111,5 +110,5 @@ public class AlgorithmTab extends DockPanel{
 		final String algorithmName = getCurrentlySelectedAlgorithm();
 		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
 	}
-		
+
 }
