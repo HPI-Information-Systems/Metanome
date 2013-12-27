@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
 
 /**
  * Overall Application page that has tabs for the various functions (subpages).
@@ -39,7 +39,7 @@ public class BasePage extends TabLayoutPanel {
 		this.setHeight("95%");
 				
 		this.add(createAboutPage(), "About");
-		this.add(createDataSourcesPage(), "Data Sources");
+		this.add(new DataSourcesPage(), "Data Sources");
 		this.add(new AlgorithmsPage(this), "Algorithms");
 		this.add(new RunConfigurationPage(this), "Run Configuration");
 		this.add(createResultsPage(), "Results");
@@ -55,20 +55,6 @@ public class BasePage extends TabLayoutPanel {
 		temporaryContent.setText("Metanome Version 0.0.1.");
 		return temporaryContent;	
 	}
-
-	/**
-	 * Create the "Data Sources" page, which should list available data sources and
-	 * allow to configure new ones.
-	 * 
-	 * @return Widget with contents to be placed on the page.
-	 */
-	private Widget createDataSourcesPage() {
-		Label temporaryContent = new Label();
-		temporaryContent.setText("As data sources, you can configure any database connection in the Run Configurations,"
-				+ "or choose from any CSV-files in the designated folder.");
-		return temporaryContent;
-	}
-
 	
 	private TabLayoutPanel createResultsPage() {
 		resultsPage = new TabLayoutPanel(1, Unit.CM);
