@@ -50,7 +50,7 @@ public class JarChooser extends HorizontalPanel {
 	}
 
 	/**
-	 * specifies the action undertaken when a jar file is chosen
+	 * Specifies the action undertaken when a jar file is chosen.
 	 */
 	public void submit(){
 		String selectedValue = getSelectedAlgorithm();
@@ -99,13 +99,19 @@ public class JarChooser extends HorizontalPanel {
 	}
 
 	/**
-	 * TODO: docs
-	 * @return
+	 * 
+	 * @return the value at the currently selected index
 	 */
 	public String getSelectedAlgorithm() {
 		return listbox.getValue(listbox.getSelectedIndex());
 	}
 	
+	/**
+	 * Select the entry with the given value. 
+	 * 
+	 * @throws IndexOutOfBoundsException	if none of the entries have the given value.
+	 * @param algorithmName	value to select
+	 */
 	public void setSelectedAlgorithm(String algorithmName) {
 		for (int i=0; i<listbox.getItemCount(); i++){
 			if(listbox.getValue(i).equals(algorithmName)){
@@ -117,6 +123,11 @@ public class JarChooser extends HorizontalPanel {
 		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser");
 	}
 
+	/**
+	 * Add more entries.
+	 * 
+	 * @param algorithmNames	array of entries to add
+	 */
 	public void addAlgorithms(String[] algorithmNames) {
 		for (String filename : algorithmNames){
 			this.listbox.addItem(filename);

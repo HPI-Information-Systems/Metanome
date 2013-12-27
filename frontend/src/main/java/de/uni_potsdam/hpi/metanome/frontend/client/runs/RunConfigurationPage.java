@@ -13,8 +13,11 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
 /**
- * Superclass for all algorithm specific tabs on the page.
- * Includes common functionality such as adding a JarChooser or ParameterTable
+ * The Run Configuration page allow to specify all parameters for an algorithm execution:
+ * The algorithm itself is chosen through a JarChooser widget, and the ParameterTable allows
+ * to specify algorithm specific parameters.
+ * The page can be referenced (and switched to) by other pages with pre-set values. Executing an 
+ * algorithm navigates to the corresponding Results page. 
  */
 public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
@@ -25,7 +28,9 @@ public class RunConfigurationPage extends DockPanel{
 	
 	
 	/**
-	 * Constructor. Initializes FinderService and adds all given algorithms
+	 * Constructor. Initializes ExecutoinService and registers given algorithms.
+	 * However, more algorithms can be registered whenever they become available,
+	 * through <link>addAlgorithms(String... algorithmNames)</link>
 	 * 
 	 * @param algorithmNames 
 	 */
@@ -53,30 +58,16 @@ public class RunConfigurationPage extends DockPanel{
 	}
 
 	/**
-	 * 
-	 * @return	the <link>ParameterTable</link> object of this tab
-	 */
-	public ParameterTable getParameterTable() {
-		return parameterTable;
-	}
-	
-	/**
 	 * Method to add more algorithms after construction.
 	 * 
 	 * @param algorithmNames
 	 */
 	public void addAlgorithms(String... algorithmNames){
-//		try {
-//			this.remove(jarChooser);
-//		} catch (NullPointerException e) {
-//			// There was no jarChooser yet, so just add one
-//		}
-		
 		this.jarChooser.addAlgorithms(algorithmNames);
 	}
 	
 	/**
-	 * adds the JarChooser object for this tab.
+	 * Adds the JarChooser object for this tab.
 	 * must be implemented in subclasses to use algorithm specific JarChooser
 	 * 
 	 * @param filenames	list of filenames (without path) of matching algorithms
@@ -94,18 +85,27 @@ public class RunConfigurationPage extends DockPanel{
 		return jarChooser;
 	}
 	
+	/**
+	 * 
+	 * @return	the name of the algorithm that is currently selected on this page's JarChooser
+	 */
 	public String getCurrentlySelectedAlgorithm(){
 		return this.jarChooser.getSelectedAlgorithm();
 	}
 	
+	/**
+	 * Select the given algorithm on the underlying JarChooser.
+	 * 
+	 * @param algorithmName	the value to select
+	 */
 	public void selectAlgorithm(String algorithmName) {
 		this.jarChooser.setSelectedAlgorithm(algorithmName);
 		this.jarChooser.submit();
 	}
 	
 	/**
-	 * Execute the currently selected algorithm and switch to results page
-	 * @param parameters
+	 * Execute the currently selected algorithm and switch to results page.
+	 * @param parameters	parameters to use for the algorithm execution
 	 */
 	public void callExecutionService(List<InputParameter> parameters) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
