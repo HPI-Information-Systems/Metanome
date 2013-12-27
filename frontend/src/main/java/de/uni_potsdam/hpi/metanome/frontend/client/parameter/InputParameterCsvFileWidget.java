@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 

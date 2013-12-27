@@ -8,9 +8,9 @@ import com.google.gwt.user.client.ui.DockPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 /**
  * Superclass for all algorithm specific tabs on the page.

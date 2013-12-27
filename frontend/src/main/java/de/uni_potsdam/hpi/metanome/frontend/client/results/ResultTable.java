@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
