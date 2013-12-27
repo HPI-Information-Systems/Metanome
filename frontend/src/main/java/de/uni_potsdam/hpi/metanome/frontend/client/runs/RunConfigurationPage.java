@@ -38,14 +38,16 @@ public class RunConfigurationPage extends DockPanel{
 		this.setWidth("100%");
 		
 		this.basePage = basePage;
-		this.addJarChooser(algorithmNames);
+		this.jarChooser = new JarChooser(algorithmNames);
+		this.add(this.jarChooser, DockPanel.NORTH);
 		
 		this.executionService = GWT.create(ExecutionService.class);
 	}
 	
 		
 	/**
-	 * Adds a widget for user's parameter input to the tab 
+	 * Adds a widget for user's parameter input to the tab. The content of the tab 
+	 * depends on the requested parameters.
 	 * 
 	 * @param paramList	list of required parameters
 	 */
@@ -67,33 +69,6 @@ public class RunConfigurationPage extends DockPanel{
 	}
 	
 	/**
-	 * Adds the JarChooser object for this tab.
-	 * must be implemented in subclasses to use algorithm specific JarChooser
-	 * 
-	 * @param filenames	list of filenames (without path) of matching algorithms
-	 */
-	public void addJarChooser(String... filenames) {
-		jarChooser = new JarChooser(filenames);
-		this.add(jarChooser, DockPanel.NORTH);
-	}
-	
-	/**
-	 * 
-	 * @return the <link>JarChooser</link> object of this tab
-	 */
-	public JarChooser getJarChooser() {
-		return jarChooser;
-	}
-	
-	/**
-	 * 
-	 * @return	the name of the algorithm that is currently selected on this page's JarChooser
-	 */
-	public String getCurrentlySelectedAlgorithm(){
-		return this.jarChooser.getSelectedAlgorithm();
-	}
-	
-	/**
 	 * Select the given algorithm on the underlying JarChooser.
 	 * 
 	 * @param algorithmName	the value to select
@@ -101,6 +76,14 @@ public class RunConfigurationPage extends DockPanel{
 	public void selectAlgorithm(String algorithmName) {
 		this.jarChooser.setSelectedAlgorithm(algorithmName);
 		this.jarChooser.submit();
+	}
+
+	/**
+	 * 
+	 * @return	the name of the algorithm that is currently selected on this page's JarChooser
+	 */
+	public String getCurrentlySelectedAlgorithm(){
+		return this.jarChooser.getSelectedAlgorithm();
 	}
 	
 	/**
@@ -112,4 +95,10 @@ public class RunConfigurationPage extends DockPanel{
 		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
 	}
 
+	// Getters & Setters
+	
+	public JarChooser getJarChooser() {
+		return jarChooser;
+	}
+	
 }
