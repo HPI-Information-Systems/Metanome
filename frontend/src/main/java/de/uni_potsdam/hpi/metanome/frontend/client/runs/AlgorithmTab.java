@@ -100,6 +100,7 @@ public class AlgorithmTab extends DockPanel{
 	
 	public void selectAlgorithm(String algorithmName) {
 		this.jarChooser.setSelectedAlgorithm(algorithmName);
+		this.jarChooser.submit();
 	}
 	
 	/**

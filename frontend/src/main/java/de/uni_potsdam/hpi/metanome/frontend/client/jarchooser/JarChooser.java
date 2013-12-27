@@ -19,8 +19,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
  */
 public class JarChooser extends HorizontalPanel {
 
-	private Label label;
-	private ListBox listbox;
+	protected Label label;
+	protected ListBox listbox;
 		
 	protected ParameterServiceAsync parameterService;
 	
