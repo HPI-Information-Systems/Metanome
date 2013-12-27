@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,9 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTableSubmitHandler;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
 public class ParameterTable extends FlexTable {
 
@@ -64,8 +62,8 @@ public class ParameterTable extends FlexTable {
 	 * 
 	 * @return the parent AlgorithmTab 
 	 */
-	private AlgorithmTab getAlgorithmTab() {
-		return (AlgorithmTab) this.getParent();
+	private RunConfigurationPage getAlgorithmTab() {
+		return (RunConfigurationPage) this.getParent();
 	}
 
 }

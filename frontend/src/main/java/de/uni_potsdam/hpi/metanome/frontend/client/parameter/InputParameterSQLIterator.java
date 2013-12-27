@@ -1,7 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterSQLIteratorWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 /**
  * Client compatible parameter for a requested SQLInputGenerator

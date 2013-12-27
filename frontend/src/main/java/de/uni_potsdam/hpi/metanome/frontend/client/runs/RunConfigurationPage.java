@@ -8,15 +8,15 @@ import com.google.gwt.user.client.ui.DockPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 /**
  * Superclass for all algorithm specific tabs on the page.
  * Includes common functionality such as adding a JarChooser or ParameterTable
  */
-public class AlgorithmTab extends DockPanel{
+public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
@@ -29,7 +29,7 @@ public class AlgorithmTab extends DockPanel{
 	 * 
 	 * @param algorithmNames 
 	 */
-	public AlgorithmTab(BasePage basePage, String... algorithmNames){
+	public RunConfigurationPage(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
 		
 		this.basePage = basePage;

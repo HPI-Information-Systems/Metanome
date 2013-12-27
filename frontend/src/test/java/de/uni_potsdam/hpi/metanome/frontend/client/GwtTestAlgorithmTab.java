@@ -8,7 +8,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
 /**
  * Tests for the algorithm specific pages (tabs)
@@ -20,7 +20,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddJarChooser(){
 		//Execute
-		AlgorithmTab algoTab = new AlgorithmTab(page);
+		RunConfigurationPage algoTab = new RunConfigurationPage(page);
 		
 		//Check - should contain only the jarChooser so far
 		assertEquals(1, algoTab.getWidgetCount());
@@ -30,7 +30,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddParameterTable(){
 		//Setup
-		AlgorithmTab algoTab = new AlgorithmTab(page);
+		RunConfigurationPage algoTab = new RunConfigurationPage(page);
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		int widgetCount = algoTab.getWidgetCount();
 				
@@ -44,7 +44,7 @@ public class GwtTestAlgorithmTab extends GWTTestCase {
 	@Test
 	public void testAddAlgorithms() {
 		//Setup
-		AlgorithmTab algoTab = new AlgorithmTab(page);
+		RunConfigurationPage algoTab = new RunConfigurationPage(page);
 		int noOfAlgorithms = algoTab.getJarChooser().getListItemCount();
 		
 		//Execute

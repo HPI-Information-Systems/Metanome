@@ -2,8 +2,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.io.Serializable;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
-
 /**
  * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. 
  * It is used for frontend input of the configuration value, so generally, a ConfigurationSpecification

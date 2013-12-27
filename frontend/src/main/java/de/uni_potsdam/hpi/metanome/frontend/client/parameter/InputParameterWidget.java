@@ -1,8 +1,6 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IsWidget;
-
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 public interface InputParameterWidget extends IsWidget {
 
