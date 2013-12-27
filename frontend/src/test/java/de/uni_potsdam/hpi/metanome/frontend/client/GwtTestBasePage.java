@@ -72,7 +72,11 @@ public class GwtTestBasePage extends GWTTestCase{
 				//Check
 				assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
 				assertEquals(algorithmName, ((AlgorithmTab) page.getWidget(page.getSelectedIndex()))
-						.getCurrentlySelectedAlgorithm());
+						.getCurrentlySelectedAlgorithm());				
+				
+//				Add testing to ensure the parameter table is shown
+//				assertEquals(2, (((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidgetCount()); 
+//				assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1) instanceof ParameterTable); 
 				
 				finishTest();
 			}
@@ -80,7 +84,7 @@ public class GwtTestBasePage extends GWTTestCase{
 		
 		((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 		
-		delayTestFinish(50000);
+		delayTestFinish(5000);
 	
 		
 	}
