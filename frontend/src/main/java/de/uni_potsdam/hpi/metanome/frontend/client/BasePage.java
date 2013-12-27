@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
@@ -24,7 +24,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.TabHeader;
 public class BasePage extends TabLayoutPanel {
   
 	protected TabLayoutPanel resultsPage;
-	protected AlgorithmTab runConfigurationsPage;
+	protected RunConfigurationPage runConfigurationsPage;
 	
 	protected FinderServiceAsync finderService;
 	
@@ -41,13 +41,8 @@ public class BasePage extends TabLayoutPanel {
 		this.add(createAboutPage(), "About");
 		this.add(createDataSourcesPage(), "Data Sources");
 		this.add(new AlgorithmsPage(this), "Algorithms");
-		this.add(createRunConfigurationPage(), "New Run");
+		this.add(new RunConfigurationPage(this), "Run Configuration");
 		this.add(createResultsPage(), "Results");
-	}
-
-	protected Widget createRunConfigurationPage() {
-		 runConfigurationsPage = new AlgorithmTab(this);
-		 return runConfigurationsPage;
 	}
 	
 	/**

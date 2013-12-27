@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 
@@ -71,7 +71,7 @@ public class GwtTestBasePage extends GWTTestCase{
 
 				//Check
 				assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-				assertEquals(algorithmName, ((AlgorithmTab) page.getWidget(page.getSelectedIndex()))
+				assertEquals(algorithmName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
 						.getCurrentlySelectedAlgorithm());				
 				
 //				Add testing to ensure the parameter table is shown

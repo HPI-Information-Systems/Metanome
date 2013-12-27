@@ -16,7 +16,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
  * Superclass for all algorithm specific tabs on the page.
  * Includes common functionality such as adding a JarChooser or ParameterTable
  */
-public class AlgorithmTab extends DockPanel{
+public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
@@ -29,7 +29,7 @@ public class AlgorithmTab extends DockPanel{
 	 * 
 	 * @param algorithmNames 
 	 */
-	public AlgorithmTab(BasePage basePage, String... algorithmNames){
+	public RunConfigurationPage(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
 		
 		this.basePage = basePage;

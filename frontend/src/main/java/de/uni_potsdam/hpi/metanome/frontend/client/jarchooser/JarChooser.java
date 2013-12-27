@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 
@@ -86,7 +86,7 @@ public class JarChooser extends HorizontalPanel {
 	 * @param paramList list of parameters necessary for the chosen algorithm
 	 */
 	private void forwardParameters(List<InputParameter> paramList) {
-		((AlgorithmTab) this.getParent()).addParameterTable(paramList);
+		((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
 	}
 	
 	/**
