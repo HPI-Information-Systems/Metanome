@@ -41,7 +41,8 @@ public class BasePage extends TabLayoutPanel {
 		this.add(createAboutPage(), "About");
 		this.add(new DataSourcesPage(), "Data Sources");
 		this.add(new AlgorithmsPage(this), "Algorithms");
-		this.add(new RunConfigurationPage(this), "Run Configuration");
+		runConfigurationsPage = new RunConfigurationPage(this);
+		this.add(runConfigurationsPage, "Run Configuration");
 		this.add(createResultsPage(), "Results");
 	}
 	
