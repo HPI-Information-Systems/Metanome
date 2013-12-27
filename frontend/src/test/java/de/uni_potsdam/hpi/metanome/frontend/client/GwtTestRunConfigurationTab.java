@@ -13,7 +13,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 /**
  * Tests for the algorithm specific pages (tabs)
  */
-public class GwtTestAlgorithmTab extends GWTTestCase {
+public class GwtTestRunConfigurationTab extends GWTTestCase {
 	
 	private BasePage page;
 
