@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 
@@ -19,8 +19,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
  */
 public class JarChooser extends HorizontalPanel {
 
-	private Label label;
-	private ListBox listbox;
+	protected Label label;
+	protected ListBox listbox;
 		
 	protected ParameterServiceAsync parameterService;
 	
@@ -44,15 +44,13 @@ public class JarChooser extends HorizontalPanel {
 		this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
 		this.listbox.setSelectedIndex(0);
 		
-		for (String filename : jarFilenames){
-			this.listbox.addItem(filename);
-		}
+		this.addAlgorithms(jarFilenames);
 		this.add(listbox);
 		this.listbox.addChangeHandler(new JarChooserChangeHandler());
 	}
 
 	/**
-	 * specifies the action undertaken when a jar file is chosen
+	 * Specifies the action undertaken when a jar file is chosen.
 	 */
 	public void submit(){
 		String selectedValue = getSelectedAlgorithm();
@@ -88,7 +86,7 @@ public class JarChooser extends HorizontalPanel {
 	 * @param paramList list of parameters necessary for the chosen algorithm
 	 */
 	private void forwardParameters(List<InputParameter> paramList) {
-		((AlgorithmTab) this.getParent()).addParameterTable(paramList);
+		((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
 	}
 	
 	/**
@@ -101,11 +99,39 @@ public class JarChooser extends HorizontalPanel {
 	}
 
 	/**
-	 * TODO: docs
-	 * @return
+	 * 
+	 * @return the value at the currently selected index
 	 */
 	public String getSelectedAlgorithm() {
 		return listbox.getValue(listbox.getSelectedIndex());
+	}
+	
+	/**
+	 * Select the entry with the given value. 
+	 * 
+	 * @throws IndexOutOfBoundsException	if none of the entries have the given value.
+	 * @param algorithmName	value to select
+	 */
+	public void setSelectedAlgorithm(String algorithmName) {
+		for (int i=0; i<listbox.getItemCount(); i++){
+			if(listbox.getValue(i).equals(algorithmName)){
+				this.listbox.setSelectedIndex(i);
+				return;
+			}
+		}
+		
+		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser");
+	}
+
+	/**
+	 * Add more entries.
+	 * 
+	 * @param algorithmNames	array of entries to add
+	 */
+	public void addAlgorithms(String[] algorithmNames) {
+		for (String filename : algorithmNames){
+			this.listbox.addItem(filename);
+		}		
 	}
 	
 	

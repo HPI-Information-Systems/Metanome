@@ -1,11 +1,8 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 
 public class InputParameterSQLIteratorWidget extends FlexTable implements
 InputParameterWidget {

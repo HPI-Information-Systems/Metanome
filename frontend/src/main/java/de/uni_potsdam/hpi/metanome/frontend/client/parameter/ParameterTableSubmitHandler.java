@@ -4,8 +4,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
-
 public class ParameterTableSubmitHandler implements ClickHandler {
 
 	@Override

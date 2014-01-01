@@ -18,7 +18,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ResultTable;
 
 public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver {
 	

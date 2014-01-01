@@ -1,7 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterCsvFileWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 public class InputParameterCsvFile extends InputParameter {
 	private static final long serialVersionUID = -4018145396259206308L;

@@ -1,7 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterIntegerWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
 
 public class InputParameterInteger extends InputParameter {
 	private static final long serialVersionUID = 5161219640594711634L;

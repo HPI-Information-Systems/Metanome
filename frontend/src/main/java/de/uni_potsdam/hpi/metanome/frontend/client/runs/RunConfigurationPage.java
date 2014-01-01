@@ -3,44 +3,46 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
 
 /**
- * Superclass for all algorithm specific tabs on the page.
- * Includes common functionality such as adding a JarChooser or ParameterTable
+ * The Run Configuration page allow to specify all parameters for an algorithm execution:
+ * The algorithm itself is chosen through a JarChooser widget, and the ParameterTable allows
+ * to specify algorithm specific parameters.
+ * The page can be referenced (and switched to) by other pages with pre-set values. Executing an 
+ * algorithm navigates to the corresponding Results page. 
  */
-public class AlgorithmTab extends DockPanel{
+public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
 	
-	protected FinderServiceAsync finderService;
 	protected ExecutionServiceAsync executionService;
 	
 	
 	/**
-	 * Constructor. Initializes FinderService
+	 * Constructor. Initializes ExecutoinService and registers given algorithms.
+	 * However, more algorithms can be registered whenever they become available,
+	 * through <link>addAlgorithms(String... algorithmNames)</link>
+	 * 
+	 * @param algorithmNames 
 	 */
-	public AlgorithmTab(BasePage basePage){
+	public RunConfigurationPage(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
 		
 		this.basePage = basePage;
+		this.addJarChooser(algorithmNames);
 		
-		this.finderService = GWT.create(FinderService.class);
 		this.executionService = GWT.create(ExecutionService.class);
-		
-		this.getAvailableAlgorithms();
 	}
+	
 		
 	/**
 	 * Adds a widget for user's parameter input to the tab 
@@ -56,15 +58,16 @@ public class AlgorithmTab extends DockPanel{
 	}
 
 	/**
+	 * Method to add more algorithms after construction.
 	 * 
-	 * @return	the <link>ParameterTable</link> object of this tab
+	 * @param algorithmNames
 	 */
-	public ParameterTable getParameterTable() {
-		return parameterTable;
+	public void addAlgorithms(String... algorithmNames){
+		this.jarChooser.addAlgorithms(algorithmNames);
 	}
 	
 	/**
-	 * adds the JarChooser object for this tab.
+	 * Adds the JarChooser object for this tab.
 	 * must be implemented in subclasses to use algorithm specific JarChooser
 	 * 
 	 * @param filenames	list of filenames (without path) of matching algorithms
@@ -82,34 +85,31 @@ public class AlgorithmTab extends DockPanel{
 		return jarChooser;
 	}
 	
-	protected String getCurrentlySelectedAlgorithm(){
+	/**
+	 * 
+	 * @return	the name of the algorithm that is currently selected on this page's JarChooser
+	 */
+	public String getCurrentlySelectedAlgorithm(){
 		return this.jarChooser.getSelectedAlgorithm();
 	}
 	
 	/**
-	 * TODO docs
+	 * Select the given algorithm on the underlying JarChooser.
+	 * 
+	 * @param algorithmName	the value to select
 	 */
-	private void getAvailableAlgorithms() {
-		finderService.listAllAlgorithms(new AsyncCallback<String[]>() {
-		      public void onFailure(Throwable caught) {
-			        // TODO: Do something with errors.
-			    	  caught.printStackTrace();
-			      }
-
-			      public void onSuccess(String[] result) { 
-			    	  addJarChooser(result);
-			      }
-			    }
-		);
+	public void selectAlgorithm(String algorithmName) {
+		this.jarChooser.setSelectedAlgorithm(algorithmName);
+		this.jarChooser.submit();
 	}
 	
 	/**
-	 * Execute the currently selected algorithm and switch to results page
-	 * @param parameters
+	 * Execute the currently selected algorithm and switch to results page.
+	 * @param parameters	parameters to use for the algorithm execution
 	 */
 	public void callExecutionService(List<InputParameter> parameters) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
 		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
 	}
-		
+
 }

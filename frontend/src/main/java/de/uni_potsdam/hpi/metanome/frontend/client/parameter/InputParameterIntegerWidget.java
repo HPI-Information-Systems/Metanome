@@ -1,9 +1,6 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.widgets;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IntegerBox;
-
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
 
 public class InputParameterIntegerWidget extends IntegerBox implements InputParameterWidget {
 	

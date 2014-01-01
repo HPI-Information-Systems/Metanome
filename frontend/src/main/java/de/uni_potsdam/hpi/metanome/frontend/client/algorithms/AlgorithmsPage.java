@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 
@@ -21,13 +22,14 @@ public class AlgorithmsPage extends VerticalPanel {
 	private final FlexTable statsList;
 	
 	protected final FinderServiceAsync finderService;
+	protected final BasePage basePage;
 	
-	public AlgorithmsPage(){
-//		this.setHeight("100%");
+	public AlgorithmsPage(BasePage parent){
 		this.setWidth("100%");
 		this.setSpacing(5);
 		
 		this.finderService = GWT.create(FinderService.class);
+		this.basePage = parent;
 		
 		this.add(new HTML("<b>Unique Column Combinations</b>"));
 		this.uccList = new FlexTable();
@@ -81,25 +83,31 @@ public class AlgorithmsPage extends VerticalPanel {
 			
 			public void onSuccess(String[] result) { 
 				addAlgorithmsToList(result, list);
+				basePage.addAlgorithmsToRunConfigurations(result);
 			}
 		};
 	}
 
 	protected void addAlgorithmsToList(String[] algorithmNames, FlexTable list) {
 		int row = list.getRowCount();
-		for(String algorithmName : algorithmNames){
-			list.setText(row, 0, algorithmName);
+		for(String algorithmName : algorithmNames){		
+			//Using the HTML title to associate an algorithm with each button.
 			Button runButton = new Button("Run");
-			
+			runButton.setTitle(algorithmName);
 			runButton.addClickHandler(new ClickHandler() {	
 				@Override
 				public void onClick(ClickEvent event) {
-					// TODO jump to pre-configured runs tab
+					jumpToRunConfiguration(((Button) event.getSource()).getTitle());
 				}
 			});
 			
-			list.setWidget(row, 1, runButton);
+			list.setText(row, 0, algorithmName);
+			list.setWidget(row, 1, runButton);			
 			row++;
 		}
+	}
+
+	protected void jumpToRunConfiguration(String algorithmName) {
+		basePage.jumpToRunConfiguration(algorithmName);
 	}
 }

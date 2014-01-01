@@ -14,17 +14,17 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterIntegerWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIteratorWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterBooleanWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterCsvFileWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterIntegerWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterSQLIteratorWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterStringWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.InputParameterWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.widgets.ParameterTable;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 
 public class GwtTestParameter extends GWTTestCase {
 
