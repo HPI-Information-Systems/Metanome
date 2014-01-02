@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,4 +52,9 @@ public class ResultsCache implements OmniscientResultReceiver {
 		return currentResults;
 	}
 
+	@Override
+	public void close() throws IOException {
+		
+	}
+	
 }

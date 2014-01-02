@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
@@ -105,7 +106,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	}
 	
 	protected void displayResults(ArrayList<Result> results) {
-		for (Result r : results){
+		for (Result r : results) {
 			try {
 				r.sendResultTo(this);
 			} catch (CouldNotReceiveResultException e) {
@@ -159,5 +160,10 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
 		fdTable.setText(row, 1, "-->");
 		fdTable.setText(row, 2, functionalDependency.getDependant().toString());		
+	}
+
+	@Override
+	public void close() throws IOException {
+		
 	}
 }

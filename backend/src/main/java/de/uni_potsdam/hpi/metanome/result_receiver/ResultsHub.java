@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,4 +72,12 @@ public class ResultsHub implements OmniscientResultReceiver {
 			resultReceiver.receiveResult(uniqueColumnCombination);
 		}		
 	}
+
+	@Override
+	public void close() throws IOException {
+		for (OmniscientResultReceiver resultReceiver : subscriber) {
+			resultReceiver.close();
+		}
+	}
+
 }

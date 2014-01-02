@@ -129,7 +129,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 			else
 				return new CsvFileGenerator(new File(param.getFileNameValue()));
 		} catch (FileNotFoundException e) {
-			throw new AlgorithmConfigurationException("Error opening¶ specified CSV file.");		
+			throw new AlgorithmConfigurationException("Error opening specified CSV file.");		
 		}
 	}	
 	

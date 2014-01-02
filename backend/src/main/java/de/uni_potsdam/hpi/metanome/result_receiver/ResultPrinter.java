@@ -1,6 +1,5 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,7 +13,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
-public class ResultPrinter implements OmniscientResultReceiver, Closeable {
+public class ResultPrinter implements OmniscientResultReceiver {
 
 	protected PrintStream statStream;
 	protected PrintStream fdStream;
