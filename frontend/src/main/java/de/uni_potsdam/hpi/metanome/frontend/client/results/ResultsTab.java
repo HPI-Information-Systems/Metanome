@@ -1,6 +1,5 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;

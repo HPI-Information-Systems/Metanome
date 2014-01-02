@@ -17,11 +17,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 public class AlgorithmExecutor implements Closeable {
 
-	protected OmniscientResultReceiver resultReceiver;
+	protected CloseableOmniscientResultReceiver resultReceiver;
 	
 	protected FileGenerator fileGenerator;
 	
@@ -32,7 +32,7 @@ public class AlgorithmExecutor implements Closeable {
 	 * @param fileGenerator
 	 */
 	public AlgorithmExecutor(
-			OmniscientResultReceiver resultReceiver,
+			CloseableOmniscientResultReceiver resultReceiver,
 			FileGenerator fileGenerator) {
 		this.resultReceiver = resultReceiver;
 		
@@ -117,6 +117,6 @@ public class AlgorithmExecutor implements Closeable {
 
 	@Override
 	public void close() throws IOException {
-		// FIXME Close Printer
+		resultReceiver.close();
 	}
 }

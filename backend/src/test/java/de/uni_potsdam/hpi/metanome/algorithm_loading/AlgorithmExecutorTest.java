@@ -19,21 +19,21 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionExcep
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 public class AlgorithmExecutorTest {
 	
-	protected OmniscientResultReceiver resultReceiver;
+	protected CloseableOmniscientResultReceiver resultReceiver;
 	protected FileGenerator fileGenerator;
 	
 	protected AlgorithmExecutor executor;
 	
 	@Before
 	public void setUp() throws UnsupportedEncodingException{
-		resultReceiver = mock(OmniscientResultReceiver.class);
+		resultReceiver = mock(CloseableOmniscientResultReceiver.class);
 		fileGenerator = new TempFileGenerator();
 		
 		executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
@@ -136,7 +136,7 @@ public class AlgorithmExecutorTest {
 		executor.close();
 		
 		// Check result
-		// FIXME verify closed
+		verify(resultReceiver).close();
 	}
 	
 }
