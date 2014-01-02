@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,8 +61,9 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * 
 	 */
 	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
-		// FIXME generate algorithm Execution identifier
-		ResultPrinter resultPrinter = new ResultPrinter(algorithmName, "results");
+		String executionIdentifier = getExecutionIdetifier(algorithmName);
+		
+		ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier, "results");
 		ResultsCache resultsCache = new ResultsCache();
 		ResultsHub resultsHub = new ResultsHub();
 		resultsHub.addSubscriber(resultPrinter);
@@ -69,8 +72,12 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
 		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, fileGenerator);
-		currentResultReceiver.put(algorithmName, resultsCache);
+		currentResultReceiver.put(executionIdentifier, resultsCache);
 		return executor;
+	}
+	
+	protected String getExecutionIdetifier(String algorithmName) {
+		return algorithmName + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date());
 	}
 	
 	private List<ConfigurationValue> convertInputParameters(
