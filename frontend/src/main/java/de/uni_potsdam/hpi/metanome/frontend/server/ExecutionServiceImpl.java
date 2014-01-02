@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueSQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
@@ -32,7 +33,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStrin
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
+import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsCache;
+import de.uni_potsdam.hpi.metanome.result_receiver.ResultsHub;
 
 /**
  * Service Implementation for service that triggers algorithm execution
@@ -44,20 +47,29 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	private HashMap<String, ResultsCache> currentResultReceiver = new HashMap<String, ResultsCache>();
 	
 	/**
-	 * TODO docs
+	 * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write result files and 
+	 * cache results for the frontend.
 	 * 
 	 * @param algorithmName
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws UnsupportedEncodingException
+	 * 
+	 * @return an {@link AlgorithmExecutor}
+	 * 
+	 * @throws FileNotFoundException 
+	 * @throws UnsupportedEncodingException 
+	 * 
 	 */
-	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {		
-		ResultsCache resultReceiver = new ResultsCache();
+	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
+		// FIXME generate algorithm Execution identifier
+		ResultPrinter resultPrinter = new ResultPrinter(algorithmName, "results");
+		ResultsCache resultsCache = new ResultsCache();
+		ResultsHub resultsHub = new ResultsHub();
+		resultsHub.addSubscriber(resultPrinter);
+		resultsHub.addSubscriber(resultsCache);
 		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
-		AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
-		currentResultReceiver.put(algorithmName, resultReceiver);
+		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, fileGenerator);
+		currentResultReceiver.put(algorithmName, resultsCache);
 		return executor;
 	}
 	
