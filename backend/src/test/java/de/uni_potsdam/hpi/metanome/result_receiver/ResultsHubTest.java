@@ -22,15 +22,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 public class ResultsHubTest {
 
 	protected ResultsHub resultsHub;
-	protected OmniscientResultReceiver resultReceiver1;
-	protected OmniscientResultReceiver resultReceiver2;
+	protected CloseableOmniscientResultReceiver resultReceiver1;
+	protected CloseableOmniscientResultReceiver resultReceiver2;
 	
 	@Before
 	public void setUp() throws Exception {
 		// Setup 
 		resultsHub = new ResultsHub();
-		resultReceiver1 = mock(OmniscientResultReceiver.class);
-		resultReceiver2 = mock(OmniscientResultReceiver.class);
+		resultReceiver1 = mock(CloseableOmniscientResultReceiver.class);
+		resultReceiver2 = mock(CloseableOmniscientResultReceiver.class);
 	}
 
 	@After

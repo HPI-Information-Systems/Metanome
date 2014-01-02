@@ -5,45 +5,44 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
-public class ResultsHub implements OmniscientResultReceiver {
+public class ResultsHub implements CloseableOmniscientResultReceiver {
 	
-	protected Set<OmniscientResultReceiver> subscriber = new HashSet<OmniscientResultReceiver>();
+	protected Set<CloseableOmniscientResultReceiver> subscriber = new HashSet<CloseableOmniscientResultReceiver>();
 
 	/**
-	 * Adds an {@link OmniscientResultReceiver} to the set of subscribers.
+	 * Adds an {@link CloseableOmniscientResultReceiver} to the set of subscribers.
 	 * 
 	 * @param resultReceiver
 	 */
-	public void addSubscriber(OmniscientResultReceiver resultReceiver) {
+	public void addSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
 		subscriber.add(resultReceiver);	
 	}
 
 	/**
 	 * @return subscriber
 	 */
-	public Set<OmniscientResultReceiver> getSubscriber() {
+	public Set<CloseableOmniscientResultReceiver> getSubscriber() {
 		return subscriber;
 	}
 
 	/**
-	 * Removes an {@link OmniscientResultReceiver} from the subscriber set.
+	 * Removes an {@link CloseableOmniscientResultReceiver} from the subscriber set.
 	 * 
 	 * @param resultReceiver
 	 */
-	public void removeSubscriber(OmniscientResultReceiver resultReceiver) {
+	public void removeSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
 		subscriber.remove(resultReceiver);
 	}
 
 	@Override
 	public void receiveResult(BasicStatistic statistic) 
 			throws CouldNotReceiveResultException {
-		for (OmniscientResultReceiver resultReceiver : subscriber) {
+		for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
 			resultReceiver.receiveResult(statistic);
 		}
 	}
@@ -51,7 +50,7 @@ public class ResultsHub implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(FunctionalDependency functionalDependency)
 			throws CouldNotReceiveResultException {
-		for (OmniscientResultReceiver resultReceiver : subscriber) {
+		for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
 			resultReceiver.receiveResult(functionalDependency);
 		}
 	}
@@ -59,7 +58,7 @@ public class ResultsHub implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(InclusionDependency inclusionDependency)
 			throws CouldNotReceiveResultException {
-		for (OmniscientResultReceiver resultReceiver : subscriber) {
+		for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
 			resultReceiver.receiveResult(inclusionDependency);
 		}
 		
@@ -68,14 +67,14 @@ public class ResultsHub implements OmniscientResultReceiver {
 	@Override
 	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
 			throws CouldNotReceiveResultException {
-		for (OmniscientResultReceiver resultReceiver : subscriber) {
+		for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
 			resultReceiver.receiveResult(uniqueColumnCombination);
 		}		
 	}
 
 	@Override
 	public void close() throws IOException {
-		for (OmniscientResultReceiver resultReceiver : subscriber) {
+		for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
 			resultReceiver.close();
 		}
 	}

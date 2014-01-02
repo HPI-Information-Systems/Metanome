@@ -161,9 +161,4 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 		fdTable.setText(row, 1, "-->");
 		fdTable.setText(row, 2, functionalDependency.getDependant().toString());		
 	}
-
-	@Override
-	public void close() throws IOException {
-		
-	}
 }
