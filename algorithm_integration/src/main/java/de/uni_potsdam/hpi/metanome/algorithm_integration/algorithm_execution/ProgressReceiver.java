@@ -10,7 +10,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 public interface ProgressReceiver {
 
 	/**
-	 * Updates the {@link Algorithm}'s progress. Progress should be between 0 and 1.
+	 * Updates the {@link Algorithm}'s progress. Progress should be between 0 and 1 including bounds.
 	 * If the progress is invalid false is returned.
 	 * 
 	 * @param progress
