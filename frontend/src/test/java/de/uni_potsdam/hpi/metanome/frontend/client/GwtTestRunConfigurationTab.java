@@ -18,40 +18,55 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
 	private BasePage page;
 
 	@Test
-	public void testAddJarChooser(){
+	public void testConstruction(){
 		//Execute
-		RunConfigurationPage algoTab = new RunConfigurationPage(page);
+		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
 		
 		//Check - should contain only the jarChooser so far
-		assertEquals(1, algoTab.getWidgetCount());
-		assertTrue(algoTab.getJarChooser() instanceof JarChooser);
+		assertEquals(1, runConfigPage.getWidgetCount());
+		assertTrue(runConfigPage.getJarChooser() instanceof JarChooser);
 	}
 	
 	@Test
 	public void testAddParameterTable(){
 		//Setup
-		RunConfigurationPage algoTab = new RunConfigurationPage(page);
+		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-		int widgetCount = algoTab.getWidgetCount();
+		int widgetCount = runConfigPage.getWidgetCount();
 				
 		//Execute
-		algoTab.addParameterTable(paramList);
+		runConfigPage.addParameterTable(paramList);
 				
 		//Check
-		assertEquals(widgetCount + 1, algoTab.getWidgetCount());
+		assertEquals(widgetCount + 1, runConfigPage.getWidgetCount());
 	}
 	
 	@Test
 	public void testAddAlgorithms() {
 		//Setup
-		RunConfigurationPage algoTab = new RunConfigurationPage(page);
-		int noOfAlgorithms = algoTab.getJarChooser().getListItemCount();
+		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+		int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
 		
 		//Execute
-		algoTab.addAlgorithms("Additional 1", "Additional 2");
+		runConfigPage.addAlgorithms("Additional 1", "Additional 2");
 		
 		//Check
-		assertEquals(noOfAlgorithms + 2, algoTab.getJarChooser().getListItemCount());
+		assertEquals(noOfAlgorithms + 2, runConfigPage.getJarChooser().getListItemCount());
+	}
+	
+	@Test
+	public void testSelectAlgorithm() {
+		//Setup
+		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+		String algoName = "somethingRandom";
+		runConfigPage.addAlgorithms("Additional 1", algoName, "Additional 2");
+		assertEquals("--", runConfigPage.getCurrentlySelectedAlgorithm());
+		
+		//Execute
+		runConfigPage.selectAlgorithm(algoName);
+		
+		//Check
+		assertEquals(algoName, runConfigPage.getCurrentlySelectedAlgorithm());
 	}
 
 	@Override
