@@ -12,9 +12,9 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
- * @author Jakob Zwiener
- *
  * Test for {@link FileCreationException}
+ * 
+ * @author Jakob Zwiener
  */
 public class FileCreationExceptionTest {
 

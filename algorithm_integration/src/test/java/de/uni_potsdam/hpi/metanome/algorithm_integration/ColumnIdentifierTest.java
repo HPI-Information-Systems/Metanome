@@ -12,9 +12,9 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
- * @author Jakob Zwiener
- * 
  * Test for {@link ColumnIdentifier}
+ * 
+ * @author Jakob Zwiener
  */
 public class ColumnIdentifierTest {
 

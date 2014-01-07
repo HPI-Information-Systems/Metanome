@@ -4,9 +4,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 
 /**
- * @author Jakob Zwiener
- *
  * An {@link Algorithm} that takes {@link SQLInputGenerator} configuration values.
+ * 
+ * @author Jakob Zwiener
  */
 public interface SqlInputParameterAlgorithm extends Algorithm {
 

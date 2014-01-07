@@ -8,9 +8,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Relatio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
- * @author Jakob Zwiener
- * 
  * Represents csv file configuration values for {@link Algorithm}s.
+ * 
+ * @author Jakob Zwiener
  */
 public class ConfigurationValueRelationalInputGenerator implements ConfigurationValue {
 

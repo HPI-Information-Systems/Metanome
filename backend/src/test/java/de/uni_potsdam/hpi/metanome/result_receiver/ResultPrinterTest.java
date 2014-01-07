@@ -26,9 +26,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
- * @author Jakob Zwiener
- * 
  * Test for {@link ResultPrinter}
+ * 
+ * @author Jakob Zwiener
  */
 public class ResultPrinterTest {
 

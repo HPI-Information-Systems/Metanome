@@ -4,9 +4,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 
 /**
- * @author Jakob Zwiener
- *
  * An {@link Algorithm} that estimates it's own progress.
+ * 
+ * @author Jakob Zwiener
  */
 public interface ProgressEstimatingAlgorithm extends Algorithm {
 	

@@ -17,9 +17,9 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileCreationException;
 
 /**
- * @author Jakob Zwiener
- * 
  * Test for {@link TempFileGenerator}
+ * 
+ * @author Jakob Zwiener
  */
 public class TempFileGeneratorTest {
 

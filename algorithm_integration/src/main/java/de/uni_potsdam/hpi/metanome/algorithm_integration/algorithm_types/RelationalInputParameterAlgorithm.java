@@ -5,9 +5,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
- * @author Jakob Zwiener
- * 
  * An {@link Algorithm} that takes {@link RelationalInputGenerator} configuration values.
+ * 
+ * @author Jakob Zwiener
  */
 public interface RelationalInputParameterAlgorithm extends Algorithm {
 	
