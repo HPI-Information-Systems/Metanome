@@ -53,7 +53,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 		delayTestFinish(500);
 
 		// Execute
-		executionService.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs, callback);
+		executionService.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", "executionIdentifier1", configs, callback);
 	}
 
 	/**

@@ -15,7 +15,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 @RemoteServiceRelativePath("executionService")
 public interface ExecutionService extends RemoteService {
 
-	public long executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException;
+	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException;
 
 	public ArrayList<Result> fetchNewResults(String algorithmName);
+	
+	public float getProgress();
 }

@@ -27,7 +27,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	protected ExecutionServiceAsync executionService;
 	
 	protected Timer timer;
-	protected String algorithmName;
+	protected String executionIdentifier;
 	
 	protected HorizontalPanel resultsPanel;
 	
@@ -38,9 +38,9 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	
 	protected Image runningIndicator;
 	
-	public ResultsTab(ExecutionServiceAsync executionService, String algorithmName) {
+	public ResultsTab(ExecutionServiceAsync executionService, String executionIdentifier) {
 		this.executionService = executionService;
-		this.algorithmName = algorithmName;
+		this.executionIdentifier = executionIdentifier;
 		
 		this.resultsPanel = new HorizontalPanel();
 		this.setWidth("100%");
@@ -94,7 +94,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	}
 
 	protected void fetchNewResults() {
-		executionService.fetchNewResults(algorithmName, new AsyncCallback<ArrayList<Result>>() {
+		executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
 			  
 			  @Override
 			  public void onFailure(Throwable caught) {

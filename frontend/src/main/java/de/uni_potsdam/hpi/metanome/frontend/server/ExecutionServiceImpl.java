@@ -53,6 +53,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * cache results for the frontend.
 	 * 
 	 * @param algorithmName
+	 * @param executionIdentifier
 	 * 
 	 * @return an {@link AlgorithmExecutor}
 	 * 
@@ -60,9 +61,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
-	protected AlgorithmExecutor buildExecutor(String algorithmName) throws FileNotFoundException, UnsupportedEncodingException {
-		String executionIdentifier = getExecutionIdetifier(algorithmName);
-		
+	protected AlgorithmExecutor buildExecutor(String algorithmName, String executionIdentifier) throws FileNotFoundException, UnsupportedEncodingException {		
 		ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier, "results");
 		ResultsCache resultsCache = new ResultsCache();
 		ResultsHub resultsHub = new ResultsHub();
@@ -74,10 +73,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, fileGenerator);
 		currentResultReceiver.put(executionIdentifier, resultsCache);
 		return executor;
-	}
-	
-	protected String getExecutionIdetifier(String algorithmName) {
-		return algorithmName + new SimpleDateFormat("yyyy-MM-dd'T'HHmmss").format(new Date());
 	}
 	
 	private List<ConfigurationValue> convertInputParameters(
@@ -153,13 +148,12 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}	
 	
 	@Override
-	public long executeAlgorithm(String algorithmName, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
-		
+	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		AlgorithmExecutor executor = null;
 		
 		try {
-			executor = buildExecutor(algorithmName);
+			executor = buildExecutor(algorithmName, executionIdentifier);
 		} catch (FileNotFoundException e) {
 			throw new AlgorithmExecutionException("Could not generate result file.");
 		} catch (UnsupportedEncodingException e) {
@@ -176,7 +170,14 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}
 	
 	@Override
-	public ArrayList<Result> fetchNewResults(String algorithmName){		
-		return currentResultReceiver.get(algorithmName).getNewResults();
+	public ArrayList<Result> fetchNewResults(String executionIdentifier){	
+		// FIXME return exception when algorithm name is not in map
+		return currentResultReceiver.get(executionIdentifier).getNewResults();
+	}
+
+	@Override
+	public float getProgress() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
