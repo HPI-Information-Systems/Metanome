@@ -35,6 +35,7 @@ public class PLIBuilderTest {
 		List<PositionListIndex> expectedPLIList = fixture.getExpectedPLIList();
 		PositionListIndex[] expectedPLIArray = expectedPLIList.toArray(new PositionListIndex[expectedPLIList.size()]);
 		
-		assertThat(builder.getPLIList(), IsIterableContainingInAnyOrder.containsInAnyOrder(expectedPLIArray));
+		List<PositionListIndex> actualPLIList = builder.getPLIList();
+		assertThat(actualPLIList, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedPLIArray));
 	}
 }

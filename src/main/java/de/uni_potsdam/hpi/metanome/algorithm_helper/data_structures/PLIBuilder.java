@@ -1,7 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +15,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 public class PLIBuilder {
 	
-	protected List<HashMap<String, LongSet>> columns = new ArrayList<HashMap<String, LongSet>>();
+	protected List<HashMap<String, LongArrayList>> columns = new ArrayList<HashMap<String, LongArrayList>>();
 	protected RelationalInput input;
 	
 	public PLIBuilder(RelationalInput input) {
@@ -50,12 +49,12 @@ public class PLIBuilder {
 
 	protected void addValue(long rowCount, int columnCount, String attributeCell) {
 		if (columns.size() <= columnCount) {
-			columns.add(new HashMap<String, LongSet>());
+			columns.add(new HashMap<String, LongArrayList>());
 		}
 		if (columns.get(columnCount).containsKey(attributeCell)) {
 			columns.get(columnCount).get(attributeCell).add(rowCount);
 		} else {
-			LongSet newList = new LongAVLTreeSet();
+			LongArrayList newList = new LongArrayList();
 			newList.add(rowCount);
 			columns.get(columnCount).put(attributeCell, newList);
 		}
@@ -63,10 +62,10 @@ public class PLIBuilder {
 
 	protected List<PositionListIndex> purgePLIEntries() {
 		List<PositionListIndex> pliList = new ArrayList<PositionListIndex>();
-		Iterator<HashMap<String, LongSet>> columnsIterator = columns.iterator();
+		Iterator<HashMap<String, LongArrayList>> columnsIterator = columns.iterator();
 		while(columnsIterator.hasNext()) {
-			List<LongSet> clusters = new ArrayList<LongSet>();
-			for (LongSet cluster : columnsIterator.next().values()) {
+			List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+			for (LongArrayList cluster : columnsIterator.next().values()) {
 				if (cluster.size() < 2) {
 					continue;
 				}
