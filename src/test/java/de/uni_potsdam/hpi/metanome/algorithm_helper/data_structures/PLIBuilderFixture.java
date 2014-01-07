@@ -2,8 +2,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -71,12 +70,12 @@ public class PLIBuilderFixture {
 
 	public List<PositionListIndex> getExpectedPLIList() {
 		List<PositionListIndex> expectedPLIList = new LinkedList<PositionListIndex>();
-		List<LongSet> list1 = new LinkedList<LongSet>();
+		List<LongArrayList> list1 = new LinkedList<LongArrayList>();
 		PositionListIndex PLI1 = new PositionListIndex(list1);
 		expectedPLIList.add(PLI1);
 		
-		List<LongSet> list2 = new LinkedList<LongSet>();
-		LongAVLTreeSet arrayList21 = new LongAVLTreeSet();
+		List<LongArrayList> list2 = new LinkedList<LongArrayList>();
+		LongArrayList arrayList21 = new LongArrayList();
 		arrayList21.add(0);
 		arrayList21.add(1);
 		arrayList21.add(2);
@@ -86,9 +85,9 @@ public class PLIBuilderFixture {
 		PositionListIndex PLI2 = new PositionListIndex(list2);
 		expectedPLIList.add(PLI2);
 		
-		List<LongSet> list3 = new LinkedList<LongSet>();
-		LongAVLTreeSet arrayList31 = new LongAVLTreeSet();
-		LongAVLTreeSet arrayList32 = new LongAVLTreeSet();
+		List<LongArrayList> list3 = new LinkedList<LongArrayList>();
+		LongArrayList arrayList31 = new LongArrayList();
+		LongArrayList arrayList32 = new LongArrayList();
 		
 		arrayList31.add(0);
 		arrayList31.add(1);
@@ -102,8 +101,8 @@ public class PLIBuilderFixture {
 		PositionListIndex PLI3 = new PositionListIndex(list3);
 		expectedPLIList.add(PLI3);
 		
-		List<LongSet> list4 = new LinkedList<LongSet>();
-		LongAVLTreeSet arrayList41 = new LongAVLTreeSet();
+		List<LongArrayList> list4 = new LinkedList<LongArrayList>();
+		LongArrayList arrayList41 = new LongArrayList();
 		
 		arrayList41.add(0);
 		arrayList41.add(2);
