@@ -10,7 +10,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 public interface ExecutionServiceAsync {
 
-	public void executeAlgorithm(String algorithmName, List<InputParameter> parameters, AsyncCallback<Long> callback);
+	public void executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters, AsyncCallback<Long> callback);
 
-	public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> asyncCallback);
+	public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> callback);
+	
+	public void getProgress(AsyncCallback<Float> callback);
 }

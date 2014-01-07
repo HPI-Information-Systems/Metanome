@@ -85,8 +85,6 @@ public class GwtTestBasePage extends GWTTestCase{
 		((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 		
 		delayTestFinish(5000);
-	
-		
 	}
 
 	@Override

@@ -105,6 +105,7 @@ public class RunConfigurationPage extends DockPanel{
 	
 	/**
 	 * Execute the currently selected algorithm and switch to results page.
+	 * 
 	 * @param parameters	parameters to use for the algorithm execution
 	 */
 	public void callExecutionService(List<InputParameter> parameters) {
