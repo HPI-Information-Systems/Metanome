@@ -7,6 +7,11 @@ import java.util.Set;
 
 import org.apache.lucene.util.OpenBitSet;
 
+import com.google.common.collect.ImmutableList;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+
 public class ColumnCombinationBitset {
 
 	protected OpenBitSet bitset;
@@ -453,6 +458,21 @@ public class ColumnCombinationBitset {
 	 */
 	public int size() {
 		return (int) size;
+	}
+	
+	/**
+	 * TODO: docs
+	 * 
+	 * @return a List of all ColumnIdentifiers as ColumnCombination.
+	 */
+	public ColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, ImmutableList<String> columnNames) {
+		ColumnIdentifier[] identifierList = new ColumnIdentifier[candidate.size()];
+		int i = 0;
+		for (Integer columnIndex : candidate.getSetBits()) {
+			identifierList[i] = new ColumnIdentifier(relationName, columnNames.get(columnIndex));
+			i++;
+		}
+		return new ColumnCombination(identifierList);
 	}
 }
 
