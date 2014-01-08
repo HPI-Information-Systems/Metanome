@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 
 import com.google.common.collect.ImmutableList;
 
@@ -14,48 +15,48 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationExc
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 public class PLIBuilderFixture {
-	public List<ArrayList<String>> actualColumns = new LinkedList<ArrayList<String>>();
+	protected List<ArrayList<String>> columns = new LinkedList<ArrayList<String>>();
 	
-	PLIBuilderFixture() {
+	public PLIBuilderFixture() {
 		ArrayList<String> column1 = new ArrayList<String>();
 		column1.add("1");
 		column1.add("2");
 		column1.add("3");
 		column1.add("4");
 		column1.add("5");
-		actualColumns.add(column1);
+		columns.add(column1);
 		ArrayList<String> column2 = new ArrayList<String>();
 		column2.add("1");
 		column2.add("1");
 		column2.add("1");
 		column2.add("1");
 		column2.add("1");
-		actualColumns.add(column2);
+		columns.add(column2);
 		ArrayList<String> column3 = new ArrayList<String>();
 		column3.add("5");
 		column3.add("5");
 		column3.add("3");
 		column3.add("3");
 		column3.add("5");
-		actualColumns.add(column3);
+		columns.add(column3);
 		ArrayList<String> column4 = new ArrayList<String>();
 		column4.add("");
 		column4.add("2");
 		column4.add("");
 		column4.add("4");
 		column4.add("5");
-		actualColumns.add(column4);
+		columns.add(column4);
 	}
 	
 	public RelationalInput getSimpleRelationalInput() throws InputIterationException {
 		RelationalInput simpleRelationalInput = mock(RelationalInput.class);
 		
 		when(simpleRelationalInput.next())
-			.thenReturn(ImmutableList.of(actualColumns.get(0).get(0), actualColumns.get(1).get(0), actualColumns.get(2).get(0), actualColumns.get(3).get(0)))
-			.thenReturn(ImmutableList.of(actualColumns.get(0).get(1), actualColumns.get(1).get(1), actualColumns.get(2).get(1), actualColumns.get(3).get(1)))
-			.thenReturn(ImmutableList.of(actualColumns.get(0).get(2), actualColumns.get(1).get(2), actualColumns.get(2).get(2), actualColumns.get(3).get(2)))
-			.thenReturn(ImmutableList.of(actualColumns.get(0).get(3), actualColumns.get(1).get(3), actualColumns.get(2).get(3), actualColumns.get(3).get(3)))
-			.thenReturn(ImmutableList.of(actualColumns.get(0).get(4), actualColumns.get(1).get(4), actualColumns.get(2).get(4), actualColumns.get(3).get(4)));
+			.thenReturn(ImmutableList.of(columns.get(0).get(0), columns.get(1).get(0), columns.get(2).get(0), columns.get(3).get(0)))
+			.thenReturn(ImmutableList.of(columns.get(0).get(1), columns.get(1).get(1), columns.get(2).get(1), columns.get(3).get(1)))
+			.thenReturn(ImmutableList.of(columns.get(0).get(2), columns.get(1).get(2), columns.get(2).get(2), columns.get(3).get(2)))
+			.thenReturn(ImmutableList.of(columns.get(0).get(3), columns.get(1).get(3), columns.get(2).get(3), columns.get(3).get(3)))
+			.thenReturn(ImmutableList.of(columns.get(0).get(4), columns.get(1).get(4), columns.get(2).get(4), columns.get(3).get(4)));
 		
 		when(simpleRelationalInput.hasNext())
 			.thenReturn(true)
@@ -68,6 +69,16 @@ public class PLIBuilderFixture {
 		return simpleRelationalInput;
 	}
 
+	public List<TreeSet<String>> getExpectedDistinctSortedColumns() {
+		List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
+		
+		for (ArrayList<String> columnValues : columns) {
+			distinctSortedColumns.add(new TreeSet<String>(columnValues));
+		}
+		
+		return distinctSortedColumns;
+	}
+	
 	public List<PositionListIndex> getExpectedPLIList() {
 		List<PositionListIndex> expectedPLIList = new LinkedList<PositionListIndex>();
 		List<LongArrayList> list1 = new LinkedList<LongArrayList>();
