@@ -1,22 +1,21 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex;
-
 public class PositionListIndexFixture {
 
 	PositionListIndex getFirstPLI() {
-		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
+		List<LongSet> clusters = new ArrayList<LongSet>();
 		
 		long[] cluster1 = {2, 4, 8};
-		clusters.add(new LongOpenHashSet(cluster1));
+		clusters.add(new LongAVLTreeSet(cluster1));
 		long[] cluster2 = {5, 6, 7};
-		clusters.add(new LongOpenHashSet(cluster2));
+		clusters.add(new LongAVLTreeSet(cluster2));
 		
 		return new PositionListIndex(clusters);
 	}
@@ -30,25 +29,25 @@ public class PositionListIndexFixture {
 	}
 	
 	protected PositionListIndex getPermutatedFirstPLI() {
-		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
+		List<LongSet> clusters = new ArrayList<LongSet>();
 		
 		long[] cluster1 = {7, 6, 5};
-		clusters.add(new LongOpenHashSet(cluster1));
+		clusters.add(new LongAVLTreeSet(cluster1));
 		long[] cluster2 = {4, 2, 2, 8};
-		clusters.add(new LongOpenHashSet(cluster2));
+		clusters.add(new LongAVLTreeSet(cluster2));
 		
 		return new PositionListIndex(clusters);
 	}
 	
 	protected PositionListIndex getSupersetOfFirstPLI() {
-		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
+		List<LongSet> clusters = new ArrayList<LongSet>();
 		
 		long[] cluster1 = {7, 6, 5};
-		clusters.add(new LongOpenHashSet(cluster1));
+		clusters.add(new LongAVLTreeSet(cluster1));
 		long[] cluster2 = {4, 2, 2, 8};
-		clusters.add(new LongOpenHashSet(cluster2));
+		clusters.add(new LongAVLTreeSet(cluster2));
 		long[] cluster3 = {10, 11};
-		clusters.add(new LongOpenHashSet(cluster3));
+		clusters.add(new LongAVLTreeSet(cluster3));
 		
 		return new PositionListIndex(clusters);
 	}
@@ -68,12 +67,12 @@ public class PositionListIndexFixture {
 	}
 	
 	protected PositionListIndex getSecondPLI() {
-		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
+		List<LongSet> clusters = new ArrayList<LongSet>();
 		
 		long[] cluster1 = {1, 2, 5, 8};
-		clusters.add(new LongOpenHashSet(cluster1));
+		clusters.add(new LongAVLTreeSet(cluster1));
 		long[] cluster2 = {4, 6, 7};
-		clusters.add(new LongOpenHashSet(cluster2));
+		clusters.add(new LongAVLTreeSet(cluster2));
 		
 		return new PositionListIndex(clusters);
 	}
@@ -83,12 +82,12 @@ public class PositionListIndexFixture {
 	}
 	
 	protected PositionListIndex getExpectedIntersectedPLI() {
-		List<LongOpenHashSet> clusters = new ArrayList<LongOpenHashSet>();
+		List<LongSet> clusters = new ArrayList<LongSet>();
 		
 		long[] cluster1 = {2, 8};
-		clusters.add(new LongOpenHashSet(cluster1));
+		clusters.add(new LongAVLTreeSet(cluster1));
 		long[] cluster2 = {6, 7};
-		clusters.add(new LongOpenHashSet(cluster2));
+		clusters.add(new LongAVLTreeSet(cluster2));
 		
 		return new PositionListIndex(clusters);
 	}
