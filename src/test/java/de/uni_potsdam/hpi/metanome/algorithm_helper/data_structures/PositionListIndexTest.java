@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -133,7 +133,7 @@ public class PositionListIndexTest {
 	@Test
 	public void testIsEmptyUnique() {
 		// Setup 
-		List<LongOpenHashSet> clusters = new LinkedList<LongOpenHashSet>();
+		List<LongSet> clusters = new LinkedList<LongSet>();
 		PositionListIndex emptyPli = new PositionListIndex(clusters);
 		PositionListIndex nonEmptyPli = fixture.getFirstPLI();
 		
