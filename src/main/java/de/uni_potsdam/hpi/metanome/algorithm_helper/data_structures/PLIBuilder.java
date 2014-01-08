@@ -5,7 +5,9 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 
 import com.google.common.collect.ImmutableList;
 
@@ -32,6 +34,25 @@ public class PLIBuilder {
 		calculateRawPLI();
 		List<PositionListIndex> pliList = purgePLIEntries();
 		return pliList;
+	}
+	
+	/**
+	 * TODO docs
+	 * 
+	 * @return
+	 * 
+	 * @throws InputIterationException 
+	 */
+	public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
+		calculateRawPLI();
+		
+		List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
+		
+		for (HashMap<String, LongArrayList> columnMap : columns) {
+			distinctSortedColumns.add(new TreeSet<String>(columnMap.keySet()));
+		}
+		
+		return distinctSortedColumns;
 	}
 	
 	protected void calculateRawPLI() throws InputIterationException {
