@@ -1,21 +1,24 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongAVLTreeSet;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class PositionListIndex {
 
-	protected List<LongSet> clusters;
+	protected List<LongArrayList> clusters;
 
-	public PositionListIndex(List<LongSet> clusters) {
+	public PositionListIndex(List<LongArrayList> clusters) {
 		this.clusters = clusters;
 	}
 
@@ -23,7 +26,7 @@ public class PositionListIndex {
 	 * Constructs an empty {@link PositionListIndex}.
 	 */
 	public PositionListIndex() {
-		this.clusters = new ArrayList<LongSet>();
+		this.clusters = new ArrayList<LongArrayList>();
 	}
 	
 	/**
@@ -47,7 +50,10 @@ public class PositionListIndex {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		Collections.sort(clusters, new Comparator<LongSet>() {
+		
+		List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
+		
+		Collections.sort(setCluster, new Comparator<LongSet>() {
 
 	        @Override
 	        public int compare(LongSet o1, LongSet o2) {
@@ -55,7 +61,7 @@ public class PositionListIndex {
 	        }
 	    });
 		result = prime * result
-				+ ((clusters == null) ? 0 : clusters.hashCode());
+				+ ((setCluster == null) ? 0 : setCluster.hashCode());
 		return result;
 	}
 
@@ -64,6 +70,8 @@ public class PositionListIndex {
 	 */
 	@Override
 	public boolean equals(Object obj) {
+		
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -75,19 +83,31 @@ public class PositionListIndex {
 			if (other.clusters != null)
 				return false;
 		} else {
-			for (LongSet cluster : clusters) {
-				if (!other.clusters.contains(cluster)) {
+			List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
+			List<LongOpenHashSet> otherSetCluster = convertClustersToSets(other.clusters);
+			
+			for (LongSet cluster : setCluster) {
+				if (!otherSetCluster.contains(cluster)) {
 					return false;
 				}
 			}
-			for (LongSet cluster : other.clusters) {
-				if (!clusters.contains(cluster)) {
+			for (LongSet cluster : otherSetCluster) {
+				if (!setCluster.contains(cluster)) {
 					return false;
 				}
 			}
 		}
 			
 		return true;
+	}
+	
+	private List<LongOpenHashSet> convertClustersToSets(List<LongArrayList> listCluster) {
+		List<LongOpenHashSet> setClusters = new LinkedList<LongOpenHashSet>();
+		for (LongList cluster : listCluster) {
+			setClusters.add(new LongOpenHashSet(cluster));
+		}
+		
+		return setClusters;
 	}
 
 	/**
@@ -99,11 +119,11 @@ public class PositionListIndex {
 	 */
 	protected PositionListIndex calculateIntersection(PositionListIndex otherPLI) {
 		Long2LongOpenHashMap hashedPLI = this.asHashMap();
-		Map<LongPair, LongSet> map = new HashMap<LongPair, LongSet>();
+		Map<LongPair, LongArrayList> map = new HashMap<LongPair, LongArrayList>();
 		buildMap(otherPLI, hashedPLI, map);
 		
-		List<LongSet> clusters = new ArrayList<LongSet>();
-		for (LongSet cluster : map.values()) {
+		List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+		for (LongArrayList cluster : map.values()) {
 			if (cluster.size() < 2) {
 				continue;
 			} 
@@ -112,9 +132,9 @@ public class PositionListIndex {
 		return new PositionListIndex(clusters);
 	}
 
-	protected void buildMap(PositionListIndex otherPLI, Long2LongOpenHashMap hashedPLI, Map<LongPair, LongSet> map) {
+	protected void buildMap(PositionListIndex otherPLI, Long2LongOpenHashMap hashedPLI, Map<LongPair, LongArrayList> map) {
 		long uniqueValueCount = 0;
-		for (LongSet sameValues : otherPLI.clusters) {
+		for (LongArrayList sameValues : otherPLI.clusters) {
 			for (long rowCount : sameValues) {
 				if (hashedPLI.containsKey(rowCount)) {
 					LongPair pair = new LongPair(uniqueValueCount, hashedPLI.get(rowCount));
@@ -125,12 +145,12 @@ public class PositionListIndex {
 		}
 	}
 	
-	protected void updateMap(Map<LongPair, LongSet> map, long rowCount, LongPair pair) {
+	protected void updateMap(Map<LongPair, LongArrayList> map, long rowCount, LongPair pair) {
 		if (map.containsKey(pair)) {
-			LongSet currentList = map.get(pair);
+			LongArrayList currentList = map.get(pair);
 			currentList.add(rowCount);
 		} else {
-			LongSet newList = new LongAVLTreeSet();
+			LongArrayList newList = new LongArrayList();
 			newList.add(rowCount);
 			map.put(pair, newList);
 		}
@@ -144,7 +164,7 @@ public class PositionListIndex {
 	public Long2LongOpenHashMap asHashMap() {
 		Long2LongOpenHashMap hashedPLI = new Long2LongOpenHashMap(clusters.size());
 		long uniqueValueCount = 0;
-		for (LongSet sameValues : clusters) {
+		for (LongArrayList sameValues : clusters) {
 			for (long rowIndex : sameValues) {
 				hashedPLI.put(rowIndex, uniqueValueCount);
 			}
@@ -185,7 +205,7 @@ public class PositionListIndex {
 	public long getRawKeyError() {
 		long sumClusterSize = 0;
 		
-		for (LongSet cluster : clusters) {
+		for (LongArrayList cluster : clusters) {
 			sumClusterSize += cluster.size();
 		}
 		
