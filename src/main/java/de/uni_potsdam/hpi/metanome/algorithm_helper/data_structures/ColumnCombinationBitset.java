@@ -9,8 +9,8 @@ import org.apache.lucene.util.OpenBitSet;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ColumnCombinationBitset {
 
@@ -464,14 +464,14 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @return a List of all ColumnIdentifiers as ColumnCombination.
 	 */
-	public ColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, ImmutableList<String> columnNames) {
+	public UniqueColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, ImmutableList<String> columnNames) {
 		ColumnIdentifier[] identifierList = new ColumnIdentifier[candidate.size()];
 		int i = 0;
 		for (Integer columnIndex : candidate.getSetBits()) {
 			identifierList[i] = new ColumnIdentifier(relationName, columnNames.get(columnIndex));
 			i++;
 		}
-		return new ColumnCombination(identifierList);
+		return new UniqueColumnCombination(identifierList);
 	}
 }
 
