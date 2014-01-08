@@ -464,7 +464,7 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @return a List of all ColumnIdentifiers as ColumnCombination.
 	 */
-	public UniqueColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, ImmutableList<String> columnNames) {
+	public UniqueColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, List<String> columnNames) {
 		ColumnIdentifier[] identifierList = new ColumnIdentifier[candidate.size()];
 		int i = 0;
 		for (Integer columnIndex : candidate.getSetBits()) {
