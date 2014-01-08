@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Jakob Zwiener
- *
  * Test for {@link HibernateUtil}
+ * 
+ * @author Jakob Zwiener
  */
 public class HibernateUtilTest {
 

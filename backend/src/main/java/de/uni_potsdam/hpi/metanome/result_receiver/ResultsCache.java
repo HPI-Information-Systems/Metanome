@@ -12,9 +12,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
- * @author Jakob Zwiener
- * 
  * Stores all received Results in a list and returns the new results on call to {@link ResultsCache#getNewResults()}.
+ * 
+ * @author Jakob Zwiener
  */
 public class ResultsCache implements CloseableOmniscientResultReceiver {
 

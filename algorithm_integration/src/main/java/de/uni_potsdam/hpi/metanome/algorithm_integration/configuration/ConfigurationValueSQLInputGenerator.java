@@ -8,9 +8,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInpu
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 
 /**
- * @author Jakob Zwiener
- *
  * Represents sql input configuration values for {@link Algorithm}s.
+ * 
+ * @author Jakob Zwiener
  */
 public class ConfigurationValueSQLInputGenerator implements ConfigurationValue {
 

@@ -13,8 +13,6 @@ import org.junit.Test;
  * Test for {@link ProgressCache}
  * 
  * @author Jakob Zwiener
- * 
- * FIXME all author tags should be after the initial description
  */
 public class ProgressCacheTest {
 

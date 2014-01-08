@@ -20,9 +20,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Omnisci
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 /**
- * @author Jakob Zwiener
- * 
  * Test for {@link UniqueColumnCombination}
+ * 
+ * @author Jakob Zwiener
  */
 public class UniqueColumnCombinationTest {
 
