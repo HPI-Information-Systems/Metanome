@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,15 +22,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 public class ResultsHubTest {
 
 	protected ResultsHub resultsHub;
-	protected OmniscientResultReceiver resultReceiver1;
-	protected OmniscientResultReceiver resultReceiver2;
+	protected CloseableOmniscientResultReceiver resultReceiver1;
+	protected CloseableOmniscientResultReceiver resultReceiver2;
 	
 	@Before
 	public void setUp() throws Exception {
 		// Setup 
 		resultsHub = new ResultsHub();
-		resultReceiver1 = mock(OmniscientResultReceiver.class);
-		resultReceiver2 = mock(OmniscientResultReceiver.class);
+		resultReceiver1 = mock(CloseableOmniscientResultReceiver.class);
+		resultReceiver2 = mock(CloseableOmniscientResultReceiver.class);
 	}
 
 	@After
@@ -179,5 +181,26 @@ public class ResultsHubTest {
 		resultsHub.receiveResult(ucc2);
 		verify(resultReceiver1).receiveResult(ucc2);
 		verify(resultReceiver2).receiveResult(ucc2);
+	}
+	
+	/**
+	 * Test method for {@link ResultsHub#close()}
+	 * 
+	 * On close all subscribers should be closed.
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testClose() throws IOException {
+		// Setup
+		resultsHub.addSubscriber(resultReceiver1);
+		resultsHub.addSubscriber(resultReceiver2);
+		
+		// Execute functionality
+		resultsHub.close();
+		
+		// Check result
+		verify(resultReceiver1).close();
+		verify(resultReceiver2).close();		
 	}
 }

@@ -1,7 +1,10 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -59,7 +62,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	      }
 	    };
 
-	    this.timer.scheduleRepeating(1000);
+	    this.timer.scheduleRepeating(10000);
 	}
 	
 	public AsyncCallback<Long> getCancelCallback() {
@@ -75,11 +78,13 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 		return callback;
 	}
 	
-	public void cancelTimerOnSuccess(Long executionTime){
+	public void cancelTimerOnSuccess(Long executionTimeNanoSecs){
 		this.timer.cancel();
 		this.remove(runningIndicator);
 		fetchNewResults();
-		this.add(new Label("Algorithm executed in " +  executionTime/1000000d + " ms."));
+		DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
+		Date date = new Date(Math.round(executionTimeNanoSecs/1000000d));
+		this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0)) + " (HH:mm:ss.SSS) or " +  executionTimeNanoSecs/1000000d + " ms."));
 	}
 	
 	public void cancelTimerOnFail(Throwable caught){
@@ -105,7 +110,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	}
 	
 	protected void displayResults(ArrayList<Result> results) {
-		for (Result r : results){
+		for (Result r : results) {
 			try {
 				r.sendResultTo(this);
 			} catch (CouldNotReceiveResultException e) {
