@@ -77,7 +77,7 @@ public class DataSourcesPage extends VerticalPanel {
 		int row = 0;
 		for(String dataSourceName : dataSourceNames) {
 			list.setText(row, 0, dataSourceName);
-			//list.setWidget(row, 1, runButton);			
+			//TODO list.setWidget(row, 1, runButton);			
 			row++;
 		}
 	}

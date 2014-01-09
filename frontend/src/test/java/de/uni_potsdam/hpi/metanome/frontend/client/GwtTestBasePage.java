@@ -74,7 +74,7 @@ public class GwtTestBasePage extends GWTTestCase{
 				assertEquals(algorithmName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
 						.getCurrentlySelectedAlgorithm());				
 				
-//				Add testing to ensure the parameter table is shown
+//				TODO Add testing to ensure the parameter table is shown
 //				assertEquals(2, (((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidgetCount()); 
 //				assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1) instanceof ParameterTable); 
 				
