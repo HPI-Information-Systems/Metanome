@@ -14,5 +14,5 @@ public interface ExecutionServiceAsync {
 
 	public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> callback);
 	
-	public void getProgress(AsyncCallback<Float> callback);
+	public void fetchProgress(String executionIdentifier, AsyncCallback<Float> callback);
 }

@@ -18,6 +18,6 @@ public interface ExecutionService extends RemoteService {
 	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException;
 
 	public ArrayList<Result> fetchNewResults(String algorithmName);
-	
-	public float getProgress();
+
+	public float fetchProgress(String executionIdentifier);
 }
