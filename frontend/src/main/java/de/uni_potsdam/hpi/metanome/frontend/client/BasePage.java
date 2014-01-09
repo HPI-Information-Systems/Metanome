@@ -30,7 +30,7 @@ public class BasePage extends TabLayoutPanel {
 	
 	protected FinderServiceAsync finderService;
 	
-	public enum Tabs {ABOUT, DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS};
+	public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT};
 	
 	/**
 	 * Constructor. Initiate creation of subpages.
@@ -40,12 +40,12 @@ public class BasePage extends TabLayoutPanel {
 		this.setWidth("100%");
 		this.setHeight("95%");
 				
-		this.add(createAboutPage(), "About");
-		this.add(new DataSourcesPage(), "Data Sources");
-		this.add(new AlgorithmsPage(this), "Algorithms");
+		this.insert(new DataSourcesPage(), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+		this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
 		runConfigurationsPage = new RunConfigurationPage(this);
-		this.add(runConfigurationsPage, "Run Configuration");
-		this.add(createResultsPage(), "Results");
+		this.insert(runConfigurationsPage, "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+		this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
+		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
 	}
 	
 	/**
