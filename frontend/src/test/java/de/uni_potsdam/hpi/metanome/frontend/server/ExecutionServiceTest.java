@@ -1,6 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 
 import junit.framework.TestCase;
 
@@ -75,6 +76,9 @@ public class ExecutionServiceTest extends TestCase {
 
 	}
 	
+	/**
+	 * TODO docs
+	 */
 	@Test
 	public void testBuildSqlIteratorGenerator() {
 		try{
@@ -87,4 +91,29 @@ public class ExecutionServiceTest extends TestCase {
 		//TODO: Test whether correct parameter values are given (using mock)
 
 	}
+	
+	/**
+	 * Test method for {@link ExecutionServiceImpl#fetchProgress(String)}
+	 * 
+	 * When fetching the current progress for an execution the correct progress should be returned.
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+	@Test
+	public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
+		// Setup
+		// Expected values
+		String expectedExecutionIdentifier = "executionIdentifier";
+		executionService.buildExecutor("someAlgo", expectedExecutionIdentifier);
+		float expectedProgress = 0.42f;
+		
+		// Execute functionality
+		executionService.currentProgressCaches.get(expectedExecutionIdentifier).updateProgress(expectedProgress);
+		float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
+		
+		// Check result
+		assertEquals(expectedProgress, actualProgress);
+	}
+	
 }
