@@ -17,9 +17,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
- * @author Jakob Zwiener
- *
  * Test for {@link ResultsCache}
+ * 
+ * @author Jakob Zwiener
  */
 public class ResultsCacheTest {
 

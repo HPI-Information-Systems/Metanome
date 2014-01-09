@@ -15,9 +15,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Relatio
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 /**
- * @author Jakob Zwiener
- * 
  * Tests for {@link ConfigurationValueRelationalInputGenerator}
+ * 
+ * @author Jakob Zwiener
  */
 public class ConfigurationValueRelationalInputGeneratorTest {
 	

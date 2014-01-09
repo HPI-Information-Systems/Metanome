@@ -7,9 +7,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 
 /**
- * @author Jakob Zwiener
- * 
  * Represents string configuration values for {@link Algorithm}s.
+ * 
+ * @author Jakob Zwiener
  */
 public class ConfigurationValueString implements ConfigurationValue {
 

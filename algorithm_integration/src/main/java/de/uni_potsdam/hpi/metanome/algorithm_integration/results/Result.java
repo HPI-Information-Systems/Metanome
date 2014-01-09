@@ -6,9 +6,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 /**
- * @author Jakob Zwiener
- * 
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
+ * 
+ * @author Jakob Zwiener
  */
 public interface Result extends Serializable {
 

@@ -3,9 +3,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 import com.google.common.collect.ImmutableList;
 
 /**
- * @author Jakob Zwiener
- * 
  * Relational inputs can be iterated, but iterators may throw {@link InputIterationException}s when iterating.
+ * 
+ * @author Jakob Zwiener
  */
 public interface RelationalInput {
 	

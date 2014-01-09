@@ -6,9 +6,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 /**
- * @author Jakob Zwiener
- * 
  * Represents a functional dependency.
+ * 
+ * @author Jakob Zwiener
  */
 public class FunctionalDependency implements Result {
 

@@ -1,8 +1,10 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -75,15 +77,24 @@ public class BasePage extends TabLayoutPanel {
 	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
 			String algorithmName, List<InputParameter> parameters) {
-		ResultsTab resultsTab = new ResultsTab(executionService, algorithmName);
-		executionService.executeAlgorithm(algorithmName, parameters, resultsTab.getCancelCallback());
+		
+		String executionIdentifier = getExecutionIdetifier(algorithmName);
+		
+		ResultsTab resultsTab = new ResultsTab(executionService, executionIdentifier);
+		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTab.getCancelCallback());
 		resultsTab.startPolling();
 				
 		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
 		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, scrollableResultsTab, resultsPage));
 
+		// TODO Jakob does not get this
 		this.selectTab(resultsPage);
 		resultsPage.selectTab(Tabs.RESULTS.ordinal());
+	}
+	
+	protected String getExecutionIdetifier(String algorithmName) {
+		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
+		return algorithmName + format.format(new Date());		
 	}
 
 	/**

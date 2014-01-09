@@ -1,10 +1,9 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
 /**
- * @author Jakob Zwiener
- * 
  * Generates new copies of a {@link RelationalInput}.
- *
+ * 
+ * @author Jakob Zwiener
  */
 public interface RelationalInputGenerator {
 	

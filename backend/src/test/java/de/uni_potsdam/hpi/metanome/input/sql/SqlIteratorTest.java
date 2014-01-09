@@ -18,9 +18,9 @@ import com.google.common.collect.ImmutableList;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
 /**
- * @author Jakob Zwiener
- * 
  * Test for {@link SqlIterator}
+ * 
+ * @author Jakob Zwiener
  */
 public class SqlIteratorTest {
 

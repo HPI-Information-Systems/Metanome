@@ -5,9 +5,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 /**
- * @author Jakob Zwiener
- * 
  * Represents an inclusion dependency.
+ * 
+ * @author Jakob Zwiener
  */
 public class InclusionDependency implements Result {
 

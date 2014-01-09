@@ -5,6 +5,8 @@ import java.io.File;
 
 /**
  * Generates temporary files.
+ * 
+ * @author Jakob Zwiener
  */
 public interface FileGenerator extends Closeable {
 
