@@ -87,9 +87,8 @@ public class BasePage extends TabLayoutPanel {
 		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
 		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, scrollableResultsTab, resultsPage));
 
-		// TODO Jakob does not get this
 		this.selectTab(resultsPage);
-		resultsPage.selectTab(Tabs.RESULTS.ordinal());
+		resultsPage.selectTab(scrollableResultsTab);
 	}
 	
 	protected String getExecutionIdetifier(String algorithmName) {
