@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -27,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultRece
 public class AlgorithmExecutorTest {
 	
 	protected CloseableOmniscientResultReceiver resultReceiver;
+	protected ProgressCache progressCache;
 	protected FileGenerator fileGenerator;
 	
 	protected AlgorithmExecutor executor;
@@ -34,9 +36,10 @@ public class AlgorithmExecutorTest {
 	@Before
 	public void setUp() throws UnsupportedEncodingException{
 		resultReceiver = mock(CloseableOmniscientResultReceiver.class);
+		progressCache = mock(ProgressCache.class);
 		fileGenerator = new TempFileGenerator();
 		
-		executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
+		executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
 	}
 
 	/**
@@ -100,6 +103,8 @@ public class AlgorithmExecutorTest {
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+		// After finishing the progress should be 1;
+		verify(progressCache).updateProgress(1);
 	}
 	
 	/**

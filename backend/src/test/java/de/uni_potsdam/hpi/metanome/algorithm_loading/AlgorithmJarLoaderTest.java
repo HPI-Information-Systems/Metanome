@@ -14,6 +14,8 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -65,6 +67,10 @@ public class AlgorithmJarLoaderTest {
 		
 		UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
 		uccAlgorithm.setResultReceiver(mock(OmniscientResultReceiver.class));
-		uccAlgorithm.execute();
+		
+		ProgressEstimatingAlgorithm progressAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+		progressAlgorithm.setProgressReceiver(mock(ProgressReceiver.class));
+		
+		algorithm.execute();
 	}
 }
