@@ -38,7 +38,7 @@ public class BasePage extends TabLayoutPanel {
 	public BasePage() {
 		super(1, Unit.CM);
 		this.setWidth("100%");
-		this.setHeight("95%");
+		this.setHeight("100%");
 				
 		this.insert(new DataSourcesPage(), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 		this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
@@ -80,15 +80,18 @@ public class BasePage extends TabLayoutPanel {
 		
 		String executionIdentifier = getExecutionIdetifier(algorithmName);
 		
-		ResultsTab resultsTab = new ResultsTab(executionService, executionIdentifier);
-		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTab.getCancelCallback());
-		resultsTab.startPolling();
-				
-		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
-		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, scrollableResultsTab, resultsPage));
+		ScrollPanel resultsTab = new ScrollPanel();
+		resultsTab.setHeight("95%");
+		resultsPage.add(resultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
+
+		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
+		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTabContent.getCancelCallback());
+		resultsTabContent.startPolling();
+		
+		resultsTab.add(resultsTabContent);
 
 		this.selectTab(resultsPage);
-		resultsPage.selectTab(scrollableResultsTab);
+		resultsPage.selectTab(resultsTab);
 	}
 	
 	protected String getExecutionIdetifier(String algorithmName) {
