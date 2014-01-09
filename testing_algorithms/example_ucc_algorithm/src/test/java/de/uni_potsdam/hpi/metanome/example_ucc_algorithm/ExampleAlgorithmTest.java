@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -79,10 +80,12 @@ public class ExampleAlgorithmTest {
 	public void testStart() throws CouldNotReceiveResultException, InterruptedException {
 		// Setup
 		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
+		ProgressReceiver progressCache = mock(ProgressReceiver.class);
 		this.algorithm.setConfigurationValue(pathIdentifier, "something");
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
+		this.algorithm.setProgressReceiver(progressCache);
 		this.algorithm.execute();
 				
 		// Check result

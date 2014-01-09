@@ -8,12 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -22,6 +24,7 @@ import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultRece
 public class AlgorithmExecutor implements Closeable {
 
 	protected CloseableOmniscientResultReceiver resultReceiver;
+	protected ProgressCache progressCache;
 	
 	protected FileGenerator fileGenerator;
 	
@@ -33,8 +36,10 @@ public class AlgorithmExecutor implements Closeable {
 	 */
 	public AlgorithmExecutor(
 			CloseableOmniscientResultReceiver resultReceiver,
+			ProgressCache progressCache,
 			FileGenerator fileGenerator) {
 		this.resultReceiver = resultReceiver;
+		this.progressCache = progressCache;
 		
 		this.fileGenerator = fileGenerator;
 	}
@@ -100,6 +105,11 @@ public class AlgorithmExecutor implements Closeable {
 		if (interfaces.contains(TempFileAlgorithm.class)) {
 			TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
 			tempFileAlgorithm.setTempFileGenerator(fileGenerator);
+		}
+		
+		if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
+			ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+			progressEstimatingAlgorithm.setProgressReceiver(progressCache);
 		}
 				
 		long before = System.nanoTime();

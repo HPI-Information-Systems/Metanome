@@ -5,6 +5,8 @@ import java.util.List;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -16,18 +18,23 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNo
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
-public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
+public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
+		StringParameterAlgorithm, RelationalInputParameterAlgorithm,
+		ProgressEstimatingAlgorithm {
 
 	protected String path = null;
 	protected UniqueColumnCombinationResultReceiver resultReceiver;
+	protected ProgressReceiver progressReceiver;
 
 	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
-		
-		configurationSpecification.add(new ConfigurationSpecificationString("pathToInputFile"));
-		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
-		
+		List<ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
+
+		configurationSpecification.add(new ConfigurationSpecificationString(
+				"pathToInputFile"));
+		configurationSpecification.add(new ConfigurationSpecificationCsvFile(
+				"input file"));
+
 		return configurationSpecification;
 	}
 
@@ -36,24 +43,29 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 		if (path != null) {
 			System.out.println("UCC Algorithm executing");
 			try {
-				resultReceiver.receiveResult(
-						new UniqueColumnCombination(
-								new ColumnIdentifier("table1", "column1"), 
-								new ColumnIdentifier("table2", "column2")));
+				resultReceiver.receiveResult(new UniqueColumnCombination(
+						new ColumnIdentifier("table1", "column1"),
+						new ColumnIdentifier("table2", "column2")));
 			} catch (CouldNotReceiveResultException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}		
+			}
 		}
 		try {
-		    Thread.sleep(1000);
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
+			for (int i = 0; i < 10; i++) {
+				Thread.sleep(500);
+				progressReceiver.updateProgress(1f/(10 - i));
+			}
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
 		}
+		
+		
 	}
 
 	@Override
-	public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
+	public void setResultReceiver(
+			UniqueColumnCombinationResultReceiver resultReceiver) {
 		this.resultReceiver = resultReceiver;
 	}
 
@@ -62,7 +74,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 		System.out.println("setting value for " + identifier);
 		if (identifier.equals("pathToInputFile")) {
 			path = value;
-		}		
+		}
 	}
 
 	@Override
@@ -71,6 +83,11 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm, Stri
 			throws AlgorithmConfigurationException {
 		if (identifier.equals("input file")) {
 			System.out.println("Input file is not being set on algorithm.");
-		}			
+		}
+	}
+
+	@Override
+	public void setProgressReceiver(ProgressReceiver progressReceiver) {
+		this.progressReceiver = progressReceiver;
 	}
 }

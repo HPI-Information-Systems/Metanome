@@ -70,9 +70,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
-		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, fileGenerator);
+		ProgressCache progressCache = new ProgressCache();
+		
+		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
 		currentResultReceiver.put(executionIdentifier, resultsCache);
-		currentProgressCaches.put(executionIdentifier, new ProgressCache());
+		currentProgressCaches.put(executionIdentifier, progressCache);
 		return executor;
 	}
 	
