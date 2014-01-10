@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -417,7 +418,7 @@ public class ColumnCombinationBitset {
 	 * @return the direct super sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSupersets(int numberOfColumns) {
-		List<ColumnCombinationBitset> supersets = new LinkedList<ColumnCombinationBitset>();
+		List<ColumnCombinationBitset> supersets = new ArrayList<ColumnCombinationBitset>();
 		
 		ColumnCombinationBitset superset;
 		for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
@@ -438,7 +439,7 @@ public class ColumnCombinationBitset {
 	 * @return the direct sub sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSubsets() {
-		List<ColumnCombinationBitset> subsets = new LinkedList<ColumnCombinationBitset>();
+		List<ColumnCombinationBitset> subsets = new ArrayList<ColumnCombinationBitset>();
 		
 		ColumnCombinationBitset subset;
 		for (int columnIndex : getSetBits()) {
