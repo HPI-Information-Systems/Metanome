@@ -66,16 +66,37 @@ public class UniqueColumnCombinationTest {
 	 * A {@link UniqueColumnCombination} should store all it's identifiers. Identifiers can only appear once in the {@link UniqueColumnCombination}.
 	 */
 	@Test
-	public void testConstructor() {
+	public void testConstructorColumnIdentifiers() {
 		// Setup
 		// Expected values
 		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
 		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
+		
 		// Execute functionality
-		UniqueColumnCombination uniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
+		UniqueColumnCombination actualUniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 		
 		// Check result
-		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2), uniqueColumnCombination.getColumnCombination());
+		assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2), actualUniqueColumnCombination.getColumnCombination());
+	}
+	
+	/**
+	 * Test method for {@link UniqueColumnCombination#UniqueColumnCombination(ColumnCombination)}
+	 * 
+	 * A {@link UniqueColumnCombination} should store a given {@link ColumnCombination} on construction.
+	 */
+	@Test 
+	public void testConstructorColumnCombination() {
+		// Setup
+		// Expected values
+		ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+		ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
+		ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
+		
+		// Execute functionality
+		UniqueColumnCombination actualUniqueColumnCombination = new UniqueColumnCombination(expectedColumnCombination);
+		
+		// Check result
+		assertEquals(expectedColumnCombination, actualUniqueColumnCombination.getColumnCombination());
 	}
 	
 	/**
