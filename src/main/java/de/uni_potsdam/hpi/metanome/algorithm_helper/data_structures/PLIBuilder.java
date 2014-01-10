@@ -17,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
 public class PLIBuilder {
 	
-	protected List<HashMap<String, LongArrayList>> columns = new ArrayList<HashMap<String, LongArrayList>>();
+	protected List<HashMap<String, LongArrayList>> columns = null;
 	protected RelationalInput input;
 	
 	public PLIBuilder(RelationalInput input) {
@@ -31,8 +31,11 @@ public class PLIBuilder {
 	 * @throws InputIterationException
 	 */
 	public List<PositionListIndex> getPLIList() throws InputIterationException {
-		// FIXME calculateRawPLI called twice
-		calculateRawPLI();
+		if (columns == null) {
+			columns = new ArrayList<HashMap<String, LongArrayList>>();
+			calculateRawPLI();
+		}
+		
 		List<PositionListIndex> pliList = purgePLIEntries();
 		return pliList;
 	}
@@ -45,8 +48,10 @@ public class PLIBuilder {
 	 * @throws InputIterationException 
 	 */
 	public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
-		// FIXME calculateRawPLI called twice
-		calculateRawPLI();
+		if (columns == null) {
+			columns = new ArrayList<HashMap<String, LongArrayList>>();
+			calculateRawPLI();
+		}
 		
 		List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
 		
