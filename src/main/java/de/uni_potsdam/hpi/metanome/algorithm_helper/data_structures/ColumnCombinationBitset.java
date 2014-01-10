@@ -7,8 +7,6 @@ import java.util.Set;
 
 import org.apache.lucene.util.OpenBitSet;
 
-import com.google.common.collect.ImmutableList;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
