@@ -31,6 +31,7 @@ public class PLIBuilder {
 	 * @throws InputIterationException
 	 */
 	public List<PositionListIndex> getPLIList() throws InputIterationException {
+		// FIXME calculateRawPLI called twice
 		calculateRawPLI();
 		List<PositionListIndex> pliList = purgePLIEntries();
 		return pliList;
@@ -44,6 +45,7 @@ public class PLIBuilder {
 	 * @throws InputIterationException 
 	 */
 	public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
+		// FIXME calculateRawPLI called twice
 		calculateRawPLI();
 		
 		List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
