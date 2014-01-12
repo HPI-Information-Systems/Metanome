@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -148,7 +146,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}	
 	
 	@Override
-	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
+	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) 
+			throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
 		List<ConfigurationValue> configs = convertInputParameters(parameters);
 		AlgorithmExecutor executor = null;
 		
