@@ -28,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
@@ -74,12 +75,17 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}
 	
 	private List<ConfigurationValue> convertInputParameters(
-			List<InputParameter> parameters) throws AlgorithmConfigurationException {
+			List<InputParameter> parameters, List<InputParameterDataSource> dataSources) 
+					throws AlgorithmConfigurationException {
 		List<ConfigurationValue> configValuesList = new LinkedList<ConfigurationValue>();
+		
 		for (InputParameter parameter : parameters){
-			ConfigurationValue configValue = convertToConfigurationValue(parameter);
-			configValuesList.add(configValue);
+			configValuesList.add(convertToConfigurationValue(parameter));
 		}
+		for (InputParameter parameter : dataSources){
+			configValuesList.add(convertToConfigurationValue(parameter));
+		}
+		
 		return configValuesList;
 	}
 
@@ -146,9 +152,10 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}	
 	
 	@Override
-	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters) 
+	public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters, 
+			List<InputParameterDataSource> dataSources) 
 			throws AlgorithmConfigurationException, AlgorithmLoadingException, AlgorithmExecutionException {
-		List<ConfigurationValue> configs = convertInputParameters(parameters);
+		List<ConfigurationValue> configs = convertInputParameters(parameters, dataSources);
 		AlgorithmExecutor executor = null;
 		
 		try {

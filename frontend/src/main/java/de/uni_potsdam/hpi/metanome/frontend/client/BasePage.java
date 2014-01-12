@@ -87,7 +87,11 @@ public class BasePage extends TabLayoutPanel {
 		resultsPage.add(resultsTab, new TabHeader(getDataSourcesString(dataSources), resultsTab, resultsPage));
 
 		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
-		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTabContent.getCancelCallback());
+		executionService.executeAlgorithm(algorithmName, 
+				executionIdentifier, 
+				parameters, 
+				dataSources,
+				resultsTabContent.getCancelCallback());
 		resultsTabContent.startPolling();
 		
 		resultsTab.add(resultsTabContent);
