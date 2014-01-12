@@ -1,7 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 
-public class InputParameterCsvFile extends InputParameter {
+
+public class InputParameterCsvFile extends InputParameterDataSource {
 	private static final long serialVersionUID = -4018145396259206308L;
 
 	/** path of the currently selected input file **/
@@ -90,7 +91,12 @@ public class InputParameterCsvFile extends InputParameter {
 	}
 	
 	@Override
-	public InputParameterWidget createWrappingWidget() {
+	public String getValueAsString() {
+		return filePath.substring(filePath.length()-10);
+	}
+
+	@Override
+	public InputParameterDataSourceWidget createWrappingWidget() {
 		return new InputParameterCsvFileWidget(this);
 	}
 

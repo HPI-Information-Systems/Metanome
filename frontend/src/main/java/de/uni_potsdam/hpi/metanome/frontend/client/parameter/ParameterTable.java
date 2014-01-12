@@ -11,6 +11,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 public class ParameterTable extends FlexTable {
 
 	private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
+	private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<InputParameterDataSourceWidget>();
 	private Button executeButton;
 
 	/**
@@ -28,7 +29,10 @@ public class ParameterTable extends FlexTable {
 			this.setText(i, 0, param.getIdentifier());
 			InputParameterWidget currentWidget = param.createWrappingWidget();
 			this.setWidget(i, 1, currentWidget);
-			this.childWidgets.add(currentWidget);
+			if (currentWidget instanceof InputParameterDataSourceWidget)
+				this.dataSourceWidgets.add((InputParameterDataSourceWidget) currentWidget);
+			else
+				this.childWidgets.add(currentWidget);
 			i++;
 		}
 		
@@ -43,11 +47,24 @@ public class ParameterTable extends FlexTable {
 	 * the execution service corresponding to the current tab.
 	 */
 	public void submit(){
-		List<InputParameter> parameters = getInputParametersFromChildren();
-		getAlgorithmTab().callExecutionService(parameters);
+		List<InputParameter> parameters = getInputParametersWithValues();
+		List<InputParameterDataSource> dataSources = getInputParameterDataSourcesWithValues();
+		getAlgorithmTab().callExecutionService(parameters, dataSources);
 	}
 
-	public List<InputParameter> getInputParametersFromChildren() {
+	public List<InputParameterDataSource> getInputParameterDataSourcesWithValues() {
+		LinkedList<InputParameterDataSource> parameterList = new LinkedList<InputParameterDataSource>();
+		for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets){
+			parameterList.add(childWidget.getInputParameter());
+		}
+		return parameterList;
+	}
+
+	/**
+	 * Iterates over the child widgets and retrieves their user input.
+	 * @return The list of InputParameters of this ParameterTable with their user-set values.
+	 */
+	public List<InputParameter> getInputParametersWithValues() {
 		LinkedList<InputParameter> parameterList = new LinkedList<InputParameter>();
 		for (InputParameterWidget childWidget : this.childWidgets){
 			parameterList.add(childWidget.getInputParameter());

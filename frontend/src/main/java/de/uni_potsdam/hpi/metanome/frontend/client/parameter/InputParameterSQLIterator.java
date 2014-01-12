@@ -4,7 +4,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 /**
  * Client compatible parameter for a requested SQLInputGenerator
  */
-public class InputParameterSQLIterator extends InputParameter {
+public class InputParameterSQLIterator extends InputParameterDataSource {
 
 	private static final long serialVersionUID = -8258047430500209172L;
 
@@ -46,8 +46,15 @@ public class InputParameterSQLIterator extends InputParameter {
 	}
 	
 	@Override
-	public InputParameterWidget createWrappingWidget() {
+	public String getValueAsString() {
+		//TODO use a configured name for each data source
+		return dbUrl;
+	}
+
+	@Override
+	public InputParameterDataSourceWidget createWrappingWidget() {
 		return new InputParameterSQLIteratorWidget(this);
 	}
+
 
 }

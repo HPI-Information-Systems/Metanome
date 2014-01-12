@@ -17,7 +17,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
-public class InputParameterCsvFileWidget extends VerticalPanel implements InputParameterWidget {
+public class InputParameterCsvFileWidget extends VerticalPanel implements InputParameterDataSourceWidget {
 
 	/** Corresponding inputParameter, where the value is going to be written */
 	private InputParameterCsvFile inputParameter;

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -74,18 +75,23 @@ public class BasePage extends TabLayoutPanel {
 	 * @param executionService
 	 * @param algorithmName		
 	 * @param parameters
+	 * @param dataSources 
 	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-			String algorithmName, List<InputParameter> parameters) {
+			String algorithmName, List<InputParameter> parameters, List<InputParameterDataSource> dataSources) {
 		
 		String executionIdentifier = getExecutionIdetifier(algorithmName);
 		
 		ScrollPanel resultsTab = new ScrollPanel();
 		resultsTab.setHeight("95%");
-		resultsPage.add(resultsTab, new TabHeader(algorithmName, resultsTab, resultsPage));
+		resultsPage.add(resultsTab, new TabHeader(getDataSourcesString(dataSources), resultsTab, resultsPage));
 
 		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
-		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTabContent.getCancelCallback());
+		executionService.executeAlgorithm(algorithmName, 
+				executionIdentifier, 
+				parameters, 
+				dataSources,
+				resultsTabContent.getCancelCallback());
 		resultsTabContent.startPolling();
 		
 		resultsTab.add(resultsTabContent);
@@ -94,6 +100,15 @@ public class BasePage extends TabLayoutPanel {
 		resultsPage.selectTab(resultsTab);
 	}
 	
+	private String getDataSourcesString(
+			List<InputParameterDataSource> dataSources) {
+		String dataSourcesString = "";
+		for (InputParameterDataSource dataSource : dataSources){
+			dataSourcesString = dataSourcesString + dataSource.getValueAsString() + " - ";
+		}
+		return dataSourcesString;
+	}
+
 	protected String getExecutionIdetifier(String algorithmName) {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
 		return algorithmName + format.format(new Date());		

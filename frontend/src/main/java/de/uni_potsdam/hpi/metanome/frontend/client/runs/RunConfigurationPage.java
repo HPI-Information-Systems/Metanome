@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -90,10 +91,11 @@ public class RunConfigurationPage extends DockPanel{
 	 * Execute the currently selected algorithm and switch to results page.
 	 * 
 	 * @param parameters	parameters to use for the algorithm execution
+	 * @param dataSources 
 	 */
-	public void callExecutionService(List<InputParameter> parameters) {
+	public void callExecutionService(List<InputParameter> parameters, List<InputParameterDataSource> dataSources) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
-		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
+		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters, dataSources);
 	}
 
 	// Getters & Setters
