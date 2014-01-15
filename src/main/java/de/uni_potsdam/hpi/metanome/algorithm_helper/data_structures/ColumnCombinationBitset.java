@@ -8,8 +8,10 @@ import java.util.Set;
 
 import org.apache.lucene.util.OpenBitSet;
 
+import com.google.common.collect.ImmutableList;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 public class ColumnCombinationBitset {
 
@@ -459,18 +461,19 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * TODO: docs
+	 * Returns the {@link ColumnCombination} with the correct name of the relation and the column names.
 	 * 
-	 * @return a List of all ColumnIdentifiers as ColumnCombination.
+	 * @return a {@link ColumnCombination}
 	 */
-	public UniqueColumnCombination createColumnCombination(ColumnCombinationBitset candidate, String relationName, List<String> columnNames) {
-		ColumnIdentifier[] identifierList = new ColumnIdentifier[candidate.size()];
+	public ColumnCombination createColumnCombination(String relationName, ImmutableList<String> columnNames) {
+		ColumnIdentifier[] identifierList = new ColumnIdentifier[size()];
 		int i = 0;
-		for (Integer columnIndex : candidate.getSetBits()) {
+		for (Integer columnIndex : getSetBits()) {
 			identifierList[i] = new ColumnIdentifier(relationName, columnNames.get(columnIndex));
 			i++;
 		}
-		return new UniqueColumnCombination(identifierList);
+		
+		return new ColumnCombination(identifierList);
 	}
 }
 

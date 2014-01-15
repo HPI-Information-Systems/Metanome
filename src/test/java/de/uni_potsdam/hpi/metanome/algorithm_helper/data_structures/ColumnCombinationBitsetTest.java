@@ -19,6 +19,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableList;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+
 public class ColumnCombinationBitsetTest {
 
 	@Before
@@ -648,5 +653,49 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertThat(columnCombination.getDirectSubsets(),
 				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, ImmutableList)}
+	 * 
+	 * Only the correct identifiers should be found in the {@link ColumnCombination}.
+	 */
+	@Test
+	public void testCreateColumnCombination() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+		// Expected values
+		String expectedRelationName = "relation1";
+		ImmutableList<String> expectedColumnNames = ImmutableList.of("column1", "column2", "column3", "column4", "column5");
+				
+		// Execute functionality
+		ColumnCombination actualColumnCombination = columnCombination.createColumnCombination(
+				expectedRelationName, expectedColumnNames);
+		
+		// Check result
+		for (Integer setColumnIndex : columnCombination.getSetBits()) {
+			assertTrue(actualColumnCombination.getColumnIdentifiers().contains(
+					new ColumnIdentifier(expectedRelationName, expectedColumnNames.get(setColumnIndex))));
+		}
+		assertEquals(columnCombination.size(), actualColumnCombination.getColumnIdentifiers().size());
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, ImmutableList)}
+	 * 
+	 * An empty {@link ColumnCombinationBitset} should generate an empty {@link ColumnCombination} with no identifiers.
+	 */
+	@Test
+	public void testCreateColumnCombinationFromEmpty() {
+		// Setup
+		ColumnCombinationBitset emptyColumnCombination = new ColumnCombinationBitset();
+		
+		// Execute functionality
+		ColumnCombination actualColumnCombination = emptyColumnCombination.createColumnCombination(
+				"someRelation", ImmutableList.of("someColumn"));
+		
+		// Check result
+		assertEquals(actualColumnCombination, new ColumnCombination());	
 	}
 }
