@@ -689,13 +689,61 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testCreateColumnCombinationFromEmpty() {
 		// Setup
-		ColumnCombinationBitset emptyColumnCombination = new ColumnCombinationBitset();
+		ColumnCombinationBitset emptyColumnCombinationBitset = new ColumnCombinationBitset();
 		
 		// Execute functionality
-		ColumnCombination actualColumnCombination = emptyColumnCombination.createColumnCombination(
+		ColumnCombination actualColumnCombination = emptyColumnCombinationBitset.createColumnCombination(
 				"someRelation", ImmutableList.of("someColumn"));
 		
 		// Check result
 		assertEquals(actualColumnCombination, new ColumnCombination());	
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#testBit(int)}
+	 * 
+	 * Should return true iff the bit at bitIndex is set.
+	 */
+	@Test 
+	public void testTestBit() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(3, 4, 7);
+		
+		// Execute functionality
+		// Check result
+		assertFalse(columnCombination.testBit(0));
+		assertFalse(columnCombination.testBit(1));
+		assertFalse(columnCombination.testBit(2));
+		assertTrue(columnCombination.testBit(3));
+		assertTrue(columnCombination.testBit(4));
+		assertFalse(columnCombination.testBit(5));
+		assertFalse(columnCombination.testBit(6));
+		assertTrue(columnCombination.testBit(7));
+		assertFalse(columnCombination.testBit(8));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#setAllBits(int)} 
+	 * 
+	 * Resets all bits and sets all bits with indeces smaller than dimension.
+	 * E.g. dimension 4 generate 111100000...
+	 */
+	@Test
+	public void testSetAllBits() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(3);
+		// Expected values;
+		int expectedDimension = 7;
+		
+		// Execute functionality
+		ColumnCombinationBitset actualColumnCombination = columnCombination.setAllBits(expectedDimension);
+		
+		// Check result
+		for (int i = 0; i < expectedDimension; i++) {
+			assertTrue(actualColumnCombination.testBit(i));
+		}
+		assertFalse(actualColumnCombination.testBit(expectedDimension));
+		assertEquals(expectedDimension, actualColumnCombination.size());
+		assertSame(columnCombination, actualColumnCombination);
 	}
 }

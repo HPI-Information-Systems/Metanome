@@ -40,6 +40,7 @@ public class ColumnCombinationBitset {
 	public ColumnCombinationBitset setColumns(int... containedColumns) {
 		// TODO optimisation implement clear
 		bitset = new OpenBitSet();
+		// FIXME size not reset
 		for (int columnIndex : containedColumns) {
 			// If the bit was not yet set, increase the size.
 			addColumn(columnIndex);
@@ -474,6 +475,31 @@ public class ColumnCombinationBitset {
 		}
 		
 		return new ColumnCombination(identifierList);
+	}
+
+	/**
+	 * Resets all bits and sets all bits with indeces smaller than dimension.
+	 * E.g. dimension 4 generate 111100000...
+	 * 
+	 * @param dimension
+	 * @return the {@link ColumnCombinationBitset}
+	 */
+	public ColumnCombinationBitset setAllBits(int dimension) {
+		size = 0;
+		bitset = new OpenBitSet();
+		for (int i = 0; i < dimension; i++) {
+			addColumn(i);
+		}		
+		
+		return this;
+	}
+
+	/**
+	 * @param bitIndex
+	 * @return true iff the bit at bitIndex is set
+	 */
+	public boolean testBit(int bitIndex) {
+		return bitset.get(bitIndex);
 	}
 }
 
