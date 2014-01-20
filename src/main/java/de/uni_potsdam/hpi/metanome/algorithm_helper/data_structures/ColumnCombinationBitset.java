@@ -67,13 +67,14 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @param columnIndex
 	 */
-	public void addColumn(int columnIndex) {
+	public ColumnCombinationBitset addColumn(int columnIndex) {
 		if (columnIndex >= bitset.capacity()) {
 			bitset.set(columnIndex);
 			size++;
 		} else if (!bitset.getAndSet(columnIndex)) {
 			size++;
 		}
+		return this;
 	}
 	
 	/**
