@@ -18,7 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 public class AlgorithmExecutor implements Closeable {

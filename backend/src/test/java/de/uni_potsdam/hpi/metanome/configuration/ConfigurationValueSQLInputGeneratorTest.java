@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
+package de.uni_potsdam.hpi.metanome.configuration;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -12,7 +12,10 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueSQLInputGenerator;
 
 /**
  * Tests for {@link ConfigurationValueRelationalInputGenerator}

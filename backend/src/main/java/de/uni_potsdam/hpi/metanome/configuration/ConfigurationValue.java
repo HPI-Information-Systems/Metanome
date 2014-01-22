@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
+package de.uni_potsdam.hpi.metanome.configuration;
 
 import java.util.Set;
 

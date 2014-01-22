@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
+package de.uni_potsdam.hpi.metanome.configuration;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -12,7 +12,9 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
 
 /**
  * Tests for {@link ConfigurationValueRelationalInputGenerator}

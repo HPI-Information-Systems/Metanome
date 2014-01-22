@@ -4,7 +4,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured.
- * The ConfigurationSpecification is then used to construct a {@link ConfigurationValue} that
+ * The ConfigurationSpecification is then used to construct a configuration value that
  * is sent to the {@link Algorithm} for configuration.
  * Only type concrete ConfigurationSpecification subclasses should be used to specify
  * configuration parameters.
