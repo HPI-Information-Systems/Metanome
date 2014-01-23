@@ -230,6 +230,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>frontend</artifactId>
+                  <version>${version}</version>
                   <type>war</type>
                   <outputDirectory>target/metanome</outputDirectory>
                 </artifactItem>
