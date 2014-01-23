@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <artifactId>deployment</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>deployment</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <scm>
+    <connection>scm:git:metanome@code.hpi.uni-potsdam.de:metanome.git</connection>
+    <developerConnection>scm:git:metanome@code.hpi.uni-potsdam.de:metanome.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://code.hpi.uni-potsdam.de/trac/metanome</url>
+  </scm>
+  
+  <distributionManagement>
+    <repository>
+      <id>deploymentRepo</id>
+      <name>mavenRepoOnJenkins</name>
+      <url>sftp://172.16.64.27/var/www/html/maven</url>
+    </repository>
+  </distributionManagement>
+</project>

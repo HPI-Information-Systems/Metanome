@@ -2,13 +2,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>test_helper</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>test_helper</name>
-  <url>http://maven.apache.org</url>
+
+  <parent>
+  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+  	<artifactId>deployment</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../deployment/pom.xml</relativePath>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

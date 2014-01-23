@@ -3,11 +3,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>frontend</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
   <!-- <name>de.uni-potsdam.hpi.metanome.frontend.Hello</name> -->
+  
+  <parent>
+  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+  	<artifactId>deployment</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../deployment/pom.xml</relativePath>
+  </parent>
 
   <properties>
     <!-- Convenience property to set the GWT version -->
