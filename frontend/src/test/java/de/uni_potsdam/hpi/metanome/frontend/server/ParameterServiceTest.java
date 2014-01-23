@@ -25,7 +25,7 @@ public class ParameterServiceTest extends TestCase {
 		ParameterServiceImpl parameterService = new ParameterServiceImpl();
 		
 		//Execute
-		List<InputParameter> inputParameters = parameterService.retrieveParameters("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");
+		List<InputParameter> inputParameters = parameterService.retrieveParameters("example_ucc_algorithm.jar");
 		
 		//Check
 		assertNotNull(inputParameters);
