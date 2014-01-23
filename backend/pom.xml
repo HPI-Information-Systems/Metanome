@@ -3,7 +3,7 @@
 
   <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>backend</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>backend</name>
@@ -174,37 +174,37 @@
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_fd_algorithm</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ind_algorithm</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ucc_algorithm</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_holistic_algorithm</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>    
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
