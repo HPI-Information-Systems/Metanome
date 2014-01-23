@@ -59,7 +59,7 @@ public class AlgorithmJarLoaderTest {
 		AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		
 		// Execute functionality
-		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");
+		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm.jar");
 		
 		// Check result
 		assertNotNull(algorithm);
