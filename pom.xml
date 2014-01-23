@@ -21,6 +21,14 @@
     <url>https://code.hpi.uni-potsdam.de/trac/metanome</url>
   </scm>
   
+  <distributionManagement>
+    <repository>
+      <id>deploymentRepo</id>
+      <name>mavenRepoOnJenkins</name>
+      <url>sftp://172.16.64.27/var/www/html/maven</url>
+    </repository>
+  </distributionManagement>
+  
   <build>
     <plugins>
       <plugin>
