@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>frontend</artifactId>
@@ -9,7 +10,7 @@
   <parent>
   	<groupId>de.uni-potsdam.hpi.metanome</groupId>
   	<artifactId>deployment</artifactId>
-  	<version>0.0.1</version>
+  	<version>0.0.1-SNAPSHOT</version>
   	<relativePath>../deployment/pom.xml</relativePath>
   </parent>
 
@@ -49,31 +50,31 @@
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>backend</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ucc_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_holistic_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies> 
@@ -290,7 +291,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<ignore />
+    								<ignore></ignore>
     							</action>
     						</pluginExecution>
     					</pluginExecutions>

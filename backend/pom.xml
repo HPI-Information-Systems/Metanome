@@ -9,7 +9,7 @@
   <parent>
   	<groupId>de.uni-potsdam.hpi.metanome</groupId>
   	<artifactId>deployment</artifactId>
-  	<version>0.0.1</version>
+  	<version>0.0.1-SNAPSHOT</version>
   	<relativePath>../deployment/pom.xml</relativePath>
   </parent>
 
@@ -178,37 +178,37 @@
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_fd_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ind_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ucc_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_holistic_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>    
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
