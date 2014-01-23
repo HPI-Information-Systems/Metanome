@@ -85,7 +85,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_fd_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
