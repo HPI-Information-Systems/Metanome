@@ -653,6 +653,7 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertThat(columnCombination.getDirectSubsets(),
 				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
+		assertEquals(fixture.getColumnCombination1(), columnCombination);
 	}
 	
 	/**
