@@ -9,7 +9,7 @@
   <parent>
   	<groupId>de.uni-potsdam.hpi.metanome</groupId>
   	<artifactId>deployment</artifactId>
-  	<version>0.0.1</version>
+  	<version>0.0.2-SNAPSHOT</version>
   	<relativePath>../deployment/pom.xml</relativePath>
   </parent>
 
