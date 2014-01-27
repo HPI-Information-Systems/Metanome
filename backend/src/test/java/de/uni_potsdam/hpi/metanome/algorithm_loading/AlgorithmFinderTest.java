@@ -54,7 +54,7 @@ public class AlgorithmFinderTest {
 	@Test
 	public void getAlgorithmType() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		// Setup
-		String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/example_ucc_algorithm-0.0.1-SNAPSHOT.jar").getFile();
+		String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/example_ucc_algorithm.jar").getFile();
 		File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 		
 		// Execute functionality

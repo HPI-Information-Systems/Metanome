@@ -1,6 +1,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -10,6 +11,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -53,7 +55,9 @@ public class GwtTestServiceCall extends GWTTestCase {
 		delayTestFinish(500);
 
 		// Execute
-		executionService.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", "executionIdentifier1", configs, callback);
+		executionService.executeAlgorithm("example_ucc_algorithm.jar", 
+				"executionIdentifier1", 
+				configs, new LinkedList<InputParameterDataSource>(), callback);
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 		delayTestFinish(500);
 
 		// Execute
-		parameterService.retrieveParameters("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", callback);
+		parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
 
 	}
 	

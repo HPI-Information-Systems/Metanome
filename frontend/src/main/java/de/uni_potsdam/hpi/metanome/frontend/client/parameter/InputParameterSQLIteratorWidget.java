@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InputParameterSQLIteratorWidget extends FlexTable implements
-InputParameterWidget {
+InputParameterDataSourceWidget {
 
 	/** Corresponding inputParameter, where the value is going to be written */
 	private InputParameterSQLIterator inputParameter;
@@ -42,7 +42,7 @@ InputParameterWidget {
 	}
 	
 	@Override
-	public InputParameter getInputParameter() {
+	public InputParameterDataSource getInputParameter() {
 		setCurrentValues(this.inputParameter);
 		return this.inputParameter;
 	}

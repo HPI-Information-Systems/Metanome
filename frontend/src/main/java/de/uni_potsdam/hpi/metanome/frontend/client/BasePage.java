@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -30,7 +31,7 @@ public class BasePage extends TabLayoutPanel {
 	
 	protected FinderServiceAsync finderService;
 	
-	public enum Tabs {ABOUT, DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS};
+	public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT};
 	
 	/**
 	 * Constructor. Initiate creation of subpages.
@@ -38,14 +39,14 @@ public class BasePage extends TabLayoutPanel {
 	public BasePage() {
 		super(1, Unit.CM);
 		this.setWidth("100%");
-		this.setHeight("95%");
+		this.setHeight("100%");
 				
-		this.add(createAboutPage(), "About");
-		this.add(new DataSourcesPage(), "Data Sources");
-		this.add(new AlgorithmsPage(this), "Algorithms");
+		this.insert(new DataSourcesPage(), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+		this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
 		runConfigurationsPage = new RunConfigurationPage(this);
-		this.add(runConfigurationsPage, "Run Configuration");
-		this.add(createResultsPage(), "Results");
+		this.insert(runConfigurationsPage, "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+		this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
+		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
 	}
 	
 	/**
@@ -74,23 +75,40 @@ public class BasePage extends TabLayoutPanel {
 	 * @param executionService
 	 * @param algorithmName		
 	 * @param parameters
+	 * @param dataSources 
 	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-			String algorithmName, List<InputParameter> parameters) {
+			String algorithmName, List<InputParameter> parameters, List<InputParameterDataSource> dataSources) {
 		
 		String executionIdentifier = getExecutionIdetifier(algorithmName);
 		
-		ResultsTab resultsTab = new ResultsTab(executionService, executionIdentifier);
-		executionService.executeAlgorithm(algorithmName, executionIdentifier, parameters, resultsTab.getCancelCallback());
-		resultsTab.startPolling();
-				
-		ScrollPanel scrollableResultsTab = new ScrollPanel(resultsTab);
-		resultsPage.add(scrollableResultsTab, new TabHeader(algorithmName, scrollableResultsTab, resultsPage));
+		ScrollPanel resultsTab = new ScrollPanel();
+		resultsTab.setHeight("95%");
+		resultsPage.add(resultsTab, new TabHeader(getDataSourcesString(dataSources), resultsTab, resultsPage));
+
+		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
+		executionService.executeAlgorithm(algorithmName, 
+				executionIdentifier, 
+				parameters, 
+				dataSources,
+				resultsTabContent.getCancelCallback());
+		resultsTabContent.startPolling();
+		
+		resultsTab.add(resultsTabContent);
 
 		this.selectTab(resultsPage);
-		resultsPage.selectTab(scrollableResultsTab);
+		resultsPage.selectTab(resultsTab);
 	}
 	
+	private String getDataSourcesString(
+			List<InputParameterDataSource> dataSources) {
+		String dataSourcesString = "";
+		for (InputParameterDataSource dataSource : dataSources){
+			dataSourcesString = dataSourcesString + dataSource.getValueAsString() + " - ";
+		}
+		return dataSourcesString;
+	}
+
 	protected String getExecutionIdetifier(String algorithmName) {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
 		return algorithmName + format.format(new Date());		

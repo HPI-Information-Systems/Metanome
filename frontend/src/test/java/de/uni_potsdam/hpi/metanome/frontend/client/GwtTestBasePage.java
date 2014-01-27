@@ -18,7 +18,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 public class GwtTestBasePage extends GWTTestCase{
 	
 	/** this must contain an algorithm that is currently available */
-	private String algorithmName = "example_ucc_algorithm-0.0.1-SNAPSHOT.jar";
+	private String algorithmName = "example_ucc_algorithm.jar";
 	
 	private BasePage testPage;
 	
@@ -74,7 +74,7 @@ public class GwtTestBasePage extends GWTTestCase{
 				assertEquals(algorithmName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
 						.getCurrentlySelectedAlgorithm());				
 				
-//				Add testing to ensure the parameter table is shown
+//				TODO Add testing to ensure the parameter table is shown
 //				assertEquals(2, (((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidgetCount()); 
 //				assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1) instanceof ParameterTable); 
 				

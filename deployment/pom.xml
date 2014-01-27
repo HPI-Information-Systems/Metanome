@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.uni-potsdam.hpi.metanome</groupId>
+  <artifactId>deployment</artifactId>
+  <version>0.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>deployment</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <distributionManagement>
+    <repository>
+      <id>deploymentRepo</id>
+      <name>mavenRepoOnJenkins</name>
+      <url>scp://maven_deploy@172.16.64.27/var/www/html/maven</url>
+    </repository>
+  </distributionManagement>
+  
+  <build>
+    <extensions>
+        <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>2.4</version>
+        </extension>
+    </extensions>
+  </build>
+  
+</project>

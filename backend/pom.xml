@@ -1,14 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>backend</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>backend</name>
-  <url>http://maven.apache.org</url>
+
+  <parent>
+  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+  	<artifactId>deployment</artifactId>
+  	<version>0.0.2-SNAPSHOT</version>
+  	<relativePath>../deployment/pom.xml</relativePath>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,6 +62,18 @@
 	    </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
       	<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-dependency-plugin</artifactId>
       	<executions>
@@ -69,11 +84,11 @@
               <goal>copy</goal>
             </goals>
             <configuration>
+              <stripVersion>true</stripVersion>
               <artifactItems>
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_fd_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -81,7 +96,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ind_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -89,7 +103,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ucc_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -97,7 +110,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_holistic_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -105,7 +117,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/test/resources/algorithms</outputDirectory>
@@ -140,7 +151,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<ignore></ignore>
+    								<ignore />
     							</action>
     						</pluginExecution>
     					</pluginExecutions>
@@ -167,37 +178,37 @@
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_fd_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ind_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ucc_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_holistic_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>    
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

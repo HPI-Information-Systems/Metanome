@@ -17,6 +17,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoole
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterInteger;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterIntegerWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
@@ -90,14 +91,21 @@ public class GwtTestParameter extends GWTTestCase {
 		ParameterTable pt = new ParameterTable(paramList);
 
 		//Execute
-		List<InputParameter> retrievedParams = pt.getInputParametersFromChildren();
+		List<InputParameter> retrievedParams = pt.getInputParametersWithValues();
+		List<InputParameterDataSource> retrievedDataSources = pt.getInputParameterDataSourcesWithValues();
 		
 		//Check
 		assertTrue(retrievedParams.contains(inputParameterString));
 		assertTrue(retrievedParams.contains(inputParameterBoolean));
 		assertTrue(retrievedParams.contains(inputParameterInteger));
-		assertTrue(retrievedParams.contains(inputParameterCsvFile));
-		assertTrue(retrievedParams.contains(inputParameterSQLIterator));
+		assertTrue(!retrievedParams.contains(inputParameterCsvFile));
+		assertTrue(!retrievedParams.contains(inputParameterSQLIterator));
+		
+		assertTrue(!retrievedDataSources.contains(inputParameterString));
+		assertTrue(!retrievedDataSources.contains(inputParameterBoolean));
+		assertTrue(!retrievedDataSources.contains(inputParameterInteger));
+		assertTrue(retrievedDataSources.contains(inputParameterCsvFile));
+		assertTrue(retrievedDataSources.contains(inputParameterSQLIterator));
 	}
 	
 	@Test

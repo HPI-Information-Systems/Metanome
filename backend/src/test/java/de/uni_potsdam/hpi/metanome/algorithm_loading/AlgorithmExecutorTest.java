@@ -58,7 +58,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
 		// Execute functionality
-		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -79,7 +79,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("tableName", "table1"));
 		
 		// Execute functionality
-		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ind_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
@@ -99,7 +99,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
 				
 		// Execute functionality
-		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ucc_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -121,7 +121,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 		
 		// Execute functionality
-		executor.executeAlgorithm("example_holistic_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_holistic_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
