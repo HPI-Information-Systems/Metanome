@@ -1,12 +1,6 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -746,5 +740,27 @@ public class ColumnCombinationBitsetTest {
 		assertFalse(actualColumnCombination.testBit(expectedDimension));
 		assertEquals(expectedDimension, actualColumnCombination.size());
 		assertSame(columnCombination, actualColumnCombination);
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#equals(Object)} and {@link ColumnCombinationBitset#hashCode()}
+	 * 
+	 * Reproducing the problem a few bugs in lucene caused for our {@link ColumnCombinationBitset}.
+	 */
+	@Test
+	public void testEqualsHashCodeLuceneBug() {
+		// Setup
+		ColumnCombinationBitset allocatedBitSet = new ColumnCombinationBitset().setColumns(5, 1000);
+		// Expected values
+		ColumnCombinationBitset expectedEqualSet = new ColumnCombinationBitset().setColumns(5);
+		
+		// Execute functionality
+		allocatedBitSet = allocatedBitSet.intersect(expectedEqualSet);
+		allocatedBitSet.addColumn(1000);
+		allocatedBitSet = new ColumnCombinationBitset(allocatedBitSet);
+		
+		// Check result
+		assertNotEquals(expectedEqualSet, allocatedBitSet);
+		assertNotEquals(expectedEqualSet.hashCode(), allocatedBitSet.hashCode());		
 	}
 }
