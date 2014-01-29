@@ -1,3 +1,5 @@
 .project
 /.settings
 /results
+*.releaseBackup
+release.properties

@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -27,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultRece
 public class AlgorithmExecutorTest {
 	
 	protected CloseableOmniscientResultReceiver resultReceiver;
+	protected ProgressCache progressCache;
 	protected FileGenerator fileGenerator;
 	
 	protected AlgorithmExecutor executor;
@@ -34,9 +36,10 @@ public class AlgorithmExecutorTest {
 	@Before
 	public void setUp() throws UnsupportedEncodingException{
 		resultReceiver = mock(CloseableOmniscientResultReceiver.class);
+		progressCache = mock(ProgressCache.class);
 		fileGenerator = new TempFileGenerator();
 		
-		executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
+		executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
 	}
 
 	/**
@@ -55,7 +58,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 				
 		// Execute functionality
-		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		long elapsedTime = executor.executeAlgorithm("example_fd_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -76,7 +79,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("tableName", "table1"));
 		
 		// Execute functionality
-		executor.executeAlgorithm("example_ind_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ind_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
@@ -96,10 +99,12 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
 				
 		// Execute functionality
-		executor.executeAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_ucc_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+		// After finishing the progress should be 1;
+		verify(progressCache).updateProgress(1);
 	}
 	
 	/**
@@ -116,7 +121,7 @@ public class AlgorithmExecutorTest {
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 		
 		// Execute functionality
-		executor.executeAlgorithm("example_holistic_algorithm-0.0.1-SNAPSHOT.jar", configs);
+		executor.executeAlgorithm("example_holistic_algorithm.jar", configs);
 		
 		// Check result
 		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));

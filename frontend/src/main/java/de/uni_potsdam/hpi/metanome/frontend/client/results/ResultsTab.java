@@ -38,6 +38,8 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	
 	protected Image runningIndicator;
 	
+	protected ProgressBar progressBar = null;
+	
 	public ResultsTab(ExecutionServiceAsync executionService, String executionIdentifier) {
 		this.executionService = executionService;
 		this.executionIdentifier = executionIdentifier;
@@ -59,6 +61,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 		this.timer = new Timer() {
 	      public void run() {		    	  
 	    	  fetchNewResults();
+	    	  updateStatus();
 	      }
 	    };
 
@@ -82,6 +85,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 		this.timer.cancel();
 		this.remove(runningIndicator);
 		fetchNewResults();
+		updateStatus();
 		DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
 		Date date = new Date(Math.round(executionTimeNanoSecs/1000000d));
 		this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0)) + " (HH:mm:ss.SSS) or " +  executionTimeNanoSecs/1000000d + " ms."));
@@ -90,6 +94,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 	public void cancelTimerOnFail(Throwable caught){
 		this.timer.cancel();
 		this.remove(runningIndicator);
+		this.remove(progressBar);
 		this.add(new Label("Algorithm did not execute successfully"));
 	}
 
@@ -99,7 +104,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 			  @Override
 			  public void onFailure(Throwable caught) {
 				  // TODO Auto-generated method stub
-				  System.out.println("Could not fetch results");
+				  System.out.println("Could not fetch results.");
 			  }
 			  
 			  @Override
@@ -107,6 +112,22 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 				  displayResults(result);
 			  }
 		  });
+	}
+	
+	protected void updateStatus() {
+		executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				System.out.println("Could not fetch progress.");
+			}
+
+			@Override
+			public void onSuccess(Float progress) {
+				updateProgress(progress);
+			}
+		});
 	}
 	
 	protected void displayResults(ArrayList<Result> results) {
@@ -117,6 +138,17 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	protected void updateProgress(Float progress) {
+		if (progress > 0) {
+			if (progressBar == null) {
+				this.remove(runningIndicator);
+				progressBar = new ProgressBar(0, 1);
+				this.add(progressBar);
+			}
+			progressBar.setProgress(progress);
 		}
 	}
 

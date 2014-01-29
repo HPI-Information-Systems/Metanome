@@ -18,7 +18,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 public class GwtTestBasePage extends GWTTestCase{
 	
 	/** this must contain an algorithm that is currently available */
-	private String algorithmName = "example_ucc_algorithm-0.0.1-SNAPSHOT.jar";
+	private String algorithmName = "example_ucc_algorithm.jar";
 	
 	private BasePage testPage;
 	

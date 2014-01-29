@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationSpecification} for csv files.
+ * Concrete {@link ConfigurationSpecification} sql iterator.
  * 
  * @see ConfigurationSpecification
  */
@@ -9,7 +9,7 @@ public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecific
 
 	
 	/**
-	 * Construct a ConfigurationSepcificationCsvFile.
+	 * Construct a ConfigurationSpecificationSQLIterator.
 	 * 
 	 * @param a unique configuration parameter identifier
 	 */

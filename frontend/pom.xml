@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>frontend</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
   <!-- <name>de.uni-potsdam.hpi.metanome.frontend.Hello</name> -->
+  
+  <parent>
+  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
+  	<artifactId>deployment</artifactId>
+  	<version>0.0.2-SNAPSHOT</version>
+  	<relativePath>../deployment/pom.xml</relativePath>
+  </parent>
 
   <properties>
     <!-- Convenience property to set the GWT version -->
@@ -45,31 +49,31 @@
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>backend</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_ucc_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_holistic_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies> 
@@ -175,11 +179,11 @@
               <goal>copy</goal>
             </goals>
             <configuration>
+              <stripVersion>true</stripVersion>
               <artifactItems>
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_ucc_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/main/resources/algorithms</outputDirectory>
@@ -187,7 +191,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_holistic_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/main/resources/algorithms</outputDirectory>
@@ -195,7 +198,6 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>src/main/resources/algorithms</outputDirectory>
@@ -232,7 +234,7 @@
                 <artifactItem>
                   <groupId>de.uni-potsdam.hpi.metanome</groupId>
                   <artifactId>frontend</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
+                  <version>${version}</version>
                   <type>war</type>
                   <outputDirectory>target/metanome</outputDirectory>
                 </artifactItem>
@@ -288,7 +290,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<ignore></ignore>
+    								<ignore />
     							</action>
     						</pluginExecution>
     					</pluginExecutions>

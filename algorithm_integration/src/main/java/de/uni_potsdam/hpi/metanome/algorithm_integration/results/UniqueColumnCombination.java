@@ -23,8 +23,22 @@ public class UniqueColumnCombination implements Result {
 		this.columnCombination = new ColumnCombination();
 	}
 	
+	/**
+	 * Constructs a {@link UniqueColumnCombination} from a number of {@link ColumnIdentifier}s.
+	 * 
+	 * @param columnIdentifier
+	 */
 	public UniqueColumnCombination(ColumnIdentifier... columnIdentifier) {
 		this.columnCombination = new ColumnCombination(columnIdentifier);
+	}
+	
+	/**
+	 * Constructs a {@link UniqueColumnCombination} from a {@link ColumnCombination}.
+	 * 
+	 * @param columnCombination
+	 */
+	public UniqueColumnCombination(ColumnCombination columnCombination) {
+		this.columnCombination = columnCombination;
 	}
 	
 	@Override

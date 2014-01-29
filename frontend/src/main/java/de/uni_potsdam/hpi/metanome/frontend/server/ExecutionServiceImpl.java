@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -45,7 +46,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	
 	private static final long serialVersionUID = -2758103927345131933L;
 	
-	private HashMap<String, ResultsCache> currentResultReceiver = new HashMap<String, ResultsCache>();
+	protected HashMap<String, ResultsCache> currentResultReceiver = new HashMap<String, ResultsCache>();
+	protected HashMap<String, ProgressCache> currentProgressCaches = new HashMap<String, ProgressCache>();
 	
 	/**
 	 * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write result files and 
@@ -69,8 +71,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		
 		FileGenerator fileGenerator = new TempFileGenerator();
 		
-		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, fileGenerator);
+		ProgressCache progressCache = new ProgressCache();
+		
+		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
 		currentResultReceiver.put(executionIdentifier, resultsCache);
+		currentProgressCaches.put(executionIdentifier, progressCache);
 		return executor;
 	}
 	
@@ -192,8 +197,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}
 
 	@Override
-	public float getProgress() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float fetchProgress(String executionIdentifier) {
+		// FIXME return exception when algorithm name is not in map
+		return currentProgressCaches.get(executionIdentifier).getProgress();
 	}
 }
