@@ -34,7 +34,7 @@ public class AlgorithmsPage extends VerticalPanel {
 		this.add(new HTML("<b>Unique Column Combinations</b>"));
 		this.uccList = new FlexTable();
 		this.add(this.uccList);
-		listUccAlgorithms();
+		listAndAddUccAlgorithms();
 		
 		this.add(new HTML("<hr><b>Functional Dependencies</b>"));
 		this.fdList = new FlexTable();
@@ -57,23 +57,39 @@ public class AlgorithmsPage extends VerticalPanel {
 		this.add(temporaryAddContent);
 	}
 
-	private void listUccAlgorithms() {
+	/**
+	 * Request a list of available UCC algorithms and display them in the uccList
+	 */
+	private void listAndAddUccAlgorithms() {
 		finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
 	}
 
-
+	/**
+	 * Request a list of available FD algorithms and display them in the fdList
+	 */
 	private void listFdAlgorithms() {
 		finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
 	}
 
+	/**
+	 * Request a list of available IND algorithms and  display them in the indList
+	 */
 	private void listIndAlgorithms() {
 		finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));		
 	}
 
+	/**
+	 * Request a list of available Basic Statistics algorithms and display them in the statsList
+	 */
 	private void listStatsAlgorithms() {
 		finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
 	}
 
+	/**
+	 * Constructs a callback that will add all results to the given 
+	 * @param list	Object that all returned elements will be added to
+	 * @return the desired callback instance
+	 */
 	protected AsyncCallback<String[]> getCallback(final FlexTable list) {
 		return new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {
