@@ -41,7 +41,7 @@ public class BasePage extends TabLayoutPanel {
 		this.setWidth("100%");
 		this.setHeight("100%");
 				
-		this.insert(new DataSourcesPage(), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+		this.insert(new DataSourcesPage(this), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 		this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
 		this.insert(createRunConfigurationsPage(), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 		this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
@@ -142,14 +142,17 @@ public class BasePage extends TabLayoutPanel {
 	}
 
 	/**
-	 * Hand control from Algorithms page to Run Configurations, and preconfigure the latter with 
-	 * the algorithm.
+	 * Hand control from any page to Run Configurations, and pre-configure the latter with 
+	 * the algorithm and/or data source.
 	 * 
 	 * @param algorithmName	algorithm that shall be run
 	 */
-	public void jumpToRunConfiguration(String algorithmName) {
+	public void jumpToRunConfiguration(String algorithmName, String dataSourceName) {
 		this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
-		this.runConfigurationsPage.selectAlgorithm(algorithmName);
+		if (algorithmName != null)
+			this.runConfigurationsPage.selectAlgorithm(algorithmName);
+		if (dataSourceName != null)
+			this.runConfigurationsPage.selectDataSource(dataSourceName);
 	}
 
 	/**

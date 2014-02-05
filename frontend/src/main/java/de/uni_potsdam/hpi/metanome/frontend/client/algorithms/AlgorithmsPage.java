@@ -124,6 +124,6 @@ public class AlgorithmsPage extends VerticalPanel {
 	}
 
 	protected void jumpToRunConfiguration(String algorithmName) {
-		basePage.jumpToRunConfiguration(algorithmName);
+		basePage.jumpToRunConfiguration(algorithmName, null);
 	}
 }

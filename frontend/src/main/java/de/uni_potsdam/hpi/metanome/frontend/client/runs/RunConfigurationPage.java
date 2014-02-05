@@ -88,6 +88,24 @@ public class RunConfigurationPage extends DockPanel{
 	}
 	
 	/**
+	 * TODO docs
+	 * @param dataSourceName
+	 */
+	public void selectDataSource(String dataSourceName) {
+		// TODO Auto-generated method stub
+		System.out.println("Pre-configuring a data source is not yet implemented");
+	}
+
+	/**
+	 * 
+	 * @return	the name of the data source that is currently selected in the configuration interface
+	 */
+	public String getCurrentlySelectedDataSource() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
 	 * Execute the currently selected algorithm and switch to results page.
 	 * 
 	 * @param parameters	parameters to use for the algorithm execution
@@ -103,5 +121,4 @@ public class RunConfigurationPage extends DockPanel{
 	public JarChooser getJarChooser() {
 		return jarChooser;
 	}
-	
 }

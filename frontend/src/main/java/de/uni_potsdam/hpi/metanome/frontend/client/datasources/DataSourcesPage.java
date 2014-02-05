@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -25,9 +26,13 @@ public class DataSourcesPage extends VerticalPanel {
 	private FlexTable csvFilesList;
 	
 	private InputDataServiceAsync inputDataService;
+	
+	protected final BasePage basePage;
 
-	public DataSourcesPage() {		
-		inputDataService = GWT.create(InputDataService.class);
+	public DataSourcesPage(BasePage parent) {		
+		this.inputDataService = GWT.create(InputDataService.class);
+		
+		this.basePage = parent;
 		
 		createDataSourcesList();
 		
@@ -87,7 +92,7 @@ public class DataSourcesPage extends VerticalPanel {
 				@Override
 				public void onClick(ClickEvent event) {
 					// TODO Auto-generated method stub - should open Run Configuration with pre-configured data source
-					
+					jumpToRunConfiguration(((Button) event.getSource()).getTitle());
 				}
 			});
 			showButton.addClickHandler(new ClickHandler() {
@@ -104,5 +109,9 @@ public class DataSourcesPage extends VerticalPanel {
 			list.setWidget(row, 2, showButton);			
 			row++;
 		}
+	}
+	
+	private void jumpToRunConfiguration(String dataSourceName) {
+		basePage.jumpToRunConfiguration(null, dataSourceName);
 	}
 }
