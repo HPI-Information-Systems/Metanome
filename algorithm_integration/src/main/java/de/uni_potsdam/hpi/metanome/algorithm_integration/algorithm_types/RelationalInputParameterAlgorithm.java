@@ -17,6 +17,6 @@ public interface RelationalInputParameterAlgorithm extends Algorithm {
 	 * @param identifier
 	 * @param value
 	 */
-	void setConfigurationValue(String identifier, RelationalInputGenerator value) throws AlgorithmConfigurationException;
+	void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException;
 
 }

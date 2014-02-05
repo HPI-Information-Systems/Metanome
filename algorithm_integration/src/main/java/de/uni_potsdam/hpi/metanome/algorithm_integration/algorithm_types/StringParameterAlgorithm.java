@@ -14,8 +14,8 @@ public interface StringParameterAlgorithm extends Algorithm {
 	 * Sets a string configuration value on the algorithm.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	void setConfigurationValue(String identifier, String value) throws AlgorithmConfigurationException;
+	void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException;
 	
 }

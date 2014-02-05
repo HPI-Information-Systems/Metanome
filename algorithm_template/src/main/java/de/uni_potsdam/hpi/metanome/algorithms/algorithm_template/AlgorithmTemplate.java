@@ -28,7 +28,7 @@ public class AlgorithmTemplate implements UniqueColumnCombinationsAlgorithm, Fun
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String value)
+	public void setConfigurationValue(String identifier, String... values)
 			throws AlgorithmConfigurationException {
 		// TODO Auto-generated method stub
 		

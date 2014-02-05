@@ -14,8 +14,8 @@ public interface SqlInputParameterAlgorithm extends Algorithm {
 	 * Sets a SQLInputGenerator configuration value on the algorithm.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	void setConfigurationValue(String identifier, SQLInputGenerator value);
+	void setConfigurationValue(String identifier, SQLInputGenerator... values);
 	
 }

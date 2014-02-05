@@ -14,8 +14,8 @@ public interface BooleanParameterAlgorithm extends Algorithm {
 	 * Sets a boolean configuration value on the algorithm.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	void setConfigurationValue(String identifier, boolean value) throws AlgorithmConfigurationException;
+	void setConfigurationValue(String identifier, boolean... values) throws AlgorithmConfigurationException;
 	
 }
