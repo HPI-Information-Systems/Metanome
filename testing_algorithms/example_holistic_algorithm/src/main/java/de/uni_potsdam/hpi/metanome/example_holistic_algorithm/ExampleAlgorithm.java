@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.example_holistic_algorithm;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
@@ -61,9 +62,11 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, UniqueCo
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String value) {
-		if (identifier.equals("pathToOutputFile")) {
-			path = value;
+	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals("pathToOutputFile")) && (values.length == 1)) {
+			path = values[0];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}
 	}
 

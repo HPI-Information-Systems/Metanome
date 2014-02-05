@@ -22,7 +22,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 		StringParameterAlgorithm, RelationalInputParameterAlgorithm,
 		ProgressEstimatingAlgorithm {
 
-	protected String path = null;
+	protected String path1, path2 = null;
 	protected UniqueColumnCombinationResultReceiver resultReceiver;
 	protected ProgressReceiver progressReceiver;
 
@@ -31,7 +31,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 		List<ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 
 		configurationSpecification.add(new ConfigurationSpecificationString(
-				"pathToInputFile"));
+				"pathToInputFile", 2));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile(
 				"input file"));
 
@@ -40,7 +40,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 
 	@Override
 	public void execute() {
-		if (path != null) {
+		if ((path1 != null) && (path2 != null)) {
 			System.out.println("UCC Algorithm executing");
 			try {
 				resultReceiver.receiveResult(new UniqueColumnCombination(
@@ -70,16 +70,19 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String value) {
+	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
 		System.out.println("setting value for " + identifier);
-		if (identifier.equals("pathToInputFile")) {
-			path = value;
+		if ((identifier.equals("pathToInputFile")) && (values.length == 2)) {
+			path1 = values[0];
+			path2 = values[1];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}
 	}
 
 	@Override
 	public void setConfigurationValue(String identifier,
-			RelationalInputGenerator value)
+			RelationalInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals("input file")) {
 			System.out.println("Input file is not being set on algorithm.");

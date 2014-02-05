@@ -57,15 +57,17 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String value) {
-		if (identifier.equals("pathToOutputFile")) {
-			path = value;
-		}		
+	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals("pathToOutputFile")) && (values.length == 1)) {
+			path = values[0];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+		}
 	}
 
 	@Override
 	public void setConfigurationValue(String identifier,
-			RelationalInputGenerator value)
+			RelationalInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals("input file")){
 			System.out.println("Input file is not being set on algorithm.");

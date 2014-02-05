@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
@@ -77,10 +78,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String value) {
-		if (identifier.equals("tableName")) {
-			tableName = value;
-		}		
+	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals("tableName")) && (values.length == 1)) {
+			tableName = values[0];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+		}
 	}
 
 	@Override
@@ -89,7 +92,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 	
 	@Override
-	public void setConfigurationValue(String identifier, RelationalInputGenerator value){
+	public void setConfigurationValue(String identifier, RelationalInputGenerator... values){
 		if (identifier.equals("input file")){
 			System.out.println("Input file is not being set on algorithm.");
 		}			

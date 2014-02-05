@@ -14,12 +14,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
+/**
+ * Test for {@link ExampleAlgorithm}
+ * 
+ * @author Jakob Zwiener
+ */
 public class ExampleAlgorithmTest {
 
 	protected ExampleAlgorithm algorithm;
@@ -43,6 +49,8 @@ public class ExampleAlgorithmTest {
 	}
 
 	/**
+	 * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
+	 * 
 	 * The algorithm should return one configuration specification of string type
 	 */
 	@Test
@@ -55,10 +63,14 @@ public class ExampleAlgorithmTest {
 	}
 
 	/**
+	 * Test method for {@link ExampleAlgorithm#setConfigurationValue(String, String...)}
+	 * 
 	 * The algorithm should store the path when it is supplied through setConfigurationValue.
+	 * 
+	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
-	public void testSetConfigurationValue() {
+	public void testSetConfigurationValue() throws AlgorithmConfigurationException {
 		// Setup
 		// Expected values
 		String expectedConfigurationValue = "test";
