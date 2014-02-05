@@ -12,17 +12,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Boolean
 public class ConfigurationValueBoolean implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final boolean value;
+	protected final boolean[] values;
 	
 	/**
 	 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	public ConfigurationValueBoolean(String identifier, boolean value) {
+	public ConfigurationValueBoolean(String identifier, boolean... values) {
 		this.identifier = identifier;
-		this.value = value;
+		this.values = values;
 	}
 	
 	@Override
@@ -32,6 +32,6 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 		}
 		
 		BooleanParameterAlgorithm booleanParameterAlgorithm = (BooleanParameterAlgorithm) algorithm;
-		booleanParameterAlgorithm.setConfigurationValue(identifier, value);
+		booleanParameterAlgorithm.setConfigurationValue(identifier, values);
 	}
 }

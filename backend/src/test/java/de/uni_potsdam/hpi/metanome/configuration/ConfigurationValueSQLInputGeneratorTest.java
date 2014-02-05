@@ -14,11 +14,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueSQLInputGenerator;
 
 /**
- * Tests for {@link ConfigurationValueRelationalInputGenerator}
+ * Tests for {@link ConfigurationValueSQLInputGenerator}
  * 
  * @author Jakob Zwiener
  */
@@ -35,6 +33,8 @@ public class ConfigurationValueSQLInputGeneratorTest {
 	}
 
 	/**
+	 * Test method for {@link ConfigurationValueSQLInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, Set)}
+	 * 
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
 	 * 
@@ -48,7 +48,7 @@ public class ConfigurationValueSQLInputGeneratorTest {
 		interfaces.add(SqlInputParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		SQLInputGenerator expectedConfigurationValue = mock(SQLInputGenerator.class);
+		SQLInputGenerator[] expectedConfigurationValue = {mock(SQLInputGenerator.class), mock(SQLInputGenerator.class)};
 		
 		// Execute functionality
 		ConfigurationValueSQLInputGenerator configValue = new ConfigurationValueSQLInputGenerator(

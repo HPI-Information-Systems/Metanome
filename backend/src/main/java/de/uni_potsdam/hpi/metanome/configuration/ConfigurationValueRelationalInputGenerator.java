@@ -15,17 +15,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGe
 public class ConfigurationValueRelationalInputGenerator implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final RelationalInputGenerator value;
+	protected final RelationalInputGenerator[] values;
 	
 	/**
 	 * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier and the boolean value.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	public ConfigurationValueRelationalInputGenerator(String identifier, RelationalInputGenerator value) {
+	public ConfigurationValueRelationalInputGenerator(String identifier, RelationalInputGenerator... values) {
 		this.identifier = identifier;
-		this.value = value;
+		this.values = values;
 	}
 	
 	@Override
@@ -34,6 +34,6 @@ public class ConfigurationValueRelationalInputGenerator implements Configuration
 			throw new AlgorithmConfigurationException("Algorithm does not accept relational input configuration values.");
 		}
 		RelationalInputParameterAlgorithm relationalInputParameterAlgorithm = (RelationalInputParameterAlgorithm) algorithm;
-		relationalInputParameterAlgorithm.setConfigurationValue(identifier, value);		
+		relationalInputParameterAlgorithm.setConfigurationValue(identifier, values);		
 	}	
 }

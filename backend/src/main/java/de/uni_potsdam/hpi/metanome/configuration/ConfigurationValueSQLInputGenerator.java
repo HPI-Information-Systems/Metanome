@@ -13,22 +13,22 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator
  * @author Jakob Zwiener
  */
 public class ConfigurationValueSQLInputGenerator implements ConfigurationValue {
-
+	
 	protected final String identifier;
-	protected final SQLInputGenerator value;
+	protected final SQLInputGenerator[] values;
 	
 	/**
 	 * Constructs a ConfigurationValueSQLInputGenerator using the specification's identifier and 
 	 * a SQLInputGenerator as value.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	public ConfigurationValueSQLInputGenerator(String identifier, SQLInputGenerator value) {
+	public ConfigurationValueSQLInputGenerator(String identifier, SQLInputGenerator... values) {
 		this.identifier = identifier;
-		this.value = value;
+		this.values = values;
 	}
-	
+
 	@Override
 	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
 		if (!algorithmInterfaces.contains(SqlInputParameterAlgorithm.class)) {
@@ -36,6 +36,6 @@ public class ConfigurationValueSQLInputGenerator implements ConfigurationValue {
 		}
 		
 		SqlInputParameterAlgorithm sqlInputParameterAlgorithm = (SqlInputParameterAlgorithm) algorithm;
-		sqlInputParameterAlgorithm.setConfigurationValue(identifier, value);		
+		sqlInputParameterAlgorithm.setConfigurationValue(identifier, values);		
 	}
 }

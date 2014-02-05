@@ -37,8 +37,11 @@ public class ConfigurationValueStringTest {
 	}
 
 	/**
+	 * Test method for {@link ConfigurationValueString#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, Set)}
+	 * 
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
+	 * 
 	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
@@ -49,7 +52,7 @@ public class ConfigurationValueStringTest {
 		interfaces.add(StringParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		String expectedConfigurationValue = "value1";
+		String[] expectedConfigurationValue = {"value1", "value2"};
 		
 		// Execute functionality
 		ConfigurationValueString configValue = new ConfigurationValueString(

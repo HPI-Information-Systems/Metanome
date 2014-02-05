@@ -12,19 +12,19 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringP
  * @author Jakob Zwiener
  */
 public class ConfigurationValueString implements ConfigurationValue {
-
+	
 	protected final String identifier;
-	protected final String value;
+	protected final String[] values;
 	
 	/**
 	 * Constructs a ConfigurationValueString using the specification's identifier and the string value.
 	 * 
 	 * @param identifier
-	 * @param value
+	 * @param values
 	 */
-	public ConfigurationValueString(String identifier, String value) {
+	public ConfigurationValueString(String identifier, String... values) {
 		this.identifier = identifier;
-		this.value = value;
+		this.values = values;
 	}
 	
 	@Override
@@ -34,6 +34,6 @@ public class ConfigurationValueString implements ConfigurationValue {
 		}
 		
 		StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;
-		stringParameterAlgorithm.setConfigurationValue(identifier, value);
+		stringParameterAlgorithm.setConfigurationValue(identifier, values);
 	}
 }

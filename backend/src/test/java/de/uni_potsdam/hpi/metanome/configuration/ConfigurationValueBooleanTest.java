@@ -13,7 +13,6 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueBoolean;
 
 /**
  * Tests for {@link ConfigurationValueBoolean}
@@ -31,8 +30,11 @@ public class ConfigurationValueBooleanTest {
 	}
 
 	/**
+	 * Test method for {@link ConfigurationValueBoolean#ConfigurationValueBoolean(String, boolean...)}
+	 * 
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double 
 	 * dispatch call to determine the parameters type.
+	 * 
 	 * @throws AlgorithmConfigurationException 
 	 */
 	@Test
@@ -43,7 +45,7 @@ public class ConfigurationValueBooleanTest {
 		interfaces.add(BooleanParameterAlgorithm.class);
 		// Expected values
 		String expectedIdentifier = "configId1";
-		boolean expectedConfigurationValue = true;
+		boolean[] expectedConfigurationValue = {true, false};
 		
 		// Execute functionality
 		ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(

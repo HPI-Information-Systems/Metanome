@@ -96,7 +96,7 @@ public class AlgorithmExecutorTest {
 	public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
-		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file"));
+		configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
 				
 		// Execute functionality
 		executor.executeAlgorithm("example_ucc_algorithm.jar", configs);
@@ -118,7 +118,7 @@ public class AlgorithmExecutorTest {
 	public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
-		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
+		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
 		
 		// Execute functionality
 		executor.executeAlgorithm("example_holistic_algorithm.jar", configs);
@@ -127,6 +127,8 @@ public class AlgorithmExecutorTest {
 		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
 		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
 	}
+	
+	//FIXME add test for incorrect file name
 	
 	/**
 	 * Test method for {@link AlgorithmExecutor#close()}
