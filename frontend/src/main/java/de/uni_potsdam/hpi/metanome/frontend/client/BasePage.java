@@ -34,7 +34,7 @@ public class BasePage extends TabLayoutPanel {
 	public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT};
 	
 	/**
-	 * Constructor. Initiate creation of subpages.
+	 * Constructor. Initiates creation of subpages.
 	 */
 	public BasePage() {
 		super(1, Unit.CM);
@@ -43,10 +43,19 @@ public class BasePage extends TabLayoutPanel {
 				
 		this.insert(new DataSourcesPage(), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 		this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
-		runConfigurationsPage = new RunConfigurationPage(this);
-		this.insert(runConfigurationsPage, "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+		this.insert(createRunConfigurationsPage(), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 		this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
 		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
+	}
+
+	/**
+	 * Create the "Run Configuration" Page, which allows to configure an algorithm and trigger its execution.
+	 * 
+	 * @return RunConfigurationPage to be placed on the page
+	 */
+	protected RunConfigurationPage createRunConfigurationsPage() {
+		runConfigurationsPage = new RunConfigurationPage(this);
+		return runConfigurationsPage;
 	}
 	
 	/**
@@ -60,6 +69,11 @@ public class BasePage extends TabLayoutPanel {
 		return temporaryContent;	
 	}
 	
+	/**
+	 * Create the "Results" Page, which displays so far profiled information on selected data sources
+	 * 
+	 * @return TabLayout on which results shall be placed
+	 */
 	private TabLayoutPanel createResultsPage() {
 		resultsPage = new TabLayoutPanel(1, Unit.CM);
 		resultsPage.setHeight("100%");
@@ -100,6 +114,13 @@ public class BasePage extends TabLayoutPanel {
 		resultsPage.selectTab(resultsTab);
 	}
 	
+	/**
+	 * Generates a string representing all given data sources by concatenating their names.
+	 * These are used as titles for the result tabs.
+	 * 
+	 * @param dataSources	the list of InputParameterDataSources to be descirbed
+	 * @return a String with the names of all given data source parameters
+	 */
 	private String getDataSourcesString(
 			List<InputParameterDataSource> dataSources) {
 		String dataSourcesString = "";
@@ -109,6 +130,12 @@ public class BasePage extends TabLayoutPanel {
 		return dataSourcesString;
 	}
 
+	/**
+	 * Generates a string that uniquely identifies an algorithm execution.
+	 * 
+	 * @param algorithmName	the name of the algorithm being executed
+	 * @return	a string consisting of the algorithmName and the current date and time
+	 */
 	protected String getExecutionIdetifier(String algorithmName) {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
 		return algorithmName + format.format(new Date());		

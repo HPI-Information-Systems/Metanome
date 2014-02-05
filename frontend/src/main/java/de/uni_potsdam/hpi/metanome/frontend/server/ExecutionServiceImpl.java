@@ -79,6 +79,14 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 		return executor;
 	}
 	
+	/**
+	 * Converts given parameters and data sources to configuration values, the format used in backend and algorithms.
+	 * 
+	 * @param parameters	the list of "standard" InputParameters to be converted
+	 * @param dataSources	the list of "data source" InputParameters to be converted
+	 * @return	a joint list of ConfigurationValues containing "standard" as well as "data source" parameters
+	 * @throws AlgorithmConfigurationException
+	 */
 	private List<ConfigurationValue> convertInputParameters(
 			List<InputParameter> parameters, List<InputParameterDataSource> dataSources) 
 					throws AlgorithmConfigurationException {
@@ -95,15 +103,15 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}
 
 	/**
-	 * TODO docs
+	 * Finds the ConfigurationValue class that corresponds to the given InputParameter and creates an instance
+	 * of it with the same parameter values.
 	 * 
-	 * @param parameter
-	 * @return
+	 * @param parameter the InputParameter to be converted
+	 * @return ConfigurationValue instance representing the same information as parameter
 	 * @throws AlgorithmConfigurationException
 	 */
 	public ConfigurationValue convertToConfigurationValue(
 			InputParameter parameter) throws AlgorithmConfigurationException {
-		//TODO all types of ConfigurationValues
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
 					((InputParameterString) parameter).getValue());
@@ -121,14 +129,14 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 					buildSQLInputGenerator((InputParameterSQLIterator) parameter));
 		
 		else
-			return null;
+			throw new AlgorithmConfigurationException("The InputParameter cannot be converted to a ConfigurationValue.");
 	}
 
 	/**
-	 * TODO docs
+	 * Creates a SqlInputGenerator from the corresponding InputParameter.
 	 * 
-	 * @param parameter
-	 * @return
+	 * @param parameter	user's input for the database connection parameters
+	 * @return SqlIteratorGenerator instance with the values from parameter
 	 * @throws AlgorithmConfigurationException
 	 */
 	private SQLInputGenerator buildSQLInputGenerator(
@@ -137,10 +145,12 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 	}
 
 	/**
-	 * TODO docs
+	 * Creates a CsvFileGenerator from the corresponding InputParameter. Uses default separators etc. unless
+	 * the param is set to advanced configuration.
 	 * 
-	 * @param param
-	 * @return
+	 * @param param	user's input for the csv file parameters
+	 * @return CsvFileGenerator instance with the values from param
+	 * 
 	 * @throws AlgorithmConfigurationException
 	 */
 	protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {

@@ -26,7 +26,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsyn
 public class GwtTestServiceCall extends GWTTestCase {
     
 	/**
-	 * TODO: docs
+	 * tests the call from client to executionService.executeAlgorithm()
 	 */
 	@Test
 	public void testExecutionService() {
@@ -61,7 +61,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 	}
 
 	/**
-	 * TODO: docs
+	 * tests the call from client to parameterService.retrieveParameters
 	 */
 	@Test
 	public void testParameterService() {
@@ -89,7 +89,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 	}
 	
 	/**
-	 * TODO: docs
+	 * tests the call from client to finderService.listInclusionDependencyAlgorithms()
 	 */
 	@Test
 	public void testFinderService() {
