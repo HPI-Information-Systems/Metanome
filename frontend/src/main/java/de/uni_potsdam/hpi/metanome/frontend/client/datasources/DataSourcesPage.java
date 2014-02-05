@@ -1,7 +1,10 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -69,15 +72,36 @@ public class DataSourcesPage extends VerticalPanel {
 	}
 
 	private void listDbConnections() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub - need to be able to save connections first
 		
 	}
 	
 	protected void addDataSourcesToList(String[] dataSourceNames, FlexTable list) {
 		int row = 0;
 		for(String dataSourceName : dataSourceNames) {
+			Button runButton = new Button("Run Algorithm");
+			Button showButton = new Button("Show Profile");
+			
+			runButton.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO Auto-generated method stub - should open Run Configuration with pre-configured data source
+					
+				}
+			});
+			showButton.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO Auto-generated method stub - should show results from previously run algorithm
+					
+				}
+			});
+			
 			list.setText(row, 0, dataSourceName);
-			//TODO list.setWidget(row, 1, runButton);			
+			list.setWidget(row, 1, runButton);			
+			list.setWidget(row, 2, showButton);			
 			row++;
 		}
 	}
