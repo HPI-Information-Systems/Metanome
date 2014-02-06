@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
 
 public class GwtTestCommonWidgets extends GWTTestCase{
 

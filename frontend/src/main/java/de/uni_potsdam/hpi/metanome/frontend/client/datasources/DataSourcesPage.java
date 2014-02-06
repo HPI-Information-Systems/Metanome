@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -71,7 +73,12 @@ public class DataSourcesPage extends VerticalPanel {
 
 			@Override
 			public void onSuccess(String[] result) {
-				addDataSourcesToList(result, csvFilesList);
+				InputParameterCsvFile[] dataSources = new InputParameterCsvFile[result.length];
+				for (int i=0; i<result.length; i++){
+					dataSources[i] = new InputParameterCsvFile();
+					dataSources[i].setFileNameValue(result[i]);
+				}
+				addDataSourcesToList(dataSources, csvFilesList);
 			}
 		});		
 	}
@@ -81,9 +88,9 @@ public class DataSourcesPage extends VerticalPanel {
 		
 	}
 	
-	protected void addDataSourcesToList(String[] dataSourceNames, FlexTable list) {
+	protected void addDataSourcesToList(InputParameterDataSource[] dataSources, FlexTable list) {
 		int row = 0;
-		for(String dataSourceName : dataSourceNames) {
+		for(final InputParameterDataSource dataSource : dataSources) {
 			Button runButton = new Button("Run Algorithm");
 			Button showButton = new Button("Show Profile");
 			
@@ -92,7 +99,7 @@ public class DataSourcesPage extends VerticalPanel {
 				@Override
 				public void onClick(ClickEvent event) {
 					// TODO Auto-generated method stub - should open Run Configuration with pre-configured data source
-					jumpToRunConfiguration(((Button) event.getSource()).getTitle());
+					jumpToRunConfiguration(dataSource);
 				}
 			});
 			showButton.addClickHandler(new ClickHandler() {
@@ -104,14 +111,14 @@ public class DataSourcesPage extends VerticalPanel {
 				}
 			});
 			
-			list.setText(row, 0, dataSourceName);
+			list.setText(row, 0, dataSource.getValueAsString());
 			list.setWidget(row, 1, runButton);			
 			list.setWidget(row, 2, showButton);			
 			row++;
 		}
 	}
 	
-	private void jumpToRunConfiguration(String dataSourceName) {
-		basePage.jumpToRunConfiguration(null, dataSourceName);
+	protected void jumpToRunConfiguration(InputParameterDataSource dataSource) {
+		basePage.jumpToRunConfiguration(null, dataSource);
 	}
 }

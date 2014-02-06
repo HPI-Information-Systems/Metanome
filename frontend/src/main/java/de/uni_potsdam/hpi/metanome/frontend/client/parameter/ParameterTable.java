@@ -20,8 +20,9 @@ public class ParameterTable extends FlexTable {
 	 * and a button added at the bottom that triggers algorithm execution.
 	 * 
 	 * @param requiredParams the list of parameters asked for by the algorithm.
+	 * @param primaryDataSource 
 	 */
-	public ParameterTable(List<InputParameter> requiredParams) {
+	public ParameterTable(List<InputParameter> requiredParams, InputParameterDataSource primaryDataSource) {
 		super();	
 		
 		int i = 0;
@@ -29,8 +30,13 @@ public class ParameterTable extends FlexTable {
 			this.setText(i, 0, param.getIdentifier());
 			InputParameterWidget currentWidget = param.createWrappingWidget();
 			this.setWidget(i, 1, currentWidget);
-			if (currentWidget instanceof InputParameterDataSourceWidget)
-				this.dataSourceWidgets.add((InputParameterDataSourceWidget) currentWidget);
+			if (currentWidget instanceof InputParameterDataSourceWidget) {
+				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
+				if (primaryDataSource != null && 
+						currentWidget.getInputParameter().getClass().equals(primaryDataSource.getClass()))
+					dataSourceWidget.setInputParameter(primaryDataSource);
+				this.dataSourceWidgets.add(dataSourceWidget);
+			}
 			else
 				this.childWidgets.add(currentWidget);
 			i++;
@@ -43,7 +49,7 @@ public class ParameterTable extends FlexTable {
 	}
 	
 	/**
-	 * When parameter values are submitted, there values are set and used to call
+	 * When parameter values are submitted, their values are set and used to call
 	 * the execution service corresponding to the current tab.
 	 */
 	public void submit(){
@@ -52,6 +58,10 @@ public class ParameterTable extends FlexTable {
 		getAlgorithmTab().callExecutionService(parameters, dataSources);
 	}
 
+	/**
+	 * TODO docs
+	 * @return
+	 */
 	public List<InputParameterDataSource> getInputParameterDataSourcesWithValues() {
 		LinkedList<InputParameterDataSource> parameterList = new LinkedList<InputParameterDataSource>();
 		for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets){

@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
@@ -24,6 +24,7 @@ public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
+	public InputParameterDataSource primaryDataSource;
 	
 	protected ExecutionServiceAsync executionService;
 	
@@ -40,7 +41,7 @@ public class RunConfigurationPage extends DockPanel{
 		
 		this.basePage = basePage;
 		this.jarChooser = new JarChooser(algorithmNames);
-		this.add(this.jarChooser, DockPanel.NORTH);
+		this.add(this.jarChooser, DockPanel.CENTER);
 		
 		this.executionService = GWT.create(ExecutionService.class);
 	}
@@ -56,8 +57,8 @@ public class RunConfigurationPage extends DockPanel{
 		if (parameterTable != null) {
 			this.remove(parameterTable);
 		}
-		parameterTable = new ParameterTable(paramList);
-		this.add(parameterTable, DockPanel.WEST);
+		parameterTable = new ParameterTable(paramList, primaryDataSource);
+		this.add(parameterTable, DockPanel.SOUTH);
 	}
 
 	/**
@@ -89,20 +90,23 @@ public class RunConfigurationPage extends DockPanel{
 	
 	/**
 	 * TODO docs
-	 * @param dataSourceName
+	 * @param dataSource
 	 */
-	public void selectDataSource(String dataSourceName) {
+	public void selectDataSource(InputParameterDataSource dataSource) {
 		// TODO Auto-generated method stub
-		System.out.println("Pre-configuring a data source is not yet implemented");
+		//this.parameterTable
+		this.primaryDataSource = dataSource;
+		this.add(new Label("You are configuring a profiling run for " + dataSource.getValueAsString()), DockPanel.NORTH);
+		this.jarChooser.filterForPrimaryDataSource(dataSource);
 	}
 
 	/**
 	 * 
-	 * @return	the name of the data source that is currently selected in the configuration interface
+	 * @return	the name of the data source that is currently selected in the 
+	 * 			first data source field in the configuration interface
 	 */
-	public String getCurrentlySelectedDataSource() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InputParameterDataSource> getCurrentlySelectedDataSources() {
+		return this.parameterTable.getInputParameterDataSourcesWithValues();
 	}
 	
 	/**
@@ -121,4 +125,5 @@ public class RunConfigurationPage extends DockPanel{
 	public JarChooser getJarChooser() {
 		return jarChooser;
 	}
+
 }

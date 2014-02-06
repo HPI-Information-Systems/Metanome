@@ -23,7 +23,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	private InputParameterCsvFile inputParameter;
 	
 	/** Dropdown menu for choosing a CSV file */
-	protected ListBox listbox;
+	public ListBox listbox;
 	protected CheckBox advancedCheckbox;
 	protected FlexTable advancedTable;
 	protected TextBox separatorTextbox;
@@ -153,9 +153,13 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 			}
 			
 			public void onSuccess(String[] result) { 
+				int index = 1;					//start at 1 because index 0 has default ("--") entry
 				for (String value : result){
 					String displayName = value.substring(value.lastIndexOf("/") + 1);
 					listbox.addItem(displayName, value);
+					if (value == inputParameter.getFileNameValue())
+						listbox.setSelectedIndex(index);
+					index++;
 				}
 			}
 		};
@@ -182,6 +186,12 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	@Override
 	public InputParameterCsvFile getInputParameter() {
 		return this.setCurrentValues(this.inputParameter);
+	}
+	
+	@Override
+	public void setInputParameter(InputParameterDataSource parameter){
+		((InputParameterCsvFile) parameter).setIdentifier(this.inputParameter.getIdentifier());
+		this.inputParameter = (InputParameterCsvFile) parameter;
 	}
 
 }

@@ -147,12 +147,12 @@ public class BasePage extends TabLayoutPanel {
 	 * 
 	 * @param algorithmName	algorithm that shall be run
 	 */
-	public void jumpToRunConfiguration(String algorithmName, String dataSourceName) {
+	public void jumpToRunConfiguration(String algorithmName, InputParameterDataSource dataSource) {
 		this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
 		if (algorithmName != null)
 			this.runConfigurationsPage.selectAlgorithm(algorithmName);
-		if (dataSourceName != null)
-			this.runConfigurationsPage.selectDataSource(dataSourceName);
+		if (dataSource != null)
+			this.runConfigurationsPage.selectDataSource(dataSource);
 	}
 
 	/**

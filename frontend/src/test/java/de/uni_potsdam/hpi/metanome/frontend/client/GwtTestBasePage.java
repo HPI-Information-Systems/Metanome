@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
@@ -95,6 +96,8 @@ public class GwtTestBasePage extends GWTTestCase{
 	@Test
 	public void testJumpToRunConfigurationFromDataSource() {
 		final BasePage page = new BasePage();
+		final InputParameterCsvFile dataSource = new InputParameterCsvFile();
+		dataSource.setFileNameValue(dataSourceName);
 		
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {
@@ -106,12 +109,13 @@ public class GwtTestBasePage extends GWTTestCase{
 				page.addAlgorithmsToRunConfigurations(result);
 
 				//Execute
-				page.jumpToRunConfiguration(null, dataSourceName);
-
+				page.jumpToRunConfiguration(null, dataSource);
+	
+				RunConfigurationPage runConfigPage = (RunConfigurationPage) page.getWidget(page.getSelectedIndex());
+				
 				//Check
 				assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-				assertEquals(dataSourceName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
-						.getCurrentlySelectedDataSource());				
+				assertEquals(dataSource.getValueAsString(), runConfigPage.primaryDataSource.getValueAsString());
 
 				finishTest();
 			}
