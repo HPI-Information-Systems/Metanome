@@ -193,7 +193,6 @@ public class GwtTestParameter extends GWTTestCase {
 		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
 		InputParameterCsvFile inputParameterCsvFile = new InputParameterCsvFile("csv");
 		paramList.add(inputParameterCsvFile);
-		//((InputParameterCsvFileWidget) pt.getWidget(0, 1)).listbox.addItem(primaryDataSource.getValueAsString());
 		
 		//Execute
 		ParameterTable pt = new ParameterTable(paramList, primaryDataSource);
@@ -206,6 +205,7 @@ public class GwtTestParameter extends GWTTestCase {
 				foundDataSource = true;
 		}
 		assertTrue(foundDataSource);
+		//TODO test whether the supposed data source is selected in UI element
 	}
 
 		

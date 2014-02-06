@@ -116,7 +116,8 @@ public class GwtTestBasePage extends GWTTestCase{
 				//Check
 				assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
 				assertEquals(dataSource.getValueAsString(), runConfigPage.primaryDataSource.getValueAsString());
-
+				//TODO assert correct filtering
+				
 				finishTest();
 			}
 		};

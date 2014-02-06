@@ -58,7 +58,6 @@ public class JarChooser extends HorizontalPanel {
 		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
 		      public void onFailure(Throwable caught) {
 		        // TODO: Do something with errors.
-		    	  System.out.println("failure");
 		      }
 
 		      public void onSuccess(List<InputParameter> result) {  	  
@@ -142,7 +141,7 @@ public class JarChooser extends HorizontalPanel {
 	 */
 	public void filterForPrimaryDataSource(InputParameterDataSource dataSource) {
 		// TODO filter out any algorithms that would not accept the given data source
-		System.out.println("Pre-configuring a data source is not yet implemented");
+		System.out.println("Filtering algorithms for a data source is not yet implemented");
 
 	}
 	
