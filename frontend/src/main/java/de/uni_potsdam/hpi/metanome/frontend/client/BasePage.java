@@ -152,7 +152,7 @@ public class BasePage extends TabLayoutPanel {
 		if (algorithmName != null)
 			this.runConfigurationsPage.selectAlgorithm(algorithmName);
 		if (dataSource != null)
-			this.runConfigurationsPage.selectDataSource(dataSource);
+			this.runConfigurationsPage.setPrimaryDataSource(dataSource);
 	}
 
 	/**

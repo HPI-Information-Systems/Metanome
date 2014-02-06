@@ -56,30 +56,41 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		this.add(advancedTable);
 		
 		separatorTextbox = getNewOneCharTextbox();
-		addRow(advancedTable, separatorTextbox, "Separator Character", 0);
+		addRow(advancedTable, separatorTextbox, "Separator Character");
 		
 		quoteTextbox = getNewOneCharTextbox();
-		addRow(advancedTable, quoteTextbox, "Quote Character", 1);
+		addRow(advancedTable, quoteTextbox, "Quote Character");
 		
 		escapeTextbox = getNewOneCharTextbox();
-		addRow(advancedTable, escapeTextbox, "Escape Character", 2);
+		addRow(advancedTable, escapeTextbox, "Escape Character");
 		
 		lineIntegerbox = new IntegerBox();
 		lineIntegerbox.setWidth("5em");
-		addRow(advancedTable, lineIntegerbox, "Line", 3);
+		addRow(advancedTable, lineIntegerbox, "Line");
 		
 		strictQuotesCheckbox = new CheckBox();
-		addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes", 4);
+		addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 		
 		ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-		addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace", 5);
+		addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
 	}
 
-	protected void addRow(FlexTable table, Widget inputWidget, String name, int row) {
+	/**
+	 * Add another user input row to the bottom of the given table
+	 * @param table			the UI object on which to add the row
+	 * @param inputWidget	the widget to be used for input
+	 * @param name			the name of the input property
+	 */
+	protected void addRow(FlexTable table, Widget inputWidget, String name) {
+		int row = table.getRowCount();
 		table.setText(row, 0, name);
 		table.setWidget(row, 1, inputWidget);
 	}
 	
+	/**
+	 * Creates a UI element for one-character user input
+	 * @return	a TextBox with width and input length limited to 2 (>1 to allow for escape characters)
+	 */
 	private TextBox getNewOneCharTextbox(){
 		TextBox textbox = new TextBox();
 		textbox.setMaxLength(2);
@@ -87,6 +98,11 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		return textbox;
 	}
 
+	/**
+	 * Retrieves the current values from the UI and sets them on the given inputParameter
+	 * @param inputParameter	the object on which to set the values
+	 * @return	the inputParameter with updated values
+	 */
 	protected InputParameterCsvFile setCurrentValues(InputParameterCsvFile inputParameter) {
 		inputParameter.setFileNameValue(this.listbox.getValue(this.listbox.getSelectedIndex()));
 		inputParameter.setAdvanced(this.advancedCheckbox.getValue());
@@ -106,6 +122,10 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		return inputParameter;
 	}
 
+	/**
+	 * Create the CheckBox that triggers the display/hiding of advanced CSV configuration parameters
+	 * @return the CheckBox with the mentioned behavior
+	 */
 	protected CheckBox createAdvancedCheckbox() {
 		CheckBox checkbox = new CheckBox("Use Advanced Configuration");
 		checkbox.setValue(this.inputParameter.isAdvanced());
@@ -113,7 +133,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				setInputParameterAdvanced();
+				advancedTable.setVisible(advancedCheckbox.getValue());
 			}
 		});
 		
@@ -121,7 +141,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	}
 	
 	/**
-	 * Finds all available CSV files and adds them to a dropdown menu with an empty
+	 * Finds all available CSV files and adds them to a drop-down menu with an empty
 	 * entry ("--"), which is selected by default but cannot be selected (it is disabled
 	 * because it does not represent a valid input file).
 	 * 
@@ -166,10 +186,6 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		
 		InputDataServiceAsync service = GWT.create(InputDataService.class);  
 		service.listCsvInputFiles(callback);
-	}
-	
-	protected void setInputParameterAdvanced() {
-		this.advancedTable.setVisible(this.advancedCheckbox.getValue());
 	}
 	
 	/** 
