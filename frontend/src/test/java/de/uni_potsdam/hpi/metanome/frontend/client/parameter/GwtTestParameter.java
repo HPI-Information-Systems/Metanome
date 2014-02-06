@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
@@ -198,14 +199,15 @@ public class GwtTestParameter extends GWTTestCase {
 		ParameterTable pt = new ParameterTable(paramList, primaryDataSource);
 		
 		//Check
-		
 		boolean foundDataSource = false;
 		for (InputParameterDataSource dataSource : pt.getInputParameterDataSourcesWithValues()){
 			if(dataSource.getValueAsString().equals(primaryDataSource.getValueAsString()))
 				foundDataSource = true;
 		}
 		assertTrue(foundDataSource);
-		//TODO test whether the supposed data source is selected in UI element
+		
+		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).listbox;
+		assertEquals(primaryDataSource.getValueAsString(), listbox.getValue(listbox.getSelectedIndex()));
 	}
 
 		

@@ -59,7 +59,8 @@ public class ExecutionServiceTest extends TestCase {
 	}	
 
 	/**
-	 * Make sure an exception is thrown when trying to build a CsvFileGenerator on an invalid path
+	 * Make sure an AlgorithmConfigurationException is thrown when trying to build a CsvFileGenerator on an invalid path
+	 * TODO test positive case as well
 	 */
 	@Test
 	public void testBuildCsvFileGenerator() {		
@@ -73,11 +74,11 @@ public class ExecutionServiceTest extends TestCase {
 		} catch (AlgorithmConfigurationException e) {
 			//Test successful.
 		}
-
 	}
 	
 	/**
-	 * TODO docs
+	 * Make sure an AlgorithmConfigurationException is thrown when trying to build an SqlIterator on an invalid DB connection
+	 * TODO test positive case as well
 	 */
 	@Test
 	public void testBuildSqlIteratorGenerator() {
@@ -87,9 +88,6 @@ public class ExecutionServiceTest extends TestCase {
 		} catch(AlgorithmConfigurationException e) {
 			//Test successful.
 		}
-		
-		//TODO: Test whether correct parameter values are given (using mock)
-
 	}
 	
 	/**

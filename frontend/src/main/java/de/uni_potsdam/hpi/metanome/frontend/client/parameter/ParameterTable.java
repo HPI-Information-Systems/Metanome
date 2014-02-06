@@ -59,8 +59,8 @@ public class ParameterTable extends FlexTable {
 	}
 
 	/**
-	 * TODO docs
-	 * @return
+	 * Iterates over the child widgets that represent data sources and retrieves their user input.
+	 * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values. 
 	 */
 	public List<InputParameterDataSource> getInputParameterDataSourcesWithValues() {
 		LinkedList<InputParameterDataSource> parameterList = new LinkedList<InputParameterDataSource>();
