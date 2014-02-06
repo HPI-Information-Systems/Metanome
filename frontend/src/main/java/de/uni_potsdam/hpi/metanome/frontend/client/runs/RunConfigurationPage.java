@@ -53,7 +53,7 @@ public class RunConfigurationPage extends DockPanel{
 	/**
 	 * Adds a widget for user's parameter input to the tab. The content of the tab 
 	 * depends on the requested parameters.
-	 * 
+	 *
 	 * @param paramList	list of required parameters
 	 */
 	public void addParameterTable(List<InputParameter> paramList){
@@ -92,12 +92,15 @@ public class RunConfigurationPage extends DockPanel{
 	}
 	
 	/**
-	 * TODO docs
+	 * Sets the data source that should be profiled ("Primary Data Source"),
+	 * displays its value in a label, and triggers the jarChooser to filter for applicable algorithms.
+	 * 
 	 * @param dataSource
 	 */
 	public void setPrimaryDataSource(InputParameterDataSource dataSource) {
 		this.primaryDataSource = dataSource;
 		this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
+		this.parameterTable.removeFromParent();
 		this.jarChooser.filterForPrimaryDataSource(dataSource);
 	}
 

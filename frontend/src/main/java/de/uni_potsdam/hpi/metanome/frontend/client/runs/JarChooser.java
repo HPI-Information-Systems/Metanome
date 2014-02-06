@@ -140,6 +140,7 @@ public class JarChooser extends HorizontalPanel {
 	 * @param dataSource	the data source that shall be profiled / for which algorithms should be filtered
 	 */
 	public void filterForPrimaryDataSource(InputParameterDataSource dataSource) {
+		this.listbox.setSelectedIndex(0);
 		// TODO filter out any algorithms that would not accept the given data source
 		System.out.println("Filtering algorithms for a data source is not yet implemented");
 
