@@ -24,6 +24,7 @@ public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
+	protected Label primaryDataSourceLabel;
 	public InputParameterDataSource primaryDataSource;
 	
 	protected ExecutionServiceAsync executionService;
@@ -38,10 +39,12 @@ public class RunConfigurationPage extends DockPanel{
 	 */
 	public RunConfigurationPage(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
-		
 		this.basePage = basePage;
+		
+		this.primaryDataSourceLabel = new Label();
+		this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
 		this.jarChooser = new JarChooser(algorithmNames);
-		this.add(this.jarChooser, DockPanel.CENTER);
+		this.add(this.jarChooser, DockPanel.NORTH);
 		
 		this.executionService = GWT.create(ExecutionService.class);
 	}
@@ -92,11 +95,9 @@ public class RunConfigurationPage extends DockPanel{
 	 * TODO docs
 	 * @param dataSource
 	 */
-	public void selectDataSource(InputParameterDataSource dataSource) {
-		// TODO Auto-generated method stub
-		//this.parameterTable
+	public void setPrimaryDataSource(InputParameterDataSource dataSource) {
 		this.primaryDataSource = dataSource;
-		this.add(new Label("You are configuring a profiling run for " + dataSource.getValueAsString()), DockPanel.NORTH);
+		this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
 		this.jarChooser.filterForPrimaryDataSource(dataSource);
 	}
 
