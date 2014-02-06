@@ -37,7 +37,7 @@ public class ExecutionServiceTest extends TestCase {
 
 	
 	/**
-	 * TODO docs
+	 * Test the conversion of InputParameters (frontend) to ConfigurationValues (backend)
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws AlgorithmConfigurationException 
@@ -59,7 +59,7 @@ public class ExecutionServiceTest extends TestCase {
 	}	
 
 	/**
-	 * TODO docs
+	 * Make sure an exception is thrown when trying to build a CsvFileGenerator on an invalid path
 	 */
 	@Test
 	public void testBuildCsvFileGenerator() {		

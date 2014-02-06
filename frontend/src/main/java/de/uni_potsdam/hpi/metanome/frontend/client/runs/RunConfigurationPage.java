@@ -57,9 +57,7 @@ public class RunConfigurationPage extends DockPanel{
 	 * @param paramList	list of required parameters
 	 */
 	public void addParameterTable(List<InputParameter> paramList){
-		if (parameterTable != null) {
-			this.remove(parameterTable);
-		}
+		removeParameterTable();
 		parameterTable = new ParameterTable(paramList, primaryDataSource);
 		this.add(parameterTable, DockPanel.SOUTH);
 	}
@@ -100,8 +98,16 @@ public class RunConfigurationPage extends DockPanel{
 	public void setPrimaryDataSource(InputParameterDataSource dataSource) {
 		this.primaryDataSource = dataSource;
 		this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
-		this.parameterTable.removeFromParent();
+		removeParameterTable();	
 		this.jarChooser.filterForPrimaryDataSource(dataSource);
+	}
+
+	/**
+	 * Remove the parameterTable from UI if it was present
+	 */
+	private void removeParameterTable() {
+		if (parameterTable != null)
+			this.remove(parameterTable);
 	}
 
 	/**
