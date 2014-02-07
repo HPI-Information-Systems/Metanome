@@ -822,7 +822,7 @@ public class ColumnCombinationBitsetTest {
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
 	 * 
-	 * getAllSubsets should return all subsets that have a column set.
+	 * getAllSubsets should return all subsets including the empty set.
 	 */
 	@Test
 	public void testGetAllSubsets() {
@@ -854,7 +854,8 @@ public class ColumnCombinationBitsetTest {
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
 	 * 
-	 * The list of subsets of a {@link ColumnCombinationBitset} with only one column should be empty. 
+	 * The list of subsets of a {@link ColumnCombinationBitset} with only one column should 
+	 * only contain the empty {@link ColumnCombinationBitset}. 
 	 */
 	@Test
 	public void testGetAllSubsetsOneColumn() {
@@ -862,7 +863,7 @@ public class ColumnCombinationBitsetTest {
 		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(5);
 		
 		// Execute functionality
-		assertTrue(columnCombination.getAllSubsets().isEmpty());		
+		assertEquals(new ColumnCombinationBitset(), columnCombination.getAllSubsets().get(0));		
 	}
 	
 }

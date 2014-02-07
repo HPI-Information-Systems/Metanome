@@ -179,7 +179,7 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * Returns all subset of the column combination (not the empty {@link ColumnCombinationBitset}).
+	 * Returns all subset of the column combination (including the empty {@link ColumnCombinationBitset}).
 	 * 
 	 * @return subsets
 	 */
@@ -189,7 +189,7 @@ public class ColumnCombinationBitset {
 		Queue<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
 		currentLevel.add(this);
 		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
-		for (int level = size(); level > 1; level--) {
+		for (int level = size(); level > 0; level--) {
 			while(!currentLevel.isEmpty()) {
 				ColumnCombinationBitset currentColumnCombination = currentLevel.remove();
 				nextLevel.addAll(currentColumnCombination.getDirectSubsets());

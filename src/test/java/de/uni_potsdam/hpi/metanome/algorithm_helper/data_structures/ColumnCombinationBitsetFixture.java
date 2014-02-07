@@ -78,7 +78,8 @@ public class ColumnCombinationBitsetFixture {
 				new ColumnCombinationBitset().setColumns(0),
 				new ColumnCombinationBitset().setColumns(2),
 				new ColumnCombinationBitset().setColumns(3),
-				new ColumnCombinationBitset().setColumns(4)};
+				new ColumnCombinationBitset().setColumns(4),
+				new ColumnCombinationBitset()};
 		
 		return subsets;
 	}
