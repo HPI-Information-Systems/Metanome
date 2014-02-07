@@ -213,32 +213,21 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * TODO docs
+	 * If n is closer to the super (this column combination) set the top down strategy should be chosen
+	 * otherwise bottom up generation is used.
 	 * 
 	 * @param subSet
 	 * @param n
 	 * @return
 	 */
 	public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset subSet, int n) {
-		return getNSubsetColumnCombinationsSupersetOf(this, subSet, n);
-	}
-
-	/**
-	 * If n is closer to the super set the top down strategy should be chosen otherwise bottom up generation is used.
-	 * 
-	 * @param superSet
-	 * @param subSet
-	 * @param n
-	 * @return n column combinations that are super set of the sub set and sub set of the super set
-	 */
-	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
-			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
 		// If n is closer to the super set go top down.
-		if ((superSet.size() - n) < (n - subSet.size())) {
-			return getNSubsetColumnCombinationsSupersetOfTopDown(superSet, subSet, n);
+		if ((this.size() - n) < (n - subSet.size())) {
+			return getNSubsetColumnCombinationsSupersetOfTopDown(subSet, n);
 		} else {
-			return getNSubsetColumnCombinationsSupersetOfBottomUp(superSet, subSet, n);
-		}		
+			return getNSubsetColumnCombinationsSupersetOfBottomUp(subSet, n);
+		}	
+		
 	}
 	
 	/**
@@ -247,8 +236,11 @@ public class ColumnCombinationBitset {
 	 * @param n
 	 * @return
 	 */
-	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(
-			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
+	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset subSet, int n) {
+		
+		if ((n > this.size()) || (n < subSet.size())) {
+			return new LinkedList<ColumnCombinationBitset>();
+		}
 		
 		List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
 		currentLevel.add(subSet);
@@ -257,7 +249,7 @@ public class ColumnCombinationBitset {
 		for (int currentLevelIndex = subSet.size(); currentLevelIndex < n; currentLevelIndex++) {
 			while (!currentLevel.isEmpty()) {
 				ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
-				nextLevel.addAll(currentColumnCombination.getDirectSupersets(superSet));
+				nextLevel.addAll(currentColumnCombination.getDirectSupersets(this));
 			}
 			currentLevel.addAll(nextLevel);
 			nextLevel.clear();
@@ -312,18 +304,17 @@ public class ColumnCombinationBitset {
 	 * @param n
 	 * @return
 	 */
-	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(
-			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
+	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset subSet, int n) {
 		
-		if ((n > superSet.size()) || (n < subSet.size())) {
+		if ((n > this.size()) || (n < subSet.size())) {
 			return new LinkedList<ColumnCombinationBitset>();
 		}
 		
 		List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
-		currentLevel.add(superSet);
+		currentLevel.add(this);
 		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
 		
-		for (int currentLevelIndex = superSet.size(); currentLevelIndex > n; currentLevelIndex--) {
+		for (int currentLevelIndex = this.size(); currentLevelIndex > n; currentLevelIndex--) {
 			while(!currentLevel.isEmpty()) {
 				ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
 				// TODO optimize only generate subsets superset of

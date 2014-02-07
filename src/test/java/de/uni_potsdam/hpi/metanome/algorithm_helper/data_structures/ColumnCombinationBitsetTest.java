@@ -1,6 +1,12 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -294,9 +300,9 @@ public class ColumnCombinationBitsetTest {
 		// Execute functionality 
 		// Check result
 		abcdeg.getNSubsetColumnCombinationsSupersetOf(c, 4);
-		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfTopDown(abcdeg, c, 4);
+		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfTopDown(c, 4);
 		abcdeg.getNSubsetColumnCombinationsSupersetOf(c, 3);
-		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfBottomUp(abcdeg, c, 3);
+		verify(abcdeg).getNSubsetColumnCombinationsSupersetOfBottomUp(c, 3);
 	}
 	
 	/**
@@ -354,6 +360,8 @@ public class ColumnCombinationBitsetTest {
 								new ColumnCombinationBitset[expected1SubsetColumnCombinations.size()])));
 	}
 	
+	// FIXME have bigger test case for getNSubsetColumnCombinationsSupersetOf
+	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
 	 * 
@@ -393,17 +401,43 @@ public class ColumnCombinationBitsetTest {
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, ColumnCombinationBitset, int)}.
 	 * 
-	 * When generating subsets that should be greater than the superset an empty list should be returned.
+	 * When generating subsets that should be greater than or less than the superset an empty list should be returned.
 	 */
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfTopDownNGreaterSuperset() {
 		// Setup
-		ColumnCombinationBitset abc = new ColumnCombinationBitset().setColumns(0, 1, 2);
+		ColumnCombinationBitset abcd = new ColumnCombinationBitset().setColumns(0, 1, 2, 3);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
 		
 		// Execute functionality
 		// Check result
-		assertTrue(abc.getNSubsetColumnCombinationsSupersetOfTopDown(abc, new ColumnCombinationBitset(), 4).isEmpty());
+		assertTrue(abcd.getNSubsetColumnCombinationsSupersetOfTopDown(bc, 5).isEmpty());
+		assertTrue(abcd.getNSubsetColumnCombinationsSupersetOfTopDown(bc, 1).isEmpty());
+		assertTrue(abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(bc, 5).isEmpty());
+		assertTrue(abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(bc, 1).isEmpty());
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, ColumnCombinationBitset, int)}.
+	 * 
+	 * When generating subsets that should be equal to the subset or superset return those sets.
+	 */
+	@Test
+	public void testGetNSubsetColumnCombinationsSupersetOfTopDownNEqualSuperset() {
+		// Setup
+		ColumnCombinationBitset abcd = new ColumnCombinationBitset().setColumns(0, 1, 2, 3);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
+		
+		
+		// Execute functionality
+		// Check result
+		assertEquals(abcd, abcd.getNSubsetColumnCombinationsSupersetOfTopDown(new ColumnCombinationBitset(), 4).get(0));
+		assertEquals(bc, abcd.getNSubsetColumnCombinationsSupersetOfTopDown(bc, 2).get(0));
+		assertEquals(abcd, abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(new ColumnCombinationBitset(), 4).get(0));
+		assertEquals(bc, abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(bc, 2).get(0));
 	}
 	
 	/**
