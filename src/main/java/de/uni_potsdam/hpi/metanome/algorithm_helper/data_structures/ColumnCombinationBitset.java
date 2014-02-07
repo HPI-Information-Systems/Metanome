@@ -314,52 +314,30 @@ public class ColumnCombinationBitset {
 	 */
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
-
-		List<ColumnCombinationBitset> nSubsets = new LinkedList<ColumnCombinationBitset>();
 		
-		// If n is actually the number of set bits in the superset (the unreal subset is wanted), return the superSet.
-		if (superSet.size() < n) {
-			return nSubsets;
-		} else if (superSet.size() == n) {
-			nSubsets.add(superSet);
-			return nSubsets;
+		if ((n > superSet.size()) || (n < subSet.size())) {
+			return new LinkedList<ColumnCombinationBitset>();
 		}
 		
-		int setBitIndex = 0;
-		ColumnCombinationBitset nSubset;
-		OpenBitSet nSubsetBitSet;
-		while (true) {
-			setBitIndex = superSet.bitset.nextSetBit(setBitIndex);
-			
-			if (setBitIndex == -1) {
-				break;
-			} else {
-				nSubset = new ColumnCombinationBitset();
-				nSubsetBitSet = superSet.bitset.clone();
-				nSubsetBitSet.clear(setBitIndex);
-				nSubset.setColumns(nSubsetBitSet);
-				if (subSet.isSubsetOf(nSubset)) {
-					nSubsets.add(nSubset);
-				}
+		List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+		currentLevel.add(superSet);
+		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+		
+		for (int currentLevelIndex = superSet.size(); currentLevelIndex > n; currentLevelIndex--) {
+			while(!currentLevel.isEmpty()) {
+				ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
+				// TODO optimize only generate subsets superset of
+				for (ColumnCombinationBitset currentSubset : currentColumnCombination.getDirectSubsets()) {
+					if (currentSubset.containsSubset(subSet)) {
+						nextLevel.add(currentSubset);
+					}
+				}		
 			}
-			
-			setBitIndex++;
+			currentLevel.addAll(nextLevel);
+			nextLevel.clear();
 		}
 		
-		// The correct size n of subsets was reached.
-		if (superSet.size() - 1 == n) {
-			return nSubsets;
-		}
-		// Further subsets need to be generated recursively.
-		else {
-			Set<ColumnCombinationBitset> nCombinations = new HashSet<ColumnCombinationBitset>();
-			for (ColumnCombinationBitset nMinusOneCombination : nSubsets) {
-				nCombinations.addAll(getNSubsetColumnCombinationsSupersetOfTopDown(nMinusOneCombination, subSet, n));
-			}
-			List<ColumnCombinationBitset> nCombinationsList = new LinkedList<ColumnCombinationBitset>();
-			nCombinationsList.addAll(nCombinations);
-			return nCombinationsList;
-		}
+		return currentLevel;
 	}
 
 	/**
