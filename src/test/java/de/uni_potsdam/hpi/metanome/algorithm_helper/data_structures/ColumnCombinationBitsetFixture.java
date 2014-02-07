@@ -62,6 +62,27 @@ public class ColumnCombinationBitsetFixture {
 		return clearedBits1;
 	}
 	
+	public ColumnCombinationBitset[] getExpectedSubsetArray1() {
+		
+		ColumnCombinationBitset[] subsets = {
+				new ColumnCombinationBitset().setColumns(0, 2, 3),
+				new ColumnCombinationBitset().setColumns(0, 2, 4),
+				new ColumnCombinationBitset().setColumns(0, 3, 4),
+				new ColumnCombinationBitset().setColumns(2, 3, 4),
+				new ColumnCombinationBitset().setColumns(0, 2),
+				new ColumnCombinationBitset().setColumns(0, 3),
+				new ColumnCombinationBitset().setColumns(0, 4),
+				new ColumnCombinationBitset().setColumns(2, 3),
+				new ColumnCombinationBitset().setColumns(2, 4),
+				new ColumnCombinationBitset().setColumns(3, 4),
+				new ColumnCombinationBitset().setColumns(0),
+				new ColumnCombinationBitset().setColumns(2),
+				new ColumnCombinationBitset().setColumns(3),
+				new ColumnCombinationBitset().setColumns(4)};
+		
+		return subsets;
+	}
+	
 	protected List<Integer> getSetBitList2() {
 		List<Integer> setBits2 = new LinkedList<Integer>();
 		
