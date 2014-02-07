@@ -250,39 +250,20 @@ public class ColumnCombinationBitset {
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
 		
-		List<ColumnCombinationBitset> nSupersets = new LinkedList<ColumnCombinationBitset>();
+		List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+		currentLevel.add(subSet);
+		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
 		
-		if (subSet.size() > n) {
-			return nSupersets;
-		} else if (subSet.size() == n) {
-			nSupersets.add(subSet);
-			return nSupersets;
-		}
-		
-		ColumnCombinationBitset nSuperset;
-		for (int columnIndex : superSet.getSetBits()) {
-			// The column is not contained in the subset.
-			if (!subSet.bitset.get(columnIndex)) {
-				nSuperset = new ColumnCombinationBitset().setColumns(subSet.bitset.clone());
-				nSuperset.addColumn(columnIndex);
-				nSupersets.add(nSuperset);
-			}			
-		}
-		
-		// The correct size n of subsets was reached.
-		if (subSet.size() + 1 == n) {
-			return nSupersets;
-		}
-		// Further supersets need to be generated recursively.
-		else {
-			Set<ColumnCombinationBitset> nCombinations = new  HashSet<ColumnCombinationBitset>();
-			for (ColumnCombinationBitset nPlusOneCombination : nSupersets) {
-				nCombinations.addAll(getNSubsetColumnCombinationsSupersetOfBottomUp(superSet, nPlusOneCombination, n));
+		for (int currentLevelIndex = subSet.size(); currentLevelIndex < n; currentLevelIndex++) {
+			while (!currentLevel.isEmpty()) {
+				ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
+				nextLevel.addAll(currentColumnCombination.getDirectSupersets(superSet));
 			}
-			List<ColumnCombinationBitset> nCombinationsList = new LinkedList<ColumnCombinationBitset>();
-			nCombinationsList.addAll(nCombinations);
-			return nCombinationsList;
+			currentLevel.addAll(nextLevel);
+			nextLevel.clear();
 		}
+		
+		return currentLevel;
 	}
 	
 	/**TODO docs
