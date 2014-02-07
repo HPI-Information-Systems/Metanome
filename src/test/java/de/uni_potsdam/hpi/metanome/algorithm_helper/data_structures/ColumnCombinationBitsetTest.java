@@ -621,7 +621,7 @@ public class ColumnCombinationBitsetTest {
 	 * Generates the direct super sets. Supersets are bounded by the maximum number of columns.
 	 */
 	@Test
-	public void testGetDirectSupersets() {
+	public void testGetDirectSupersetsInt() {
 		// Setup
 		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
 		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
@@ -630,6 +630,27 @@ public class ColumnCombinationBitsetTest {
 		// Check result
 		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()), 
 				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getDirectSupersets(ColumnCombinationBitset)}
+	 * 
+	 * Generates the direct super sets. Supersets are bounded by the maximum superset.
+	 */
+	@Test
+	public void testGetDirectSupersetsColumnCombinationBitset() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+		
+		// Execute functionality
+		List<ColumnCombinationBitset> actualDirectSupersets = 
+				columnCombination.getDirectSupersets(fixture.getExpectedSupersetOfColumn1());
+		
+		// Check result
+		assertThat(actualDirectSupersets, 
+				IsIterableContainingInAnyOrder.containsInAnyOrder(
+						fixture.getExpectedDirectSupersetsColumnCombinationBitset()));
 	}
 	
 	/**
