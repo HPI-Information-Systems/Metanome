@@ -83,6 +83,21 @@ public class ColumnCombinationBitsetFixture {
 		return subsets;
 	}
 	
+	public ColumnCombinationBitset getExpectedSupersetOfColumn1() {
+		// 012345678
+		// 111110011
+		return new ColumnCombinationBitset().setColumns(0, 1, 2, 3, 4, 7, 8);
+	}
+	
+	public ColumnCombinationBitset[] getExpectedDirectSupersetsColumnCombinationBitset() {
+		ColumnCombinationBitset[] supersets = {
+				new ColumnCombinationBitset().setColumns(0, 1, 2, 3, 4),
+				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 7),
+				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 8)};
+		
+		return supersets;
+	}
+	
 	protected List<Integer> getSetBitList2() {
 		List<Integer> setBits2 = new LinkedList<Integer>();
 		

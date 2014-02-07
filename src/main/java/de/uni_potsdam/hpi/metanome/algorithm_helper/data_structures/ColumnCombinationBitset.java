@@ -444,25 +444,29 @@ public class ColumnCombinationBitset {
 	 * @return the direct super sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSupersets(int numberOfColumns) {
+		return getDirectSupersets(new ColumnCombinationBitset().setAllBits(numberOfColumns));
+	}
+	
+	/**
+	 * Generates the direct super sets. Supersets are bounded by the maximum superset.
+	 * 
+	 * @param maximalSuperset
+	 * @return the direct super sets
+	 */
+	public List<ColumnCombinationBitset> getDirectSupersets(ColumnCombinationBitset maximalSuperset) {
 		List<ColumnCombinationBitset> supersets = new ArrayList<ColumnCombinationBitset>();
 		
 		ColumnCombinationBitset superset;
-		for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
-			// column is not in bitset
+		for (int columnIndex : maximalSuperset.getSetBits()) {
 			if (!bitset.get(columnIndex)) {
-				superset = new ColumnCombinationBitset().setColumns(bitset.clone());
+				superset = new ColumnCombinationBitset(this);
 				superset.addColumn(columnIndex);
 				supersets.add(superset);
 			}
+			
 		}
 		
 		return supersets;
-	}
-	
-	public List<ColumnCombinationBitset> getDirectSupersets(ColumnCombinationBitset maximalSuperset) {
-		// TODO implement
-		
-		return null;
 	}
 	
 	/**
