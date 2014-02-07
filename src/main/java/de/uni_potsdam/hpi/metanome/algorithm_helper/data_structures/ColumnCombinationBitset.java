@@ -459,6 +459,12 @@ public class ColumnCombinationBitset {
 		return supersets;
 	}
 	
+	public List<ColumnCombinationBitset> getDirectSupersets(ColumnCombinationBitset maximalSuperset) {
+		// TODO implement
+		
+		return null;
+	}
+	
 	/**
 	 * Generates the direct subset column combinations.
 	 * 
