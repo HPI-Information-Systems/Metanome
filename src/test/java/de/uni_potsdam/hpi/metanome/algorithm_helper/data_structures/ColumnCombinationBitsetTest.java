@@ -763,4 +763,51 @@ public class ColumnCombinationBitsetTest {
 		assertNotEquals(expectedEqualSet, allocatedBitSet);
 		assertNotEquals(expectedEqualSet.hashCode(), allocatedBitSet.hashCode());		
 	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
+	 * 
+	 * getAllSubsets should return all subsets that have a column set.
+	 */
+	@Test
+	public void testGetAllSubsets() {
+		// Setup
+		ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+		ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+		
+		// Execute functionality
+		List<ColumnCombinationBitset> actualSubsets = columnCombination.getAllSubsets();
+		
+		// Check result
+		assertThat(actualSubsets, IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedSubsetArray1()));
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
+	 * 
+	 * The list of subsets of the empty {@link ColumnCombinationBitset} should be empty.
+	 */
+	@Test
+	public void testGetAllSubsetsEmpty() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
+		
+		// Execute functionality
+		assertTrue(columnCombination.getAllSubsets().isEmpty());		
+	}
+	
+	/**
+	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
+	 * 
+	 * The list of subsets of a {@link ColumnCombinationBitset} with only one column should be empty. 
+	 */
+	@Test
+	public void testGetAllSubsetsOneColumn() {
+		// Setup
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(5);
+		
+		// Execute functionality
+		assertTrue(columnCombination.getAllSubsets().isEmpty());		
+	}
+	
 }

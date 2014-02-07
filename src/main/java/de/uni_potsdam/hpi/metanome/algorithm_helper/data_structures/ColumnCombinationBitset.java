@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import org.apache.lucene.util.OpenBitSet;
@@ -178,6 +179,30 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
+	 * Returns all subset of the column combination (not the empty {@link ColumnCombinationBitset}).
+	 * 
+	 * @return subsets
+	 */
+	public List<ColumnCombinationBitset> getAllSubsets() {
+		List<ColumnCombinationBitset> subsets = new LinkedList<ColumnCombinationBitset>();
+		
+		Queue<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+		currentLevel.add(this);
+		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+		for (int level = size(); level > 1; level--) {
+			while(!currentLevel.isEmpty()) {
+				ColumnCombinationBitset currentColumnCombination = currentLevel.remove();
+				nextLevel.addAll(currentColumnCombination.getDirectSubsets());
+			}
+			currentLevel.addAll(nextLevel);
+			subsets.addAll(nextLevel);
+			nextLevel.clear();
+		}
+		
+		return subsets;
+	}
+	
+	/**
 	 * TODO docs
 	 * 
 	 * @param n
@@ -306,7 +331,6 @@ public class ColumnCombinationBitset {
 	 * @param n
 	 * @return
 	 */
-	// TODO bottom up
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(
 			ColumnCombinationBitset superSet, ColumnCombinationBitset subSet, int n) {
 
