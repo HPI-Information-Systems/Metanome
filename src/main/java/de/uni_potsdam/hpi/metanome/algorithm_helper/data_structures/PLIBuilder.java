@@ -1,18 +1,11 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import it.unimi.dsi.fastutil.longs.LongArrayList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
-
 import com.google.common.collect.ImmutableList;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+
+import java.util.*;
 
 
 public class PLIBuilder {
@@ -35,9 +28,8 @@ public class PLIBuilder {
 			columns = new ArrayList<HashMap<String, LongArrayList>>();
 			calculateRawPLI();
 		}
-		
-		List<PositionListIndex> pliList = purgePLIEntries();
-		return pliList;
+
+        return purgePLIEntries();
 	}
 	
 	/**
