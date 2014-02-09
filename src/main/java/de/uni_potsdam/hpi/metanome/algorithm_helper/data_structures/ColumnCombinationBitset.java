@@ -38,6 +38,7 @@ public class ColumnCombinationBitset {
      *
      * @deprecated
 	 */
+    @Deprecated
 	public ColumnCombinationBitset setColumns(int... containedColumns) {
 		// TODO optimisation implement clear
 		bitset = new OpenBitSet();
