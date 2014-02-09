@@ -38,7 +38,7 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		columnCombination.toString();
+		assertTrue(columnCombination.bitset != null);
 	}
 	
 	/**
@@ -204,10 +204,10 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		assertTrue(subSet.isRealSubsetOf(superSet));
-		assertFalse(subSet.isRealSubsetOf(subSet));
-		assertFalse(superSet.isRealSubsetOf(subSet));
-		assertFalse(superSet.isRealSubsetOf(superSet));	
+		assertTrue(subSet.isProperSubsetOf(superSet));
+		assertFalse(subSet.isProperSubsetOf(subSet));
+		assertFalse(superSet.isProperSubsetOf(subSet));
+		assertFalse(superSet.isProperSubsetOf(superSet));
 	}
 	
 	/**
@@ -718,7 +718,7 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * Test method for {@link ColumnCombinationBitset#testBit(int)}
+	 * Test method for {@link ColumnCombinationBitset#containsColumn(int)}
 	 * 
 	 * Should return true iff the bit at bitIndex is set.
 	 */
@@ -729,15 +729,15 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		assertFalse(columnCombination.testBit(0));
-		assertFalse(columnCombination.testBit(1));
-		assertFalse(columnCombination.testBit(2));
-		assertTrue(columnCombination.testBit(3));
-		assertTrue(columnCombination.testBit(4));
-		assertFalse(columnCombination.testBit(5));
-		assertFalse(columnCombination.testBit(6));
-		assertTrue(columnCombination.testBit(7));
-		assertFalse(columnCombination.testBit(8));
+		assertFalse(columnCombination.containsColumn(0));
+		assertFalse(columnCombination.containsColumn(1));
+		assertFalse(columnCombination.containsColumn(2));
+		assertTrue(columnCombination.containsColumn(3));
+		assertTrue(columnCombination.containsColumn(4));
+		assertFalse(columnCombination.containsColumn(5));
+		assertFalse(columnCombination.containsColumn(6));
+		assertTrue(columnCombination.containsColumn(7));
+		assertFalse(columnCombination.containsColumn(8));
 	}
 	
 	/**
@@ -758,9 +758,9 @@ public class ColumnCombinationBitsetTest {
 		
 		// Check result
 		for (int i = 0; i < expectedDimension; i++) {
-			assertTrue(actualColumnCombination.testBit(i));
+			assertTrue(actualColumnCombination.containsColumn(i));
 		}
-		assertFalse(actualColumnCombination.testBit(expectedDimension));
+		assertFalse(actualColumnCombination.containsColumn(expectedDimension));
 		assertEquals(expectedDimension, actualColumnCombination.size());
 		assertSame(columnCombination, actualColumnCombination);
 	}

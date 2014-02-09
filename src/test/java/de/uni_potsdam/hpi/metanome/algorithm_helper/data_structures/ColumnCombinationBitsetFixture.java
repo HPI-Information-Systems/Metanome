@@ -33,10 +33,6 @@ public class ColumnCombinationBitsetFixture {
 		return convertToArray(getClearedBitList1());
 	}
 	
-	public Integer[] getExpectedBits2() {
-		return convertToArray(getSetBitList2());
-	}
-	
 	protected Integer[] convertToArray(List<Integer> integerList) {
 		return integerList.toArray(new Integer[integerList.size()]);
 	}
@@ -63,25 +59,23 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset[] getExpectedSubsetArray1() {
-		
-		ColumnCombinationBitset[] subsets = {
-				new ColumnCombinationBitset(0, 2, 3),
-				new ColumnCombinationBitset(0, 2, 4),
-				new ColumnCombinationBitset(0, 3, 4),
-				new ColumnCombinationBitset(2, 3, 4),
-				new ColumnCombinationBitset(0, 2),
-				new ColumnCombinationBitset(0, 3),
-				new ColumnCombinationBitset(0, 4),
-				new ColumnCombinationBitset(2, 3),
-				new ColumnCombinationBitset(2, 4),
-				new ColumnCombinationBitset(3, 4),
-				new ColumnCombinationBitset(0),
-				new ColumnCombinationBitset(2),
-				new ColumnCombinationBitset(3),
-				new ColumnCombinationBitset(4),
-				new ColumnCombinationBitset()};
-		
-		return subsets;
+
+        return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(0, 2, 3),
+                new ColumnCombinationBitset(0, 2, 4),
+                new ColumnCombinationBitset(0, 3, 4),
+                new ColumnCombinationBitset(2, 3, 4),
+                new ColumnCombinationBitset(0, 2),
+                new ColumnCombinationBitset(0, 3),
+                new ColumnCombinationBitset(0, 4),
+                new ColumnCombinationBitset(2, 3),
+                new ColumnCombinationBitset(2, 4),
+                new ColumnCombinationBitset(3, 4),
+                new ColumnCombinationBitset(0),
+                new ColumnCombinationBitset(2),
+                new ColumnCombinationBitset(3),
+                new ColumnCombinationBitset(4),
+                new ColumnCombinationBitset()};
 	}
 	
 	public ColumnCombinationBitset getExpectedSupersetOfColumn1() {
@@ -91,12 +85,10 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSupersetsColumnCombinationBitset() {
-		ColumnCombinationBitset[] supersets = {
-				new ColumnCombinationBitset(0, 1, 2, 3, 4),
-				new ColumnCombinationBitset(0, 2, 3, 4, 7),
-				new ColumnCombinationBitset(0, 2, 3, 4, 8)};
-		
-		return supersets;
+        return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(0, 1, 2, 3, 4),
+                new ColumnCombinationBitset(0, 2, 3, 4, 7),
+                new ColumnCombinationBitset(0, 2, 3, 4, 8)};
 	}
 	
 	protected List<Integer> getSetBitList2() {
@@ -142,23 +134,18 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSupersets1() {
-		ColumnCombinationBitset[] directSupersets = {
-				new ColumnCombinationBitset(0, 2, 3, 4, 1),
-				new ColumnCombinationBitset(0, 2, 3, 4, 5),
-				new ColumnCombinationBitset(0, 2, 3, 4, 6)};
-		
-		return directSupersets;
+        return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(0, 2, 3, 4, 1),
+                new ColumnCombinationBitset(0, 2, 3, 4, 5),
+                new ColumnCombinationBitset(0, 2, 3, 4, 6)};
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSubsets1() {
-		ColumnCombinationBitset[] directSubsets = {
-				new ColumnCombinationBitset(2, 3, 4),
-				new ColumnCombinationBitset(0, 3, 4),
-				new ColumnCombinationBitset(0, 2, 4),
-				new ColumnCombinationBitset(0, 2, 3)};
-		
-		
-		return directSubsets;
+        return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(2, 3, 4),
+                new ColumnCombinationBitset(0, 3, 4),
+                new ColumnCombinationBitset(0, 2, 4),
+                new ColumnCombinationBitset(0, 2, 3)};
 	}
 	
 	public int getExpectedSize1() {

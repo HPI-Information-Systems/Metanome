@@ -24,7 +24,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Creates a copy of the current instance.
 	 * 
-	 * @param columnCombination
+	 * @param columnCombination that is cloned to the new instance
 	 */
 	public ColumnCombinationBitset(ColumnCombinationBitset columnCombination) {
 		setColumns(columnCombination.bitset.clone());
@@ -33,7 +33,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * TODO docs
 	 * 
-	 * @param containedColumns
+	 * @param containedColumns that are set on a new bitset
 	 * @return return the instance
      *
      * @deprecated
@@ -53,10 +53,10 @@ public class ColumnCombinationBitset {
 	/**
 	 * TODO docs
 	 * 
-	 * @param bitset
+	 * @param bitset set on the existing ColumnCombinationBitset
 	 * @return the instance
 	 */
-	public ColumnCombinationBitset setColumns(OpenBitSet bitset) {
+	protected ColumnCombinationBitset setColumns(OpenBitSet bitset) {
 		this.bitset = bitset;
 		size = bitset.cardinality();
 		
@@ -66,7 +66,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Adds a column to the bit set.
 	 * 
-	 * @param columnIndex
+	 * @param columnIndex of column to add
 	 */
 	public ColumnCombinationBitset addColumn(int columnIndex) {
 		if (!bitset.get(columnIndex)) {
@@ -81,7 +81,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Removes a column from the bit set.
 	 * 
-	 * @param columnIndex
+	 * @param columnIndex of column to remove
 	 */
 	public void removeColumn(int columnIndex) {
 		if (bitset.get(columnIndex)) {
@@ -114,10 +114,8 @@ public class ColumnCombinationBitset {
 				return false;
 		} else if (!bitset.equals(other.bitset))
 			return false;
-		if (size != other.size)
-			return false;
-		return true;
-	}
+        return size == other.size;
+    }
 
 	@Override
 	public String toString() {
@@ -137,7 +135,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Returns true if the potentialSuperset contains all columns of this column combination.
 	 * 
-	 * @param potentialSuperset
+	 * @param potentialSuperset that this column could be a subset of
 	 * @return potentialSuperset is a super set
 	 */
 	public boolean isSubsetOf(ColumnCombinationBitset potentialSuperset) {
@@ -145,20 +143,20 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * Returns true iff the potentialRealSuperSet contains all columns of this column combination
-	 * and the potentialRealSuperSet is not equal to this column combination (e.g. real superset).
+	 * Returns true iff the potentialProperSuperSet contains all columns of this column combination
+	 * and the potentialProperSuperSet is not equal to this column combination (e.g. proper superset).
 	 * 
-	 * @param potentialRealSuperSet
-	 * @return potentialRealSuperSet is a real superset
+	 * @param potentialProperSuperSet that this column combination could be a proper subset of
+	 * @return potentialProperSuperSet is a real superset
 	 */
-	public boolean isRealSubsetOf(ColumnCombinationBitset potentialRealSuperSet) {
-		return (this.isSubsetOf(potentialRealSuperSet)) && (!this.equals(potentialRealSuperSet));
+	public boolean isProperSubsetOf(ColumnCombinationBitset potentialProperSuperSet) {
+		return (this.isSubsetOf(potentialProperSuperSet)) && (!this.equals(potentialProperSuperSet));
 	}
 
 	/**
 	 * Returns true iff the potentialSubset contains no columns that are not in this column combination.
 	 * 
-	 * @param potentialSubset
+	 * @param potentialSubset that this column could be a superset of
 	 * @return potentialSubset is a sub set
 	 */
 	public boolean containsSubset(ColumnCombinationBitset potentialSubset) {
@@ -168,14 +166,14 @@ public class ColumnCombinationBitset {
 	}
 
 	/**
-	 * Returns true iff the potentialRealSubset contains no columns that are not in this column combination
-	 * and the potentialRealSubset is not equal to this column combination (e.g. real subset).
+	 * Returns true iff the potentialProperSubset contains no columns that are not in this column combination
+	 * and the potentialProperSubset is not equal to this column combination (e.g. real subset).
 	 * 
-	 * @param potentialRealSubset
-	 * @return potentialRealSubset is a real subset
+	 * @param potentialProperSubset that this column could be a proper superset of
+	 * @return potentialProperSubset is a real subset
 	 */
-	public boolean containsRealSubset(ColumnCombinationBitset potentialRealSubset) {
-		return (this.containsSubset(potentialRealSubset) && (!this.equals(potentialRealSubset)));
+	public boolean containsRealSubset(ColumnCombinationBitset potentialProperSubset) {
+		return (this.containsSubset(potentialProperSubset) && (!this.equals(potentialProperSubset)));
 	}
 	
 	/**
@@ -205,7 +203,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * TODO docs
 	 * 
-	 * @param n
+	 * @param n cardinality of subsets
 	 * @return all subsets of the column combinations with n columns
 	 */
 	public List<ColumnCombinationBitset> getNSubsetColumnCombinations(int n) {
@@ -216,9 +214,9 @@ public class ColumnCombinationBitset {
 	 * If n is closer to the super (this column combination) set the top down strategy should be chosen
 	 * otherwise bottom up generation is used.
 	 * 
-	 * @param subSet
-	 * @param n
-	 * @return
+	 * @param subSet that column combinations are superset of
+	 * @param n cardinality of subsets
+	 * @return the n-subsets
 	 */
 	public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset subSet, int n) {
 		// If n is closer to the super set go top down.
@@ -231,9 +229,9 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * @param subSet
-	 * @param n
-	 * @return
+	 * @param subSet that column combinations are superset of
+	 * @param n cardinality of subsets
+	 * @return the n-subsets
 	 */
 	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset subSet, int n) {
 		
@@ -256,9 +254,41 @@ public class ColumnCombinationBitset {
 		
 		return currentLevel;
 	}
+
+    /**
+     * @param subSet that column combinations are superset of
+     * @param n cardinality of subsets
+     * @return the n-subsets
+     */
+    protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset subSet, int n) {
+
+        if ((n > this.size()) || (n < subSet.size())) {
+            return new LinkedList<ColumnCombinationBitset>();
+        }
+
+        List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+        currentLevel.add(this);
+        Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+
+        for (int currentLevelIndex = this.size(); currentLevelIndex > n; currentLevelIndex--) {
+            while(!currentLevel.isEmpty()) {
+                ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
+                // TODO optimize only generate subsets superset of
+                for (ColumnCombinationBitset currentSubset : currentColumnCombination.getDirectSubsets()) {
+                    if (currentSubset.containsSubset(subSet)) {
+                        nextLevel.add(currentSubset);
+                    }
+                }
+            }
+            currentLevel.addAll(nextLevel);
+            nextLevel.clear();
+        }
+
+        return currentLevel;
+    }
 	
 	/**TODO docs
-	 * @return
+	 * @return the list of indices with set bits
 	 */
 	public List<Integer> getSetBits() {
 		//FIXME use array list here
@@ -297,42 +327,12 @@ public class ColumnCombinationBitset {
 		return clearedBits;
 	}
 	
-	/**
-	 * @param subSet
-	 * @param n
-	 * @return
-	 */
-	protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset subSet, int n) {
-		
-		if ((n > this.size()) || (n < subSet.size())) {
-			return new LinkedList<ColumnCombinationBitset>();
-		}
-		
-		List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
-		currentLevel.add(this);
-		Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
-		
-		for (int currentLevelIndex = this.size(); currentLevelIndex > n; currentLevelIndex--) {
-			while(!currentLevel.isEmpty()) {
-				ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
-				// TODO optimize only generate subsets superset of
-				for (ColumnCombinationBitset currentSubset : currentColumnCombination.getDirectSubsets()) {
-					if (currentSubset.containsSubset(subSet)) {
-						nextLevel.add(currentSubset);
-					}
-				}		
-			}
-			currentLevel.addAll(nextLevel);
-			nextLevel.clear();
-		}
-		
-		return currentLevel;
-	}
+
 
 	/**
 	 * Returns the difference between the two sets.
 	 * 
-	 * @param otherColumnCombination
+	 * @param otherColumnCombination column combination to be subtracted
 	 * @return The difference {@link ColumnCombinationBitset}
 	 */
 	public ColumnCombinationBitset minus(
@@ -363,7 +363,7 @@ public class ColumnCombinationBitset {
 	 * Union should return a {@link ColumnCombinationBitset} with all the columns from both column combinations
 	 * and no other columns. The original {@link ColumnCombinationBitset}s should remain unchanged.
 	 * 
-	 * @param other
+	 * @param other column combination to be unioned
 	 * @return the union of the two column combinations
 	 */
 	public ColumnCombinationBitset union(ColumnCombinationBitset other) {
@@ -376,7 +376,7 @@ public class ColumnCombinationBitset {
 	 * Intersect should return a {@link ColumnCombinationBitset} with only the columns that are contained in both
 	 * combinations. The original {@link ColumnCombinationBitset}s should remain unchanged. 
 	 * 
-	 * @param other
+	 * @param other column combination to be intersected
 	 * @return the intersection of the two column combinations
 	 */
 	public ColumnCombinationBitset intersect(ColumnCombinationBitset other) {
@@ -388,7 +388,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Generates the direct super sets. Supersets are bounded by the maximum number of columns.
 	 * 
-	 * @param numberOfColumns
+	 * @param numberOfColumns maximum number of columns
 	 * @return the direct super sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSupersets(int numberOfColumns) {
@@ -398,7 +398,7 @@ public class ColumnCombinationBitset {
 	/**
 	 * Generates the direct super sets. Supersets are bounded by the maximum superset.
 	 * 
-	 * @param maximalSuperset
+	 * @param maximalSuperset maximum superset column combination
 	 * @return the direct super sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSupersets(ColumnCombinationBitset maximalSuperset) {
@@ -464,7 +464,7 @@ public class ColumnCombinationBitset {
 	 * Resets all bits and sets all bits with indeces smaller than dimension.
 	 * E.g. dimension 4 generate 111100000...
 	 * 
-	 * @param dimension
+	 * @param dimension maximum number of columns
 	 * @return the {@link ColumnCombinationBitset}
 	 */
 	public ColumnCombinationBitset setAllBits(int dimension) {
@@ -478,11 +478,11 @@ public class ColumnCombinationBitset {
 	}
 
 	/**
-	 * @param bitIndex
-	 * @return true iff the bit at bitIndex is set
+	 * @param columnIndex index of bit to test
+	 * @return true iff the bit at columnIndex is set
 	 */
-	public boolean testBit(int bitIndex) {
-		return bitset.get(bitIndex);
+	public boolean containsColumn(int columnIndex) {
+		return bitset.get(columnIndex);
 	}
 }
 
