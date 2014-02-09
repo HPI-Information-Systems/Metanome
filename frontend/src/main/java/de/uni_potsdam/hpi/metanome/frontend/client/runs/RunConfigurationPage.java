@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.frontend.client.jarchooser.JarChooser;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
@@ -24,6 +24,8 @@ public class RunConfigurationPage extends DockPanel{
 	protected BasePage basePage;
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
+	protected Label primaryDataSourceLabel;
+	public InputParameterDataSource primaryDataSource;
 	
 	protected ExecutionServiceAsync executionService;
 	
@@ -37,8 +39,10 @@ public class RunConfigurationPage extends DockPanel{
 	 */
 	public RunConfigurationPage(BasePage basePage, String... algorithmNames){
 		this.setWidth("100%");
-		
 		this.basePage = basePage;
+		
+		this.primaryDataSourceLabel = new Label();
+		this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
 		this.jarChooser = new JarChooser(algorithmNames);
 		this.add(this.jarChooser, DockPanel.NORTH);
 		
@@ -49,15 +53,13 @@ public class RunConfigurationPage extends DockPanel{
 	/**
 	 * Adds a widget for user's parameter input to the tab. The content of the tab 
 	 * depends on the requested parameters.
-	 * 
+	 *
 	 * @param paramList	list of required parameters
 	 */
 	public void addParameterTable(List<InputParameter> paramList){
-		if (parameterTable != null) {
-			this.remove(parameterTable);
-		}
-		parameterTable = new ParameterTable(paramList);
-		this.add(parameterTable, DockPanel.WEST);
+		removeParameterTable();
+		parameterTable = new ParameterTable(paramList, primaryDataSource);
+		this.add(parameterTable, DockPanel.SOUTH);
 	}
 
 	/**
@@ -88,6 +90,36 @@ public class RunConfigurationPage extends DockPanel{
 	}
 	
 	/**
+	 * Sets the data source that should be profiled ("Primary Data Source"),
+	 * displays its value in a label, and triggers the jarChooser to filter for applicable algorithms.
+	 * 
+	 * @param dataSource
+	 */
+	public void setPrimaryDataSource(InputParameterDataSource dataSource) {
+		this.primaryDataSource = dataSource;
+		this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
+		removeParameterTable();	
+		this.jarChooser.filterForPrimaryDataSource(dataSource);
+	}
+
+	/**
+	 * Remove the parameterTable from UI if it was present
+	 */
+	private void removeParameterTable() {
+		if (parameterTable != null)
+			this.remove(parameterTable);
+	}
+
+	/**
+	 * 
+	 * @return	the name of the data source that is currently selected in the 
+	 * 			first data source field in the configuration interface
+	 */
+	public List<InputParameterDataSource> getCurrentlySelectedDataSources() {
+		return this.parameterTable.getInputParameterDataSourcesWithValues();
+	}
+	
+	/**
 	 * Execute the currently selected algorithm and switch to results page.
 	 * 
 	 * @param parameters	parameters to use for the algorithm execution
@@ -103,5 +135,5 @@ public class RunConfigurationPage extends DockPanel{
 	public JarChooser getJarChooser() {
 		return jarChooser;
 	}
-	
+
 }

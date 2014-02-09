@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
@@ -45,7 +46,7 @@ public class GwtTestParameter extends GWTTestCase {
 		paramList.add(inputParameterCsvFile);
 		
 		//Execute
-		ParameterTable pt = new ParameterTable(paramList);
+		ParameterTable pt = new ParameterTable(paramList, null);
 		
 		//Check
 		assertEquals(5, pt.getRowCount());
@@ -88,7 +89,7 @@ public class GwtTestParameter extends GWTTestCase {
 		paramList.add(inputParameterCsvFile);
 		paramList.add(inputParameterSQLIterator);
 		
-		ParameterTable pt = new ParameterTable(paramList);
+		ParameterTable pt = new ParameterTable(paramList, null);
 
 		//Execute
 		List<InputParameter> retrievedParams = pt.getInputParametersWithValues();
@@ -182,6 +183,31 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals(line, inputParameter.getLine());
 		assertEquals(boolTrue, inputParameter.isStrictQuotes());
 		assertEquals(boolTrue, inputParameter.isIgnoreLeadingWhiteSpace());		
+	}
+	
+	@Test
+	public void testSetPrimaryDataSource(){
+		//Setup
+		InputParameterCsvFile primaryDataSource = new InputParameterCsvFile();
+		primaryDataSource.setFileNameValue("aCsvFile.csv");
+
+		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+		InputParameterCsvFile inputParameterCsvFile = new InputParameterCsvFile("csv");
+		paramList.add(inputParameterCsvFile);
+		
+		//Execute
+		ParameterTable pt = new ParameterTable(paramList, primaryDataSource);
+		
+		//Check
+		boolean foundDataSource = false;
+		for (InputParameterDataSource dataSource : pt.getInputParameterDataSourcesWithValues()){
+			if(dataSource.getValueAsString().equals(primaryDataSource.getValueAsString()))
+				foundDataSource = true;
+		}
+		assertTrue(foundDataSource);
+		
+		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).listbox;
+		assertEquals(primaryDataSource.getValueAsString(), listbox.getValue(listbox.getSelectedIndex()));
 	}
 
 		

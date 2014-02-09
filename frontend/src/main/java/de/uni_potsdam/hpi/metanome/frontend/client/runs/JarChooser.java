@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.metanome.frontend.client.jarchooser;
+package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 
 import java.util.List;
@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 
@@ -85,7 +85,7 @@ public class JarChooser extends HorizontalPanel {
 	 * tab.
 	 * @param paramList list of parameters necessary for the chosen algorithm
 	 */
-	private void forwardParameters(List<InputParameter> paramList) {
+	protected void forwardParameters(List<InputParameter> paramList) {
 		((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
 	}
 	
@@ -132,6 +132,18 @@ public class JarChooser extends HorizontalPanel {
 		for (String filename : algorithmNames){
 			this.listbox.addItem(filename);
 		}		
+	}
+
+	/**
+	 * Filters the list of algorithms so that only those are displayed that would accept the given data source
+	 * 
+	 * @param dataSource	the data source that shall be profiled / for which algorithms should be filtered
+	 */
+	public void filterForPrimaryDataSource(InputParameterDataSource dataSource) {
+		this.listbox.setSelectedIndex(0);
+		// TODO filter out any algorithms that would not accept the given data source
+		System.out.println("Filtering algorithms for a data source is not yet implemented");
+
 	}
 	
 	

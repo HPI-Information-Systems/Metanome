@@ -47,4 +47,12 @@ InputParameterDataSourceWidget {
 		return this.inputParameter;
 	}
 
+	@Override
+	public void setInputParameter(InputParameterDataSource parameter) {
+		InputParameterSQLIterator sqlParameter = (InputParameterSQLIterator)parameter;
+		this.dbUrlTextbox.setValue(sqlParameter.getDbUrl());
+		this.passwordTextbox.setValue(sqlParameter.getPassword());
+		this.usernameTextbox.setValue(sqlParameter.getUserName());
+	}
+
 }

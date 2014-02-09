@@ -92,7 +92,8 @@ public class InputParameterCsvFile extends InputParameterDataSource {
 	
 	@Override
 	public String getValueAsString() {
-		return filePath.substring(filePath.length()-10);
+		return filePath;
+		//TODO why was this? return filePath.substring(filePath.length()-10);
 	}
 
 	@Override
