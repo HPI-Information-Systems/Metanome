@@ -65,20 +65,20 @@ public class ColumnCombinationBitsetFixture {
 	public ColumnCombinationBitset[] getExpectedSubsetArray1() {
 		
 		ColumnCombinationBitset[] subsets = {
-				new ColumnCombinationBitset().setColumns(0, 2, 3),
-				new ColumnCombinationBitset().setColumns(0, 2, 4),
-				new ColumnCombinationBitset().setColumns(0, 3, 4),
-				new ColumnCombinationBitset().setColumns(2, 3, 4),
-				new ColumnCombinationBitset().setColumns(0, 2),
-				new ColumnCombinationBitset().setColumns(0, 3),
-				new ColumnCombinationBitset().setColumns(0, 4),
-				new ColumnCombinationBitset().setColumns(2, 3),
-				new ColumnCombinationBitset().setColumns(2, 4),
-				new ColumnCombinationBitset().setColumns(3, 4),
-				new ColumnCombinationBitset().setColumns(0),
-				new ColumnCombinationBitset().setColumns(2),
-				new ColumnCombinationBitset().setColumns(3),
-				new ColumnCombinationBitset().setColumns(4),
+				new ColumnCombinationBitset(0, 2, 3),
+				new ColumnCombinationBitset(0, 2, 4),
+				new ColumnCombinationBitset(0, 3, 4),
+				new ColumnCombinationBitset(2, 3, 4),
+				new ColumnCombinationBitset(0, 2),
+				new ColumnCombinationBitset(0, 3),
+				new ColumnCombinationBitset(0, 4),
+				new ColumnCombinationBitset(2, 3),
+				new ColumnCombinationBitset(2, 4),
+				new ColumnCombinationBitset(3, 4),
+				new ColumnCombinationBitset(0),
+				new ColumnCombinationBitset(2),
+				new ColumnCombinationBitset(3),
+				new ColumnCombinationBitset(4),
 				new ColumnCombinationBitset()};
 		
 		return subsets;
@@ -87,14 +87,14 @@ public class ColumnCombinationBitsetFixture {
 	public ColumnCombinationBitset getExpectedSupersetOfColumn1() {
 		// 012345678
 		// 111110011
-		return new ColumnCombinationBitset().setColumns(0, 1, 2, 3, 4, 7, 8);
+		return new ColumnCombinationBitset(0, 1, 2, 3, 4, 7, 8);
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSupersetsColumnCombinationBitset() {
 		ColumnCombinationBitset[] supersets = {
-				new ColumnCombinationBitset().setColumns(0, 1, 2, 3, 4),
-				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 7),
-				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 8)};
+				new ColumnCombinationBitset(0, 1, 2, 3, 4),
+				new ColumnCombinationBitset(0, 2, 3, 4, 7),
+				new ColumnCombinationBitset(0, 2, 3, 4, 8)};
 		
 		return supersets;
 	}
@@ -124,14 +124,14 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset getExpectedIntersectionColumnCombination() {
-		return new ColumnCombinationBitset().setColumns(4);
+		return new ColumnCombinationBitset(4);
 	}
 	
 	public ColumnCombinationBitset[] getExpectedOneColumnCombinations1() {
 		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
 		
 		for (int columnIndex : getSetBitList1()) {
-			oneColumnCombinations.add(new ColumnCombinationBitset().setColumns(columnIndex));
+			oneColumnCombinations.add(new ColumnCombinationBitset(columnIndex));
 		}
 		
 		return oneColumnCombinations.toArray(new ColumnCombinationBitset[oneColumnCombinations.size()]);
@@ -143,19 +143,19 @@ public class ColumnCombinationBitsetFixture {
 	
 	public ColumnCombinationBitset[] getExpectedDirectSupersets1() {
 		ColumnCombinationBitset[] directSupersets = {
-				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 1),
-				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 5),
-				new ColumnCombinationBitset().setColumns(0, 2, 3, 4, 6)};
+				new ColumnCombinationBitset(0, 2, 3, 4, 1),
+				new ColumnCombinationBitset(0, 2, 3, 4, 5),
+				new ColumnCombinationBitset(0, 2, 3, 4, 6)};
 		
 		return directSupersets;
 	}
 	
 	public ColumnCombinationBitset[] getExpectedDirectSubsets1() {
 		ColumnCombinationBitset[] directSubsets = {
-				new ColumnCombinationBitset().setColumns(2, 3, 4),
-				new ColumnCombinationBitset().setColumns(0, 3, 4),
-				new ColumnCombinationBitset().setColumns(0, 2, 4),
-				new ColumnCombinationBitset().setColumns(0, 2, 3)};
+				new ColumnCombinationBitset(2, 3, 4),
+				new ColumnCombinationBitset(0, 3, 4),
+				new ColumnCombinationBitset(0, 2, 4),
+				new ColumnCombinationBitset(0, 2, 3)};
 		
 		
 		return directSubsets;

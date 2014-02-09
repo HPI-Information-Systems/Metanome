@@ -1,32 +1,30 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-
-import org.apache.lucene.util.OpenBitSet;
-
 import com.google.common.collect.ImmutableList;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import org.apache.lucene.util.OpenBitSet;
+
+import java.util.*;
 
 public class ColumnCombinationBitset {
 
 	protected OpenBitSet bitset;
 	protected long size = 0;
 	
-	public ColumnCombinationBitset() {
+	public ColumnCombinationBitset(int... columnIndeces) {
 		bitset = new OpenBitSet();
+
+        for (int columnIndex : columnIndeces) {
+            // If the bit was not yet set, increase the size.
+            addColumn(columnIndex);
+        }
 	}
 	
 	/**
 	 * Creates a copy of the current instance.
 	 * 
-	 * @param  a copy column combination
+	 * @param columnCombination
 	 */
 	public ColumnCombinationBitset(ColumnCombinationBitset columnCombination) {
 		setColumns(columnCombination.bitset.clone());
@@ -37,6 +35,8 @@ public class ColumnCombinationBitset {
 	 * 
 	 * @param containedColumns
 	 * @return return the instance
+     *
+     * @deprecated
 	 */
 	public ColumnCombinationBitset setColumns(int... containedColumns) {
 		// TODO optimisation implement clear
@@ -47,7 +47,7 @@ public class ColumnCombinationBitset {
 			addColumn(columnIndex);
 		}
 		
-		return this;		
+		return this;
 	}
 	
 	/**
@@ -231,7 +231,6 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * @param superSet
 	 * @param subSet
 	 * @param n
 	 * @return
@@ -299,7 +298,6 @@ public class ColumnCombinationBitset {
 	}
 	
 	/**
-	 * @param superSet
 	 * @param subSet
 	 * @param n
 	 * @return
@@ -355,7 +353,7 @@ public class ColumnCombinationBitset {
 		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
 		
 		for (int columnIndex : getSetBits()) {
-			oneColumnCombinations.add(new ColumnCombinationBitset().setColumns(columnIndex));
+			oneColumnCombinations.add(new ColumnCombinationBitset(columnIndex));
 		}
 		
 		return oneColumnCombinations;

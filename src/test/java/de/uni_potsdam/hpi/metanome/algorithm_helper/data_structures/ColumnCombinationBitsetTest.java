@@ -1,28 +1,20 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import java.util.LinkedList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.ImmutableList;
+import java.util.LinkedList;
+import java.util.List;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 public class ColumnCombinationBitsetTest {
 
@@ -35,7 +27,7 @@ public class ColumnCombinationBitsetTest {
 	}
 
 	/**
-	 * Test method for {@link ColumnCombinationBitset#ColumnCombinationBitset()}
+	 * Test method for {@link ColumnCombinationBitset#ColumnCombinationBitset(int...)}
 	 * 
 	 * The empty constructor should return a valid instance.
 	 */
@@ -59,7 +51,7 @@ public class ColumnCombinationBitsetTest {
 	public void testColumnCombinationBitsetCopy() {
 		// Setup
 		// Expected values
-		ColumnCombinationBitset expectedFirstColumnCombination = new ColumnCombinationBitset().setColumns(2, 3, 6);
+		ColumnCombinationBitset expectedFirstColumnCombination = new ColumnCombinationBitset(2, 3, 6);
 		
 		// Execute functionality
 		ColumnCombinationBitset actualCopy = new ColumnCombinationBitset(expectedFirstColumnCombination);
@@ -76,33 +68,15 @@ public class ColumnCombinationBitsetTest {
 	 * TODO docs
 	 */
 	@Test
-	public void testSetColumns() {
-		// Setup 
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
-		int[] containedColumns = {0, 3}; // 1001
-		ColumnCombinationBitset actualSameColumnCombination = columnCombination.setColumns(containedColumns);
-		// Expected values
-		long[] expectedBits = {0x9}; // 1001
-		
-		// Check result
-		assertEquals(new OpenBitSet(expectedBits, expectedBits.length), columnCombination.bitset);	
-		assertSame(columnCombination, actualSameColumnCombination);
-	}
-	
-	/**
-	 * TODO docs
-	 */
-	@Test
-	public void testSetColumnsDirect() {
+	public void testConstructor() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
-		ColumnCombinationBitset actualSameColumnCombination = columnCombination.setColumns(0, 3); // 1001
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(0, 3); // 1001
 		// Expected values
 		long[] expectedBits = {0x9}; // 1001
 		
 		// Check result
-		assertEquals(new OpenBitSet(expectedBits, expectedBits.length), columnCombination.bitset);	
-		assertSame(columnCombination, actualSameColumnCombination);
+		assertEquals(new OpenBitSet(expectedBits, expectedBits.length), columnCombination.bitset);
+        assertEquals(2, columnCombination.size());
 	}
 	
 	/**
@@ -131,10 +105,10 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testEqualsHashCode() {
 		// Setup
-		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset columnCombination2Equals = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset columnCombination3Unequals = new ColumnCombinationBitset().setColumns(0, 2, 3);
-		ColumnCombinationBitset columnCombination1WrongSize = new ColumnCombinationBitset().setColumns(0, 3);
+		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset columnCombination2Equals = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset columnCombination3Unequals = new ColumnCombinationBitset(0, 2, 3);
+		ColumnCombinationBitset columnCombination1WrongSize = new ColumnCombinationBitset(0, 3);
 		columnCombination1WrongSize.size = 0;
 		
 		// Execute functionality
@@ -158,12 +132,10 @@ public class ColumnCombinationBitsetTest {
 		// Setup
 		// TODO fixture
 		int[] subSetColumns = {0, 3};
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset();
-		subSet.setColumns(subSetColumns);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(subSetColumns);
 		OpenBitSet expectedSubSetBitSet = subSet.bitset.clone();
 		int[] superSetColumns = {0, 2, 3};
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset();
-		superSet.setColumns(superSetColumns);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(superSetColumns);
 		OpenBitSet expectedSuperSetBitSet = superSet.bitset.clone();
 		
 		// Execute functionality
@@ -180,8 +152,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testContainsSubset() {
 		// Setup
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
@@ -196,8 +168,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testContainsRealSubset() {
 		// Setup
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
@@ -211,8 +183,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testIsSubsetOf() {
 		// Setup
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
@@ -227,8 +199,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testIsRealSubsetOf() {
 		// Setup
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset().setColumns(0, 3);
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
@@ -245,8 +217,7 @@ public class ColumnCombinationBitsetTest {
 	public void testToString() {
 		// Setup
 		int[] bitsetColumns = {0, 3};
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
-		columnCombination.setColumns(bitsetColumns);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(bitsetColumns);
 		// Expected values
 		String expectedStringRepresentation = "1001";
 		
@@ -265,16 +236,15 @@ public class ColumnCombinationBitsetTest {
 	public void testGetNSubsetColumnCombinations() {
 		// Setup
 		int[] superSetColumns = {0, 2, 3};
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset();
-		superSet.setColumns(superSetColumns);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(superSetColumns);
 		// Expected values
 		List<ColumnCombinationBitset> expected2SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
 		int[] expected2SubSet1 = {0, 2};
-		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected2SubSet1));
+		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset(expected2SubSet1));
 		int[] expected2SubSet2 = {0, 3};
-		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected2SubSet2));
+		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset(expected2SubSet2));
 		int[] expected2SubSet3 = {2, 3};
-		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected2SubSet3));
+		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset(expected2SubSet3));
 		
 		// Execute functionality
 		List<ColumnCombinationBitset> actual2SubsetColumnCombinations = superSet.getNSubsetColumnCombinations(2);
@@ -287,15 +257,15 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, ColumnCombinationBitset, int)}
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
 	 * 
 	 * If n is closer to the super set the top down strategy should be chosen otherwise bottom up generation is used.
 	 */
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfChoosesEfficientImplementation() {
 		// Setup
-		ColumnCombinationBitset abcdeg = spy(new ColumnCombinationBitset()).setColumns(0, 1, 2, 3, 4, 6);
-		ColumnCombinationBitset c = new ColumnCombinationBitset().setColumns(2);
+		ColumnCombinationBitset abcdeg = spy(new ColumnCombinationBitset(0, 1, 2, 3, 4, 6));
+		ColumnCombinationBitset c = new ColumnCombinationBitset(2);
 		
 		// Execute functionality 
 		// Check result
@@ -314,17 +284,15 @@ public class ColumnCombinationBitsetTest {
 	public void testGetNSubsetColumnCombinationsSupersetOf() {
 		// Setup
 		int[] superSetColumns = {0, 2, 3, 4};
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset();
-		superSet.setColumns(superSetColumns); 
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(superSetColumns);
 		int[] subSetColumns = {2, 3};
-		ColumnCombinationBitset subSet = new ColumnCombinationBitset();
-		subSet.setColumns(subSetColumns);
+		ColumnCombinationBitset subSet = new ColumnCombinationBitset(subSetColumns);
 		// Expected values
 		List<ColumnCombinationBitset> expected3SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
 		int [] expected3SubSet1 = {0, 2, 3};
-		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected3SubSet1));
+		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset(expected3SubSet1));
 		int [] expected3SubSet2 = {4, 2, 3};
-		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(expected3SubSet2));
+		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset(expected3SubSet2));
 		
 		// Execute functionality
 		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = 
@@ -343,12 +311,12 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testGetNSubsetColumnCombinationsN() {
 		// Setup
-		ColumnCombinationBitset superSet = new ColumnCombinationBitset().setColumns(0, 2, 3);
+		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		// Expected values
 		List<ColumnCombinationBitset> expected1SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
-		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(0));
-		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(2));
-		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset().setColumns(3));
+		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(0));
+		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(2));
+		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(3));
 		
 		// Execute functionality
 		List<ColumnCombinationBitset> actual1SubsetColumnCombinations = superSet.getNSubsetColumnCombinations(1);
@@ -371,8 +339,8 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOf2() {
 		// Setup
-		ColumnCombinationBitset superset = new ColumnCombinationBitset().setColumns(0, 1);
-		ColumnCombinationBitset subset = new ColumnCombinationBitset().setColumns(1);
+		ColumnCombinationBitset superset = new ColumnCombinationBitset(0, 1);
+		ColumnCombinationBitset subset = new ColumnCombinationBitset(1);
 		
 		// Execute functionality
 		List<ColumnCombinationBitset> actual3SubsetColumnCombinations = superset.getNSubsetColumnCombinationsSupersetOf(subset, 2);
@@ -385,10 +353,10 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfInversed() {
 		// Setup
-		ColumnCombinationBitset ab = new ColumnCombinationBitset().setColumns(0, 1);
-		ColumnCombinationBitset b = new ColumnCombinationBitset().setColumns(1);
-		ColumnCombinationBitset abc = new ColumnCombinationBitset().setColumns(0, 1, 2);
-		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
+		ColumnCombinationBitset ab = new ColumnCombinationBitset(0, 1);
+		ColumnCombinationBitset b = new ColumnCombinationBitset(1);
+		ColumnCombinationBitset abc = new ColumnCombinationBitset(0, 1, 2);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset(1, 2);
 		
 		// Execute functionality
 		List<ColumnCombinationBitset> actualSubsetColumnCombinations = abc.getNSubsetColumnCombinationsSupersetOf(b, 2);
@@ -400,16 +368,16 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, ColumnCombinationBitset, int)}
-	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, ColumnCombinationBitset, int)}.
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, int)}
+	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, int)}.
 	 * 
 	 * When generating subsets that should be greater than or less than the superset an empty list should be returned.
 	 */
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfTopDownNGreaterSuperset() {
 		// Setup
-		ColumnCombinationBitset abcd = new ColumnCombinationBitset().setColumns(0, 1, 2, 3);
-		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
+		ColumnCombinationBitset abcd = new ColumnCombinationBitset(0, 1, 2, 3);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset(1, 2);
 		
 		// Execute functionality
 		// Check result
@@ -420,16 +388,16 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, ColumnCombinationBitset, int)}
-	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, ColumnCombinationBitset, int)}.
+	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset, int)}
+	 * and {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset, int)}.
 	 * 
 	 * When generating subsets that should be equal to the subset or superset return those sets.
 	 */
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOfTopDownNEqualSuperset() {
 		// Setup
-		ColumnCombinationBitset abcd = new ColumnCombinationBitset().setColumns(0, 1, 2, 3);
-		ColumnCombinationBitset bc = new ColumnCombinationBitset().setColumns(1, 2);
+		ColumnCombinationBitset abcd = new ColumnCombinationBitset(0, 1, 2, 3);
+		ColumnCombinationBitset bc = new ColumnCombinationBitset(1, 2);
 		
 		
 		// Execute functionality
@@ -446,10 +414,10 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testMinus() {
 		// Setup
-		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset().setColumns(1, 2, 3, 4);
-		ColumnCombinationBitset columnCombination2 = new ColumnCombinationBitset().setColumns(2, 3);
+		ColumnCombinationBitset columnCombination1 = new ColumnCombinationBitset(1, 2, 3, 4);
+		ColumnCombinationBitset columnCombination2 = new ColumnCombinationBitset(2, 3);
 		// Expected values
-		ColumnCombinationBitset expectedColumnCombination = new ColumnCombinationBitset().setColumns(1, 4);
+		ColumnCombinationBitset expectedColumnCombination = new ColumnCombinationBitset(1, 4);
 		
 		// Execute functionality
 		ColumnCombinationBitset actualColumnCombination = columnCombination1.minus(columnCombination2);
@@ -466,7 +434,7 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testSizeSetColumns() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(1, 3, 4);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(1, 3, 4);
 		// Expected values 
 		int expectedSize = 3;
 		
@@ -569,8 +537,8 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result 
-		assertThat(columnCombination.getSetBits(), 
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits1()));
+		assertThat(columnCombination.getSetBits(),
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits1()));
 	}
 	
 	/**
@@ -586,8 +554,8 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		assertThat(columnCombination.getClearedBits(fixture.getMaxNumberOfColumns()), 
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedClearedBits1()));
+		assertThat(columnCombination.getClearedBits(fixture.getMaxNumberOfColumns()),
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedClearedBits1()));
 	}
 	
 	/**
@@ -636,7 +604,7 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testRemoveColumn() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(0, 2, 3, 4);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(0, 2, 3, 4);
 		// Expected values
 		int expectedSize = 4;
 		
@@ -662,8 +630,8 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		// Check result
-		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()), 
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
+		assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()),
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
 	}
 	
 	/**
@@ -701,7 +669,7 @@ public class ColumnCombinationBitsetTest {
 		// Execute functionality
 		// Check result
 		assertThat(columnCombination.getDirectSubsets(),
-				IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
 		assertEquals(fixture.getColumnCombination1(), columnCombination);
 	}
 	
@@ -743,7 +711,7 @@ public class ColumnCombinationBitsetTest {
 		
 		// Execute functionality
 		ColumnCombination actualColumnCombination = emptyColumnCombinationBitset.createColumnCombination(
-				"someRelation", ImmutableList.of("someColumn"));
+                "someRelation", ImmutableList.of("someColumn"));
 		
 		// Check result
 		assertEquals(actualColumnCombination, new ColumnCombination());	
@@ -757,7 +725,7 @@ public class ColumnCombinationBitsetTest {
 	@Test 
 	public void testTestBit() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(3, 4, 7);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(3, 4, 7);
 		
 		// Execute functionality
 		// Check result
@@ -781,7 +749,7 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testSetAllBits() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(3);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(3);
 		// Expected values;
 		int expectedDimension = 7;
 		
@@ -805,9 +773,9 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testEqualsHashCodeLuceneBug() {
 		// Setup
-		ColumnCombinationBitset allocatedBitSet = new ColumnCombinationBitset().setColumns(5, 1000);
+		ColumnCombinationBitset allocatedBitSet = new ColumnCombinationBitset(5, 1000);
 		// Expected values
-		ColumnCombinationBitset expectedEqualSet = new ColumnCombinationBitset().setColumns(5);
+		ColumnCombinationBitset expectedEqualSet = new ColumnCombinationBitset(5);
 		
 		// Execute functionality
 		allocatedBitSet = allocatedBitSet.intersect(expectedEqualSet);
@@ -860,7 +828,7 @@ public class ColumnCombinationBitsetTest {
 	@Test
 	public void testGetAllSubsetsOneColumn() {
 		// Setup
-		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset().setColumns(5);
+		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(5);
 		
 		// Execute functionality
 		assertEquals(new ColumnCombinationBitset(), columnCombination.getAllSubsets().get(0));		
