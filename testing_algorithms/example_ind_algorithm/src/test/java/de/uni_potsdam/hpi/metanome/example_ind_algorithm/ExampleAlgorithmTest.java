@@ -18,6 +18,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 
@@ -30,6 +31,7 @@ public class ExampleAlgorithmTest {
 
 	protected ExampleAlgorithm algorithm;
 	protected String tableIdentifier;
+	protected String relationalInputsIdentifier = "input file";
 	
 	/**
 	 * @throws java.lang.Exception
@@ -98,6 +100,7 @@ public class ExampleAlgorithmTest {
 		when(fileGenerator.getTemporaryFile())
 			.thenReturn(tempFile);
 		this.algorithm.setConfigurationValue(tableIdentifier, "something");
+		this.algorithm.setConfigurationValue(relationalInputsIdentifier, mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class));
 		
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);

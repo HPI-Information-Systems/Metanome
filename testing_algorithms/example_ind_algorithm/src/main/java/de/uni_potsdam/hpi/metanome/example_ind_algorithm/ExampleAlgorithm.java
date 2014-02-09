@@ -30,6 +30,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	protected String tableName = null;
 	protected InclusionDependencyResultReceiver resultReceiver;
 	protected FileGenerator tempFileGenerator;
+	protected boolean relationalInputsSet = false;
 
 	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
@@ -60,7 +61,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 			throw new AlgorithmExecutionException("Could not read from file.");
 		}
 		
-		if (tableName != null) {
+		if ((tableName != null) && relationalInputsSet) {
 			resultReceiver.receiveResult(
 					new InclusionDependency(
 						new ColumnCombination(
@@ -92,9 +93,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 	
 	@Override
-	public void setConfigurationValue(String identifier, RelationalInputGenerator... values){
-		if (identifier.equals("input file")){
+	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException{
+		if ((identifier.equals("input file")) && (values.length == 2)){
 			System.out.println("Input file is not being set on algorithm.");
-		}			
+			relationalInputsSet = true;
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect configuration.");
+		}
 	}
 }
