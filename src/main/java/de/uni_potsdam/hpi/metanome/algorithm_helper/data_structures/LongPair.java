@@ -35,10 +35,8 @@ public class LongPair implements Comparable<LongPair> {
 		LongPair other = (LongPair) obj;
 		if (first != other.first)
 			return false;
-		if (second != other.second)
-			return false;
-		return true;
-	}
+        return second == other.second;
+    }
 
 	public void setFirst(long first) {
 		this.first = first;
@@ -57,9 +55,9 @@ public class LongPair implements Comparable<LongPair> {
 
 	@Override
 	public int compareTo(LongPair other) {
-		LongPair otherPair = (LongPair) other;
+		LongPair otherPair = other;
 		if (otherPair.first == this.first)
-			return (int) (this.second- otherPair.second);
+			return (int) (this.second - otherPair.second);
 		return (int) (this.first - otherPair.first);
 	}
 
