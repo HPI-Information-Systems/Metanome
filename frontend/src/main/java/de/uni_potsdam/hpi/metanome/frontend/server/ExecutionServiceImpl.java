@@ -114,7 +114,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 			InputParameter parameter) throws AlgorithmConfigurationException {
 		if (parameter instanceof InputParameterString)
 			return new ConfigurationValueString(parameter.getIdentifier(), 
-					((InputParameterString) parameter).getValue());
+					((InputParameterString) parameter).getValues());
 		
 		else if (parameter instanceof InputParameterBoolean)
 			return new ConfigurationValueBoolean(parameter.getIdentifier(), 

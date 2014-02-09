@@ -5,7 +5,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 public class InputParameterString extends InputParameter {
 	private static final long serialVersionUID = 7089599177559324612L;
 
-	private String value;
+	private String[] values;
 
 	public InputParameterString(){
 		super();
@@ -17,12 +17,12 @@ public class InputParameterString extends InputParameter {
 
 	// **** GETTERS & SETTERS ****
 	
-	public String getValue() {
-		return value;
+	public String[] getValues() {
+		return values;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setValues(String... values) {
+		this.values = values;
 	}
 
 	@Override

@@ -4,8 +4,10 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class InputParameterStringWidget extends TextBox implements InputParameterWidget {
 	
+	// FIXME implement several input values
+	
 	InputParameterString inputParameter;
-
+	
 	public InputParameterStringWidget(InputParameterString inputParameter) {
 		super();
 		this.inputParameter = inputParameter;
@@ -13,7 +15,7 @@ public class InputParameterStringWidget extends TextBox implements InputParamete
 	
 	@Override
 	public InputParameter getInputParameter() {
-		this.inputParameter.setValue(this.getValue());
+		this.inputParameter.setValues(this.getValue());
 		return inputParameter;
 	}
 	
