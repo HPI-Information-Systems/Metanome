@@ -266,12 +266,13 @@ public class ColumnCombinationBitset {
         return currentLevel;
     }
 
-    /**TODO docs
-	 * @return the list of indices with set bits
+    /**
+     * TODO docs
+	 *
+     * @return the list of indices with set bits
 	 */
 	public List<Integer> getSetBits() {
-		//FIXME use array list here
-		List<Integer> setBits = new LinkedList<Integer>();
+		List<Integer> setBits = new ArrayList<Integer>(size());
 		
 		int setBitIndex = 0;
 		while (true) {
