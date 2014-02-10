@@ -672,6 +672,46 @@ public class ColumnCombinationBitsetTest {
                 IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
 		assertEquals(fixture.getColumnCombination1(), columnCombination);
 	}
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
+     *
+     * TODO docs
+     */
+    @Test
+    public void testGetDirectSubsetsSupersetOf() {
+        // Setup
+        ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+        ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+        ColumnCombinationBitset subset = fixture.getExpectedSubsetsSubsetForSupersetOf();
+
+        // Execute functionality
+        // Check result
+        assertThat(columnCombination.getDirectSubsetsSupersetOf(subset),
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedDirectSubsets1SupersetOf()));
+        assertEquals(fixture.getColumnCombination1(), columnCombination);
+        assertEquals(fixture.getExpectedSubsetsSubsetForSupersetOf(), subset);
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
+     *
+     * TODO docs
+     */
+    @Test
+    public void testGetDirectSubsetsSupersetOfNotSubset() {
+        // Setup
+        ColumnCombinationBitsetFixture fixture = new ColumnCombinationBitsetFixture();
+        ColumnCombinationBitset columnCombination = fixture.getColumnCombination1();
+        ColumnCombinationBitset notSubset = fixture.getExpectedSubsetsSubsetForSupersetOf();
+        notSubset.addColumn(600);
+
+        // Execute functionality
+        // Check result
+        assertTrue(columnCombination.getDirectSubsetsSupersetOf(notSubset).isEmpty());
+        assertEquals(fixture.getColumnCombination1(), columnCombination);
+        assertEquals(fixture.getExpectedSubsetsSubsetForSupersetOf().addColumn(600), notSubset);
+    }
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, ImmutableList)}

@@ -29,27 +29,6 @@ public class ColumnCombinationBitset {
 	public ColumnCombinationBitset(ColumnCombinationBitset columnCombination) {
 		setColumns(columnCombination.bitset.clone());
 	}
-
-	/**
-	 * TODO docs
-	 * 
-	 * @param containedColumns that are set on a new bitset
-	 * @return return the instance
-     *
-     * @deprecated
-	 */
-    @Deprecated
-	public ColumnCombinationBitset setColumns(int... containedColumns) {
-		// TODO optimisation implement clear
-		bitset = new OpenBitSet();
-		// FIXME size not reset
-		for (int columnIndex : containedColumns) {
-			// If the bit was not yet set, increase the size.
-			addColumn(columnIndex);
-		}
-		
-		return this;
-	}
 	
 	/**
 	 * TODO docs
@@ -274,8 +253,7 @@ public class ColumnCombinationBitset {
         for (int currentLevelIndex = this.size(); currentLevelIndex > n; currentLevelIndex--) {
             while(!currentLevel.isEmpty()) {
                 ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
-                // TODO optimize only generate subsets superset of
-                for (ColumnCombinationBitset currentSubset : currentColumnCombination.getDirectSubsets()) {
+                for (ColumnCombinationBitset currentSubset : currentColumnCombination.getDirectSubsetsSupersetOf(subSet)) {
                     if (currentSubset.containsSubset(subSet)) {
                         nextLevel.add(currentSubset);
                     }
@@ -287,8 +265,8 @@ public class ColumnCombinationBitset {
 
         return currentLevel;
     }
-	
-	/**TODO docs
+
+    /**TODO docs
 	 * @return the list of indices with set bits
 	 */
 	public List<Integer> getSetBits() {
@@ -412,7 +390,6 @@ public class ColumnCombinationBitset {
 				superset.addColumn(columnIndex);
 				supersets.add(superset);
 			}
-			
 		}
 		
 		return supersets;
@@ -424,19 +401,52 @@ public class ColumnCombinationBitset {
 	 * @return the direct sub sets
 	 */
 	public List<ColumnCombinationBitset> getDirectSubsets() {
-		List<ColumnCombinationBitset> subsets = new ArrayList<ColumnCombinationBitset>();
-		
-		ColumnCombinationBitset subset;
-		for (int columnIndex : getSetBits()) {
-			subset = new ColumnCombinationBitset().setColumns(bitset.clone());
-			subset.removeColumn(columnIndex);
-			subsets.add(subset);
-		}
-		
-		return subsets;
+		return getDirectSubsetsSupersetOfFast(null);
 	}
 
-	/**
+    /**
+     * Generates the direct subset column combinations that are superset of the given sub set.
+     *
+     * @param subSet that all generated subsets are super set of
+     * @return the direct sub sets super set of the sub set
+     */
+    public List<ColumnCombinationBitset> getDirectSubsetsSupersetOf(ColumnCombinationBitset subSet) {
+        if (!containsRealSubset(subSet)) {
+            return new ArrayList<ColumnCombinationBitset>();
+        }
+
+        return getDirectSubsetsSupersetOfFast(subSet);
+    }
+
+    /**
+     * Generates the direct subset column combinations that are superset of the given sub set.
+     * If the subSet is null all direct subsets are returned.
+     *
+     * @param subSet that all generated subsets are super set of
+     * @return the direct sub sets super set of the sub set
+     */
+    protected List<ColumnCombinationBitset> getDirectSubsetsSupersetOfFast(ColumnCombinationBitset subSet) {
+
+        ColumnCombinationBitset columnsToRemove;
+        if (subSet == null) {
+            columnsToRemove = this;
+        } else {
+            columnsToRemove = this.minus(subSet);
+        }
+
+        List<ColumnCombinationBitset> subsets = new ArrayList<ColumnCombinationBitset>(size());
+
+        ColumnCombinationBitset generatedSubset;
+        for (int columnIndex : columnsToRemove.getSetBits()) {
+            generatedSubset = new ColumnCombinationBitset(this);
+            generatedSubset.removeColumn(columnIndex);
+            subsets.add(generatedSubset);
+        }
+
+        return subsets;
+    }
+
+    /**
 	 * Returns the number of columns in the combination.
 	 * 
 	 * @return the number of columns in the combination.

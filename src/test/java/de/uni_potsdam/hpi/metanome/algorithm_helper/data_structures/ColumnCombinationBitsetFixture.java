@@ -139,13 +139,25 @@ public class ColumnCombinationBitsetFixture {
                 new ColumnCombinationBitset(0, 2, 3, 4, 5),
                 new ColumnCombinationBitset(0, 2, 3, 4, 6)};
 	}
-	
+
+    public ColumnCombinationBitset getExpectedSubsetsSubsetForSupersetOf() {
+        return new ColumnCombinationBitset(3, 4);
+    }
+
+    public ColumnCombinationBitset[] getExpectedDirectSubsets1SupersetOf() {
+        return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(2, 3, 4),
+                new ColumnCombinationBitset(0, 3, 4)
+        };
+    }
+
 	public ColumnCombinationBitset[] getExpectedDirectSubsets1() {
         return new ColumnCombinationBitset[]{
                 new ColumnCombinationBitset(2, 3, 4),
                 new ColumnCombinationBitset(0, 3, 4),
                 new ColumnCombinationBitset(0, 2, 4),
-                new ColumnCombinationBitset(0, 2, 3)};
+                new ColumnCombinationBitset(0, 2, 3)
+        };
 	}
 	
 	public int getExpectedSize1() {
