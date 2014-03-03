@@ -158,6 +158,8 @@ public class ColumnCombinationBitset {
 	
 	/**
 	 * Returns all subset of the column combination (including the empty {@link ColumnCombinationBitset}).
+     *
+     * TODO: not proper subsets, right?
 	 * 
 	 * @return subsets
 	 */
