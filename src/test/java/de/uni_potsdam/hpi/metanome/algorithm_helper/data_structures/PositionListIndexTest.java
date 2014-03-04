@@ -1,18 +1,15 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class PositionListIndexTest {
 
@@ -148,7 +145,7 @@ public class PositionListIndexTest {
 	/**
 	 * Test method for {@link PositionListIndex#getRawKeyError()}
 	 * 
-	 * The key error should be calculated correctly.
+	 * The key error should be calculated and updated correctly.
 	 */
 	@Test
 	public void testGetRawKeyError() {
@@ -160,5 +157,6 @@ public class PositionListIndexTest {
 		// Check result
 		assertEquals(fixture.getExpectedFirstPLIRawKeyError(), firstPli.getRawKeyError());
 		assertEquals(fixture.getExpectedSecondPLIRawKeyError(), secondPli.getRawKeyError());
+        assertEquals(fixture.getExpectedIntersectedPLIRawKeyError(), firstPli.intersect(secondPli).getRawKeyError());
 	}
 }

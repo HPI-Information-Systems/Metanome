@@ -1,22 +1,13 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.longs.LongList;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.longs.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PositionListIndex {
 
 	protected List<LongArrayList> clusters;
+    protected long rawKeyError = -1;
 
 	public PositionListIndex(List<LongArrayList> clusters) {
 		this.clusters = clusters;
@@ -203,13 +194,21 @@ public class PositionListIndex {
 	 * @return raw key error
 	 */
 	public long getRawKeyError() {
-		long sumClusterSize = 0;
-		
-		for (LongArrayList cluster : clusters) {
-			sumClusterSize += cluster.size();
-		}
-		
-		return sumClusterSize - clusters.size();
+        if (rawKeyError == -1) {
+            rawKeyError = calculateRawKeyError();
+        }
+
+        return rawKeyError;
 	}
+
+    protected long calculateRawKeyError() {
+        long sumClusterSize = 0;
+
+        for (LongArrayList cluster : clusters) {
+            sumClusterSize += cluster.size();
+        }
+
+        return sumClusterSize - clusters.size();
+    }
 
 }
