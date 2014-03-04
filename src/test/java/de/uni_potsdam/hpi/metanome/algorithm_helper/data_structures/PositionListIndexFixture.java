@@ -90,5 +90,9 @@ public class PositionListIndexFixture {
 		
 		return new PositionListIndex(clusters);
 	}
-	
+
+    public int getExpectedIntersectedPLIRawKeyError() {
+        return 2;
+    }
+
 }
