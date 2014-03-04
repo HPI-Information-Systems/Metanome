@@ -3,3 +3,4 @@
 /results
 *.releaseBackup
 release.properties
+/.idea
