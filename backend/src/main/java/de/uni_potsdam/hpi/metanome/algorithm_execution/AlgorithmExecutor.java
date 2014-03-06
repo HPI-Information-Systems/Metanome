@@ -36,110 +36,109 @@ import java.util.Set;
 
 public class AlgorithmExecutor implements Closeable {
 
-	protected CloseableOmniscientResultReceiver resultReceiver;
-	protected ProgressCache progressCache;
-	
-	protected FileGenerator fileGenerator;
-	
-	/**
-	 * Constructs a new executor with new result receivers and generators.
-	 *
-     * @param resultReceiver receives all of the algorithms results
-     * @param fileGenerator generates temp files
-     */
-	public AlgorithmExecutor(
-			CloseableOmniscientResultReceiver resultReceiver,
-			ProgressCache progressCache,
-			FileGenerator fileGenerator) {
-		this.resultReceiver = resultReceiver;
-		this.progressCache = progressCache;
-		
-		this.fileGenerator = fileGenerator;
-	}
-	
-	/**
-	 * Executes an algorithm. The algorithm is loaded from the jar, 
-	 * configured and all receivers and generators are set before execution.
-	 * The elapsed time while executing the algorithm in nano seconds is 
-	 * returned as long.
-	 *
-     * @param algorithmFileName the algorithm's file name
-     * @param configs list of configuration values
-     * @return elapsed time in ns
+    protected CloseableOmniscientResultReceiver resultReceiver;
+    protected ProgressCache progressCache;
+
+    protected FileGenerator fileGenerator;
+
+    /**
+     * Constructs a new executor with new result receivers and generators.
      *
+     * @param resultReceiver receives all of the algorithms results
+     * @param fileGenerator  generates temp files
+     */
+    public AlgorithmExecutor(
+            CloseableOmniscientResultReceiver resultReceiver,
+            ProgressCache progressCache,
+            FileGenerator fileGenerator) {
+        this.resultReceiver = resultReceiver;
+        this.progressCache = progressCache;
+
+        this.fileGenerator = fileGenerator;
+    }
+
+    /**
+     * Executes an algorithm. The algorithm is loaded from the jar,
+     * configured and all receivers and generators are set before execution.
+     * The elapsed time while executing the algorithm in nano seconds is
+     * returned as long.
+     *
+     * @param algorithmFileName the algorithm's file name
+     * @param configs           list of configuration values
+     * @return elapsed time in ns
      * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmExecutionException
-	 */
+     */
     public long executeAlgorithm(String algorithmFileName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmExecutionException {
         AlgorithmJarLoader loader = new AlgorithmJarLoader();
-		Algorithm algorithm;
-		try {
+        Algorithm algorithm;
+        try {
             algorithm = loader.loadAlgorithm(algorithmFileName);
         } catch (IllegalArgumentException e) {
-			throw new AlgorithmLoadingException();
-		} catch (SecurityException e) {
-			throw new AlgorithmLoadingException();
-		} catch (IOException e) {
-			throw new AlgorithmLoadingException("IO Exception");
-		} catch (ClassNotFoundException e) {
-			throw new AlgorithmLoadingException("Class not found.");
-		} catch (InstantiationException e) {
-			throw new AlgorithmLoadingException("Could not instantiate.");
-		} catch (IllegalAccessException e) {
-			throw new AlgorithmLoadingException();
-		} catch (InvocationTargetException e) {
-			throw new AlgorithmLoadingException("Could not invoke.");
-		} catch (NoSuchMethodException e) {
-			throw new AlgorithmLoadingException("No such method.");
-		}
-		
-		Set<Class<?>> interfaces = getInterfaces(algorithm);
-		
-		for (ConfigurationValue configValue : configs) {
-			configValue.triggerSetValue(algorithm, interfaces);
-		}	
-		
-		if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-			FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
-			fdAlgorithm.setResultReceiver(resultReceiver);
-		}
-		
-		if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-			InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
-			indAlgorithm.setResultReceiver(resultReceiver);
-		}
-		
-		if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-			UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-			uccAlgorithm.setResultReceiver(resultReceiver);
-		}
-		
-		if (interfaces.contains(TempFileAlgorithm.class)) {
-			TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
-			tempFileAlgorithm.setTempFileGenerator(fileGenerator);
-		}
-		
-		if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
-			ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
-			progressEstimatingAlgorithm.setProgressReceiver(progressCache);
-		}
-				
-		long before = System.nanoTime();
-		algorithm.execute();
-		long after = System.nanoTime();
-		
-		return after - before;
-	}
+            throw new AlgorithmLoadingException();
+        } catch (SecurityException e) {
+            throw new AlgorithmLoadingException();
+        } catch (IOException e) {
+            throw new AlgorithmLoadingException("IO Exception");
+        } catch (ClassNotFoundException e) {
+            throw new AlgorithmLoadingException("Class not found.");
+        } catch (InstantiationException e) {
+            throw new AlgorithmLoadingException("Could not instantiate.");
+        } catch (IllegalAccessException e) {
+            throw new AlgorithmLoadingException();
+        } catch (InvocationTargetException e) {
+            throw new AlgorithmLoadingException("Could not invoke.");
+        } catch (NoSuchMethodException e) {
+            throw new AlgorithmLoadingException("No such method.");
+        }
 
-	protected Set<Class<?>> getInterfaces(Object object) {
-		Set<Class<?>> interfaces = new HashSet<Class<?>>();
-		Collections.addAll(interfaces, object.getClass().getInterfaces());
-		return interfaces;
-	}
+        Set<Class<?>> interfaces = getInterfaces(algorithm);
 
-	@Override
-	public void close() throws IOException {
-		resultReceiver.close();
-	}
+        for (ConfigurationValue configValue : configs) {
+            configValue.triggerSetValue(algorithm, interfaces);
+        }
+
+        if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+            FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
+            fdAlgorithm.setResultReceiver(resultReceiver);
+        }
+
+        if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+            InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
+            indAlgorithm.setResultReceiver(resultReceiver);
+        }
+
+        if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+            UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
+            uccAlgorithm.setResultReceiver(resultReceiver);
+        }
+
+        if (interfaces.contains(TempFileAlgorithm.class)) {
+            TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
+            tempFileAlgorithm.setTempFileGenerator(fileGenerator);
+        }
+
+        if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
+            ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+            progressEstimatingAlgorithm.setProgressReceiver(progressCache);
+        }
+
+        long before = System.nanoTime();
+        algorithm.execute();
+        long after = System.nanoTime();
+
+        return after - before;
+    }
+
+    protected Set<Class<?>> getInterfaces(Object object) {
+        Set<Class<?>> interfaces = new HashSet<Class<?>>();
+        Collections.addAll(interfaces, object.getClass().getInterfaces());
+        return interfaces;
+    }
+
+    @Override
+    public void close() throws IOException {
+        resultReceiver.close();
+    }
 }
