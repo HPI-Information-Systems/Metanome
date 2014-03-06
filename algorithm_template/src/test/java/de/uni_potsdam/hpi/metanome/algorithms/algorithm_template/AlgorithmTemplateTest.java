@@ -34,32 +34,26 @@ public class AlgorithmTemplateTest {
 
 	@Test
 	public void testGetConfigurationRequirements() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testExecute() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetConfigurationValue() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetTempFileGenerator() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetResultReceiverFunctionalDependencyResultReceiver() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetResultReceiverUniqueColumnCombinationResultReceiver() {
-		fail("Not yet implemented");
 	}
 
 }

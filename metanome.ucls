@@ -210,7 +210,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmExecutor" 
+  <class id="19" language="java" name="de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor"
     project="backend" file="/backend/src/main/java/de/uni_potsdam/hpi/metanome/algorithm_loading/AlgorithmExecutor.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1454" y="946"/>    

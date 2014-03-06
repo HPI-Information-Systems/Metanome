@@ -14,18 +14,29 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_integration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-public class AlgorithmExecutionException extends Exception {
+import org.junit.Test;
 
-    private static final long serialVersionUID = 3323364350205621228L;
+import static junit.framework.Assert.assertEquals;
 
-    protected AlgorithmExecutionException() {
-        super();
+/**
+ * Test for ConfigurationSettingBoolean
+ *
+ * @author Jakob Zwiener
+ */
+public class ConfigurationSettingBooleanTest {
+
+    @Test
+    public void testConstructor() {
+        // Setup
+        // Expected values
+        boolean expectedValue = true;
+
+        // Execute functionality
+        ConfigurationSettingBoolean setting = new ConfigurationSettingBoolean(expectedValue);
+
+        // Check result
+        assertEquals(expectedValue, setting.value);
     }
-
-    public AlgorithmExecutionException(String message) {
-        super(message);
-    }
-
 }

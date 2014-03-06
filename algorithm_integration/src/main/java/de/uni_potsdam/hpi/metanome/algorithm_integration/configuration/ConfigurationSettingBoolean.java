@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_integration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-public class AlgorithmExecutionException extends Exception {
+/**
+ * @author Jakob Zwiener
+ */
+public class ConfigurationSettingBoolean {
 
-    private static final long serialVersionUID = 3323364350205621228L;
+    boolean value;
 
-    protected AlgorithmExecutionException() {
-        super();
+    public ConfigurationSettingBoolean(boolean value) {
+        this.value = value;
     }
-
-    public AlgorithmExecutionException(String message) {
-        super(message);
-    }
-
 }

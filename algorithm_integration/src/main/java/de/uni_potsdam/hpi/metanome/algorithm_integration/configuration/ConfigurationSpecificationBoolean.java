@@ -24,9 +24,11 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  */
 public class ConfigurationSpecificationBoolean extends ConfigurationSpecification {
 
-	/**
-	 * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
-	 * 
+    public ConfigurationSettingBoolean[] values;
+
+    /**
+     * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
+     *
 	 * @param identifier
 	 */
 	public ConfigurationSpecificationBoolean(String identifier) {
@@ -44,4 +46,12 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
 		
 		super(identifier, numberOfValues);
 	}
+
+    /**
+     * TODO docs
+     */
+    public void setValues(ConfigurationSettingBoolean... values) {
+        // TODO check number
+        this.values = values;
+    }
 }

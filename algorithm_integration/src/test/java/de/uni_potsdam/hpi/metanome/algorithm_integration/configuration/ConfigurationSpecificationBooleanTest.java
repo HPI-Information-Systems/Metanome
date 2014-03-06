@@ -22,6 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
 /**
  * Tests for {@link ConfigurationSpecificationBoolean}
  */
@@ -89,4 +92,23 @@ public class ConfigurationSpecificationBooleanTest {
 		assertEquals(expectedNumberOfValues, actualNumberOfValues);
 	}
 
+    /**
+     * The values should be correctly settable on the specification.
+     */
+    @Test
+    public void testSetValues() {
+        // Setup
+        ConfigurationSpecificationBoolean configSpec = new ConfigurationSpecificationBoolean("parameter1", 2);
+        // Expected values
+        ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
+        ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
+
+
+        // Execute functionality
+        configSpec.setValues(expectedValue0, expectedValue1);
+
+        // Check result
+        assertEquals(expectedValue0, configSpec.values[0]);
+        assertEquals(expectedValue1, configSpec.values[1]);
+    }
 }
