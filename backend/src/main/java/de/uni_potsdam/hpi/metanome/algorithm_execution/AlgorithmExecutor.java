@@ -1,4 +1,30 @@
-package de.uni_potsdam.hpi.metanome.algorithm_loading;
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package de.uni_potsdam.hpi.metanome.algorithm_execution;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -7,19 +33,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -30,10 +43,10 @@ public class AlgorithmExecutor implements Closeable {
 	
 	/**
 	 * Constructs a new executor with new result receivers and generators.
-	 * 
-	 * @param resultReceiver
-	 * @param fileGenerator
-	 */
+	 *
+     * @param resultReceiver receives all of the algorithms results
+     * @param fileGenerator generates temp files
+     */
 	public AlgorithmExecutor(
 			CloseableOmniscientResultReceiver resultReceiver,
 			ProgressCache progressCache,
@@ -49,21 +62,21 @@ public class AlgorithmExecutor implements Closeable {
 	 * configured and all receivers and generators are set before execution.
 	 * The elapsed time while executing the algorithm in nano seconds is 
 	 * returned as long.
-	 * 
-	 * @param algorithmName
-	 * @param configs
-	 * @return elapsed time in ns
-	 * 
-	 * @throws AlgorithmLoadingException
-	 * @throws AlgorithmConfigurationException
-	 * @throws AlgorithmExecutionException
+	 *
+     * @param algorithmFileName the algorithm's file name
+     * @param configs list of configuration values
+     * @return elapsed time in ns
+     *
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
+     * @throws AlgorithmConfigurationException
+     * @throws AlgorithmExecutionException
 	 */
-	public long executeAlgorithm(String algorithmName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmConfigurationException, AlgorithmExecutionException {
-		AlgorithmJarLoader loader = new AlgorithmJarLoader();
+    public long executeAlgorithm(String algorithmFileName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmExecutionException {
+        AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		Algorithm algorithm;
 		try {
-			algorithm = loader.loadAlgorithm(algorithmName);
-		} catch (IllegalArgumentException e) {
+            algorithm = loader.loadAlgorithm(algorithmFileName);
+        } catch (IllegalArgumentException e) {
 			throw new AlgorithmLoadingException();
 		} catch (SecurityException e) {
 			throw new AlgorithmLoadingException();
