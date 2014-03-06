@@ -14,16 +14,29 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.configuration;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
+
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
+ * Test for ConfigurationSettingBoolean
+ *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingBoolean {
+public class ConfigurationSettingBooleanTest {
 
-    boolean value;
+    @Test
+    public void testConstructor() {
+        // Setup
+        // Expected values
+        boolean expectedValue = true;
 
-    public ConfigurationSettingBoolean(boolean value) {
-        this.value = value;
+        // Execute functionality
+        ConfigurationSettingBoolean setting = new ConfigurationSettingBoolean(expectedValue);
+
+        // Check result
+        assertEquals(expectedValue, setting.value);
     }
 }
