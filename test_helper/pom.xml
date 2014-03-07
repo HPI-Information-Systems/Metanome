@@ -17,16 +17,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>test_helper</artifactId>
+    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+    <artifactId>test_helper</artifactId>
   <packaging>jar</packaging>
 
   <name>test_helper</name>
 
   <parent>
-  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-  	<artifactId>deployment</artifactId>
-  	<version>0.0.2-SNAPSHOT</version>
-  	<relativePath>../deployment/pom.xml</relativePath>
+      <groupId>de.uni-potsdam.hpi</groupId>
+      <artifactId>metanome</artifactId>
+      <version>0.0.2-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
   </parent>
 
   <properties>

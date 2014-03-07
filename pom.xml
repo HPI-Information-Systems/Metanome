@@ -19,16 +19,10 @@
 
   <groupId>de.uni-potsdam.hpi</groupId>
   <artifactId>metanome</artifactId>
-  <packaging>pom</packaging>
+    <version>0.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
   <name>metanome</name>
-  
-  <parent>
-  	<groupId>de.uni-potsdam.hpi.metanome</groupId>
-  	<artifactId>deployment</artifactId>
-  	<version>0.0.2-SNAPSHOT</version>
-  	<relativePath>deployment/pom.xml</relativePath>
-  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,9 +34,33 @@
     <tag>HEAD</tag>
     <url>https://code.hpi.uni-potsdam.de/trac/metanome</url>
   </scm>
-  
-  <build>
-    <plugins>
+
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>
+            <name>mavenRepoOnJenkins</name>
+            <url>scp://maven_deploy@172.16.64.27/var/www/html/maven</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.6</version>
+                    <configuration>
+                        <check/>
+                        <formats>
+                            <format>xml</format>
+                        </formats>
+                        <aggregate>true</aggregate>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
@@ -50,10 +68,30 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>2.1.0</version>
+          <version>2.2.0</version>
       </plugin>
-    </plugins>
-  </build>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
+    </build>
   
   <modules>
     <module>algorithm_integration</module>
@@ -62,6 +100,5 @@
     <module>frontend</module>
     <module>testing_algorithms</module>
 	<module>test_helper</module>
-	<module>deployment</module>
   </modules>
 </project>

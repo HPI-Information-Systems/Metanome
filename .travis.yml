@@ -6,4 +6,4 @@ jdk:
 script: "mvn clean verify"
 
 after_success:
-  - mvn coveralls:cobertura
+  - mvn clean cobertura:cobertura coveralls:cobertura
