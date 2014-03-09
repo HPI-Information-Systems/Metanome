@@ -22,6 +22,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**
@@ -60,7 +61,11 @@ public class HibernateUtil {
      *
      * @param entity
      */
-    public static void store(Object entity) {
+    public static void store(Object entity) throws EntityStorageException {
+        if (!entity.getClass().isAnnotationPresent(Entity.class)) {
+            throw new EntityStorageException("Entity is missing the Entity annotation.");
+        }
+
         Session session = openNewSession();
 
         session.beginTransaction();

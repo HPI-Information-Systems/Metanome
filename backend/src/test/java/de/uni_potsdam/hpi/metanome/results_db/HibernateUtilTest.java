@@ -63,7 +63,26 @@ public class HibernateUtilTest {
 		assertTrue(session.isOpen());
 	}
 
-    // TODO store non entity
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#store(Object)}
+     * <p/>
+     * When trying to store Objects missing the {@link javax.persistence.Entity} annotation a
+     * {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} will be thrown.
+     */
+    @Test
+    public void testStoreFailNonEntity() {
+        // Setup
+        Object actualObject = new Object();
+
+        // Execute functionality
+        try {
+            HibernateUtil.store(actualObject);
+            fail("Exception was not thrown.");
+        } catch (EntityStorageException e) {
+            // Intentionally left blank
+        }
+    }
+
     // TODO retrieve non entity
 
     /**
@@ -73,7 +92,7 @@ public class HibernateUtilTest {
      * Entities should be storable and retrievable.
      */
     @Test
-    public void testDbRoundtrip() {
+    public void testDbRoundtrip() throws EntityStorageException {
         // Setup
         // Expected values
         String expectedFileName = "testFileName";
