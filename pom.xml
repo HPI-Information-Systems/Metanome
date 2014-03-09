@@ -57,6 +57,9 @@
                             <format>xml</format>
                         </formats>
                         <aggregate>true</aggregate>
+                        <instrumentation>
+                            <exclude>de/uni_potsdam/hpi/metanome/test_helper/**/*.class</exclude>
+                        </instrumentation>
                     </configuration>
                 </plugin>
             </plugins>
