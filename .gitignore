@@ -4,3 +4,4 @@
 *.releaseBackup
 release.properties
 /.idea
+*.iml
