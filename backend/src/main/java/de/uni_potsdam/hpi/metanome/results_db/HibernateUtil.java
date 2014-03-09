@@ -63,7 +63,7 @@ public class HibernateUtil {
      */
     public static void store(Object entity) throws EntityStorageException {
         if (!entity.getClass().isAnnotationPresent(Entity.class)) {
-            throw new EntityStorageException("Entity is missing the Entity annotation.");
+            throw new EntityStorageException("Entity to store is missing the Entity annotation.");
         }
 
         Session session = openNewSession();
@@ -82,7 +82,11 @@ public class HibernateUtil {
      * @param id
      * @return the requested entity
      */
-    public static Object retrieve(Class clazz, Serializable id) {
+    public static Object retrieve(Class clazz, Serializable id) throws EntityStorageException {
+        if (!clazz.isAnnotationPresent(Entity.class)) {
+            throw new EntityStorageException("Queried class is missing the Entity annotation.");
+        }
+
         Session session = openNewSession();
 
         Object value = session.get(clazz, id);

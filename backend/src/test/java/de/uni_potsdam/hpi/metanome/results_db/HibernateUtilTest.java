@@ -66,7 +66,7 @@ public class HibernateUtilTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#store(Object)}
      * <p/>
-     * When trying to store Objects missing the {@link javax.persistence.Entity} annotation a
+     * When trying to store Objects missing the {@link javax.persistence.Entity} annotation an
      * {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} will be thrown.
      */
     @Test
@@ -75,6 +75,7 @@ public class HibernateUtilTest {
         Object actualObject = new Object();
 
         // Execute functionality
+        // Check result
         try {
             HibernateUtil.store(actualObject);
             fail("Exception was not thrown.");
@@ -83,7 +84,23 @@ public class HibernateUtilTest {
         }
     }
 
-    // TODO retrieve non entity
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#retrieve(Class, java.io.Serializable)}
+     * <p/>
+     * When trying to retrive entites of a class that is misiing the {@link javax.persistence.Entity} annotation an
+     * {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} will be thrown.
+     */
+    @Test
+    public void testRetrieveFailNonEntity() {
+        // Execute functionality
+        // Check result
+        try {
+            HibernateUtil.retrieve(Object.class, "someId");
+            fail("Exception was not thrown.");
+        } catch (EntityStorageException e) {
+            // Intentionally left blank
+        }
+    }
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#store(Object)} and
