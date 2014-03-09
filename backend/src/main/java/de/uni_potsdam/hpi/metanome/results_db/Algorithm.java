@@ -144,4 +144,23 @@ public class Algorithm {
         result = 31 * result + (isBasicStat ? 1 : 0);
         return result;
     }
+
+    /**
+     * Stores an Algorithm in the database.
+     *
+     * @param algorithm the algorithm to store
+     */
+    public static void store(Algorithm algorithm) throws EntityStorageException {
+        HibernateUtil.store(algorithm);
+    }
+
+    /**
+     * Retrieves an Algorithm from the database.
+     *
+     * @param fileName the Algorithm's file name
+     * @return the algorithm
+     */
+    public static Algorithm retrieve(String fileName) throws EntityStorageException {
+        return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+    }
 }

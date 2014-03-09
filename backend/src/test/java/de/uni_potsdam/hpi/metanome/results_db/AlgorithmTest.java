@@ -28,6 +28,26 @@ import static org.junit.Assert.*;
 public class AlgorithmTest {
 
     /**
+     * Tets method for {@link Algorithm#store(Algorithm) and {@link Algorithm#retrieve(String)}}
+     *
+     * Algorithms should be storable and retrievable.
+     */
+    @Test
+    public void testPersistence() throws EntityStorageException {
+        // Setup
+        // Expected values
+        String expectedFileName = "someFileName";
+        Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+
+        // Execute functionality
+        Algorithm.store(expectedAlgorithm);
+        Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
+
+        // Check result
+        assertEquals(expectedAlgorithm, actualAlgorithm);
+    }
+
+    /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#equals(Object)} and
      * {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#hashCode()}
      */
