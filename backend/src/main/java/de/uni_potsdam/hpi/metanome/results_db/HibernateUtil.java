@@ -22,6 +22,13 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.Serializable;
+
+/**
+ * TODO docs
+ *
+ * @author Jakob Zwiener
+ */
 public class HibernateUtil {
 	 
 	private static SessionFactory sessionFactory = null;
@@ -47,8 +54,40 @@ public class HibernateUtil {
 	public static Session openNewSession() {
 		return getSessionFactory().openSession();
 	}
-	
-	protected static SessionFactory buildSessionFactory() {
+
+    /**
+     * Stores an entity in the database.
+     *
+     * @param entity
+     */
+    public static void store(Object entity) {
+        Session session = openNewSession();
+
+        session.beginTransaction();
+        session.save(entity);
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    /**
+     * Retrieves an entitie of the given class and with the given id from the databse.
+     *
+     * @param clazz
+     * @param id
+     * @return the requested entity
+     */
+    public static Object retrieve(Class clazz, Serializable id) {
+        Session session = openNewSession();
+
+        Object value = session.get(clazz, id);
+
+        session.close();
+
+        return value;
+    }
+
+    protected static SessionFactory buildSessionFactory() {
 		Configuration configuration = new Configuration().configure();
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         return configuration.configure().buildSessionFactory(serviceRegistry);

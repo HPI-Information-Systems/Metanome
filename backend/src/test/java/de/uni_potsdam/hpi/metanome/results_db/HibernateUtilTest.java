@@ -16,14 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link HibernateUtil}
@@ -63,4 +62,28 @@ public class HibernateUtilTest {
 		assertTrue(session.isConnected());
 		assertTrue(session.isOpen());
 	}
+
+    // TODO store non entity
+    // TODO retrieve non entity
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#store(Object)} and
+     * {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#retrieve(Class, java.io.Serializable)}
+     * <p/>
+     * Entities should be storable and retrievable.
+     */
+    @Test
+    public void testDbRoundtrip() {
+        // Setup
+        // Expected values
+        String expectedFileName = "testFileName";
+        Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+
+        // Execute functionality
+        HibernateUtil.store(expectedAlgorithm);
+        Algorithm actualAlgorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, "testFileName");
+
+        // Check result
+        assertEquals(expectedAlgorithm, actualAlgorithm);
+    }
 }

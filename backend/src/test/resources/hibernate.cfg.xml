@@ -48,8 +48,7 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
-       	<!-- <mapping class="org.hibernate.tutorial.domain.Event"/> -->
-    	
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
 
     </session-factory>
 
