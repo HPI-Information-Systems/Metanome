@@ -18,50 +18,40 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
  * Test for {@link HibernateUtil}
- * 
+ *
  * @author Jakob Zwiener
  */
 public class HibernateUtilTest {
 
-	@Before
-	public void setUp() throws Exception {
-	}
+    /**
+     * Test method for {@link HibernateUtil#getSessionFactory()}
+     * <p/>
+     * {@link SessionFactory} should be singleton.
+     */
+    @Test
+    public void testGetSessionFactory() {
+        // Check result
+        assertSame(HibernateUtil.getSessionFactory(), HibernateUtil.getSessionFactory());
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link HibernateUtil#getSessionFactory()}
-	 * 
-	 * {@link SessionFactory} should be singleton.
-	 */
-	@Test
-	public void testGetSessionFactory() {
-		// Check result
-		assertSame(HibernateUtil.getSessionFactory(), HibernateUtil.getSessionFactory());
-	}
-	
-	/**
-	 * Test method for {@link HibernateUtil#openNewSession()}
-	 * 
-	 * Fresh sessions should be connected and open.
-	 */
-	@Test
-	public void testOpenNewSession() {
-		// Check result
-		Session session = HibernateUtil.openNewSession();
-		assertTrue(session.isConnected());
-		assertTrue(session.isOpen());
-	}
+    /**
+     * Test method for {@link HibernateUtil#openNewSession()}
+     * <p/>
+     * Fresh sessions should be connected and open.
+     */
+    @Test
+    public void testOpenNewSession() {
+        // Check result
+        Session session = HibernateUtil.openNewSession();
+        assertTrue(session.isConnected());
+        assertTrue(session.isOpen());
+    }
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#store(Object)}
