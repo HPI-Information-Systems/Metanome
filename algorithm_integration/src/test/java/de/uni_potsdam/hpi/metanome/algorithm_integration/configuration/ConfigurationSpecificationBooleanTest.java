@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
