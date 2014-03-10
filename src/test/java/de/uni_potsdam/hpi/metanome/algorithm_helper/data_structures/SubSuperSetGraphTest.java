@@ -60,7 +60,7 @@ public class SubSuperSetGraphTest {
     }
 
     /**
-     * Test method for{@link SubSuperSetGraph#isEmpty()}
+     * Test method for {@link SubSuperSetGraph#isEmpty()}
      */
     @Test
     public void testIsEmpty() {
@@ -74,9 +74,11 @@ public class SubSuperSetGraphTest {
         assertTrue(emptyGraph.isEmpty());
         assertFalse(nonEmptyGraph.isEmpty());
     }
-
+    /**
+     * Test method  {@link SubSuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#hashCode()} ()}
+     */
     @Test
-    public void testEquals() {
+    public void testEqualsAndHashCode() {
         // Setup
         SubSuperSetGraph actualGraph = new SubSuperSetGraph();
         SubSuperSetGraph equalsGraph = new SubSuperSetGraph();
