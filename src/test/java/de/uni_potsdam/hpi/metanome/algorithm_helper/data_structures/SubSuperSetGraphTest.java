@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -42,6 +43,37 @@ public class SubSuperSetGraphTest {
     }
 
     /**
+     * TODO docs
+     */
+    @Test
+    public void testAddSubset() {
+        // TODO implement
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#addAll(java.util.Collection)}
+     * <p/>
+     * After inserting all column combinations the graph should be equal to the expected graph from the fixture.
+     * AddAll should return the graph after addition.
+     */
+    @Test
+    public void testAddAll() {
+        // Setup
+        SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
+        SubSuperSetGraph graph = new SubSuperSetGraph();
+        // Expected values
+        Collection<ColumnCombinationBitset> expectedColumnCombinations = fixture.getExpectedIncludedColumnCombinations();
+        SubSuperSetGraph expectedGraph = fixture.getGraph();
+
+        // Execute functionality
+        SubSuperSetGraph graphAfterAddAll = graph.addAll(expectedColumnCombinations);
+
+        // Check result
+        assertEquals(expectedGraph, graph);
+        assertSame(graph, graphAfterAddAll);
+    }
+
+    /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#getExistingSubsets(ColumnCombinationBitset)}
      */
     @Test
@@ -74,8 +106,10 @@ public class SubSuperSetGraphTest {
         assertTrue(emptyGraph.isEmpty());
         assertFalse(nonEmptyGraph.isEmpty());
     }
+
     /**
-     * Test method  {@link SubSuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#hashCode()} ()}
+     * Test method  {@link SubSuperSetGraph#equals(Object)} and
+     * {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#hashCode()}
      */
     @Test
     public void testEqualsAndHashCode() {
@@ -84,14 +118,14 @@ public class SubSuperSetGraphTest {
         SubSuperSetGraph equalsGraph = new SubSuperSetGraph();
         SubSuperSetGraph notEqualsGraph = new SubSuperSetGraph();
 
-        actualGraph.add(new ColumnCombinationBitset(2,5,10,20));
-        actualGraph.add((new ColumnCombinationBitset(2,5,8,15)));
+        actualGraph.add(new ColumnCombinationBitset(2, 5, 10, 20));
+        actualGraph.add((new ColumnCombinationBitset(2, 5, 8, 15)));
 
-        equalsGraph.add((new ColumnCombinationBitset(2,5,8,15)));
-        equalsGraph.add(new ColumnCombinationBitset(2,5,10,20));
+        equalsGraph.add((new ColumnCombinationBitset(2, 5, 8, 15)));
+        equalsGraph.add(new ColumnCombinationBitset(2, 5, 10, 20));
 
-        notEqualsGraph.add(new ColumnCombinationBitset(2,5,12,20));
-        notEqualsGraph.add((new ColumnCombinationBitset(2,5,10,15)));
+        notEqualsGraph.add(new ColumnCombinationBitset(2, 5, 12, 20));
+        notEqualsGraph.add((new ColumnCombinationBitset(2, 5, 10, 15)));
 
         // Execute functionality
         // Check result

@@ -3,13 +3,14 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 /**
  * A graph that allows efficient lookup of all subsets and supersets in the graph for a given ColumnCombinationBitset.
- * TODO describe minimality
+ * The graph may not contain subsets of sets already in the graph.
  *
  * @author Jens Hildebrandt
  * @author Jakob Zwiener
@@ -28,6 +29,19 @@ public class SubSuperSetGraph {
 
         for (int setColumnIndex : columnCombination.getSetBits()) {
             subGraph = subGraph.lazySubGraphGeneration(setColumnIndex);
+        }
+
+        return this;
+    }
+
+    /**
+     * Adds all columnCombintations in the {@link Collection) to the graph.
+     *
+     * @param columnCombinations a {@link java.util.Collection} of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to add to the graph.
+     */
+    public SubSuperSetGraph addAll(Collection<ColumnCombinationBitset> columnCombinations) {
+        for (ColumnCombinationBitset columnCombination : columnCombinations) {
+            add(columnCombination);
         }
 
         return this;
@@ -120,6 +134,7 @@ public class SubSuperSetGraph {
 class SubSetFindTask {
 
     public SubSuperSetGraph subGraph;
+    // TODO remove
     public ColumnCombinationBitset columnCombinationToQuery;
     public int numberOfCheckedColumns;
     public ColumnCombinationBitset path;
