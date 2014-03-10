@@ -75,7 +75,7 @@ public class SubSuperSetGraph {
 
         // Create task queue and initial task.
         Queue<SubSetFindTask> openTasks = new LinkedList<>();
-        openTasks.add(new SubSetFindTask(this, columnCombinationToQuery, 0, new ColumnCombinationBitset()));
+        openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
 
         while (!openTasks.isEmpty()) {
             SubSetFindTask currentTask = openTasks.remove();
@@ -98,7 +98,7 @@ public class SubSuperSetGraph {
                             new ColumnCombinationBitset(currentTask.path)
                                     .addColumn(currentColumnIndex);
 
-                    openTasks.add(new SubSetFindTask(subGraph, columnCombinationToQuery, i + 1, path));
+                    openTasks.add(new SubSetFindTask(subGraph, i + 1, path));
                 }
             }
         }
@@ -120,9 +120,7 @@ public class SubSuperSetGraph {
 
         SubSuperSetGraph that = (SubSuperSetGraph) o;
 
-        if (subGraphs != null ? !subGraphs.equals(that.subGraphs) : that.subGraphs != null) return false;
-
-        return true;
+        return !(subGraphs != null ? !subGraphs.equals(that.subGraphs) : that.subGraphs != null);
     }
 
     @Override
@@ -134,18 +132,14 @@ public class SubSuperSetGraph {
 class SubSetFindTask {
 
     public SubSuperSetGraph subGraph;
-    // TODO remove
-    public ColumnCombinationBitset columnCombinationToQuery;
     public int numberOfCheckedColumns;
     public ColumnCombinationBitset path;
 
     public SubSetFindTask(
             SubSuperSetGraph subGraph,
-            ColumnCombinationBitset columnCombinationToQuery,
             int numberOfCheckedColumns,
             ColumnCombinationBitset path) {
         this.subGraph = subGraph;
-        this.columnCombinationToQuery = columnCombinationToQuery;
         this.numberOfCheckedColumns = numberOfCheckedColumns;
         this.path = path;
     }
