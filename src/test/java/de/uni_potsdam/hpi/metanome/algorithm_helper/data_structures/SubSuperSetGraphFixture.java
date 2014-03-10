@@ -8,7 +8,6 @@ public class SubSuperSetGraphFixture {
     public SubSuperSetGraph getGraph() {
         SubSuperSetGraph graph = new SubSuperSetGraph();
 
-        // TODO use addAll
         for (ColumnCombinationBitset columnCombination : getExpectedIncludedColumnCombinations()) {
             graph.add(columnCombination);
         }
