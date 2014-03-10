@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 /**
  * A graph that allows efficient lookup of all subsets and supersets in the graph for a given ColumnCombinationBitset.
+ * TODO describe minimality
  *
  * @author Jens Hildebrandt
  * @author Jakob Zwiener
@@ -14,15 +15,18 @@ public class SubSuperSetGraph {
     protected Int2ObjectMap<SubSuperSetGraph> subGraphs = new Int2ObjectOpenHashMap<>();
 
     /**
-     * Adds a column combination to the graph.
+     * Adds a column combination to the graph. Returns the graph after adding.
      *
      * @param columnCombination a column combination to add
      */
-    public void add(ColumnCombinationBitset columnCombination) {
+    public SubSuperSetGraph add(ColumnCombinationBitset columnCombination) {
         SubSuperSetGraph subGraph = this;
+
         for (int setColumnIndex : columnCombination.getSetBits()) {
             subGraph = subGraph.lazySubGraphGeneration(setColumnIndex);
         }
+
+        return this;
     }
 
     /**
