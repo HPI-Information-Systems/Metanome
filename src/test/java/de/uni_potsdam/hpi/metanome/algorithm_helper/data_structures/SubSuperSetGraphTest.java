@@ -1,9 +1,11 @@
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph}
@@ -40,15 +42,36 @@ public class SubSuperSetGraphTest {
     }
 
     /**
-     * TODO docs
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#getExistingSubsets(ColumnCombinationBitset)}
      */
     @Test
-    public void testGetAllSubsets() {
+    public void testGetExistingSubsets() {
         // Setup
+        SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
+        SubSuperSetGraph graph = fixture.getGraph();
+        ColumnCombinationBitset columnCombinationToQuery = fixture.getColumnCombinationForSubsetQuery();
 
         // Execute functionality
+        List<ColumnCombinationBitset> actualSubsets = graph.getExistingSubsets(columnCombinationToQuery);
 
         // Check result
+        assertThat(actualSubsets,
+                IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedSubsetsFromQuery()));
+    }
 
+    /**
+     * Test method for{@link SubSuperSetGraph#isEmpty()}
+     */
+    @Test
+    public void testIsEmpty() {
+        // Setup
+        SubSuperSetGraph emptyGraph = new SubSuperSetGraph();
+        SubSuperSetGraph nonEmptyGraph = new SubSuperSetGraph();
+        nonEmptyGraph.add(new ColumnCombinationBitset(10));
+
+        // Execute functionality
+        // Check result
+        assertTrue(emptyGraph.isEmpty());
+        assertFalse(nonEmptyGraph.isEmpty());
     }
 }
