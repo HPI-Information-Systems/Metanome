@@ -98,6 +98,23 @@ public class SubSuperSetGraph {
     public boolean isEmpty() {
         return subGraphs.isEmpty();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SubSuperSetGraph that = (SubSuperSetGraph) o;
+
+        if (subGraphs != null ? !subGraphs.equals(that.subGraphs) : that.subGraphs != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return subGraphs != null ? subGraphs.hashCode() : 0;
+    }
 }
 
 class SubSetFindTask {

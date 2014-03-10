@@ -74,4 +74,29 @@ public class SubSuperSetGraphTest {
         assertTrue(emptyGraph.isEmpty());
         assertFalse(nonEmptyGraph.isEmpty());
     }
+
+    @Test
+    public void testEquals() {
+        // Setup
+        SubSuperSetGraph actualGraph = new SubSuperSetGraph();
+        SubSuperSetGraph equalsGraph = new SubSuperSetGraph();
+        SubSuperSetGraph notEqualsGraph = new SubSuperSetGraph();
+
+        actualGraph.add(new ColumnCombinationBitset(2,5,10,20));
+        actualGraph.add((new ColumnCombinationBitset(2,5,8,15)));
+
+        equalsGraph.add((new ColumnCombinationBitset(2,5,8,15)));
+        equalsGraph.add(new ColumnCombinationBitset(2,5,10,20));
+
+        notEqualsGraph.add(new ColumnCombinationBitset(2,5,12,20));
+        notEqualsGraph.add((new ColumnCombinationBitset(2,5,10,15)));
+
+        // Execute functionality
+        // Check result
+        assertNotSame(actualGraph, equalsGraph);
+        assertEquals(actualGraph.hashCode(), equalsGraph.hashCode());
+        assertEquals(actualGraph, equalsGraph);
+        assertNotEquals(actualGraph.hashCode(), notEqualsGraph.hashCode());
+        assertNotEquals(actualGraph, notEqualsGraph);
+    }
 }
