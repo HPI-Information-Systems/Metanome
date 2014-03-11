@@ -3,9 +3,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -21,6 +21,7 @@ public class SubSuperSetGraph {
 
     /**
      * Adds a column combination to the graph. Returns the graph after adding.
+     * DO NOT add subsets of already added column combinations. The graph may not contain any subsets.
      *
      * @param columnCombination a column combination to add
      */
@@ -70,8 +71,8 @@ public class SubSuperSetGraph {
      * @param columnCombinationToQuery given superset to search for subsets
      * @return a list containing all found subsets
      */
-    public List<ColumnCombinationBitset> getExistingSubsets(ColumnCombinationBitset columnCombinationToQuery) {
-        List<ColumnCombinationBitset> subsets = new LinkedList<>();
+    public ArrayList<ColumnCombinationBitset> getExistingSubsets(ColumnCombinationBitset columnCombinationToQuery) {
+        ArrayList<ColumnCombinationBitset> subsets = new ArrayList<>();
 
         // Create task queue and initial task.
         Queue<SubSetFindTask> openTasks = new LinkedList<>();

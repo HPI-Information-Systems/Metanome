@@ -38,6 +38,7 @@ public class SubSuperSetGraphTest {
             assertTrue(actualSubGraph.subGraphs.containsKey(setColumnIndex));
             actualSubGraph = actualSubGraph.subGraphs.get(setColumnIndex);
         }
+
         // Check add return value
         assertSame(graph, graphAfterAdd);
     }
