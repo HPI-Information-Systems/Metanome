@@ -238,8 +238,8 @@ public class ColumnCombinationBitsetTest {
 		int[] superSetColumns = {0, 2, 3};
 		ColumnCombinationBitset superSet = new ColumnCombinationBitset(superSetColumns);
 		// Expected values
-		List<ColumnCombinationBitset> expected2SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
-		int[] expected2SubSet1 = {0, 2};
+        List<ColumnCombinationBitset> expected2SubsetColumnCombinations = new LinkedList<>();
+        int[] expected2SubSet1 = {0, 2};
 		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset(expected2SubSet1));
 		int[] expected2SubSet2 = {0, 3};
 		expected2SubsetColumnCombinations.add(new ColumnCombinationBitset(expected2SubSet2));
@@ -288,8 +288,8 @@ public class ColumnCombinationBitsetTest {
 		int[] subSetColumns = {2, 3};
 		ColumnCombinationBitset subSet = new ColumnCombinationBitset(subSetColumns);
 		// Expected values
-		List<ColumnCombinationBitset> expected3SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
-		int [] expected3SubSet1 = {0, 2, 3};
+        List<ColumnCombinationBitset> expected3SubsetColumnCombinations = new LinkedList<>();
+        int [] expected3SubSet1 = {0, 2, 3};
 		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset(expected3SubSet1));
 		int [] expected3SubSet2 = {4, 2, 3};
 		expected3SubsetColumnCombinations.add(new ColumnCombinationBitset(expected3SubSet2));
@@ -313,8 +313,8 @@ public class ColumnCombinationBitsetTest {
 		// Setup
 		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		// Expected values
-		List<ColumnCombinationBitset> expected1SubsetColumnCombinations = new LinkedList<ColumnCombinationBitset>();
-		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(0));
+        List<ColumnCombinationBitset> expected1SubsetColumnCombinations = new LinkedList<>();
+        expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(0));
 		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(2));
 		expected1SubsetColumnCombinations.add(new ColumnCombinationBitset(3));
 		
