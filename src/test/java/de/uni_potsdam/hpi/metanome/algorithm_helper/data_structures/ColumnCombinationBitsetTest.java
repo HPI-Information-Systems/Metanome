@@ -442,8 +442,33 @@ public class ColumnCombinationBitsetTest {
 		// Check result 
 		assertEquals(expectedSize, columnCombination.size());
 	}
-	
-	/**
+
+    /**
+     * Test method for {@link ColumnCombinationBitset#isEmpty()}
+     * <p/>
+     * Column combinations of size 0 should also be empty.
+     */
+    @Test
+    public void testIsEmpty() {
+        // Setup
+        ColumnCombinationBitset emptyColumnCombination = new ColumnCombinationBitset();
+        ColumnCombinationBitset nonEmptyColumnCombination = new ColumnCombinationBitset(3, 4, 5);
+
+        // Execute functionality
+        // Check result
+        assertTrue(emptyColumnCombination.isEmpty());
+        assertFalse(emptyColumnCombination.addColumn(1).isEmpty());
+        assertFalse(nonEmptyColumnCombination.isEmpty());
+        // After removing all columns the column combination should be empty
+        assertTrue(
+                nonEmptyColumnCombination
+                        .removeColumn(4)
+                        .removeColumn(5)
+                        .removeColumn(3)
+                        .isEmpty());
+    }
+
+    /**
 	 * Test method for {@link ColumnCombinationBitset#getContainedOneColumnCombinations()}
 	 * 
 	 * {@link ColumnCombinationBitset}s should return all the contained column combinations
@@ -600,7 +625,8 @@ public class ColumnCombinationBitsetTest {
 	 * Test method for {@link ColumnCombinationBitset#removeColumn(int)}
 	 * 
 	 * After removing a column the size should be updated and the column be removed from the bitset.
-	 */
+     * removeColumn should return the column combination after remove operation to enable cascades.
+     */
 	@Test
 	public void testRemoveColumn() {
 		// Setup
@@ -609,13 +635,16 @@ public class ColumnCombinationBitsetTest {
 		int expectedSize = 4;
 		
 		// Execute functionality
-		columnCombination.removeColumn(2);
-		columnCombination.removeColumn(362);
-		// Check result
+        ColumnCombinationBitset afterRemove = columnCombination
+                .removeColumn(2)
+                .removeColumn(362);
+        // Check result
 		assertEquals(expectedSize - 1, columnCombination.size());
 		assertFalse(columnCombination.bitset.get(2));
 		assertFalse(columnCombination.bitset.get(362));
-	}
+        // Should return this after remove
+        assertSame(columnCombination, afterRemove);
+    }
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getDirectSupersets(int)}

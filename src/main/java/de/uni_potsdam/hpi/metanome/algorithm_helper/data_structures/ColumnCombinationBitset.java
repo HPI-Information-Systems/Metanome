@@ -58,17 +58,21 @@ public class ColumnCombinationBitset {
         return this;
     }
 
+    // FIXME make all editing operations return this (cascades) (at least removeColumn missing)
+
     /**
      * Removes a column from the bit set.
      *
      * @param columnIndex of column to remove
      */
-    public void removeColumn(int columnIndex) {
+    public ColumnCombinationBitset removeColumn(int columnIndex) {
         if (bitset.get(columnIndex)) {
             size--;
         }
 
         bitset.clear(columnIndex);
+
+        return this;
     }
 
     // TODO implement isEmpty
@@ -457,6 +461,13 @@ public class ColumnCombinationBitset {
      */
     public int size() {
         return (int) size;
+    }
+
+    /**
+     * @return if the column combination is empty
+     */
+    public boolean isEmpty() {
+        return size() == 0;
     }
 
     /**
