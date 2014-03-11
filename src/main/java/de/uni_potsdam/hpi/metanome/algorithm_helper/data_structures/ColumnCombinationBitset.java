@@ -170,11 +170,11 @@ public class ColumnCombinationBitset {
      * @return subsets
      */
     public List<ColumnCombinationBitset> getAllSubsets() {
-        List<ColumnCombinationBitset> subsets = new LinkedList<ColumnCombinationBitset>();
+        List<ColumnCombinationBitset> subsets = new LinkedList<>();
 
-        Queue<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+        Queue<ColumnCombinationBitset> currentLevel = new LinkedList<>();
         currentLevel.add(this);
-        Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+        Set<ColumnCombinationBitset> nextLevel = new HashSet<>();
         for (int level = size(); level > 0; level--) {
             while (!currentLevel.isEmpty()) {
                 ColumnCombinationBitset currentColumnCombination = currentLevel.remove();
@@ -224,12 +224,12 @@ public class ColumnCombinationBitset {
     protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(ColumnCombinationBitset subSet, int n) {
 
         if ((n > this.size()) || (n < subSet.size())) {
-            return new LinkedList<ColumnCombinationBitset>();
+            return new LinkedList<>();
         }
 
-        List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+        List<ColumnCombinationBitset> currentLevel = new LinkedList<>();
         currentLevel.add(subSet);
-        Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+        Set<ColumnCombinationBitset> nextLevel = new HashSet<>();
 
         for (int currentLevelIndex = subSet.size(); currentLevelIndex < n; currentLevelIndex++) {
             while (!currentLevel.isEmpty()) {
@@ -251,12 +251,12 @@ public class ColumnCombinationBitset {
     protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(ColumnCombinationBitset subSet, int n) {
 
         if ((n > this.size()) || (n < subSet.size())) {
-            return new LinkedList<ColumnCombinationBitset>();
+            return new LinkedList<>();
         }
 
-        List<ColumnCombinationBitset> currentLevel = new LinkedList<ColumnCombinationBitset>();
+        List<ColumnCombinationBitset> currentLevel = new LinkedList<>();
         currentLevel.add(this);
-        Set<ColumnCombinationBitset> nextLevel = new HashSet<ColumnCombinationBitset>();
+        Set<ColumnCombinationBitset> nextLevel = new HashSet<>();
 
         for (int currentLevelIndex = this.size(); currentLevelIndex > n; currentLevelIndex--) {
             while (!currentLevel.isEmpty()) {
@@ -304,7 +304,7 @@ public class ColumnCombinationBitset {
      * @return all the cleared bits in the number of columns
      */
     public List<Integer> getClearedBits(int numberOfColumns) {
-        List<Integer> clearedBits = new LinkedList<Integer>();
+        List<Integer> clearedBits = new LinkedList<>();
 
         for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
             if (!bitset.get(columnIndex)) {
@@ -337,7 +337,7 @@ public class ColumnCombinationBitset {
      * @return the contained 1 column combinations
      */
     public List<ColumnCombinationBitset> getContainedOneColumnCombinations() {
-        List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
+        List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<>();
 
         for (int columnIndex : getSetBits()) {
             oneColumnCombinations.add(new ColumnCombinationBitset(columnIndex));
@@ -389,7 +389,7 @@ public class ColumnCombinationBitset {
      * @return the direct super sets
      */
     public List<ColumnCombinationBitset> getDirectSupersets(ColumnCombinationBitset maximalSuperset) {
-        List<ColumnCombinationBitset> supersets = new ArrayList<ColumnCombinationBitset>();
+        List<ColumnCombinationBitset> supersets = new ArrayList<>();
 
         ColumnCombinationBitset superset;
         for (int columnIndex : maximalSuperset.getSetBits()) {
@@ -420,7 +420,7 @@ public class ColumnCombinationBitset {
      */
     public List<ColumnCombinationBitset> getDirectSubsetsSupersetOf(ColumnCombinationBitset subSet) {
         if (!containsRealSubset(subSet)) {
-            return new ArrayList<ColumnCombinationBitset>();
+            return new ArrayList<>();
         }
 
         return getDirectSubsetsSupersetOfFast(subSet);
@@ -442,7 +442,7 @@ public class ColumnCombinationBitset {
             columnsToRemove = this.minus(subSet);
         }
 
-        List<ColumnCombinationBitset> subsets = new ArrayList<ColumnCombinationBitset>(size());
+        List<ColumnCombinationBitset> subsets = new ArrayList<>(size());
 
         ColumnCombinationBitset generatedSubset;
         for (int columnIndex : columnsToRemove.getSetBits()) {
