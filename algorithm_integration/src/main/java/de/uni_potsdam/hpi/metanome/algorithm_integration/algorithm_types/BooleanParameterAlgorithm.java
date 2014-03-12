@@ -21,17 +21,18 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 
 /**
  * An {@link Algorithm} that takes boolean configuration values.
- * 
+ *
  * @author Jakob Zwiener
  */
 public interface BooleanParameterAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a boolean configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param values
-	 */
-	void setConfigurationValue(String identifier, boolean... values) throws AlgorithmConfigurationException;
-	
+    /**
+     * Sets a boolean configuration value on the algorithm.
+     *
+     * @param identifier the configuration parameter's identifier
+     * @param values     the configuration parameter's value
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
+     */
+    void setConfigurationValue(String identifier, boolean... values) throws AlgorithmConfigurationException;
+
 }

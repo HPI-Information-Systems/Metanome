@@ -25,10 +25,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicSt
  */
 public interface BasicStatisticsAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a {@link BasicStatisticsResultReceiver} to send the results to.
-	 * 
-	 * @param resultReceiver
-	 */
-	void setResultReceiver(BasicStatisticsResultReceiver resultReceiver);
+    /**
+     * Sets a {@link BasicStatisticsResultReceiver} to send the results to.
+     *
+     * @param resultReceiver the result receiver that basic statistics are sent to
+     */
+    void setResultReceiver(BasicStatisticsResultReceiver resultReceiver);
 }

@@ -22,17 +22,18 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGe
 
 /**
  * An {@link Algorithm} that takes {@link RelationalInputGenerator} configuration values.
- * 
+ *
  * @author Jakob Zwiener
  */
 public interface RelationalInputParameterAlgorithm extends Algorithm {
-	
-	/**
-	 * Sets a CsvFileGenerator configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param value
-	 */
-	void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException;
+
+    /**
+     * Sets a CsvFileGenerator configuration value on the algorithm.
+     *
+     * @param identifier the value's identifier
+     * @param values     the configuration values
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
+     */
+    void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException;
 
 }
