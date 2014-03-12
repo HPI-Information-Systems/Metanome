@@ -20,9 +20,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 
 /**
+ * An {@link Algorithm} that writes to temporary files.
+ *
  * @author Jakob Zwiener
- *         <p/>
- *         An {@link Algorithm} that writes to temporary files.
  */
 public interface TempFileAlgorithm extends Algorithm {
 

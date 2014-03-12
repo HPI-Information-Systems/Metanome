@@ -28,7 +28,7 @@ public interface UniqueColumnCombinationResultReceiver {
      * Receives a {@link UniqueColumnCombination} from a {@link UniqueColumnCombinationsAlgorithm}.
      *
      * @param uniqueColumnCombination a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}
-     * @throws CouldNotReceiveResultException
+     * @throws CouldNotReceiveResultException if the unique column combination could not be received
      */
     void receiveResult(UniqueColumnCombination uniqueColumnCombination) throws CouldNotReceiveResultException;
 }

@@ -21,6 +21,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
 
 /**
  * An {@link Algorithm} that discovers functional dependencies.
+ *
+ * @author Jakob Zwiener
  */
 public interface FunctionalDependencyAlgorithm extends Algorithm {
 

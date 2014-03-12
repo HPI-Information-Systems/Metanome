@@ -22,6 +22,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
 
 /**
  * An {@link Algorithm} that discovers unique {@link ColumnCombination}s.
+ *
+ * @author Jakob Zwiener
  */
 public interface UniqueColumnCombinationsAlgorithm extends Algorithm {
 

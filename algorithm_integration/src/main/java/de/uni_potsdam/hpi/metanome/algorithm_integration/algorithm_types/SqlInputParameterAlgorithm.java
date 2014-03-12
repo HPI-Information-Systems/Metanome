@@ -32,7 +32,8 @@ public interface SqlInputParameterAlgorithm extends Algorithm {
 	 * 
 	 * @param identifier the parameter's identifier
 	 * @param values one or multiple SQLInputGenerator values
-	 */
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
+     */
 	void setConfigurationValue(String identifier, SQLInputGenerator... values) throws AlgorithmConfigurationException;
 	
 }

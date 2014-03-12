@@ -21,6 +21,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Inclusi
 
 /**
  * An {@link Algorithm} that discovers inclusion dependencies.
+ *
+ * @author Jakob Zwiener
  */
 public interface InclusionDependencyAlgorithm extends Algorithm {
 

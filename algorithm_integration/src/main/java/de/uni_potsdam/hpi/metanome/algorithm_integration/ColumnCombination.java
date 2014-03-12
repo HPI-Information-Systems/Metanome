@@ -49,7 +49,7 @@ public class ColumnCombination implements Serializable {
     /**
      * Get column identifiers as set.
      *
-     * @return Set<ColumnIdentifier>
+     * @return columnCombination
      */
     public Set<ColumnIdentifier> getColumnIdentifiers() {
         return columnCombination;

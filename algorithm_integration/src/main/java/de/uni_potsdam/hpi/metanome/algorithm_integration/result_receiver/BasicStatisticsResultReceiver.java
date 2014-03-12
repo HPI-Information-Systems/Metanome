@@ -29,7 +29,7 @@ public interface BasicStatisticsResultReceiver {
      * of the statistic
      *
      * @param statistic the calculated value of the statistic on the columns
-     * @throws CouldNotReceiveResultException
+     * @throws CouldNotReceiveResultException if the statistic could not be received
      */
     void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException;
 }

@@ -37,7 +37,7 @@ public interface Algorithm {
     /**
      * Starts the execution of the algorithm.
      *
-     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException if the algorithm's execution fails
      */
     void execute() throws AlgorithmExecutionException;
 

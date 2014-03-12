@@ -30,7 +30,7 @@ public interface SQLInputGenerator {
      *
      * @param queryString the query string to generate the input
      * @return the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput} containing the query result
-     * @throws InputGenerationException
+     * @throws InputGenerationException if the input cannot be generated
      */
     RelationalInput generateRelationalInputFromSql(String queryString) throws InputGenerationException;
 
@@ -39,7 +39,7 @@ public interface SQLInputGenerator {
      *
      * @param queryString the query string to generate the input
      * @return the {@link ResultSet} containing the query result
-     * @throws InputGenerationException
+     * @throws InputGenerationException if the result cannot be generated
      */
     ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException;
 }

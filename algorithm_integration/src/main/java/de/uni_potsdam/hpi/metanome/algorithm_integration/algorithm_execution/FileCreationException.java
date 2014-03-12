@@ -18,16 +18,19 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 
+/**
+ * @author Jakob Zwiener
+ */
 public class FileCreationException extends AlgorithmExecutionException {
 
-	private static final long serialVersionUID = 6620816480327785019L;
+    private static final long serialVersionUID = 6620816480327785019L;
 
-	public FileCreationException() {
-		super();
-	}
-	
-	public FileCreationException(String message) {
-		super(message);
-	}
-	
+    public FileCreationException() {
+        super();
+    }
+
+    public FileCreationException(String message) {
+        super(message);
+    }
+
 }

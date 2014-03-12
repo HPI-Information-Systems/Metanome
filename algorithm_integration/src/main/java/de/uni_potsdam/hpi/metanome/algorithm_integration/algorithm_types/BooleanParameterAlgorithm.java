@@ -29,8 +29,9 @@ public interface BooleanParameterAlgorithm extends Algorithm {
     /**
      * Sets a boolean configuration value on the algorithm.
      *
-     * @param identifier the configuration paprameter's identifier
+     * @param identifier the configuration parameter's identifier
      * @param values     the configuration parameter's value
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
      */
     void setConfigurationValue(String identifier, boolean... values) throws AlgorithmConfigurationException;
 

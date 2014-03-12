@@ -31,6 +31,7 @@ public interface StringParameterAlgorithm extends Algorithm {
      *
      * @param identifier the values identifier
      * @param values     the String values for configuration
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
      */
     void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException;
 

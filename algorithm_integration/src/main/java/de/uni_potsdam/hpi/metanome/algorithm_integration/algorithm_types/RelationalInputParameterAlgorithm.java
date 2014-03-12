@@ -32,6 +32,7 @@ public interface RelationalInputParameterAlgorithm extends Algorithm {
      *
      * @param identifier the value's identifier
      * @param values     the configuration values
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
      */
     void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException;
 
