@@ -21,14 +21,14 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Fil
 
 /**
  * @author Jakob Zwiener
- * 
- * An {@link Algorithm} that writes to temporary files.
+ *         <p/>
+ *         An {@link Algorithm} that writes to temporary files.
  */
 public interface TempFileAlgorithm extends Algorithm {
-	
-	/**
-	 * @param tempFileGenerator
-	 */
-	void setTempFileGenerator(FileGenerator tempFileGenerator);
+
+    /**
+     * @param tempFileGenerator generates temporary files for the algorithm
+     */
+    void setTempFileGenerator(FileGenerator tempFileGenerator);
 
 }

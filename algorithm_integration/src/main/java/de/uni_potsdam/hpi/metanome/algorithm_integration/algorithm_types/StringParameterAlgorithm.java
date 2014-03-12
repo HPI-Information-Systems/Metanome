@@ -21,17 +21,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 
 /**
  * An {@link Algorithm} that takes string configuration values.
- * 
+ *
  * @author Jakob Zwiener
  */
 public interface StringParameterAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a string configuration value on the algorithm.
-	 * 
-	 * @param identifier
-	 * @param values
-	 */
-	void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException;
-	
+    /**
+     * Sets a string configuration value on the algorithm.
+     *
+     * @param identifier the values identifier
+     * @param values     the String values for configuration
+     */
+    void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException;
+
 }

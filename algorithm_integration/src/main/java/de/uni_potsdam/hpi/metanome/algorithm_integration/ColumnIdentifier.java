@@ -34,9 +34,9 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 	}
 	
 	/**
-	 * @param tableIdentifier
-	 * @param columnIdentifier
-	 */
+     * @param tableIdentifier table's identifer
+     * @param columnIdentifier column's identifier
+     */
 	public ColumnIdentifier(String tableIdentifier, String columnIdentifier) {
 		this.tableIdentifier = tableIdentifier;
 		this.columnIdentifier = columnIdentifier;

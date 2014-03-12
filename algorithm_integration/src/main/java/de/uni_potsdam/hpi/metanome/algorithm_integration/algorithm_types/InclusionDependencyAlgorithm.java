@@ -24,11 +24,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Inclusi
  */
 public interface InclusionDependencyAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a {@link InclusionDependencyResultReceiver} to send the results to.
-	 * 
-	 * @param resultReceiver
-	 */
-	void setResultReceiver(InclusionDependencyResultReceiver resultReceiver);
-	
+    /**
+     * Sets a {@link InclusionDependencyResultReceiver} to send the results to.
+     *
+     * @param resultReceiver the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver} the algorithm sends {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency}s to.
+     */
+    void setResultReceiver(InclusionDependencyResultReceiver resultReceiver);
+
 }
