@@ -24,7 +24,6 @@
     <packaging>jar</packaging>
 
     <name>algorithm_template</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,7 +41,6 @@
             </snapshots>
         </repository>
     </repositories>
-
 
     <dependencies>
         <dependency>
