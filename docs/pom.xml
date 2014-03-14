@@ -20,9 +20,9 @@
 
   <groupId>de.uni-potsdam.hpi.metanome</groupId>
   <artifactId>docs</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
-  <name>docs</name>
+    <name>docs</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
