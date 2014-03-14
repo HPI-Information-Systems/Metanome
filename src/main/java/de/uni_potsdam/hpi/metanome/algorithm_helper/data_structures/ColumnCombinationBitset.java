@@ -162,8 +162,7 @@ public class ColumnCombinationBitset {
 
     /**
      * Returns all subset of the column combination (including the empty {@link ColumnCombinationBitset}).
-     * <p/>
-     * TODO: not proper subsets, right?
+     * The subsets include the original column combination (not proper subsets).
      *
      * @return subsets
      */
@@ -172,6 +171,7 @@ public class ColumnCombinationBitset {
 
         Queue<ColumnCombinationBitset> currentLevel = new LinkedList<>();
         currentLevel.add(this);
+        subsets.add(this);
         Set<ColumnCombinationBitset> nextLevel = new HashSet<>();
         for (int level = size(); level > 0; level--) {
             while (!currentLevel.isEmpty()) {

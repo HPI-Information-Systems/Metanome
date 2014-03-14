@@ -38,9 +38,9 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	protected List<Integer> getSetBitList1() {
-		List<Integer> setBits1 = new LinkedList<Integer>();
-		
-		setBits1.add(0);
+        List<Integer> setBits1 = new LinkedList<>();
+
+        setBits1.add(0);
 		setBits1.add(2);
 		setBits1.add(3);
 		setBits1.add(4);
@@ -49,9 +49,9 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	protected List<Integer> getClearedBitList1() {
-		List<Integer> clearedBits1 = new LinkedList<Integer>();
-		
-		clearedBits1.add(1);
+        List<Integer> clearedBits1 = new LinkedList<>();
+
+        clearedBits1.add(1);
 		clearedBits1.add(5);
 		clearedBits1.add(6);
 		
@@ -61,6 +61,7 @@ public class ColumnCombinationBitsetFixture {
 	public ColumnCombinationBitset[] getExpectedSubsetArray1() {
 
         return new ColumnCombinationBitset[]{
+                new ColumnCombinationBitset(0, 2, 3, 4),
                 new ColumnCombinationBitset(0, 2, 3),
                 new ColumnCombinationBitset(0, 2, 4),
                 new ColumnCombinationBitset(0, 3, 4),
@@ -92,9 +93,9 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	protected List<Integer> getSetBitList2() {
-		List<Integer> setBits2 = new LinkedList<Integer>();
-		
-		setBits2.add(1);
+        List<Integer> setBits2 = new LinkedList<>();
+
+        setBits2.add(1);
 		setBits2.add(4);
 		setBits2.add(842);
 		
@@ -120,9 +121,9 @@ public class ColumnCombinationBitsetFixture {
 	}
 	
 	public ColumnCombinationBitset[] getExpectedOneColumnCombinations1() {
-		List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<ColumnCombinationBitset>();
-		
-		for (int columnIndex : getSetBitList1()) {
+        List<ColumnCombinationBitset> oneColumnCombinations = new LinkedList<>();
+
+        for (int columnIndex : getSetBitList1()) {
 			oneColumnCombinations.add(new ColumnCombinationBitset(columnIndex));
 		}
 		

@@ -5,8 +5,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -17,14 +15,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 public class ColumnCombinationBitsetTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	/**
 	 * Test method for {@link ColumnCombinationBitset#ColumnCombinationBitset(int...)}
@@ -880,13 +870,17 @@ public class ColumnCombinationBitsetTest {
 	 * The list of subsets of the empty {@link ColumnCombinationBitset} should be empty.
 	 */
 	@Test
-	public void testGetAllSubsetsEmpty() {
-		// Setup
+    public void testGetAllSubsetsEmptyColumnCombination() {
+        // Setup
 		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
 		
 		// Execute functionality
-		assertTrue(columnCombination.getAllSubsets().isEmpty());		
-	}
+        List<ColumnCombinationBitset> actualSubsets = columnCombination.getAllSubsets();
+
+        // Check result
+        assertEquals(1, actualSubsets.size());
+        assertTrue(actualSubsets.contains(columnCombination));
+    }
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getAllSubsets()}
@@ -900,7 +894,12 @@ public class ColumnCombinationBitsetTest {
 		ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(5);
 		
 		// Execute functionality
-		assertEquals(new ColumnCombinationBitset(), columnCombination.getAllSubsets().get(0));		
-	}
+        List<ColumnCombinationBitset> actualSubsets = columnCombination.getAllSubsets();
+
+        // Check result
+        assertEquals(2, actualSubsets.size());
+        assertTrue(actualSubsets.contains(new ColumnCombinationBitset()));
+        assertTrue(actualSubsets.contains(columnCombination));
+    }
 	
 }
