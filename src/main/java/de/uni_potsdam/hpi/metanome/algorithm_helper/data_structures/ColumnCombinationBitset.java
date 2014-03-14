@@ -31,7 +31,7 @@ public class ColumnCombinationBitset {
     }
 
     /**
-     * TODO docs
+     * Sets the given {@link OpenBitSet}, the previous state is overwritten!
      *
      * @param bitset set on the existing ColumnCombinationBitset
      * @return the instance
@@ -74,8 +74,6 @@ public class ColumnCombinationBitset {
 
         return this;
     }
-
-    // TODO implement isEmpty
 
     @Override
     public int hashCode() {
@@ -189,7 +187,7 @@ public class ColumnCombinationBitset {
     }
 
     /**
-     * TODO docs
+     * Returns all subset column combinations of size n.
      *
      * @param n cardinality of subsets
      * @return all subsets of the column combinations with n columns
@@ -275,7 +273,7 @@ public class ColumnCombinationBitset {
     }
 
     /**
-     * TODO docs
+     * Returns a list of all set column indices.
      *
      * @return the list of indices with set bits
      */
