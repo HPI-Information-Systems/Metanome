@@ -118,7 +118,7 @@
 
     <modules>
         <module>algorithm_integration</module>
-        <module>algorithm_template</module>
+        <module>algorithm_template_root</module>
         <module>backend</module>
         <module>frontend</module>
         <module>testing_algorithms</module>
