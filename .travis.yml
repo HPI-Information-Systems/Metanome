@@ -11,7 +11,7 @@ env:
 install:
   - sudo apt-get install texlive
 
-script: "mvn clean verify"
+script: "mvn -q clean verify"
 
 after_success:
   - mvn coveralls:cobertura
