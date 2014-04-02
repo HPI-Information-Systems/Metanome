@@ -55,8 +55,10 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#ColumnCombinationBitset(int...)}
+     *
+     * After creating a column combination with bit indices to set, the bits at the indices should be set.
+     */
 	@Test
 	public void testConstructor() {
 		// Setup
@@ -70,8 +72,10 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link ColumnCombinationBitset#setColumns(org.apache.lucene.util.OpenBitSet)}
+     *
+     * Sets columns of the column combination with a given OpenBitSet.
+     */
 	@Test
 	public void testSetColumnsOpenBitSet() {
 		// Setup
@@ -113,14 +117,15 @@ public class ColumnCombinationBitsetTest {
 		assertNotEquals(columnCombination1, columnCombination1WrongSize);
 		assertNotEquals(columnCombination1.hashCode(), columnCombination1WrongSize.hashCode());
 	}
-	
-	/**
-	 * TODO docs
-	 */
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
+     *
+     * The method should neither write the superset, nor the potential subset.
+     */
 	@Test
 	public void testContainsSubsetDoesNotWriteSets() {
 		// Setup
-		// TODO fixture
 		int[] subSetColumns = {0, 3};
 		ColumnCombinationBitset subSet = new ColumnCombinationBitset(subSetColumns);
 		OpenBitSet expectedSubSetBitSet = subSet.bitset.clone();
@@ -137,8 +142,10 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
+     *
+     * Returns true if the parameter is a subset of the column combination (not necessarily proper subset).
+     */
 	@Test
 	public void testContainsSubset() {
 		// Setup
@@ -151,25 +158,30 @@ public class ColumnCombinationBitsetTest {
 		assertTrue(superSet.containsSubset(superSet));
 		assertFalse(subSet.containsSubset(superSet));		
 	}
-	
-	/**
-	 * TODO docs
-	 */
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsProperSubset(ColumnCombinationBitset)}
+     *
+     * Returns true if the parameter is a proper subset of the column combination.
+     */
 	@Test
-	public void testContainsRealSubset() {
-		// Setup
+    public void testContainsProperSubset() {
+        // Setup
 		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
 		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
 		// Execute functionality
 		// Check result
-		assertTrue(superSet.containsRealSubset(subSet));
-		assertFalse(superSet.containsRealSubset(superSet));
-	}
+        assertTrue(superSet.containsProperSubset(subSet));
+        assertFalse(superSet.containsProperSubset(superSet));
+        assertFalse(subSet.containsSubset(superSet));
+    }
 
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isSubsetOf(ColumnCombinationBitset)}
+     *
+     * Returns true if the column combination is a subset of the parameter (not necessarily proper subset).
+     */
 	@Test
 	public void testIsSubsetOf() {
 		// Setup
@@ -184,11 +196,13 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isProperSubsetOf(ColumnCombinationBitset)}
+     *
+     * Returns true if the column combination is a proper subset of the parameter.
+     */
 	@Test
-	public void testIsRealSubsetOf() {
-		// Setup
+    public void testIsProperSubsetOf() {
+        // Setup
 		ColumnCombinationBitset subSet = new ColumnCombinationBitset(0, 3);
 		ColumnCombinationBitset superSet = new ColumnCombinationBitset(0, 2, 3);
 		
@@ -267,9 +281,9 @@ public class ColumnCombinationBitsetTest {
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
-	 * 
-	 * TODO docs
-	 */
+	 *
+     * Returns all subset column combinations of size n that are superset of the subset (first parameter).
+     */
 	@Test
 	public void testGetNSubsetColumnCombinationsSupersetOf() {
 		// Setup
@@ -296,8 +310,10 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinations(int)}
+     *
+     * Returns all subsets of size n.
+     */
 	@Test
 	public void testGetNSubsetColumnCombinationsN() {
 		// Setup
@@ -317,8 +333,6 @@ public class ColumnCombinationBitsetTest {
 						expected1SubsetColumnCombinations.toArray(
 								new ColumnCombinationBitset[expected1SubsetColumnCombinations.size()])));
 	}
-	
-	// FIXME have bigger test case for getNSubsetColumnCombinationsSupersetOf
 	
 	/**
 	 * Test method for {@link ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
@@ -399,8 +413,11 @@ public class ColumnCombinationBitsetTest {
 	}
 	
 	/**
-	 * TODO docs
-	 */
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#minus(ColumnCombinationBitset)}
+     *
+     * Returns a column combination with only the columns set, that are set in the current column combination but not
+     * in the parameter.
+     */
 	@Test
 	public void testMinus() {
 		// Setup
@@ -695,7 +712,7 @@ public class ColumnCombinationBitsetTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
      *
-     * TODO docs
+     * Returns all subsets that are exaclty one column smaller and superset of the subset.
      */
     @Test
     public void testGetDirectSubsetsSupersetOf() {
@@ -715,7 +732,8 @@ public class ColumnCombinationBitsetTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
      *
-     * TODO docs
+     * Returns all subsets that are exaclty one column smaller and superset of the subset.
+     * If the subset is not a subset an empty collection is returned
      */
     @Test
     public void testGetDirectSubsetsSupersetOfNotSubset() {

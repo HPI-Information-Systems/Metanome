@@ -156,7 +156,7 @@ public class ColumnCombinationBitset {
      * @param potentialProperSubset that this column could be a proper superset of
      * @return potentialProperSubset is a real subset
      */
-    public boolean containsRealSubset(ColumnCombinationBitset potentialProperSubset) {
+    public boolean containsProperSubset(ColumnCombinationBitset potentialProperSubset) {
         return (this.containsSubset(potentialProperSubset) && (!this.equals(potentialProperSubset)));
     }
 
@@ -197,14 +197,15 @@ public class ColumnCombinationBitset {
     }
 
     /**
-     * If n is closer to the super (this column combination) set the top down strategy should be chosen
-     * otherwise bottom up generation is used.
+     * Returns all subset column combinations of size n that are superset of the subset (first parameter).
      *
      * @param subSet that column combinations are superset of
      * @param n      cardinality of subsets
      * @return the n-subsets
      */
     public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset subSet, int n) {
+        //If n is closer to the super (this column combination) set the top down strategy should be chosen
+        //otherwise bottom up generation is used.
         // If n is closer to the super set go top down.
         if ((this.size() - n) < (n - subSet.size())) {
             return getNSubsetColumnCombinationsSupersetOfTopDown(subSet, n);
@@ -417,7 +418,7 @@ public class ColumnCombinationBitset {
      * @return the direct sub sets super set of the sub set
      */
     public List<ColumnCombinationBitset> getDirectSubsetsSupersetOf(ColumnCombinationBitset subSet) {
-        if (!containsRealSubset(subSet)) {
+        if (!containsProperSubset(subSet)) {
             return new ArrayList<>();
         }
 
