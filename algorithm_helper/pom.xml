@@ -31,20 +31,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <name>algorithm_helper</name>
-    <url>http://maven.apache.org</url>
->>>>>>> helper/master
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>metanomeRepo</id>
-            <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -68,7 +57,7 @@
         <dependency>
             <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -144,16 +133,4 @@
             </plugin>
         </plugins>
     </build>
-<<<<<<< HEAD
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-=======
->>>>>>> helper/master
 </project>
