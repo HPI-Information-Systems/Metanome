@@ -24,6 +24,7 @@ public class SubSuperSetGraph {
      * DO NOT add subsets of already added column combinations. The graph may not contain any subsets.
      *
      * @param columnCombination a column combination to add
+     * @return the graph
      */
     public SubSuperSetGraph add(ColumnCombinationBitset columnCombination) {
         SubSuperSetGraph subGraph = this;
@@ -38,7 +39,8 @@ public class SubSuperSetGraph {
     /**
      * Adds all columnCombintations in the {@link Collection) to the graph.
      *
-     * @param columnCombinations a {@link java.util.Collection} of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to add to the graph.
+     * @param columnCombinations a {@link java.util.Collection} of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to add to the graph
+     * @return the graph
      */
     public SubSuperSetGraph addAll(Collection<ColumnCombinationBitset> columnCombinations) {
         for (ColumnCombinationBitset columnCombination : columnCombinations) {
@@ -130,6 +132,9 @@ public class SubSuperSetGraph {
     }
 }
 
+/**
+ * Task used to find subsets (avoiding recursion).
+ */
 class SubSetFindTask {
 
     public SubSuperSetGraph subGraph;

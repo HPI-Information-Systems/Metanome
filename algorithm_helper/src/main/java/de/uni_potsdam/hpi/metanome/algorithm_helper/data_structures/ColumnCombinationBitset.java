@@ -7,6 +7,14 @@ import org.apache.lucene.util.OpenBitSet;
 
 import java.util.*;
 
+/**
+ * A representation for column combinations (attribute sets) using {@link org.apache.lucene.util.OpenBitSet}s.
+ *
+ * @author Jakob Zwiener
+ * @author Jens Hildebrandt
+ * @author Lukas Schulze
+ * @author Mandy Roick
+ */
 public class ColumnCombinationBitset {
 
     protected OpenBitSet bitset;
@@ -47,6 +55,7 @@ public class ColumnCombinationBitset {
      * Adds a column to the bit set.
      *
      * @param columnIndex of column to add
+     * @return the column combination
      */
     public ColumnCombinationBitset addColumn(int columnIndex) {
         if (!bitset.get(columnIndex)) {
@@ -300,6 +309,7 @@ public class ColumnCombinationBitset {
     /**
      * Returns all the cleared bits within the maximum of all the number of columns.
      *
+     * @param numberOfColumns the maximum number of columns
      * @return all the cleared bits in the number of columns
      */
     public List<Integer> getClearedBits(int numberOfColumns) {
@@ -472,6 +482,8 @@ public class ColumnCombinationBitset {
     /**
      * Returns the {@link ColumnCombination} with the correct name of the relation and the column names.
      *
+     * @param relationName the relation name
+     * @param columnNames the name of the columns
      * @return a {@link ColumnCombination}
      */
     public ColumnCombination createColumnCombination(String relationName, ImmutableList<String> columnNames) {
