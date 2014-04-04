@@ -37,7 +37,7 @@ public class SubSuperSetGraph {
     }
 
     /**
-     * Adds all columnCombintations in the {@link Collection) to the graph.
+     * Adds all columnCombinations in the {@link java.util.Collection) to the graph.
      *
      * @param columnCombinations a {@link java.util.Collection} of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to add to the graph
      * @return the graph

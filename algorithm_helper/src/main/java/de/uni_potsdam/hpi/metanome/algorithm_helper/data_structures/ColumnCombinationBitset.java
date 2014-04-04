@@ -73,6 +73,7 @@ public class ColumnCombinationBitset {
      * Removes a column from the bit set.
      *
      * @param columnIndex of column to remove
+     * @return the column combination
      */
     public ColumnCombinationBitset removeColumn(int columnIndex) {
         if (bitset.get(columnIndex)) {
