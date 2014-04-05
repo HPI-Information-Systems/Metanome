@@ -83,8 +83,6 @@ public class ColumnCombinationBitset {
         return this;
     }
 
-    // FIXME make all editing operations return this (cascades) (at least removeColumn missing)
-
     /**
      * Removes a column from the bit set.
      *

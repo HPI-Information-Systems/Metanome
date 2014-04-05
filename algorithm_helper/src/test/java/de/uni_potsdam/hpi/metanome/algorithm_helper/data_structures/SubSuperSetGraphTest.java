@@ -60,14 +60,6 @@ public class SubSuperSetGraphTest {
     }
 
     /**
-     * TODO docs
-     */
-    @Test
-    public void testAddSubset() {
-        // TODO implement
-    }
-
-    /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#addAll(java.util.Collection)}
      * <p/>
      * After inserting all column combinations the graph should be equal to the expected graph from the fixture.
