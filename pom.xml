@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,7 +23,7 @@
     <packaging>pom</packaging>
     <name>metanome</name>
     <version>0.0.2-SNAPSHOT</version>
-    <description>The main metanome project description</description>
+    <description>The main metanome project</description>
     <url>https://github.com/HPI-Information-Systems/Metanome</url>
 
     <licenses>
@@ -117,9 +117,11 @@
     </build>
 
     <modules>
+        <module>algorithm_helper</module>
         <module>algorithm_integration</module>
         <module>algorithm_template_root</module>
         <module>backend</module>
+        <module>docs</module>
         <module>frontend</module>
         <module>testing_algorithms</module>
         <module>test_helper</module>
