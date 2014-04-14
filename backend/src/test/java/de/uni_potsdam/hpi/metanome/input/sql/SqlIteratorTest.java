@@ -1,7 +1,22 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.input.sql;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,10 +33,22 @@ import com.google.common.collect.ImmutableList;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
+/**
+ * Test for {@link SqlIterator}
+ * 
+ * @author Jakob Zwiener
+ */
 public class SqlIteratorTest {
 
+	protected ResultSetFixture minimalResultSetFixture;
+	protected ResultSetTwoLinesFixture twoLinesResultSetFixture;
+	
 	@Before
 	public void setUp() throws Exception {
+		// TODO initialise fixtures here
+		
+		minimalResultSetFixture = new ResultSetFixture();
+		twoLinesResultSetFixture = new ResultSetTwoLinesFixture();
 	}
 
 	@After
@@ -38,8 +65,7 @@ public class SqlIteratorTest {
 	@Test
 	public void testHasNext() throws SQLException, InputIterationException {
 		// Setup 
-		ResultSetFixture fixture = new ResultSetFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = minimalResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		// Expected values
 		boolean expectedFirstNext = true;
@@ -68,18 +94,17 @@ public class SqlIteratorTest {
 	@Test
 	public void testNext() throws SQLException, InputIterationException {
 		// Setup
-		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = twoLinesResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
-		List<Boolean> expectedNextValues = fixture.getExpectedNextValues();
-		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
-		for (int i = 0; i < fixture.numberOfRows(); i++) {
+		List<Boolean> expectedNextValues = twoLinesResultSetFixture.getExpectedNextValues();
+		List<ImmutableList<String>> expectedRecords = twoLinesResultSetFixture.getExpectedRecords();
+		for (int i = 0; i < twoLinesResultSetFixture.numberOfRows(); i++) {
 			assertEquals(expectedNextValues.get(i), sqlIterator.hasNext());
 			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
-		assertEquals(expectedNextValues.get(fixture.numberOfRows()), sqlIterator.hasNext());
+		assertEquals(expectedNextValues.get(twoLinesResultSetFixture.numberOfRows()), sqlIterator.hasNext());
 		// Next should have been called.
 		verify(resultSet, times(3)).next();
 		
@@ -94,39 +119,66 @@ public class SqlIteratorTest {
 	@Test
 	public void testNextWithoutHasNext() throws SQLException, InputIterationException {
 		// Setup
-		ResultSetTwoLinesFixture fixture = new ResultSetTwoLinesFixture();
-		ResultSet resultSet = fixture.getTestData();
+		ResultSet resultSet = twoLinesResultSetFixture.getTestData();
 		SqlIterator sqlIterator = new SqlIterator(resultSet);
 		
 		// Check result
-		List<ImmutableList<String>> expectedRecords = fixture.getExpectedRecords();
-		for (int i = 0; i < fixture.numberOfRows(); i++) {
+		List<ImmutableList<String>> expectedRecords = twoLinesResultSetFixture.getExpectedRecords();
+		for (int i = 0; i < twoLinesResultSetFixture.numberOfRows(); i++) {
 			assertEquals(expectedRecords.get(i), sqlIterator.next());
 		}
 		// Next should have been called (although hasNext has not been called on sqlIterator).
 		verify(resultSet, times(2)).next();
 	}
-
+	
 	/**
-	 * The remove method should always throw an {@link UnsupportedOperationException}.
+	 * Test method for {@link SqlIterator#numberOfColumns()}
+	 * 
+	 * A {@link SqlIterator} should return the correct number of columns of the result.
+	 * 
+	 * @throws SQLException
+	 */
+	@Test
+	public void testNumberOfColumns() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Check result
+		assertEquals(twoLinesResultSetFixture.numberOfColumns(), sqlIterator.numberOfColumns());
+	}
+	
+	/**
+	 * Test method for {@link SqlIterator#relationName()}
+	 * 
+	 * A {@link SqlIterator} should return the table name of the first column from the meta data.
 	 * 
 	 * @throws SQLException 
 	 */
 	@Test
-	public void testRemove() throws SQLException {
-		// Setup 
-		ResultSetFixture fixture = new ResultSetFixture();
-		ResultSet resultSet = fixture.getTestData();
-		SqlIterator sqlIterator = new SqlIterator(resultSet);
-
+	public void testRelationName() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Execute functionality
 		// Check result
-		try {
-			sqlIterator.remove();
-			fail("Expected an UnsupportedOperationException to be thrown.");
-		}
-		catch (UnsupportedOperationException actualException) {
-			// Intentionally left blank
-		}
+		assertEquals(twoLinesResultSetFixture.getExpectedRelationName(), sqlIterator.relationName());
+	}
+	
+	/**
+	 * Test method for {@link SqlIterator#columnNames()}
+	 * 
+	 * A {@link SqlIterator} should return the column names from the meta data.
+	 * 
+	 * @throws SQLException 
+	 */
+	@Test 
+	public void testColumnNames() throws SQLException {
+		// Setup
+		SqlIterator sqlIterator = new SqlIterator(twoLinesResultSetFixture.getTestData());
+		
+		// Execute functionality
+		// Check result
+		assertEquals(twoLinesResultSetFixture.getExpectedColumnNames(), sqlIterator.columnNames());
 	}
 
 }

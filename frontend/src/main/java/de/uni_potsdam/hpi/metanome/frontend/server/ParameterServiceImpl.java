@@ -1,3 +1,19 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.util.ArrayList;
@@ -6,18 +22,16 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.BasicStatisticsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 
@@ -27,27 +41,18 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
  */
 public class ParameterServiceImpl extends RemoteServiceServlet implements ParameterService {
 
-	private static final long serialVersionUID = 1L;
-	
-	private AlgorithmJarLoader<InclusionDependencyAlgorithm> inclusionDependencyJarLoader = 
-			new AlgorithmJarLoader<InclusionDependencyAlgorithm>(InclusionDependencyAlgorithm.class);
-	private AlgorithmJarLoader<FunctionalDependencyAlgorithm> functionalDependencyJarLoader = 
-			new AlgorithmJarLoader<FunctionalDependencyAlgorithm>(FunctionalDependencyAlgorithm.class);
-	private AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> uniqueColumnCombinationsJarLoader = 
-			new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
-	private AlgorithmJarLoader<BasicStatisticsAlgorithm> basicStatisticsJarLoader =
-			new AlgorithmJarLoader<BasicStatisticsAlgorithm>(BasicStatisticsAlgorithm.class);
-	
+	private static final long serialVersionUID = 7343803695093136183L;
+		
 	/**
 	 * 
 	 * @param algorithmFileName	name of the algorithm for which the configuration parameters shall be 
 	 * 							retrieved
-	 * @param jarLoader			an <link>AlgorithmJarLoader</link> instance for the correct algorithm 
-	 * 							type 
 	 * @return	a list of <link>InputParameter</link>s necessary for calling the given algorithm
 	 */
-	private List<InputParameter> retrieveParameters(String algorithmFileName, AlgorithmJarLoader<?> jarLoader){
+	@Override
+	public List<InputParameter> retrieveParameters(String algorithmFileName){
 		Algorithm algorithm = null;
+		AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
 		try {
 			algorithm = jarLoader.loadAlgorithm(algorithmFileName);
 		} catch (Exception e) {
@@ -79,35 +84,13 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			return new InputParameterString(config.getIdentifier());
 		} else if (config instanceof ConfigurationSpecificationBoolean) {
 			return new InputParameterBoolean(config.getIdentifier());
-		} else if (config instanceof ConfigurationSpecificationCsvFile){
+		} else if (config instanceof ConfigurationSpecificationCsvFile) {
 			return new InputParameterCsvFile(config.getIdentifier());
+		} else if (config instanceof ConfigurationSpecificationSQLIterator) {
+			return new InputParameterSQLIterator(config.getIdentifier());
 		} else {
 			return null;
 		}
 	}
-
-	@Override
-	public List<InputParameter> retrieveInclusionDependencyParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, inclusionDependencyJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveFunctionalDependencyParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, functionalDependencyJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveUniqueColumnCombinationsParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, uniqueColumnCombinationsJarLoader);
-	}
-
-	@Override
-	public List<InputParameter> retrieveBasicStatisticsParameters(
-			String algorithmFileName) {
-		return retrieveParameters(algorithmFileName, basicStatisticsJarLoader);
-	}
-
+	
 }

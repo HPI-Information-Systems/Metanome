@@ -1,12 +1,27 @@
 
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.After;
@@ -15,8 +30,10 @@ import org.junit.Test;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.result_receiver.UniqueColumnCombinationPrinter;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 /**
  * Test for {@link AlgorithmJarLoader}
@@ -55,18 +72,21 @@ public class AlgorithmJarLoaderTest {
 	@Test
 	public void loadAlgorithm() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
 		// Setup
-		AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm> loader = 
-				new AlgorithmJarLoader<UniqueColumnCombinationsAlgorithm>(UniqueColumnCombinationsAlgorithm.class);
+		AlgorithmJarLoader loader = new AlgorithmJarLoader();
 		
 		// Execute functionality
-		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm-0.0.1-SNAPSHOT.jar");
+		Algorithm algorithm = loader.loadAlgorithm("example_ucc_algorithm.jar");
 		
 		// Check result
 		assertNotNull(algorithm);
 		assertTrue(algorithm instanceof UniqueColumnCombinationsAlgorithm);	
 		
 		UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-		uccAlgorithm.setResultReceiver(new UniqueColumnCombinationPrinter(new PrintStream(new ByteArrayOutputStream())));
-		uccAlgorithm.execute();
+		uccAlgorithm.setResultReceiver(mock(OmniscientResultReceiver.class));
+		
+		ProgressEstimatingAlgorithm progressAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+		progressAlgorithm.setProgressReceiver(mock(ProgressReceiver.class));
+		
+		algorithm.execute();
 	}
 }

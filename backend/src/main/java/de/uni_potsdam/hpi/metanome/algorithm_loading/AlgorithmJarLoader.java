@@ -1,4 +1,22 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,50 +28,44 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+public class AlgorithmJarLoader {
 
-public class AlgorithmJarLoader<T extends Algorithm> {
-	
-	protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-	protected Class<T> algorithmSubclass;
-	
-	public AlgorithmJarLoader(Class<T> algorithmSubclass) {
-		this.algorithmSubclass = algorithmSubclass;
-	}
-	
-	/**
-	 * Loads a jar file containing an algorithm and returns an instance of the bootstrap class.
-	 * 
-	 * @param path
-	 * @return runnable algorithm
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws NoSuchMethodException 
-	 * @throws InvocationTargetException 
-	 * @throws SecurityException 
-	 * @throws IllegalArgumentException 
-	 */
-	public T loadAlgorithm(String path) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
-		String pathToFolder = ClassLoader.getSystemResource("algorithms").getPath();
-		
-		File file = new File(URLDecoder.decode(pathToFolder + "/" + path, "utf-8"));
-		JarFile jar = new JarFile(file);
-		
-		Manifest man = jar.getManifest();
+    protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
+    protected Algorithm algorithmSubclass;
+
+    /**
+     * Loads a jar file containing an algorithm and returns an instance of the bootstrap class.
+     *
+     * @param filePath the file path to the algorithm jar
+     * @return runnable algorithm
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    public Algorithm loadAlgorithm(String filePath) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms" + "/" + filePath).getPath();
+
+        File file = new File(URLDecoder.decode(pathToFolder, "utf-8"));
+        JarFile jar = new JarFile(file);
+
+        Manifest man = jar.getManifest();
         Attributes attr = man.getMainAttributes();
         String className = attr.getValue(bootstrapClassTagName);
-        
+
         URL[] url = {file.toURI().toURL()};
-        ClassLoader loader = new URLClassLoader(url, algorithmSubclass.getClassLoader());
-        
-        Class<? extends T> algorithmClass = 
-        		Class.forName(className, true, loader).asSubclass(algorithmSubclass);
-        
+        ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());
+
+        Class<? extends Algorithm> algorithmClass =
+                Class.forName(className, true, loader).asSubclass(Algorithm.class);
+
         jar.close();
-        
-		return algorithmClass.getConstructor().newInstance();
-	}
-	
+
+        return algorithmClass.getConstructor().newInstance();
+    }
+
 }

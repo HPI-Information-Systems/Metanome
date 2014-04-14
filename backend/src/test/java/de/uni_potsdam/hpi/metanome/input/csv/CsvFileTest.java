@@ -1,14 +1,35 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.input.csv;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
 public class CsvFileTest {
@@ -54,9 +75,10 @@ public class CsvFileTest {
 	 * A one line csv with differing should be parsed correctly. And all the values in the line should be equal.
 	 * 
 	 * @throws InputIterationException 
+	 * @throws InputGenerationException 
 	 */
 	@Test
-	public void testNextSeparator() throws InputIterationException {
+	public void testNextSeparator() throws InputIterationException, InputGenerationException {
 		// Setup
 		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
 		CsvFile csvFileSeparator = fixtureSeparator.getTestData();
@@ -66,27 +88,13 @@ public class CsvFileTest {
 	}
 	
 	/**
-	 * The remove method should always throw an {@link UnsupportedOperationException}.
-	 */
-	@Test
-	public void testRemove() {
-		// Check result
-		try {
-			this.csvFile.remove();
-			fail("Expected an UnsupportedOperationException to be thrown.");
-		}
-		catch (UnsupportedOperationException actualException) {
-			// Intentionally left blank
-		}
-	}
-	
-	/**
 	 * When iterating over a csv file with alternating line length an exception should be thrown.
 	 * 
 	 * @throws InputIterationException 
+	 * @throws InputGenerationException 
 	 */
 	@Test
-	public void testShort() throws InputIterationException {
+	public void testShort() throws InputIterationException, InputGenerationException {
 		// Setup
 		CsvFile shortCsvFile = new CsvFileShortLineFixture().getTestData();
 		
@@ -95,10 +103,134 @@ public class CsvFileTest {
 			shortCsvFile.next();
 			shortCsvFile.next();
 			fail("Expected an InputIterationException to be thrown.");
-		}
-		catch (InputIterationException actualException) {
+		} catch (InputIterationException actualException) {
 			// Intentionally left blank
 		}
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#numberOfColumns()}
+	 * 
+	 * A {@link CsvFile} should return the correct number of columns of the file.
+	 * 
+	 * @throws InputIterationException
+	 * @throws InputGenerationException 
+	 */
+	@Test
+	public void testNumberOfColumns() throws InputIterationException, InputGenerationException {
+		// Setup 
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+		CsvFile csvFile = fixtureSeparator.getTestData();
 		
+		// Check result
+		assertEquals(fixture.getExpectedNumberOfColumns(), csvFile.numberOfColumns());
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#relationName()}
+	 * 
+	 * A {@link CsvFile} should return a relation name.
+	 * 
+	 * @throws InputGenerationException 
+	 * @throws InputIterationException 
+	 */
+	@Test
+	public void testRelationName() throws InputIterationException, InputGenerationException {
+		// Setup
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+		CsvFile csvFile = fixtureSeparator.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedRelationName(), csvFile.relationName());
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#columnNames()}
+	 * 
+	 * A {@link CsvFile} should return the correct column names.
+	 * 
+	 * @throws InputIterationException
+	 * @throws InputGenerationException 
+	 */
+	@Test
+	public void testColumnNames() throws InputIterationException, InputGenerationException {
+		// Setup
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+		CsvFile csvFile = fixtureSeparator.getTestData();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedColumnNames(), csvFile.columnNames());
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#generateHeaderLine()}
+	 * 
+	 * A {@link CsvFile} should return the correct header names.
+	 * 
+	 * @throws InputIterationException
+	 * @throws InputGenerationException 
+	 */
+	@Test
+	public void testGenerateHeaderLine() throws InputIterationException, InputGenerationException {
+		// Setup
+		CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
+
+		CsvFile csvFileWithHeader = fixtureSeparator.getTestData();
+		CsvFile csvFileWithoutHeader = fixtureSeparator.getTestDataWithoutHeader();
+		
+		// Execute functionality
+		// Check result
+		assertEquals(fixture.getExpectedColumnNames(), csvFileWithHeader.columnNames());
+		assertEquals(fixture.getExpectedDefaultColumnNames(), csvFileWithoutHeader.columnNames());
+		assertEquals(fixture.getExpectedStrings(), csvFileWithoutHeader.next());
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char)}
+	 * 
+	 * A {@link CsvFile} generated from an empty file should be constructable without exceptions, 
+	 * return false on hasNext, return 0 as numberOfColumns and have a valid standard header.
+	 * 
+	 * @throws InputIterationException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testConstructWithEmptyFile() throws InputIterationException, IOException {
+		// Execute functionality
+		// Check result
+		// Should not throw exception
+		CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"');
+		assertFalse(csvFile.hasNext());
+		assertEquals(0, csvFile.numberOfColumns());
+		assertNotNull(csvFile.columnNames());
+		
+		// Cleanup
+		csvFile.close();
+	}
+	
+	/**
+	 * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char, int, boolean)}
+	 * 
+	 * A {@link CsvFile} with header generated from an empty file should be constructable without
+	 * exceptions, return false on hasNext, return 0 as numberOfColumns and have a valid standard
+	 * header.
+	 * 
+	 * @throws InputIterationException
+	 * @throws IOException 
+	 */
+	@Test
+	public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
+		// Execute functionality
+		// Check result
+		// Should not throw exception
+		CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"', 0, true);
+		assertFalse(csvFile.hasNext());
+		assertEquals(0, csvFile.numberOfColumns());
+		assertNotNull(csvFile.columnNames());
+		
+		// Cleanup
+		csvFile.close();
 	}
 }
