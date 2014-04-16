@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 /**
  * Concrete {@link ConfigurationSpecification} for booleans.
- * 
- * @see ConfigurationSpecification
+ *
  * @author Jakob Zwiener
+ * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationBoolean extends ConfigurationSpecification {
 
@@ -29,26 +29,28 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
     /**
      * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
      *
-	 * @param identifier
-	 */
-	public ConfigurationSpecificationBoolean(String identifier) {
-		super(identifier);
-	}
-
-	/**
-	 * Constructs a {@link ConfigurationSpecificationBoolean}, potentially requesting several values.
-	 * 
-	 * @param identifier
-	 * @param numberOfValues
-	 */
-	public ConfigurationSpecificationBoolean(String identifier,
-			int numberOfValues) {
-		
-		super(identifier, numberOfValues);
-	}
+     * @param identifier the specification's identifier
+     */
+    public ConfigurationSpecificationBoolean(String identifier) {
+        super(identifier);
+    }
 
     /**
-     * TODO docs
+     * Constructs a {@link ConfigurationSpecificationBoolean}, potentially requesting several values.
+     *
+     * @param identifier     the specification's identifier
+     * @param numberOfValues the number of values expected
+     */
+    public ConfigurationSpecificationBoolean(String identifier,
+                                             int numberOfValues) {
+
+        super(identifier, numberOfValues);
+    }
+
+    /**
+     * Sets the actual values on the specification.
+     *
+     * @param values the values
      */
     public void setValues(ConfigurationSettingBoolean... values) {
         // TODO check number

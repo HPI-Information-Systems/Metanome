@@ -14,35 +14,54 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.uni-potsdam.hpi</groupId>
     <artifactId>metanome</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>metanome</name>
+    <version>0.0.2-SNAPSHOT</version>
+    <description>The main metanome project</description>
+    <url>https://github.com/HPI-Information-Systems/Metanome</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>jakob</id>
+            <name>Jakob Zwiener</name>
+            <email>jakob.zwiener@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
+            <id>claudia</id>
+            <name>Claudia Exeler</name>
+            <email>claudia.exeler@student.hpi.uni-potsdam.de</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <scm>
-        <connection>scm:git:metanome@code.hpi.uni-potsdam.de:metanome.git</connection>
-        <developerConnection>scm:git:metanome@code.hpi.uni-potsdam.de:metanome.git</developerConnection>
-        <tag>HEAD</tag>
-        <url>https://code.hpi.uni-potsdam.de/trac/metanome</url>
-    </scm>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
-    <distributionManagement>
-        <repository>
-            <id>deploymentRepo</id>
-            <name>mavenRepoOnJenkins</name>
-            <url>scp://maven_deploy@172.16.64.27/var/www/html/maven</url>
-        </repository>
-    </distributionManagement>
+    <scm>
+        <connection>scm:git:git@github.com:HPI-Information-Systems/Metanome.git</connection>
+        <developerConnection>scm:git:git@github.com:HPI-Information-Systems/Metanome.git</developerConnection>
+        <url>https://github.com/HPI-Information-Systems/Metanome</url>
+    </scm>
 
     <build>
         <pluginManagement>
@@ -57,6 +76,9 @@
                             <format>xml</format>
                         </formats>
                         <aggregate>true</aggregate>
+                        <instrumentation>
+                            <exclude>de/uni_potsdam/hpi/metanome/test_helper/**/*.class</exclude>
+                        </instrumentation>
                     </configuration>
                 </plugin>
             </plugins>
@@ -95,9 +117,11 @@
     </build>
 
     <modules>
+        <module>algorithm_helper</module>
         <module>algorithm_integration</module>
-        <module>algorithm_template</module>
+        <module>algorithm_template_root</module>
         <module>backend</module>
+        <module>docs</module>
         <module>frontend</module>
         <module>testing_algorithms</module>
         <module>test_helper</module>
