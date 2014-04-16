@@ -22,9 +22,9 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -41,7 +41,7 @@ public class RunConfigurationPage extends DockPanel{
 	protected ParameterTable parameterTable;
 	protected JarChooser jarChooser;
 	protected Label primaryDataSourceLabel;
-	public InputParameterDataSource primaryDataSource;
+	public ConfigurationSettingDataSource primaryDataSource;
 	
 	protected ExecutionServiceAsync executionService;
 	
@@ -72,7 +72,7 @@ public class RunConfigurationPage extends DockPanel{
 	 *
 	 * @param paramList	list of required parameters
 	 */
-	public void addParameterTable(List<InputParameter> paramList){
+	public void addParameterTable(List<ConfigurationSpecification> paramList){
 		removeParameterTable();
 		parameterTable = new ParameterTable(paramList, primaryDataSource);
 		this.add(parameterTable, DockPanel.SOUTH);
@@ -111,7 +111,7 @@ public class RunConfigurationPage extends DockPanel{
 	 * 
 	 * @param dataSource
 	 */
-	public void setPrimaryDataSource(InputParameterDataSource dataSource) {
+	public void setPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
 		this.primaryDataSource = dataSource;
 		this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
 		removeParameterTable();	
@@ -131,9 +131,9 @@ public class RunConfigurationPage extends DockPanel{
 	 * @return	the name of the data source that is currently selected in the 
 	 * 			first data source field in the configuration interface
 	 */
-	public List<InputParameterDataSource> getCurrentlySelectedDataSources() {
-		return this.parameterTable.getInputParameterDataSourcesWithValues();
-	}
+//	public List<ConfigurationSettingDataSource> getCurrentlySelectedDataSources() {
+//		return this.parameterTable.getInputParameterDataSourcesWithValues();
+//	}
 	
 	/**
 	 * Execute the currently selected algorithm and switch to results page.
@@ -141,9 +141,10 @@ public class RunConfigurationPage extends DockPanel{
 	 * @param parameters	parameters to use for the algorithm execution
 	 * @param dataSources 
 	 */
-	public void callExecutionService(List<InputParameter> parameters, List<InputParameterDataSource> dataSources) {
+	public void callExecutionService(List<ConfigurationSpecification> parameters, List<ConfigurationSpecification> dataSources) {
 		final String algorithmName = getCurrentlySelectedAlgorithm();
-		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters, dataSources);
+		parameters.addAll(dataSources);
+		basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
 	}
 
 	// Getters & Setters

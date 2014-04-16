@@ -16,11 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+
 
 public interface InputParameterDataSourceWidget extends InputParameterWidget {
-
-	public InputParameterDataSource getInputParameter();
 	
-	public void setInputParameter(InputParameterDataSource parameter);
+	public void setDataSource(ConfigurationSettingDataSource dataSource);
 
 }

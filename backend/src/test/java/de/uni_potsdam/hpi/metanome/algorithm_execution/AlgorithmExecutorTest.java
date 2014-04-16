@@ -28,11 +28,13 @@ import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,15 +68,23 @@ public class AlgorithmExecutorTest {
      * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmExecutionException
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws ClassNotFoundException 
+     * @throws IOException 
+     * @throws SecurityException 
+     * @throws IllegalArgumentException 
      */
     @Test
-    public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException {
+    public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
         List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
         configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 
         // Execute functionality
-        long elapsedTime = executor.executeAlgorithm("example_fd_algorithm.jar", configs);
+        long elapsedTime = executor.executeAlgorithmWithValues("example_fd_algorithm.jar", configs);
 
         // Check result
         verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -87,9 +97,17 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
      * @throws AlgorithmExecutionException
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws ClassNotFoundException 
+     * @throws IOException 
+     * @throws SecurityException 
+     * @throws IllegalArgumentException 
      */
     @Test
-    public void executeInclusionDependencyTest() throws AlgorithmLoadingException, AlgorithmExecutionException {
+    public void executeInclusionDependencyTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
         List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
         configs.add(new ConfigurationValueString("tableName", "table1"));
@@ -99,7 +117,7 @@ public class AlgorithmExecutorTest {
                 mock(RelationalInputGenerator.class)));
 
         // Execute functionality
-        executor.executeAlgorithm("example_ind_algorithm.jar", configs);
+        executor.executeAlgorithmWithValues("example_ind_algorithm.jar", configs);
 
         // Check result
         verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
@@ -111,15 +129,23 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
      * @throws AlgorithmExecutionException
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws ClassNotFoundException 
+     * @throws IOException 
+     * @throws SecurityException 
+     * @throws IllegalArgumentException 
      */
     @Test
-    public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException {
+    public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
         List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
         configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
 
         // Execute functionality
-        executor.executeAlgorithm("example_ucc_algorithm.jar", configs);
+        executor.executeAlgorithmWithValues("example_ucc_algorithm.jar", configs);
 
         // Check result
         verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -133,15 +159,23 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmExecutionException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws ClassNotFoundException 
+     * @throws IOException 
+     * @throws SecurityException 
+     * @throws IllegalArgumentException 
      */
     @Test
-    public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmExecutionException {
+    public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
         List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
         configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
 
         // Execute functionality
-        executor.executeAlgorithm("example_holistic_algorithm.jar", configs);
+        executor.executeAlgorithmWithValues("example_holistic_algorithm.jar", configs);
 
         // Check result
         verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));

@@ -17,15 +17,16 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
 
 /**
  * Tests for the algorithm specific pages (tabs)
@@ -48,7 +49,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
 	public void testAddParameterTable(){
 		//Setup
 		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
+		List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
 		int widgetCount = runConfigPage.getWidgetCount();
 				
 		//Execute
@@ -89,9 +90,9 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
 	public void testForwardParamters() {
 		//Setup
 		RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-		ArrayList<InputParameter> paramList = new ArrayList<InputParameter>();
-		paramList.add(new InputParameterString("someString"));
-		paramList.add(new InputParameterCsvFile("theDataSource"));
+		List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+		paramList.add(new ConfigurationSpecificationString("someString"));
+		paramList.add(new ConfigurationSpecificationCsvFile("theDataSource"));
 		
 		//Execute
 		runConfigPage.jarChooser.forwardParameters(paramList);

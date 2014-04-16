@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 
@@ -71,12 +71,12 @@ public class JarChooser extends HorizontalPanel {
 	public void submit(){
 		String selectedValue = getSelectedAlgorithm();
 		
-		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
+		AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
 		      public void onFailure(Throwable caught) {
 		        // TODO: Do something with errors.
 		      }
 
-		      public void onSuccess(List<InputParameter> result) {  	  
+		      public void onSuccess(List<ConfigurationSpecification> result) {  	  
 		    	  forwardParameters(result);
 		      }
 		    };
@@ -92,7 +92,7 @@ public class JarChooser extends HorizontalPanel {
 	 * @param selectedValue	the name of the selected algorithm
 	 * @param callback		callback object for RPC
 	 */
-	public void callParameterService(String selectedValue, AsyncCallback<List<InputParameter>> callback) {
+	public void callParameterService(String selectedValue, AsyncCallback<List<ConfigurationSpecification>> callback) {
 	    parameterService.retrieveParameters(selectedValue, callback);
 	}
 
@@ -101,7 +101,7 @@ public class JarChooser extends HorizontalPanel {
 	 * tab.
 	 * @param paramList list of parameters necessary for the chosen algorithm
 	 */
-	protected void forwardParameters(List<InputParameter> paramList) {
+	protected void forwardParameters(List<ConfigurationSpecification> paramList) {
 		((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
 	}
 	
@@ -155,7 +155,7 @@ public class JarChooser extends HorizontalPanel {
 	 * 
 	 * @param dataSource	the data source that shall be profiled / for which algorithms should be filtered
 	 */
-	public void filterForPrimaryDataSource(InputParameterDataSource dataSource) {
+	public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
 		this.listbox.setSelectedIndex(0);
 		// TODO filter out any algorithms that would not accept the given data source
 		System.out.println("Filtering algorithms for a data source is not yet implemented");

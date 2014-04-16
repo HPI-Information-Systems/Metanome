@@ -23,8 +23,11 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
@@ -112,8 +115,12 @@ public class GwtTestBasePage extends GWTTestCase{
 	@Test
 	public void testJumpToRunConfigurationFromDataSource() {
 		final BasePage page = new BasePage();
-		final InputParameterCsvFile dataSource = new InputParameterCsvFile();
-		dataSource.setFileNameValue(dataSourceName);
+		final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
+				new ConfigurationSpecificationCsvFile("test"));
+		ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
+		dataSource.setFileName(dataSourceName);
+		final ConfigurationSettingCsvFile finalDataSource = dataSource;
+		dataSourceWidget.setDataSource(dataSource);
 		
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {
@@ -125,13 +132,13 @@ public class GwtTestBasePage extends GWTTestCase{
 				page.addAlgorithmsToRunConfigurations(result);
 
 				//Execute
-				page.jumpToRunConfiguration(null, dataSource);
+				page.jumpToRunConfiguration(null, finalDataSource);
 	
 				RunConfigurationPage runConfigPage = (RunConfigurationPage) page.getWidget(page.getSelectedIndex());
 				
 				//Check
 				assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-				assertEquals(dataSource.getValueAsString(), runConfigPage.primaryDataSource.getValueAsString());
+				assertEquals(finalDataSource.getValueAsString(), runConfigPage.primaryDataSource.getValueAsString());
 				//TODO assert correct filtering
 				
 				finishTest();

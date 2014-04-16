@@ -18,12 +18,13 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import junit.framework.TestCase;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 public class ParameterServiceTest extends TestCase {
 	@Before
@@ -41,7 +42,7 @@ public class ParameterServiceTest extends TestCase {
 		ParameterServiceImpl parameterService = new ParameterServiceImpl();
 		
 		//Execute
-		List<InputParameter> inputParameters = parameterService.retrieveParameters("example_ucc_algorithm.jar");
+		List<ConfigurationSpecification> inputParameters = parameterService.retrieveParameters("example_ucc_algorithm.jar");
 		
 		//Check
 		assertNotNull(inputParameters);

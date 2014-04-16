@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import java.io.Serializable;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
 /**
@@ -27,9 +29,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
  *
  * @author Jakob Zwiener
  */
-public abstract class ConfigurationSpecification {
+public abstract class ConfigurationSpecification implements Serializable {
+	private static final long serialVersionUID = 4312752686730530733L;
 
-    public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+	public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
 
     protected final String identifier;
     protected final int numberOfValues;
@@ -74,5 +77,8 @@ public abstract class ConfigurationSpecification {
     public int getNumberOfValues() {
         return numberOfValues;
     }
+
+    //TODO use sth more specific than object
+	public abstract Object[] getSettings();
 
 }

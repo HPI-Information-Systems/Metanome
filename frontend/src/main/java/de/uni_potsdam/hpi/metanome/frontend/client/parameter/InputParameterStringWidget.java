@@ -16,23 +16,48 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.TextBox;
+import java.util.LinkedList;
+import java.util.List;
 
-public class InputParameterStringWidget extends TextBox implements InputParameterWidget {
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+
+public class InputParameterStringWidget extends VerticalPanel implements InputParameterWidget {
 	
 	// FIXME implement several input values
 	
-	InputParameterString inputParameter;
+	private ConfigurationSpecificationString configSpec;
+	private List<TextBox> textBoxes;
 	
-	public InputParameterStringWidget(InputParameterString inputParameter) {
+	public InputParameterStringWidget(ConfigurationSpecificationString config) {
 		super();
-		this.inputParameter = inputParameter;
+		this.configSpec = config;
+		this.textBoxes = new LinkedList<TextBox>();
+		for (int i=0; i<config.getNumberOfValues(); i++) {
+			TextBox textBox = new TextBox();
+			this.textBoxes.add(textBox);
+			this.add(textBox);
+		}
 	}
 	
 	@Override
-	public InputParameter getInputParameter() {
-		this.inputParameter.setValues(this.getValue());
-		return inputParameter;
+	public ConfigurationSpecificationString getConfigurationSpecificationWithValues(){
+		this.configSpec.setValues(this.getConfigurationSettings());
+		return this.configSpec;
 	}
 	
+	
+	protected ConfigurationSettingString[] getConfigurationSettings() {
+		ConfigurationSettingString[] values = new ConfigurationSettingString[this.textBoxes.size()];
+		int i=0;
+		for (TextBox b : this.textBoxes){
+			values[i] = new ConfigurationSettingString(b.getValue());
+			i++;
+		}
+		return values;
+	}
+
 }

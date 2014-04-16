@@ -17,7 +17,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -26,9 +25,8 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
@@ -47,8 +45,8 @@ public class GwtTestServiceCall extends GWTTestCase {
 	@Test
 	public void testExecutionService() {
 		// Setup
-		List<InputParameter> configs = new ArrayList<InputParameter>();
-		InputParameterString inputParameter = new InputParameterString(
+		List<ConfigurationSpecification> configs = new ArrayList<ConfigurationSpecification>();
+		ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
 				"pathToInputFile");
 		inputParameter.setValues("path/to/file1", "path/to/file2");
 		configs.add(inputParameter);
@@ -73,7 +71,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 		// Execute
 		executionService.executeAlgorithm("example_ucc_algorithm.jar", 
 				"executionIdentifier1", 
-				configs, new LinkedList<InputParameterDataSource>(), callback);
+				configs, callback);
 	}
 
 	/**
@@ -82,12 +80,12 @@ public class GwtTestServiceCall extends GWTTestCase {
 	@Test
 	public void testParameterService() {
 		// Setup
-		AsyncCallback<List<InputParameter>> callback = new AsyncCallback<List<InputParameter>>() {
+		AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
 			public void onFailure(Throwable caught) {
 				fail();
 			}
 
-			public void onSuccess(List<InputParameter> result) {
+			public void onSuccess(List<ConfigurationSpecification> result) {
 				assertNotNull(result);
 				finishTest();
 			}

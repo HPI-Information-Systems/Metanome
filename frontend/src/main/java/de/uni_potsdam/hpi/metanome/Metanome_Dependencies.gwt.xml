@@ -25,6 +25,18 @@
     <include name="ColumnCombination.java"/>
     <include name="ColumnIdentifier.java"/>
   </source>
+  <source path="algorithm_integration/configuration">
+  	<include name="ConfigurationSettingBoolean.java" />
+	<include name="ConfigurationSettingCsvFile.java" />
+	<include name="ConfigurationSettingDataSource.java" />
+  	<include name="ConfigurationSettingSQLIterator.java" />
+  	<include name="ConfigurationSettingString.java" />
+  	<include name="ConfigurationSpecification.java" />
+  	<include name="ConfigurationSpecificationBoolean.java" />
+  	<include name="ConfigurationSpecificationCsvFile.java" />
+  	<include name="ConfigurationSpecificationSQLIterator.java" />
+  	<include name="ConfigurationSpecificationString.java" />
+  </source>
   <source path="algorithm_integration/result_receiver">
     <include name="OmniscientResultReceiver.java"/>
     <include name="BasicStatisticsResultReceiver.java"/>

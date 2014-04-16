@@ -21,6 +21,8 @@ import java.util.Set;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
 /**
  * Represents boolean configuration values for {@link Algorithm}s.
@@ -31,7 +33,7 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 	protected final boolean[] values;
 	
 	/**
-	 * Constructs a ConfigurationValueBoolean using the specification's identifier and the boolean value.
+	 * Constructs a ConfigurationValueBoolean using the given identifier and the boolean values.
 	 * 
 	 * @param identifier
 	 * @param values
@@ -40,6 +42,21 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 		this.identifier = identifier;
 		this.values = values;
 	}
+	/**
+	 * 
+	 * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean values.
+	 * 
+	 * @param spec
+	 */
+	public ConfigurationValueBoolean(ConfigurationSpecificationBoolean spec) {
+		this.identifier = spec.getIdentifier();
+		this.values = new boolean[spec.getSettings().length]; 
+		int i=0;
+		for (ConfigurationSettingBoolean setting : spec.getSettings()) {
+			this.values[i] = setting.value;
+			i++;
+		}
+	}	
 	
 	@Override
 	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {

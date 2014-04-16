@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -64,17 +66,19 @@ public class AlgorithmExecutor implements Closeable {
      * returned as long.
      *
      * @param algorithmFileName the algorithm's file name
-     * @param configs           list of configuration values
+     * @param parameters           list of configuration values
      * @return elapsed time in ns
      * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmExecutionException
      */
-    public long executeAlgorithm(String algorithmFileName, List<ConfigurationValue> configs) throws AlgorithmLoadingException, AlgorithmExecutionException {
-        AlgorithmJarLoader loader = new AlgorithmJarLoader();
-        Algorithm algorithm;
-        try {
-            algorithm = loader.loadAlgorithm(algorithmFileName);
+    public long executeAlgorithm(String algorithmFileName, 
+    		List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
+    	List<ConfigurationValue> parameterValues = new LinkedList<ConfigurationValue>();
+        //TODO convert specs to values
+
+    	try {
+    		return executeAlgorithmWithValues(algorithmFileName, parameterValues);
         } catch (IllegalArgumentException e) {
             throw new AlgorithmLoadingException();
         } catch (SecurityException e) {
@@ -92,44 +96,52 @@ public class AlgorithmExecutor implements Closeable {
         } catch (NoSuchMethodException e) {
             throw new AlgorithmLoadingException("No such method.");
         }
-
-        Set<Class<?>> interfaces = getInterfaces(algorithm);
-
-        for (ConfigurationValue configValue : configs) {
-            configValue.triggerSetValue(algorithm, interfaces);
-        }
-
-        if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-            FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
-            fdAlgorithm.setResultReceiver(resultReceiver);
-        }
-
-        if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-            InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
-            indAlgorithm.setResultReceiver(resultReceiver);
-        }
-
-        if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-            UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-            uccAlgorithm.setResultReceiver(resultReceiver);
-        }
-
-        if (interfaces.contains(TempFileAlgorithm.class)) {
-            TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
-            tempFileAlgorithm.setTempFileGenerator(fileGenerator);
-        }
-
-        if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
-            ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
-            progressEstimatingAlgorithm.setProgressReceiver(progressCache);
-        }
-
-        long before = System.nanoTime();
-        algorithm.execute();
-        long after = System.nanoTime();
-
-        return after - before;
     }
+    
+    public long executeAlgorithmWithValues(String algorithmFileName,
+			List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
+    	 AlgorithmJarLoader loader = new AlgorithmJarLoader();
+         Algorithm algorithm;
+         
+         algorithm = loader.loadAlgorithm(algorithmFileName);
+
+         Set<Class<?>> interfaces = getInterfaces(algorithm);
+
+         for (ConfigurationValue configValue : parameters) { //TODO convert to values first
+             configValue.triggerSetValue(algorithm, interfaces);
+         }
+
+         if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+             FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
+             fdAlgorithm.setResultReceiver(resultReceiver);
+         }
+
+         if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+             InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
+             indAlgorithm.setResultReceiver(resultReceiver);
+         }
+
+         if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+             UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
+             uccAlgorithm.setResultReceiver(resultReceiver);
+         }
+
+         if (interfaces.contains(TempFileAlgorithm.class)) {
+             TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
+             tempFileAlgorithm.setTempFileGenerator(fileGenerator);
+         }
+
+         if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
+             ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+             progressEstimatingAlgorithm.setProgressReceiver(progressCache);
+         }
+
+         long before = System.nanoTime();
+         algorithm.execute();
+         long after = System.nanoTime();
+
+         return after - before;
+	}
 
     protected Set<Class<?>> getInterfaces(Object object) {
         Set<Class<?>> interfaces = new HashSet<Class<?>>();

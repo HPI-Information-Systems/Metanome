@@ -26,10 +26,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -105,22 +105,20 @@ public class BasePage extends TabLayoutPanel {
 	 * @param executionService
 	 * @param algorithmName		
 	 * @param parameters
-	 * @param dataSources 
 	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-			String algorithmName, List<InputParameter> parameters, List<InputParameterDataSource> dataSources) {
+			String algorithmName, List<ConfigurationSpecification> parameters) {
 		
 		String executionIdentifier = getExecutionIdetifier(algorithmName);
 		
 		ScrollPanel resultsTab = new ScrollPanel();
 		resultsTab.setHeight("95%");
-		resultsPage.add(resultsTab, new TabHeader(getDataSourcesString(dataSources), resultsTab, resultsPage));
+		resultsPage.add(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
 
 		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
 		executionService.executeAlgorithm(algorithmName, 
 				executionIdentifier, 
 				parameters, 
-				dataSources,
 				resultsTabContent.getCancelCallback());
 		resultsTabContent.startPolling();
 		
@@ -137,14 +135,17 @@ public class BasePage extends TabLayoutPanel {
 	 * @param dataSources	the list of InputParameterDataSources to be descirbed
 	 * @return a String with the names of all given data source parameters
 	 */
-	private String getDataSourcesString(
-			List<InputParameterDataSource> dataSources) {
-		String dataSourcesString = "";
-		for (InputParameterDataSource dataSource : dataSources){
-			dataSourcesString = dataSourcesString + dataSource.getValueAsString() + " - ";
-		}
-		return dataSourcesString;
-	}
+//	private String getDataSourcesString(
+//			List<ConfigurationSpecification> dataSources) {
+//		String dataSourcesString = "";
+//		for (ConfigurationSpecification dataSource : dataSources){
+//			for (Object settingObject : dataSource.getSettings()) {
+//				ConfigurationSettingDataSource setting = (ConfigurationSettingDataSource) settingObject;
+//				dataSourcesString = dataSourcesString + setting.getValueAsString() + " - ";
+//			}
+//		}
+//		return dataSourcesString;
+//	}
 
 	/**
 	 * Generates a string that uniquely identifies an algorithm execution.
@@ -163,7 +164,7 @@ public class BasePage extends TabLayoutPanel {
 	 * 
 	 * @param algorithmName	algorithm that shall be run
 	 */
-	public void jumpToRunConfiguration(String algorithmName, InputParameterDataSource dataSource) {
+	public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
 		this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
 		if (algorithmName != null)
 			this.runConfigurationsPage.selectAlgorithm(algorithmName);

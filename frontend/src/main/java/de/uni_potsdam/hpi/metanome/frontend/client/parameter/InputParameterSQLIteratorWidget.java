@@ -20,55 +20,38 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
+
 public class InputParameterSQLIteratorWidget extends FlexTable implements
 InputParameterDataSourceWidget {
 
 	/** Corresponding inputParameter, where the value is going to be written */
-	private InputParameterSQLIterator inputParameter;
+	private ConfigurationSpecificationSQLIterator configSpec;
 	
-	private TextBox dbUrlTextbox;
-	private TextBox usernameTextbox;
-	private TextBox passwordTextbox;
+	private SQLIteratorInput inputFields; 
+
 
 	public InputParameterSQLIteratorWidget(
-			InputParameterSQLIterator inputParameter) {
+			ConfigurationSpecificationSQLIterator inputParameter) {
 		super();
-		this.inputParameter = inputParameter;
-		
-		dbUrlTextbox = new TextBox();
-		addRow(dbUrlTextbox, "Database URL", 0);
-		
-		usernameTextbox = new TextBox();
-		addRow(usernameTextbox, "User Name", 1);
-		
-		passwordTextbox = new TextBox();
-		addRow(passwordTextbox, "Password", 2);
+		this.configSpec = inputParameter;
 		
 	}
 
-	protected void addRow(Widget inputWidget, String name, int row) {
-		this.setText(row, 0, name);
-		this.setWidget(row, 1, inputWidget);
-	}
-	
-	protected void setCurrentValues(InputParameterSQLIterator inputParameter){
-		inputParameter.setDbUrl(this.dbUrlTextbox.getValue());
-		inputParameter.setUserName(this.usernameTextbox.getValue());
-		inputParameter.setPassword(this.passwordTextbox.getValue());
-	}
-	
 	@Override
-	public InputParameterDataSource getInputParameter() {
-		setCurrentValues(this.inputParameter);
-		return this.inputParameter;
+	public ConfigurationSpecification getConfigurationSpecificationWithValues() {
+		// TODO Auto-generated method stub: 		setCurrentValues(this.configSpec);
+		return this.configSpec;
 	}
 
 	@Override
-	public void setInputParameter(InputParameterDataSource parameter) {
-		InputParameterSQLIterator sqlParameter = (InputParameterSQLIterator)parameter;
-		this.dbUrlTextbox.setValue(sqlParameter.getDbUrl());
-		this.passwordTextbox.setValue(sqlParameter.getPassword());
-		this.usernameTextbox.setValue(sqlParameter.getUserName());
+	public void setDataSource(ConfigurationSettingDataSource dataSource) {
+		// TODO Auto-generated method stub
+//		this.dbUrlTextbox.setDataSource(sqlParameter.getDbUrl());
+//		this.passwordTextbox.setDataSource(sqlParameter.getPassword());
+//		this.usernameTextbox.setDataSource(sqlParameter.getUserName());
 	}
 
 }

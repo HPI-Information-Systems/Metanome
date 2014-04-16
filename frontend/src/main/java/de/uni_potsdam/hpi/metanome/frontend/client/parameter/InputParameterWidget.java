@@ -18,8 +18,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
-public interface InputParameterWidget extends IsWidget {
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
-	public InputParameter getInputParameter();
+public interface InputParameterWidget extends IsWidget {
+	
+	public ConfigurationSpecification getConfigurationSpecificationWithValues();
 
 }

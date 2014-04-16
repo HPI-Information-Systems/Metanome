@@ -22,6 +22,8 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
 public class ParameterTable extends FlexTable {
@@ -35,22 +37,22 @@ public class ParameterTable extends FlexTable {
 	 * Prompt and type specific input field are created for each parameter,
 	 * and a button added at the bottom that triggers algorithm execution.
 	 * 
-	 * @param requiredParams the list of parameters asked for by the algorithm.
+	 * @param paramList the list of parameters asked for by the algorithm.
 	 * @param primaryDataSource 
 	 */
-	public ParameterTable(List<InputParameter> requiredParams, InputParameterDataSource primaryDataSource) {
+	public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource) {
 		super();	
 		
 		int i = 0;
-		for (InputParameter param : requiredParams) {
+		for (ConfigurationSpecification param : paramList) {
 			this.setText(i, 0, param.getIdentifier());
-			InputParameterWidget currentWidget = param.createWrappingWidget();
+			InputParameterWidget currentWidget = WidgetFactory.buildWidget(param);
 			this.setWidget(i, 1, currentWidget);
 			if (currentWidget instanceof InputParameterDataSourceWidget) {
 				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
 				if (primaryDataSource != null && 
-						currentWidget.getInputParameter().getClass().equals(primaryDataSource.getClass()))
-					dataSourceWidget.setInputParameter(primaryDataSource);
+						currentWidget.getConfigurationSpecificationWithValues().getClass().equals(primaryDataSource.getClass()))
+					dataSourceWidget.setDataSource(primaryDataSource);
 				this.dataSourceWidgets.add(dataSourceWidget);
 			}
 			else
@@ -69,8 +71,8 @@ public class ParameterTable extends FlexTable {
 	 * the execution service corresponding to the current tab.
 	 */
 	public void submit(){
-		List<InputParameter> parameters = getInputParametersWithValues();
-		List<InputParameterDataSource> dataSources = getInputParameterDataSourcesWithValues();
+		List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
+		List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
 		getAlgorithmTab().callExecutionService(parameters, dataSources);
 	}
 
@@ -78,22 +80,22 @@ public class ParameterTable extends FlexTable {
 	 * Iterates over the child widgets that represent data sources and retrieves their user input.
 	 * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values. 
 	 */
-	public List<InputParameterDataSource> getInputParameterDataSourcesWithValues() {
-		LinkedList<InputParameterDataSource> parameterList = new LinkedList<InputParameterDataSource>();
+	public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
+		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
 		for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets){
-			parameterList.add(childWidget.getInputParameter());
+			parameterList.add(childWidget.getConfigurationSpecificationWithValues());
 		}
 		return parameterList;
 	}
 
 	/**
 	 * Iterates over the child widgets and retrieves their user input.
-	 * @return The list of InputParameters of this ParameterTable with their user-set values.
+	 * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set values.
 	 */
-	public List<InputParameter> getInputParametersWithValues() {
-		LinkedList<InputParameter> parameterList = new LinkedList<InputParameter>();
+	public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
+		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
 		for (InputParameterWidget childWidget : this.childWidgets){
-			parameterList.add(childWidget.getInputParameter());
+			parameterList.add(childWidget.getConfigurationSpecificationWithValues());
 		}
 		return parameterList;
 	}

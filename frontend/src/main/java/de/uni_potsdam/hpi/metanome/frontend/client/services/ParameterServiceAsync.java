@@ -20,10 +20,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameter;
 
 public interface ParameterServiceAsync {
 
-	public void retrieveParameters(String selectedValue, AsyncCallback<List<InputParameter>> callback);
+	public void retrieveParameters(String selectedValue, AsyncCallback<List<ConfigurationSpecification>> callback);
 
 }

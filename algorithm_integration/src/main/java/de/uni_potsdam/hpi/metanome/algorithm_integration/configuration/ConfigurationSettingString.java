@@ -16,12 +16,15 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import java.io.Serializable;
+
 /**
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingString {
-
-    String value;
+public class ConfigurationSettingString implements Serializable {
+	private static final long serialVersionUID = 1753877522641977576L;
+	
+	public String value;
 
     public ConfigurationSettingString(String value) {
         this.value = value;

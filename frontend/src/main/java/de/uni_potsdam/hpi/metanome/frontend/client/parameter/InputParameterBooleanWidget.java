@@ -16,22 +16,47 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.CheckBox;
+import java.util.LinkedList;
+import java.util.List;
 
-public class InputParameterBooleanWidget extends CheckBox implements InputParameterWidget {
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+
+public class InputParameterBooleanWidget extends VerticalPanel implements InputParameterWidget {
 	
-	private InputParameterBoolean inputParameter;
+	private List<CheckBox> checkBoxes;
+	private ConfigurationSpecificationBoolean configSpec;
 
 	public InputParameterBooleanWidget(
-			InputParameterBoolean inputParameter) {
+			ConfigurationSpecificationBoolean config) {
 		super();
-		this.inputParameter = inputParameter;
+		this.configSpec = config;
+		this.checkBoxes = new LinkedList<CheckBox>();
+		for (int i=0; i<config.getNumberOfValues(); i++) {
+			CheckBox checkBox = new CheckBox();
+			this.checkBoxes.add(checkBox);
+			this.add(checkBox);
+		}
 	}
 
 	@Override
-	public InputParameter getInputParameter() {
-		this.inputParameter.setValue(this.getValue());
-		return inputParameter;
+	public ConfigurationSpecificationBoolean getConfigurationSpecificationWithValues(){
+		this.configSpec.setValues(this.getConfigurationSettings());
+		return this.configSpec;
+	}
+	
+	
+	protected ConfigurationSettingBoolean[] getConfigurationSettings() {
+		ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[this.checkBoxes.size()];
+		int i=0;
+		for (CheckBox c : checkBoxes){
+			values[i] = new ConfigurationSettingBoolean(c.getValue());
+			i++;
+		}
+		return values;
 	}
 
 }

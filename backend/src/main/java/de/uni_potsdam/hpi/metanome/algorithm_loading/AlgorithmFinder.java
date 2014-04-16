@@ -49,6 +49,7 @@ public class AlgorithmFinder {
 
         LinkedList<String> availableAlgorithms = new LinkedList<String>();
         String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+        System.out.println(pathToFolder);
         File[] jarFiles = retrieveJarFiles(pathToFolder);
 
         for (File jarFile : jarFiles) {

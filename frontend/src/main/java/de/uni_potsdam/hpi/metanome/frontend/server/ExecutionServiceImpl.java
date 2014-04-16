@@ -16,34 +16,29 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
-import de.uni_potsdam.hpi.metanome.configuration.*;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.*;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
-import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsCache;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsHub;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Service Implementation for service that triggers algorithm execution
@@ -89,20 +84,20 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
      * @return a joint list of ConfigurationValues containing "standard" as well as "data source" parameters
      * @throws AlgorithmConfigurationException
      */
-    private List<ConfigurationValue> convertInputParameters(
-            List<InputParameter> parameters, List<InputParameterDataSource> dataSources)
-            throws AlgorithmConfigurationException {
-        List<ConfigurationValue> configValuesList = new LinkedList<>();
-
-        for (InputParameter parameter : parameters) {
-            configValuesList.add(convertToConfigurationValue(parameter));
-        }
-        for (InputParameter parameter : dataSources) {
-            configValuesList.add(convertToConfigurationValue(parameter));
-        }
-
-        return configValuesList;
-    }
+//    private List<ConfigurationValue> convertInputParameters(
+//            List<ConfigurationSpecification> parameters, List<ConfigurationSpecification> dataSources)
+//            throws AlgorithmConfigurationException {
+//        List<ConfigurationValue> configValuesList = new LinkedList<>();
+//
+//        for (ConfigurationSpecification parameter : parameters) {
+//            configValuesList.add(convertToConfigurationValue(parameter));
+//        }
+//        for (ConfigurationSpecification parameter : dataSources) {
+//            configValuesList.add(convertToConfigurationValue(parameter));
+//        }
+//
+//        return configValuesList;
+//    }
 
     /**
      * Finds the ConfigurationValue class that corresponds to the given InputParameter and creates an instance
@@ -112,27 +107,27 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
      * @return ConfigurationValue instance representing the same information as parameter
      * @throws AlgorithmConfigurationException
      */
-    public ConfigurationValue convertToConfigurationValue(
-            InputParameter parameter) throws AlgorithmConfigurationException {
-        if (parameter instanceof InputParameterString)
-            return new ConfigurationValueString(parameter.getIdentifier(),
-                    ((InputParameterString) parameter).getValues());
-
-        else if (parameter instanceof InputParameterBoolean)
-            return new ConfigurationValueBoolean(parameter.getIdentifier(),
-                    ((InputParameterBoolean) parameter).getValue());
-
-        else if (parameter instanceof InputParameterCsvFile)
-            return new ConfigurationValueRelationalInputGenerator(parameter.getIdentifier(),
-                    buildCsvFileGenerator((InputParameterCsvFile) parameter));
-
-        else if (parameter instanceof InputParameterSQLIterator)
-            return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(),
-                    buildSQLInputGenerator((InputParameterSQLIterator) parameter));
-
-        else
-            throw new AlgorithmConfigurationException("The InputParameter cannot be converted to a ConfigurationValue.");
-    }
+//    public ConfigurationValue convertToConfigurationValue(
+//            InputParameter parameter) throws AlgorithmConfigurationException {
+//        if (parameter instanceof InputParameterString)
+//            return new ConfigurationValueString(parameter.getIdentifier(),
+//                    ((InputParameterString) parameter).getValues());
+//
+//        else if (parameter instanceof InputParameterBoolean)
+//            return new ConfigurationValueBoolean(parameter.getIdentifier(),
+//                    ((InputParameterBoolean) parameter).getValue());
+//
+//        else if (parameter instanceof InputParameterCsvFile)
+//            return new ConfigurationValueRelationalInputGenerator(parameter.getIdentifier(),
+//                    buildCsvFileGenerator((InputParameterCsvFile) parameter));
+//
+//        else if (parameter instanceof InputParameterSQLIterator)
+//            return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(),
+//                    buildSQLInputGenerator((InputParameterSQLIterator) parameter));
+//
+//        else
+//            throw new AlgorithmConfigurationException("The InputParameter cannot be converted to a ConfigurationValue.");
+//    }
 
     /**
      * Creates a SqlInputGenerator from the corresponding InputParameter.
@@ -141,10 +136,10 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
      * @return SqlIteratorGenerator instance with the values from parameter
      * @throws AlgorithmConfigurationException
      */
-    private SQLInputGenerator buildSQLInputGenerator(
-            InputParameterSQLIterator parameter) throws AlgorithmConfigurationException {
-        return new SqlIteratorGenerator(parameter.getDbUrl(), parameter.getUserName(), parameter.getPassword());
-    }
+//    private SQLInputGenerator buildSQLInputGenerator(
+//            InputParameterSQLIterator parameter) throws AlgorithmConfigurationException {
+//        return new SqlIteratorGenerator(parameter.getDbUrl(), parameter.getUserName(), parameter.getPassword());
+//    }
 
     /**
      * Creates a CsvFileGenerator from the corresponding InputParameter. Uses default separators etc. unless
@@ -154,24 +149,23 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
      * @return CsvFileGenerator instance with the values from param
      * @throws AlgorithmConfigurationException
      */
-    protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {
-        try {
-            if (param.isAdvanced())
-                return new CsvFileGenerator(new File(param.getFileNameValue()), param.getSeparatorChar(),
-                        param.getQuoteChar(), param.getEscapeChar(), param.getLine(),
-                        param.isStrictQuotes(), param.isIgnoreLeadingWhiteSpace());
-            else
-                return new CsvFileGenerator(new File(param.getFileNameValue()));
-        } catch (FileNotFoundException e) {
-            throw new AlgorithmConfigurationException("Error opening specified CSV file.");
-        }
-    }
+//    protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {
+//        try {
+//            if (param.isAdvanced())
+//                return new CsvFileGenerator(new File(param.getFileNameValue()), param.getSeparatorChar(),
+//                        param.getQuoteChar(), param.getEscapeChar(), param.getLine(),
+//                        param.isStrictQuotes(), param.isIgnoreLeadingWhiteSpace());
+//            else
+//                return new CsvFileGenerator(new File(param.getFileNameValue()));
+//        } catch (FileNotFoundException e) {
+//            throw new AlgorithmConfigurationException("Error opening specified CSV file.");
+//        }
+//    }
 
     @Override
-    public long executeAlgorithm(String algorithmName, String executionIdentifier, List<InputParameter> parameters,
-                                 List<InputParameterDataSource> dataSources)
+    public long executeAlgorithm(String algorithmName, String executionIdentifier, List<ConfigurationSpecification> parameters)
             throws AlgorithmLoadingException, AlgorithmExecutionException {
-        List<ConfigurationValue> configs = convertInputParameters(parameters, dataSources);
+        //List<ConfigurationValue> configs = convertInputParameters(parameters, dataSources);
         AlgorithmExecutor executor;
 
         try {
@@ -181,7 +175,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
         } catch (UnsupportedEncodingException e) {
             throw new AlgorithmExecutionException("Could not build temporary file generator.");
         }
-        long executionTime = executor.executeAlgorithm(algorithmName, configs);
+        long executionTime = executor.executeAlgorithm(algorithmName, parameters); //TODO move conversion into config values to backend
         try {
             executor.close();
         } catch (IOException e) {
