@@ -20,7 +20,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * TODO docs
+ * Represents an algorithm in the database.
  *
  * @author Jakob Zwiener
  */
@@ -45,6 +45,25 @@ public class Algorithm {
 
     public Algorithm(String fileName) {
         this.fileName = fileName;
+    }
+
+    /**
+     * Stores an Algorithm in the database.
+     *
+     * @param algorithm the algorithm to store
+     */
+    public static void store(Algorithm algorithm) throws EntityStorageException {
+        HibernateUtil.store(algorithm);
+    }
+
+    /**
+     * Retrieves an Algorithm from the database.
+     *
+     * @param fileName the Algorithm's file name
+     * @return the algorithm
+     */
+    public static Algorithm retrieve(String fileName) throws EntityStorageException {
+        return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
     }
 
     @Id
@@ -143,24 +162,5 @@ public class Algorithm {
         result = 31 * result + (isUcc ? 1 : 0);
         result = 31 * result + (isBasicStat ? 1 : 0);
         return result;
-    }
-
-    /**
-     * Stores an Algorithm in the database.
-     *
-     * @param algorithm the algorithm to store
-     */
-    public static void store(Algorithm algorithm) throws EntityStorageException {
-        HibernateUtil.store(algorithm);
-    }
-
-    /**
-     * Retrieves an Algorithm from the database.
-     *
-     * @param fileName the Algorithm's file name
-     * @return the algorithm
-     */
-    public static Algorithm retrieve(String fileName) throws EntityStorageException {
-        return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
     }
 }

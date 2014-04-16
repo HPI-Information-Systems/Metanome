@@ -21,7 +21,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Represents an algorithm in the the database.
+ * Test for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm}
  *
  * @author Jakob Zwiener
  */
