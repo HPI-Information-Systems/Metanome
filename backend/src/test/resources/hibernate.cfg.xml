@@ -28,7 +28,7 @@
         <property name="connection.url">jdbc:hsqldb:mem:metanomedb//localhost</property>
         <property name="shutdown">true</property>
         <property name="connection.username">sa</property>
-        <property name="connection.password"></property>
+        <property name="connection.password"/>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
@@ -49,6 +49,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Execution"/>
 
     </session-factory>
 
