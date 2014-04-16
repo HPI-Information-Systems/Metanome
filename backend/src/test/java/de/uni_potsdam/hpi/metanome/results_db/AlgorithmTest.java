@@ -28,9 +28,9 @@ import static org.junit.Assert.*;
 public class AlgorithmTest {
 
     /**
-     * Test method for {@link Algorithm#store(Algorithm) and {@link Algorithm#retrieve(String)}}
+     * Test method for {@link Algorithm#store(Algorithm)} and {@link Algorithm#retrieve(String)}
      *
-     * Algorithms should be storable and retrievable.
+     * Algorithms should be storable and retrievable by id.
      */
     @Test
     public void testPersistence() throws EntityStorageException {
