@@ -25,7 +25,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:mem:metanomedb//localhost</property>
+        <property name="connection.url">jdbc:hsqldb:mem:metanomedb</property>
         <property name="shutdown">true</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"/>
