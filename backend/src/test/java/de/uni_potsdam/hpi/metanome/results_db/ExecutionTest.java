@@ -37,6 +37,8 @@ public class ExecutionTest {
     @Test
     public void testPersistance() throws EntityStorageException {
         // Setup
+        HibernateUtil.clear();
+
         // Expected values
         Algorithm expectedAlgorithm = new Algorithm("some file path");
         Date expectedDate = new Date();
@@ -49,6 +51,9 @@ public class ExecutionTest {
 
         // Check result
         assertEquals(expectedExecution, actualExecution);
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
 }

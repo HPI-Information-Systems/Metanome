@@ -35,6 +35,8 @@ public class AlgorithmTest {
     @Test
     public void testPersistence() throws EntityStorageException {
         // Setup
+        HibernateUtil.clear();
+
         // Expected values
         String expectedFileName = "someFileName";
         Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
@@ -45,6 +47,9 @@ public class AlgorithmTest {
 
         // Check result
         assertEquals(expectedAlgorithm, actualAlgorithm);
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
     /**

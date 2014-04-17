@@ -62,6 +62,7 @@ public class HibernateUtilTest {
     @Test
     public void testStoreFailNonEntity() {
         // Setup
+        HibernateUtil.clear();
         Object actualObject = new Object();
 
         // Execute functionality
@@ -72,6 +73,9 @@ public class HibernateUtilTest {
         } catch (EntityStorageException e) {
             // Intentionally left blank
         }
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
     /**
@@ -82,6 +86,9 @@ public class HibernateUtilTest {
      */
     @Test
     public void testRetrieveFailNonEntity() {
+        // Setup
+        HibernateUtil.clear();
+
         // Execute functionality
         // Check result
         try {
@@ -90,6 +97,9 @@ public class HibernateUtilTest {
         } catch (EntityStorageException e) {
             // Intentionally left blank
         }
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
     /**
@@ -101,6 +111,8 @@ public class HibernateUtilTest {
     @Test
     public void testDbRoundtrip() throws EntityStorageException {
         // Setup
+        HibernateUtil.clear();
+
         // Expected values
         String expectedFileName = "testFileName";
         Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
@@ -111,6 +123,9 @@ public class HibernateUtilTest {
 
         // Check result
         assertEquals(expectedAlgorithm, actualAlgorithm);
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
     /**
@@ -143,6 +158,7 @@ public class HibernateUtilTest {
     @Test
     public void testClear() throws EntityStorageException {
         // Setup
+        HibernateUtil.clear();
         String expectedAlgorithmId = "some alorithm";
         Algorithm expectedAlgorithm = new Algorithm(expectedAlgorithmId);
 
@@ -153,6 +169,9 @@ public class HibernateUtilTest {
         // Check result
         Algorithm actualAlgorithm = Algorithm.retrieve(expectedAlgorithmId);
         assertNull(actualAlgorithm);
+
+        // Cleanup
+        HibernateUtil.clear();
     }
 
 }
