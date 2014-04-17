@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * TODO docs
+ * Represents the composite key of an {@link de.uni_potsdam.hpi.metanome.results_db.Execution} in the database.
  *
  * @author Jakob Zwiener
  */
