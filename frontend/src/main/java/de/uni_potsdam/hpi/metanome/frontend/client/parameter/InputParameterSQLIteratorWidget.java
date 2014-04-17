@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.FlexTable;
@@ -37,7 +38,17 @@ InputParameterDataSourceWidget {
 			ConfigurationSpecificationSQLIterator config) {
 		super();
 		this.specification = config;
-		
+		// TODO: implement arbitrary number of widgets
+        widgets = new ArrayList<>(specification.getNumberOfValues());
+        for (int i = 0; i < specification.getNumberOfValues(); i++) {
+        	SQLIteratorInput input = new SQLIteratorInput();
+            this.addWidget(input);
+        }
+	}
+	
+	public void addWidget(SQLIteratorInput widget) {
+		widgets.add(widget);
+        this.add(widget);
 	}
 
 	@Override
@@ -60,6 +71,11 @@ InputParameterDataSourceWidget {
 			this.widgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
 		else
 			; //TODO throw some exception
+	}
+
+	@Override
+	public boolean accepts(ConfigurationSettingDataSource setting) {
+		return setting instanceof ConfigurationSettingSQLIterator;
 	}
 
 }

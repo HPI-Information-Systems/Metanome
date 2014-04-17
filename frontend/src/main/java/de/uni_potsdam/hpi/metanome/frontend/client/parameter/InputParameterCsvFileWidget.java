@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
@@ -23,7 +24,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -47,6 +47,17 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
     public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
         super();
         this.specification = configSpec;
+        //TODO implement arbitrary number of values
+        widgets = new ArrayList<>(specification.getNumberOfValues());
+        for (int i = 0; i < specification.getNumberOfValues(); i++) {
+        	CsvFileInput input = new CsvFileInput();
+        	this.addWidget(input);
+        }
+    }
+    
+    private void addWidget(CsvFileInput widget) {
+    	this.widgets.add(widget);
+        this.add(widget);
     }
 
 
@@ -101,6 +112,11 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 	public void setDataSource(ConfigurationSettingDataSource dataSource) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean accepts(ConfigurationSettingDataSource setting) {
+		return setting instanceof ConfigurationSettingCsvFile;
 	}
 
 

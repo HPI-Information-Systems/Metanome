@@ -25,6 +25,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 
 import java.io.Closeable;
@@ -74,9 +75,14 @@ public class AlgorithmExecutor implements Closeable {
      */
     public long executeAlgorithm(String algorithmFileName, 
     		List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
+    	
     	List<ConfigurationValue> parameterValues = new LinkedList<ConfigurationValue>();
         //TODO convert specs to values
-
+    	for (ConfigurationSpecification specification : parameters) {
+    		parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
+    	}
+    	
+    	
     	try {
     		return executeAlgorithmWithValues(algorithmFileName, parameterValues);
         } catch (IllegalArgumentException e) {

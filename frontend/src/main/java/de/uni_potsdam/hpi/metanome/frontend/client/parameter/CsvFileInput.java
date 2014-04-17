@@ -70,7 +70,19 @@ public class CsvFileInput extends VerticalPanel {
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
     }
 
-    /**
+    public CsvFileInput(ConfigurationSettingCsvFile csvSpec) {
+    	this();
+    	
+    	this.advancedCheckbox.setValue(csvSpec.isAdvanced());
+    	this.separatorTextbox.setValue(""+csvSpec.getSeparatorChar());
+    	this.quoteTextbox.setValue(""+csvSpec.getQuoteChar());
+    	this.escapeTextbox.setValue(""+csvSpec.getEscapeChar());
+    	this.lineIntegerbox.setValue(csvSpec.getLine());
+    	this.strictQuotesCheckbox.setValue(csvSpec.isStrictQuotes());
+    	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSpec.isIgnoreLeadingWhiteSpace());
+    }
+
+	/**
      * Add another user input row to the bottom of the given table
      *
      * @param table       the UI object on which to add the row

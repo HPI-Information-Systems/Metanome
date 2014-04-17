@@ -43,7 +43,7 @@ public class ConfigurationValueRelationalInputGenerator implements Configuration
 		this.identifier = identifier;
 		this.values = values;
 	}
-	
+
 	@Override
 	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
 		if (!algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {

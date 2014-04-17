@@ -145,7 +145,7 @@ public class GwtTestParameter extends GWTTestCase {
 		//Setup
 		ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
 		csvSpec.setAdvanced(true);
-		CsvFileInput csvWidget = new CsvFileInput();
+		CsvFileInput csvWidget = new CsvFileInput(csvSpec);
 		FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
 		String characterString = "X";
 		int line = 5;

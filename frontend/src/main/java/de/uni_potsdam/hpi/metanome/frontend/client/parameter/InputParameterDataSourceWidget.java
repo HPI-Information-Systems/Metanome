@@ -23,4 +23,6 @@ public interface InputParameterDataSourceWidget extends InputParameterWidget {
 	
 	public void setDataSource(ConfigurationSettingDataSource dataSource);
 
+	public boolean accepts(ConfigurationSettingDataSource setting);
+
 }

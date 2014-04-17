@@ -21,6 +21,8 @@ import java.util.Set;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 
 /**
  * Represents string configuration values for {@link Algorithm}s.
@@ -43,6 +45,17 @@ public class ConfigurationValueString implements ConfigurationValue {
 		this.values = values;
 	}
 	
+	public ConfigurationValueString(
+			ConfigurationSpecificationString specification) {
+		this.identifier = specification.getIdentifier();
+		this.values = new String[specification.getSettings().length]; 
+		int i=0;
+		for (ConfigurationSettingString setting : specification.getSettings()) {
+			this.values[i] = setting.value;
+			i++;
+		}
+	}
+
 	@Override
 	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
 		if (!algorithmInterfaces.contains(StringParameterAlgorithm.class)) {
