@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -92,9 +93,24 @@ public class HibernateUtil {
         return value;
     }
 
+    /**
+     * Shuts down the database.
+     */
     public static void shutdown() {
         getSessionFactory().close();
         sessionFactory = null;
+    }
+
+    /**
+     * Clears the default schema (public).
+     */
+    public static void clear() {
+        Session session = openNewSession();
+
+        SQLQuery query = session.createSQLQuery("TRUNCATE SCHEMA public AND COMMIT");
+        query.executeUpdate();
+
+        session.close();
     }
 
     protected static SessionFactory buildSessionFactory() {

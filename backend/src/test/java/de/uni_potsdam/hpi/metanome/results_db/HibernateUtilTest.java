@@ -132,4 +132,27 @@ public class HibernateUtilTest {
         assertTrue(originalSessionFactory.isClosed());
         assertNotSame(newOpenSessionFactory, originalSessionFactory);
     }
+
+    /**
+     * Test method for {@link HibernateUtil#clear()}
+     * <p/>
+     * After clear the previously written entites should no longer be present.
+     *
+     * @throws EntityStorageException
+     */
+    @Test
+    public void testClear() throws EntityStorageException {
+        // Setup
+        String expectedAlgorithmId = "some alorithm";
+        Algorithm expectedAlgorithm = new Algorithm(expectedAlgorithmId);
+
+        // Execute functionality
+        Algorithm.store(expectedAlgorithm);
+        HibernateUtil.clear();
+
+        // Check result
+        Algorithm actualAlgorithm = Algorithm.retrieve(expectedAlgorithmId);
+        assertNull(actualAlgorithm);
+    }
+
 }
