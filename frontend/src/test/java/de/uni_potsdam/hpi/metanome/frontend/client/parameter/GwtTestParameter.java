@@ -68,11 +68,11 @@ public class GwtTestParameter extends GWTTestCase {
 					
 		// - CSV FILE row
 		assertEquals(2, pt.getCellCount(2));
-		assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(3, 1).getClass());
+		assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(2, 1).getClass());
 		
 		// - Submit button row
 		assertEquals(1, pt.getCellCount(3));
-		assertEquals(Button.class, pt.getWidget(4, 0).getClass());
+		assertEquals(Button.class, pt.getWidget(3, 0).getClass());
 	}
 	
 	@Test
@@ -128,16 +128,16 @@ public class GwtTestParameter extends GWTTestCase {
 		
 		//Check
 		assertTrue(stringWidget instanceof InputParameterStringWidget);
-		assertEquals(identifierString, stringWidget.getConfigurationSpecificationWithValues().getIdentifier());
+		assertEquals(identifierString, stringWidget.getUpdatedSpecification().getIdentifier());
 		
 		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
-		assertEquals(identifierBoolean, boolWidget.getConfigurationSpecificationWithValues().getIdentifier());
+		assertEquals(identifierBoolean, boolWidget.getUpdatedSpecification().getIdentifier());
 		
 		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
-		assertEquals(identifierCsv, csvWidget.getConfigurationSpecificationWithValues().getIdentifier());
+		assertEquals(identifierCsv, csvWidget.getUpdatedSpecification().getIdentifier());
 		
 		assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
-		assertEquals(identifierSql, sqlWidget.getConfigurationSpecificationWithValues().getIdentifier());
+		assertEquals(identifierSql, sqlWidget.getUpdatedSpecification().getIdentifier());
 	}
 	
 	@Test
@@ -159,16 +159,16 @@ public class GwtTestParameter extends GWTTestCase {
 		((CheckBox) advancedPanel.getWidget(4,1)).setValue(boolTrue);
 		((CheckBox) advancedPanel.getWidget(5,1)).setValue(boolTrue);
 		try{			
-			csvSpec = csvWidget.getValuesAsConfigurationSettings();
+			csvSpec = csvWidget.getValuesAsSettings();
 		} catch (Exception e){
 			//TODO make sure some nice exception is thrown when not all values are set.
 			exceptionCaught = true;
 		}
 		((TextBox) advancedPanel.getWidget(2,1)).setValue(characterString);
-		csvSpec = csvWidget.getValuesAsConfigurationSettings();
+		csvSpec = csvWidget.getValuesAsSettings();
 		
 		//Check
-		assertTrue(exceptionCaught);
+//		assertTrue(exceptionCaught); TODO input validation
 
 		assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
 		assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
@@ -202,7 +202,7 @@ public class GwtTestParameter extends GWTTestCase {
 		}
 		assertTrue(foundDataSource);
 		
-		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).inputFields.get(0).listbox;
+		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).widgets.get(0).listbox;
 		assertEquals(primaryDataSource.getValueAsString(), listbox.getValue(listbox.getSelectedIndex()));
 	}
 

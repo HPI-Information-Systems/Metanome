@@ -26,6 +26,9 @@ public class ConfigurationSettingString implements Serializable {
 	
 	public String value;
 
+	
+	public ConfigurationSettingString() {}
+	
     public ConfigurationSettingString(String value) {
         this.value = value;
     }

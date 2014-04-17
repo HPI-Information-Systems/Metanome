@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 public interface InputParameterWidget extends IsWidget {
-	
-	public ConfigurationSpecification getConfigurationSpecificationWithValues();
 
+    public  ConfigurationSpecification getUpdatedSpecification();
 }

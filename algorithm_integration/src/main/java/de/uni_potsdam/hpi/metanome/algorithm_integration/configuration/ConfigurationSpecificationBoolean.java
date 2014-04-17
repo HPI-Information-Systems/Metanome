@@ -28,6 +28,8 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
 	
 	public ConfigurationSettingBoolean[] settings;
 
+	public ConfigurationSpecificationBoolean() {}
+	
     /**
      * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
      *

@@ -27,6 +27,8 @@ public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecific
 	
 	private ConfigurationSettingSQLIterator[] settings;
 	
+	public ConfigurationSpecificationSQLIterator() {}
+	
     /**
      * Construct a {@link ConfigurationSpecificationSQLIterator}, requesting 1 value.
      *
@@ -51,5 +53,9 @@ public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecific
 	@Override
 	public ConfigurationSettingSQLIterator[] getSettings() {
 		return settings;
+	}
+
+	public void setValues(ConfigurationSettingSQLIterator[] values) {
+		this.settings = values;
 	}
 }

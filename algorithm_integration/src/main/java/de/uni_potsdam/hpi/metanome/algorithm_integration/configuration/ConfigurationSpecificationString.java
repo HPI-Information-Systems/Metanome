@@ -27,6 +27,8 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
 	
 	private ConfigurationSettingString[] settings;
 	
+	public ConfigurationSpecificationString() {}
+	
     /**
      * Construct a ConfigurationSepcificationString, requesting 1 value.
      *

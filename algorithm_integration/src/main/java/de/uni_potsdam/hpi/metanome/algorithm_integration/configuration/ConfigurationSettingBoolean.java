@@ -26,6 +26,8 @@ public class ConfigurationSettingBoolean implements Serializable {
 	
 	public boolean value;
 
+	public ConfigurationSettingBoolean() {}
+	
     public ConfigurationSettingBoolean(boolean value) {
         this.value = value;
     }

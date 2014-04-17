@@ -34,9 +34,13 @@ public abstract class ConfigurationSpecification implements Serializable {
 
 	public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
 
-    protected final String identifier;
+    protected String identifier;
     protected final int numberOfValues;
 
+    public ConfigurationSpecification() {
+    	this.numberOfValues = 1;
+    }
+    
     /**
      * Construct a configuration specification.
      * A string identifier is stored to identify configuration parameter.

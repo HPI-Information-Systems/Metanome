@@ -31,10 +31,20 @@ public class SQLIteratorInput extends FlexTable {
 		this.setWidget(row, 1, inputWidget);
 	}
 	
-	protected void setCurrentValues(ConfigurationSettingSQLIterator setting){
+	public void setValues(ConfigurationSettingSQLIterator dataSource) {
+		this.dbUrlTextbox.setValue(dataSource.getDbUrl());
+		this.usernameTextbox.setValue(dataSource.getUsername());
+		this.passwordTextbox.setValue(dataSource.getPassword());
+	}
+
+	public ConfigurationSettingSQLIterator getValue() {
+		ConfigurationSettingSQLIterator setting = new ConfigurationSettingSQLIterator();
+		
 		setting.setDbUrl(this.dbUrlTextbox.getValue());
 		setting.setUsername(this.usernameTextbox.getValue());
 		setting.setPassword(this.passwordTextbox.getValue());
+		
+		return setting;
 	}
 
 }

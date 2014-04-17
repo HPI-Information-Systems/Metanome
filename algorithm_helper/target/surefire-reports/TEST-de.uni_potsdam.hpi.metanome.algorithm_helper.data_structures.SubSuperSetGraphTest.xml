@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.034" errors="0" skipped="0" tests="5" name="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest">
+<testsuite failures="0" time="0.039" errors="0" skipped="0" tests="5" name="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/jre/lib"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
     <property name="net.sourceforge.cobertura.datafile" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/algorithm_helper/target/cobertura/cobertura.ser"/>
-    <property name="classworlds.conf" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1630654637639312311.tmp"/>
+    <property name="classworlds.conf" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1873084069111422909.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/Claudia/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -64,9 +64,9 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.017" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testAdd"/>
-  <testcase time="0.005" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testGetExistingSubsets"/>
-  <testcase time="0.008" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testAddAll"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testEqualsAndHashCode"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testIsEmpty"/>
+  <testcase time="0.023" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testAdd"/>
+  <testcase time="0.003" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testGetExistingSubsets"/>
+  <testcase time="0.009" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testAddAll"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testEqualsAndHashCode"/>
+  <testcase time="0.002" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest" name="testIsEmpty"/>
 </testsuite>

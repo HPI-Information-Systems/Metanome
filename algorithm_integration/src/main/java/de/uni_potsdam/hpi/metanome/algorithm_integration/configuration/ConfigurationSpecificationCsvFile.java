@@ -27,6 +27,8 @@ public class ConfigurationSpecificationCsvFile extends ConfigurationSpecificatio
 	
 	private ConfigurationSettingCsvFile[] settings;
 	
+	public ConfigurationSpecificationCsvFile() {}
+	
     /**
      * Constructs a {@link ConfigurationSpecificationCsvFile}, requesting 1 value.
      *

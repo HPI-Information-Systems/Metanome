@@ -16,11 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 
@@ -28,30 +29,37 @@ public class InputParameterSQLIteratorWidget extends FlexTable implements
 InputParameterDataSourceWidget {
 
 	/** Corresponding inputParameter, where the value is going to be written */
-	private ConfigurationSpecificationSQLIterator configSpec;
-	
-	private SQLIteratorInput inputFields; 
+	private ConfigurationSpecificationSQLIterator specification;
+	private List<SQLIteratorInput> widgets; 
 
 
 	public InputParameterSQLIteratorWidget(
-			ConfigurationSpecificationSQLIterator inputParameter) {
+			ConfigurationSpecificationSQLIterator config) {
 		super();
-		this.configSpec = inputParameter;
+		this.specification = config;
 		
 	}
 
 	@Override
-	public ConfigurationSpecification getConfigurationSpecificationWithValues() {
-		// TODO Auto-generated method stub: 		setCurrentValues(this.configSpec);
-		return this.configSpec;
+	public ConfigurationSpecification getUpdatedSpecification() {
+		// Build an array with the actual number of set values.
+        ConfigurationSettingSQLIterator[] values = new ConfigurationSettingSQLIterator[widgets.size()];
+
+        for (int i = 0; i < widgets.size(); i++) {
+            values[i] = widgets.get(i).getValue();
+        }
+
+        specification.setValues(values);
+        
+        return this.specification;
 	}
 
 	@Override
 	public void setDataSource(ConfigurationSettingDataSource dataSource) {
-		// TODO Auto-generated method stub
-//		this.dbUrlTextbox.setDataSource(sqlParameter.getDbUrl());
-//		this.passwordTextbox.setDataSource(sqlParameter.getPassword());
-//		this.usernameTextbox.setDataSource(sqlParameter.getUserName());
+		if (dataSource instanceof ConfigurationSettingSQLIterator)
+			this.widgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
+		else
+			; //TODO throw some exception
 	}
 
 }

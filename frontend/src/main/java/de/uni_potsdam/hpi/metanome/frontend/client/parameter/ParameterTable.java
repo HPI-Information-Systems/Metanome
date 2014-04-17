@@ -51,7 +51,7 @@ public class ParameterTable extends FlexTable {
 			if (currentWidget instanceof InputParameterDataSourceWidget) {
 				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
 				if (primaryDataSource != null && 
-						currentWidget.getConfigurationSpecificationWithValues().getClass().equals(primaryDataSource.getClass()))
+						currentWidget.getUpdatedSpecification().getClass().equals(primaryDataSource.getClass()))
 					dataSourceWidget.setDataSource(primaryDataSource);
 				this.dataSourceWidgets.add(dataSourceWidget);
 			}
@@ -83,7 +83,7 @@ public class ParameterTable extends FlexTable {
 	public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
 		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
 		for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets){
-			parameterList.add(childWidget.getConfigurationSpecificationWithValues());
+			parameterList.add(childWidget.getUpdatedSpecification());
 		}
 		return parameterList;
 	}
@@ -95,7 +95,7 @@ public class ParameterTable extends FlexTable {
 	public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
 		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
 		for (InputParameterWidget childWidget : this.childWidgets){
-			parameterList.add(childWidget.getConfigurationSpecificationWithValues());
+			parameterList.add(childWidget.getUpdatedSpecification());
 		}
 		return parameterList;
 	}

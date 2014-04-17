@@ -167,11 +167,9 @@ public class CsvFileInput extends VerticalPanel {
         return itemTexts;
     }
 
-	public ConfigurationSettingCsvFile getValuesAsConfigurationSettings() {
+	public ConfigurationSettingCsvFile getValuesAsSettings() {
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		return setCurrentValues(setting);
 	}
-
-
 
 }

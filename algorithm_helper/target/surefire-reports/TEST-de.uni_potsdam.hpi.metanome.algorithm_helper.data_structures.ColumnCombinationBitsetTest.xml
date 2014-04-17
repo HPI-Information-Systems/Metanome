@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.636" errors="0" skipped="0" tests="44" name="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest">
+<testsuite failures="0" time="0.621" errors="0" skipped="0" tests="44" name="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/jre/lib"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
     <property name="net.sourceforge.cobertura.datafile" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/metanome/algorithm_helper/target/cobertura/cobertura.ser"/>
-    <property name="classworlds.conf" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1630654637639312311.tmp"/>
+    <property name="classworlds.conf" value="/Users/Claudia/Uni/Job/MetanomeWorkspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1873084069111422909.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/Claudia/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -64,46 +64,46 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.062" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinations"/>
-  <testcase time="0.405" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfChoosesEfficientImplementation"/>
+  <testcase time="0.063" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinations"/>
+  <testcase time="0.395" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfChoosesEfficientImplementation"/>
   <testcase time="0.002" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetSetBits"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testContainsProperSubset"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetContainedOneColumnCombinations"/>
-  <testcase time="0.002" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfTopDownNEqualSuperset"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testTestBit"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testContainsSubset"/>
-  <testcase time="0.003" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSubsetsSupersetOfNotSubset"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfTopDownNEqualSuperset"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testTestBit"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testContainsSubset"/>
+  <testcase time="0.004" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSubsetsSupersetOfNotSubset"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSupersetsColumnCombinationBitset"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsN"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsN"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfTopDownNGreaterSuperset"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOf"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testMinus"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testUnion"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSubsetsSupersetOf"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testEqualsHashCode"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testToString"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testToString"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testSizeSetColumns"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIsProperSubsetOf"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSubsets"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSubsets"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testRemoveColumn"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testAddColumnOverflow"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSupersetsInt"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testAddColumnOverflow"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetDirectSupersetsInt"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testColumnCombinationBitsetCopy"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetAllSubsetsOneColumn"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testAddColumn"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testAddColumn"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testSetColumnsOpenBitSet"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOf2"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testColumnCombinationBitset"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIsSubsetOf"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testColumnCombinationBitset"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIsSubsetOf"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testSizeBitset"/>
-  <testcase time="0.012" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testCreateColumnCombination"/>
+  <testcase time="0.013" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testCreateColumnCombination"/>
   <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetAllSubsets"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIntersection"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetClearedBits"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIntersection"/>
+  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetClearedBits"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testSetAllBits"/>
-  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testCreateColumnCombinationFromEmpty"/>
+  <testcase time="0.002" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testCreateColumnCombinationFromEmpty"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testIsEmpty"/>
-  <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfInversed"/>
+  <testcase time="0.001" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetNSubsetColumnCombinationsSupersetOfInversed"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testGetAllSubsetsEmptyColumnCombination"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testEqualsHashCodeLuceneBug"/>
   <testcase time="0" classname="de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitsetTest" name="testContainsSubsetDoesNotWriteSets"/>

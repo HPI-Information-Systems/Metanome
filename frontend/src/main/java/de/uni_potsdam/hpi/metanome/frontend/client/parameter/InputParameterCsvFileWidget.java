@@ -23,6 +23,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -34,9 +35,9 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
     /**
      * Corresponding ConfigurationSpecification, where the value is going to be written
      */
-    private ConfigurationSpecificationCsvFile configSpec;
+    private ConfigurationSpecificationCsvFile specification;
 
-    protected List<CsvFileInput> inputFields;
+    protected List<CsvFileInput> widgets;
 
     /**
      * Constructor.
@@ -45,7 +46,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
      */
     public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
         super();
-        this.configSpec = configSpec;
+        this.specification = configSpec;
     }
 
 
@@ -68,7 +69,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
                 for (String value : result) {
                     String displayName = value.substring(value.lastIndexOf("/") + 1);
                     listbox.addItem(displayName, value);
-                    if (value.equals(configSpec.getFileNameValue()))
+                    if (value.equals(specification.getFileNameValue()))
                         listbox.setSelectedIndex(index);
                     index++;
                 }
@@ -82,15 +83,17 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
   
 
 	@Override
-	public ConfigurationSpecificationCsvFile getConfigurationSpecificationWithValues() {
-		this.configSpec.setValues(this.getConfigurationSettings());
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ConfigurationSpecificationCsvFile getUpdatedSpecification() {
+		// Build an array with the actual number of set values.
+        ConfigurationSettingCsvFile[] values = new ConfigurationSettingCsvFile[widgets.size()];
 
-	private ConfigurationSettingCsvFile[] getConfigurationSettings() {
-		// TODO Auto-generated method stub
-		return null;
+        for (int i = 0; i < widgets.size(); i++) {
+            values[i] = widgets.get(i).getValuesAsSettings();
+        }
+        
+        specification.setValues(values);
+     
+        return specification;
 	}
 
 
@@ -99,5 +102,6 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

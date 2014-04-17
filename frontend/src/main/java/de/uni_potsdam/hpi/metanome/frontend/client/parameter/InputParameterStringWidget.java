@@ -29,31 +29,31 @@ public class InputParameterStringWidget extends VerticalPanel implements InputPa
 	
 	// FIXME implement several input values
 	
-	private ConfigurationSpecificationString configSpec;
-	private List<TextBox> textBoxes;
+	private ConfigurationSpecificationString specification;
+	private List<TextBox> widgets;
 	
 	public InputParameterStringWidget(ConfigurationSpecificationString config) {
 		super();
-		this.configSpec = config;
-		this.textBoxes = new LinkedList<TextBox>();
+		this.specification = config;
+		this.widgets = new LinkedList<TextBox>();
 		for (int i=0; i<config.getNumberOfValues(); i++) {
 			TextBox textBox = new TextBox();
-			this.textBoxes.add(textBox);
+			this.widgets.add(textBox);
 			this.add(textBox);
 		}
 	}
 	
 	@Override
-	public ConfigurationSpecificationString getConfigurationSpecificationWithValues(){
-		this.configSpec.setValues(this.getConfigurationSettings());
-		return this.configSpec;
+	public ConfigurationSpecificationString getUpdatedSpecification(){
+		this.specification.setValues(this.getConfigurationSettings());
+		return this.specification;
 	}
 	
 	
 	protected ConfigurationSettingString[] getConfigurationSettings() {
-		ConfigurationSettingString[] values = new ConfigurationSettingString[this.textBoxes.size()];
+		ConfigurationSettingString[] values = new ConfigurationSettingString[this.widgets.size()];
 		int i=0;
-		for (TextBox b : this.textBoxes){
+		for (TextBox b : this.widgets){
 			values[i] = new ConfigurationSettingString(b.getValue());
 			i++;
 		}

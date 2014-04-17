@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import java.io.Serializable;
+
 
 /**
  * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. 
@@ -26,7 +28,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @author Claudia
  *
  */
-public abstract class ConfigurationSettingDataSource {
+public abstract class ConfigurationSettingDataSource implements Serializable {
 	private static final long serialVersionUID = 8344875059579539858L;
 
 	public abstract String getValueAsString();

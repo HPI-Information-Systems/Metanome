@@ -16,47 +16,45 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
 public class InputParameterBooleanWidget extends VerticalPanel implements InputParameterWidget {
-	
-	private List<CheckBox> checkBoxes;
-	private ConfigurationSpecificationBoolean configSpec;
 
-	public InputParameterBooleanWidget(
-			ConfigurationSpecificationBoolean config) {
-		super();
-		this.configSpec = config;
-		this.checkBoxes = new LinkedList<CheckBox>();
-		for (int i=0; i<config.getNumberOfValues(); i++) {
-			CheckBox checkBox = new CheckBox();
-			this.checkBoxes.add(checkBox);
-			this.add(checkBox);
-		}
-	}
+	protected ConfigurationSpecificationBoolean specification;
+    protected List<CheckBox> widgets;
 
-	@Override
-	public ConfigurationSpecificationBoolean getConfigurationSpecificationWithValues(){
-		this.configSpec.setValues(this.getConfigurationSettings());
-		return this.configSpec;
-	}
-	
-	
-	protected ConfigurationSettingBoolean[] getConfigurationSettings() {
-		ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[this.checkBoxes.size()];
-		int i=0;
-		for (CheckBox c : checkBoxes){
-			values[i] = new ConfigurationSettingBoolean(c.getValue());
-			i++;
-		}
-		return values;
-	}
+    public InputParameterBooleanWidget(
+            ConfigurationSpecificationBoolean specification) {
+        super();
+        this.specification = specification;
+        // TODO: implement arbitrary number of widgets
+        widgets = new ArrayList<>(specification.getNumberOfValues());
+        for (int i = 0; i < specification.getNumberOfValues(); i++) {
+        	CheckBox checkbox = new CheckBox(specification.getIdentifier());
+            widgets.add(checkbox);
+            this.add(checkbox);
+        }
+    }
 
+    @Override
+    public ConfigurationSpecification getUpdatedSpecification() {
+        // Build an array with the actual number of set values.
+        ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[widgets.size()];
+
+        for (int i = 0; i < widgets.size(); i++) {
+            values[i] = new ConfigurationSettingBoolean(widgets.get(i).getValue());
+        }
+
+        specification.setValues(values);
+
+        return specification;
+    }
 }

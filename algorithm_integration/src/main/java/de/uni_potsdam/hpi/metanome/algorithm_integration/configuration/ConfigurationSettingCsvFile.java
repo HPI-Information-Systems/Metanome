@@ -16,13 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import java.io.Serializable;
 
 
 /**
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource implements Serializable {
+public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
 	private static final long serialVersionUID = -770650561337139324L;
 
 	private String fileName;
@@ -34,6 +33,19 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 	private boolean ignoreLeadingWhiteSpace;
 	private int line;
 	
+	public ConfigurationSettingCsvFile() {}
+	
+	public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote, 
+			char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line) {
+		this.fileName = fileName;
+		this.advanced = advanced;
+		this.separatorChar = separator;
+		this.quoteChar = quote;
+		this.escapeChar = escape;
+		this.strictQuotes = strictQuotes;
+		this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+		this.line = line;
+	}
 	
 	public void setFileName(String value) {
 		this.fileName = value;		
