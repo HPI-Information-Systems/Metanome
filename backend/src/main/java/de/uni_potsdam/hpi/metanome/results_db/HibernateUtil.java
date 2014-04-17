@@ -55,7 +55,7 @@ public class HibernateUtil {
     /**
      * Stores an entity in the database.
      *
-     * @param entity
+     * @param entity the entity to store
      */
     public static void store(Object entity) throws EntityStorageException {
         if (!entity.getClass().isAnnotationPresent(Entity.class)) {
@@ -74,8 +74,8 @@ public class HibernateUtil {
     /**
      * Retrieves an entity of the given class and with the given id from the database.
      *
-     * @param clazz
-     * @param id
+     * @param clazz the class of the entity to retrieve
+     * @param id the id of the entity to retrieve
      * @return the requested entity
      */
     public static Object retrieve(Class clazz, Serializable id) throws EntityStorageException {
