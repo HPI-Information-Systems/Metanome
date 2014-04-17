@@ -31,25 +31,21 @@ import java.io.Serializable;
  * @author Jakob Zwiener
  */
 public class HibernateUtil {
-	 
-	private static SessionFactory sessionFactory = null;
-	
-	private HibernateUtil() {
-		
-	}
- 
-	/**
-	 * @return the singleton {@link SessionFactory}
-	 */
+
+    private static SessionFactory sessionFactory = null;
+
+    /**
+     * @return the singleton {@link SessionFactory}
+     */
 	public static synchronized SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			sessionFactory = buildSessionFactory();
 		}
-		
-		return sessionFactory;
+
+        return sessionFactory;
 	}
-	
-	/**
+
+    /**
 	 * @return a fresh db session
 	 */
 	public static Session openNewSession() {
@@ -76,7 +72,7 @@ public class HibernateUtil {
     }
 
     /**
-     * Retrieves an entitie of the given class and with the given id from the databse.
+     * Retrieves an entity of the given class and with the given id from the database.
      *
      * @param clazz
      * @param id
@@ -94,6 +90,11 @@ public class HibernateUtil {
         session.close();
 
         return value;
+    }
+
+    public static void shutdown() {
+        getSessionFactory().close();
+        sessionFactory = null;
     }
 
     protected static SessionFactory buildSessionFactory() {

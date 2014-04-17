@@ -112,4 +112,24 @@ public class HibernateUtilTest {
         // Check result
         assertEquals(expectedAlgorithm, actualAlgorithm);
     }
+
+    /**
+     * Test method for {@link HibernateUtil#shutdown()}
+     * <p/>
+     * After shutting down the database the session factory should be closed and a new one created on the next start.
+     */
+    @Test
+    public void testShutdown() {
+        // Setup
+        SessionFactory originalSessionFactory = HibernateUtil.getSessionFactory();
+        assertFalse(originalSessionFactory.isClosed());
+
+        // Execute functionality
+        HibernateUtil.shutdown();
+        SessionFactory newOpenSessionFactory = HibernateUtil.getSessionFactory();
+
+        // Check result
+        assertTrue(originalSessionFactory.isClosed());
+        assertNotSame(newOpenSessionFactory, originalSessionFactory);
+    }
 }
