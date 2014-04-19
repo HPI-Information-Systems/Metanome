@@ -29,23 +29,36 @@ import javax.persistence.Id;
 @Entity
 public class Input {
 
-    protected int id;
+    protected long id;
 
+    /**
+     * Stores an Input in the database.
+     *
+     * @param input the Input to store
+     * @throws EntityStorageException
+     */
     public static void store(Input input) throws EntityStorageException {
         HibernateUtil.store(input);
     }
 
-    public static Input retrieve(int id) throws EntityStorageException {
+    /**
+     * Retrieves an Input from the database.
+     *
+     * @param id the Input's id
+     * @return the input
+     * @throws EntityStorageException
+     */
+    public static Input retrieve(long id) throws EntityStorageException {
         return (Input) HibernateUtil.retrieve(Input.class, id);
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -63,6 +76,6 @@ public class Input {
 
     @Override
     public int hashCode() {
-        return id;
+        return (int) (id ^ (id >>> 32));
     }
 }

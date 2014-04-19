@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNotEquals;
 public class InputTest {
 
     /**
-     * Test method for {@link Input#store(Input)} and {@link Input#retrieve(int)}
+     * Test method for {@link Input#store(Input)} and {@link Input#retrieve(long)}
      * <p/>
      * Inputs should be storable and retrievable by id.
      */
@@ -44,7 +44,7 @@ public class InputTest {
 
         // Execute functionality
         Input.store(expectedInput);
-        int id = expectedInput.getId();
+        long id = expectedInput.getId();
         Input actualInput = Input.retrieve(id);
 
         // Check result
@@ -66,7 +66,7 @@ public class InputTest {
 
         // Execute functionality
         // Check result
-        int oldId = input.getId();
+        long oldId = input.getId();
         Input.store(input);
         assertNotEquals(oldId, input.getId());
         oldId = input.getId();
