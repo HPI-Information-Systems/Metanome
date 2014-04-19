@@ -16,10 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -39,6 +41,7 @@ public class Execution {
     protected Date end;
     // TODO store proper config
     protected String config;
+    protected Collection<Input> inputs = new ArrayList<>();
     protected String hardwareDescription;
     protected String description;
 
@@ -113,6 +116,21 @@ public class Execution {
         this.config = config;
     }
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @CollectionId(
+            columns = @Column(name = "ExecutionInput"),
+            type = @Type(type = "long"),
+            generator = "sequence"
+    )
+    @JoinTable
+    public Collection<Input> getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(Collection<Input> inputs) {
+        this.inputs = inputs;
+    }
+
     public String getHardwareDescription() {
         return hardwareDescription;
     }
@@ -136,26 +154,26 @@ public class Execution {
 
         Execution execution = (Execution) o;
 
-        if (!algorithm.equals(execution.algorithm)) return false;
-        if (!begin.equals(execution.begin)) return false;
-        if (config != null ? !config.equals(execution.config) : execution.config != null) return false;
-        if (description != null ? !description.equals(execution.description) : execution.description != null)
-            return false;
-        if (end != null ? !end.equals(execution.end) : execution.end != null) return false;
-        if (hardwareDescription != null ? !hardwareDescription.equals(execution.hardwareDescription) : execution.hardwareDescription != null)
-            return false;
+        if (algorithm != null ? !algorithm.equals(execution.algorithm) : execution.algorithm != null) return false;
+        if (begin != null ? !begin.equals(execution.begin) : execution.begin != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = algorithm.hashCode();
-        result = 31 * result + begin.hashCode();
-        result = 31 * result + (end != null ? end.hashCode() : 0);
-        result = 31 * result + (config != null ? config.hashCode() : 0);
-        result = 31 * result + (hardwareDescription != null ? hardwareDescription.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = algorithm != null ? algorithm.hashCode() : 0;
+        result = 31 * result + (begin != null ? begin.hashCode() : 0);
         return result;
+    }
+
+    /**
+     * Adds an {@link de.uni_potsdam.hpi.metanome.results_db.Input} to the list of
+     * {@link de.uni_potsdam.hpi.metanome.results_db.Input}s.
+     *
+     * @param input the input to add.
+     */
+    public void addInput(Input input) {
+        inputs.add(input);
     }
 }

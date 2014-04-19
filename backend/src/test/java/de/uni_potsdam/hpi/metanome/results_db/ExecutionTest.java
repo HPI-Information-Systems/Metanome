@@ -19,9 +19,13 @@ package de.uni_potsdam.hpi.metanome.results_db;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution}
@@ -41,19 +45,59 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database.
-        Algorithm expectedAlgorithm = new Algorithm("some file path");
-        Algorithm.store(expectedAlgorithm);
+        Algorithm algorithm = new Algorithm("some file path");
+        Algorithm.store(algorithm);
 
         // Expected values
-        Date expectedDate = new Date();
-        Execution expectedExecution = new Execution(expectedAlgorithm, expectedDate);
+        Date begin = new Date();
+        Execution expectedExecution = new Execution(algorithm, begin);
 
         // Execute functionality
         Execution.store(expectedExecution);
-        Execution actualExecution = Execution.retrieve(expectedAlgorithm, expectedDate);
+        Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         // Check result
         assertEquals(expectedExecution, actualExecution);
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and
+     * {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
+     *
+     * After roundtripping an execution all its {@link de.uni_potsdam.hpi.metanome.results_db.Input}s should be retrievable from it.
+     */
+    @Test
+    public void testPersistenceMultipleInputs() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Store prerequisite objects in the database
+        Algorithm algorithm = new Algorithm("some path");
+        Algorithm.store(algorithm);
+        Input input1 = new Input();
+        Input.store(input1);
+        Input input2 = new Input();
+        Input.store(input2);
+        Collection<Input> inputs = new ArrayList<>();
+        inputs.add(input1);
+        inputs.add(input2);
+
+        // Expected values
+        Date begin = new Date();
+        Execution expectedExecution = new Execution(algorithm, begin);
+        expectedExecution.setInputs(inputs);
+
+        // Execute functionality
+        Execution.store(expectedExecution);
+        Execution actualExecution = Execution.retrieve(algorithm, begin);
+        Collection<Input> actualInputs = actualExecution.getInputs();
+
+        // Check result
+        assertEquals(expectedExecution, actualExecution);
+        assertEquals(inputs, actualInputs);
 
         // Cleanup
         HibernateUtil.clear();
@@ -65,16 +109,47 @@ public class ExecutionTest {
     @Test
     public void testEqualsAndHashCode() {
         // Setup
-        Algorithm expectedAlgorithm = new Algorithm("some algorithm file name");
-        Date expectedBegin = new Date();
-        Execution execution = new Execution(expectedAlgorithm, expectedBegin);
-        Execution equalExecution = new Execution(expectedAlgorithm, expectedBegin);
+        Algorithm algorithm = new Algorithm("some algorithm file name");
+        Date begin = new Date();
+        Execution execution = new Execution(algorithm, begin);
+        Execution equalExecution = new Execution(algorithm, begin);
         Execution notEqualExecution = new Execution(new Algorithm("some other file name"), new Date(197));
 
         // Execute functionality
         // Check result
         new EqualsAndHashCodeTester<Execution>()
                 .performBasicEqualsAndHashCodeChecks(execution, equalExecution, notEqualExecution);
+    }
+
+    /**
+     * Test method for {@link Execution#addInput(Input)}
+     * <p/>
+     * After adding an input to the execution the list of inputs should contain the added input.
+     */
+    @Test
+    public void testAddInput() {
+        // Setup
+        Execution execution = new Execution(mock(Algorithm.class), mock(Date.class));
+        // Expected values
+        Input input1 = new Input();
+        input1.setId(42);
+        Input input2 = new Input();
+        input2.setId(23);
+
+        // Execute functionality
+        // Check result
+        Collection<Input> actualInputs = execution.getInputs();
+        assertTrue(actualInputs.isEmpty());
+
+        execution.addInput(input1);
+        actualInputs = execution.getInputs();
+        assertTrue(actualInputs.contains(input1));
+
+        execution.addInput(input2);
+        actualInputs = execution.getInputs();
+        assertEquals(2, actualInputs.size());
+        assertTrue(actualInputs.contains(input1));
+        assertTrue(actualInputs.contains(input2));
     }
 
 }
