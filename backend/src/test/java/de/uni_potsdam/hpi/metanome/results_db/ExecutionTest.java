@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution}
@@ -30,22 +30,23 @@ import static org.junit.Assert.assertEquals;
 public class ExecutionTest {
 
     /**
-     * TODO docs
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
      * <p/>
      * Executions should be storable and retrievable by id.
      */
     @Test
-    public void testPersistance() throws EntityStorageException {
+    public void testPersistence() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
-        // Expected values
         Algorithm expectedAlgorithm = new Algorithm("some file path");
+        Algorithm.store(expectedAlgorithm);
+
+        // Expected values
         Date expectedDate = new Date();
         Execution expectedExecution = new Execution(expectedAlgorithm, expectedDate);
 
         // Execute functionality
-        Algorithm.store(expectedAlgorithm);
         Execution.store(expectedExecution);
         Execution actualExecution = Execution.retrieve(expectedAlgorithm, expectedDate);
 
@@ -54,6 +55,35 @@ public class ExecutionTest {
 
         // Cleanup
         HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link Execution#equals(Object)} and {@link Execution#hashCode()}
+     */
+    @Test
+    public void testEqualsAndHashCode() {
+        // Setup
+        Algorithm expectedAlgorithm = new Algorithm("some algorithm file name");
+        Date expectedBegin = new Date();
+        Execution execution = new Execution(expectedAlgorithm, expectedBegin);
+        Execution equalExecution = new Execution(expectedAlgorithm, expectedBegin);
+        Execution notEqualExecution = new Execution(new Algorithm("some other file name"), new Date(197));
+
+        // Execute functionality
+        // Check result
+
+        // Reflexivity
+        assertEquals(execution, execution);
+        assertEquals(execution.hashCode(), execution.hashCode());
+
+        assertNotSame(execution, equalExecution);
+        assertEquals(execution, equalExecution);
+        assertEquals(execution.hashCode(), equalExecution.hashCode());
+
+        assertNotEquals(execution, null);
+
+        assertNotEquals(execution, notEqualExecution);
+        assertNotEquals(execution.hashCode(), notEqualExecution.hashCode());
     }
 
 }
