@@ -50,7 +50,8 @@ public class Algorithm {
     /**
      * Stores an Algorithm in the database.
      *
-     * @param algorithm the algorithm to store
+     * @param algorithm the Algorithm to store
+     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
      */
     public static void store(Algorithm algorithm) throws EntityStorageException {
         HibernateUtil.store(algorithm);
@@ -61,6 +62,7 @@ public class Algorithm {
      *
      * @param fileName the Algorithm's file name
      * @return the algorithm
+     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
      */
     public static Algorithm retrieve(String fileName) throws EntityStorageException {
         return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);

@@ -40,6 +40,7 @@ public class ExecutionTest {
         // Setup
         HibernateUtil.clear();
 
+        // Store prerequisite objects in the database.
         Algorithm expectedAlgorithm = new Algorithm("some file path");
         Algorithm.store(expectedAlgorithm);
 

@@ -100,8 +100,6 @@ public class ResultTest {
 
         // Execute functionality
         // Check result
-
-        // Reflexivity
         new EqualsAndHashCodeTester<Result>()
                 .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
     }
