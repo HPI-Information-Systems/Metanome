@@ -39,9 +39,6 @@
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
 
-        <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
@@ -50,6 +47,7 @@
 
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Execution"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Result"/>
 
     </session-factory>
 
