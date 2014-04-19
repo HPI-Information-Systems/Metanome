@@ -125,24 +125,13 @@ public class Result {
 
         Result result = (Result) o;
 
-        if (isBasicStat != result.isBasicStat) return false;
-        if (isFd != result.isFd) return false;
-        if (isInd != result.isInd) return false;
-        if (isUcc != result.isUcc) return false;
-        if (execution != null ? !execution.equals(result.execution) : result.execution != null) return false;
-        if (!filePath.equals(result.filePath)) return false;
+        if (filePath != null ? !filePath.equals(result.filePath) : result.filePath != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = filePath.hashCode();
-        result = 31 * result + (execution != null ? execution.hashCode() : 0);
-        result = 31 * result + (isInd ? 1 : 0);
-        result = 31 * result + (isFd ? 1 : 0);
-        result = 31 * result + (isUcc ? 1 : 0);
-        result = 31 * result + (isBasicStat ? 1 : 0);
-        return result;
+        return filePath != null ? filePath.hashCode() : 0;
     }
 }

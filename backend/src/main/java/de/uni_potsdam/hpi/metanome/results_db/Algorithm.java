@@ -140,29 +140,13 @@ public class Algorithm {
 
         Algorithm algorithm = (Algorithm) o;
 
-        if (isBasicStat != algorithm.isBasicStat) return false;
-        if (isFd != algorithm.isFd) return false;
-        if (isInd != algorithm.isInd) return false;
-        if (isUcc != algorithm.isUcc) return false;
-        if (author != null ? !author.equals(algorithm.author) : algorithm.author != null) return false;
-        if (description != null ? !description.equals(algorithm.description) : algorithm.description != null)
-            return false;
-        if (!fileName.equals(algorithm.fileName)) return false;
-        if (name != null ? !name.equals(algorithm.name) : algorithm.name != null) return false;
+        if (fileName != null ? !fileName.equals(algorithm.fileName) : algorithm.fileName != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = fileName.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (isInd ? 1 : 0);
-        result = 31 * result + (isFd ? 1 : 0);
-        result = 31 * result + (isUcc ? 1 : 0);
-        result = 31 * result + (isBasicStat ? 1 : 0);
-        return result;
+        return fileName != null ? fileName.hashCode() : 0;
     }
 }
