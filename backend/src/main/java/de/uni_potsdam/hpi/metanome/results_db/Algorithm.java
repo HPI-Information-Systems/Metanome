@@ -39,7 +39,7 @@ public class Algorithm {
     /**
      * Exists for hibernate serialization
      */
-    private Algorithm() {
+    protected Algorithm() {
 
     }
 
