@@ -18,6 +18,8 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -40,6 +42,37 @@ public class ResultTest {
         // Expected values
         String expectedFilePath = "some file name";
         Result expectedResult = new Result(expectedFilePath);
+
+        // Execute functionality
+        Result.store(expectedResult);
+        Result actualResult = Result.retrieve(expectedFilePath);
+
+        // Check result
+        assertEquals(expectedResult, actualResult);
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link Result#store(Result)} and {@link Result#retrieve(String)}
+     *
+     * Tests persistence of a Result with an attached {@link Execution}.
+     */
+    @Test
+    public void testPersistenceWithExecution() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        String expectedFilePath = "some file name";
+        Result expectedResult = new Result(expectedFilePath);
+        // Store prerequisite objects in the database
+        Algorithm expectedAlgorithm = new Algorithm("some algorithm file name");
+        Algorithm.store(expectedAlgorithm);
+        Execution expectedExecution = new Execution(expectedAlgorithm, new Date());
+        Execution.store(expectedExecution);
+        expectedResult.setExecution(expectedExecution);
 
         // Execute functionality
         Result.store(expectedResult);
