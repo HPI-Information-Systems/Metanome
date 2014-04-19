@@ -16,11 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.Result}
@@ -56,7 +57,7 @@ public class ResultTest {
 
     /**
      * Test method for {@link Result#store(Result)} and {@link Result#retrieve(String)}
-     *
+     * <p/>
      * Tests persistence of a Result with an attached {@link Execution}.
      */
     @Test
@@ -64,19 +65,20 @@ public class ResultTest {
         // Setup
         HibernateUtil.clear();
 
-        // Expected values
-        String expectedFilePath = "some file name";
-        Result expectedResult = new Result(expectedFilePath);
         // Store prerequisite objects in the database
-        Algorithm expectedAlgorithm = new Algorithm("some algorithm file name");
-        Algorithm.store(expectedAlgorithm);
-        Execution expectedExecution = new Execution(expectedAlgorithm, new Date());
-        Execution.store(expectedExecution);
-        expectedResult.setExecution(expectedExecution);
+        Algorithm algorithm = new Algorithm("some algorithm file name");
+        Algorithm.store(algorithm);
+        Execution execution = new Execution(algorithm, new Date());
+        Execution.store(execution);
+
+        // Expected values
+        String filePath = "some file name";
+        Result expectedResult = new Result(filePath);
+        expectedResult.setExecution(execution);
 
         // Execute functionality
         Result.store(expectedResult);
-        Result actualResult = Result.retrieve(expectedFilePath);
+        Result actualResult = Result.retrieve(filePath);
 
         // Check result
         assertEquals(expectedResult, actualResult);
@@ -100,17 +102,8 @@ public class ResultTest {
         // Check result
 
         // Reflexivity
-        assertEquals(result, result);
-        assertEquals(result.hashCode(), result.hashCode());
-
-        assertNotSame(result, equalResult);
-        assertEquals(result, equalResult);
-        assertEquals(result.hashCode(), equalResult.hashCode());
-
-        assertNotEquals(result, null);
-
-        assertNotEquals(result, notEqualResult);
-        assertNotEquals(result.hashCode(), notEqualResult.hashCode());
+        new EqualsAndHashCodeTester<Result>()
+                .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
     }
 
 }

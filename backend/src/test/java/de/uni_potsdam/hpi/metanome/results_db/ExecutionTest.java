@@ -16,11 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution}
@@ -71,19 +72,8 @@ public class ExecutionTest {
 
         // Execute functionality
         // Check result
-
-        // Reflexivity
-        assertEquals(execution, execution);
-        assertEquals(execution.hashCode(), execution.hashCode());
-
-        assertNotSame(execution, equalExecution);
-        assertEquals(execution, equalExecution);
-        assertEquals(execution.hashCode(), equalExecution.hashCode());
-
-        assertNotEquals(execution, null);
-
-        assertNotEquals(execution, notEqualExecution);
-        assertNotEquals(execution.hashCode(), notEqualExecution.hashCode());
+        new EqualsAndHashCodeTester<Execution>()
+                .performBasicEqualsAndHashCodeChecks(execution, equalExecution, notEqualExecution);
     }
 
 }

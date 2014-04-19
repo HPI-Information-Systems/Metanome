@@ -16,11 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -46,17 +47,8 @@ public class ExecutionIdTest {
         // Check result
 
         // Reflexivity
-        assertEquals(executionId, executionId);
-        assertEquals(executionId.hashCode(), executionId.hashCode());
-
-        assertNotSame(executionId, equalExecutionId);
-        assertEquals(executionId, equalExecutionId);
-        assertEquals(executionId.hashCode(), equalExecutionId.hashCode());
-
-        assertNotEquals(executionId, null);
-
-        assertNotEquals(executionId, notEqualExecutionId);
-        assertNotEquals(executionId.hashCode(), notEqualExecutionId.hashCode());
+        new EqualsAndHashCodeTester<ExecutionId>()
+                .performBasicEqualsAndHashCodeChecks(executionId, equalExecutionId, notEqualExecutionId);
     }
 
     /**

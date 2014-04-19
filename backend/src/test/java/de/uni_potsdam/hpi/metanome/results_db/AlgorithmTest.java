@@ -16,9 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm}
@@ -29,7 +30,7 @@ public class AlgorithmTest {
 
     /**
      * Test method for {@link Algorithm#store(Algorithm)} and {@link Algorithm#retrieve(String)}
-     *
+     * <p/>
      * Algorithms should be storable and retrievable by id.
      */
     @Test
@@ -68,11 +69,7 @@ public class AlgorithmTest {
 
         // Execute functionality
         // Check result
-        assertNotSame(algorithm, algorithmEqual);
-        assertEquals(algorithm, algorithmEqual);
-        assertEquals(algorithm.hashCode(), algorithmEqual.hashCode());
-
-        assertNotEquals(algorithm, algorithmNotEqual);
-        assertNotEquals(algorithm.hashCode(), algorithmNotEqual.hashCode());
+        new EqualsAndHashCodeTester<Algorithm>()
+                .performBasicEqualsAndHashCodeChecks(algorithm, algorithmEqual, algorithmNotEqual);
     }
 }
