@@ -23,7 +23,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
- * TODO docs
+ * Represents an execution in the database.
  *
  * @author Jakob Zwiener
  */
@@ -45,10 +45,14 @@ public class Execution {
     /**
      * Exists for hibernate serialization
      */
-    private Execution() {
+    protected Execution() {
 
     }
 
+    /**
+     * @param algorithm the executed algorithm
+     * @param begin     the start time of the execution
+     */
     public Execution(Algorithm algorithm, Date begin) {
         this.algorithm = algorithm;
         this.begin = begin;
