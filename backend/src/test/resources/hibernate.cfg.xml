@@ -51,6 +51,7 @@
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.FileInput"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Input"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Result"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.TableInput"/>
 
     </session-factory>
 
