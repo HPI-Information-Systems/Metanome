@@ -32,7 +32,7 @@ public class FileInput extends Input {
     protected String escapechar;
     protected int skipLines;
     protected boolean strictQuotes;
-    protected boolean isIgnoreLeadingWhiteSpace;
+    protected boolean ignoreLeadingWhiteSpace;
     protected boolean hasHeader;
 
     /**
@@ -105,11 +105,11 @@ public class FileInput extends Input {
     }
 
     public boolean isIgnoreLeadingWhiteSpace() {
-        return isIgnoreLeadingWhiteSpace;
+        return ignoreLeadingWhiteSpace;
     }
 
-    public void setIgnoreLeadingWhiteSpace(boolean isIgnoreLeadingWhiteSpace) {
-        this.isIgnoreLeadingWhiteSpace = isIgnoreLeadingWhiteSpace;
+    public void setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
+        this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
     }
 
     public boolean isHasHeader() {

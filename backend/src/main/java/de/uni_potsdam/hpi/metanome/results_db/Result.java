@@ -28,7 +28,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Result {
 
-    protected String filePath;
+    protected String fileName;
     protected Execution execution;
     protected boolean isInd;
     protected boolean isFd;
@@ -43,10 +43,10 @@ public class Result {
     }
 
     /**
-     * @param filePath the path to the result file
+     * @param fileName the path to the result file
      */
-    public Result(String filePath) {
-        this.filePath = filePath;
+    public Result(String fileName) {
+        this.fileName = fileName;
     }
 
     /**
@@ -69,12 +69,12 @@ public class Result {
     }
 
     @Id
-    public String getFilePath() {
-        return filePath;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFileName(String filePath) {
+        this.fileName = filePath;
     }
 
     @ManyToOne(targetEntity = Execution.class)
@@ -131,13 +131,13 @@ public class Result {
 
         Result result = (Result) o;
 
-        if (filePath != null ? !filePath.equals(result.filePath) : result.filePath != null) return false;
+        if (fileName != null ? !fileName.equals(result.fileName) : result.fileName != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return filePath != null ? filePath.hashCode() : 0;
+        return fileName != null ? fileName.hashCode() : 0;
     }
 }
