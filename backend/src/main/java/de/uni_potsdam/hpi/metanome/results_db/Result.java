@@ -82,6 +82,12 @@ public class Result {
         return execution;
     }
 
+    /**
+     * A bidirectional association should be created with the {@link de.uni_potsdam.hpi.metanome.results_db.Execution}.
+     * Use {@link de.uni_potsdam.hpi.metanome.results_db.Execution#addResult(Result)} to create proper associations.
+     *
+     * @param execution the Execution to add
+     */
     public void setExecution(Execution execution) {
         this.execution = execution;
     }

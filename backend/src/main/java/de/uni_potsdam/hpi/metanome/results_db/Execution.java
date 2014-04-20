@@ -20,9 +20,7 @@ import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Represents an execution in the database.
@@ -33,12 +31,15 @@ import java.util.Date;
 @IdClass(ExecutionId.class)
 public class Execution {
 
+    // TODO cascading save to children
+
     protected Algorithm algorithm;
     protected Date begin;
     protected Date end;
     // TODO store proper config
     protected String config;
     protected Collection<Input> inputs = new ArrayList<>();
+    protected Set<Result> results = new HashSet<>();
     protected String hardwareDescription;
     protected String description;
 
@@ -128,6 +129,18 @@ public class Execution {
         this.inputs = inputs;
     }
 
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "execution"
+    )
+    public Set<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<Result> results) {
+        this.results = results;
+    }
+
     public String getHardwareDescription() {
         return hardwareDescription;
     }
@@ -168,9 +181,19 @@ public class Execution {
      * Adds an {@link de.uni_potsdam.hpi.metanome.results_db.Input} to the list of
      * {@link de.uni_potsdam.hpi.metanome.results_db.Input}s.
      *
-     * @param input the input to add.
+     * @param input the Input to add.
      */
     public void addInput(Input input) {
         inputs.add(input);
+    }
+
+    /**
+     * Adds a {@link de.uni_potsdam.hpi.metanome.results_db.Result} to the list of {@link de.uni_potsdam.hpi.metanome.results_db.Result}s and creates a bidirectional association.
+     *
+     * @param result the Result to add
+     */
+    public void addResult(Result result) {
+        result.setExecution(this);
+        results.add(result);
     }
 }

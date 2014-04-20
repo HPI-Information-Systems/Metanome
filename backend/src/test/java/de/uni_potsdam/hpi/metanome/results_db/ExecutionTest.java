@@ -17,14 +17,15 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -98,6 +99,82 @@ public class ExecutionTest {
         // Check result
         assertEquals(expectedExecution, actualExecution);
         assertEquals(inputs, actualInputs);
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * TODO docs
+     */
+    @Test
+    @Ignore
+    public void testPersistenceWithAlgorithmAndResultAndInputs() {
+        // Setup
+        HibernateUtil.clear();
+
+        // Store prerequisite objects in the database
+        Algorithm algorithm = new Algorithm("some algorithm jar path");
+
+        // Expected values
+        Date begin = new Date();
+        Execution expectedExecution = new Execution(algorithm, begin);
+        // Adding results and inputs
+//        expectedExecution.
+
+        // TODO implement
+
+        // Execute functionality
+
+        // Check result
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#addResult(Result)}
+     * <p/>
+     * Results should be added and a bidirectional association should be created. The results should be retrievable from
+     * the database.
+     */
+    @Test
+    public void testPersistenceGetResults() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Store prerequisite objects in the database
+        Algorithm algorithm = new Algorithm("some algorithm file path");
+        Algorithm.store(algorithm);
+
+        // Expected values
+        Date begin = new Date();
+        Execution expectedExecution = new Execution(algorithm, begin);
+        Result expectedResult1 = new Result("some result file path");
+        Result expectedResult2 = new Result("some other result file path");
+
+        // Execute functionality
+        expectedExecution.addResult(expectedResult1);
+        expectedExecution.addResult(expectedResult2);
+
+        Execution.store(expectedExecution);
+        Result.store(expectedResult1);
+        Result.store(expectedResult2);
+        Execution actualExecution = Execution.retrieve(algorithm, begin);
+
+        Set<Result> actualResults = actualExecution.getResults();
+
+        // Check result
+        assertEquals(expectedExecution, actualExecution);
+        // All results should be properly retrieved
+        assertEquals(2, actualResults.size());
+        assertTrue(actualResults.contains(expectedResult1));
+        assertTrue(actualResults.contains(expectedResult2));
+
+        // All results should be properly attached to the execution
+        for (Result actualResult : actualResults) {
+            assertSame(actualExecution, actualResult.getExecution());
+        }
 
         // Cleanup
         HibernateUtil.clear();
