@@ -33,9 +33,6 @@ import java.util.Date;
 @IdClass(ExecutionId.class)
 public class Execution {
 
-    // TODO results
-    // TODO execution inputs
-
     protected Algorithm algorithm;
     protected Date begin;
     protected Date end;
