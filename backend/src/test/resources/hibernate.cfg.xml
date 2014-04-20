@@ -47,6 +47,7 @@
 
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Execution"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.FileInput"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Input"/>
         <mapping class="de.uni_potsdam.hpi.metanome.results_db.Result"/>
 

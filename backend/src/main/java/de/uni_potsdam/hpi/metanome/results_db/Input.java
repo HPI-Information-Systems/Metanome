@@ -16,10 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Represents superclass inputs in the database.
@@ -27,6 +24,7 @@ import javax.persistence.Id;
  * @author Jakob Zwiener
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Input {
 
     protected long id;
@@ -53,7 +51,7 @@ public class Input {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     public long getId() {
         return id;
     }
