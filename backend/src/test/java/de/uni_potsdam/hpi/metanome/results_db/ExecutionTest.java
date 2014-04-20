@@ -17,7 +17,7 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
-import org.junit.Ignore;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -105,28 +105,56 @@ public class ExecutionTest {
     }
 
     /**
-     * TODO docs
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
+     *
+     * Test the database roundtrip of an Execution with multiple {@link de.uni_potsdam.hpi.metanome.results_db.Input}s and {@link de.uni_potsdam.hpi.metanome.results_db.Result}s.
      */
     @Test
-    @Ignore
-    public void testPersistenceWithAlgorithmAndResultAndInputs() {
+    public void testPersistenceWithAlgorithmAndResultAndInputs() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
         Algorithm algorithm = new Algorithm("some algorithm jar path");
+        Algorithm.store(algorithm);
 
         // Expected values
         Date begin = new Date();
         Execution expectedExecution = new Execution(algorithm, begin);
         // Adding results and inputs
-//        expectedExecution.
-
-        // TODO implement
+        // Results
+        Result expectedResult1 = new Result("some result file path");
+        expectedExecution.addResult(expectedResult1);
+        Result expectedResult2 = new Result("some other result file path");
+        expectedExecution.addResult(expectedResult2);
+        // Inputs
+        FileInput expectedFileInput = new FileInput();
+        expectedExecution.addInput(expectedFileInput);
+        // Inputs can be added twice
+        expectedExecution.addInput(expectedFileInput);
+        TableInput expectedTableInput = new TableInput();
+        expectedExecution.addInput(expectedTableInput);
 
         // Execute functionality
+        Input.store(expectedFileInput);
+        Input.store(expectedTableInput);
+        Execution.store(expectedExecution);
+        Result.store(expectedResult1);
+        Result.store(expectedResult2);
+        Execution actualExecution = Execution.retrieve(algorithm, begin);
+
+        Set<Result> actualResults = actualExecution.getResults();
+        Collection<Input> actualInputs = actualExecution.getInputs();
 
         // Check result
+        assertEquals(expectedExecution, actualExecution);
+        // Verify result set
+        assertEquals(2, actualResults.size());
+        assertTrue(actualResults.contains(expectedResult1));
+        assertTrue(actualResults.contains(expectedResult2));
+        // Verify input list
+        assertEquals(3, actualInputs.size());
+        assertThat(actualInputs, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedTableInput, expectedFileInput, expectedFileInput));
 
         // Cleanup
         HibernateUtil.clear();

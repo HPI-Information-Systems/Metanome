@@ -17,6 +17,8 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -115,6 +117,7 @@ public class Execution {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SELECT)
     @CollectionId(
             columns = @Column(name = "ExecutionInput"),
             type = @Type(type = "long"),
@@ -133,6 +136,7 @@ public class Execution {
             fetch = FetchType.EAGER,
             mappedBy = "execution"
     )
+    @Fetch(value = FetchMode.SELECT)
     public Set<Result> getResults() {
         return results;
     }

@@ -176,7 +176,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>test_helper</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>test</scope>
