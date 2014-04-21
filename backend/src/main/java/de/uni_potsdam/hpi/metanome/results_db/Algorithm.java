@@ -18,12 +18,21 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import java.util.List;
 
 /**
  * Represents an algorithm in the database.
  *
  * @author Jakob Zwiener
  */
+@NamedQueries(
+        @NamedQuery(
+                name = "getAll",
+                query = "from Algorithm"
+        )
+)
 @Entity
 public class Algorithm {
 
@@ -66,6 +75,15 @@ public class Algorithm {
      */
     public static Algorithm retrieve(String fileName) throws EntityStorageException {
         return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+    }
+
+    /**
+     * Retrieves all Algorithms stored in the database.
+     *
+     * @return a list of all algorithms
+     */
+    public static List<Algorithm> retrieveAll() {
+        return (List<Algorithm>) HibernateUtil.executeNamedQuery("getAll");
     }
 
     @Id

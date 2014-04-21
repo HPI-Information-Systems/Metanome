@@ -17,9 +17,13 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm}
@@ -48,6 +52,29 @@ public class AlgorithmTest {
 
         // Check result
         assertEquals(expectedAlgorithm, actualAlgorithm);
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link Algorithm#retrieveAll()}
+     */
+    @Test
+    public void testRetrieveAll() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        Algorithm expectedAlgorithm1 = new Algorithm("some file name 1");
+        Algorithm.store(expectedAlgorithm1);
+        Algorithm expectedAlgorithm2 = new Algorithm("some file name 2");
+        Algorithm.store(expectedAlgorithm2);
+
+        // Execute functionality
+        Collection<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+
+        // Check result
+        assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm1, expectedAlgorithm2));
 
         // Cleanup
         HibernateUtil.clear();
