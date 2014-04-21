@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,6 +26,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * TODO docs
@@ -91,6 +93,24 @@ public class HibernateUtil {
         session.close();
 
         return value;
+    }
+
+    /**
+     * Executes a named query and returns the result as {@link java.util.List}
+     *
+     * @param queryName the name of the query to execute
+     * @return the query result as list
+     */
+    public static List<?> executeNamedQuery(String queryName) {
+        Session session = openNewSession();
+
+        Query query = session.getNamedQuery(queryName);
+
+        List<?> result = query.list();
+
+        session.close();
+
+        return result;
     }
 
     /**

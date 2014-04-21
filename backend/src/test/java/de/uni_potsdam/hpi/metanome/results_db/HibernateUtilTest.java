@@ -16,9 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -123,6 +126,30 @@ public class HibernateUtilTest {
 
         // Check result
         assertEquals(expectedAlgorithm, actualAlgorithm);
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#executeNamedQuery(String)}
+     */
+    @Test
+    public void testExecuteNamedQuery() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm expectedAlgorithm1 = new Algorithm("some path 1");
+        Algorithm.store(expectedAlgorithm1);
+        Algorithm expectedAlgorithm2 = new Algorithm("some path 2");
+        Algorithm.store(expectedAlgorithm2);
+
+        // Execute functionality
+        List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.executeNamedQuery("getAll");
+
+        // Check result
+        assertThat(actualAlgorithms, IsIterableContainingInOrder.contains(expectedAlgorithm1, expectedAlgorithm2));
 
         // Cleanup
         HibernateUtil.clear();
