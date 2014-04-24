@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <groupId>de.uni-potsdam.hpi.metanome</groupId>
     <modelVersion>4.0.0</modelVersion>
@@ -30,7 +31,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-  <properties>
+    <repositories>
+        <repository>
+            <id>metanomeRepo</id>
+            <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url>
+        </repository>
+    </repositories>
+
+    <properties>
     <!-- Convenience property to set the GWT version -->
     <gwtVersion>2.6.0</gwtVersion>
 
@@ -173,8 +181,9 @@
       <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-source-plugin</artifactId>
-		<executions>
-		  <execution>
+          <version>2.2.1</version>
+          <executions>
+          <execution>
 		    <id>attach-sources</id>
 		    <goals>
 		      <goal>jar</goal>
@@ -186,9 +195,9 @@
       <plugin>
       	<groupId>org.apache.maven.plugins</groupId>
       	<artifactId>maven-dependency-plugin</artifactId>
-      	<version>2.3</version>
-      	<executions>
-      	  <execution>
+          <version>2.8</version>
+          <executions>
+              <execution>
             <id>copyTestArtifacts</id>
             <phase>generate-resources</phase>
             <goals>
@@ -239,7 +248,27 @@
               </artifactItems>
             </configuration>
           </execution>
-          <execution>
+              <execution>
+                  <id>algorithms</id>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>copy</goal>
+                  </goals>
+                  <configuration>
+                      <artifactItems>
+                          <artifactItem>
+                              <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                              <artifactId>depminer_algorithm</artifactId>
+                              <version>0.0.1-SNAPSHOT</version>
+                              <type>jar</type>
+                              <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                          </artifactItem>
+                      </artifactItems>
+                      <stripVersion>true</stripVersion>
+                  </configuration>
+
+              </execution>
+              <execution>
             <id>metanome</id>
             <phase>package</phase>
             <goals>
