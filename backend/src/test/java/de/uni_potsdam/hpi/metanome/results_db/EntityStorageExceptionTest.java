@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_integration;
+package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.junit.Test;
@@ -22,17 +22,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test for {@link AlgorithmExecutionException}
+ * @author Jakob Zwiener
  */
-public class AlgorithmExecutionExceptionTest {
+public class EntityStorageExceptionTest {
 
     /**
-     * Test method for {@link AlgorithmExecutionException#AlgorithmExecutionException(String)}
+     * Test method for {@link EntityStorageException#EntityStorageException(String)}
      * <p/>
      * The exception should store the message.
      */
     @Test
-    public void testAlgorithmExecutionException() {
+    public void testEntityStorageException() {
         // Setup
         // Expected values
         String expectedMessage = "some message";
@@ -40,8 +40,8 @@ public class AlgorithmExecutionExceptionTest {
         // Execute functionality
         String actualMessage;
         try {
-            throw new AlgorithmExecutionException(expectedMessage);
-        } catch (AlgorithmExecutionException e) {
+            throw new EntityStorageException(expectedMessage);
+        } catch (EntityStorageException e) {
             actualMessage = e.getMessage();
         }
 
@@ -50,10 +50,10 @@ public class AlgorithmExecutionExceptionTest {
     }
 
     /**
-     * Tests that the instances of {@link AlgorithmExecutionException} are serializable in GWT.
+     * Tests that the instances of {@link EntityStorageException} are serializable in GWT.
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new AlgorithmExecutionException(""));
+        GwtSerializationTester.checkGwtSerializability(new EntityStorageException(""));
     }
 }
