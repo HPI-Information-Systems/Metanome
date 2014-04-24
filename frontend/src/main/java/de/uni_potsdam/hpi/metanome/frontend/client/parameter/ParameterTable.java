@@ -49,10 +49,10 @@ public class ParameterTable extends FlexTable {
 			
 			InputParameterWidget currentWidget = WidgetFactory.buildWidget(param);
 			this.setWidget(i, 1, currentWidget);
-			if (currentWidget instanceof InputParameterDataSourceWidget) {
+			if (currentWidget.isDataSource()) {
 				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
-				if (primaryDataSource != null && 
-						dataSourceWidget.accepts(primaryDataSource))
+				System.out.println(primaryDataSource + " is accepted: " + dataSourceWidget.accepts(primaryDataSource));
+				if (dataSourceWidget.accepts(primaryDataSource))
 					dataSourceWidget.setDataSource(primaryDataSource);
 				this.dataSourceWidgets.add(dataSourceWidget);
 			}

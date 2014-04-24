@@ -103,7 +103,6 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 		return line;
 	}
 	public String getValueAsString() {
-		// TODO Auto-generated method stub
 		return fileName;
 	}
 }

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
 public class CsvFileInput extends VerticalPanel {
@@ -189,14 +190,33 @@ public class CsvFileInput extends VerticalPanel {
 	}
 
 	public void addToListbox(String[] result) {
-		int index = 0;
+		int index = 1;							//start at 1 because index 0 has default ("--") entry
 		for (String value : result) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
             listbox.addItem(displayName, value);
-            if (value.equals(this.preselectedFilename))
+            if (isPreselected(value)) {
                 listbox.setSelectedIndex(index);
+            }
             index++;
         }
 	}
 
+	private boolean isPreselected(String value) {
+		if (value == null || this.preselectedFilename == null)
+			return false;
+		return value.substring(value.lastIndexOf("/") + 1).equals(
+				preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
+	}
+
+	public void selectDataSource(ConfigurationSettingDataSource csvSetting) {
+		this.preselectedFilename = csvSetting.getValueAsString();
+		
+		//if the list  of available files has already been retrieved
+		if (this.listbox.getItemCount() > 1)
+			for (int i = 0; i < listbox.getItemCount(); i++) {
+				if (isPreselected(csvSetting.getValueAsString())) {
+					listbox.setSelectedIndex(i+1);
+				}
+			}
+	}
 }

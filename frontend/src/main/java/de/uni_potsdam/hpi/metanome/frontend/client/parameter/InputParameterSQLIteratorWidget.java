@@ -78,4 +78,9 @@ InputParameterDataSourceWidget {
 		return setting instanceof ConfigurationSettingSQLIterator;
 	}
 
+	@Override
+	public boolean isDataSource() {
+		return true;
+	}
+
 }

@@ -36,6 +36,14 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterSQLIteratorWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterWidget;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory;
 
 public class GwtTestParameter extends GWTTestCase {
 
@@ -182,7 +190,7 @@ public class GwtTestParameter extends GWTTestCase {
 	public void testSetPrimaryDataSource(){
 		//Setup
 		ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
-		primaryDataSource.setFileName("aCsvFile.csv");
+		primaryDataSource.setFileName("inputA.csv");
 
 		ArrayList<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
@@ -192,13 +200,11 @@ public class GwtTestParameter extends GWTTestCase {
 		ParameterTable pt = new ParameterTable(paramList, primaryDataSource);
 		
 		//Check
-		System.out.println(primaryDataSource.getValueAsString());
 		boolean foundDataSource = false;
 		for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
 			for (Object setting : dataSource.getSettings()) {
-				System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString()	);
-				if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(
-						primaryDataSource.getValueAsString()))
+				if(((ConfigurationSettingDataSource) setting).getValueAsString() ==
+						primaryDataSource.getValueAsString())
 					foundDataSource = true;
 			}
 		}

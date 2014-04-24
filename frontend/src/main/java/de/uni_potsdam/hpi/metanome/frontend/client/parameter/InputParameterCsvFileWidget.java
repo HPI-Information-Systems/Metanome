@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
@@ -78,7 +77,6 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
             }
 
             public void onSuccess(String[] result) {
-                int index = 1;                    //start at 1 because index 0 has default ("--") entry
                 for (CsvFileInput widget : widgets) {
 	                widget.addToListbox(result);
                 }
@@ -108,13 +106,17 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 
 	@Override
 	public void setDataSource(ConfigurationSettingDataSource dataSource) {
-		// TODO Auto-generated method stub
-		
+		this.widgets.get(0).selectDataSource(dataSource);		
 	}
 
 	@Override
 	public boolean accepts(ConfigurationSettingDataSource setting) {
 		return setting instanceof ConfigurationSettingCsvFile;
+	}
+
+	@Override
+	public boolean isDataSource() {
+		return true;
 	}
 
 
