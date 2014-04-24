@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
@@ -53,6 +52,8 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
         	CsvFileInput input = new CsvFileInput();
         	this.addWidget(input);
         }
+        
+        this.addAvailableCsvsToListbox(widgets);
     }
     
     private void addWidget(CsvFileInput widget) {
@@ -68,7 +69,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
      *
      * @param listbox the ListBox to add the available files' names to
      */
-    private void addAvailableCsvsToListbox(final ListBox listbox) {
+    private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
         AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
@@ -76,13 +77,8 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
             }
 
             public void onSuccess(String[] result) {
-                int index = 1;                    //start at 1 because index 0 has default ("--") entry
-                for (String value : result) {
-                    String displayName = value.substring(value.lastIndexOf("/") + 1);
-                    listbox.addItem(displayName, value);
-                    if (value.equals(specification.getFileNameValue()))
-                        listbox.setSelectedIndex(index);
-                    index++;
+                for (CsvFileInput widget : widgets) {
+	                widget.addToListbox(result);
                 }
             }
         };
@@ -110,13 +106,17 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 
 	@Override
 	public void setDataSource(ConfigurationSettingDataSource dataSource) {
-		// TODO Auto-generated method stub
-		
+		this.widgets.get(0).selectDataSource(dataSource);		
 	}
 
 	@Override
 	public boolean accepts(ConfigurationSettingDataSource setting) {
 		return setting instanceof ConfigurationSettingCsvFile;
+	}
+
+	@Override
+	public boolean isDataSource() {
+		return true;
 	}
 
 

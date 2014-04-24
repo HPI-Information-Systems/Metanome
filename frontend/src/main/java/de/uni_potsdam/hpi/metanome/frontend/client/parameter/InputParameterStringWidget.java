@@ -60,4 +60,9 @@ public class InputParameterStringWidget extends VerticalPanel implements InputPa
 		return values;
 	}
 
+	@Override
+	public boolean isDataSource() {
+		return false;
+	}
+
 }

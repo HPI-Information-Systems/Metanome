@@ -57,4 +57,9 @@ public class InputParameterBooleanWidget extends VerticalPanel implements InputP
 
         return specification;
     }
+
+	@Override
+	public boolean isDataSource() {
+		return false;
+	}
 }

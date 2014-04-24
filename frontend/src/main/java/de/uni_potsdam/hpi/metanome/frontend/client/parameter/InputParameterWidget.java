@@ -22,5 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 
 public interface InputParameterWidget extends IsWidget {
 
-    public  ConfigurationSpecification getUpdatedSpecification();
+    public ConfigurationSpecification getUpdatedSpecification();
+    
+    public boolean isDataSource();
 }
