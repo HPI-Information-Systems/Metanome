@@ -25,10 +25,10 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:mem:metanomedb//localhost</property>
+        <property name="connection.url">jdbc:hsqldb:mem:metanomedb</property>
         <property name="shutdown">true</property>
         <property name="connection.username">sa</property>
-        <property name="connection.password"></property>
+        <property name="connection.password"/>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
@@ -39,17 +39,19 @@
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
 
-        <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
-       	<!-- <mapping class="org.hibernate.tutorial.domain.Event"/> -->
-    	
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Execution"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.FileInput"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Input"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Result"/>
+        <mapping class="de.uni_potsdam.hpi.metanome.results_db.TableInput"/>
 
     </session-factory>
 
