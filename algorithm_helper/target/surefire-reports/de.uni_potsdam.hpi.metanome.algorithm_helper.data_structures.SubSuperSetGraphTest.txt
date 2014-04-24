@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraphTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.04 sec
