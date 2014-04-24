@@ -42,13 +42,13 @@ InputParameterDataSourceWidget {
         widgets = new ArrayList<>(specification.getNumberOfValues());
         for (int i = 0; i < specification.getNumberOfValues(); i++) {
         	SQLIteratorInput input = new SQLIteratorInput();
-            this.addWidget(input);
+            this.addWidget(input, i);
         }
 	}
 	
-	public void addWidget(SQLIteratorInput widget) {
+	public void addWidget(SQLIteratorInput widget, int row) {
 		widgets.add(widget);
-        this.add(widget);
+        this.setWidget(row, 0, widget);
 	}
 
 	@Override

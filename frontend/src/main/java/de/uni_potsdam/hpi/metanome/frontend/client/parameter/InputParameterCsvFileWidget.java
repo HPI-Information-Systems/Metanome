@@ -53,6 +53,8 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
         	CsvFileInput input = new CsvFileInput();
         	this.addWidget(input);
         }
+        
+        this.addAvailableCsvsToListbox(widgets);
     }
     
     private void addWidget(CsvFileInput widget) {
@@ -68,7 +70,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
      *
      * @param listbox the ListBox to add the available files' names to
      */
-    private void addAvailableCsvsToListbox(final ListBox listbox) {
+    private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
         AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
@@ -77,12 +79,8 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 
             public void onSuccess(String[] result) {
                 int index = 1;                    //start at 1 because index 0 has default ("--") entry
-                for (String value : result) {
-                    String displayName = value.substring(value.lastIndexOf("/") + 1);
-                    listbox.addItem(displayName, value);
-                    if (value.equals(specification.getFileNameValue()))
-                        listbox.setSelectedIndex(index);
-                    index++;
+                for (CsvFileInput widget : widgets) {
+	                widget.addToListbox(result);
                 }
             }
         };

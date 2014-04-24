@@ -29,6 +29,8 @@ public class CsvFileInput extends VerticalPanel {
     protected CheckBox strictQuotesCheckbox;
     protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
     
+	private String preselectedFilename;
+    
     /**
      * Constructor.
      *
@@ -72,6 +74,8 @@ public class CsvFileInput extends VerticalPanel {
 
     public CsvFileInput(ConfigurationSettingCsvFile csvSpec) {
     	this();
+    	
+    	this.preselectedFilename = csvSpec.getFileName();
     	
     	this.advancedCheckbox.setValue(csvSpec.isAdvanced());
     	this.separatorTextbox.setValue(""+csvSpec.getSeparatorChar());
@@ -182,6 +186,17 @@ public class CsvFileInput extends VerticalPanel {
 	public ConfigurationSettingCsvFile getValuesAsSettings() {
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		return setCurrentValues(setting);
+	}
+
+	public void addToListbox(String[] result) {
+		int index = 0;
+		for (String value : result) {
+            String displayName = value.substring(value.lastIndexOf("/") + 1);
+            listbox.addItem(displayName, value);
+            if (value.equals(this.preselectedFilename))
+                listbox.setSelectedIndex(index);
+            index++;
+        }
 	}
 
 }

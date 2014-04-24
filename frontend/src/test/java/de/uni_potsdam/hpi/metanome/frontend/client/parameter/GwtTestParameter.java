@@ -192,9 +192,11 @@ public class GwtTestParameter extends GWTTestCase {
 		ParameterTable pt = new ParameterTable(paramList, primaryDataSource);
 		
 		//Check
+		System.out.println(primaryDataSource.getValueAsString());
 		boolean foundDataSource = false;
 		for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
 			for (Object setting : dataSource.getSettings()) {
+				System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString()	);
 				if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(
 						primaryDataSource.getValueAsString()))
 					foundDataSource = true;
