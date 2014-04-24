@@ -264,6 +264,27 @@
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>fastfds_algorithm</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>fdep_algorithm</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>tane_algorithm</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                             <stripVersion>true</stripVersion>
                         </configuration>
