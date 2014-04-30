@@ -149,6 +149,38 @@ public class GwtTestParameter extends GWTTestCase {
 	}
 	
 	@Test
+	public void testMultipleValuesWidgetCreation(){
+		//Setup
+		String identifierString = "stringParam";
+		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString, 2);
+		String identifierBoolean = "boolParam";
+		ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean, 2);
+		String identifierCsv = "csvParam";
+		ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
+		String identifierSql = "sqlParam";
+		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSQLIterator(identifierSql, 2);
+		
+		//Execute
+		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
+		InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
+		InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
+		InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
+		
+		//Check
+		assertTrue(stringWidget instanceof InputParameterStringWidget);
+		assertEquals(2, ((InputParameterStringWidget) stringWidget).getWidgetCount());
+		
+		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
+		assertEquals(2, ((InputParameterBooleanWidget) boolWidget).getWidgetCount());
+		
+		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
+		assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
+		
+		assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
+		assertEquals(2, ((InputParameterSQLIteratorWidget) sqlWidget).getWidgetCount());
+	}
+	
+	@Test
 	public void testCsvFileWidget(){
 		//Setup
 		ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
@@ -190,7 +222,7 @@ public class GwtTestParameter extends GWTTestCase {
 	public void testSetPrimaryDataSource(){
 		//Setup
 		ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
-		primaryDataSource.setFileName("inputA.csv");
+		primaryDataSource.setFileName("/inputA.csv");
 
 		ArrayList<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");

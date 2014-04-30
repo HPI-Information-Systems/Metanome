@@ -19,14 +19,14 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 
-public class InputParameterSQLIteratorWidget extends FlexTable implements
+public class InputParameterSQLIteratorWidget extends VerticalPanel implements
 InputParameterDataSourceWidget {
 
 	/** Corresponding inputParameter, where the value is going to be written */
@@ -47,8 +47,8 @@ InputParameterDataSourceWidget {
 	}
 	
 	public void addWidget(SQLIteratorInput widget, int row) {
-		widgets.add(widget);
-        this.setWidget(row, 0, widget);
+		this.widgets.add(widget);
+        this.add(widget);
 	}
 
 	@Override

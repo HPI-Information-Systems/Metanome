@@ -42,6 +42,7 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
 		this.identifier = identifier;
 		this.values = values;
 	}
+	
 	/**
 	 * 
 	 * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean values.
