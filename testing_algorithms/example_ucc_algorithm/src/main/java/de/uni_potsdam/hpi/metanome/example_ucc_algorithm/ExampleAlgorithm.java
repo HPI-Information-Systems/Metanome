@@ -33,7 +33,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 		configurationSpecification.add(new ConfigurationSpecificationString(
 				"pathToInputFile", 2));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile(
-				"input file"));
+				"input file", 2));
 
 		return configurationSpecification;
 	}

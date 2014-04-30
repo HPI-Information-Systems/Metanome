@@ -102,6 +102,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 	public int getLine() {
 		return line;
 	}
+	
 	public String getValueAsString() {
 		return fileName;
 	}

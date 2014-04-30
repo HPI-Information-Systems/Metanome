@@ -23,6 +23,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -48,6 +49,7 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
         this.specification = configSpec;
         //TODO implement arbitrary number of values
         widgets = new ArrayList<>(specification.getNumberOfValues());
+        System.out.println("Expected CSV File Widgets: " + specification.getNumberOfValues());
         for (int i = 0; i < specification.getNumberOfValues(); i++) {
         	CsvFileInput input = new CsvFileInput();
         	this.addWidget(input);
@@ -78,7 +80,12 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
 
             public void onSuccess(String[] result) {
                 for (CsvFileInput widget : widgets) {
-	                widget.addToListbox(result);
+	                try {
+						widget.addToListbox(result);
+					} catch (AlgorithmConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
             }
         };
@@ -99,13 +106,13 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
         }
         
         specification.setValues(values);
-     
+        
         return specification;
 	}
 
 
 	@Override
-	public void setDataSource(ConfigurationSettingDataSource dataSource) {
+	public void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException {
 		this.widgets.get(0).selectDataSource(dataSource);		
 	}
 

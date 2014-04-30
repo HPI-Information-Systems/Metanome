@@ -22,6 +22,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
@@ -52,7 +53,12 @@ public class ParameterTable extends FlexTable {
 			if (currentWidget.isDataSource()) {
 				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
 				if (dataSourceWidget.accepts(primaryDataSource))
-					dataSourceWidget.setDataSource(primaryDataSource);
+					try {
+						dataSourceWidget.setDataSource(primaryDataSource);
+					} catch (AlgorithmConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				this.dataSourceWidgets.add(dataSourceWidget);
 			}
 			else

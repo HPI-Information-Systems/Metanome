@@ -76,7 +76,9 @@ public class JarChooser extends HorizontalPanel {
 		        // TODO: Do something with errors.
 		      }
 
-		      public void onSuccess(List<ConfigurationSpecification> result) {  	  
+		      public void onSuccess(List<ConfigurationSpecification> result) {  
+		    	  for (ConfigurationSpecification param : result)
+		    		  System.out.println("on client: " + param.getNumberOfValues());
 		    	  forwardParameters(result);
 		      }
 		    };

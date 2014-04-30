@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
@@ -189,7 +190,7 @@ public class CsvFileInput extends VerticalPanel {
 		return setCurrentValues(setting);
 	}
 
-	public void addToListbox(String[] result) {
+	public void addToListbox(String[] result) throws AlgorithmConfigurationException {
 		int index = 1;							//start at 1 because index 0 has default ("--") entry
 		for (String value : result) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
@@ -199,6 +200,12 @@ public class CsvFileInput extends VerticalPanel {
             }
             index++;
         }
+		if (preselectionUnavailable())
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+	}
+
+	private boolean preselectionUnavailable() {
+		return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
 	}
 
 	private boolean isPreselected(String value) {
@@ -208,15 +215,18 @@ public class CsvFileInput extends VerticalPanel {
 				preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
 	}
 
-	public void selectDataSource(ConfigurationSettingDataSource csvSetting) {
+	public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
 		this.preselectedFilename = csvSetting.getValueAsString();
 		
 		//if the list  of available files has already been retrieved
-		if (this.listbox.getItemCount() > 1)
+		if (this.listbox.getItemCount() > 1) {
 			for (int i = 0; i < listbox.getItemCount(); i++) {
 				if (isPreselected(csvSetting.getValueAsString())) {
 					listbox.setSelectedIndex(i+1);
+					return;
 				}
 			}
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+		}
 	}
 }

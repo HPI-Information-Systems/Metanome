@@ -20,6 +20,12 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
 
 public class GwtTestCommonWidgets extends GWTTestCase{
@@ -37,6 +43,25 @@ public class GwtTestCommonWidgets extends GWTTestCase{
 		assertEquals(filenames.length + 1, jarChooser.getListItemCount());
 	}
 
+	//@Test 
+//	public void testCsvFileWidget() throws AlgorithmConfigurationException {
+//		//Setup
+//		String path = "inputA.csv";
+//		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
+//		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
+//		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+//		setting.setFileName(path);
+//		
+//		//Execute
+//		dataSourceWidget.setDataSource(setting);
+//		
+//		//Check 
+//		assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getItemCount() > 1);
+//		ConfigurationSettingDataSource retrievedSetting = 
+//				(ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification().getSettings()[0];
+//		assertEquals(path, retrievedSetting.getValueAsString());
+//	}
+	
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Hello";

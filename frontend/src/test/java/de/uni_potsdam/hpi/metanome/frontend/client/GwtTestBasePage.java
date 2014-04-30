@@ -23,6 +23,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
@@ -110,17 +111,18 @@ public class GwtTestBasePage extends GWTTestCase{
 	
 	/**
 	 * Test control flow from Data source to Run configuration
+	 * @throws AlgorithmConfigurationException 
 	 * @throws InterruptedException 
 	 */
 	@Test
-	public void testJumpToRunConfigurationFromDataSource() {
+	public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
 		final BasePage page = new BasePage();
 		final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
 				new ConfigurationSpecificationCsvFile("test"));
 		ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
 		dataSource.setFileName(dataSourceName);
 		final ConfigurationSettingCsvFile finalDataSource = dataSource;
-		dataSourceWidget.setDataSource(dataSource);
+//		dataSourceWidget.setDataSource(dataSource);
 		
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {

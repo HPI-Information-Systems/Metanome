@@ -50,7 +50,10 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 			// TODO error handling
 		}
 		
-		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();		
+		List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();	
+		for (ConfigurationSpecification param : configList)
+			System.out.println("on server: " + param.getNumberOfValues());
+
 		return configList;
 	}	
 }
