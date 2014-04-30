@@ -22,13 +22,14 @@ import java.io.Serializable;
  * @author Jakob Zwiener
  */
 public class ConfigurationSettingString implements Serializable {
-	private static final long serialVersionUID = 1753877522641977576L;
-	
-	public String value;
+    private static final long serialVersionUID = 1753877522641977576L;
 
-	
-	public ConfigurationSettingString() {}
-	
+    public String value;
+
+
+    public ConfigurationSettingString() {
+    }
+
     public ConfigurationSettingString(String value) {
         this.value = value;
     }

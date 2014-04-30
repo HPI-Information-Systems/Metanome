@@ -23,12 +23,13 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationString extends ConfigurationSpecification {
-	private static final long serialVersionUID = 7041289462720572215L;
-	
-	private ConfigurationSettingString[] settings;
-	
-	public ConfigurationSpecificationString() {}
-	
+    private static final long serialVersionUID = 7041289462720572215L;
+
+    private ConfigurationSettingString[] settings;
+
+    public ConfigurationSpecificationString() {
+    }
+
     /**
      * Construct a ConfigurationSepcificationString, requesting 1 value.
      *
@@ -50,22 +51,22 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
         super(identifier, numberOfValues);
     }
 
-	public void setValues(ConfigurationSettingString[] configurationSettings) {
-		this.settings = configurationSettings;
-	}
+    public void setValues(ConfigurationSettingString[] configurationSettings) {
+        this.settings = configurationSettings;
+    }
 
-	@Override
-	public ConfigurationSettingString[] getSettings() {
-		return this.settings;
-	}
+    @Override
+    public ConfigurationSettingString[] getSettings() {
+        return this.settings;
+    }
 
-	public void setValues(String... values) {
-		this.settings = new ConfigurationSettingString[values.length];
-		int i=0;
-		for (String s : values){
-			this.settings[i] = new ConfigurationSettingString(s);
-			i++;
-		}
-	}
+    public void setValues(String... values) {
+        this.settings = new ConfigurationSettingString[values.length];
+        int i = 0;
+        for (String s : values) {
+            this.settings[i] = new ConfigurationSettingString(s);
+            i++;
+        }
+    }
 
 }
