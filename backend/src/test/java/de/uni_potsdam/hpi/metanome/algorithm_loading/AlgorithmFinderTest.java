@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2014 by the Metanome project
  *
@@ -53,44 +52,44 @@ public class AlgorithmFinderTest {
 
         // Execute functionality
         List<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
-		
-		// Check result
-		assertNotNull(algorithmInterfaces);
-		assertNotEquals(0, algorithmInterfaces.size());
-		assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));	
-	}
-	
-	@Test
-	public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
-		// Setup
-		AlgorithmFinder algoFinder = new AlgorithmFinder();
-		
-		//Execute
-		String[] algos = algoFinder.getAvailableAlgorithms(null);
-		
-		//Check
-		assertTrue(algos.length > 0);
-	}
-	
-	/**
-	 * Test method for {@link AlgorithmFinder#getAvailableAlgorithms(Class)}
-	 * 
-	 * Should return the algorithms implementing the asked interface. Should not fail the whole search only, 
-	 * because one algorithm does not have the bootstrap class parameter set correclty.
-	 * 
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	@Test
-	public void testRetrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
-		// Setup
-		AlgorithmFinder algoFinder = new AlgorithmFinder();
-		
-		//Execute
-		String[] algos = algoFinder.getAvailableAlgorithms(UniqueColumnCombinationsAlgorithm.class);
-		
-		//Check
-		assertEquals(2, algos.length); //TODO determine number of expected algorithms dynamically
-		//TODO make sure no wrong algorithms are returned
-	}
+
+        // Check result
+        assertNotNull(algorithmInterfaces);
+        assertNotEquals(0, algorithmInterfaces.size());
+        assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+    }
+
+    @Test
+    public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
+        // Setup
+        AlgorithmFinder algoFinder = new AlgorithmFinder();
+
+        //Execute
+        String[] algos = algoFinder.getAvailableAlgorithms(null);
+
+        //Check
+        assertTrue(algos.length > 0);
+    }
+
+    /**
+     * Test method for {@link AlgorithmFinder#getAvailableAlgorithms(Class)}
+     * <p/>
+     * Should return the algorithms implementing the asked interface. Should not fail the whole search only,
+     * because one algorithm does not have the bootstrap class parameter set correclty.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void testRetrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
+        // Setup
+        AlgorithmFinder algoFinder = new AlgorithmFinder();
+
+        //Execute
+        String[] algos = algoFinder.getAvailableAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+
+        //Check
+        assertEquals(2, algos.length); //TODO determine number of expected algorithms dynamically
+        //TODO make sure no wrong algorithms are returned
+    }
 }

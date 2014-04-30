@@ -40,20 +40,20 @@ public class HibernateUtil {
     /**
      * @return the singleton {@link SessionFactory}
      */
-	public static synchronized SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			sessionFactory = buildSessionFactory();
-		}
+    public static synchronized SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            sessionFactory = buildSessionFactory();
+        }
 
         return sessionFactory;
-	}
+    }
 
     /**
-	 * @return a fresh db session
-	 */
-	public static Session openNewSession() {
-		return getSessionFactory().openSession();
-	}
+     * @return a fresh db session
+     */
+    public static Session openNewSession() {
+        return getSessionFactory().openSession();
+    }
 
     /**
      * Stores an entity in the database.
@@ -78,7 +78,7 @@ public class HibernateUtil {
      * Retrieves an entity of the given class and with the given id from the database.
      *
      * @param clazz the class of the entity to retrieve
-     * @param id the id of the entity to retrieve
+     * @param id    the id of the entity to retrieve
      * @return the requested entity
      */
     public static Object retrieve(Class clazz, Serializable id) throws EntityStorageException {
@@ -134,8 +134,8 @@ public class HibernateUtil {
     }
 
     protected static SessionFactory buildSessionFactory() {
-		Configuration configuration = new Configuration().configure();
+        Configuration configuration = new Configuration().configure();
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         return configuration.configure().buildSessionFactory(serviceRegistry);
-	}
+    }
 }
