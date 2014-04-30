@@ -9,7 +9,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 public class WidgetFactory {
 
 	public static InputParameterWidget buildWidget(ConfigurationSpecification config){
-		System.out.println("Expected no. of values: " + config.getNumberOfValues());
 		InputParameterWidget widget = null;
 		if (config instanceof ConfigurationSpecificationBoolean)
 			widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);

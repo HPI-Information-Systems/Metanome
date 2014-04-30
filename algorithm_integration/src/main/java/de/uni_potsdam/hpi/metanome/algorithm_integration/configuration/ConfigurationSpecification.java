@@ -35,10 +35,10 @@ public abstract class ConfigurationSpecification implements Serializable {
 	public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
 
     protected String identifier;
+    /** would be good to make this final, but then it would not be serialized and thus be reset to 1 in frontend */
     protected int numberOfValues;
 
-    public ConfigurationSpecification() {
-    }
+    public ConfigurationSpecification() {}
     
     /**
      * Construct a configuration specification.

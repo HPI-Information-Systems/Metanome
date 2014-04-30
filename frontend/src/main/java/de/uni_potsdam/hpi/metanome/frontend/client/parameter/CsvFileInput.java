@@ -74,18 +74,23 @@ public class CsvFileInput extends VerticalPanel {
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
     }
 
-    public CsvFileInput(ConfigurationSettingCsvFile csvSpec) {
+    /**
+     * Constructor which presets values.
+     * 
+     * @param csvSetting	Setting object from which to copy the values.
+     */
+    public CsvFileInput(ConfigurationSettingCsvFile csvSetting) {
     	this();
     	
-    	this.preselectedFilename = csvSpec.getFileName();
+    	this.preselectedFilename = csvSetting.getFileName();
     	
-    	this.advancedCheckbox.setValue(csvSpec.isAdvanced());
-    	this.separatorTextbox.setValue(""+csvSpec.getSeparatorChar());
-    	this.quoteTextbox.setValue(""+csvSpec.getQuoteChar());
-    	this.escapeTextbox.setValue(""+csvSpec.getEscapeChar());
-    	this.lineIntegerbox.setValue(csvSpec.getLine());
-    	this.strictQuotesCheckbox.setValue(csvSpec.isStrictQuotes());
-    	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSpec.isIgnoreLeadingWhiteSpace());
+    	this.advancedCheckbox.setValue(csvSetting.isAdvanced());
+    	this.separatorTextbox.setValue(""+csvSetting.getSeparatorChar());
+    	this.quoteTextbox.setValue(""+csvSetting.getQuoteChar());
+    	this.escapeTextbox.setValue(""+csvSetting.getEscapeChar());
+    	this.lineIntegerbox.setValue(csvSetting.getLine());
+    	this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
+    	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
     }
 
 	/**
@@ -112,6 +117,72 @@ public class CsvFileInput extends VerticalPanel {
         textbox.setWidth("2em");
         return textbox;
     }
+    
+
+	/**
+	 * Fills the dropdown list with the given values
+	 * 
+	 * @param fileNames	the values to put into the dropdown
+	 * @throws AlgorithmConfigurationException
+	 */
+	public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
+		int index = 1;							//start at 1 because index 0 has default ("--") entry
+		for (String value : fileNames) {
+            String displayName = value.substring(value.lastIndexOf("/") + 1);
+            listbox.addItem(displayName, value);
+            if (isPreselected(value)) {
+                listbox.setSelectedIndex(index);
+            }
+            index++;
+        }
+		if (preselectionUnavailable())
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+	}
+
+	/**
+	 * @return true if a preselection was specified but the default item is still selected (usually because the preselected
+	 * item was not available)
+	 */
+	private boolean preselectionUnavailable() {
+		return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
+	}
+
+	/**
+	 * Checks whether the value parameter corresponds the one that was preselected. The comparison is based on the substring
+	 * after the last "/", so that "/path/to/inputA.csv" is the same as "inputA.csv"
+	 * TODO: find a way to make separator system dependent
+	 * 
+	 * @param value	
+	 * @return true if the 
+	 */
+	private boolean isPreselected(String value) {
+		if (value == null || this.preselectedFilename == null)
+			return false;
+		return value.substring(value.lastIndexOf("/") + 1).equals(
+				preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
+	}
+
+	/**
+	 * Selects the given data source in the first widget. If the dropdowns have not yet been filled with the available 
+	 * values, we save the value and set it when the dropdown is filled.
+	 * 
+	 * @param csvSetting	the data source 
+	 * @throws AlgorithmConfigurationException	If the dropdowns are filled but do not containt the desired data source.
+	 */
+	public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
+		this.preselectedFilename = csvSetting.getValueAsString();
+		
+		//if the list  of available files has already been retrieved
+		if (this.listbox.getItemCount() > 1) {
+			for (int i = 0; i < listbox.getItemCount(); i++) {
+				if (isPreselected(csvSetting.getValueAsString())) {
+					listbox.setSelectedIndex(i+1);
+					return;
+				}
+			}
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+		}
+	}
 
     /**
      * Retrieves the current values from the UI and sets them on the given inputParameter
@@ -185,48 +256,13 @@ public class CsvFileInput extends VerticalPanel {
         return itemTexts;
     }
 
+    /**
+     * @return a new ConfigurationSetting object with the current user input
+     */
 	public ConfigurationSettingCsvFile getValuesAsSettings() {
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		return setCurrentValues(setting);
 	}
 
-	public void addToListbox(String[] result) throws AlgorithmConfigurationException {
-		int index = 1;							//start at 1 because index 0 has default ("--") entry
-		for (String value : result) {
-            String displayName = value.substring(value.lastIndexOf("/") + 1);
-            listbox.addItem(displayName, value);
-            if (isPreselected(value)) {
-                listbox.setSelectedIndex(index);
-            }
-            index++;
-        }
-		if (preselectionUnavailable())
-			throw new AlgorithmConfigurationException("The CSV file is not available.");
-	}
-
-	private boolean preselectionUnavailable() {
-		return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
-	}
-
-	private boolean isPreselected(String value) {
-		if (value == null || this.preselectedFilename == null)
-			return false;
-		return value.substring(value.lastIndexOf("/") + 1).equals(
-				preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
-	}
-
-	public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
-		this.preselectedFilename = csvSetting.getValueAsString();
-		
-		//if the list  of available files has already been retrieved
-		if (this.listbox.getItemCount() > 1) {
-			for (int i = 0; i < listbox.getItemCount(); i++) {
-				if (isPreselected(csvSetting.getValueAsString())) {
-					listbox.setSelectedIndex(i+1);
-					return;
-				}
-			}
-			throw new AlgorithmConfigurationException("The CSV file is not available.");
-		}
-	}
+	
 }

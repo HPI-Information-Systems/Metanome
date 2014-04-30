@@ -49,7 +49,6 @@ public class InputParameterCsvFileWidget extends VerticalPanel implements InputP
         this.specification = configSpec;
         //TODO implement arbitrary number of values
         widgets = new ArrayList<>(specification.getNumberOfValues());
-        System.out.println("Expected CSV File Widgets: " + specification.getNumberOfValues());
         for (int i = 0; i < specification.getNumberOfValues(); i++) {
         	CsvFileInput input = new CsvFileInput();
         	this.addWidget(input);
