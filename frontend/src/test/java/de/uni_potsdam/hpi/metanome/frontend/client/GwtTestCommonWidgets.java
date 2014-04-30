@@ -16,34 +16,26 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
 import org.junit.Test;
 
-import com.google.gwt.junit.client.GWTTestCase;
+public class GwtTestCommonWidgets extends GWTTestCase {
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
+    @Test
+    public void testJarChooser() {
+        //Setup
+        String[] filenames = {"filename1.jar", "filename2.jar"};
 
-public class GwtTestCommonWidgets extends GWTTestCase{
+        //Execute
+        JarChooser jarChooser = new JarChooser(filenames);
 
-	@Test
-	public void testJarChooser() {
-		//Setup
-		String[] filenames = {"filename1.jar", "filename2.jar"};
-		
-		//Execute
-		JarChooser jarChooser = new JarChooser(filenames);
-		
-		//Test
-		assertEquals(2, jarChooser.getWidgetCount());
-		assertEquals(filenames.length + 1, jarChooser.getListItemCount());
-	}
+        //Test
+        assertEquals(2, jarChooser.getWidgetCount());
+        assertEquals(filenames.length + 1, jarChooser.getListItemCount());
+    }
 
-	//@Test 
+    //@Test
 //	public void testCsvFileWidget() throws AlgorithmConfigurationException {
 //		//Setup
 //		String path = "inputA.csv";
@@ -61,10 +53,10 @@ public class GwtTestCommonWidgets extends GWTTestCase{
 //				(ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification().getSettings()[0];
 //		assertEquals(path, retrievedSetting.getValueAsString());
 //	}
-	
-	@Override
-	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
-	}
+
+    @Override
+    public String getModuleName() {
+        return "de.uni_potsdam.hpi.metanome.frontend.Hello";
+    }
 
 }

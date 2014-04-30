@@ -21,9 +21,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 
 
 public interface InputParameterDataSourceWidget extends InputParameterWidget {
-	
-	public void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException;
 
-	public boolean accepts(ConfigurationSettingDataSource setting);
+    public void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException;
+
+    public boolean accepts(ConfigurationSettingDataSource setting);
 
 }

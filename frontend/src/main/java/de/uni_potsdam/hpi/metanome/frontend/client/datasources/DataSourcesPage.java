@@ -20,12 +20,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
+import com.google.gwt.user.client.ui.*;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
@@ -40,11 +35,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
  */
 public class DataSourcesPage extends VerticalPanel {
 
-    private FlexTable csvFilesList;
-
-    private InputDataServiceAsync inputDataService;
-
     protected final BasePage basePage;
+    private FlexTable csvFilesList;
+    private InputDataServiceAsync inputDataService;
 
     public DataSourcesPage(BasePage parent) {
         this.inputDataService = GWT.create(InputDataService.class);
@@ -91,7 +84,7 @@ public class DataSourcesPage extends VerticalPanel {
                 for (int i = 0; i < result.length; i++) {
                     ConfigurationSettingCsvFile csvSetting = new ConfigurationSettingCsvFile();
                     csvSetting.setFileName(result[i]);
-					dataSources[i] = csvSetting;
+                    dataSources[i] = csvSetting;
                 }
                 addDataSourcesToList(dataSources, csvFilesList);
             }

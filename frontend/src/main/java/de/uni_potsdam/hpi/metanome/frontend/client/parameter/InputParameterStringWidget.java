@@ -16,53 +16,52 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 
-public class InputParameterStringWidget extends VerticalPanel implements InputParameterWidget {
-	
-	// FIXME implement several input values
-	
-	private ConfigurationSpecificationString specification;
-	private List<TextBox> widgets;
-	
-	public InputParameterStringWidget(ConfigurationSpecificationString config) {
-		super();
-		this.specification = config;
-		this.widgets = new LinkedList<TextBox>();
-		for (int i=0; i<config.getNumberOfValues(); i++) {
-			TextBox textBox = new TextBox();
-			this.widgets.add(textBox);
-			this.add(textBox);
-		}
-	}
-	
-	@Override
-	public ConfigurationSpecificationString getUpdatedSpecification(){
-		this.specification.setValues(this.getConfigurationSettings());
-		return this.specification;
-	}
-	
-	
-	protected ConfigurationSettingString[] getConfigurationSettings() {
-		ConfigurationSettingString[] values = new ConfigurationSettingString[this.widgets.size()];
-		int i=0;
-		for (TextBox b : this.widgets){
-			values[i] = new ConfigurationSettingString(b.getValue());
-			i++;
-		}
-		return values;
-	}
+import java.util.LinkedList;
+import java.util.List;
 
-	@Override
-	public boolean isDataSource() {
-		return false;
-	}
+public class InputParameterStringWidget extends VerticalPanel implements InputParameterWidget {
+
+    // FIXME implement several input values
+
+    private ConfigurationSpecificationString specification;
+    private List<TextBox> widgets;
+
+    public InputParameterStringWidget(ConfigurationSpecificationString config) {
+        super();
+        this.specification = config;
+        this.widgets = new LinkedList<TextBox>();
+        for (int i = 0; i < config.getNumberOfValues(); i++) {
+            TextBox textBox = new TextBox();
+            this.widgets.add(textBox);
+            this.add(textBox);
+        }
+    }
+
+    @Override
+    public ConfigurationSpecificationString getUpdatedSpecification() {
+        this.specification.setValues(this.getConfigurationSettings());
+        return this.specification;
+    }
+
+
+    protected ConfigurationSettingString[] getConfigurationSettings() {
+        ConfigurationSettingString[] values = new ConfigurationSettingString[this.widgets.size()];
+        int i = 0;
+        for (TextBox b : this.widgets) {
+            values[i] = new ConfigurationSettingString(b.getValue());
+            i++;
+        }
+        return values;
+    }
+
+    @Override
+    public boolean isDataSource() {
+        return false;
+    }
 
 }

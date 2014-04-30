@@ -17,12 +17,11 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IsWidget;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 public interface InputParameterWidget extends IsWidget {
 
     public ConfigurationSpecification getUpdatedSpecification();
-    
+
     public boolean isDataSource();
 }
