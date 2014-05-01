@@ -31,6 +31,13 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <repositories>
+        <repository>
+            <id>metanomeRepo</id>
+            <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url>
+        </repository>
+    </repositories>
+
     <properties>
         <!-- Convenience property to set the GWT version -->
         <gwtVersion>2.6.0</gwtVersion>
@@ -41,6 +48,9 @@
 
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- the version of the metanome algorithms to include in packaging -->
+        <algorithms.version>${version}</algorithms.version>
     </properties>
 
     <dependencies>
@@ -175,6 +185,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -188,7 +199,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.8</version>
                 <executions>
                     <execution>
                         <id>copyTestArtifacts</id>
@@ -240,6 +251,47 @@
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>algorithms</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>depminer_algorithm</artifactId>
+                                    <version>${algorithms.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>fastfds_algorithm</artifactId>
+                                    <version>${algorithms.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>fdep_algorithm</artifactId>
+                                    <version>${algorithms.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <artifactId>tane_algorithm</artifactId>
+                                    <version>${algorithms.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+
                     </execution>
                     <execution>
                         <id>metanome</id>

@@ -15,8 +15,8 @@
   -->
 
 <assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
-          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+          xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
     <id>package_with_jetty</id>
     <formats>
         <format>zip</format>
@@ -40,6 +40,16 @@
             <useDefaultExcludes>true</useDefaultExcludes>
             <includes>
                 <include>jetty-runner.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/dependency/algorithms/</directory>
+            <outputDirectory>metanome/WEB-INF/classes/algorithms/</outputDirectory>
+            <includes>
+                <include>depminer_algorithm.jar</include>
+                <include>fastfds_algorithm.jar</include>
+                <include>fdep_algorithm.jar</include>
+                <include>tane_algorithm.jar</include>
             </includes>
         </fileSet>
     </fileSets>
