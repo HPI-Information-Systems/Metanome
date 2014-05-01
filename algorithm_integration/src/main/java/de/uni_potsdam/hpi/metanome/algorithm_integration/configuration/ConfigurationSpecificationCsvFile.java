@@ -23,6 +23,12 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationCsvFile extends ConfigurationSpecification {
+    private static final long serialVersionUID = 8842139128248338302L;
+
+    private ConfigurationSettingCsvFile[] settings;
+
+    public ConfigurationSpecificationCsvFile() {
+    }
 
     /**
      * Constructs a {@link ConfigurationSpecificationCsvFile}, requesting 1 value.
@@ -43,5 +49,19 @@ public class ConfigurationSpecificationCsvFile extends ConfigurationSpecificatio
                                              int numberOfValues) {
 
         super(identifier, numberOfValues);
+    }
+
+    public String getFileNameValue() {
+        // TODO return current value to select correct index?!
+        return null;
+    }
+
+    @Override
+    public ConfigurationSettingCsvFile[] getSettings() {
+        return this.settings;
+    }
+
+    public void setValues(ConfigurationSettingCsvFile[] configurationSettings) {
+        this.settings = configurationSettings;
     }
 }

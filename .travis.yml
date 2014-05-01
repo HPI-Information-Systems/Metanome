@@ -8,9 +8,6 @@ env:
         - secure: "cw80AZWTn5/TnqeRy0CMWvKiktVe84GGgK5DISFLJ9MhYdXYZwn+2r8rQk6TCguZ4GzvztStlXAzsvOIJzqOmS6bL4ZO9iT08LCsaNUb2K8vJFsTyqf9SYVHv/0Go9WTiAOIWZjvQG455FecFUdMdZxWcGgfDuScvFFx5gEmuzY="
         - secure: "mWWbU2L21JPD9zIZqgiwnLZNnNcEP73firR7DQtwfYgQO2ajfEuOikjUwO6BBds4jTxi0VagHsowEC24/CEet1YJDxryYDXfkGIZZbz5oKbCv2JJDpSbGmK5lcW0BIYl5UFObGs9K6LJ7vEQAGxoo7MS8h6G0a8u53cIsVhvnJs="
 
-install:
-  - sudo apt-get install texlive
-
 script: "mvn -q clean verify"
 
 after_success:

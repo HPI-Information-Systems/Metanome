@@ -16,11 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 
-public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
 
-    public abstract InputParameterDataSource getInputParameter();
+public interface InputParameterDataSourceWidget extends InputParameterWidget {
 
-    public abstract void setInputParameter(InputParameterDataSource parameter);
+    public void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException;
+
+    public boolean accepts(ConfigurationSettingDataSource setting);
 
 }

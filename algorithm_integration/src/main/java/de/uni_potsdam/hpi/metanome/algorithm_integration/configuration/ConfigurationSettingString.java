@@ -14,33 +14,23 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
+
+import java.io.Serializable;
+
+/**
+ * @author Jakob Zwiener
+ */
+public class ConfigurationSettingString implements Serializable {
+    private static final long serialVersionUID = 1753877522641977576L;
+
+    public String value;
 
 
-public class InputParameterBoolean extends InputParameter {
-	private static final long serialVersionUID = 5161219640594711634L;
-	
-	private boolean value;
+    public ConfigurationSettingString() {
+    }
 
-	public InputParameterBoolean(){
-		super();
-	}
-
-	public InputParameterBoolean(String identifier) {
-		super(identifier);
-	}
-
-	// **** GETTERS & SETTERS ****
-	public Boolean getValue() {
-		return value;
-	}
-
-	public void setValue(boolean value) {
-		this.value = value;
-	}
-
-	@Override
-	public InputParameterWidget createWrappingWidget() {
-		return new InputParameterBooleanWidget(this);
-	}
+    public ConfigurationSettingString(String value) {
+        this.value = value;
+    }
 }

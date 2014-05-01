@@ -16,10 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.IsWidget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
-public abstract class InputParameterWidget extends Composite {
+public interface InputParameterWidget extends IsWidget {
 
-    public abstract ConfigurationSpecification getUpdatedSpecification();
+    public ConfigurationSpecification getUpdatedSpecification();
+
+    public boolean isDataSource();
 }

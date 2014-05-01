@@ -14,28 +14,21 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.results_db;
 
-import com.google.gwt.user.client.ui.IntegerBox;
+/**
+ * TODO docs
+ *
+ * @author Jakob Zwiener
+ */
+public class EntityStorageException extends Exception {
 
-public class InputParameterIntegerWidget extends IntegerBox implements InputParameterWidget {
-	
-	InputParameterInteger inputParameter;
+    protected EntityStorageException() {
+        super();
+    }
 
-	public InputParameterIntegerWidget(
-			InputParameterInteger inputParameter) {
-		super();
-		this.inputParameter = inputParameter;
-	}
-
-	@Override
-	public InputParameter getInputParameter() {
-		if (this.getValue() != null)
-			this.inputParameter.setValue(this.getValue());
-		else
-			this.inputParameter.setValue(0);
-		
-		return inputParameter;
-	}
+    public EntityStorageException(String message) {
+        super(message);
+    }
 
 }

@@ -16,30 +16,47 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
 import org.junit.Test;
 
-import com.google.gwt.junit.client.GWTTestCase;
+public class GwtTestCommonWidgets extends GWTTestCase {
 
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
+    @Test
+    public void testJarChooser() {
+        //Setup
+        String[] filenames = {"filename1.jar", "filename2.jar"};
 
-public class GwtTestCommonWidgets extends GWTTestCase{
+        //Execute
+        JarChooser jarChooser = new JarChooser(filenames);
 
-	@Test
-	public void testJarChooser() {
-		//Setup
-		String[] filenames = {"filename1.jar", "filename2.jar"};
-		
-		//Execute
-		JarChooser jarChooser = new JarChooser(filenames);
-		
-		//Test
-		assertEquals(2, jarChooser.getWidgetCount());
-		assertEquals(filenames.length + 1, jarChooser.getListItemCount());
-	}
+        //Test
+        assertEquals(2, jarChooser.getWidgetCount());
+        assertEquals(filenames.length + 1, jarChooser.getListItemCount());
+    }
 
-	@Override
-	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Hello";
-	}
+    //@Test
+//	public void testCsvFileWidget() throws AlgorithmConfigurationException {
+//		//Setup
+//		String path = "inputA.csv";
+//		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
+//		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
+//		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+//		setting.setFileName(path);
+//		
+//		//Execute
+//		dataSourceWidget.setDataSource(setting);
+//		
+//		//Check 
+//		assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getItemCount() > 1);
+//		ConfigurationSettingDataSource retrievedSetting = 
+//				(ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification().getSettings()[0];
+//		assertEquals(path, retrievedSetting.getValueAsString());
+//	}
+
+    @Override
+    public String getModuleName() {
+        return "de.uni_potsdam.hpi.metanome.frontend.Hello";
+    }
 
 }

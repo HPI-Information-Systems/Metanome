@@ -16,59 +16,72 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 
-public class InputParameterSQLIteratorWidget extends FlexTable implements
-InputParameterDataSourceWidget {
+import java.util.ArrayList;
+import java.util.List;
 
-	/** Corresponding inputParameter, where the value is going to be written */
-	private InputParameterSQLIterator inputParameter;
-	
-	private TextBox dbUrlTextbox;
-	private TextBox usernameTextbox;
-	private TextBox passwordTextbox;
+public class InputParameterSQLIteratorWidget extends VerticalPanel implements
+        InputParameterDataSourceWidget {
 
-	public InputParameterSQLIteratorWidget(
-			InputParameterSQLIterator inputParameter) {
-		super();
-		this.inputParameter = inputParameter;
-		
-		dbUrlTextbox = new TextBox();
-		addRow(dbUrlTextbox, "Database URL", 0);
-		
-		usernameTextbox = new TextBox();
-		addRow(usernameTextbox, "User Name", 1);
-		
-		passwordTextbox = new TextBox();
-		addRow(passwordTextbox, "Password", 2);
-		
-	}
+    /**
+     * Corresponding inputParameter, where the value is going to be written
+     */
+    private ConfigurationSpecificationSQLIterator specification;
+    private List<SQLIteratorInput> widgets;
 
-	protected void addRow(Widget inputWidget, String name, int row) {
-		this.setText(row, 0, name);
-		this.setWidget(row, 1, inputWidget);
-	}
-	
-	protected void setCurrentValues(InputParameterSQLIterator inputParameter){
-		inputParameter.setDbUrl(this.dbUrlTextbox.getValue());
-		inputParameter.setUserName(this.usernameTextbox.getValue());
-		inputParameter.setPassword(this.passwordTextbox.getValue());
-	}
-	
-	@Override
-	public InputParameterDataSource getInputParameter() {
-		setCurrentValues(this.inputParameter);
-		return this.inputParameter;
-	}
 
-	@Override
-	public void setInputParameter(InputParameterDataSource parameter) {
-		InputParameterSQLIterator sqlParameter = (InputParameterSQLIterator)parameter;
-		this.dbUrlTextbox.setValue(sqlParameter.getDbUrl());
-		this.passwordTextbox.setValue(sqlParameter.getPassword());
-		this.usernameTextbox.setValue(sqlParameter.getUserName());
-	}
+    public InputParameterSQLIteratorWidget(
+            ConfigurationSpecificationSQLIterator config) {
+        super();
+        this.specification = config;
+        // TODO: implement arbitrary number of widgets
+        widgets = new ArrayList<>(specification.getNumberOfValues());
+        for (int i = 0; i < specification.getNumberOfValues(); i++) {
+            SQLIteratorInput input = new SQLIteratorInput();
+            this.addWidget(input, i);
+        }
+    }
+
+    public void addWidget(SQLIteratorInput widget, int row) {
+        this.widgets.add(widget);
+        this.add(widget);
+    }
+
+    @Override
+    public ConfigurationSpecification getUpdatedSpecification() {
+        // Build an array with the actual number of set values.
+        ConfigurationSettingSQLIterator[] values = new ConfigurationSettingSQLIterator[widgets.size()];
+
+        for (int i = 0; i < widgets.size(); i++) {
+            values[i] = widgets.get(i).getValue();
+        }
+
+        specification.setValues(values);
+
+        return this.specification;
+    }
+
+    @Override
+    public boolean accepts(ConfigurationSettingDataSource setting) {
+        return setting instanceof ConfigurationSettingSQLIterator;
+    }
+
+    @Override
+    public boolean isDataSource() {
+        return true;
+    }
+
+    @Override
+    public void setDataSource(ConfigurationSettingDataSource dataSource) {
+        if (dataSource instanceof ConfigurationSettingSQLIterator)
+            this.widgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
+        else
+            ; //TODO throw some exception
+    }
 
 }
