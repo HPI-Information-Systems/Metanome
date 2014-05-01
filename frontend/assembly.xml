@@ -47,6 +47,9 @@
             <outputDirectory>metanome/WEB-INF/classes/algorithms/</outputDirectory>
             <includes>
                 <include>depminer_algorithm.jar</include>
+                <include>fastfds_algorithm.jar</include>
+                <include>fdep_algorithm.jar</include>
+                <include>tane_algorithm.jar</include>
             </includes>
         </fileSet>
     </fileSets>
