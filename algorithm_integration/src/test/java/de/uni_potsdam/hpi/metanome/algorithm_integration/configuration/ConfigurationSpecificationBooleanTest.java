@@ -106,7 +106,7 @@ public class ConfigurationSpecificationBooleanTest {
         configSpec.setValues(expectedValue0, expectedValue1);
 
         // Check result
-        assertEquals(expectedValue0, configSpec.values[0]);
-        assertEquals(expectedValue1, configSpec.values[1]);
+        assertEquals(expectedValue0, configSpec.settings[0]);
+        assertEquals(expectedValue1, configSpec.settings[1]);
     }
 }

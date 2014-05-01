@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.ui.IntegerBox;
+import java.io.Serializable;
 
-public class InputParameterIntegerWidget extends IntegerBox implements InputParameterWidget {
-	
-	InputParameterInteger inputParameter;
+/**
+ * @author Jakob Zwiener
+ */
+public class ConfigurationSettingString implements Serializable {
+    private static final long serialVersionUID = 1753877522641977576L;
 
-	public InputParameterIntegerWidget(
-			InputParameterInteger inputParameter) {
-		super();
-		this.inputParameter = inputParameter;
-	}
+    public String value;
 
-	@Override
-	public InputParameter getInputParameter() {
-		if (this.getValue() != null)
-			this.inputParameter.setValue(this.getValue());
-		else
-			this.inputParameter.setValue(0);
-		
-		return inputParameter;
-	}
 
+    public ConfigurationSettingString() {
+    }
+
+    public ConfigurationSettingString(String value) {
+        this.value = value;
+    }
 }

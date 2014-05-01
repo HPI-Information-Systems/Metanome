@@ -23,7 +23,12 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecification {
+    private static final long serialVersionUID = 6601202469601881851L;
 
+    private ConfigurationSettingSQLIterator[] settings;
+
+    public ConfigurationSpecificationSQLIterator() {
+    }
 
     /**
      * Construct a {@link ConfigurationSpecificationSQLIterator}, requesting 1 value.
@@ -44,5 +49,14 @@ public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecific
                                                  int numberOfValues) {
 
         super(identifier, numberOfValues);
+    }
+
+    @Override
+    public ConfigurationSettingSQLIterator[] getSettings() {
+        return settings;
+    }
+
+    public void setValues(ConfigurationSettingSQLIterator[] values) {
+        this.settings = values;
     }
 }

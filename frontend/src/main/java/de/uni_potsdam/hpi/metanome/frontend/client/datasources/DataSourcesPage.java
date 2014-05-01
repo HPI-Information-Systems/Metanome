@@ -21,9 +21,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFile;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -35,11 +35,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
  */
 public class DataSourcesPage extends VerticalPanel {
 
-    private FlexTable csvFilesList;
-
-    private InputDataServiceAsync inputDataService;
-
     protected final BasePage basePage;
+    private FlexTable csvFilesList;
+    private InputDataServiceAsync inputDataService;
 
     public DataSourcesPage(BasePage parent) {
         this.inputDataService = GWT.create(InputDataService.class);
@@ -82,10 +80,11 @@ public class DataSourcesPage extends VerticalPanel {
 
             @Override
             public void onSuccess(String[] result) {
-                InputParameterCsvFile[] dataSources = new InputParameterCsvFile[result.length];
+                ConfigurationSettingDataSource[] dataSources = new ConfigurationSettingDataSource[result.length];
                 for (int i = 0; i < result.length; i++) {
-                    dataSources[i] = new InputParameterCsvFile();
-                    dataSources[i].setFileNameValue(result[i]);
+                    ConfigurationSettingCsvFile csvSetting = new ConfigurationSettingCsvFile();
+                    csvSetting.setFileName(result[i]);
+                    dataSources[i] = csvSetting;
                 }
                 addDataSourcesToList(dataSources, csvFilesList);
             }
@@ -97,9 +96,9 @@ public class DataSourcesPage extends VerticalPanel {
 
     }
 
-    protected void addDataSourcesToList(InputParameterDataSource[] dataSources, FlexTable list) {
+    protected void addDataSourcesToList(ConfigurationSettingDataSource[] dataSources, FlexTable list) {
         int row = 0;
-        for (final InputParameterDataSource dataSource : dataSources) {
+        for (final ConfigurationSettingDataSource dataSource : dataSources) {
             Button runButton = new Button("Run Algorithm");
             Button showButton = new Button("Show Profile");
 
@@ -127,7 +126,7 @@ public class DataSourcesPage extends VerticalPanel {
         }
     }
 
-    protected void jumpToRunConfiguration(InputParameterDataSource dataSource) {
+    protected void jumpToRunConfiguration(ConfigurationSettingDataSource dataSource) {
         basePage.jumpToRunConfiguration(null, dataSource);
     }
 }

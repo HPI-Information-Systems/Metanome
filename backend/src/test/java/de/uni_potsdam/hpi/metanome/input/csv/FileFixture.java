@@ -24,24 +24,24 @@ import java.net.URLDecoder;
 
 public class FileFixture {
 
-	protected String fileData;
-	
-	public FileFixture(String fileData) {
-		this.fileData = fileData;
-	}
-	
-	public File getTestData(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
-		String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		filePath += fileName;
-		File file = new File(URLDecoder.decode(filePath, "utf-8"));
-		// Mark files for deletion once vm exits.
-		file.deleteOnExit();
-		
-		PrintWriter writer = new PrintWriter(file);
-		
-		writer.print(fileData);
-		writer.close();
-		
-		return file;
-	}
+    protected String fileData;
+
+    public FileFixture(String fileData) {
+        this.fileData = fileData;
+    }
+
+    public File getTestData(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+        String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        filePath += fileName;
+        File file = new File(URLDecoder.decode(filePath, "utf-8"));
+        // Mark files for deletion once vm exits.
+        file.deleteOnExit();
+
+        PrintWriter writer = new PrintWriter(file);
+
+        writer.print(fileData);
+        writer.close();
+
+        return file;
+    }
 }

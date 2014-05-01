@@ -17,21 +17,48 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
-public class InputParameterBooleanWidget extends CheckBox implements InputParameterWidget {
-	
-	private InputParameterBoolean inputParameter;
+import java.util.ArrayList;
+import java.util.List;
 
-	public InputParameterBooleanWidget(
-			InputParameterBoolean inputParameter) {
-		super();
-		this.inputParameter = inputParameter;
-	}
+public class InputParameterBooleanWidget extends VerticalPanel implements InputParameterWidget {
 
-	@Override
-	public InputParameter getInputParameter() {
-		this.inputParameter.setValue(this.getValue());
-		return inputParameter;
-	}
+    protected ConfigurationSpecificationBoolean specification;
+    protected List<CheckBox> widgets;
 
+    public InputParameterBooleanWidget(
+            ConfigurationSpecificationBoolean specification) {
+        super();
+        this.specification = specification;
+        // TODO: implement arbitrary number of widgets
+        widgets = new ArrayList<>(specification.getNumberOfValues());
+        for (int i = 0; i < specification.getNumberOfValues(); i++) {
+            CheckBox checkbox = new CheckBox(specification.getIdentifier());
+            widgets.add(checkbox);
+            this.add(checkbox);
+        }
+    }
+
+    @Override
+    public ConfigurationSpecification getUpdatedSpecification() {
+        // Build an array with the actual number of set values.
+        ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[widgets.size()];
+
+        for (int i = 0; i < widgets.size(); i++) {
+            values[i] = new ConfigurationSettingBoolean(widgets.get(i).getValue());
+        }
+
+        specification.setValues(values);
+
+        return specification;
+    }
+
+    @Override
+    public boolean isDataSource() {
+        return false;
+    }
 }

@@ -67,7 +67,7 @@ public class ExecutionTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and
      * {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
-     *
+     * <p/>
      * After roundtripping an execution all its {@link de.uni_potsdam.hpi.metanome.results_db.Input}s should be retrievable from it.
      */
     @Test
@@ -106,7 +106,7 @@ public class ExecutionTest {
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
-     *
+     * <p/>
      * Test the database roundtrip of an Execution with multiple {@link de.uni_potsdam.hpi.metanome.results_db.Input}s and {@link de.uni_potsdam.hpi.metanome.results_db.Result}s.
      */
     @Test

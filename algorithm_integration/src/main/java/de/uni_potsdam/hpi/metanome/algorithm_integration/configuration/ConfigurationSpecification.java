@@ -18,6 +18,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 
+import java.io.Serializable;
+
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured.
  * The ConfigurationSpecification is then used to construct a configuration value that
@@ -27,12 +29,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
  *
  * @author Jakob Zwiener
  */
-public abstract class ConfigurationSpecification {
-
+public abstract class ConfigurationSpecification implements Serializable {
     public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+    private static final long serialVersionUID = 4312752686730530733L;
+    protected String identifier;
+    /**
+     * would be good to make this final, but then it would not be serialized and thus be reset to 1 in frontend
+     */
+    protected int numberOfValues;
 
-    protected final String identifier;
-    protected final int numberOfValues;
+    public ConfigurationSpecification() {
+    }
 
     /**
      * Construct a configuration specification.
@@ -74,5 +81,8 @@ public abstract class ConfigurationSpecification {
     public int getNumberOfValues() {
         return numberOfValues;
     }
+
+    //TODO use sth more specific than object
+    public abstract Object[] getSettings();
 
 }

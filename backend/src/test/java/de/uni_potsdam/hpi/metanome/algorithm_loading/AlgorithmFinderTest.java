@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2014 by the Metanome project
  *
@@ -90,7 +89,7 @@ public class AlgorithmFinderTest {
         String[] algos = algoFinder.getAvailableAlgorithms(UniqueColumnCombinationsAlgorithm.class);
 
         //Check
-        assertEquals(2, algos.length);
+        assertEquals(2, algos.length); //TODO determine number of expected algorithms dynamically
         //TODO make sure no wrong algorithms are returned
     }
 }
