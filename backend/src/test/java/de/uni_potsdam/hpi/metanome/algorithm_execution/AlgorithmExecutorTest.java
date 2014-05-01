@@ -28,7 +28,6 @@ import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,14 +67,14 @@ public class AlgorithmExecutorTest {
      * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmExecutionException
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
-     * @throws ClassNotFoundException 
-     * @throws IOException 
-     * @throws SecurityException 
-     * @throws IllegalArgumentException 
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
      */
     @Test
     public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -97,14 +96,14 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
      * @throws AlgorithmExecutionException
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
-     * @throws ClassNotFoundException 
-     * @throws IOException 
-     * @throws SecurityException 
-     * @throws IllegalArgumentException 
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
      */
     @Test
     public void executeInclusionDependencyTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -129,14 +128,14 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
      * @throws AlgorithmExecutionException
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
-     * @throws ClassNotFoundException 
-     * @throws IOException 
-     * @throws SecurityException 
-     * @throws IllegalArgumentException 
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
      */
     @Test
     public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -159,14 +158,14 @@ public class AlgorithmExecutorTest {
      * @throws AlgorithmExecutionException
      * @throws AlgorithmConfigurationException
      * @throws AlgorithmLoadingException
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
-     * @throws ClassNotFoundException 
-     * @throws IOException 
-     * @throws SecurityException 
-     * @throws IllegalArgumentException 
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
      */
     @Test
     public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {

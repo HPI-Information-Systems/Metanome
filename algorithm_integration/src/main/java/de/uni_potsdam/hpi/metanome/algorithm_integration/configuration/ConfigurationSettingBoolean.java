@@ -22,12 +22,13 @@ import java.io.Serializable;
  * @author Jakob Zwiener
  */
 public class ConfigurationSettingBoolean implements Serializable {
-	private static final long serialVersionUID = 3374302400843066557L;
-	
-	public boolean value;
+    private static final long serialVersionUID = 3374302400843066557L;
 
-	public ConfigurationSettingBoolean() {}
-	
+    public boolean value;
+
+    public ConfigurationSettingBoolean() {
+    }
+
     public ConfigurationSettingBoolean(boolean value) {
         this.value = value;
     }

@@ -16,14 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import static junit.framework.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static junit.framework.Assert.assertEquals;
 
 public class ExecutionServiceTest {
 

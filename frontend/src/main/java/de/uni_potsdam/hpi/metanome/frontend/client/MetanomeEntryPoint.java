@@ -21,10 +21,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class MetanomeEntryPoint implements EntryPoint {
 
-	@Override
-	public void onModuleLoad() {
-		RootPanel.get().setHeight("100%");
-		RootPanel.get().add(new BasePage());		
-	}
+    @Override
+    public void onModuleLoad() {
+        RootPanel.get().setHeight("100%");
+        RootPanel.get().add(new BasePage());
+    }
 
 }

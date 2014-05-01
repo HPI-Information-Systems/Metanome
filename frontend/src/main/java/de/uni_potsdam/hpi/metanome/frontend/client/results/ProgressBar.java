@@ -27,8 +27,8 @@ public class ProgressBar extends Widget {
 
     private final Element progress;
     private final Element percentageLabel;
-    private double percentage;
     private final double max;
+    private double percentage;
 
     public ProgressBar(double value, double max) {
         assert max != 0;

@@ -22,18 +22,18 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator
 
 /**
  * An {@link Algorithm} that takes {@link SQLInputGenerator} configuration values.
- * 
+ *
  * @author Jakob Zwiener
  */
 public interface SqlInputParameterAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a SQLInputGenerator configuration value on the algorithm.
-	 * 
-	 * @param identifier the parameter's identifier
-	 * @param values one or multiple SQLInputGenerator values
+    /**
+     * Sets a SQLInputGenerator configuration value on the algorithm.
+     *
+     * @param identifier the parameter's identifier
+     * @param values     one or multiple SQLInputGenerator values
      * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
      */
-	void setConfigurationValue(String identifier, SQLInputGenerator... values) throws AlgorithmConfigurationException;
-	
+    void setConfigurationValue(String identifier, SQLInputGenerator... values) throws AlgorithmConfigurationException;
+
 }

@@ -24,12 +24,13 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationBoolean extends ConfigurationSpecification {
-	private static final long serialVersionUID = -8167469173057966270L;
-	
-	public ConfigurationSettingBoolean[] settings;
+    private static final long serialVersionUID = -8167469173057966270L;
 
-	public ConfigurationSpecificationBoolean() {}
-	
+    public ConfigurationSettingBoolean[] settings;
+
+    public ConfigurationSpecificationBoolean() {
+    }
+
     /**
      * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
      *
@@ -61,7 +62,7 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
         this.settings = values;
     }
 
-	public ConfigurationSettingBoolean[] getSettings() {
-		return settings;
-	}
+    public ConfigurationSettingBoolean[] getSettings() {
+        return settings;
+    }
 }

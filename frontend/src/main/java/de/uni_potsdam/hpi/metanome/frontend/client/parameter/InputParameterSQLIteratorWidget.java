@@ -16,44 +16,45 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InputParameterSQLIteratorWidget extends VerticalPanel implements
-InputParameterDataSourceWidget {
+        InputParameterDataSourceWidget {
 
-	/** Corresponding inputParameter, where the value is going to be written */
-	private ConfigurationSpecificationSQLIterator specification;
-	private List<SQLIteratorInput> widgets; 
+    /**
+     * Corresponding inputParameter, where the value is going to be written
+     */
+    private ConfigurationSpecificationSQLIterator specification;
+    private List<SQLIteratorInput> widgets;
 
 
-	public InputParameterSQLIteratorWidget(
-			ConfigurationSpecificationSQLIterator config) {
-		super();
-		this.specification = config;
-		// TODO: implement arbitrary number of widgets
+    public InputParameterSQLIteratorWidget(
+            ConfigurationSpecificationSQLIterator config) {
+        super();
+        this.specification = config;
+        // TODO: implement arbitrary number of widgets
         widgets = new ArrayList<>(specification.getNumberOfValues());
         for (int i = 0; i < specification.getNumberOfValues(); i++) {
-        	SQLIteratorInput input = new SQLIteratorInput();
+            SQLIteratorInput input = new SQLIteratorInput();
             this.addWidget(input, i);
         }
-	}
-	
-	public void addWidget(SQLIteratorInput widget, int row) {
-		this.widgets.add(widget);
-        this.add(widget);
-	}
+    }
 
-	@Override
-	public ConfigurationSpecification getUpdatedSpecification() {
-		// Build an array with the actual number of set values.
+    public void addWidget(SQLIteratorInput widget, int row) {
+        this.widgets.add(widget);
+        this.add(widget);
+    }
+
+    @Override
+    public ConfigurationSpecification getUpdatedSpecification() {
+        // Build an array with the actual number of set values.
         ConfigurationSettingSQLIterator[] values = new ConfigurationSettingSQLIterator[widgets.size()];
 
         for (int i = 0; i < widgets.size(); i++) {
@@ -61,26 +62,26 @@ InputParameterDataSourceWidget {
         }
 
         specification.setValues(values);
-        
+
         return this.specification;
-	}
+    }
 
-	@Override
-	public void setDataSource(ConfigurationSettingDataSource dataSource) {
-		if (dataSource instanceof ConfigurationSettingSQLIterator)
-			this.widgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
-		else
-			; //TODO throw some exception
-	}
+    @Override
+    public boolean accepts(ConfigurationSettingDataSource setting) {
+        return setting instanceof ConfigurationSettingSQLIterator;
+    }
 
-	@Override
-	public boolean accepts(ConfigurationSettingDataSource setting) {
-		return setting instanceof ConfigurationSettingSQLIterator;
-	}
+    @Override
+    public boolean isDataSource() {
+        return true;
+    }
 
-	@Override
-	public boolean isDataSource() {
-		return true;
-	}
+    @Override
+    public void setDataSource(ConfigurationSettingDataSource dataSource) {
+        if (dataSource instanceof ConfigurationSettingSQLIterator)
+            this.widgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
+        else
+            ; //TODO throw some exception
+    }
 
 }

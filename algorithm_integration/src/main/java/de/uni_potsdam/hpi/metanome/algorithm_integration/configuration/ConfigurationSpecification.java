@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import java.io.Serializable;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+
+import java.io.Serializable;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured.
@@ -30,16 +30,17 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
  * @author Jakob Zwiener
  */
 public abstract class ConfigurationSpecification implements Serializable {
-	private static final long serialVersionUID = 4312752686730530733L;
-
-	public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
-
+    public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+    private static final long serialVersionUID = 4312752686730530733L;
     protected String identifier;
-    /** would be good to make this final, but then it would not be serialized and thus be reset to 1 in frontend */
+    /**
+     * would be good to make this final, but then it would not be serialized and thus be reset to 1 in frontend
+     */
     protected int numberOfValues;
 
-    public ConfigurationSpecification() {}
-    
+    public ConfigurationSpecification() {
+    }
+
     /**
      * Construct a configuration specification.
      * A string identifier is stored to identify configuration parameter.
@@ -82,6 +83,6 @@ public abstract class ConfigurationSpecification implements Serializable {
     }
 
     //TODO use sth more specific than object
-	public abstract Object[] getSettings();
+    public abstract Object[] getSettings();
 
 }

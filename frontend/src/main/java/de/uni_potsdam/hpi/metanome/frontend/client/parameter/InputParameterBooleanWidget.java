@@ -16,19 +16,18 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InputParameterBooleanWidget extends VerticalPanel implements InputParameterWidget {
 
-	protected ConfigurationSpecificationBoolean specification;
+    protected ConfigurationSpecificationBoolean specification;
     protected List<CheckBox> widgets;
 
     public InputParameterBooleanWidget(
@@ -38,7 +37,7 @@ public class InputParameterBooleanWidget extends VerticalPanel implements InputP
         // TODO: implement arbitrary number of widgets
         widgets = new ArrayList<>(specification.getNumberOfValues());
         for (int i = 0; i < specification.getNumberOfValues(); i++) {
-        	CheckBox checkbox = new CheckBox(specification.getIdentifier());
+            CheckBox checkbox = new CheckBox(specification.getIdentifier());
             widgets.add(checkbox);
             this.add(checkbox);
         }
@@ -58,8 +57,8 @@ public class InputParameterBooleanWidget extends VerticalPanel implements InputP
         return specification;
     }
 
-	@Override
-	public boolean isDataSource() {
-		return false;
-	}
+    @Override
+    public boolean isDataSource() {
+        return false;
+    }
 }
