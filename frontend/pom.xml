@@ -48,6 +48,9 @@
 
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- the version of the metanome algorithms to include in packaging -->
+        <algorithms.version>${version}</algorithms.version>
     </properties>
 
     <dependencies>
@@ -260,28 +263,28 @@
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>depminer_algorithm</artifactId>
-                                    <version>0.0.1-SNAPSHOT</version>
+                                    <version>${algorithms.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>fastfds_algorithm</artifactId>
-                                    <version>0.0.1-SNAPSHOT</version>
+                                    <version>${algorithms.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>fdep_algorithm</artifactId>
-                                    <version>0.0.1-SNAPSHOT</version>
+                                    <version>${algorithms.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>tane_algorithm</artifactId>
-                                    <version>0.0.1-SNAPSHOT</version>
+                                    <version>${algorithms.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
                                 </artifactItem>
