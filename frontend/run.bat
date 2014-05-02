@@ -1,1 +1,1 @@
-java -jar jetty-runner.jar metanome
+java -Xmx2g -jar jetty-runner.jar metanome
