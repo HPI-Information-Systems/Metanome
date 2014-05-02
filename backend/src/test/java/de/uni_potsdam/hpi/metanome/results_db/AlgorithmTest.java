@@ -22,8 +22,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm}
@@ -79,6 +78,27 @@ public class AlgorithmTest {
         // Cleanup
         HibernateUtil.clear();
     }
+
+    /**
+     * Test method for {@link Algorithm#retrieveAll()}
+     *
+     * When the table has never been accessed the list of algorithms should still be retrievable and empty.
+     */
+    @Test
+    public void testRetrieveAllTableEmpty() {
+        // Setup
+        HibernateUtil.clear();
+
+        // Execute functionality
+        Collection<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+
+        // Check result
+        assertTrue(actualAlgorithms.isEmpty());
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#equals(Object)} and
