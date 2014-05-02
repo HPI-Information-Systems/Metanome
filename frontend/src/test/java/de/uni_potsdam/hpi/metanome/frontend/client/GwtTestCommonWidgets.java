@@ -56,7 +56,7 @@ public class GwtTestCommonWidgets extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Hello";
+        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
     }
 
 }

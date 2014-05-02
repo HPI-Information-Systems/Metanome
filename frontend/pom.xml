@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>frontend</artifactId>
     <packaging>war</packaging>
-    <!-- <name>de.uni-potsdam.hpi.metanome.frontend.Hello</name> -->
+    <!-- <name>de.uni-potsdam.hpi.metanome.frontend.Metanome</name> -->
 
     <parent>
         <groupId>de.uni-potsdam.hpi</groupId>
@@ -128,7 +128,7 @@
                      see gwt-maven-plugin documentation at codehaus.org -->
                 <configuration>
                     <!-- URL that should be automatically opened in the GWT shell (gwt:run). -->
-                    <runTarget>Hello.html</runTarget>
+                    <runTarget>Metanome.html</runTarget>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
                     <mode>HtmlUnit</mode>
                     <out>${project.build.directory}/www-test</out>

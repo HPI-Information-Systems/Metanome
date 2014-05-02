@@ -19,7 +19,7 @@
 
     <!-- Default page to serve -->
     <welcome-file-list>
-        <welcome-file>Hello.html</welcome-file>
+        <welcome-file>Metanome.html</welcome-file>
     </welcome-file-list>
 
     <!-- Servlets -->
@@ -29,7 +29,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>parameterServiceImpl</servlet-name>
-        <url-pattern>/hello/parameterService</url-pattern>
+        <url-pattern>/metanome/parameterService</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -38,7 +38,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>finderServiceImpl</servlet-name>
-        <url-pattern>/hello/finderService</url-pattern>
+        <url-pattern>/metanome/finderService</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -47,7 +47,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>executionServiceImpl</servlet-name>
-        <url-pattern>/hello/executionService</url-pattern>
+        <url-pattern>/metanome/executionService</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -56,7 +56,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>inputDataServiceImpl</servlet-name>
-        <url-pattern>/hello/inputDataService</url-pattern>
+        <url-pattern>/metanome/inputDataService</url-pattern>
     </servlet-mapping>
 
 </web-app>
