@@ -49,7 +49,6 @@ public class AlgorithmFinder {
 
         LinkedList<String> availableAlgorithms = new LinkedList<String>();
         String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
-        System.out.println(pathToFolder);
         File[] jarFiles = retrieveJarFiles(pathToFolder);
 
         for (File jarFile : jarFiles) {
@@ -79,6 +78,21 @@ public class AlgorithmFinder {
         if (jars == null)
             jars = new File[0];
         return jars;
+    }
+
+    /**
+     * Finds out which subclass of Algorithm is implemented by the source code in the algorithmJarFile by file name.
+     *
+     * @param algorithmJarFileName
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public List<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName) throws IOException, ClassNotFoundException {
+        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/example_ucc_algorithm.jar").getFile();
+        File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
+
+        return getAlgorithmInterfaces(file);
     }
 
     /**

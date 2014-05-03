@@ -28,7 +28,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- *
+ * TODO docs
  */
 public class AlgorithmFinderTest {
 
@@ -59,6 +59,35 @@ public class AlgorithmFinderTest {
         assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
     }
 
+    /**
+     * A valid algorithm jar should be loadable and of correct class.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void getAlgorithmTypeByFileName() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+        // Execute functionality
+        List<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces("example_ucc_algorithm.jar");
+
+        // Check result
+        assertNotNull(algorithmInterfaces);
+        assertNotEquals(0, algorithmInterfaces.size());
+        assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+    }
+
+    /**
+     * TODO docs
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     @Test
     public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
         // Setup
