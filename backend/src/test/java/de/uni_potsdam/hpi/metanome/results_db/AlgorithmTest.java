@@ -16,11 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -30,6 +33,34 @@ import static org.junit.Assert.*;
  * @author Jakob Zwiener
  */
 public class AlgorithmTest {
+
+    /**
+     * Test method for {@link Algorithm#Algorithm(String, java.util.List)}
+     *
+     * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
+     */
+    @Test
+    public void testConstructorWithInterfaces() {
+        // Setup
+        List<Class<?>> algorithmInterfaces = new LinkedList<>();
+        algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+        algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
+        algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
+        algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
+        algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+        // Expected values
+        String expectedFileName = "some file name";
+
+        // Execute functionality
+        Algorithm actualAlgorithm = new Algorithm(expectedFileName, algorithmInterfaces);
+
+        // Check result
+        assertEquals(expectedFileName, actualAlgorithm.getFileName());
+        assertTrue(actualAlgorithm.isInd());
+        assertTrue(actualAlgorithm.isFd());
+        assertTrue(actualAlgorithm.isUcc());
+        assertTrue(actualAlgorithm.isBasicStat());
+    }
 
     /**
      * Test method for {@link Algorithm#store(Algorithm)} and {@link Algorithm#retrieve(String)}

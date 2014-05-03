@@ -16,6 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -54,6 +59,29 @@ public class Algorithm {
 
     public Algorithm(String fileName) {
         this.fileName = fileName;
+    }
+
+    /**
+     * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
+     *
+     * @param fileName the file name of the algorithm jar
+     * @param algorithmInterfaces the implemented interfaces
+     */
+    public Algorithm(String fileName, List<Class<?>> algorithmInterfaces) {
+        this(fileName);
+
+        if (algorithmInterfaces.contains(InclusionDependencyAlgorithm.class)) {
+            setInd(true);
+        }
+        if (algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class)) {
+            setFd(true);
+        }
+        if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+            setUcc(true);
+        }
+        if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
+            setBasicStat(true);
+        }
     }
 
     /**
