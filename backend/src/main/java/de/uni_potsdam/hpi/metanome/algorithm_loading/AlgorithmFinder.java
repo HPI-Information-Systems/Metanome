@@ -90,7 +90,7 @@ public class AlgorithmFinder {
      * @throws ClassNotFoundException
      */
     public Set<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName) throws IOException, ClassNotFoundException {
-        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms" + algorithmJarFileName).getFile();
+        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/" + algorithmJarFileName).getFile();
         File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
         return getAlgorithmInterfaces(file);
