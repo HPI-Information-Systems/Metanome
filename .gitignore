@@ -6,3 +6,8 @@ release.properties
 /.idea
 *.iml
 /target
+*.log
+*.lck
+metanomedb.properties
+metanomedb.script
+/metanomedb.tmp
