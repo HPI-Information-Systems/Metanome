@@ -16,14 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm}
@@ -31,6 +33,34 @@ import static org.junit.Assert.assertThat;
  * @author Jakob Zwiener
  */
 public class AlgorithmTest {
+
+    /**
+     * Test method for {@link Algorithm#Algorithm(String, java.util.Set)}
+     *
+     * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
+     */
+    @Test
+    public void testConstructorWithInterfaces() {
+        // Setup
+        Set<Class<?>> algorithmInterfaces = new HashSet<>();
+        algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+        algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
+        algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
+        algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
+        algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+        // Expected values
+        String expectedFileName = "some file name";
+
+        // Execute functionality
+        Algorithm actualAlgorithm = new Algorithm(expectedFileName, algorithmInterfaces);
+
+        // Check result
+        assertEquals(expectedFileName, actualAlgorithm.getFileName());
+        assertTrue(actualAlgorithm.isInd());
+        assertTrue(actualAlgorithm.isFd());
+        assertTrue(actualAlgorithm.isUcc());
+        assertTrue(actualAlgorithm.isBasicStat());
+    }
 
     /**
      * Test method for {@link Algorithm#store(Algorithm)} and {@link Algorithm#retrieve(String)}
@@ -79,6 +109,27 @@ public class AlgorithmTest {
         // Cleanup
         HibernateUtil.clear();
     }
+
+    /**
+     * Test method for {@link Algorithm#retrieveAll()}
+     *
+     * When the table has never been accessed the list of algorithms should still be retrievable and empty.
+     */
+    @Test
+    public void testRetrieveAllTableEmpty() {
+        // Setup
+        HibernateUtil.clear();
+
+        // Execute functionality
+        Collection<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+
+        // Check result
+        assertTrue(actualAlgorithms.isEmpty());
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#equals(Object)} and

@@ -80,7 +80,7 @@ public class BasePage extends TabLayoutPanel {
      */
     private Widget createAboutPage() {
         Label temporaryContent = new Label();
-        temporaryContent.setText("Metanome Version 0.0.1.");
+        temporaryContent.setText("Metanome Version 0.0.2.");
         return temporaryContent;
     }
 
