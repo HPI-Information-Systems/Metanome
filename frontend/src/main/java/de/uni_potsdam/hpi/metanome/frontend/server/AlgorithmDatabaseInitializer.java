@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Is called upon servlet initialization and initializes metanome's results database.
@@ -55,8 +56,9 @@ public class AlgorithmDatabaseInitializer implements ServletContextListener {
 
         for (String filePath : algorithmFileNames) {
             try {
-                Algorithm.store(new Algorithm(filePath));
-            } catch (EntityStorageException e) {
+                Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+                Algorithm.store(new Algorithm(filePath, algorithmInterfaces));
+            } catch (EntityStorageException | IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

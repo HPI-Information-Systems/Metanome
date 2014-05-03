@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +51,7 @@ public class AlgorithmFinderTest {
         File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
         // Execute functionality
-        List<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
+        Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
 
         // Check result
         assertNotNull(algorithmInterfaces);
@@ -74,7 +74,7 @@ public class AlgorithmFinderTest {
     @Test
     public void getAlgorithmTypeByFileName() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
         // Execute functionality
-        List<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces("example_ucc_algorithm.jar");
+        Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces("example_ucc_algorithm.jar");
 
         // Check result
         assertNotNull(algorithmInterfaces);

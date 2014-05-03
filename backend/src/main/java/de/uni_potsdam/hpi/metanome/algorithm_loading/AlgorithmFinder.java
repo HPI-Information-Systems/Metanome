@@ -26,8 +26,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -47,7 +48,7 @@ public class AlgorithmFinder {
      */
     public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 
-        LinkedList<String> availableAlgorithms = new LinkedList<String>();
+        LinkedList<String> availableAlgorithms = new LinkedList<>();
         String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
         File[] jarFiles = retrieveJarFiles(pathToFolder);
 
@@ -83,13 +84,13 @@ public class AlgorithmFinder {
     /**
      * Finds out which subclass of Algorithm is implemented by the source code in the algorithmJarFile by file name.
      *
-     * @param algorithmJarFileName
-     * @return
+     * @param algorithmJarFileName the algorithm's file name
+     * @return the interfaces of the algorithm implementation in algorithmJarFile
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName) throws IOException, ClassNotFoundException {
-        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/example_ucc_algorithm.jar").getFile();
+    public Set<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName) throws IOException, ClassNotFoundException {
+        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms" + algorithmJarFileName).getFile();
         File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
         return getAlgorithmInterfaces(file);
@@ -99,12 +100,11 @@ public class AlgorithmFinder {
      * Finds out which subclass of Algorithm is implemented by the source code in the algorithmJarFile.
      *
      * @param algorithmJarFile the algorithm's jar file
-     * @return the superclass of the algorithm implementation in algorithmJarFile, which should be a
-     * subclass of Algorithm
+     * @return the interfaces of the algorithm implementation in algorithmJarFile
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<Class<?>> getAlgorithmInterfaces(File algorithmJarFile) throws IOException, ClassNotFoundException {
+    public Set<Class<?>> getAlgorithmInterfaces(File algorithmJarFile) throws IOException, ClassNotFoundException {
         JarFile jar = new JarFile(algorithmJarFile);
 
         Manifest man = jar.getManifest();
@@ -119,11 +119,11 @@ public class AlgorithmFinder {
             algorithmClass = Class.forName(className, false, loader);
         } catch (ClassNotFoundException e) {
             System.out.println("Could not find class " + className);
-            return new LinkedList<Class<?>>();
+            return new HashSet<>();
         } finally {
             jar.close();
         }
 
-        return Arrays.asList(algorithmClass.getInterfaces());
+        return new HashSet<>(Arrays.asList(algorithmClass.getInterfaces()));
     }
 }

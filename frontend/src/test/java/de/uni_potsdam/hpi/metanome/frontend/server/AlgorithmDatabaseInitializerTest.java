@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -26,8 +27,10 @@ import org.junit.Test;
 import javax.servlet.ServletContextEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -41,6 +44,7 @@ public class AlgorithmDatabaseInitializerTest {
      * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmDatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
      * <p/>
      * All algorithm jars should be represented by algorithms in the database with correct file names as key.
+     * Algorithms should have the correct types assigned.
      */
     @Test
     public void testContextInitialized() throws IOException, ClassNotFoundException {
@@ -54,7 +58,7 @@ public class AlgorithmDatabaseInitializerTest {
         String[] algorithmFileNames = jarFinder.getAvailableAlgorithms(null);
         Algorithm[] expectedAlgorithms = new Algorithm[algorithmFileNames.length];
         for (int i = 0; i < algorithmFileNames.length; i++) {
-            expectedAlgorithms[i] = new Algorithm(algorithmFileNames[i]);
+            expectedAlgorithms[i] = buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]);
         }
 
         // Execute functionality
@@ -63,9 +67,21 @@ public class AlgorithmDatabaseInitializerTest {
 
         // Check result
         assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+        // Check algorithm fields
+        for (Algorithm expectedAlgorithm : expectedAlgorithms) {
+            // Get the matching algorithm based on the file name (equals method).
+            Algorithm actualAlgorithm = actualAlgorithms.get(actualAlgorithms.indexOf(expectedAlgorithm));
+            assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm, actualAlgorithm));
+        }
 
         // Cleanup
         HibernateUtil.clear();
+    }
+
+    protected Algorithm buildExpectedAlgorithm(AlgorithmFinder jarFinder, String algorithmFileName) throws IOException, ClassNotFoundException {
+        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(algorithmFileName);
+
+        return new Algorithm(algorithmFileName, algorithmInterfaces);
     }
 
     /**
