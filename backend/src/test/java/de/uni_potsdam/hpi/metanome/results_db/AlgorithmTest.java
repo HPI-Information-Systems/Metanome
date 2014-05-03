@@ -22,8 +22,8 @@ import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -35,14 +35,14 @@ import static org.junit.Assert.*;
 public class AlgorithmTest {
 
     /**
-     * Test method for {@link Algorithm#Algorithm(String, java.util.List)}
+     * Test method for {@link Algorithm#Algorithm(String, java.util.Set)}
      *
      * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
      */
     @Test
     public void testConstructorWithInterfaces() {
         // Setup
-        List<Class<?>> algorithmInterfaces = new LinkedList<>();
+        Set<Class<?>> algorithmInterfaces = new HashSet<>();
         algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
         algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
         algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);

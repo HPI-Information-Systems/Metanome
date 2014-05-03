@@ -26,6 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents an algorithm in the database.
@@ -67,7 +68,7 @@ public class Algorithm {
      * @param fileName the file name of the algorithm jar
      * @param algorithmInterfaces the implemented interfaces
      */
-    public Algorithm(String fileName, List<Class<?>> algorithmInterfaces) {
+    public Algorithm(String fileName, Set<Class<?>> algorithmInterfaces) {
         this(fileName);
 
         if (algorithmInterfaces.contains(InclusionDependencyAlgorithm.class)) {
