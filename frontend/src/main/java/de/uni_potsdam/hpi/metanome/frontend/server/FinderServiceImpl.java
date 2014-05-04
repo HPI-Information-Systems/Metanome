@@ -21,7 +21,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicSt
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
@@ -37,8 +36,6 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 
     private static final long serialVersionUID = 1L;
 
-    AlgorithmFinder algorithmFinder = new AlgorithmFinder();
-
     /**
      * TODO docs
      *
@@ -46,7 +43,7 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
      * @return a list of filenames (without path)
      */
     protected String[] listAlgorithmFileNames(Class<?> algorithmClass) {
-        List<Algorithm> algorithms = Algorithm.retrieveAll();
+        List<Algorithm> algorithms = Algorithm.retrieveAll(algorithmClass);
 
         String[] algorithmFileNames = new String[algorithms.size()];
 
