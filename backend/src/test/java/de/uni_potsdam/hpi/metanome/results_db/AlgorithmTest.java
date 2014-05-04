@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -129,6 +130,63 @@ public class AlgorithmTest {
         // Cleanup
         HibernateUtil.clear();
     }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#retrieveAll(Class[])}
+     * <p/>
+     * Only algorithms that implement the given interfaces (hence are of certain type) should be returned when querying.
+     *
+     * @throws EntityStorageException
+     */
+    @Test
+    public void testRetrieveWithInterfaces() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm expectedIndAlgorithm = new Algorithm("some ind algorithm file path");
+        expectedIndAlgorithm.setInd(true);
+        Algorithm.store(expectedIndAlgorithm);
+
+        Algorithm expectedFdAlgorithm = new Algorithm("some fd algorithm file path");
+        expectedFdAlgorithm.setFd(true);
+        Algorithm.store(expectedFdAlgorithm);
+
+        Algorithm expectedUccAlgorithm = new Algorithm("some ucc algorithm file path");
+        expectedUccAlgorithm.setUcc(true);
+        Algorithm.store(expectedUccAlgorithm);
+
+        Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path");
+        expectedBasicStatAlgorithm.setBasicStat(true);
+        Algorithm.store(expectedBasicStatAlgorithm);
+
+        Algorithm expectedHolisticAlgorithm = new Algorithm("some holistic algorithm file path");
+        expectedHolisticAlgorithm.setFd(true);
+        expectedHolisticAlgorithm.setUcc(true);
+        Algorithm.store(expectedHolisticAlgorithm);
+
+        Algorithm otherAlgorithm = new Algorithm("some other path");
+        Algorithm.store(otherAlgorithm);
+
+        // Execute functionality
+        List<Algorithm> actualIndAlgorithms = Algorithm.retrieveAll(InclusionDependencyAlgorithm.class);
+        List<Algorithm> actualFdAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class);
+        List<Algorithm> actualUccAlgorithms = Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
+        List<Algorithm> actualBasicStatAlgorithms = Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
+        List<Algorithm> actualHolisticAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class, UniqueColumnCombinationsAlgorithm.class);
+
+        // Check result
+        // Should retrieve the algorithms of the particular type only
+        assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
+        assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm, expectedHolisticAlgorithm));
+        assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
+        assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
+        assertThat(actualHolisticAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedHolisticAlgorithm));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
 
 
     /**
