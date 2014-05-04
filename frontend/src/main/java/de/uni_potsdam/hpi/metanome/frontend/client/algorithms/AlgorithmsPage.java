@@ -71,28 +71,28 @@ public class AlgorithmsPage extends VerticalPanel {
      * Request a list of available UCC algorithms and display them in the uccList
      */
     private void listAndAddUccAlgorithms() {
-        finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
+        finderService.listUniqueColumnCombinationsAlgorithmFileNames(getCallback(this.uccList));
     }
 
     /**
      * Request a list of available FD algorithms and display them in the fdList
      */
     private void listFdAlgorithms() {
-        finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
+        finderService.listFunctionalDependencyAlgorithmFileNames(getCallback(this.fdList));
     }
 
     /**
      * Request a list of available IND algorithms and  display them in the indList
      */
     private void listIndAlgorithms() {
-        finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));
+        finderService.listInclusionDependencyAlgorithmFileNames(getCallback(this.indList));
     }
 
     /**
      * Request a list of available Basic Statistics algorithms and display them in the statsList
      */
     private void listStatsAlgorithms() {
-        finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
+        finderService.listBasicStatisticsAlgorithmFileNames(getCallback(this.statsList));
     }
 
     /**

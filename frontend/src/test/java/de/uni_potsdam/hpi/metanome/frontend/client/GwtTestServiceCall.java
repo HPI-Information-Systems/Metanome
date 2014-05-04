@@ -96,7 +96,7 @@ public class GwtTestServiceCall extends GWTTestCase {
     }
 
     /**
-     * tests the call from client to finderService.listInclusionDependencyAlgorithms()
+     * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
      */
     @Test
     public void testFinderService() {
@@ -117,7 +117,7 @@ public class GwtTestServiceCall extends GWTTestCase {
         // Set a delay period
         delayTestFinish(500);
 
-        finderService.listInclusionDependencyAlgorithms(callback);
+        finderService.listInclusionDependencyAlgorithmFileNames(callback);
 
     }
 

@@ -105,7 +105,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
 
         delayTestFinish(5000);
     }
@@ -149,7 +149,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
 
         delayTestFinish(5000);
     }
