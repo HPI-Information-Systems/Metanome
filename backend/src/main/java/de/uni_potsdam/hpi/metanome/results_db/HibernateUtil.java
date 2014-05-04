@@ -16,12 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.Entity;
@@ -111,6 +109,34 @@ public class HibernateUtil {
         session.close();
 
         return result;
+    }
+
+    /**
+     * Creates and executes a {@link Criteria} of the type of the persistent class, after attaching all criterions in the array.
+     *
+     * @param persistentClass the type of {@link javax.persistence.Entity} to query
+     * @param criterionArray all the criteria the results should match
+     * @return the matching {@link javax.persistence.Entity}s
+     * @throws EntityStorageException
+     */
+    public static List queryCriteria(Class persistentClass, Criterion... criterionArray) throws EntityStorageException {
+        if (!persistentClass.isAnnotationPresent(Entity.class)) {
+            throw new EntityStorageException("Class is missing the Entity annotation.");
+        }
+
+        Session session = openNewSession();
+
+        Criteria criteria = session.createCriteria(persistentClass);
+
+        for (Criterion criterion : criterionArray) {
+            criteria.add(criterion);
+        }
+
+        List results = criteria.list();
+
+        session.close();
+
+        return results;
     }
 
     /**

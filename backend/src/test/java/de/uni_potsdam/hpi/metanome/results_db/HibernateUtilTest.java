@@ -16,9 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
 import java.util.List;
@@ -146,13 +149,87 @@ public class HibernateUtilTest {
         Algorithm.store(expectedAlgorithm2);
 
         // Execute functionality
-        List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.executeNamedQuery("getAll");
+        List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
 
         // Check result
         assertThat(actualAlgorithms, IsIterableContainingInOrder.contains(expectedAlgorithm1, expectedAlgorithm2));
 
         // Cleanup
         HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
+     *
+     * When querying for entities without adding any criteria, all entities of the correct type should be returned.
+     *
+     * @throws EntityStorageException
+     */
+    @Test
+    public void testCreateCriteriaNoCriterion() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm[] expectedAlgorithms = {new Algorithm("some path 1"), new Algorithm("some path 2")};
+        for (Algorithm expectedAlgorithm : expectedAlgorithms) {
+            Algorithm.store(expectedAlgorithm);
+        }
+
+        // Execute functionality
+        List<Algorithm> actualAlgorithms = HibernateUtil.queryCriteria(Algorithm.class);
+
+        // Check result
+        assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
+     * <p/>
+     * The resulting entities should match the criteria.
+     *
+     * @throws EntityStorageException
+     */
+    @Test
+    public void testCreateCriteria() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm expectedAlgorithm = new Algorithm("some path");
+        expectedAlgorithm.setFd(true);
+        Algorithm.store(expectedAlgorithm);
+        Algorithm otherAlgorithm = new Algorithm("some other path");
+        Algorithm.store(otherAlgorithm);
+
+        // Execute functionality
+        Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
+        List<Algorithm> actualAlgorithms = HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms);
+
+        // Check result
+        assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
+     * <p/>
+     * When a class is queried that is missing the {@link javax.persistence.Entity} annotation an {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} should be thrown.
+     */
+    @Test
+    public void testCreateCriteriaNonPersistentClass() {
+        // Execute functionality
+        try {
+            HibernateUtil.queryCriteria(Object.class);
+            fail("Exception was not thrown.");
+        } catch (EntityStorageException e) {
+            // Intentionally left blank
+        }
     }
 
     /**
