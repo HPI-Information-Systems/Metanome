@@ -216,6 +216,36 @@ public class HibernateUtilTest {
         HibernateUtil.clear();
     }
 
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
+     * <p/>
+     * All results should match all the supplied criteria at once.
+     */
+    @Test
+    public void testQueryCriteriaConjunction() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm expectedAlgorithm = new Algorithm("some path");
+        expectedAlgorithm.setFd(true);
+        expectedAlgorithm.setUcc(true);
+        Algorithm.store(expectedAlgorithm);
+        Algorithm otherAlgorithm = new Algorithm("some other path");
+        otherAlgorithm.setFd(true);
+        Algorithm.store(otherAlgorithm);
+
+        // Execute functionality
+        Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
+        Criterion onlyUccAlgorithms = Restrictions.eq("ucc", true);
+        List<Algorithm> actualAlgorithms = HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms, onlyUccAlgorithms);
+
+        // Check result
+        assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
