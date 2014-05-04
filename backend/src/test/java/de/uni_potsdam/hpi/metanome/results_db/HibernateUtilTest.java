@@ -166,7 +166,7 @@ public class HibernateUtilTest {
      * @throws EntityStorageException
      */
     @Test
-    public void testCreateCriteriaNoCriterion() throws EntityStorageException {
+    public void testQueryCriteriaNoCriterion() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
@@ -194,7 +194,7 @@ public class HibernateUtilTest {
      * @throws EntityStorageException
      */
     @Test
-    public void testCreateCriteria() throws EntityStorageException {
+    public void testQueryCriteria() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
@@ -216,13 +216,14 @@ public class HibernateUtilTest {
         HibernateUtil.clear();
     }
 
+
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
      * <p/>
      * When a class is queried that is missing the {@link javax.persistence.Entity} annotation an {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} should be thrown.
      */
     @Test
-    public void testCreateCriteriaNonPersistentClass() {
+    public void testQueryCriteriaNonPersistentClass() {
         // Execute functionality
         try {
             HibernateUtil.queryCriteria(Object.class);
