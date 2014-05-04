@@ -35,7 +35,7 @@ import java.util.Set;
  */
 @NamedQueries(
         @NamedQuery(
-                name = "getAll",
+                name = "get all",
                 query = "from Algorithm"
         )
 )
@@ -112,7 +112,7 @@ public class Algorithm {
      * @return a list of all algorithms
      */
     public static List<Algorithm> retrieveAll() {
-        return (List<Algorithm>) HibernateUtil.executeNamedQuery("getAll");
+        return (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
     }
 
     @Id
