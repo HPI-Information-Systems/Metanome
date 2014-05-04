@@ -35,13 +35,15 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
     AlgorithmFinder algorithmFinder = new AlgorithmFinder();
 
     /**
+     * TODO docs
+     *
      * @param algorithmClass the subclass of algorithms to be listed, or null for all algorithms
      * @return a list of filenames (without path)
      */
     public String[] listAlgorithms(Class<?> algorithmClass) {
         String[] algorithms = null;
         try {
-            algorithms = algorithmFinder.getAvailableAlgorithms(algorithmClass);
+            algorithms = algorithmFinder.getAvailableAlgorithmFileNames(algorithmClass);
         } catch (Exception e) {
             //TODO: error handling
             System.out.println("FAILED to FIND algorithms");

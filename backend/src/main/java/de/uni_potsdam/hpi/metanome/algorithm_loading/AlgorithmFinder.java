@@ -46,7 +46,7 @@ public class AlgorithmFinder {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public String[] getAvailableAlgorithms(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
+    public String[] getAvailableAlgorithmFileNames(Class<?> algorithmSubclass) throws IOException, ClassNotFoundException {
 
         LinkedList<String> availableAlgorithms = new LinkedList<>();
         String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();

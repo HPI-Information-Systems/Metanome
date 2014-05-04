@@ -55,7 +55,7 @@ public class AlgorithmDatabaseInitializerTest {
         AlgorithmDatabaseInitializer initializer = new AlgorithmDatabaseInitializer();
 
         // Expected values
-        String[] algorithmFileNames = jarFinder.getAvailableAlgorithms(null);
+        String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
         Algorithm[] expectedAlgorithms = new Algorithm[algorithmFileNames.length];
         for (int i = 0; i < algorithmFileNames.length; i++) {
             expectedAlgorithms[i] = buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]);

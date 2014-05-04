@@ -49,7 +49,7 @@ public class AlgorithmDatabaseInitializer implements ServletContextListener {
         // FIXME: do I really want these exceptions here?
         String[] algorithmFileNames = new String[0];
         try {
-            algorithmFileNames = jarFinder.getAvailableAlgorithms(null);
+            algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
