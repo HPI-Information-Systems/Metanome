@@ -61,8 +61,6 @@ public class BasePage extends TabLayoutPanel {
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
     }
 
-    ;
-
     /**
      * Create the "Run Configuration" Page, which allows to configure an algorithm and trigger its execution.
      *
