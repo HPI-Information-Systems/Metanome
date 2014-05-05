@@ -78,7 +78,10 @@ public class GwtTestBasePage extends GWTTestCase {
      */
     @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
+        // Setup
         final BasePage page = new BasePage();
+
+        page.addAlgorithmsToRunConfigurations(algorithmName);
 
         AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
