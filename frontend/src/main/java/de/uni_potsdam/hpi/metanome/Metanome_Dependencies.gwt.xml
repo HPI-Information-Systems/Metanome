@@ -56,4 +56,7 @@
     <source path="algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>
     </source>
+    <source path="results_db">
+        <include name="Algorithm.java"/>
+    </source>
 </module>

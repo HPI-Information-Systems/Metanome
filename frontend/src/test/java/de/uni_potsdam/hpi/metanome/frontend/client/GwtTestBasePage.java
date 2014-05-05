@@ -29,7 +29,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataS
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -73,8 +76,6 @@ public class GwtTestBasePage extends GWTTestCase {
 
     /**
      * Test control flow from Algorithms to Run configuration
-     *
-     * @throws InterruptedException
      */
     @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
@@ -83,14 +84,22 @@ public class GwtTestBasePage extends GWTTestCase {
 
         page.addAlgorithmsToRunConfigurations(algorithmName);
 
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+            @Override
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
             }
 
-            public void onSuccess(String[] result) {
-                page.addAlgorithmsToRunConfigurations(result);
+            @Override
+            public void onSuccess(List<Algorithm> result) {
+                // TODO attach actual algorithm instances instead
+                String[] algorithmFileNames = new String[result.size()];
+                int i = 0;
+                for (Algorithm algorithm : result) {
+                    algorithmFileNames[i++] = algorithm.getFileName();
+                }
+                page.addAlgorithmsToRunConfigurations(algorithmFileNames);
 
                 //Execute
                 page.jumpToRunConfiguration(algorithmName, null);
@@ -108,7 +117,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
@@ -117,7 +126,6 @@ public class GwtTestBasePage extends GWTTestCase {
      * Test control flow from Data source to Run configuration
      *
      * @throws AlgorithmConfigurationException
-     * @throws InterruptedException
      */
     @Test
     public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
@@ -129,14 +137,22 @@ public class GwtTestBasePage extends GWTTestCase {
         final ConfigurationSettingCsvFile finalDataSource = dataSource;
 //		dataSourceWidget.setDataSource(dataSource);
 
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+            @Override
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
             }
 
-            public void onSuccess(String[] result) {
-                page.addAlgorithmsToRunConfigurations(result);
+            @Override
+            public void onSuccess(List<Algorithm> result) {
+                // TODO attach actual algorithm instances instead
+                String[] algorithmFileNames = new String[result.size()];
+                int i = 0;
+                for (Algorithm algorithm : result) {
+                    algorithmFileNames[i++] = algorithm.getFileName();
+                }
+                page.addAlgorithmsToRunConfigurations(algorithmFileNames);
 
                 //Execute
                 page.jumpToRunConfiguration(null, finalDataSource);
@@ -152,7 +168,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
