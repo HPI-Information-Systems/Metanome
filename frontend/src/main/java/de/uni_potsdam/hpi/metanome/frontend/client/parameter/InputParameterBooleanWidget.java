@@ -16,32 +16,32 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.List;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
+import java.util.List;
+
 public class InputParameterBooleanWidget extends InputParameterWidget {
 
-	protected ConfigurationSpecificationBoolean specification;
-	protected List<BooleanInput> inputWidgets;
-	
+    protected ConfigurationSpecificationBoolean specification;
+    protected List<BooleanInput> inputWidgets;
+
 
     public InputParameterBooleanWidget(
             ConfigurationSpecificationBoolean specification) {
         super(specification);
-        
-     }
 
-	protected void addInputField(boolean optional) {
-		BooleanInput field = new BooleanInput(optional);
-		this.inputWidgets.add(field);
-		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount()-1);
-		this.insert(field, index);
-	}
-	
-	@Override
+    }
+
+    protected void addInputField(boolean optional) {
+        BooleanInput field = new BooleanInput(optional);
+        this.inputWidgets.add(field);
+        int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+        this.insert(field, index);
+    }
+
+    @Override
     public ConfigurationSpecification getUpdatedSpecification() {
         // Build an array with the actual number of set values.
         ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[inputWidgets.size()];
@@ -54,24 +54,24 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
         return specification;
     }
 
-	@Override
-	public List<? extends InputField> getInputWidgets() {
-		return this.inputWidgets;
-	}
+    @Override
+    public List<? extends InputField> getInputWidgets() {
+        return this.inputWidgets;
+    }
 
-	@Override
-	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-		this.inputWidgets = (List<BooleanInput>) inputWidgetsList;
-	}
+    @Override
+    public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
+        this.inputWidgets = (List<BooleanInput>) inputWidgetsList;
+    }
 
-	@Override
-	public ConfigurationSpecification getSpecification() {
-		return this.specification;
-	}
+    @Override
+    public ConfigurationSpecification getSpecification() {
+        return this.specification;
+    }
 
-	@Override
-	public void setSpecification(ConfigurationSpecification config) {
-		this.specification = (ConfigurationSpecificationBoolean) config;
-	}
+    @Override
+    public void setSpecification(ConfigurationSpecification config) {
+        this.specification = (ConfigurationSpecificationBoolean) config;
+    }
 
 }
