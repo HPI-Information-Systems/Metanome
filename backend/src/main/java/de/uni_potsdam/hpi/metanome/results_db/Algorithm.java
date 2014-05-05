@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
@@ -27,6 +29,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -41,7 +44,8 @@ import java.util.*;
         )
 )
 @Entity
-public class Algorithm {
+@GwtCompatible
+public class Algorithm implements Serializable {
 
     protected String fileName;
     protected String name;
@@ -69,6 +73,7 @@ public class Algorithm {
      * @param fileName the file name of the algorithm jar
      * @param algorithmInterfaces the implemented interfaces
      */
+    @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
     public Algorithm(String fileName, Set<Class<?>> algorithmInterfaces) {
         this(fileName);
 
@@ -92,6 +97,7 @@ public class Algorithm {
      * @param algorithm the Algorithm to store
      * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
      */
+    @GwtIncompatible("HibernateUtil is not gwt compatible.")
     public static void store(Algorithm algorithm) throws EntityStorageException {
         HibernateUtil.store(algorithm);
     }
@@ -103,6 +109,7 @@ public class Algorithm {
      * @return the algorithm
      * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
      */
+    @GwtIncompatible("HibernateUtil is not gwt compatible.")
     public static Algorithm retrieve(String fileName) throws EntityStorageException {
         return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
     }
@@ -112,6 +119,7 @@ public class Algorithm {
      *
      * @return a list of all algorithms
      */
+    @GwtIncompatible("HibernateUtil is not gwt compatible.")
     public static List<Algorithm> retrieveAll() {
         return (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
     }
@@ -122,6 +130,7 @@ public class Algorithm {
      * @param algorithmInterfaces algorithm interfaces specifying the expected algorithm type
      * @return a list of matching algorithms
      */
+    @GwtIncompatible("HibernateUtil, Criterion and Restrictions are not gwt compatible")
     public static List<Algorithm> retrieveAll(Class<?>... algorithmInterfaces) {
         // Cannot directly use array, as some interfaces might not be relevant for query.
         ArrayList<Criterion> criteria = new ArrayList<>(algorithmInterfaces.length);
