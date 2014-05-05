@@ -21,29 +21,27 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the checkbox
  * is removed from the parent widget.
- * 
- * @author Claudia
  *
+ * @author Claudia
  */
 public class StringInput extends InputField {
 
-	protected TextBox textbox;
-	/**
-	 * 
-	 * @param optional 	If true, a remove button will be rendered, to remove this widget from its parent.
-	 */
-	public StringInput(boolean optional) {
-		super(optional);
-		
-		this.textbox = new TextBox();
-		this.add(this.textbox);
-	}
+    protected TextBox textbox;
 
-	/**
-	 * 
-	 * @return the value of its checkbox
-	 */
-	public String getValue() {
-		return this.textbox.getValue();
-	}
+    /**
+     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
+     */
+    public StringInput(boolean optional) {
+        super(optional);
+
+        this.textbox = new TextBox();
+        this.add(this.textbox);
+    }
+
+    /**
+     * @return the value of its checkbox
+     */
+    public String getValue() {
+        return this.textbox.getValue();
+    }
 }

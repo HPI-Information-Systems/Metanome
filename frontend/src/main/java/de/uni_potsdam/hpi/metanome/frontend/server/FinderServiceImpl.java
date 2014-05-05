@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * Service Implementation for service that lists available algorithms
- *
+ * <p/>
  * TODO docs
  */
 public class FinderServiceImpl extends RemoteServiceServlet implements
