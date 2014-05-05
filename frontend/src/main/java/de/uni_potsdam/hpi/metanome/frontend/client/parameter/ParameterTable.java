@@ -16,105 +16,105 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class ParameterTable extends FlexTable {
 
-    private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
-    private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<InputParameterDataSourceWidget>();
-    private Button executeButton;
+	private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
+	private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<InputParameterDataSourceWidget>();
+	private Button executeButton;
 
-    /**
-     * Creates a ParameterTable for user input for the given parameters.
-     * Prompt and type specific input field are created for each parameter,
-     * and a button added at the bottom that triggers algorithm execution.
-     *
-     * @param paramList         the list of parameters asked for by the algorithm.
-     * @param primaryDataSource
-     */
-    public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource) {
-        super();
+	/**
+	 * Creates a ParameterTable for user input for the given parameters. 
+	 * Prompt and type specific input field are created for each parameter,
+	 * and a button added at the bottom that triggers algorithm execution.
+	 * 
+	 * @param paramList the list of parameters asked for by the algorithm.
+	 * @param primaryDataSource 
+	 */
+	public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource) {
+		super();	
+		
+		int i = 0;
+		for (ConfigurationSpecification param : paramList) {
+			this.setText(i, 0, param.getIdentifier());
+			
+			InputParameterWidget currentWidget = WidgetFactory.buildWidget(param);
+			this.setWidget(i, 1, currentWidget);
+			if (currentWidget.isDataSource()) {
+				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
+				if (dataSourceWidget.accepts(primaryDataSource))
+					try {
+						dataSourceWidget.setDataSource(primaryDataSource);
+					} catch (AlgorithmConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				this.dataSourceWidgets.add(dataSourceWidget);
+			}
+			else
+				this.childWidgets.add(currentWidget);
+			i++;
+		}
+		
+		this.executeButton = new Button("Run");
+		this.executeButton.addClickHandler(new ParameterTableSubmitHandler());
+		
+		this.setWidget(i, 0, executeButton);
+	}
+	
+	/**
+	 * When parameter values are submitted, their values are set and used to call
+	 * the execution service corresponding to the current tab.
+	 */
+	public void submit(){
+		List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
+		List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
+		getAlgorithmTab().callExecutionService(parameters, dataSources);
+	}
 
-        int i = 0;
-        for (ConfigurationSpecification param : paramList) {
-            this.setText(i, 0, param.getIdentifier());
+	/**
+	 * Iterates over the child widgets that represent data sources and retrieves their user input.
+	 * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values. 
+	 */
+	public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
+		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
+		for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets){
+			parameterList.add(childWidget.getUpdatedSpecification());
+		}
+		return parameterList;
+	}
 
-            InputParameterWidget currentWidget = WidgetFactory.buildWidget(param);
-            this.setWidget(i, 1, currentWidget);
-            if (currentWidget.isDataSource()) {
-                InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
-                if (dataSourceWidget.accepts(primaryDataSource))
-                    try {
-                        dataSourceWidget.setDataSource(primaryDataSource);
-                    } catch (AlgorithmConfigurationException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                this.dataSourceWidgets.add(dataSourceWidget);
-            } else
-                this.childWidgets.add(currentWidget);
-            i++;
-        }
-
-        this.executeButton = new Button("Run");
-        this.executeButton.addClickHandler(new ParameterTableSubmitHandler());
-
-        this.setWidget(i, 0, executeButton);
-    }
-
-    /**
-     * When parameter values are submitted, their values are set and used to call
-     * the execution service corresponding to the current tab.
-     */
-    public void submit() {
-        List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
-        List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
-        getAlgorithmTab().callExecutionService(parameters, dataSources);
-    }
-
-    /**
-     * Iterates over the child widgets that represent data sources and retrieves their user input.
-     *
-     * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values.
-     */
-    public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
-        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
-        for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets) {
-            parameterList.add(childWidget.getUpdatedSpecification());
-        }
-        return parameterList;
-    }
-
-    /**
-     * Iterates over the child widgets and retrieves their user input.
-     *
-     * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set values.
-     */
-    public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
-        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
-        for (InputParameterWidget childWidget : this.childWidgets) {
-            parameterList.add(childWidget.getUpdatedSpecification());
-        }
-        return parameterList;
-    }
+	/**
+	 * Iterates over the child widgets and retrieves their user input.
+	 * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set values.
+	 */
+	public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
+		LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
+		for (InputParameterWidget childWidget : this.childWidgets){
+			parameterList.add(childWidget.getUpdatedSpecification());
+		}
+		return parameterList;
+	}
 
 
-    /**
-     * The AlgorithmTabs implement algorithm type specific methods, which can
-     * be called via the AlgorithmTab's interface.
-     *
-     * @return the parent AlgorithmTab
-     */
-    private RunConfigurationPage getAlgorithmTab() {
-        return (RunConfigurationPage) this.getParent();
-    }
+	/**
+	 * The AlgorithmTabs implement algorithm type specific methods, which can
+	 * be called via the AlgorithmTab's interface.
+	 * 
+	 * @return the parent AlgorithmTab 
+	 */
+	private RunConfigurationPage getAlgorithmTab() {
+		return (RunConfigurationPage) this.getParent();
+	}
 
 }

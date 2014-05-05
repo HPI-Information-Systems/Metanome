@@ -18,12 +18,23 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 
-public interface InputParameterDataSourceWidget extends InputParameterWidget {
+public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
+	
+	public InputParameterDataSourceWidget(
+			ConfigurationSpecification config) {
+		super(config);
+	}
 
-    public void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException;
+	public abstract void setDataSource(ConfigurationSettingDataSource dataSource) throws AlgorithmConfigurationException;
 
-    public boolean accepts(ConfigurationSettingDataSource setting);
+	public abstract boolean accepts(ConfigurationSettingDataSource setting);
+	
+	@Override
+	public boolean isDataSource() {
+		return true;
+	}
 
 }
