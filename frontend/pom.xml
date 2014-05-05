@@ -150,6 +150,7 @@
                         </compileSourcesArtifact>
                         <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
                     </compileSourcesArtifacts>
+                    <productionMode>true</productionMode>
                     <extraJvmArgs>-Xmx1G</extraJvmArgs>
                 </configuration>
             </plugin>
