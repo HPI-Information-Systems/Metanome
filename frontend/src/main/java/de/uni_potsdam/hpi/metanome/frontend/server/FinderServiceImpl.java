@@ -21,58 +21,64 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicSt
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.List;
 
 /**
  * Service Implementation for service that lists available algorithms
+ *
+ * TODO docs
  */
 public class FinderServiceImpl extends RemoteServiceServlet implements
         FinderService {
 
     private static final long serialVersionUID = 1L;
 
-    AlgorithmFinder algorithmFinder = new AlgorithmFinder();
-
     /**
+     * TODO docs
+     *
      * @param algorithmClass the subclass of algorithms to be listed, or null for all algorithms
      * @return a list of filenames (without path)
      */
-    public String[] listAlgorithms(Class<?> algorithmClass) {
-        String[] algorithms = null;
-        try {
-            algorithms = algorithmFinder.getAvailableAlgorithms(algorithmClass);
-        } catch (Exception e) {
-            //TODO: error handling
-            System.out.println("FAILED to FIND algorithms");
-            e.printStackTrace();
+    protected String[] listAlgorithmFileNames(Class<?> algorithmClass) {
+        List<Algorithm> algorithms = Algorithm.retrieveAll(algorithmClass);
+
+        String[] algorithmFileNames = new String[algorithms.size()];
+
+        int algorithmIndex = 0;
+        for (Algorithm algorithm : algorithms) {
+            algorithmFileNames[algorithmIndex] = algorithm.getFileName();
+            algorithmIndex++;
         }
-        return algorithms;
+
+        return algorithmFileNames;
     }
 
     @Override
-    public String[] listInclusionDependencyAlgorithms() {
-        return listAlgorithms(InclusionDependencyAlgorithm.class);
+    public String[] listInclusionDependencyAlgorithmFileNames() {
+        return listAlgorithmFileNames(InclusionDependencyAlgorithm.class);
     }
 
     @Override
-    public String[] listFunctionalDependencyAlgorithms() {
-        return listAlgorithms(FunctionalDependencyAlgorithm.class);
+    public String[] listFunctionalDependencyAlgorithmFileNames() {
+        return listAlgorithmFileNames(FunctionalDependencyAlgorithm.class);
     }
 
     @Override
-    public String[] listUniqueColumnCombinationsAlgorithms() {
-        return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+    public String[] listUniqueColumnCombinationsAlgorithmFileNames() {
+        return listAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
     }
 
     @Override
-    public String[] listBasicStatisticsAlgorithms() {
-        return listAlgorithms(BasicStatisticsAlgorithm.class);
+    public String[] listBasicStatisticsAlgorithmFileNames() {
+        return listAlgorithmFileNames(BasicStatisticsAlgorithm.class);
     }
 
     @Override
-    public String[] listAllAlgorithms() {
-        return listAlgorithms(null);
+    public String[] listAllAlgorithmFileNames() {
+        return listAlgorithmFileNames(null);
     }
 
 }

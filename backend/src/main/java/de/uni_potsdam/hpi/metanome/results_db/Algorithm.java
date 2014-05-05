@@ -20,13 +20,14 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicSt
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents an algorithm in the database.
@@ -35,7 +36,7 @@ import java.util.Set;
  */
 @NamedQueries(
         @NamedQuery(
-                name = "getAll",
+                name = "get all",
                 query = "from Algorithm"
         )
 )
@@ -107,12 +108,48 @@ public class Algorithm {
     }
 
     /**
-     * Retrieves all Algorithms stored in the database.
+     * Retrieves all algorithms stored in the database.
      *
      * @return a list of all algorithms
      */
     public static List<Algorithm> retrieveAll() {
-        return (List<Algorithm>) HibernateUtil.executeNamedQuery("getAll");
+        return (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
+    }
+
+    /**
+     * Retrieves all algorithms stored in the database, that are of a type associated to one of the interfaces.
+     *
+     * @param algorithmInterfaces algorithm interfaces specifying the expected algorithm type
+     * @return a list of matching algorithms
+     */
+    public static List<Algorithm> retrieveAll(Class<?>... algorithmInterfaces) {
+        // Cannot directly use array, as some interfaces might not be relevant for query.
+        ArrayList<Criterion> criteria = new ArrayList<>(algorithmInterfaces.length);
+
+        Set<Class<?>> interfaces = new HashSet<>(Arrays.asList(algorithmInterfaces));
+
+        if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+            criteria.add(Restrictions.eq("ind", true));
+        }
+        if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+            criteria.add(Restrictions.eq("fd", true));
+        }
+        if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+            criteria.add(Restrictions.eq("ucc", true));
+        }
+        if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
+            criteria.add(Restrictions.eq("basicStat", true));
+        }
+
+        List<Algorithm> algorithms = null;
+        try {
+            algorithms = HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+        } catch (EntityStorageException e) {
+            // Algorithm should implement Entity, so the exception should not occur.
+            e.printStackTrace();
+        }
+
+        return algorithms;
     }
 
     @Id

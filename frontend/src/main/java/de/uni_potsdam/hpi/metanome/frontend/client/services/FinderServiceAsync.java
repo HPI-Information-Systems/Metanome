@@ -20,14 +20,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface FinderServiceAsync {
 
-    public void listInclusionDependencyAlgorithms(AsyncCallback<String[]> callback);
+    public void listInclusionDependencyAlgorithmFileNames(AsyncCallback<String[]> callback);
 
-    public void listFunctionalDependencyAlgorithms(AsyncCallback<String[]> callback);
+    public void listFunctionalDependencyAlgorithmFileNames(AsyncCallback<String[]> callback);
 
-    public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<String[]> callback);
+    public void listUniqueColumnCombinationsAlgorithmFileNames(AsyncCallback<String[]> callback);
 
-    public void listBasicStatisticsAlgorithms(AsyncCallback<String[]> addJarChooserCallback);
+    public void listBasicStatisticsAlgorithmFileNames(AsyncCallback<String[]> addJarChooserCallback);
 
-    public void listAllAlgorithms(AsyncCallback<String[]> addJarChooserCallback);
+    public void listAllAlgorithmFileNames(AsyncCallback<String[]> addJarChooserCallback);
 
 }

@@ -94,14 +94,14 @@ public class AlgorithmFinderTest {
         AlgorithmFinder algoFinder = new AlgorithmFinder();
 
         //Execute
-        String[] algos = algoFinder.getAvailableAlgorithms(null);
+        String[] algos = algoFinder.getAvailableAlgorithmFileNames(null);
 
         //Check
         assertTrue(algos.length > 0);
     }
 
     /**
-     * Test method for {@link AlgorithmFinder#getAvailableAlgorithms(Class)}
+     * Test method for {@link AlgorithmFinder#getAvailableAlgorithmFileNames(Class)}
      * <p/>
      * Should return the algorithms implementing the asked interface. Should not fail the whole search only,
      * because one algorithm does not have the bootstrap class parameter set correclty.
@@ -115,7 +115,7 @@ public class AlgorithmFinderTest {
         AlgorithmFinder algoFinder = new AlgorithmFinder();
 
         //Execute
-        String[] algos = algoFinder.getAvailableAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+        String[] algos = algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
 
         //Check
         assertEquals(2, algos.length); //TODO determine number of expected algorithms dynamically

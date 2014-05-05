@@ -22,13 +22,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("finderService")
 public interface FinderService extends RemoteService {
 
-    public String[] listInclusionDependencyAlgorithms();
+    public String[] listInclusionDependencyAlgorithmFileNames();
 
-    public String[] listFunctionalDependencyAlgorithms();
+    public String[] listFunctionalDependencyAlgorithmFileNames();
 
-    public String[] listUniqueColumnCombinationsAlgorithms();
+    public String[] listUniqueColumnCombinationsAlgorithmFileNames();
 
-    public String[] listBasicStatisticsAlgorithms();
+    public String[] listBasicStatisticsAlgorithmFileNames();
 
-    public String[] listAllAlgorithms();
+    public String[] listAllAlgorithmFileNames();
 }
