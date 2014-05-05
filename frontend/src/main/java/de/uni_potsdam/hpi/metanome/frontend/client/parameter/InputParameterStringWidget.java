@@ -16,52 +16,64 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-
-import java.util.LinkedList;
 import java.util.List;
 
-public class InputParameterStringWidget extends VerticalPanel implements InputParameterWidget {
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 
-    // FIXME implement several input values
+public class InputParameterStringWidget extends InputParameterWidget {
+		
+	protected ConfigurationSpecificationString specification;
+	protected List<StringInput> inputWidgets;
+	
+	public InputParameterStringWidget(ConfigurationSpecificationString config) {
+		super(config);
+	}
 
-    private ConfigurationSpecificationString specification;
-    private List<TextBox> widgets;
+	@Override
+	protected void addInputField(boolean optional) {
+		StringInput field = new StringInput(optional);
+		this.inputWidgets.add(field);
+		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount()-1);
+		this.insert(field, index);		
+	}
+	
+	@Override
+	public ConfigurationSpecificationString getUpdatedSpecification(){
+		this.specification.setValues(this.getConfigurationSettings());
+		return this.specification;
+	}	
+	
+	protected ConfigurationSettingString[] getConfigurationSettings() {
+		ConfigurationSettingString[] values = new ConfigurationSettingString[this.inputWidgets.size()];
+		int i=0;
+		for (StringInput si : this.inputWidgets){
+			values[i] = new ConfigurationSettingString(si.getValue());
+			i++;
+		}
+		return values;
+	}
 
-    public InputParameterStringWidget(ConfigurationSpecificationString config) {
-        super();
-        this.specification = config;
-        this.widgets = new LinkedList<TextBox>();
-        for (int i = 0; i < config.getNumberOfValues(); i++) {
-            TextBox textBox = new TextBox();
-            this.widgets.add(textBox);
-            this.add(textBox);
-        }
-    }
+	
+	@Override
+	public List<? extends InputField> getInputWidgets() {
+		return this.inputWidgets;
+	}
 
-    @Override
-    public ConfigurationSpecificationString getUpdatedSpecification() {
-        this.specification.setValues(this.getConfigurationSettings());
-        return this.specification;
-    }
+	@Override
+	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
+		this.inputWidgets = (List<StringInput>) inputWidgetsList;
+	}
 
 
-    protected ConfigurationSettingString[] getConfigurationSettings() {
-        ConfigurationSettingString[] values = new ConfigurationSettingString[this.widgets.size()];
-        int i = 0;
-        for (TextBox b : this.widgets) {
-            values[i] = new ConfigurationSettingString(b.getValue());
-            i++;
-        }
-        return values;
-    }
+	@Override
+	public ConfigurationSpecification getSpecification() {
+		return this.specification;
+	}
 
-    @Override
-    public boolean isDataSource() {
-        return false;
-    }
-
+	@Override
+	public void setSpecification(ConfigurationSpecification config) {
+		this.specification = (ConfigurationSpecificationString) config;
+	}
 }

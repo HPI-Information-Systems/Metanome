@@ -1,32 +1,23 @@
-/*
- * Copyright 2014 by the Metanome project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
-public class CsvFileInput extends VerticalPanel {
+public class CsvFileInput extends InputField {
 
-    /**
+	/**
      * Dropdown menu for choosing a CSV file
      */
     public ListBox listbox;
@@ -38,16 +29,16 @@ public class CsvFileInput extends VerticalPanel {
     protected IntegerBox lineIntegerbox;
     protected CheckBox strictQuotesCheckbox;
     protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
-
-    private String preselectedFilename;
-
+    
+	private String preselectedFilename;
+    
     /**
      * Constructor.
      *
      * @param configSpec
      */
-    public CsvFileInput() {
-        super();
+    public CsvFileInput(boolean optional) {
+        super(optional);
 
         HorizontalPanel standardPanel = new HorizontalPanel();
         this.add(standardPanel);
@@ -84,24 +75,24 @@ public class CsvFileInput extends VerticalPanel {
 
     /**
      * Constructor which presets values.
-     *
-     * @param csvSetting Setting object from which to copy the values.
+     * 
+     * @param csvSetting	Setting object from which to copy the values.
      */
-    public CsvFileInput(ConfigurationSettingCsvFile csvSetting) {
-        this();
-
-        this.preselectedFilename = csvSetting.getFileName();
-
-        this.advancedCheckbox.setValue(csvSetting.isAdvanced());
-        this.separatorTextbox.setValue("" + csvSetting.getSeparatorChar());
-        this.quoteTextbox.setValue("" + csvSetting.getQuoteChar());
-        this.escapeTextbox.setValue("" + csvSetting.getEscapeChar());
-        this.lineIntegerbox.setValue(csvSetting.getLine());
-        this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
-        this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
+    public CsvFileInput(ConfigurationSettingCsvFile csvSetting, boolean optional) {
+    	this(optional);
+    	
+    	this.preselectedFilename = csvSetting.getFileName();
+    	
+    	this.advancedCheckbox.setValue(csvSetting.isAdvanced());
+    	this.separatorTextbox.setValue(""+csvSetting.getSeparatorChar());
+    	this.quoteTextbox.setValue(""+csvSetting.getQuoteChar());
+    	this.escapeTextbox.setValue(""+csvSetting.getEscapeChar());
+    	this.lineIntegerbox.setValue(csvSetting.getLine());
+    	this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
+    	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
     }
 
-    /**
+	/**
      * Add another user input row to the bottom of the given table
      *
      * @param table       the UI object on which to add the row
@@ -125,17 +116,17 @@ public class CsvFileInput extends VerticalPanel {
         textbox.setWidth("2em");
         return textbox;
     }
+    
 
-
-    /**
-     * Fills the dropdown list with the given values
-     *
-     * @param fileNames the values to put into the dropdown
-     * @throws AlgorithmConfigurationException
-     */
-    public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
-        int index = 1;                            //start at 1 because index 0 has default ("--") entry
-        for (String value : fileNames) {
+	/**
+	 * Fills the dropdown list with the given values
+	 * 
+	 * @param fileNames	the values to put into the dropdown
+	 * @throws AlgorithmConfigurationException
+	 */
+	public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
+		int index = 1;							//start at 1 because index 0 has default ("--") entry
+		for (String value : fileNames) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
             listbox.addItem(displayName, value);
             if (isPreselected(value)) {
@@ -143,54 +134,54 @@ public class CsvFileInput extends VerticalPanel {
             }
             index++;
         }
-        if (preselectionUnavailable())
-            throw new AlgorithmConfigurationException("The CSV file is not available.");
-    }
+		if (preselectionUnavailable())
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+	}
 
-    /**
-     * @return true if a preselection was specified but the default item is still selected (usually because the preselected
-     * item was not available)
-     */
-    private boolean preselectionUnavailable() {
-        return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
-    }
+	/**
+	 * @return true if a preselection was specified but the default item is still selected (usually because the preselected
+	 * item was not available)
+	 */
+	private boolean preselectionUnavailable() {
+		return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
+	}
 
-    /**
-     * Checks whether the value parameter corresponds the one that was preselected. The comparison is based on the substring
-     * after the last "/", so that "/path/to/inputA.csv" is the same as "inputA.csv"
-     * TODO: find a way to make separator system dependent
-     *
-     * @param value
-     * @return true if the
-     */
-    private boolean isPreselected(String value) {
-        if (value == null || this.preselectedFilename == null)
-            return false;
-        return value.substring(value.lastIndexOf("/") + 1).equals(
-                preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
-    }
+	/**
+	 * Checks whether the value parameter corresponds the one that was preselected. The comparison is based on the substring
+	 * after the last "/", so that "/path/to/inputA.csv" is the same as "inputA.csv"
+	 * TODO: find a way to make separator system dependent
+	 * 
+	 * @param value	
+	 * @return true if the 
+	 */
+	private boolean isPreselected(String value) {
+		if (value == null || this.preselectedFilename == null)
+			return false;
+		return value.substring(value.lastIndexOf("/") + 1).equals(
+				preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
+	}
 
-    /**
-     * Selects the given data source in the first widget. If the dropdowns have not yet been filled with the available
-     * values, we save the value and set it when the dropdown is filled.
-     *
-     * @param csvSetting the data source
-     * @throws AlgorithmConfigurationException If the dropdowns are filled but do not containt the desired data source.
-     */
-    public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
-        this.preselectedFilename = csvSetting.getValueAsString();
-
-        //if the list  of available files has already been retrieved
-        if (this.listbox.getItemCount() > 1) {
-            for (int i = 0; i < listbox.getItemCount(); i++) {
-                if (isPreselected(csvSetting.getValueAsString())) {
-                    listbox.setSelectedIndex(i + 1);
-                    return;
-                }
-            }
-            throw new AlgorithmConfigurationException("The CSV file is not available.");
-        }
-    }
+	/**
+	 * Selects the given data source in the first widget. If the dropdowns have not yet been filled with the available 
+	 * values, we save the value and set it when the dropdown is filled.
+	 * 
+	 * @param csvSetting	the data source 
+	 * @throws AlgorithmConfigurationException	If the dropdowns are filled but do not containt the desired data source.
+	 */
+	public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
+		this.preselectedFilename = csvSetting.getValueAsString();
+		
+		//if the list  of available files has already been retrieved
+		if (this.listbox.getItemCount() > 1) {
+			for (int i = 0; i < listbox.getItemCount(); i++) {
+				if (isPreselected(csvSetting.getValueAsString())) {
+					listbox.setSelectedIndex(i+1);
+					return;
+				}
+			}
+			throw new AlgorithmConfigurationException("The CSV file is not available.");
+		}
+	}
 
     /**
      * Retrieves the current values from the UI and sets them on the given inputParameter
@@ -252,7 +243,7 @@ public class CsvFileInput extends VerticalPanel {
         //other entries
         return listbox;
     }
-
+    
     /**
      * @return a list of the values displayed in the listbox, one String per entry
      */
@@ -267,10 +258,10 @@ public class CsvFileInput extends VerticalPanel {
     /**
      * @return a new ConfigurationSetting object with the current user input
      */
-    public ConfigurationSettingCsvFile getValuesAsSettings() {
-        ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
-        return setCurrentValues(setting);
-    }
+	public ConfigurationSettingCsvFile getValuesAsSettings() {
+		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+		return setCurrentValues(setting);
+	}
 
-
+	
 }

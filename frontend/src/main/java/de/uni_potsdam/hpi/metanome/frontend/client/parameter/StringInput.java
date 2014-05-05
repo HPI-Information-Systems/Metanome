@@ -16,16 +16,34 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.TextBox;
 
-public class ParameterTableSubmitHandler implements ClickHandler {
+/**
+ * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the checkbox
+ * is removed from the parent widget.
+ * 
+ * @author Claudia
+ *
+ */
+public class StringInput extends InputField {
 
-	@Override
-	public void onClick(ClickEvent event) {
-		ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();	    		
-    	paramTable.submit();	
+	protected TextBox textbox;
+	/**
+	 * 
+	 * @param optional 	If true, a remove button will be rendered, to remove this widget from its parent.
+	 */
+	public StringInput(boolean optional) {
+		super(optional);
+		
+		this.textbox = new TextBox();
+		this.add(this.textbox);
 	}
 
+	/**
+	 * 
+	 * @return the value of its checkbox
+	 */
+	public String getValue() {
+		return this.textbox.getValue();
+	}
 }
