@@ -96,13 +96,14 @@ public class AlgorithmTest {
         // Setup
         HibernateUtil.clear();
 
+        // Expected values
         Algorithm expectedAlgorithm1 = new Algorithm("some file name 1");
         Algorithm.store(expectedAlgorithm1);
         Algorithm expectedAlgorithm2 = new Algorithm("some file name 2");
         Algorithm.store(expectedAlgorithm2);
 
         // Execute functionality
-        Collection<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+        List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
 
         // Check result
         assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm1, expectedAlgorithm2));
