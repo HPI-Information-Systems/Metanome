@@ -29,6 +29,8 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link CsvFileGenerator}
+ *
+ * @author Jakob Zwiener
  */
 public class CsvFileGeneratorTest {
 
@@ -61,6 +63,8 @@ public class CsvFileGeneratorTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator#CsvFileGenerator(java.io.File, char, char, char, int, boolean, boolean)}
+     *
      * The generator should store the file path correctly.
      */
     @Test
@@ -76,6 +80,8 @@ public class CsvFileGeneratorTest {
     }
 
     /**
+     * Test method for {@link CsvFileGenerator#generateNewCopy()}
+     *
      * The generator should generate fresh csv files iterable from the start.
      *
      * @throws InputGenerationException
@@ -96,5 +102,15 @@ public class CsvFileGeneratorTest {
         assertEquals(csvFileFixture.expectedSecondLine(), csv2.next());
     }
 
+    /**
+     * Test method for {@link CsvFileGenerator#getInputFile()}
+     */
+    @Test
+    public void testGetInputFile() {
+        // Execute functionality
+        File actualFile = generator.getInputFile();
 
+        // Check result
+        assertEquals(expectedFile, actualFile);
+    }
 }
