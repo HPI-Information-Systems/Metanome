@@ -132,8 +132,10 @@ public class AlgorithmsPage extends VerticalPanel {
                 }
             });
 
-            list.setText(row, 0, algorithm.getFileName());
-            list.setWidget(row, 1, runButton);
+            list.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
+            list.setText(row, 1, "Author: "+ algorithm.getAuthor());
+            list.setText(row, 2, "File: "+algorithm.getFileName());
+            list.setWidget(row, 3, runButton);
             row++;
         }
     }
