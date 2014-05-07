@@ -19,12 +19,14 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class RunConfigurationPage extends DockPanel {
     public ConfigurationSettingDataSource primaryDataSource;
     protected BasePage basePage;
     protected ParameterTable parameterTable;
-    protected AlgorithmChooser jarChooser;
+    protected AlgorithmChooser algorithmChooser;
     protected Label primaryDataSourceLabel;
     protected ExecutionServiceAsync executionService;
 
@@ -51,14 +53,14 @@ public class RunConfigurationPage extends DockPanel {
      *
      * @param algorithmNames
      */
-    public RunConfigurationPage(BasePage basePage, String... algorithmNames) {
+    public RunConfigurationPage(BasePage basePage) {
         this.setWidth("100%");
         this.basePage = basePage;
 
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
-        this.jarChooser = new AlgorithmChooser(algorithmNames);
-        this.add(this.jarChooser, DockPanel.NORTH);
+        this.algorithmChooser = new AlgorithmChooser(null);
+        this.add(this.algorithmChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
     }
@@ -79,10 +81,10 @@ public class RunConfigurationPage extends DockPanel {
     /**
      * Method to add more algorithms after construction.
      *
-     * @param algorithmNames
+     * @param result
      */
-    public void addAlgorithms(String... algorithmNames) {
-        this.jarChooser.addAlgorithms(algorithmNames);
+    public void addAlgorithms(List<Algorithm> algorithms) {
+        this.algorithmChooser.addAlgorithms(algorithms);
     }
 
     /**
@@ -91,15 +93,15 @@ public class RunConfigurationPage extends DockPanel {
      * @param algorithmName the value to select
      */
     public void selectAlgorithm(String algorithmName) {
-        this.jarChooser.setSelectedAlgorithm(algorithmName);
-        this.jarChooser.submit();
+        this.algorithmChooser.setSelectedAlgorithm(algorithmName);
+        this.algorithmChooser.submit();
     }
 
     /**
      * @return the name of the algorithm that is currently selected on this page's JarChooser
      */
     public String getCurrentlySelectedAlgorithm() {
-        return this.jarChooser.getSelectedAlgorithm();
+        return this.algorithmChooser.getSelectedAlgorithm();
     }
 
     /**
@@ -112,7 +114,7 @@ public class RunConfigurationPage extends DockPanel {
         this.primaryDataSource = dataSource;
         this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
         removeParameterTable();
-        this.jarChooser.filterForPrimaryDataSource(dataSource);
+        this.algorithmChooser.filterForPrimaryDataSource(dataSource);
     }
 
     /**
@@ -147,7 +149,7 @@ public class RunConfigurationPage extends DockPanel {
     // Getters & Setters
 
     public AlgorithmChooser getJarChooser() {
-        return jarChooser;
+        return algorithmChooser;
     }
 
 }

@@ -46,8 +46,9 @@ import java.util.*;
 @Entity
 @GwtCompatible
 public class Algorithm implements Serializable {
+	private static final long serialVersionUID = -3276487707781514801L;
 
-    protected String fileName;
+	protected String fileName;
     protected String name;
     protected String author;
     protected String description;
@@ -65,6 +66,12 @@ public class Algorithm implements Serializable {
 
     public Algorithm(String fileName) {
         this.fileName = fileName;
+    }
+    
+    public Algorithm(String fileName, String name, String author) {
+    	this(fileName);
+    	this.name = name;
+    	this.author = author;
     }
 
     /**

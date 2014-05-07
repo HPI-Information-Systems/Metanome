@@ -16,8 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.LinkedList;
+
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
 import org.junit.Test;
 
 public class GwtTestCommonWidgets extends GWTTestCase {
@@ -25,14 +30,16 @@ public class GwtTestCommonWidgets extends GWTTestCase {
     @Test
     public void testJarChooser() {
         //Setup
-        String[] filenames = {"filename1.jar", "filename2.jar"};
+        LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
+        algorithms.add(new Algorithm("Algorithm 1"));
+        algorithms.add(new Algorithm("Algorithm 2"));
 
         //Execute
-        AlgorithmChooser jarChooser = new AlgorithmChooser(filenames);
+        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms);
 
         //Test
         assertEquals(2, jarChooser.getWidgetCount());
-        assertEquals(filenames.length + 1, jarChooser.getListItemCount());
+        assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
     }
 
     //@Test

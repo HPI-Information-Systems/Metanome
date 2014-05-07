@@ -99,7 +99,7 @@ public class AlgorithmsPage extends VerticalPanel {
     }
 
     /**
-     * Constructs a callback that will add all results to the given
+     * Constructs a callback that will add all results to the given table
      *
      * @param list Object that all returned elements will be added to
      * @return the desired callback instance
@@ -114,13 +114,7 @@ public class AlgorithmsPage extends VerticalPanel {
             public void onSuccess(List<Algorithm> result) {
                 addAlgorithmsToList(result, list);
 
-                // TODO attach algorithm instances instead
-                String[] algorithmFileNames = new String[result.size()];
-                int i = 0;
-                for (Algorithm algorithm : result) {
-                    algorithmFileNames[i++] = algorithm.getFileName();
-                }
-                basePage.addAlgorithmsToRunConfigurations(algorithmFileNames);
+                basePage.addAlgorithmsToRunConfigurations(result);
             }
         };
     }

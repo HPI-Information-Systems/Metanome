@@ -22,10 +22,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class AlgorithmChooser extends HorizontalPanel {
      * @param jarFilenames
      * @param algorithmSubclass
      */
-    public AlgorithmChooser(String[] jarFilenames) {
+    public AlgorithmChooser(List<Algorithm> algorithms) {
         super();
         this.parameterService = GWT.create(ParameterService.class);
 
@@ -59,7 +61,8 @@ public class AlgorithmChooser extends HorizontalPanel {
         this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
         this.listbox.setSelectedIndex(0);
 
-        this.addAlgorithms(jarFilenames);
+        if (algorithms != null)
+        	this.addAlgorithms(algorithms);
         this.add(listbox);
         this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
     }
@@ -140,11 +143,11 @@ public class AlgorithmChooser extends HorizontalPanel {
     /**
      * Add more entries.
      *
-     * @param algorithmNames array of entries to add
+     * @param algorithms array of entries to add
      */
-    public void addAlgorithms(String[] algorithmNames) {
-        for (String filename : algorithmNames) {
-            this.listbox.addItem(filename);
+    public void addAlgorithms(List<Algorithm> algorithms) {
+        for (Algorithm a : algorithms) {
+            this.listbox.addItem(a.getName());
         }
     }
 

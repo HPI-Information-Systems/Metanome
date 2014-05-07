@@ -20,6 +20,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -30,8 +31,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
 import org.junit.Test;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,6 +47,7 @@ public class GwtTestBasePage extends GWTTestCase {
      */
     private String algorithmName = "example_ucc_algorithm.jar";
     private String dataSourceName = "inputA.csv";
+    LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
 
     private BasePage testPage;
 
@@ -66,9 +70,11 @@ public class GwtTestBasePage extends GWTTestCase {
     public void testAddAlgorithmsToRunConfigurations() {
         BasePage page = new BasePage();
         int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
+        algorithms.add(new Algorithm("Algorithm 1"));
+        algorithms.add(new Algorithm("Algorithm 2"));
 
         //Execute
-        page.addAlgorithmsToRunConfigurations("Algorithm 1", "Algorithm 2");
+        page.addAlgorithmsToRunConfigurations(algorithms);
 
         //Check
         assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
@@ -81,8 +87,10 @@ public class GwtTestBasePage extends GWTTestCase {
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
         final BasePage page = new BasePage();
+        algorithms.add(new Algorithm("file/name", "displayed name", "author"));
+        final String algorithmName = algorithms.get(0).getName();
 
-        page.addAlgorithmsToRunConfigurations(algorithmName);
+        page.addAlgorithmsToRunConfigurations(algorithms);
 
         AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
             @Override
@@ -93,13 +101,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
             @Override
             public void onSuccess(List<Algorithm> result) {
-                // TODO attach actual algorithm instances instead
-                String[] algorithmFileNames = new String[result.size()];
-                int i = 0;
-                for (Algorithm algorithm : result) {
-                    algorithmFileNames[i++] = algorithm.getFileName();
-                }
-                page.addAlgorithmsToRunConfigurations(algorithmFileNames);
+                page.addAlgorithmsToRunConfigurations(result);
 
                 //Execute
                 page.jumpToRunConfiguration(algorithmName, null);
@@ -146,13 +148,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
             @Override
             public void onSuccess(List<Algorithm> result) {
-                // TODO attach actual algorithm instances instead
-                String[] algorithmFileNames = new String[result.size()];
-                int i = 0;
-                for (Algorithm algorithm : result) {
-                    algorithmFileNames[i++] = algorithm.getFileName();
-                }
-                page.addAlgorithmsToRunConfigurations(algorithmFileNames);
+                page.addAlgorithmsToRunConfigurations(result);
 
                 //Execute
                 page.jumpToRunConfiguration(null, finalDataSource);

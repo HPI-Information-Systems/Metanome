@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -30,6 +31,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.Date;
 import java.util.List;
@@ -172,10 +174,10 @@ public class BasePage extends TabLayoutPanel {
     /**
      * Forwards any algorithms found by AlgorithmPage to be available in RunConfigurations
      *
-     * @param algorithmNames
+     * @param algorithms
      */
-    public void addAlgorithmsToRunConfigurations(String... algorithmNames) {
-        this.runConfigurationsPage.addAlgorithms(algorithmNames);
+    public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
+        this.runConfigurationsPage.addAlgorithms(algorithms);
     }
 
     public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT}

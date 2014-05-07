@@ -16,15 +16,19 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
  * Tests for the algorithm specific pages (tabs)
@@ -62,12 +66,15 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
         //Setup
         RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
         int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
+        LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
+        algorithms.add(new Algorithm("Algorithm 1"));
+        algorithms.add(new Algorithm("Algorithm 2"));
 
         //Execute
-        runConfigPage.addAlgorithms("Additional 1", "Additional 2");
+        runConfigPage.addAlgorithms(algorithms);
 
         //Check
-        assertEquals(noOfAlgorithms + 2, runConfigPage.getJarChooser().getListItemCount());
+        assertEquals(noOfAlgorithms + algorithms.size(), runConfigPage.getJarChooser().getListItemCount());
     }
 
     @Test
@@ -93,15 +100,20 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
         paramList.add(new ConfigurationSpecificationCsvFile("theDataSource"));
 
         //Execute
-        runConfigPage.jarChooser.forwardParameters(paramList);
+        runConfigPage.algorithmChooser.forwardParameters(paramList);
 
         //Check
         assertNotNull(runConfigPage.parameterTable);
     }
 
     protected String setUpJarChooser(RunConfigurationPage runConfigPage) {
-        String algoName = "somethingRandom";
-        runConfigPage.addAlgorithms("Additional 1", algoName, "Additional 2");
+    	String algoName = "somethingRandom";
+    	LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
+        algorithms.add(new Algorithm("file/name/1", "Algorithm 1", "author"));
+        algorithms.add(new Algorithm("file/name/2", algoName, "author"));
+        algorithms.add(new Algorithm("file/name/3", "Algorithm 2", "author"));
+        
+        runConfigPage.addAlgorithms(algorithms);
         assertEquals("--", runConfigPage.getCurrentlySelectedAlgorithm());
         return algoName;
     }
