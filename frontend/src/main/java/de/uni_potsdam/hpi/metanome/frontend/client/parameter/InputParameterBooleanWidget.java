@@ -42,7 +42,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
 	}
 	
 	@Override
-    public ConfigurationSpecification getUpdatedSpecification() {
+    public ConfigurationSpecificationBoolean getUpdatedSpecification() {
         // Build an array with the actual number of set values.
         ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[inputWidgets.size()];
 

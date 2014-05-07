@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
@@ -91,7 +92,19 @@ public class GwtTestBooleanParameter extends GWTTestCase {
 	
 	@Test
 	public void testRetrieveValues() {
-		//TODO	
+		//Setup
+		String value = "something";
+		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", 
+				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
+		
+		//Execute
+		((BooleanInput) widget.getWidget(0)).checkbox.setValue(true);
+		ConfigurationSettingBoolean[] settings = widget.getUpdatedSpecification().getSettings();
+		
+		//Check
+		assertEquals(1, settings.length);
+		assertEquals(value, settings[0].value);
 	}	
 	
 	@Override

@@ -23,7 +23,7 @@ import org.junit.Test;
 public class GwtTestCommonWidgets extends GWTTestCase {
 
     @Test
-    public void testJarChooser() {
+    public void testAlgorithmChooser() {
         //Setup
         String[] filenames = {"filename1.jar", "filename2.jar"};
 
