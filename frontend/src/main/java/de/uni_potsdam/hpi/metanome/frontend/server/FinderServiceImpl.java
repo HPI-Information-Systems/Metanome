@@ -45,15 +45,15 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
     protected String[] listAlgorithmFileNames(Class<?> algorithmClass) {
         List<Algorithm> algorithms = Algorithm.retrieveAll(algorithmClass);
 
-        String[] algorithmFileNames = new String[algorithms.size()];
+        String[] algorithmNames = new String[algorithms.size()];
 
         int algorithmIndex = 0;
         for (Algorithm algorithm : algorithms) {
-            algorithmFileNames[algorithmIndex] = algorithm.getFileName();
+            algorithmNames[algorithmIndex] = algorithm.getName();
             algorithmIndex++;
         }
 
-        return algorithmFileNames;
+        return algorithmNames;
     }
 
     @Override
