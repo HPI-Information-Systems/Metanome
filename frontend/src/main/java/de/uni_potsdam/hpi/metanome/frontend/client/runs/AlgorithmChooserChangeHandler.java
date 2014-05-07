@@ -21,11 +21,11 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
 
-public class JarChooserChangeHandler implements ChangeHandler {
+public class AlgorithmChooserChangeHandler implements ChangeHandler {
 
     @Override
     public void onChange(ChangeEvent event) {
-        JarChooser jarChooser = (JarChooser) ((ListBox) event.getSource()).getParent();
+        AlgorithmChooser jarChooser = (AlgorithmChooser) ((ListBox) event.getSource()).getParent();
         jarChooser.submit();
     }
 }

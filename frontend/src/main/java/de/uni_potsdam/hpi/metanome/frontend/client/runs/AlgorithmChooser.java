@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
  */
-public class JarChooser extends HorizontalPanel {
+public class AlgorithmChooser extends HorizontalPanel {
 
     protected Label label;
     protected ListBox listbox;
@@ -45,7 +45,7 @@ public class JarChooser extends HorizontalPanel {
      * @param jarFilenames
      * @param algorithmSubclass
      */
-    public JarChooser(String[] jarFilenames) {
+    public AlgorithmChooser(String[] jarFilenames) {
         super();
         this.parameterService = GWT.create(ParameterService.class);
 
@@ -61,7 +61,7 @@ public class JarChooser extends HorizontalPanel {
 
         this.addAlgorithms(jarFilenames);
         this.add(listbox);
-        this.listbox.addChangeHandler(new JarChooserChangeHandler());
+        this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
     }
 
     /**

@@ -33,8 +33,9 @@ import java.util.List;
  */
 public class FinderServiceImpl extends RemoteServiceServlet implements
         FinderService {
+	private static final long serialVersionUID = 2742248537386173766L;
 
-    /**
+	/**
      * Lists all algorithms from the database that implement a certain interface, or all if algorithm class is null.
      *
      * @param algorithmClass the implemented algorithm interface.
