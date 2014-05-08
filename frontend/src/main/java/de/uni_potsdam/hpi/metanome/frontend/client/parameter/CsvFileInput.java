@@ -1,5 +1,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -26,7 +29,7 @@ public class CsvFileInput extends InputField {
     protected TextBox separatorTextbox;
     protected TextBox quoteTextbox;
     protected TextBox escapeTextbox;
-    protected IntegerBox lineIntegerbox;
+    protected IntegerBox skiplinesIntegerbox;
     protected CheckBox strictQuotesCheckbox;
     protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
     
@@ -54,22 +57,28 @@ public class CsvFileInput extends InputField {
         this.add(advancedTable);
 
         separatorTextbox = getNewOneCharTextbox();
+        separatorTextbox.setValue(Character.toString(CSVParser.DEFAULT_SEPARATOR));
         addRow(advancedTable, separatorTextbox, "Separator Character");
 
         quoteTextbox = getNewOneCharTextbox();
+        quoteTextbox.setValue(Character.toString(CSVParser.DEFAULT_QUOTE_CHARACTER));
         addRow(advancedTable, quoteTextbox, "Quote Character");
 
         escapeTextbox = getNewOneCharTextbox();
+        escapeTextbox.setValue(Character.toString(CSVParser.DEFAULT_ESCAPE_CHARACTER));
         addRow(advancedTable, escapeTextbox, "Escape Character");
 
-        lineIntegerbox = new IntegerBox();
-        lineIntegerbox.setWidth("5em");
-        addRow(advancedTable, lineIntegerbox, "Line");
+        skiplinesIntegerbox = new IntegerBox();
+        skiplinesIntegerbox.setWidth("3em");
+        skiplinesIntegerbox.setValue(CSVReader.DEFAULT_SKIP_LINES);
+        addRow(advancedTable, skiplinesIntegerbox, "Number of Header Rows");
 
         strictQuotesCheckbox = new CheckBox();
-        addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
+        strictQuotesCheckbox.setValue(CSVParser.DEFAULT_STRICT_QUOTES);
+        addRow(advancedTable, strictQuotesCheckbox, "Use Strict Quotes");
 
         ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
+        ignoreLeadingWhiteSpaceCheckbox.setValue(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
     }
 
@@ -87,7 +96,7 @@ public class CsvFileInput extends InputField {
     	this.separatorTextbox.setValue(""+csvSetting.getSeparatorChar());
     	this.quoteTextbox.setValue(""+csvSetting.getQuoteChar());
     	this.escapeTextbox.setValue(""+csvSetting.getEscapeChar());
-    	this.lineIntegerbox.setValue(csvSetting.getLine());
+    	this.skiplinesIntegerbox.setValue(csvSetting.getLine());
     	this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
     	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
     }
@@ -195,8 +204,8 @@ public class CsvFileInput extends InputField {
             configSetting.setEscapeChar(StringHelper.getFirstCharFromInput(this.escapeTextbox.getValue()));
             configSetting.setStrictQuotes(this.strictQuotesCheckbox.getValue());
             configSetting.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
-            if (this.lineIntegerbox.getValue() != null)
-                configSetting.setLine(this.lineIntegerbox.getValue());
+            if (this.skiplinesIntegerbox.getValue() != null)
+                configSetting.setLine(this.skiplinesIntegerbox.getValue());
             else
                 configSetting.setLine(0);
         }
@@ -211,7 +220,7 @@ public class CsvFileInput extends InputField {
      */
     protected CheckBox createAdvancedCheckbox() {
         CheckBox checkbox = new CheckBox("Use Advanced Configuration");
-        checkbox.setValue(false); //TODO ok to always assume not-advanced on creation?
+        checkbox.setValue(false);
         checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
             @Override
@@ -236,7 +245,7 @@ public class CsvFileInput extends InputField {
         //unselectable default entry
         listbox.addItem("--");
         listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-        //other entries
+        //other entries must be set separately by parent
         return listbox;
     }
     
