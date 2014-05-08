@@ -35,6 +35,8 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     public ConfigurationSettingCsvFile() {
     }
 
+    // TODO add constructor for is not advanced (only fileName and advanced = false)
+
     public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
                                        char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line) {
         this.fileName = fileName;
