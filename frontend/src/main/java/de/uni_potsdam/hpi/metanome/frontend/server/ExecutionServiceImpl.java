@@ -20,7 +20,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.ProgressCache;
 import de.uni_potsdam.hpi.metanome.algorithm_execution.TempFileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
@@ -75,91 +74,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
         return executor;
     }
 
-    /**
-     * Converts given parameters and data sources to configuration values, the format used in backend and algorithms.
-     *
-     * @param parameters  the list of "standard" InputParameters to be converted
-     * @param dataSources the list of "data source" InputParameters to be converted
-     * @return a joint list of ConfigurationValues containing "standard" as well as "data source" parameters
-     * @throws AlgorithmConfigurationException
-     */
-//    private List<ConfigurationValue> convertInputParameters(
-//            List<ConfigurationSpecification> parameters, List<ConfigurationSpecification> dataSources)
-//            throws AlgorithmConfigurationException {
-//        List<ConfigurationValue> configValuesList = new LinkedList<>();
-//
-//        for (ConfigurationSpecification parameter : parameters) {
-//            configValuesList.add(convertToConfigurationValue(parameter));
-//        }
-//        for (ConfigurationSpecification parameter : dataSources) {
-//            configValuesList.add(convertToConfigurationValue(parameter));
-//        }
-//
-//        return configValuesList;
-//    }
-
-    /**
-     * Finds the ConfigurationValue class that corresponds to the given InputParameter and creates an instance
-     * of it with the same parameter values.
-     *
-     * @param parameter the InputParameter to be converted
-     * @return ConfigurationValue instance representing the same information as parameter
-     * @throws AlgorithmConfigurationException
-     */
-//    public ConfigurationValue convertToConfigurationValue(
-//            InputParameter parameter) throws AlgorithmConfigurationException {
-//        if (parameter instanceof InputParameterString)
-//            return new ConfigurationValueString(parameter.getIdentifier(),
-//                    ((InputParameterString) parameter).getValues());
-//
-//        else if (parameter instanceof InputParameterBoolean)
-//            return new ConfigurationValueBoolean(parameter.getIdentifier(),
-//                    ((InputParameterBoolean) parameter).getValue());
-//
-//        else if (parameter instanceof InputParameterCsvFile)
-//            return new ConfigurationValueRelationalInputGenerator(parameter.getIdentifier(),
-//                    buildCsvFileGenerator((InputParameterCsvFile) parameter));
-//
-//        else if (parameter instanceof InputParameterSQLIterator)
-//            return new ConfigurationValueSQLInputGenerator(parameter.getIdentifier(),
-//                    buildSQLInputGenerator((InputParameterSQLIterator) parameter));
-//
-//        else
-//            throw new AlgorithmConfigurationException("The InputParameter cannot be converted to a ConfigurationValue.");
-//    }
-
-    /**
-     * Creates a SqlInputGenerator from the corresponding InputParameter.
-     *
-     * @param parameter user's input for the database connection parameters
-     * @return SqlIteratorGenerator instance with the values from parameter
-     * @throws AlgorithmConfigurationException
-     */
-//    private SQLInputGenerator buildSQLInputGenerator(
-//            InputParameterSQLIterator parameter) throws AlgorithmConfigurationException {
-//        return new SqlIteratorGenerator(parameter.getDbUrl(), parameter.getUserName(), parameter.getPassword());
-//    }
-
-    /**
-     * Creates a CsvFileGenerator from the corresponding InputParameter. Uses default separators etc. unless
-     * the param is set to advanced configuration.
-     *
-     * @param param user's input for the csv file parameters
-     * @return CsvFileGenerator instance with the values from param
-     * @throws AlgorithmConfigurationException
-     */
-//    protected CsvFileGenerator buildCsvFileGenerator(InputParameterCsvFile param) throws AlgorithmConfigurationException {
-//        try {
-//            if (param.isAdvanced())
-//                return new CsvFileGenerator(new File(param.getFileNameValue()), param.getSeparatorChar(),
-//                        param.getQuoteChar(), param.getEscapeChar(), param.getLine(),
-//                        param.isStrictQuotes(), param.isIgnoreLeadingWhiteSpace());
-//            else
-//                return new CsvFileGenerator(new File(param.getFileNameValue()));
-//        } catch (FileNotFoundException e) {
-//            throw new AlgorithmConfigurationException("Error opening specified CSV file.");
-//        }
-//    }
     @Override
     public long executeAlgorithm(String algorithmName, String executionIdentifier, List<ConfigurationSpecification> parameters)
             throws AlgorithmLoadingException, AlgorithmExecutionException {
