@@ -18,17 +18,20 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.List;
 
 @RemoteServiceRelativePath("finderService")
 public interface FinderService extends RemoteService {
 
-    public String[] listInclusionDependencyAlgorithmFileNames();
+    public List<Algorithm> listInclusionDependencyAlgorithms();
 
-    public String[] listFunctionalDependencyAlgorithmFileNames();
+    public List<Algorithm> listFunctionalDependencyAlgorithms();
 
-    public String[] listUniqueColumnCombinationsAlgorithmFileNames();
+    public List<Algorithm> listUniqueColumnCombinationsAlgorithms();
 
-    public String[] listBasicStatisticsAlgorithmFileNames();
+    public List<Algorithm> listBasicStatisticsAlgorithms();
 
-    public String[] listAllAlgorithmFileNames();
+    public List<Algorithm> listAllAlgorithms();
 }
