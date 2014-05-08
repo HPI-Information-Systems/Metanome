@@ -125,25 +125,12 @@ public class CsvFileInput extends InputField {
 	 * @throws AlgorithmConfigurationException
 	 */
 	public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
-		int index = 1;							//start at 1 because index 0 has default ("--") entry
 		for (String value : fileNames) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
             listbox.addItem(displayName, value);
-            if (isPreselected(value)) {
-                listbox.setSelectedIndex(index);
-            }
-            index++;
         }
-		if (preselectionUnavailable())
-			throw new AlgorithmConfigurationException("The CSV file is not available.");
-	}
-
-	/**
-	 * @return true if a preselection was specified but the default item is still selected (usually because the preselected
-	 * item was not available)
-	 */
-	private boolean preselectionUnavailable() {
-		return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
+		if (this.preselectedFilename != null && this.preselectedFilename != "")
+			selectPreselectedEntry();
 	}
 
 	/**
@@ -173,14 +160,23 @@ public class CsvFileInput extends InputField {
 		
 		//if the list  of available files has already been retrieved
 		if (this.listbox.getItemCount() > 1) {
-			for (int i = 0; i < listbox.getItemCount(); i++) {
-				if (isPreselected(csvSetting.getValueAsString())) {
-					listbox.setSelectedIndex(i+1);
-					return;
-				}
-			}
-			throw new AlgorithmConfigurationException("The CSV file is not available.");
+			selectPreselectedEntry();
 		}
+	}
+
+	/**
+	 * Sets the selected index of the file dropdown to the one corresponding to preselectedFilename
+	 * 
+	 * @throws AlgorithmConfigurationException if the value is not available in the dropdown
+	 */
+	private void selectPreselectedEntry() throws AlgorithmConfigurationException {
+		for (int i = 0; i < listbox.getItemCount(); i++) {
+			if (isPreselected(listbox.getItemText(i))) {
+				listbox.setSelectedIndex(i);
+				return;
+			}
+		}
+		throw new AlgorithmConfigurationException("The CSV file is not available.");
 	}
 
     /**
@@ -258,7 +254,7 @@ public class CsvFileInput extends InputField {
     /**
      * @return a new ConfigurationSetting object with the current user input
      */
-	public ConfigurationSettingCsvFile getValuesAsSettings() {
+	public ConfigurationSettingCsvFile getValuesAsSetting() {
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		return setCurrentValues(setting);
 	}

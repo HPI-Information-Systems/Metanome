@@ -189,13 +189,13 @@ public class GwtTestParameter extends GWTTestCase {
 		((CheckBox) advancedPanel.getWidget(4,1)).setValue(boolTrue);
 		((CheckBox) advancedPanel.getWidget(5,1)).setValue(boolTrue);
 		try{			
-			csvSpec = csvWidget.getValuesAsSettings();
+			csvSpec = csvWidget.getValuesAsSetting();
 		} catch (Exception e){
 			//TODO make sure some nice exception is thrown when not all values are set.
 			exceptionCaught = true;
 		}
 		((TextBox) advancedPanel.getWidget(2,1)).setValue(characterString);
-		csvSpec = csvWidget.getValuesAsSettings();
+		csvSpec = csvWidget.getValuesAsSetting();
 		
 		//Check
 //		assertTrue(exceptionCaught); TODO input validation
