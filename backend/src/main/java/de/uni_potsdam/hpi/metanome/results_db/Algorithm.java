@@ -67,12 +67,6 @@ public class Algorithm implements Serializable {
     public Algorithm(String fileName) {
         this.fileName = fileName;
     }
-    
-    public Algorithm(String fileName, String name, String author) {
-    	this(fileName);
-    	this.name = name;
-    	this.author = author;
-    }
 
     /**
      * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
@@ -96,6 +90,29 @@ public class Algorithm implements Serializable {
         if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
             setBasicStat(true);
         }
+    }
+    
+    /**
+     * This constructor sets all attributes as given, and sets the algorithm types based on the given
+     * interfaces. If no name is specified, fileName is used for this purpose.
+     * 
+     * @param fileName the file name of the algorithm jar
+     * @param name the name of the implemented algorithm
+     * @param author name(s) of the author(s)
+     * @param description any additional information on the algorithm
+     * @param algorithmInterfaces the implemented interfaces
+     */
+    @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
+    public Algorithm(String fileName, String name, String author, String description, Set<Class<?>> algorithmInterfaces) {
+    	this(fileName, algorithmInterfaces);
+    	
+    	if (name != null)
+    		this.name = name;
+    	else
+    		this.name = fileName;
+    	
+    	this.author = author;
+    	this.description = description;
     }
 
     /**

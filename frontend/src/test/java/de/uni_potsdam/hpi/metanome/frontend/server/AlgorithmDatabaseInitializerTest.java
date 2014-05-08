@@ -81,7 +81,10 @@ public class AlgorithmDatabaseInitializerTest {
     protected Algorithm buildExpectedAlgorithm(AlgorithmFinder jarFinder, String algorithmFileName) throws IOException, ClassNotFoundException {
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(algorithmFileName);
 
-        return new Algorithm(algorithmFileName, algorithmInterfaces);
+        Algorithm algorithm = new Algorithm(algorithmFileName, algorithmInterfaces);
+        algorithm.setName(algorithmFileName.replaceAll(".jar", ""));
+        
+		return algorithm;
     }
 
     /**

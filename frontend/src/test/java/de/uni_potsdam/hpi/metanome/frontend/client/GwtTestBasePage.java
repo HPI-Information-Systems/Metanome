@@ -85,9 +85,12 @@ public class GwtTestBasePage extends GWTTestCase {
     @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
+    	final String algorithmName = "some_name";
         final BasePage page = new BasePage();
-        algorithms.add(new Algorithm("file/name", "displayed name", "author"));
-        final String algorithmName = algorithms.get(0).getName();
+        Algorithm a = new Algorithm("file/name");
+        a.setAuthor("author");
+        a.setName(algorithmName);
+		algorithms.add(a);
 
         page.addAlgorithmsToRunConfigurations(algorithms);
 

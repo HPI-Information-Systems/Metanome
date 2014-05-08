@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,9 +110,15 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
     protected String setUpJarChooser(RunConfigurationPage runConfigPage) {
     	String algoName = "somethingRandom";
     	LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
-        algorithms.add(new Algorithm("file/name/1", "Algorithm 1", "author"));
-        algorithms.add(new Algorithm("file/name/2", algoName, "author"));
-        algorithms.add(new Algorithm("file/name/3", "Algorithm 2", "author"));
+    	Algorithm a1 = new Algorithm("file/name/1");
+    	a1.setName("Algorithm 1");
+        algorithms.add(a1);
+        Algorithm a2 = new Algorithm("file/name/2");
+        a2.setName(algoName);
+        algorithms.add(a2);
+        Algorithm a3 = new Algorithm("file/name/3");
+        a3.setName("A..3");
+        algorithms.add(a3);
         
         runConfigPage.addAlgorithms(algorithms);
         assertEquals("--", runConfigPage.getCurrentlySelectedAlgorithm());
