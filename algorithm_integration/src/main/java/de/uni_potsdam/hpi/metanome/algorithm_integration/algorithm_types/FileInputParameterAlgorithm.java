@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 
@@ -24,7 +25,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerato
  *
  * @author Jakob Zwiener
  */
-public interface FileInputParameterAlgorithm {
+public interface FileInputParameterAlgorithm extends Algorithm {
 
     /**
      * Sets a FileInputGenerator configuration value on the algorithm.
