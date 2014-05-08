@@ -66,9 +66,9 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
             throw new AlgorithmExecutionException("Wrong number of inputs set.");
         }
 
-        String fileName = inputs[4].getInputFile().getName();
+        String filePath = inputs[4].getInputFile().getAbsolutePath();
 
-        resultReceiver.receiveResult(new BasicStatistic(STATISTIC_NAME, fileName, COLUMN_IDENTIFIER));
+        resultReceiver.receiveResult(new BasicStatistic(STATISTIC_NAME, filePath, COLUMN_IDENTIFIER));
     }
 
     @Override

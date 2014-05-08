@@ -131,7 +131,7 @@ public class BasicStatAlgorithmTest {
         }
         algorithm.setConfigurationValue(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER, inputs);
         // Expected values
-        String expectedFileName = "some file name";
+        String expectedFileName = new File("some file name").getAbsolutePath();
         when(inputs[4].getInputFile()).thenReturn(new File(expectedFileName));
 
         // Execute functionality
