@@ -28,7 +28,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGe
 public interface RelationalInputParameterAlgorithm extends Algorithm {
 
     /**
-     * Sets a CsvFileGenerator configuration value on the algorithm.
+     * Sets a RelationalInputGenerator configuration value on the algorithm.
      *
      * @param identifier the value's identifier
      * @param values     the configuration values
