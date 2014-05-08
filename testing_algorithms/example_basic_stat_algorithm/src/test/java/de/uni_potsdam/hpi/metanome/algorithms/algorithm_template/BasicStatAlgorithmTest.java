@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithms.algorithm_template.BasicStatAlgorithm}
+ * Tests for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm}
  *
  * @author Jakob Zwiener
  */
@@ -141,7 +142,7 @@ public class BasicStatAlgorithmTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithms.algorithm_template.BasicStatAlgorithm#setConfigurationValue(String, de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setConfigurationValue(String, de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)}
      * <p/>
      * No input should be settable with the wrong identifier.
      */
@@ -158,7 +159,7 @@ public class BasicStatAlgorithmTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithms.algorithm_template.BasicStatAlgorithm#setConfigurationValue(String, de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setConfigurationValue(String, de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)}
      * <p/>
      * 5 {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s should be set on the algorithm.
      */

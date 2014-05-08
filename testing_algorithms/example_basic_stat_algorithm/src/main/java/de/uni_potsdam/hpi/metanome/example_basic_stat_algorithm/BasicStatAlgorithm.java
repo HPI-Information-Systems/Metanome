@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
+package de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -37,10 +37,10 @@ import java.util.List;
  */
 public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputParameterAlgorithm {
 
-    protected static final String INPUT_FILE_IDENTIFIER = "input file";
-    protected static final int NUMBER_OF_INPUT_FILES = 5;
-    protected static final String STATISTIC_NAME = "file name statistic";
-    protected static final ColumnIdentifier COLUMN_IDENTIFIER = new ColumnIdentifier("testTable", "testColumn");
+    public static final String INPUT_FILE_IDENTIFIER = "input file";
+    public static final int NUMBER_OF_INPUT_FILES = 5;
+    public static final String STATISTIC_NAME = "file name statistic";
+    public static final ColumnIdentifier COLUMN_IDENTIFIER = new ColumnIdentifier("testTable", "testColumn");
 
     protected BasicStatisticsResultReceiver resultReceiver = null;
     protected FileInputGenerator[] inputs = null;
