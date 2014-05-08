@@ -45,7 +45,6 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * this must contain an algorithm and a data source that are currently available
      */
-    private String algorithmName = "example_ucc_algorithm.jar";
     private String dataSourceName = "inputA.csv";
     LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
 
