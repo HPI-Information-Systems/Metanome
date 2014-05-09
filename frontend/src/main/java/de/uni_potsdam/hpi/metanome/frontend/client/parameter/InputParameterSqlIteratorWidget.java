@@ -17,7 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 
@@ -29,7 +29,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
      * Corresponding inputParameter, where the value is going to be written
      */
     private ConfigurationSpecificationSqlIterator specification;
-    private List<SQLIteratorInput> inputWidgets;
+    private List<SqlIteratorInput> inputWidgets;
 
     public InputParameterSqlIteratorWidget(
             ConfigurationSpecificationSqlIterator config) {
@@ -38,7 +38,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
 
     @Override
     protected void addInputField(boolean optional) {
-        SQLIteratorInput widget = new SQLIteratorInput(optional);
+        SqlIteratorInput widget = new SqlIteratorInput(optional);
         this.inputWidgets.add(widget);
         this.add(widget);
     }
@@ -46,7 +46,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
     @Override
     public ConfigurationSpecification getUpdatedSpecification() {
         // Build an array with the actual number of set values.
-        ConfigurationSettingSQLIterator[] values = new ConfigurationSettingSQLIterator[inputWidgets.size()];
+        ConfigurationSettingSqlIterator[] values = new ConfigurationSettingSqlIterator[inputWidgets.size()];
 
         for (int i = 0; i < inputWidgets.size(); i++) {
             values[i] = inputWidgets.get(i).getValue();
@@ -59,25 +59,25 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
 
     @Override
     public void setDataSource(ConfigurationSettingDataSource dataSource) {
-        if (dataSource instanceof ConfigurationSettingSQLIterator)
-            this.inputWidgets.get(0).setValues((ConfigurationSettingSQLIterator) dataSource);
+        if (dataSource instanceof ConfigurationSettingSqlIterator)
+            this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
         else
             ; //TODO throw some exception
     }
 
     @Override
     public boolean accepts(ConfigurationSettingDataSource setting) {
-        return setting instanceof ConfigurationSettingSQLIterator;
+        return setting instanceof ConfigurationSettingSqlIterator;
     }
 
     @Override
-    public List<SQLIteratorInput> getInputWidgets() {
+    public List<SqlIteratorInput> getInputWidgets() {
         return this.inputWidgets;
     }
 
     @Override
     public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-        this.inputWidgets = (List<SQLIteratorInput>) inputWidgetsList;
+        this.inputWidgets = (List<SqlIteratorInput>) inputWidgetsList;
     }
 
     @Override

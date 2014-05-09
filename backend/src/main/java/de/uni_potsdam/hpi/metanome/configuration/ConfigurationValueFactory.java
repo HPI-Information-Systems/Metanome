@@ -69,7 +69,7 @@ public class ConfigurationValueFactory {
         SqlIteratorGenerator[] sqlIteratorGenerators = new SqlIteratorGenerator[specification.getSettings().length];
 
         int i = 0;
-        for (ConfigurationSettingSQLIterator setting : specification.getSettings()) {
+        for (ConfigurationSettingSqlIterator setting : specification.getSettings()) {
             sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
                     setting.getUsername(), setting.getPassword());
             i++;

@@ -70,12 +70,12 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
         ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
         ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-        ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
+        ConfigurationSpecificationSqlIterator ConfigurationSpecificationSqlIterator = new ConfigurationSpecificationSqlIterator("sql");
 
         paramList.add(ConfigurationSpecificationString);
         paramList.add(ConfigurationSpecificationBoolean);
         paramList.add(ConfigurationSpecificationCsvFile);
-        paramList.add(ConfigurationSpecificationSQLIterator);
+        paramList.add(ConfigurationSpecificationSqlIterator);
 
         ParameterTable pt = new ParameterTable(paramList, null);
 
@@ -87,12 +87,12 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
         assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
         assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSqlIterator));
 
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
         assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSqlIterator));
     }
 
     @Test

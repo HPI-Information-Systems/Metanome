@@ -19,9 +19,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 
-public class SQLIteratorInput extends InputField {
+public class SqlIteratorInput extends InputField {
 
     private TextBox dbUrlTextbox;
     private TextBox usernameTextbox;
@@ -29,7 +29,7 @@ public class SQLIteratorInput extends InputField {
     private FlexTable layoutTable;
 
 
-    public SQLIteratorInput(boolean optional) {
+    public SqlIteratorInput(boolean optional) {
         super(optional);
 
         this.layoutTable = new FlexTable();
@@ -51,14 +51,14 @@ public class SQLIteratorInput extends InputField {
         this.layoutTable.setWidget(row, 1, inputWidget);
     }
 
-    public void setValues(ConfigurationSettingSQLIterator dataSource) {
+    public void setValues(ConfigurationSettingSqlIterator dataSource) {
         this.dbUrlTextbox.setValue(dataSource.getDbUrl());
         this.usernameTextbox.setValue(dataSource.getUsername());
         this.passwordTextbox.setValue(dataSource.getPassword());
     }
 
-    public ConfigurationSettingSQLIterator getValue() {
-        ConfigurationSettingSQLIterator setting = new ConfigurationSettingSQLIterator();
+    public ConfigurationSettingSqlIterator getValue() {
+        ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator();
 
         setting.setDbUrl(this.dbUrlTextbox.getValue());
         setting.setUsername(this.usernameTextbox.getValue());
