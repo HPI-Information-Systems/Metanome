@@ -22,30 +22,30 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @author Jakob Zwiener
  * @see ConfigurationSpecification
  */
-public class ConfigurationSpecificationSQLIterator extends ConfigurationSpecification {
+public class ConfigurationSpecificationSqlIterator extends ConfigurationSpecification {
     private static final long serialVersionUID = 6601202469601881851L;
 
     private ConfigurationSettingSQLIterator[] settings;
 
-    public ConfigurationSpecificationSQLIterator() {
+    public ConfigurationSpecificationSqlIterator() {
     }
 
     /**
-     * Construct a {@link ConfigurationSpecificationSQLIterator}, requesting 1 value.
+     * Construct a {@link ConfigurationSpecificationSqlIterator}, requesting 1 value.
      *
      * @param identifier the specification's identifier
      */
-    public ConfigurationSpecificationSQLIterator(String identifier) {
+    public ConfigurationSpecificationSqlIterator(String identifier) {
         super(identifier);
     }
 
     /**
-     * Construcats a {@link ConfigurationSpecificationSQLIterator}, potentially requesting several values.
+     * Construcats a {@link ConfigurationSpecificationSqlIterator}, potentially requesting several values.
      *
      * @param identifier     the specification's identifier
      * @param numberOfValues the number of values expected
      */
-    public ConfigurationSpecificationSQLIterator(String identifier,
+    public ConfigurationSpecificationSqlIterator(String identifier,
                                                  int numberOfValues) {
 
         super(identifier, numberOfValues);

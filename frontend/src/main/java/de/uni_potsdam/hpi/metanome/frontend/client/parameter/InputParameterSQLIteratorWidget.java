@@ -19,20 +19,20 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSQLIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 
 import java.util.List;
 
-public class InputParameterSQLIteratorWidget extends InputParameterDataSourceWidget {
+public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
 
     /**
      * Corresponding inputParameter, where the value is going to be written
      */
-    private ConfigurationSpecificationSQLIterator specification;
+    private ConfigurationSpecificationSqlIterator specification;
     private List<SQLIteratorInput> inputWidgets;
 
-    public InputParameterSQLIteratorWidget(
-            ConfigurationSpecificationSQLIterator config) {
+    public InputParameterSqlIteratorWidget(
+            ConfigurationSpecificationSqlIterator config) {
         super(config);
     }
 
@@ -87,7 +87,7 @@ public class InputParameterSQLIteratorWidget extends InputParameterDataSourceWid
 
     @Override
     public void setSpecification(ConfigurationSpecification config) {
-        this.specification = (ConfigurationSpecificationSQLIterator) config;
+        this.specification = (ConfigurationSpecificationSqlIterator) config;
     }
 
 

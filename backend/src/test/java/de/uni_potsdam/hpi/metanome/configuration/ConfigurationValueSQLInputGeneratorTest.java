@@ -17,38 +17,28 @@
 package de.uni_potsdam.hpi.metanome.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
-import org.junit.After;
-import org.junit.Before;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link ConfigurationValueSQLInputGenerator}
+ * Tests for {@link ConfigurationValueSqlInputGenerator}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueSQLInputGeneratorTest {
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
+public class ConfigurationValueSqlInputGeneratorTest {
 
     /**
-     * Test method for {@link ConfigurationValueSQLInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, Set)}
+     * Test method for {@link ConfigurationValueSqlInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, Set)}
      * <p/>
      * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
      * dispatch call to determine the parameters type.
@@ -63,14 +53,41 @@ public class ConfigurationValueSQLInputGeneratorTest {
         interfaces.add(SqlInputParameterAlgorithm.class);
         // Expected values
         String expectedIdentifier = "configId1";
-        SQLInputGenerator[] expectedConfigurationValue = {mock(SQLInputGenerator.class), mock(SQLInputGenerator.class)};
+        SqlInputGenerator[] expectedConfigurationValue = {mock(SqlInputGenerator.class), mock(SqlInputGenerator.class)};
 
         // Execute functionality
-        ConfigurationValueSQLInputGenerator configValue = new ConfigurationValueSQLInputGenerator(
-                new ConfigurationSpecificationSQLIterator(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
+        ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
+                new ConfigurationSpecificationSqlIterator(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
         configValue.triggerSetValue(algorithm, interfaces);
 
         // Check result
         verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+    }
+
+    /**
+     * Test method for {@link ConfigurationValueSqlInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
+     * <p/>
+     * When the correct algorithm interface is missing an exception should be thrown.
+     */
+    @Test
+    public void testTriggerSetValueMissingInterface() {
+        // Setup
+        SqlInputParameterAlgorithm algorithm = mock(SqlInputParameterAlgorithm.class);
+        // The file input parameter algorithm interface is missing.
+        Set<Class<?>> interfaces = new HashSet<>();
+        interfaces.add(ProgressEstimatingAlgorithm.class);
+        // Expected values
+        String expectedIdentifier = "configId1";
+        SqlInputGenerator[] expectedConfigurationValues = {mock(SqlInputGenerator.class), mock(SqlInputGenerator.class)};
+
+        // Execute functionality
+        ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
+                new ConfigurationSpecificationSqlIterator(expectedIdentifier).getIdentifier(), expectedConfigurationValues);
+        try {
+            configValue.triggerSetValue(algorithm, interfaces);
+            fail("No exception was thrown.");
+        } catch (AlgorithmConfigurationException e) {
+            // Intentionally left blank
+        }
     }
 }
