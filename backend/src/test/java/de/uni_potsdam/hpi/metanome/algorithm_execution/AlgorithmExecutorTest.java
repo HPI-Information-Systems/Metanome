@@ -19,7 +19,11 @@ package de.uni_potsdam.hpi.metanome.algorithm_execution;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -27,20 +31,25 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueString;
+import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
+import de.uni_potsdam.hpi.metanome.input.csv.FileFixture;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class AlgorithmExecutorTest {
 
@@ -79,7 +88,7 @@ public class AlgorithmExecutorTest {
     @Test
     public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
-        List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+        List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
 
         // Execute functionality
@@ -91,6 +100,8 @@ public class AlgorithmExecutorTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
+     *
      * Tests the execution of an ind algorithm.
      *
      * @throws AlgorithmConfigurationException
@@ -108,7 +119,7 @@ public class AlgorithmExecutorTest {
     @Test
     public void executeInclusionDependencyTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
-        List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+        List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString("tableName", "table1"));
         configs.add(new ConfigurationValueRelationalInputGenerator(
                 "input file",
@@ -123,6 +134,8 @@ public class AlgorithmExecutorTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
+     *
      * Tests the execution of an ucc algorithm.
      *
      * @throws AlgorithmConfigurationException
@@ -140,7 +153,7 @@ public class AlgorithmExecutorTest {
     @Test
     public void executeUniqueColumnCombinationsAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
-        List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+        List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
 
         // Execute functionality
@@ -153,6 +166,8 @@ public class AlgorithmExecutorTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
+     *
      * Tests the execution of an holistic algorithm.
      *
      * @throws AlgorithmExecutionException
@@ -170,7 +185,7 @@ public class AlgorithmExecutorTest {
     @Test
     public void testExecuteHolisticAlgorithm() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
-        List<ConfigurationValue> configs = new ArrayList<ConfigurationValue>();
+        List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
 
         // Execute functionality
@@ -182,6 +197,52 @@ public class AlgorithmExecutorTest {
     }
 
     //FIXME add test for incorrect file name
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, java.util.List)}
+     * <p/>
+     * Tests the execution of a basic statistics algorithm that requires several {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s to run.
+     */
+    @Test
+    public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator() throws AlgorithmExecutionException, AlgorithmLoadingException, FileNotFoundException, UnsupportedEncodingException {
+        // Setup
+        // Build file input specification
+        int numberOfInputs = 5;
+        List<ConfigurationSpecification> configurationSpecifications = new LinkedList<>();
+        ConfigurationSpecificationCsvFile specification = new ConfigurationSpecificationCsvFile(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER, numberOfInputs);
+
+        // Build input files
+        String expectedStatisticValue = "some value";
+        String expectedOtherFileName = "some other file name";
+        FileFixture fileFixture = new FileFixture("some file content");
+        expectedOtherFileName = fileFixture.getTestData(expectedOtherFileName).getAbsolutePath();
+        expectedStatisticValue = fileFixture.getTestData(expectedStatisticValue).getAbsolutePath();
+
+        // Build mock configuration settings
+        ConfigurationSettingCsvFile[] settings = new ConfigurationSettingCsvFile[numberOfInputs];
+        for (int i = 0; i < numberOfInputs - 1; i++) {
+            ConfigurationSettingCsvFile configurationSetting = mock(ConfigurationSettingCsvFile.class);
+            when(configurationSetting.isAdvanced()).thenReturn(false);
+            when(configurationSetting.getFileName()).thenReturn(expectedOtherFileName);
+            settings[i] = configurationSetting;
+        }
+        // Last setting determines algorithm's result
+        ConfigurationSettingCsvFile lastSetting = mock(ConfigurationSettingCsvFile.class);
+        when(lastSetting.isAdvanced()).thenReturn(false);
+        when(lastSetting.getFileName()).thenReturn(expectedStatisticValue);
+        settings[4] = lastSetting;
+        specification.setValues(settings);
+
+        configurationSpecifications.add(specification);
+
+        // Execute functionality
+        executor.executeAlgorithm("example_basic_stat_algorithm.jar", configurationSpecifications);
+
+        // Check result
+        ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
+        verify(resultReceiver).receiveResult(captor.capture());
+        assertEquals(expectedStatisticValue, captor.getValue().getStatisticValue());
+    }
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#close()}
