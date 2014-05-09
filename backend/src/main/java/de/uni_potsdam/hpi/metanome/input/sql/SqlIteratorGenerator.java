@@ -19,11 +19,11 @@ package de.uni_potsdam.hpi.metanome.input.sql;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.sql.*;
 
-public class SqlIteratorGenerator implements SQLInputGenerator {
+public class SqlIteratorGenerator implements SqlInputGenerator {
 
     protected Connection dbConnection;
 
