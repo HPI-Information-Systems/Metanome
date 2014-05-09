@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class AlgorithmTest {
 
     /**
      * Test method for {@link Algorithm#Algorithm(String, java.util.Set)}
-     *
+     * <p/>
      * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
      */
     @Test
@@ -114,7 +115,7 @@ public class AlgorithmTest {
 
     /**
      * Test method for {@link Algorithm#retrieveAll()}
-     *
+     * <p/>
      * When the table has never been accessed the list of algorithms should still be retrievable and empty.
      */
     @Test
@@ -189,7 +190,6 @@ public class AlgorithmTest {
     }
 
 
-
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#equals(Object)} and
      * {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#hashCode()}
@@ -208,5 +208,13 @@ public class AlgorithmTest {
         // Check result
         new EqualsAndHashCodeTester<Algorithm>()
                 .performBasicEqualsAndHashCodeChecks(algorithm, algorithmEqual, algorithmNotEqual);
+    }
+
+    /**
+     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm} are serializable in GWT.
+     */
+    @Test
+    public void testGwtSerialization() {
+        GwtSerializationTester.checkGwtSerializability(new Algorithm("some file path"));
     }
 }

@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.runs;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.ListBox;
+import java.io.File;
 
+/**
+ * Generates new copies of a file based {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}.
+ *
+ * @author Jakob Zwiener
+ */
+public interface FileInputGenerator extends RelationalInputGenerator {
 
-public class JarChooserChangeHandler implements ChangeHandler {
+    File getInputFile();
 
-    @Override
-    public void onChange(ChangeEvent event) {
-        JarChooser jarChooser = (JarChooser) ((ListBox) event.getSource()).getParent();
-        jarChooser.submit();
-    }
 }

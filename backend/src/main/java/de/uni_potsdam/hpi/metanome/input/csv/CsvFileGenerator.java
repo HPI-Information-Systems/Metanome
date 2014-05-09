@@ -18,16 +18,21 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-public class CsvFileGenerator implements RelationalInputGenerator {
+/**
+ * Generator for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}s based on csv files.
+ *
+ * @author Jakob Zwiener
+ */
+public class CsvFileGenerator implements FileInputGenerator {
 
     protected File inputFile;
     protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -38,10 +43,24 @@ public class CsvFileGenerator implements RelationalInputGenerator {
     protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
     protected boolean hasHeader = CsvFile.DEFAULT_HAS_HEADER;
 
+    /**
+     * @param inputFile the csv input
+     * @throws FileNotFoundException
+     */
     public CsvFileGenerator(File inputFile) throws FileNotFoundException {
         this.setInputFile(inputFile);
     }
 
+    /**
+     * @param inputFile               the csv input
+     * @param separator               cell separator
+     * @param quotechar               cell quote character
+     * @param escape                  escape character
+     * @param skipLines               number of lines to skip
+     * @param strictQuotes            sets if characters outside the quotes are ignored
+     * @param ignoreLeadingWhiteSpace it true, parser should ignore white space before a quote in a field
+     * @throws FileNotFoundException
+     */
     public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int skipLines,
                             boolean strictQuotes, boolean ignoreLeadingWhiteSpace) throws FileNotFoundException {
         this.setInputFile(inputFile);
@@ -53,13 +72,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
     }
 
-    private void setInputFile(File inputFile) throws FileNotFoundException {
-        if (!inputFile.isFile()) {
-            throw new FileNotFoundException();
-        }
-        this.inputFile = inputFile;
-    }
-
+    @Override
     public RelationalInput generateNewCopy() throws InputGenerationException {
         try {
             return new CsvFile(inputFile.getName(), new FileReader(inputFile), separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader);
@@ -68,5 +81,20 @@ public class CsvFileGenerator implements RelationalInputGenerator {
         } catch (InputIterationException e) {
             throw new InputGenerationException("Could not iterate over the first line of the csv file.");
         }
+    }
+
+    /**
+     * @return inputFile
+     */
+    @Override
+    public File getInputFile() {
+        return inputFile;
+    }
+
+    protected void setInputFile(File inputFile) throws FileNotFoundException {
+        if (!inputFile.isFile()) {
+            throw new FileNotFoundException();
+        }
+        this.inputFile = inputFile;
     }
 }
