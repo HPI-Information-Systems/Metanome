@@ -18,22 +18,22 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 
 /**
- * An {@link Algorithm} that takes {@link RelationalInputGenerator} configuration values.
+ * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} configuration values.
  *
  * @author Jakob Zwiener
  */
-public interface RelationalInputParameterAlgorithm extends Algorithm {
+public interface FileInputParameterAlgorithm extends Algorithm {
 
     /**
-     * Sets a RelationalInputGenerator configuration value on the algorithm.
+     * Sets a FileInputGenerator configuration value on the algorithm.
      *
      * @param identifier the value's identifier
      * @param values     the configuration values
      * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
      */
-    void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException;
+    void setConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException;
 
 }

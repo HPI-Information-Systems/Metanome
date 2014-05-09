@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
@@ -26,33 +26,41 @@ import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s.
+ */
 public class ConfigurationValueFactory {
 
     /**
-     * @param specification
-     * @return
+     * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s.
+     *
+     * @param specification the specification to convert
+     * @return the created configuration value
      * @throws AlgorithmConfigurationException
      */
     public static ConfigurationValue createConfigurationValue(
             ConfigurationSpecification specification) throws AlgorithmConfigurationException {
 
-        if (specification instanceof ConfigurationSpecificationBoolean)
+        if (specification instanceof ConfigurationSpecificationBoolean) {
             return new ConfigurationValueBoolean((ConfigurationSpecificationBoolean) specification);
-        else if (specification instanceof ConfigurationSpecificationCsvFile)
-            return new ConfigurationValueRelationalInputGenerator(specification.getIdentifier(),
-                    createRelationalInputGenerators((ConfigurationSpecificationCsvFile) specification));
-        else if (specification instanceof ConfigurationSpecificationSQLIterator) {
+        } else if (specification instanceof ConfigurationSpecificationCsvFile) {
+            return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
+                    createFileInputGenerators((ConfigurationSpecificationCsvFile) specification));
+        } else if (specification instanceof ConfigurationSpecificationSQLIterator) {
             return new ConfigurationValueSQLInputGenerator(specification.getIdentifier(),
                     createSqlIteratorGenerators((ConfigurationSpecificationSQLIterator) specification));
-        } else if (specification instanceof ConfigurationSpecificationString)
+        } else if (specification instanceof ConfigurationSpecificationString) {
             return new ConfigurationValueString((ConfigurationSpecificationString) specification);
-        else
+        } else {
             throw new AlgorithmConfigurationException("Unsupported ConfigurationSpecification subclass.");
+        }
     }
 
     /**
-     * @param specification
-     * @return
+     * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator}.
+     *
+     * @param specification the sql iterator specification
+     * @return the created sql input generator
      * @throws AlgorithmConfigurationException
      */
     private static SQLInputGenerator[] createSqlIteratorGenerators(
@@ -70,12 +78,13 @@ public class ConfigurationValueFactory {
     }
 
     /**
-     * @param specification
-     * @return
-     * @throws FileNotFoundException
+     * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}.
+     *
+     * @param specification the file input specification
+     * @return the created file input generator
      * @throws AlgorithmConfigurationException
      */
-    private static RelationalInputGenerator[] createRelationalInputGenerators(
+    private static FileInputGenerator[] createFileInputGenerators(
             ConfigurationSpecificationCsvFile specification) throws AlgorithmConfigurationException {
 
         CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];

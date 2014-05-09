@@ -52,6 +52,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -64,6 +65,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -86,6 +88,13 @@
                         <configuration>
                             <stripVersion>true</stripVersion>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                                    <artifactId>example_basic_stat_algorithm</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome</groupId>
                                     <artifactId>example_fd_algorithm</artifactId>
@@ -184,6 +193,12 @@
         <dependency>
             <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>test_helper</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <artifactId>example_basic_stat_algorithm</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

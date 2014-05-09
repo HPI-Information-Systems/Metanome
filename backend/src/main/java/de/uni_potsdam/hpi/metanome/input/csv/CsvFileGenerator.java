@@ -18,10 +18,10 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +32,7 @@ import java.io.FileReader;
  *
  * @author Jakob Zwiener
  */
-public class CsvFileGenerator implements RelationalInputGenerator {
+public class CsvFileGenerator implements FileInputGenerator {
 
     protected File inputFile;
     protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -86,6 +86,7 @@ public class CsvFileGenerator implements RelationalInputGenerator {
     /**
      * @return inputFile
      */
+    @Override
     public File getInputFile() {
         return inputFile;
     }
