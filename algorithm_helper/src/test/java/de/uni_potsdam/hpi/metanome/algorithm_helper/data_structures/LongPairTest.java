@@ -20,6 +20,8 @@ import de.uni_potsdam.hpi.metanome.test_helper.CompareToTester;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair}
  *
@@ -61,5 +63,35 @@ public class LongPairTest {
         compareToTester.performCompareToTestNotGreater(new LongPair(3, 11));
         compareToTester.performCompareToTestSmaller(new LongPair(3, 10), new LongPair(4, 9));
         compareToTester.performCompareToTestNotSmaller(new LongPair(5, 2));
+    }
+
+    /**
+     * Test method for {@link LongPair#getFirst()} and {@link LongPair#setFirst(long)}
+     */
+    @Test
+    public void testGetSetFirst() {
+        // Setup
+        LongPair longPair = new LongPair(2, 3);
+
+        // Execute functionality
+        // Check result
+        assertEquals(2, longPair.getFirst());
+        longPair.setFirst(42);
+        assertEquals(42, longPair.getFirst());
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#getSecond()} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#setSecond(long)}
+     */
+    @Test
+    public void testGetSetSecond() {
+        // Setup
+        LongPair longPair = new LongPair(5, 6);
+
+        // Execute functionality
+        // Check result
+        assertEquals(6, longPair.getSecond());
+        longPair.setSecond(23);
+        assertEquals(23, longPair.getSecond());
     }
 }

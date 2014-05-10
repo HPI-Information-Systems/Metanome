@@ -16,18 +16,21 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+/**
+ * A pair of long values.
+ *
+ * @author Jakob Zwiener
+ */
 public class LongPair implements Comparable<LongPair> {
-    long first;
-    long second;
+
+    private long first;
+    private long second;
 
     public LongPair(long first, long second) {
         this.first = first;
         this.second = second;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -37,9 +40,6 @@ public class LongPair implements Comparable<LongPair> {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
