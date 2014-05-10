@@ -21,7 +21,8 @@ import it.unimi.dsi.fastutil.longs.*;
 import java.util.*;
 
 /**
- * TODO docs
+ * Position list indices (or stripped partitions) are an index structure that stores the positions of equal values in a nested list. A column with the values a, a, b, c, b, c transfers to the position list index ((1, 2), (3, 5), (4, 6)). Clusters of size 1 are discarded.
+ * A position list index should be created using the {@link PLIBuilder}.
  */
 public class PositionListIndex {
 
@@ -104,7 +105,7 @@ public class PositionListIndex {
         return true;
     }
 
-    private List<LongOpenHashSet> convertClustersToSets(List<LongArrayList> listCluster) {
+    protected List<LongOpenHashSet> convertClustersToSets(List<LongArrayList> listCluster) {
         List<LongOpenHashSet> setClusters = new LinkedList<>();
         for (LongList cluster : listCluster) {
             setClusters.add(new LongOpenHashSet(cluster));
@@ -160,7 +161,7 @@ public class PositionListIndex {
     }
 
     /**
-     * TODO docs
+     * Returns the position list index in a map representation. Every row index maps to a value reconstruction. As the original values are unknown they are represented by a counter. The position list index ((1, 2), (3, 5), (4, 6)) would be represented by {1=1, 2=1, 3=2, 4=3, 5=2, 6=3}.
      *
      * @return the pli as hash map
      */
