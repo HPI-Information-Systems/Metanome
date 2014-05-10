@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+import de.uni_potsdam.hpi.metanome.test_helper.CompareToTester;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
@@ -41,5 +42,24 @@ public class LongPairTest {
         // Execute functionality
         // Check result
         new EqualsAndHashCodeTester<LongPair>().performBasicEqualsAndHashCodeChecks(longPair, equalLongPair, notEqualLongPair1, notEqualLongPair2);
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#compareTo(LongPair)}
+     */
+    @Test
+    public void testCompareTo() {
+        // Setup
+        // Expected values
+        CompareToTester<LongPair> compareToTester = new CompareToTester<>(new LongPair(4, 10));
+
+        // Execute functionality
+        // Check result
+        compareToTester.performCompareToTestEqual(new LongPair(4, 10));
+        compareToTester.performComparetoTestNotEqual(new LongPair(42, 23));
+        compareToTester.performCompareToTestGreater(new LongPair(5, 9), new LongPair(4, 11));
+        compareToTester.performCompareToTestNotGreater(new LongPair(3, 11));
+        compareToTester.performCompareToTestSmaller(new LongPair(3, 10), new LongPair(4, 9));
+        compareToTester.performCompareToTestNotSmaller(new LongPair(5, 2));
     }
 }
