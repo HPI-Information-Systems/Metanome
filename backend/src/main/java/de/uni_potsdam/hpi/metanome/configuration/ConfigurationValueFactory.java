@@ -19,7 +19,7 @@ package de.uni_potsdam.hpi.metanome.configuration;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 
@@ -46,9 +46,9 @@ public class ConfigurationValueFactory {
         } else if (specification instanceof ConfigurationSpecificationCsvFile) {
             return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
                     createFileInputGenerators((ConfigurationSpecificationCsvFile) specification));
-        } else if (specification instanceof ConfigurationSpecificationSQLIterator) {
-            return new ConfigurationValueSQLInputGenerator(specification.getIdentifier(),
-                    createSqlIteratorGenerators((ConfigurationSpecificationSQLIterator) specification));
+        } else if (specification instanceof ConfigurationSpecificationSqlIterator) {
+            return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
+                    createSqlIteratorGenerators((ConfigurationSpecificationSqlIterator) specification));
         } else if (specification instanceof ConfigurationSpecificationString) {
             return new ConfigurationValueString((ConfigurationSpecificationString) specification);
         } else {
@@ -57,19 +57,19 @@ public class ConfigurationValueFactory {
     }
 
     /**
-     * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSQLIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator}.
+     * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
      *
      * @param specification the sql iterator specification
      * @return the created sql input generator
      * @throws AlgorithmConfigurationException
      */
-    private static SQLInputGenerator[] createSqlIteratorGenerators(
-            ConfigurationSpecificationSQLIterator specification) throws AlgorithmConfigurationException {
+    private static SqlInputGenerator[] createSqlIteratorGenerators(
+            ConfigurationSpecificationSqlIterator specification) throws AlgorithmConfigurationException {
 
         SqlIteratorGenerator[] sqlIteratorGenerators = new SqlIteratorGenerator[specification.getSettings().length];
 
         int i = 0;
-        for (ConfigurationSettingSQLIterator setting : specification.getSettings()) {
+        for (ConfigurationSettingSqlIterator setting : specification.getSettings()) {
             sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
                     setting.getUsername(), setting.getPassword());
             i++;

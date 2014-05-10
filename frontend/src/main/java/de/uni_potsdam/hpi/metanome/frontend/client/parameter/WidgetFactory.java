@@ -28,8 +28,8 @@ public class WidgetFactory {
             widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
         else if (config instanceof ConfigurationSpecificationCsvFile)
             widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
-        else if (config instanceof ConfigurationSpecificationSQLIterator)
-            widget = new InputParameterSQLIteratorWidget((ConfigurationSpecificationSQLIterator) config);
+        else if (config instanceof ConfigurationSpecificationSqlIterator)
+            widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
         return widget;
     }
 }

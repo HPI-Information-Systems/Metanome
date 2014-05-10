@@ -19,7 +19,7 @@ package de.uni_potsdam.hpi.metanome.configuration;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.util.Set;
 
@@ -28,19 +28,19 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueSQLInputGenerator implements ConfigurationValue {
+public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
 
     protected final String identifier;
-    protected final SQLInputGenerator[] values;
+    protected final SqlInputGenerator[] values;
 
     /**
-     * Constructs a ConfigurationValueSQLInputGenerator using the specification's identifier and
-     * a SQLInputGenerator as value.
+     * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and
+     * a SqlInputGenerator as value.
      *
      * @param identifier
      * @param values
      */
-    public ConfigurationValueSQLInputGenerator(String identifier, SQLInputGenerator... values) {
+    public ConfigurationValueSqlInputGenerator(String identifier, SqlInputGenerator... values) {
         this.identifier = identifier;
         this.values = values;
     }

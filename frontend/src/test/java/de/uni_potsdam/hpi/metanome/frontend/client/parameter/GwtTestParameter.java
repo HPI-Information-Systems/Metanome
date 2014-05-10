@@ -70,12 +70,12 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
         ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
         ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-        ConfigurationSpecificationSQLIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSQLIterator("sql");
+        ConfigurationSpecificationSqlIterator ConfigurationSpecificationSqlIterator = new ConfigurationSpecificationSqlIterator("sql");
 
         paramList.add(ConfigurationSpecificationString);
         paramList.add(ConfigurationSpecificationBoolean);
         paramList.add(ConfigurationSpecificationCsvFile);
-        paramList.add(ConfigurationSpecificationSQLIterator);
+        paramList.add(ConfigurationSpecificationSqlIterator);
 
         ParameterTable pt = new ParameterTable(paramList, null);
 
@@ -87,12 +87,12 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
         assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
         assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSqlIterator));
 
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
         assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSqlIterator));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierCsv = "csvParam";
         ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
         String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSQLIterator(identifierSql);
+        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -123,7 +123,7 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
         assertEquals(identifierCsv, csvWidget.getUpdatedSpecification().getIdentifier());
 
-        assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
+        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
         assertEquals(identifierSql, sqlWidget.getUpdatedSpecification().getIdentifier());
     }
 
@@ -137,7 +137,7 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierCsv = "csvParam";
         ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
         String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSQLIterator(identifierSql, 2);
+        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -155,8 +155,8 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
         assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
 
-        assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
-        assertEquals(2, ((InputParameterSQLIteratorWidget) sqlWidget).getWidgetCount());
+        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
+        assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
     }
 
     @Test

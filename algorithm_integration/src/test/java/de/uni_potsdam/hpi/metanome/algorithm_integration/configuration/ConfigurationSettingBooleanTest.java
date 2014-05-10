@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for ConfigurationSettingBoolean
