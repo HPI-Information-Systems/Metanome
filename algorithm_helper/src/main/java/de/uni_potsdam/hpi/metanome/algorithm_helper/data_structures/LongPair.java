@@ -72,10 +72,13 @@ public class LongPair implements Comparable<LongPair> {
 
     @Override
     public int compareTo(LongPair other) {
-        LongPair otherPair = other;
-        if (otherPair.first == this.first)
-            return (int) (this.second - otherPair.second);
-        return (int) (this.first - otherPair.first);
+        if (other == null) {
+            return 1;
+        }
+
+        if (other.first == this.first)
+            return (int) (this.second - other.second);
+        return (int) (this.first - other.first);
     }
 
 
