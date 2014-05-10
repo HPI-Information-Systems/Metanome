@@ -23,7 +23,10 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 
 import java.util.*;
 
-
+/**
+ * Constructs a list of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}es from the given {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}.
+ * A list of all columns' sorted distinct values can be constructed as a byproduct.
+ */
 public class PLIBuilder {
 
     protected List<HashMap<String, LongArrayList>> columns = null;
@@ -34,14 +37,14 @@ public class PLIBuilder {
     }
 
     /**
-     * TODO docs
+     * Builds a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} for every column in the input.
      *
      * @return list of plis for all columns
-     * @throws InputIterationException
+     * @throws InputIterationException if the input cannot be iterated
      */
     public List<PositionListIndex> getPLIList() throws InputIterationException {
         if (columns == null) {
-            columns = new ArrayList<HashMap<String, LongArrayList>>();
+            columns = new ArrayList<>();
             calculateRawPLI();
         }
 
@@ -49,21 +52,21 @@ public class PLIBuilder {
     }
 
     /**
-     * TODO docs
+     * Builds a {@link TreeSet} of the values of every column in the input.
      *
-     * @return
-     * @throws InputIterationException
+     * @return all comlumns' sorted distinct values
+     * @throws InputIterationException if the input cannot be iterated
      */
     public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
         if (columns == null) {
-            columns = new ArrayList<HashMap<String, LongArrayList>>();
+            columns = new ArrayList<>();
             calculateRawPLI();
         }
 
-        List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
+        List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
 
         for (HashMap<String, LongArrayList> columnMap : columns) {
-            distinctSortedColumns.add(new TreeSet<String>(columnMap.keySet()));
+            distinctSortedColumns.add(new TreeSet<>(columnMap.keySet()));
         }
 
         return distinctSortedColumns;
@@ -96,10 +99,10 @@ public class PLIBuilder {
     }
 
     protected List<PositionListIndex> purgePLIEntries() {
-        List<PositionListIndex> pliList = new ArrayList<PositionListIndex>();
+        List<PositionListIndex> pliList = new ArrayList<>();
         Iterator<HashMap<String, LongArrayList>> columnsIterator = columns.iterator();
         while (columnsIterator.hasNext()) {
-            List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+            List<LongArrayList> clusters = new ArrayList<>();
             for (LongArrayList cluster : columnsIterator.next().values()) {
                 if (cluster.size() < 2) {
                     continue;
