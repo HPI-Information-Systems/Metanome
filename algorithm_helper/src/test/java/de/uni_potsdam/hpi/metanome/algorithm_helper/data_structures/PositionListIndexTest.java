@@ -27,6 +27,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+ */
 public class PositionListIndexTest {
 
     protected PositionListIndexFixture fixture;
@@ -56,6 +59,8 @@ public class PositionListIndexTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex#intersect(PositionListIndex)}
+     *
      * Two {@link PositionListIndex} should be correctly intersected.
      */
     @Test
@@ -74,7 +79,7 @@ public class PositionListIndexTest {
     }
 
     /**
-     * TODO docs
+     * Test method for {@link PositionListIndex#hashCode()}
      */
     @Test
     public void testHashCode() {
@@ -91,7 +96,7 @@ public class PositionListIndexTest {
     }
 
     /**
-     * TODO docs
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex#equals(Object)}
      */
     @Test
     public void testEquals() {
@@ -110,6 +115,8 @@ public class PositionListIndexTest {
     }
 
     /**
+     * Test method for {@link PositionListIndex#asHashMap()}
+     *
      * A {@link PositionListIndex} should return a valid and correct HashMap.
      */
     @Test
@@ -146,7 +153,7 @@ public class PositionListIndexTest {
     @Test
     public void testIsEmptyUnique() {
         // Setup
-        List<LongArrayList> clusters = new LinkedList<LongArrayList>();
+        List<LongArrayList> clusters = new LinkedList<>();
         PositionListIndex emptyPli = new PositionListIndex(clusters);
         PositionListIndex nonEmptyPli = fixture.getFirstPLI();
 

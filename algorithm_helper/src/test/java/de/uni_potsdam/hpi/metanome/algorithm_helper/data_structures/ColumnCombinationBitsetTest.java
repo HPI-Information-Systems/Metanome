@@ -30,6 +30,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+ */
 public class ColumnCombinationBitsetTest {
 
     /**
@@ -231,6 +234,8 @@ public class ColumnCombinationBitsetTest {
     }
 
     /**
+     * Test method for {@link ColumnCombinationBitset#toString()}
+     *
      * String representation should contain the bits from the bitset.
      */
     @Test
@@ -376,6 +381,9 @@ public class ColumnCombinationBitsetTest {
         assertEquals(superset, actual3SubsetColumnCombinations.get(0));
     }
 
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset, int)}
+     */
     @Test
     public void testGetNSubsetColumnCombinationsSupersetOfInversed() {
         // Setup

@@ -28,9 +28,8 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-
 /**
- * Test for {@link PLIBuilder}
+ * Tests for {@link PLIBuilder}
  */
 public class PLIBuilderTest {
 
