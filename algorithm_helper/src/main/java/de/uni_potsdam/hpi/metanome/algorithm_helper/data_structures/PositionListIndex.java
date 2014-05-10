@@ -20,6 +20,9 @@ import it.unimi.dsi.fastutil.longs.*;
 
 import java.util.*;
 
+/**
+ * TODO docs
+ */
 public class PositionListIndex {
 
     protected List<LongArrayList> clusters;
@@ -33,26 +36,23 @@ public class PositionListIndex {
      * Constructs an empty {@link PositionListIndex}.
      */
     public PositionListIndex() {
-        this.clusters = new ArrayList<LongArrayList>();
+        this.clusters = new ArrayList<>();
     }
 
     /**
-     * @param otherPLI
-     * @return {@link PositionListIndex}
-     * <p/>
      * Intersects the given PositionListIndex with this
      * PositionListIndex returning a new PositionListIndex. For the
      * intersection the smaller PositionListIndex is converted into a
      * HashMap.
+     *
+     * @param otherPLI the other {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} to intersect
+     * @return the intersected {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
      */
     public PositionListIndex intersect(PositionListIndex otherPLI) {
         //TODO Optimize Smaller PLI as Hashmap?
         return calculateIntersection(otherPLI);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -67,14 +67,10 @@ public class PositionListIndex {
                 return o1.hashCode() - o2.hashCode();
             }
         });
-        result = prime * result
-                + ((setCluster == null) ? 0 : setCluster.hashCode());
+        result = prime * result + (setCluster.hashCode());
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 
@@ -93,12 +89,12 @@ public class PositionListIndex {
             List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
             List<LongOpenHashSet> otherSetCluster = convertClustersToSets(other.clusters);
 
-            for (LongSet cluster : setCluster) {
+            for (LongOpenHashSet cluster : setCluster) {
                 if (!otherSetCluster.contains(cluster)) {
                     return false;
                 }
             }
-            for (LongSet cluster : otherSetCluster) {
+            for (LongOpenHashSet cluster : otherSetCluster) {
                 if (!setCluster.contains(cluster)) {
                     return false;
                 }
@@ -109,7 +105,7 @@ public class PositionListIndex {
     }
 
     private List<LongOpenHashSet> convertClustersToSets(List<LongArrayList> listCluster) {
-        List<LongOpenHashSet> setClusters = new LinkedList<LongOpenHashSet>();
+        List<LongOpenHashSet> setClusters = new LinkedList<>();
         for (LongList cluster : listCluster) {
             setClusters.add(new LongOpenHashSet(cluster));
         }
@@ -118,18 +114,18 @@ public class PositionListIndex {
     }
 
     /**
-     * @param otherPLI
-     * @return {@link PositionListIndex}
-     * <p/>
      * Intersects the two given {@link PositionListIndex} and returns
      * the outcome as new PositionListIndex.
+     *
+     * @param otherPLI the other {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} to intersect
+     * @return the intersected {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
      */
     protected PositionListIndex calculateIntersection(PositionListIndex otherPLI) {
         Long2LongOpenHashMap hashedPLI = this.asHashMap();
-        Map<LongPair, LongArrayList> map = new HashMap<LongPair, LongArrayList>();
+        Map<LongPair, LongArrayList> map = new HashMap<>();
         buildMap(otherPLI, hashedPLI, map);
 
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
         for (LongArrayList cluster : map.values()) {
             if (cluster.size() < 2) {
                 continue;
@@ -164,9 +160,9 @@ public class PositionListIndex {
     }
 
     /**
-     * TODO fix docs
+     * TODO docs
      *
-     * @return {@link Long2LongOpenHashMap} Creates
+     * @return the pli as hash map
      */
     public Long2LongOpenHashMap asHashMap() {
         Long2LongOpenHashMap hashedPLI = new Long2LongOpenHashMap(clusters.size());
