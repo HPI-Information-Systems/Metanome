@@ -19,9 +19,12 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -35,9 +38,12 @@ import java.util.List;
  * The page can be referenced (and switched to) by other pages with pre-set values. Executing an
  * algorithm navigates to the corresponding Results page.
  */
-public class RunConfigurationPage extends DockPanel {
+public class RunConfigurationPage extends DockPanel implements TabContent {
     public ConfigurationSettingDataSource primaryDataSource;
+    
     protected BasePage basePage;
+    protected TabWrapper errorReceiver;
+
     protected ParameterTable parameterTable;
     protected AlgorithmChooser jarChooser;
     protected Label primaryDataSourceLabel;
@@ -149,5 +155,14 @@ public class RunConfigurationPage extends DockPanel {
     public AlgorithmChooser getJarChooser() {
         return jarChooser;
     }
+
+
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+	}
 
 }

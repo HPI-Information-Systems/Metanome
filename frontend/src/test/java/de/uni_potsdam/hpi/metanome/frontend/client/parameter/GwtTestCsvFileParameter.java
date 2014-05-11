@@ -83,6 +83,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertEquals(aFileName, retrievedSetting.getValueAsString());
 	}
 	
+	/**
+	 * When selecting the "Advanced" checkbox, additional input fields become visible, containing the default values
+	 * that will be used if none are specified.
+	 */
 	@Test
 	public void testAdvancedDefaultEntries() {
 		CsvFileInput widget = new CsvFileInput(false);
@@ -94,11 +98,19 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertFalse(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());	
 		assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());	
 		
+		// Execute
 		widget.advancedCheckbox.setValue(true, true);
 		
+		// Check visibility
 		assertTrue(widget.advancedTable.isVisible());
-		assertTrue(widget.escapeTextbox.isVisible());	//etc. 
+		assertTrue(widget.escapeTextbox.isAttached() && widget.escapeTextbox.isVisible());	
+		assertTrue(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());	
+		assertTrue(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());	
+		assertTrue(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());	
+		assertTrue(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());	
+		assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
 		
+		// Check values
 		assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, 
 				StringHelper.getFirstCharFromInput(widget.escapeTextbox.getValue()));
 		assertEquals(CSVParser.DEFAULT_SEPARATOR, 

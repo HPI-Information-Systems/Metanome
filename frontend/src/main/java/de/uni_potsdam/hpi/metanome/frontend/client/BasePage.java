@@ -54,8 +54,8 @@ public class BasePage extends TabLayoutPanel {
         this.setWidth("100%");
         this.setHeight("100%");
 
-        this.insert(new DataSourcesPage(this), "Data Sources", Tabs.DATA_SOURCES.ordinal());
-        this.insert(new AlgorithmsPage(this), "Algorithms", Tabs.ALGORITHMS.ordinal());
+        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+        this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
         this.insert(createRunConfigurationsPage(), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
         this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
@@ -68,9 +68,9 @@ public class BasePage extends TabLayoutPanel {
      *
      * @return RunConfigurationPage to be placed on the page
      */
-    protected RunConfigurationPage createRunConfigurationsPage() {
+    protected TabWrapper createRunConfigurationsPage() {
         runConfigurationsPage = new RunConfigurationPage(this);
-        return runConfigurationsPage;
+        return new TabWrapper(this.runConfigurationsPage);
     }
 
     /**

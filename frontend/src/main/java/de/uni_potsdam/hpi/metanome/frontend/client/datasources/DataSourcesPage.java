@@ -21,9 +21,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -31,11 +34,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
  * Data Sources page is the Tab that lists all previously defined data sources (CSV files, DB connections)
  * and links to actions on them. It also allows to define new data sources.
  *
- * @author Claudia
+ * @author Claudia Exeler
  */
-public class DataSourcesPage extends VerticalPanel {
+public class DataSourcesPage extends VerticalPanel implements TabContent {
 
     protected final BasePage basePage;
+    protected TabWrapper errorReceiver;
+
     private FlexTable csvFilesList;
     private InputDataServiceAsync inputDataService;
 
@@ -129,4 +134,12 @@ public class DataSourcesPage extends VerticalPanel {
     protected void jumpToRunConfiguration(ConfigurationSettingDataSource dataSource) {
         basePage.jumpToRunConfiguration(null, dataSource);
     }
+
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+	}
 }

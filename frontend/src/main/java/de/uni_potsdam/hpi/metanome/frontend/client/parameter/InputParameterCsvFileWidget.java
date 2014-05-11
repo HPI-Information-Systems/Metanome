@@ -72,7 +72,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
                     try {
                         widget.addToListbox(result);
                     } catch (AlgorithmConfigurationException e) {
-                        // TODO Auto-generated catch block
+                        // TODO Error message: "Unable to find the CSV file you selected. Maybe it has been removed?"
                         e.printStackTrace();
                     }
                 }

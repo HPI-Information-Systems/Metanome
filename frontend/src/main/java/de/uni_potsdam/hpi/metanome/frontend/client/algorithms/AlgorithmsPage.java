@@ -21,14 +21,19 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 
-public class AlgorithmsPage extends VerticalPanel {
+public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
     protected final FinderServiceAsync finderService;
     protected final BasePage basePage;
+    protected TabWrapper errorReceiver;
+    
     private final FlexTable uccList;
     private final FlexTable fdList;
     private final FlexTable indList;
@@ -137,4 +142,12 @@ public class AlgorithmsPage extends VerticalPanel {
     protected void jumpToRunConfiguration(String algorithmName) {
         basePage.jumpToRunConfiguration(algorithmName, null);
     }
+
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+	}
 }
