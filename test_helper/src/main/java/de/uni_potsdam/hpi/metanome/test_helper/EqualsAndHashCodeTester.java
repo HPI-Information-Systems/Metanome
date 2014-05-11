@@ -29,7 +29,7 @@ public class EqualsAndHashCodeTester<T> {
      * Performs basic tests for the methods equals and hashCode, based on a given instance, an equal instance and a
      * non-equal instance.
      */
-    public void performBasicEqualsAndHashCodeChecks(T base, T equal, T notEqual) {
+    public void performBasicEqualsAndHashCodeChecks(T base, T equal, T... notEquals) {
         assertEquals(base, base);
         assertEquals(base.hashCode(), base.hashCode());
 
@@ -39,7 +39,9 @@ public class EqualsAndHashCodeTester<T> {
 
         assertNotEquals(base, null);
 
-        assertNotEquals(base, notEqual);
-        assertNotEquals(base.hashCode(), notEqual.hashCode());
+        for (T notEqual : notEquals) {
+            assertNotEquals(base, notEqual);
+            assertNotEquals(base.hashCode(), notEqual.hashCode());
+        }
     }
 }
