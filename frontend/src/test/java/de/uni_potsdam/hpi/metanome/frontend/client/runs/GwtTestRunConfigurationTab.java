@@ -40,7 +40,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
 
         //Check - should contain the jarChooser and a Label for pre-selected data source (possibly empty)
         assertEquals(2, runConfigPage.getWidgetCount());
-        assertTrue(runConfigPage.getJarChooser() instanceof JarChooser);
+        assertTrue(runConfigPage.getJarChooser() instanceof AlgorithmChooser);
     }
 
     @Test

@@ -187,6 +187,7 @@ public class GwtTestParameter extends GWTTestCase {
         csvSpec = csvWidget.getValuesAsSettings();
 
         //Check
+
 //		assertTrue(exceptionCaught); TODO input validation
 
         assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());

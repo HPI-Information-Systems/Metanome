@@ -17,18 +17,18 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import de.uni_potsdam.hpi.metanome.frontend.client.runs.JarChooser;
+import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser;
 import org.junit.Test;
 
 public class GwtTestCommonWidgets extends GWTTestCase {
 
     @Test
-    public void testJarChooser() {
+    public void testAlgorithmChooser() {
         //Setup
         String[] filenames = {"filename1.jar", "filename2.jar"};
 
         //Execute
-        JarChooser jarChooser = new JarChooser(filenames);
+        AlgorithmChooser jarChooser = new AlgorithmChooser(filenames);
 
         //Test
         assertEquals(2, jarChooser.getWidgetCount());

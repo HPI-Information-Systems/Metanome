@@ -31,7 +31,6 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
     public InputParameterBooleanWidget(
             ConfigurationSpecificationBoolean specification) {
         super(specification);
-
     }
 
     protected void addInputField(boolean optional) {
@@ -42,7 +41,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
     }
 
     @Override
-    public ConfigurationSpecification getUpdatedSpecification() {
+    public ConfigurationSpecificationBoolean getUpdatedSpecification() {
         // Build an array with the actual number of set values.
         ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[inputWidgets.size()];
 
@@ -65,7 +64,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
     }
 
     @Override
-    public ConfigurationSpecification getSpecification() {
+    public ConfigurationSpecificationBoolean getSpecification() {
         return this.specification;
     }
 

@@ -39,7 +39,7 @@ public class RunConfigurationPage extends DockPanel {
     public ConfigurationSettingDataSource primaryDataSource;
     protected BasePage basePage;
     protected ParameterTable parameterTable;
-    protected JarChooser jarChooser;
+    protected AlgorithmChooser jarChooser;
     protected Label primaryDataSourceLabel;
     protected ExecutionServiceAsync executionService;
 
@@ -57,7 +57,7 @@ public class RunConfigurationPage extends DockPanel {
 
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
-        this.jarChooser = new JarChooser(algorithmNames);
+        this.jarChooser = new AlgorithmChooser(algorithmNames);
         this.add(this.jarChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
@@ -146,7 +146,7 @@ public class RunConfigurationPage extends DockPanel {
 
     // Getters & Setters
 
-    public JarChooser getJarChooser() {
+    public AlgorithmChooser getJarChooser() {
         return jarChooser;
     }
 

@@ -42,9 +42,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      * @param configSpec
      */
     public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
-        super(configSpec);
-
-        this.addAvailableCsvsToListbox(inputWidgets);
+        super(configSpec);          
+        this.addAvailableCsvsToListbox(getCallback(inputWidgets));
     }
 
 
@@ -52,11 +51,17 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      * Calls the InputDataService to retrieve available CSV files (specified by their
      * file paths) and adds them as entries to the given ListBox. Only the actual file
      * name (not the preceding directories) are displayed.
+	 * @param asyncCallback 
      *
      * @param listbox the ListBox to add the available files' names to
      */
-    private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+    protected void addAvailableCsvsToListbox(AsyncCallback<String[]> callback) {
+        InputDataServiceAsync service = GWT.create(InputDataService.class);
+        service.listCsvInputFiles(callback);
+    }
+
+	protected AsyncCallback<String[]> getCallback(final List<CsvFileInput> widgets) {
+		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
@@ -73,10 +78,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
                 }
             }
         };
-
-        InputDataServiceAsync service = GWT.create(InputDataService.class);
-        service.listCsvInputFiles(callback);
-    }
+		return callback;
+	}
 
     @Override
     protected void addInputField(boolean optional) {
