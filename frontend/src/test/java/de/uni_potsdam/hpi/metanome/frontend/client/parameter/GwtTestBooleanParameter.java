@@ -93,7 +93,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
 	@Test
 	public void testRetrieveValues() {
 		//Setup
-		String value = "something";
+		Boolean value = true;
 		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", 
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
@@ -104,7 +104,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
 		
 		//Check
 		assertEquals(1, settings.length);
-		assertEquals(value, settings[0].value);
+		assertEquals(value.booleanValue(), settings[0].value);
 	}	
 	
 	@Override
