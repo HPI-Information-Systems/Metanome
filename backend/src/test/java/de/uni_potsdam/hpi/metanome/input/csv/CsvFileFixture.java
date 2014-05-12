@@ -42,7 +42,7 @@ public class CsvFileFixture {
 
     protected String getCsvFileData() {
         StringBuilder fileDataBuilder = new StringBuilder();
-        List<String> quotedStrings = new LinkedList<String>();
+        List<String> quotedStrings = new LinkedList<>();
 
         for (String unquotedString : expectedFirstLine()) {
             quotedStrings.add(QUOTE_CHAR + unquotedString + QUOTE_CHAR);

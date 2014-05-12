@@ -59,10 +59,11 @@ public class CsvFileGenerator implements FileInputGenerator {
      * @param skipLines               number of lines to skip
      * @param strictQuotes            sets if characters outside the quotes are ignored
      * @param ignoreLeadingWhiteSpace it true, parser should ignore white space before a quote in a field
+     * @param hasHeader
      * @throws FileNotFoundException
      */
     public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape, int skipLines,
-                            boolean strictQuotes, boolean ignoreLeadingWhiteSpace) throws FileNotFoundException {
+                            boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws FileNotFoundException {
         this.setInputFile(inputFile);
         this.separator = separator;
         this.quotechar = quotechar;
@@ -70,6 +71,7 @@ public class CsvFileGenerator implements FileInputGenerator {
         this.skipLines = skipLines;
         this.strictQuotes = strictQuotes;
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+        this.hasHeader = hasHeader;
     }
 
     @Override
