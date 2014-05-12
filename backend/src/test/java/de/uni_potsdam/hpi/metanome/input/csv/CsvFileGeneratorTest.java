@@ -97,10 +97,12 @@ public class CsvFileGeneratorTest {
 
         // Check result
         // The csv should contain both lines and iterate through them with next.
+        assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
         assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
         assertEquals(csvFileFixture.expectedSecondLine(), csv.next());
         // A new CsvFile should iterate from the start.
         RelationalInput csv2 = generator.generateNewCopy();
+        assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
         assertEquals(csvFileFixture.expectedFirstLine(), csv2.next());
         assertEquals(csvFileFixture.expectedSecondLine(), csv2.next());
     }
