@@ -42,23 +42,30 @@ public class CsvFileFixture {
 
     protected String getCsvFileData() {
         StringBuilder fileDataBuilder = new StringBuilder();
-        List<String> quotedStrings = new LinkedList<String>();
 
-        for (String unquotedString : expectedFirstLine()) {
-            quotedStrings.add(QUOTE_CHAR + unquotedString + QUOTE_CHAR);
-        }
-
-        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quotedStrings));
+        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())));
         fileDataBuilder.append(System.getProperty("line.separator"));
 
-        quotedStrings.clear();
-        for (String unquotedString : expectedSecondLine()) {
+        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())));
+        fileDataBuilder.append(System.getProperty("line.separator"));
+
+        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine())));
+
+        return fileDataBuilder.toString();
+    }
+
+    protected List<String> quoteStrings(List<String> unquotedStrings) {
+        List<String> quotedStrings = new LinkedList<>();
+
+        for (String unquotedString : unquotedStrings) {
             quotedStrings.add(QUOTE_CHAR + unquotedString + QUOTE_CHAR);
         }
 
-        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quotedStrings));
+        return quotedStrings;
+    }
 
-        return fileDataBuilder.toString();
+    public ImmutableList<String> expectedHeader() {
+        return ImmutableList.of("one", "two", "three");
     }
 
     public ImmutableList<String> expectedFirstLine() {
