@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.*;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class GwtTestServiceCall extends GWTTestCase {
     @Test
     public void testExecutionService() {
         // Setup
-        List<ConfigurationSpecification> configs = new ArrayList<ConfigurationSpecification>();
+        List<ConfigurationSpecification> configs = new ArrayList<>();
         ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
                 "pathToInputFile");
         inputParameter.setValues("path/to/file1", "path/to/file2");
@@ -101,12 +102,14 @@ public class GwtTestServiceCall extends GWTTestCase {
     @Test
     public void testFinderService() {
         // Setup
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+            @Override
             public void onFailure(Throwable caught) {
                 fail();
             }
 
-            public void onSuccess(String[] result) {
+            @Override
+            public void onSuccess(List<Algorithm> result) {
                 assertNotNull(result);
                 finishTest();
             }
@@ -117,7 +120,7 @@ public class GwtTestServiceCall extends GWTTestCase {
         // Set a delay period
         delayTestFinish(500);
 
-        finderService.listInclusionDependencyAlgorithmFileNames(callback);
+        finderService.listInclusionDependencyAlgorithms(callback);
 
     }
 

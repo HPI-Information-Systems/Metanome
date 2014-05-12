@@ -22,10 +22,9 @@ import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl}
@@ -35,14 +34,14 @@ import static org.junit.Assert.*;
 public class FinderServiceImplTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithmFileNames(Class)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithms(Class)}
      * <p/>
-     * When no Interface is specified all stored algorithm file names should be retrieved by the service.
+     * When no interface is specified all stored algorithms should be retrieved by the service.
      *
      * @throws EntityStorageException
      */
     @Test
-    public void testListAlgorithmFileNames() throws EntityStorageException {
+    public void testListAlgorithms() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
@@ -56,22 +55,19 @@ public class FinderServiceImplTest {
 
         // Execute functionality
         // Finds algorithms of all or no interfaces
-        List<String> actualAlgorithmFileNames = Arrays.asList(finderService.listAlgorithmFileNames(null));
+        List<Algorithm> actualAlgorithms = finderService.listAlgorithms(null);
 
         // Check result
-        assertEquals(expectedAlgorithms.length, actualAlgorithmFileNames.size());
-        for (Algorithm expectedAlgorithm : expectedAlgorithms) {
-            assertTrue(actualAlgorithmFileNames.contains(expectedAlgorithm.getFileName()));
-        }
+        assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
 
         // Cleanup
         HibernateUtil.clear();
     }
 
     /**
-     * Test method for {@link FinderServiceImpl#listUniqueColumnCombinationsAlgorithmFileNames()}, {@link FinderServiceImpl#listInclusionDependencyAlgorithmFileNames()}, {@link FinderServiceImpl#listFunctionalDependencyAlgorithmFileNames()} and {@link FinderServiceImpl#listBasicStatisticsAlgorithmFileNames()}
+     * Test method for {@link FinderServiceImpl#listUniqueColumnCombinationsAlgorithms()}, {@link FinderServiceImpl#listInclusionDependencyAlgorithms()}, {@link FinderServiceImpl#listFunctionalDependencyAlgorithms()} and {@link FinderServiceImpl#listBasicStatisticsAlgorithms()}
      * <p/>
-     * File names of stored algorithms that implement certain interfaces should be retrievable by the service.
+     * Stored algorithms that implement certain interfaces should be retrievable by the service.
      *
      * @throws EntityStorageException
      */
@@ -103,16 +99,18 @@ public class FinderServiceImplTest {
         Algorithm.store(otherAlgorithm);
 
         // Execute functionality
-        String[] actualIndFileNames = finderService.listInclusionDependencyAlgorithmFileNames();
-        String[] actualUccFileNames = finderService.listUniqueColumnCombinationsAlgorithmFileNames();
-        String[] actualFdFileNames = finderService.listFunctionalDependencyAlgorithmFileNames();
-        String[] actualBasicStatFileNames = finderService.listBasicStatisticsAlgorithmFileNames();
+        List<Algorithm> actualIndAlgorithms = finderService.listInclusionDependencyAlgorithms();
+        List<Algorithm> actualUccAlgorithms = finderService.listUniqueColumnCombinationsAlgorithms();
+        List<Algorithm> actualFdAlgorithms = finderService.listFunctionalDependencyAlgorithms();
+        List<Algorithm> actualBasicStatAlgorithms = finderService.listBasicStatisticsAlgorithms();
+        List<Algorithm> actualAllAlgorithms = finderService.listAllAlgorithms();
 
         // Check result
-        assertThat(Arrays.asList(actualIndFileNames), IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm.getFileName()));
-        assertThat(Arrays.asList(actualUccFileNames), IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm.getFileName()));
-        assertThat(Arrays.asList(actualFdFileNames), IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm.getFileName()));
-        assertThat(Arrays.asList(actualBasicStatFileNames), IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm.getFileName()));
+        assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
+        assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm));
+        assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm));
+        assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
+        assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm, expectedUccAlgorithm, expectedFdAlgorithm, expectedBasicStatAlgorithm, otherAlgorithm));
 
         // Cleanup
         HibernateUtil.clear();
