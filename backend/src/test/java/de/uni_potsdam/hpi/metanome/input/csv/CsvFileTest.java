@@ -128,7 +128,7 @@ public class CsvFileTest {
             csvFileShortWithHeader.next();
             fail("Expected an InputIterationException to be thrown.");
         } catch (InputIterationException e) {
-            // Intentionally left blank
+            assertTrue(e.getMessage().contains("2"));
         }
     }
 
@@ -170,8 +170,8 @@ public class CsvFileTest {
             shortCsvFile.next();
             shortCsvFile.next();
             fail("Expected an InputIterationException to be thrown.");
-        } catch (InputIterationException actualException) {
-            // Intentionally left blank
+        } catch (InputIterationException e) {
+            assertTrue(e.getMessage().contains("2"));
         }
     }
 

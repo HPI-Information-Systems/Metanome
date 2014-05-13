@@ -43,6 +43,8 @@ public class CsvFile implements RelationalInput, Closeable {
     protected ImmutableList<String> nextLine;
     protected String relationName;
     protected int numberOfColumns = 0;
+    // Initialized to -1 because of lookahead
+    protected int currentLineNumber = -1;
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar) throws InputIterationException {
         this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
@@ -106,7 +108,7 @@ public class CsvFile implements RelationalInput, Closeable {
 
     protected void failDifferingLine(ImmutableList<String> currentLine) throws InputIterationException {
         if (currentLine.size() != this.numberOfColumns()) {
-            throw new InputIterationException("Csv line length did not match.");
+            throw new InputIterationException("Csv line length did not match on line " + currentLineNumber);
         }
     }
 
@@ -135,6 +137,7 @@ public class CsvFile implements RelationalInput, Closeable {
         String[] lineArray;
         try {
             lineArray = this.csvReader.readNext();
+            currentLineNumber++;
         } catch (IOException e) {
             throw new InputIterationException("Could not read next line in csv file.");
         }
