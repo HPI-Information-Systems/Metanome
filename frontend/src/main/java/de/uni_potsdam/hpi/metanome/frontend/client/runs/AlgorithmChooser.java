@@ -72,7 +72,7 @@ public class AlgorithmChooser extends HorizontalPanel {
 
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
+                // TODO: Error message "
             }
 
             public void onSuccess(List<ConfigurationSpecification> result) {

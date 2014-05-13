@@ -16,11 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import com.google.gwt.user.client.ui.IsWidget;
+
 /**
  * @author Claudia Exeler
  *
  */
-public interface TabContent {
+public interface TabContent extends IsWidget {
 
 	public void setErrorReceiver(TabWrapper tab);
 }

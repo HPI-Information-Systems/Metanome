@@ -111,7 +111,6 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    // TODO Auto-generated method stub - should open Run Configuration with pre-configured data source
                     jumpToRunConfiguration(dataSource);
                 }
             });
