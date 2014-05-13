@@ -34,6 +34,7 @@ import java.io.Reader;
 public class CsvFile implements RelationalInput, Closeable {
 
     protected static final boolean DEFAULT_HAS_HEADER = false;
+    protected static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
     protected static final String DEFAULT_HEADER_STRING = "column";
 
     protected CSVReader csvReader;
@@ -56,7 +57,7 @@ public class CsvFile implements RelationalInput, Closeable {
     }
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
-        this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader, false);
+        this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader, DEFAULT_SKIP_DIFFERING_LINES);
     }
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader, boolean skipDifferingLines) throws InputIterationException {
@@ -110,6 +111,10 @@ public class CsvFile implements RelationalInput, Closeable {
     }
 
     protected void readToNextValidLine() throws InputIterationException {
+        if (!hasNext()) {
+            return;
+        }
+
         while (this.nextLine.size() != this.numberOfColumns()) {
             this.nextLine = readNextLine();
             if (!hasNext()) {

@@ -133,6 +133,26 @@ public class CsvFileTest {
     }
 
     /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.input.csv.CsvFile#next()}
+     *
+     * A valid csv file without differing lines should be parsable with the skipDifferingLines parameter set.
+     *
+     * @throws InputIterationException
+     */
+    @Test
+    public void testParseCorrectFileWithSkipDifferingLines() throws InputIterationException {
+        // Setup
+        CsvFileFixture csvFileFixture = new CsvFileFixture();
+        CsvFile multiLineCsvFile = csvFileFixture.getTestData(true);
+
+        // Execute functionality
+        // Check result
+        assertEquals(csvFileFixture.expectedHeader(), multiLineCsvFile.columnNames());
+        assertEquals(csvFileFixture.expectedFirstLine(), multiLineCsvFile.next());
+        assertEquals(csvFileFixture.expectedSecondLine(), multiLineCsvFile.next());
+    }
+
+    /**
      * Test method for {@link CsvFile#next()}
      *
      * When iterating over a csv file with alternating line length an exception should be thrown.

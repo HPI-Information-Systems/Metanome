@@ -43,6 +43,7 @@ public class CsvFileGeneratorTest {
     protected boolean expectedStrictQuotes;
     protected boolean expectedIgnoreLeadingWhiteSpace;
     protected boolean expectedHasHeader;
+    protected boolean expectedSkipDifferingLines;
     protected CsvFileGenerator generator;
 
     @Before
@@ -56,7 +57,8 @@ public class CsvFileGeneratorTest {
         this.expectedStrictQuotes = true;
         this.expectedIgnoreLeadingWhiteSpace = true;
         this.expectedHasHeader = true;
-        this.generator = new CsvFileGenerator(expectedFile, expectedSeparator, expectedQuotechar, expectedEscape, expectedLine, expectedStrictQuotes, expectedIgnoreLeadingWhiteSpace, expectedHasHeader);
+        this.expectedSkipDifferingLines = true;
+        this.generator = new CsvFileGenerator(expectedFile, expectedSeparator, expectedQuotechar, expectedEscape, expectedLine, expectedStrictQuotes, expectedIgnoreLeadingWhiteSpace, expectedHasHeader, expectedSkipDifferingLines);
     }
 
     @After
@@ -65,7 +67,7 @@ public class CsvFileGeneratorTest {
     }
 
     /**
-     * Test method for {@link CsvFileGenerator#CsvFileGenerator(java.io.File, char, char, char, int, boolean, boolean, boolean)}
+     * Test method for {@link CsvFileGenerator#CsvFileGenerator(java.io.File, char, char, char, int, boolean, boolean, boolean, boolean)}
      *
      * The generator should store the file path correctly.
      */
@@ -80,6 +82,7 @@ public class CsvFileGeneratorTest {
         assertEquals(expectedStrictQuotes, generator.strictQuotes);
         assertEquals(expectedIgnoreLeadingWhiteSpace, generator.ignoreLeadingWhiteSpace);
         assertEquals(expectedHasHeader, generator.hasHeader);
+        assertEquals(expectedSkipDifferingLines, generator.skipDifferingLines);
     }
 
     /**
@@ -96,6 +99,7 @@ public class CsvFileGeneratorTest {
         RelationalInput csv = generator.generateNewCopy();
 
         // Check result
+        assertEquals(expectedSkipDifferingLines, ((CsvFile) csv).skipDifferingLines);
         // The csv should contain both lines and iterate through them with next.
         assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
         assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
