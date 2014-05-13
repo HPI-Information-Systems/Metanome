@@ -28,6 +28,8 @@ import java.io.Reader;
 
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
+ *
+ * @author Jakob Zwiener
  */
 public class CsvFile implements RelationalInput, Closeable {
 
@@ -35,6 +37,7 @@ public class CsvFile implements RelationalInput, Closeable {
     protected static final String DEFAULT_HEADER_STRING = "column";
 
     protected CSVReader csvReader;
+    protected boolean skipDifferingLines;
     protected ImmutableList<String> headerLine;
     protected ImmutableList<String> nextLine;
     protected String relationName;
@@ -53,15 +56,22 @@ public class CsvFile implements RelationalInput, Closeable {
     }
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
+        this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader, false);
+    }
+
+    public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader, boolean skipDifferingLines) throws InputIterationException {
         this.relationName = relationName;
         this.csvReader = new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace);
-        if (hasHeader) {
-            this.headerLine = readNextLine();
-        }
+        this.skipDifferingLines = skipDifferingLines;
 
         this.nextLine = readNextLine();
         if (this.nextLine != null) {
             this.numberOfColumns = this.nextLine.size();
+        }
+
+        if (hasHeader) {
+            this.headerLine = this.nextLine;
+            next();
         }
 
         // If the header is still null generate a standard header the size of number of columns.
@@ -78,11 +88,34 @@ public class CsvFile implements RelationalInput, Closeable {
     @Override
     public ImmutableList<String> next() throws InputIterationException {
         ImmutableList<String> currentLine = this.nextLine;
+
+        if (currentLine == null) {
+            return null;
+        }
         this.nextLine = readNextLine();
-        if ((hasNext()) && (this.nextLine.size() != currentLine.size())) {
+
+        if (this.skipDifferingLines) {
+            readToNextValidLine();
+        } else {
+            failDifferingLine(currentLine);
+        }
+
+        return currentLine;
+    }
+
+    protected void failDifferingLine(ImmutableList<String> currentLine) throws InputIterationException {
+        if (currentLine.size() != this.numberOfColumns()) {
             throw new InputIterationException("Csv line length did not match.");
         }
-        return currentLine;
+    }
+
+    protected void readToNextValidLine() throws InputIterationException {
+        while (this.nextLine.size() != this.numberOfColumns()) {
+            this.nextLine = readNextLine();
+            if (!hasNext()) {
+                break;
+            }
+        }
     }
 
     protected ImmutableList<String> generateHeaderLine() {

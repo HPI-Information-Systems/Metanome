@@ -27,6 +27,11 @@ import java.io.StringReader;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.input.csv.CsvFile}
+ *
+ * @author Jakbo Zwiener
+ */
 public class CsvFileTest {
 
     CsvFileOneLineFixture fixture;
@@ -67,7 +72,7 @@ public class CsvFileTest {
     }
 
     /**
-     * A one line csv with differing should be parsed correctly. And all the values in the line should be equal.
+     * A one line csv with differing separator should be parsed correctly, all the values in the line should be correct.
      *
      * @throws InputIterationException
      * @throws InputGenerationException
@@ -83,6 +88,53 @@ public class CsvFileTest {
     }
 
     /**
+     * Test method for {@link CsvFile#next()}
+     *
+     * A csv with differing line lengths should be partially parsable if the skipDifferingLines parameter is set to true.
+     *
+     * @throws InputGenerationException
+     * @throws InputIterationException
+     */
+    @Test
+    public void testParseThroughErrors() throws InputGenerationException, InputIterationException {
+        // Setup
+        CsvFileShortLineFixture shortLineFixture = new CsvFileShortLineFixture();
+        CsvFile csvFileThroughErrors = shortLineFixture.getTestData(true);
+
+        // Execute functionality
+        // Check result
+        assertEquals(shortLineFixture.getExpectedFirstParsableLine(), csvFileThroughErrors.next());
+        assertEquals(shortLineFixture.getExpectedSecondParsableLine(), csvFileThroughErrors.next());
+        // There should not be another parsable line.
+        assertFalse(csvFileThroughErrors.hasNext());
+    }
+
+    /**
+     * Test method for {@link CsvFile#next()}
+     * <p/>
+     * The first line in the csv should determine the line length (it could be the header). Every next line should have this length or an {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException} should be thrown.
+     *
+     * @throws InputIterationException
+     */
+    @Test
+    public void testShortWithHeader() throws InputIterationException {
+        // Setup
+        CsvFileShortLineWithHeaderFixture shortLineFixture = new CsvFileShortLineWithHeaderFixture();
+        CsvFile csvFileShortWithHeader = shortLineFixture.getTestData();
+
+        // Execute functionality
+        // Check result
+        try {
+            csvFileShortWithHeader.next();
+            fail("Expected an InputIterationException to be thrown.");
+        } catch (InputIterationException e) {
+            // Intentionally left blank
+        }
+    }
+
+    /**
+     * Test method for {@link CsvFile#next()}
+     *
      * When iterating over a csv file with alternating line length an exception should be thrown.
      *
      * @throws InputIterationException
