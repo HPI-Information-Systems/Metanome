@@ -96,7 +96,7 @@ public class ConfigurationValueFactory {
                     // FIXME fix header parameter
                     csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()), setting.getSeparatorChar(),
                             setting.getQuoteChar(), setting.getEscapeChar(), setting.getLine(),
-                            setting.isStrictQuotes(), setting.isIgnoreLeadingWhiteSpace(), true);
+                            setting.isStrictQuotes(), setting.isIgnoreLeadingWhiteSpace(), true, false);
                 else
                     csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()));
             } catch (FileNotFoundException e) {

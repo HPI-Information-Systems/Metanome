@@ -18,9 +18,11 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +31,10 @@ public class CsvFileFixture {
 
     protected static final char QUOTE_CHAR = '"';
     protected static final char SEPARATOR = ',';
+    protected static final char ESCAPE = '\\';
+    protected static final boolean STRICT_QUOTES = false;
+    protected static final boolean IGNORE_LEADING_WHITESPACES = true;
+    protected static final boolean HAS_HEADER = true;
 
     protected FileFixture fileFixture;
 
@@ -41,17 +47,11 @@ public class CsvFileFixture {
     }
 
     protected String getCsvFileData() {
-        StringBuilder fileDataBuilder = new StringBuilder();
+        return Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())) + System.getProperty("line.separator") + Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())) + System.getProperty("line.separator") + Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine()));
+    }
 
-        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())));
-        fileDataBuilder.append(System.getProperty("line.separator"));
-
-        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())));
-        fileDataBuilder.append(System.getProperty("line.separator"));
-
-        fileDataBuilder.append(Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine())));
-
-        return fileDataBuilder.toString();
+    public CsvFile getTestData(boolean skipDifferingLines) throws InputIterationException {
+        return new CsvFile("some relation", new StringReader(getCsvFileData()), SEPARATOR, QUOTE_CHAR, ESCAPE, 0, STRICT_QUOTES, IGNORE_LEADING_WHITESPACES, HAS_HEADER, skipDifferingLines);
     }
 
     protected List<String> quoteStrings(List<String> unquotedStrings) {
@@ -75,5 +75,6 @@ public class CsvFileFixture {
     public ImmutableList<String> expectedSecondLine() {
         return ImmutableList.of("6", "7", "8");
     }
+
 
 }
