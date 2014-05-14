@@ -22,6 +22,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -142,14 +143,14 @@ public class CsvFileInput extends InputField {
      * @throws AlgorithmConfigurationException
      */
     public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
-        int index = 1;                            //start at 1 because index 0 has default ("--") entry
         for (String value : fileNames) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
             listbox.addItem(displayName, value);
         }
 
-		if (this.preselectedFilename != null && this.preselectedFilename != "")
-			selectPreselectedEntry();
+		if (this.preselectedFilename != null && this.preselectedFilename != "") {
+			selectPreselectedEntry();	
+		}
 	}
 
     /**
@@ -203,15 +204,19 @@ public class CsvFileInput extends InputField {
      *
      * @param configSetting the object on which to set the values
      * @return the inputParameter with updated values
+     * @throws AlgorithmConfigurationException if user's input was invalid
      */
-    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) {
-        configSetting.setFileName(this.listbox.getValue(this.listbox.getSelectedIndex()));
+    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) throws AlgorithmConfigurationException {
+        String fileName = this.listbox.getValue(this.listbox.getSelectedIndex());
+        if (fileName.equals("--"))
+        	throw new AlgorithmConfigurationException("You must choose a CSV file from the list.");
+		configSetting.setFileName(fileName);
         configSetting.setAdvanced(this.advancedCheckbox.getValue());
 
         if (configSetting.isAdvanced()) {
-            configSetting.setSeparatorChar(StringHelper.getFirstCharFromInput(this.separatorTextbox.getValue()));
-            configSetting.setQuoteChar(StringHelper.getFirstCharFromInput(this.quoteTextbox.getValue()));
-            configSetting.setEscapeChar(StringHelper.getFirstCharFromInput(this.escapeTextbox.getValue()));
+            configSetting.setSeparatorChar(StringHelper.getValidatedInput(this.separatorTextbox.getValue()));
+            configSetting.setQuoteChar(StringHelper.getValidatedInput(this.quoteTextbox.getValue()));
+            configSetting.setEscapeChar(StringHelper.getValidatedInput(this.escapeTextbox.getValue()));
             configSetting.setStrictQuotes(this.strictQuotesCheckbox.getValue());
             configSetting.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
             if (this.skiplinesIntegerbox.getValue() != null)
@@ -272,8 +277,9 @@ public class CsvFileInput extends InputField {
 
     /**
      * @return a new ConfigurationSetting object with the current user input
+     * @throws AlgorithmConfigurationException 
      */
-    public ConfigurationSettingCsvFile getValuesAsSettings() {
+    public ConfigurationSettingCsvFile getValuesAsSettings() throws AlgorithmConfigurationException {
         ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
         return setCurrentValues(setting);
     }

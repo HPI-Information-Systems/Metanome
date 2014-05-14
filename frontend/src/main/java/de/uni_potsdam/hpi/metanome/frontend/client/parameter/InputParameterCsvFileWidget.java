@@ -18,11 +18,13 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -31,6 +33,8 @@ import java.util.List;
 public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget {
 
     protected List<CsvFileInput> inputWidgets;
+    protected TabWrapper errorReceiver;
+    
     /**
      * Corresponding ConfigurationSpecification, where the value is going to be written
      */
@@ -41,9 +45,10 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      *
      * @param configSpec
      */
-    public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
+    public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec, TabWrapper errorReceiver) {
         super(configSpec);          
         this.addAvailableCsvsToListbox(getCallback(inputWidgets));
+        this.errorReceiver = errorReceiver;
     }
 
 
@@ -63,25 +68,26 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
 	protected AsyncCallback<String[]> getCallback(final List<CsvFileInput> widgets) {
 		AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
-                caught.printStackTrace();
+            	caught.printStackTrace();
+            	errorReceiver.addError(caught.getMessage());
             }
 
             public void onSuccess(String[] result) {
                 for (CsvFileInput widget : widgets) {
-                    try {
-                        widget.addToListbox(result);
-                    } catch (AlgorithmConfigurationException e) {
-                        // TODO Error message: "Unable to find the CSV file you selected. Maybe it has been removed?"
-                        e.printStackTrace();
-                    }
+                	try {
+						widget.addToListbox(result);
+					} catch (AlgorithmConfigurationException e) {
+						e.printStackTrace();
+						errorReceiver.addError("Could not find the data source you selected.");
+					}
                 }
             }
         };
 		return callback;
 	}
 
-    @Override
+
+	@Override
     protected void addInputField(boolean optional) {
         CsvFileInput widget = new CsvFileInput(optional);
         this.inputWidgets.add(widget);
@@ -90,12 +96,12 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
     }
 
     @Override
-    public ConfigurationSpecificationCsvFile getUpdatedSpecification() {
+    public ConfigurationSpecificationCsvFile getUpdatedSpecification() throws AlgorithmConfigurationException {
         // Build an array with the actual number of set values.
         ConfigurationSettingCsvFile[] values = new ConfigurationSettingCsvFile[inputWidgets.size()];
 
         for (int i = 0; i < inputWidgets.size(); i++) {
-            values[i] = inputWidgets.get(i).getValuesAsSettings();
+        	values[i] = inputWidgets.get(i).getValuesAsSettings();
         }
 
         specification.setValues(values);

@@ -121,7 +121,7 @@ public class BasePage extends TabLayoutPanel {
                 resultsTabContent.getCancelCallback());
         resultsTabContent.startPolling();
 
-        resultsTab.add(resultsTabContent);
+        resultsTab.add(new TabWrapper(resultsTabContent));
 
         this.selectTab(resultsPage);
         resultsPage.selectTab(resultsTab);

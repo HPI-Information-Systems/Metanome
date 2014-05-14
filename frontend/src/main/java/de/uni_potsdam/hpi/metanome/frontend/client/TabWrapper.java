@@ -29,15 +29,23 @@ public class TabWrapper extends VerticalPanel {
 	protected VerticalPanel errorPanel;
 	protected TabContent contentPanel;
 		
-	public TabWrapper(TabContent panel) {
-		this.contentPanel = panel;
-		this.contentPanel.setErrorReceiver(this);
-		this.add(this.contentPanel);
-		
+	/**
+	 * 
+	 */
+	public TabWrapper() {
 		this.errorPanel = new VerticalPanel();
 		this.add(this.errorPanel);
 	}
+
+	public TabWrapper(TabContent panel) {
+		this();
+		
+		this.contentPanel = panel;
+		this.contentPanel.setErrorReceiver(this);
+		this.add(this.contentPanel);		
+	}
 	
+
 	public void addError(String message) {
 		this.errorPanel.add(new Label(message));
 	}

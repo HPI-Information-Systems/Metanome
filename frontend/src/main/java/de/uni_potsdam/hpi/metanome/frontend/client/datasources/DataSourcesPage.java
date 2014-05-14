@@ -79,8 +79,7 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
 
             @Override
             public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
+                errorReceiver.addError(caught.getMessage());
             }
 
             @Override
@@ -141,4 +140,5 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
 	public void setErrorReceiver(TabWrapper tab) {
 		this.errorReceiver = tab;
 	}
+
 }

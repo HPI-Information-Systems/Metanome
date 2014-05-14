@@ -163,7 +163,6 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
     @Override
     public long executeAlgorithm(String algorithmName, String executionIdentifier, List<ConfigurationSpecification> parameters)
             throws AlgorithmLoadingException, AlgorithmExecutionException {
-        //List<ConfigurationValue> configs = convertInputParameters(parameters, dataSources);
         AlgorithmExecutor executor;
 
         try {
@@ -173,7 +172,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
         } catch (UnsupportedEncodingException e) {
             throw new AlgorithmExecutionException("Could not build temporary file generator.");
         }
-        long executionTime = executor.executeAlgorithm(algorithmName, parameters); //TODO move conversion into config values to backend
+        long executionTime = executor.executeAlgorithm(algorithmName, parameters);
         try {
             executor.close();
         } catch (IOException e) {

@@ -123,7 +123,7 @@ public class GwtTestBasePage extends GWTTestCase {
     public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
         final BasePage page = new BasePage();
         final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
-                new ConfigurationSpecificationCsvFile("test"));
+                new ConfigurationSpecificationCsvFile("test"), new TabWrapper());
         ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
         dataSource.setFileName(dataSourceName);
         final ConfigurationSettingCsvFile finalDataSource = dataSource;

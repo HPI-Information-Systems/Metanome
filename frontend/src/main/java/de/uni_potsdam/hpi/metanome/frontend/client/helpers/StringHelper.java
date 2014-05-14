@@ -16,18 +16,32 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.helpers;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+
 public class StringHelper {
 
     public static char getFirstCharFromInput(String string) {
-        if (string.length() <= 1) {
+        if (string.length() == 1) {
             return string.charAt(0);
         } else if (string.equals("\\n")) {
             return '\n';
         } else if (string.equals("\\t")) {
             return '\t';
-        } //else {
-        //throw new Exception();
-//			} TODO throw useful exception
-        return 0;
+        } else {
+        	return 0;
+		} 
     }
+
+	/**
+	 * @param value
+	 * @return
+	 * @throws AlgorithmConfigurationException 
+	 */
+	public static char getValidatedInput(String value) throws AlgorithmConfigurationException {
+		char firstChar = getFirstCharFromInput(value);
+		if (firstChar == 0)
+			throw new AlgorithmConfigurationException("You must specify one-character values for advanced settings.");
+		return firstChar;
+	}
 }

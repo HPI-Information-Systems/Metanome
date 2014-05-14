@@ -28,7 +28,7 @@ public class GwtTestCommonWidgets extends GWTTestCase {
         String[] filenames = {"filename1.jar", "filename2.jar"};
 
         //Execute
-        AlgorithmChooser jarChooser = new AlgorithmChooser(filenames);
+        AlgorithmChooser jarChooser = new AlgorithmChooser(filenames, new TabWrapper());
 
         //Test
         assertEquals(2, jarChooser.getWidgetCount());

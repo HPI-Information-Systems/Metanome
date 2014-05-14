@@ -17,17 +17,18 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 public class WidgetFactory {
 
-    public static InputParameterWidget buildWidget(ConfigurationSpecification config) {
+    public static InputParameterWidget buildWidget(ConfigurationSpecification config, TabWrapper errorReceiver) {
         InputParameterWidget widget = null;
         if (config instanceof ConfigurationSpecificationBoolean)
             widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
         else if (config instanceof ConfigurationSpecificationString)
             widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
         else if (config instanceof ConfigurationSpecificationCsvFile)
-            widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
+            widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config, errorReceiver);
         else if (config instanceof ConfigurationSpecificationSQLIterator)
             widget = new InputParameterSQLIteratorWidget((ConfigurationSpecificationSQLIterator) config);
         return widget;

@@ -109,7 +109,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     protected AsyncCallback<String[]> getCallback(final FlexTable list) {
         return new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
+                errorReceiver.addError(caught.getMessage());
                 caught.printStackTrace();
             }
 

@@ -25,4 +25,5 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface TabContent extends IsWidget {
 
 	public void setErrorReceiver(TabWrapper tab);
+	
 }

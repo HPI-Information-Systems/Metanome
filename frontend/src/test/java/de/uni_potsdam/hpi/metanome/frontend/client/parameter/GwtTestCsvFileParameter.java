@@ -27,6 +27,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
 public class GwtTestCsvFileParameter extends GWTTestCase {
@@ -35,7 +36,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 	
 	private InputParameterCsvFileWidget setUpInputParameterWidget() {
 		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
+		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec, new TabWrapper());
 		dataSourceWidget.getCallback(dataSourceWidget.inputWidgets).onSuccess(csvFiles);
 		return dataSourceWidget;
 	}

@@ -24,16 +24,19 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.*;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver {
+public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver, TabContent {
 
     protected ExecutionServiceAsync executionService;
 
@@ -41,6 +44,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
     protected String executionIdentifier;
 
     protected HorizontalPanel resultsPanel;
+    protected TabWrapper errorReceiver;
 
     protected ResultTable uccTable;
     protected ResultTable indTable;
@@ -50,6 +54,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
     protected Image runningIndicator;
 
     protected ProgressBar progressBar = null;
+
 
     public ResultsTab(ExecutionServiceAsync executionService, String executionIdentifier) {
         this.executionService = executionService;
@@ -114,8 +119,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
             @Override
             public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-                System.out.println("Could not fetch results.");
+            	errorReceiver.addError("Could not fetch results.");
             }
 
             @Override
@@ -130,8 +134,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
             @Override
             public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-                System.out.println("Could not fetch progress.");
+            	errorReceiver.addError("Could not fetch progress.");
             }
 
             @Override
@@ -146,8 +149,8 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
             try {
                 r.sendResultTo(this);
             } catch (CouldNotReceiveResultException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            	this.errorReceiver.addError(e.getMessage());
+            	e.printStackTrace();	//TODO remove after testing
             }
         }
     }
@@ -208,4 +211,12 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
         fdTable.setText(row, 1, "-->");
         fdTable.setText(row, 2, functionalDependency.getDependant().toString());
     }
+
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+	}
 }

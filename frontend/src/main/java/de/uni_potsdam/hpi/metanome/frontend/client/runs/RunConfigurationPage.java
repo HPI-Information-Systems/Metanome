@@ -63,7 +63,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
-        this.jarChooser = new AlgorithmChooser(algorithmNames);
+        this.jarChooser = new AlgorithmChooser(algorithmNames, new TabWrapper());
         this.add(this.jarChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
@@ -78,7 +78,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      */
     public void addParameterTable(List<ConfigurationSpecification> paramList) {
         removeParameterTable();
-        parameterTable = new ParameterTable(paramList, primaryDataSource);
+        parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
         this.add(parameterTable, DockPanel.SOUTH);
     }
 
@@ -163,6 +163,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 	@Override
 	public void setErrorReceiver(TabWrapper tab) {
 		this.errorReceiver = tab;
+		this.jarChooser.setErrorReceiver(tab);
 	}
 
 }
