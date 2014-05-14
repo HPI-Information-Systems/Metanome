@@ -103,12 +103,12 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		
 		// Check visibility
 		assertTrue(widget.advancedTable.isVisible());
-		assertTrue(widget.escapeTextbox.isAttached() && widget.escapeTextbox.isVisible());	
-		assertTrue(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());	
-		assertTrue(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());	
-		assertTrue(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());	
-		assertTrue(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());	
-		assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
+		assertTrue(widget.escapeTextbox.isVisible());	
+		assertTrue(widget.skiplinesIntegerbox.isVisible());	
+		assertTrue(widget.separatorTextbox.isVisible());	
+		assertTrue(widget.quoteTextbox.isVisible());	
+		assertTrue(widget.strictQuotesCheckbox.isVisible());	
+		assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
 		
 		// Check values
 		assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, 

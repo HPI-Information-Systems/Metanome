@@ -97,7 +97,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
                 //Check
                 assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-                assertEquals(algorithmName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
+                assertEquals(algorithmName, getRunConfigurationPage(page)
                         .getCurrentlySelectedAlgorithm());
 
 //				TODO Add testing to ensure the parameter table is shown
@@ -141,7 +141,7 @@ public class GwtTestBasePage extends GWTTestCase {
                 //Execute
                 page.jumpToRunConfiguration(null, finalDataSource);
 
-                RunConfigurationPage runConfigPage = (RunConfigurationPage) page.getWidget(page.getSelectedIndex());
+                RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 
                 //Check
                 assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
@@ -156,6 +156,11 @@ public class GwtTestBasePage extends GWTTestCase {
 
         delayTestFinish(5000);
     }
+    
+	private RunConfigurationPage getRunConfigurationPage(
+			final BasePage page) {
+		return (RunConfigurationPage) ((TabWrapper) page.getWidget(page.getSelectedIndex())).contentPanel;
+	}
 
     @Override
     public String getModuleName() {
