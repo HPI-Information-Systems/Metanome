@@ -46,7 +46,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
         this.line = line;
     }
-
+    
     public String getFileName() {
         return fileName;
     }

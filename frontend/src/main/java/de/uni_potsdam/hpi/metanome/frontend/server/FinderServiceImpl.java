@@ -49,7 +49,7 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
 
         int algorithmIndex = 0;
         for (Algorithm algorithm : algorithms) {
-            algorithmNames[algorithmIndex] = algorithm.getName();
+            algorithmNames[algorithmIndex] = algorithm.getFileName();
             algorithmIndex++;
         }
 
