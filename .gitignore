@@ -1,13 +1,17 @@
 .project
 /.settings
+*/.settings
+*/*/.settings
 /results
 *.releaseBackup
 release.properties
 /.idea
 *.iml
 /target
+*/target
 *.log
 *.lck
 metanomedb.properties
 metanomedb.script
 /metanomedb.tmp
+.classpath
