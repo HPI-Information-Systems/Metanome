@@ -177,4 +177,24 @@ public class SqlIteratorTest {
         assertEquals(twoLinesResultSetFixture.getExpectedColumnNames(), sqlIterator.columnNames());
     }
 
+    /**
+     * Test method for {@link SqlIterator#close()}
+     * <p/>
+     * The sql iterator should be closeable. After closing the iterator, the underlying result set should be closed.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testClose() throws Exception {
+        // Setup
+        ResultSet resultSetMock = twoLinesResultSetFixture.getTestData();
+        SqlIterator sqlIterator = new SqlIterator(resultSetMock);
+
+        // Execute functionality
+        sqlIterator.close();
+
+        // Check result
+        verify(resultSetMock).close();
+    }
+
 }

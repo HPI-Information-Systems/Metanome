@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -31,7 +30,7 @@ import java.io.Reader;
  *
  * @author Jakob Zwiener
  */
-public class CsvFile implements RelationalInput, Closeable {
+public class CsvFile implements RelationalInput {
 
     protected static final boolean DEFAULT_HAS_HEADER = false;
     protected static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
