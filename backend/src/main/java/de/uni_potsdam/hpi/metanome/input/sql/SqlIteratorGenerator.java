@@ -67,6 +67,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
         ResultSet resultSet;
         try {
             resultSet = sqlStatement.executeQuery(queryString);
+            sqlStatement.closeOnCompletion();
         } catch (SQLException e) {
             throw new InputGenerationException("Could not execute sql statement.");
         }

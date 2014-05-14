@@ -41,8 +41,6 @@ public class SqlIteratorTest {
 
     @Before
     public void setUp() throws Exception {
-        // TODO initialise fixtures here
-
         minimalResultSetFixture = new ResultSetFixture();
         twoLinesResultSetFixture = new ResultSetTwoLinesFixture();
     }
