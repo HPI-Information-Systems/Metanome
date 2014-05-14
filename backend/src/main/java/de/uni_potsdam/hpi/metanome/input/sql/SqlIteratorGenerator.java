@@ -27,6 +27,12 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
 
     protected Connection dbConnection;
 
+    /**
+     * Exists for tests.
+     */
+    protected SqlIteratorGenerator() {
+    }
+
     public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
         try {
             this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
@@ -53,7 +59,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     /**
      * Executes the given query and returns the associated {@link ResultSet}.
      *
-     * @param queryString
+     * @param queryString the query string to execute
      * @return associated {@link ResultSet}
      * @throws InputGenerationException
      */
@@ -80,4 +86,8 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
         return executeQuery(queryString);
     }
 
+    @Override
+    public void close() throws SQLException {
+        dbConnection.close();
+    }
 }
