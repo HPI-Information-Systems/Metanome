@@ -45,7 +45,7 @@ public class SqlIterator implements RelationalInput {
     }
 
     protected ImmutableList<String> retrieveColumnNames(ResultSetMetaData resultSetMetaData) throws SQLException {
-        List<String> columnNames = new LinkedList<String>();
+        List<String> columnNames = new LinkedList<>();
 
         for (int i = 0; i < numberOfColumns; i++) {
             columnNames.add(resultSetMetaData.getColumnLabel(i + 1));
@@ -109,4 +109,8 @@ public class SqlIterator implements RelationalInput {
         return columnNames;
     }
 
+    @Override
+    public void close() throws Exception {
+        resultSet.close();
+    }
 }
