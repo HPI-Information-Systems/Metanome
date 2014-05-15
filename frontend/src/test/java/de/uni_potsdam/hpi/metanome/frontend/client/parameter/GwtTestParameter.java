@@ -16,13 +16,24 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.*;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextBox;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 
 public class GwtTestParameter extends GWTTestCase {
 
@@ -70,7 +81,7 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
         ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
         ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-        ConfigurationSpecificationSQLIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSQLIterator("sql");
+        ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
 
         paramList.add(ConfigurationSpecificationString);
         paramList.add(ConfigurationSpecificationBoolean);
@@ -105,7 +116,7 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierCsv = "csvParam";
         ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
         String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSQLIterator(identifierSql);
+        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -137,7 +148,7 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierCsv = "csvParam";
         ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
         String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSQLIterator(identifierSql, 2);
+        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
