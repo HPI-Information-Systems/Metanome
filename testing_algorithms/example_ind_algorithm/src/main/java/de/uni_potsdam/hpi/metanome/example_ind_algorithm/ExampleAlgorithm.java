@@ -1,4 +1,35 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.example_ind_algorithm;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,27 +38,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, IntegerParameterAlgorithm {
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
-
-public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
-
+	protected final static String CSV_FILE_IDENTIFIER = "input file";
+	protected final static String STRING_IDENTIFIER = "tableName";
+	protected final static String INTEGER_IDENTIFIER = "numberOfTables";
 	protected String tableName = null;
+	protected int numberOfTables = -1;
 	protected InclusionDependencyResultReceiver resultReceiver;
 	protected FileGenerator tempFileGenerator;
 	protected boolean relationalInputsSet = false;
@@ -35,9 +52,10 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
 		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
-		
-		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
-		configurationSpecification.add(new ConfigurationSpecificationString("tableName"));
+
+		configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
+		configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
+		configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
 		
 		return configurationSpecification;
 	}
@@ -60,8 +78,8 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		} catch (IOException e) {
 			throw new AlgorithmExecutionException("Could not read from file.");
 		}
-		
-		if ((tableName != null) && relationalInputsSet) {
+
+		if ((tableName != null) && relationalInputsSet && (numberOfTables != -1)) {
 			resultReceiver.receiveResult(
 					new InclusionDependency(
 						new ColumnCombination(
@@ -80,7 +98,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 
 	@Override
 	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals("tableName")) && (values.length == 1)) {
+		if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 1)) {
 			tableName = values[0];
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
@@ -94,11 +112,20 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	
 	@Override
 	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException{
-		if ((identifier.equals("input file")) && (values.length == 2)){
+		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 2)) {
 			System.out.println("Input file is not being set on algorithm.");
 			relationalInputsSet = true;
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect configuration.");
+		}
+	}
+
+	@Override
+	public void setConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
+			numberOfTables = values[0];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}
 	}
 }

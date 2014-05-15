@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.*;
@@ -42,8 +43,8 @@ public class GwtTestServiceCall extends GWTTestCase {
         List<ConfigurationSpecification> configs = new ArrayList<>();
         ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
                 "pathToInputFile");
-        inputParameter.setValues("path/to/file1", "path/to/file2");
-        configs.add(inputParameter);
+		inputParameter.setValues(new ConfigurationSettingString("path/to/file1"), new ConfigurationSettingString("path/to/file2"));
+		configs.add(inputParameter);
 
         AsyncCallback<Long> callback = new AsyncCallback<Long>() {
             public void onFailure(Throwable caught) {
