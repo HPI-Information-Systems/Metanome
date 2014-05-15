@@ -81,24 +81,25 @@ public class ParameterTable extends FlexTable {
      * the execution service corresponding to the current tab.
      */
     public void submit() {
-        List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
-        List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
-        getAlgorithmTab().callExecutionService(parameters, dataSources);
+		try {
+			List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
+			List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
+			getAlgorithmTab().callExecutionService(parameters, dataSources);
+		} catch (InputValidationException e) {
+			this.errorReceiver.addError(e.getMessage());
+		}
     }
 
     /**
      * Iterates over the child widgets that represent data sources and retrieves their user input.
      *
      * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values.
+     * @throws InputValidationException 
      */
-    public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
+    public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() throws InputValidationException {
         LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
         for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets) {
-            try {
-				parameterList.add(childWidget.getUpdatedSpecification());
-			} catch (InputValidationException e) {
-				this.errorReceiver.addError(e.getMessage());
-			}
+			parameterList.add(childWidget.getUpdatedSpecification());
         }
         return parameterList;
     }
@@ -107,15 +108,12 @@ public class ParameterTable extends FlexTable {
      * Iterates over the child widgets and retrieves their user input.
      *
      * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set values.
+     * @throws InputValidationException 
      */
-    public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
+    public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() throws InputValidationException {
         LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
         for (InputParameterWidget childWidget : this.childWidgets) {
-            try {
-				parameterList.add(childWidget.getUpdatedSpecification());
-			} catch (InputValidationException e) {
-				this.errorReceiver.addError(e.getMessage());
-			}
+        	parameterList.add(childWidget.getUpdatedSpecification());
         }
         return parameterList;
     }

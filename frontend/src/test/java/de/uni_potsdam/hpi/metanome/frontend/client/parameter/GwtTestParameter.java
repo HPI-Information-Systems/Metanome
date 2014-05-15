@@ -76,7 +76,7 @@ public class GwtTestParameter extends GWTTestCase {
     }
 
     @Test
-    public void testRetrieveSimpleParameterValues() {
+    public void testRetrieveSimpleParameterValues() throws InputValidationException {
         //Setup
         ArrayList<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
 

@@ -80,7 +80,7 @@ public class AlgorithmChooser extends HorizontalPanel {
 
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
             public void onFailure(Throwable caught) {
-                // TODO: Error message 
+                errorReceiver.addError("Error while retrieving configuration requirements.");
             }
 
             public void onSuccess(List<ConfigurationSpecification> result) {
