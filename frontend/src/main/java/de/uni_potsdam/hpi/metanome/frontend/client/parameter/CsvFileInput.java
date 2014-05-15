@@ -16,9 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -63,22 +67,28 @@ public class CsvFileInput extends InputField {
         this.add(advancedTable);
 
         separatorTextbox = getNewOneCharTextbox();
+        separatorTextbox.setValue(String.valueOf(CSVParser.DEFAULT_SEPARATOR));
         addRow(advancedTable, separatorTextbox, "Separator Character");
 
         quoteTextbox = getNewOneCharTextbox();
+        quoteTextbox.setValue(String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER));
         addRow(advancedTable, quoteTextbox, "Quote Character");
 
         escapeTextbox = getNewOneCharTextbox();
+        escapeTextbox.setValue(String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER));
         addRow(advancedTable, escapeTextbox, "Escape Character");
 
         skiplinesIntegerbox = new IntegerBox();
         skiplinesIntegerbox.setWidth("5em");
+        skiplinesIntegerbox.setValue(CSVReader.DEFAULT_SKIP_LINES);
         addRow(advancedTable, skiplinesIntegerbox, "Line");
 
         strictQuotesCheckbox = new CheckBox();
+        strictQuotesCheckbox.setValue(CSVParser.DEFAULT_STRICT_QUOTES);
         addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 
         ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
+        ignoreLeadingWhiteSpaceCheckbox.setValue(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
     }
 
@@ -182,9 +192,9 @@ public class CsvFileInput extends InputField {
 
         //if the list  of available files has already been retrieved
         if (this.listbox.getItemCount() > 1) {
-            for (int i = 0; i < listbox.getItemCount(); i++) {
-                if (isPreselected(csvSetting.getValueAsString())) {
-                    listbox.setSelectedIndex(i + 1);
+            for (int i = 0; i < this.listbox.getItemCount(); i++) {
+                if (isPreselected(this.listbox.getItemText(i))) {
+                    listbox.setSelectedIndex(i);
                     return;
                 }
             }
