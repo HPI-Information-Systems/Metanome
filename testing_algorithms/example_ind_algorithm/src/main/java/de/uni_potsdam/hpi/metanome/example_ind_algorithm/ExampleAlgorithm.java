@@ -40,9 +40,9 @@ import java.util.List;
 
 public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, IntegerParameterAlgorithm {
 
-	protected final static String CSV_FILE_IDENTIFIER = "input file";
-	protected final static String STRING_IDENTIFIER = "tableName";
-	protected final static String INTEGER_IDENTIFIER = "numberOfTables";
+	public final static String CSV_FILE_IDENTIFIER = "input file";
+	public final static String STRING_IDENTIFIER = "tableName";
+	public final static String INTEGER_IDENTIFIER = "numberOfTables";
 	protected String tableName = null;
 	protected int numberOfTables = -1;
 	protected InclusionDependencyResultReceiver resultReceiver;
