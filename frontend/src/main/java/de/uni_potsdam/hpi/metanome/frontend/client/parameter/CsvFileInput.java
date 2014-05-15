@@ -16,13 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -67,28 +63,22 @@ public class CsvFileInput extends InputField {
         this.add(advancedTable);
 
         separatorTextbox = getNewOneCharTextbox();
-        separatorTextbox.setValue(Character.toString(CSVParser.DEFAULT_SEPARATOR));
         addRow(advancedTable, separatorTextbox, "Separator Character");
 
         quoteTextbox = getNewOneCharTextbox();
-        quoteTextbox.setValue(Character.toString(CSVParser.DEFAULT_QUOTE_CHARACTER));
         addRow(advancedTable, quoteTextbox, "Quote Character");
 
         escapeTextbox = getNewOneCharTextbox();
-        escapeTextbox.setValue(Character.toString(CSVParser.DEFAULT_ESCAPE_CHARACTER));
         addRow(advancedTable, escapeTextbox, "Escape Character");
 
         skiplinesIntegerbox = new IntegerBox();
-        skiplinesIntegerbox.setWidth("3em");
-        skiplinesIntegerbox.setValue(CSVReader.DEFAULT_SKIP_LINES);
-        addRow(advancedTable, skiplinesIntegerbox, "Number of Header Rows");
+        skiplinesIntegerbox.setWidth("5em");
+        addRow(advancedTable, skiplinesIntegerbox, "Line");
 
         strictQuotesCheckbox = new CheckBox();
-        strictQuotesCheckbox.setValue(CSVParser.DEFAULT_STRICT_QUOTES);
-        addRow(advancedTable, strictQuotesCheckbox, "Use Strict Quotes");
+        addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 
         ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-        ignoreLeadingWhiteSpaceCheckbox.setValue(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
     }
 
@@ -98,17 +88,17 @@ public class CsvFileInput extends InputField {
      * @param csvSetting Setting object from which to copy the values.
      */
     public CsvFileInput(ConfigurationSettingCsvFile csvSetting, boolean optional) {
-    	this(optional);
-    	
-    	this.preselectedFilename = csvSetting.getFileName();
-    	
-    	this.advancedCheckbox.setValue(csvSetting.isAdvanced());
-    	this.separatorTextbox.setValue(""+csvSetting.getSeparatorChar());
-    	this.quoteTextbox.setValue(""+csvSetting.getQuoteChar());
-    	this.escapeTextbox.setValue(""+csvSetting.getEscapeChar());
-    	this.skiplinesIntegerbox.setValue(csvSetting.getLine());
-    	this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
-    	this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
+        this(optional);
+
+        this.preselectedFilename = csvSetting.getFileName();
+
+        this.advancedCheckbox.setValue(csvSetting.isAdvanced());
+        this.separatorTextbox.setValue("" + csvSetting.getSeparatorChar());
+        this.quoteTextbox.setValue("" + csvSetting.getQuoteChar());
+        this.escapeTextbox.setValue("" + csvSetting.getEscapeChar());
+        this.skiplinesIntegerbox.setValue(csvSetting.getLine());
+        this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
+        this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
     }
 
     /**
@@ -136,6 +126,7 @@ public class CsvFileInput extends InputField {
         return textbox;
     }
 
+
     /**
      * Fills the dropdown list with the given values
      *
@@ -143,15 +134,26 @@ public class CsvFileInput extends InputField {
      * @throws AlgorithmConfigurationException
      */
     public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
+        int index = 1;                            //start at 1 because index 0 has default ("--") entry
         for (String value : fileNames) {
             String displayName = value.substring(value.lastIndexOf("/") + 1);
             listbox.addItem(displayName, value);
+            if (isPreselected(value)) {
+                listbox.setSelectedIndex(index);
+            }
+            index++;
         }
+        if (preselectionUnavailable())
+            throw new AlgorithmConfigurationException("The CSV file is not available.");
+    }
 
-		if (this.preselectedFilename != null && this.preselectedFilename != "") {
-			selectPreselectedEntry();	
-		}
-	}
+    /**
+     * @return true if a preselection was specified but the default item is still selected (usually because the preselected
+     * item was not available)
+     */
+    private boolean preselectionUnavailable() {
+        return this.preselectedFilename != null && this.preselectedFilename != "" && this.listbox.getSelectedIndex() == 0;
+    }
 
     /**
      * Checks whether the value parameter corresponds the one that was preselected. The comparison is based on the substring
@@ -168,55 +170,42 @@ public class CsvFileInput extends InputField {
                 preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
     }
 
-	/**
-	 * Selects the given data source in the first widget. If the dropdowns have not yet been filled with the available 
-	 * values, we save the value and set it when the dropdown is filled.
-	 * 
-	 * @param csvSetting	the data source 
-	 * @throws AlgorithmConfigurationException	If the dropdowns are filled but do not containt the desired data source.
-	 */
-	public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
-		this.preselectedFilename = csvSetting.getValueAsString();
-		
-		//if the list  of available files has already been retrieved
-		if (this.listbox.getItemCount() > 1) {
-			selectPreselectedEntry();
-		}
-	}
+    /**
+     * Selects the given data source in the first widget. If the dropdowns have not yet been filled with the available
+     * values, we save the value and set it when the dropdown is filled.
+     *
+     * @param csvSetting the data source
+     * @throws AlgorithmConfigurationException If the dropdowns are filled but do not containt the desired data source.
+     */
+    public void selectDataSource(ConfigurationSettingDataSource csvSetting) throws AlgorithmConfigurationException {
+        this.preselectedFilename = csvSetting.getValueAsString();
 
-	/**
-	 * Sets the selected index of the file dropdown to the one corresponding to preselectedFilename
-	 * 
-	 * @throws AlgorithmConfigurationException if the value is not available in the dropdown
-	 */
-	private void selectPreselectedEntry() throws AlgorithmConfigurationException {
-		for (int i = 0; i < listbox.getItemCount(); i++) {
-			if (isPreselected(listbox.getItemText(i))) {
-				listbox.setSelectedIndex(i);
-				return;
-			}
-		}
-		throw new AlgorithmConfigurationException("The CSV file is not available.");
-	}
+        //if the list  of available files has already been retrieved
+        if (this.listbox.getItemCount() > 1) {
+            for (int i = 0; i < listbox.getItemCount(); i++) {
+                if (isPreselected(csvSetting.getValueAsString())) {
+                    listbox.setSelectedIndex(i + 1);
+                    return;
+                }
+            }
+            throw new AlgorithmConfigurationException("The CSV file is not available.");
+        }
+    }
 
     /**
      * Retrieves the current values from the UI and sets them on the given inputParameter
      *
      * @param configSetting the object on which to set the values
      * @return the inputParameter with updated values
-     * @throws AlgorithmConfigurationException if user's input was invalid
      */
-    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) throws AlgorithmConfigurationException {
-        String fileName = this.listbox.getValue(this.listbox.getSelectedIndex());
-        if (fileName.equals("--"))
-        	throw new AlgorithmConfigurationException("You must choose a CSV file from the list.");
-		configSetting.setFileName(fileName);
+    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) {
+        configSetting.setFileName(this.listbox.getValue(this.listbox.getSelectedIndex()));
         configSetting.setAdvanced(this.advancedCheckbox.getValue());
 
         if (configSetting.isAdvanced()) {
-            configSetting.setSeparatorChar(StringHelper.getValidatedInput(this.separatorTextbox.getValue()));
-            configSetting.setQuoteChar(StringHelper.getValidatedInput(this.quoteTextbox.getValue()));
-            configSetting.setEscapeChar(StringHelper.getValidatedInput(this.escapeTextbox.getValue()));
+            configSetting.setSeparatorChar(StringHelper.getFirstCharFromInput(this.separatorTextbox.getValue()));
+            configSetting.setQuoteChar(StringHelper.getFirstCharFromInput(this.quoteTextbox.getValue()));
+            configSetting.setEscapeChar(StringHelper.getFirstCharFromInput(this.escapeTextbox.getValue()));
             configSetting.setStrictQuotes(this.strictQuotesCheckbox.getValue());
             configSetting.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
             if (this.skiplinesIntegerbox.getValue() != null)
@@ -235,7 +224,7 @@ public class CsvFileInput extends InputField {
      */
     protected CheckBox createAdvancedCheckbox() {
         CheckBox checkbox = new CheckBox("Use Advanced Configuration");
-        checkbox.setValue(false);
+        checkbox.setValue(false); //TODO ok to always assume not-advanced on creation?
         checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
             @Override
@@ -260,7 +249,7 @@ public class CsvFileInput extends InputField {
         //unselectable default entry
         listbox.addItem("--");
         listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-        //other entries must be set separately by parent
+        //other entries
         return listbox;
     }
 
@@ -277,11 +266,11 @@ public class CsvFileInput extends InputField {
 
     /**
      * @return a new ConfigurationSetting object with the current user input
-     * @throws AlgorithmConfigurationException 
      */
-    public ConfigurationSettingCsvFile getValuesAsSettings() throws AlgorithmConfigurationException {
+    public ConfigurationSettingCsvFile getValuesAsSettings() {
         ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
         return setCurrentValues(setting);
     }
+
 
 }

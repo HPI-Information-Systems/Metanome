@@ -28,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     protected TabWrapper errorReceiver;
 
     protected ParameterTable parameterTable;
-    protected AlgorithmChooser jarChooser;
+    protected AlgorithmChooser algorithmChooser;
     protected Label primaryDataSourceLabel;
     protected ExecutionServiceAsync executionService;
 
@@ -57,14 +58,15 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      *
      * @param algorithmNames
      */
-    public RunConfigurationPage(BasePage basePage, String... algorithmNames) {
+    public RunConfigurationPage(BasePage basePage) {
         this.setWidth("100%");
         this.basePage = basePage;
 
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
-        this.jarChooser = new AlgorithmChooser(algorithmNames, new TabWrapper());
-        this.add(this.jarChooser, DockPanel.NORTH);
+
+		this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
+        this.add(this.algorithmChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
     }
@@ -78,17 +80,17 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      */
     public void addParameterTable(List<ConfigurationSpecification> paramList) {
         removeParameterTable();
-        parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
+        parameterTable = new ParameterTable(paramList, primaryDataSource);
         this.add(parameterTable, DockPanel.SOUTH);
     }
 
     /**
      * Method to add more algorithms after construction.
      *
-     * @param algorithmNames
+     * @param result
      */
-    public void addAlgorithms(String... algorithmNames) {
-        this.jarChooser.addAlgorithms(algorithmNames);
+    public void addAlgorithms(List<Algorithm> algorithms) {
+        this.algorithmChooser.addAlgorithms(algorithms);
     }
 
     /**
@@ -97,15 +99,15 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      * @param algorithmName the value to select
      */
     public void selectAlgorithm(String algorithmName) {
-        this.jarChooser.setSelectedAlgorithm(algorithmName);
-        this.jarChooser.submit();
+        this.algorithmChooser.setSelectedAlgorithm(algorithmName);
+        this.algorithmChooser.submit();
     }
 
     /**
      * @return the name of the algorithm that is currently selected on this page's JarChooser
      */
     public String getCurrentlySelectedAlgorithm() {
-        return this.jarChooser.getSelectedAlgorithm();
+        return this.algorithmChooser.getSelectedAlgorithm();
     }
 
     /**
@@ -118,7 +120,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
         this.primaryDataSource = dataSource;
         this.primaryDataSourceLabel.setText("This should filter for algorithms applicable on " + dataSource.getValueAsString());
         removeParameterTable();
-        this.jarChooser.filterForPrimaryDataSource(dataSource);
+        this.algorithmChooser.filterForPrimaryDataSource(dataSource);
     }
 
     /**
@@ -153,7 +155,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     // Getters & Setters
 
     public AlgorithmChooser getJarChooser() {
-        return jarChooser;
+        return algorithmChooser;
     }
 
 
@@ -163,7 +165,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 	@Override
 	public void setErrorReceiver(TabWrapper tab) {
 		this.errorReceiver = tab;
-		this.jarChooser.setErrorReceiver(tab);
+		this.algorithmChooser.setErrorReceiver(tab);
 	}
 
 }

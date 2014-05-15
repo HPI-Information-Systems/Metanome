@@ -36,7 +36,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 	
 	private InputParameterCsvFileWidget setUpInputParameterWidget() {
 		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec, new TabWrapper());
+		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
 		dataSourceWidget.getCallback(dataSourceWidget.inputWidgets).onSuccess(csvFiles);
 		return dataSourceWidget;
 	}

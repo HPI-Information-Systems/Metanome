@@ -27,6 +27,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.List;
 
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
@@ -76,56 +79,57 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
      * Request a list of available UCC algorithms and display them in the uccList
      */
     private void listAndAddUccAlgorithms() {
-        finderService.listUniqueColumnCombinationsAlgorithmFileNames(getCallback(this.uccList));
+        finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
     }
 
     /**
      * Request a list of available FD algorithms and display them in the fdList
      */
     private void listFdAlgorithms() {
-        finderService.listFunctionalDependencyAlgorithmFileNames(getCallback(this.fdList));
+        finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
     }
 
     /**
      * Request a list of available IND algorithms and  display them in the indList
      */
     private void listIndAlgorithms() {
-        finderService.listInclusionDependencyAlgorithmFileNames(getCallback(this.indList));
+        finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));
     }
 
     /**
      * Request a list of available Basic Statistics algorithms and display them in the statsList
      */
     private void listStatsAlgorithms() {
-        finderService.listBasicStatisticsAlgorithmFileNames(getCallback(this.statsList));
+        finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
     }
 
     /**
-     * Constructs a callback that will add all results to the given
+     * Constructs a callback that will add all results to the given table
      *
      * @param list Object that all returned elements will be added to
      * @return the desired callback instance
      */
-    protected AsyncCallback<String[]> getCallback(final FlexTable list) {
-        return new AsyncCallback<String[]>() {
+    protected AsyncCallback<List<Algorithm>> getCallback(final FlexTable list) {
+        return new AsyncCallback<List<Algorithm>>() {
             public void onFailure(Throwable caught) {
                 errorReceiver.addError(caught.getMessage());
                 caught.printStackTrace();
             }
 
-            public void onSuccess(String[] result) {
+            public void onSuccess(List<Algorithm> result) {
                 addAlgorithmsToList(result, list);
+
                 basePage.addAlgorithmsToRunConfigurations(result);
             }
         };
     }
 
-    protected void addAlgorithmsToList(String[] algorithmNames, FlexTable list) {
+    protected void addAlgorithmsToList(List<Algorithm> algorithms, FlexTable list) {
         int row = list.getRowCount();
-        for (String algorithmName : algorithmNames) {
+        for (Algorithm algorithm : algorithms) {
             //Using the HTML title to associate an algorithm with each button.
             Button runButton = new Button("Run");
-            runButton.setTitle(algorithmName);
+            runButton.setTitle(algorithm.getFileName());
             runButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -133,8 +137,10 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
                 }
             });
 
-            list.setText(row, 0, algorithmName);
-            list.setWidget(row, 1, runButton);
+            list.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
+            list.setText(row, 1, "Author: "+ algorithm.getAuthor());
+            list.setText(row, 2, "File: "+algorithm.getFileName());
+            list.setWidget(row, 3, runButton);
             row++;
         }
     }

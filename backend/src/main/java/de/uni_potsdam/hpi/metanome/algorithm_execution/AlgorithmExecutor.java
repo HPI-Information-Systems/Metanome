@@ -57,13 +57,10 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     /**
-     * Executes an algorithm. The algorithm is loaded from the jar,
-     * configured and all receivers and generators are set before execution.
-     * The elapsed time while executing the algorithm in nano seconds is
-     * returned as long.
+     * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s and all receivers and generators are set before execution. The elapsed time while executing the algorithm in nano seconds is returned as long.
      *
      * @param algorithmFileName the algorithm's file name
-     * @param parameters        list of configuration values
+     * @param parameters        list of configuration specifications
      * @return elapsed time in ns
      * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
      * @throws AlgorithmConfigurationException
@@ -73,6 +70,7 @@ public class AlgorithmExecutor implements Closeable {
                                  List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
 
         List<ConfigurationValue> parameterValues = new LinkedList<ConfigurationValue>();
+
         for (ConfigurationSpecification specification : parameters) {
             parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
         }
@@ -80,9 +78,7 @@ public class AlgorithmExecutor implements Closeable {
 
         try {
             return executeAlgorithmWithValues(algorithmFileName, parameterValues);
-        } catch (IllegalArgumentException e) {
-            throw new AlgorithmLoadingException();
-        } catch (SecurityException e) {
+        } catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
             throw new AlgorithmLoadingException();
         } catch (IOException e) {
             throw new AlgorithmLoadingException("IO Exception");
@@ -90,8 +86,6 @@ public class AlgorithmExecutor implements Closeable {
             throw new AlgorithmLoadingException("Class not found.");
         } catch (InstantiationException e) {
             throw new AlgorithmLoadingException("Could not instantiate.");
-        } catch (IllegalAccessException e) {
-            throw new AlgorithmLoadingException();
         } catch (InvocationTargetException e) {
             throw new AlgorithmLoadingException("Could not invoke.");
         } catch (NoSuchMethodException e) {
@@ -99,6 +93,25 @@ public class AlgorithmExecutor implements Closeable {
         }
     }
 
+    /**
+     * Executes an algorithm. The algorithm is loaded from the jar,
+     * configured and all receivers and generators are set before execution.
+     * The elapsed time while executing the algorithm in nano seconds is
+     * returned as long.
+     *
+     * @param algorithmFileName the algorithm's file name
+     * @param parameters        list of configuration values
+     * @return elapsed time in ns
+     * @throws IllegalArgumentException
+     * @throws SecurityException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws AlgorithmExecutionException
+     */
     public long executeAlgorithmWithValues(String algorithmFileName,
                                            List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
         AlgorithmJarLoader loader = new AlgorithmJarLoader();
@@ -127,6 +140,11 @@ public class AlgorithmExecutor implements Closeable {
             uccAlgorithm.setResultReceiver(resultReceiver);
         }
 
+        if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
+            BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
+            basicStatAlgorithm.setResultReceiver(resultReceiver);
+        }
+
         if (interfaces.contains(TempFileAlgorithm.class)) {
             TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
             tempFileAlgorithm.setTempFileGenerator(fileGenerator);
@@ -145,7 +163,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     protected Set<Class<?>> getInterfaces(Object object) {
-        Set<Class<?>> interfaces = new HashSet<Class<?>>();
+        Set<Class<?>> interfaces = new HashSet<>();
         Collections.addAll(interfaces, object.getClass().getInterfaces());
         return interfaces;
     }

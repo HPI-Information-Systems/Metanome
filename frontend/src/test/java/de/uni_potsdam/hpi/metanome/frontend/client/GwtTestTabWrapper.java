@@ -42,7 +42,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
      */
     @Test
     public void testCreate() {
-    	TabContent content = new RunConfigurationPage(null, "");
+    	TabContent content = new RunConfigurationPage(null);
     	
     	//Execute
         tabWrapper = new TabWrapper(content);

@@ -17,17 +17,20 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.List;
 
 public interface FinderServiceAsync {
 
-    public void listInclusionDependencyAlgorithmFileNames(AsyncCallback<String[]> callback);
+    public void listInclusionDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listFunctionalDependencyAlgorithmFileNames(AsyncCallback<String[]> callback);
+    public void listFunctionalDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listUniqueColumnCombinationsAlgorithmFileNames(AsyncCallback<String[]> callback);
+    public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listBasicStatisticsAlgorithmFileNames(AsyncCallback<String[]> addJarChooserCallback);
+    public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
 
-    public void listAllAlgorithmFileNames(AsyncCallback<String[]> addJarChooserCallback);
+    public void listAllAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
 
 }

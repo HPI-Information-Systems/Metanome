@@ -17,17 +17,17 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 
-public class ConfigurationSettingSQLIterator extends ConfigurationSettingDataSource {
+public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSource {
     private static final long serialVersionUID = 3242593091096735218L;
 
     private String dbUrl;
     private String username;
     private String password;
 
-    public ConfigurationSettingSQLIterator() {
+    public ConfigurationSettingSqlIterator() {
     }
 
-    public ConfigurationSettingSQLIterator(String dbUrl, String username, String password) {
+    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password) {
         this.dbUrl = dbUrl;
         this.username = username;
         this.password = password;

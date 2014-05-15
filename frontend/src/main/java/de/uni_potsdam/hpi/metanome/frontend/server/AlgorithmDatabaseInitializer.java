@@ -57,7 +57,9 @@ public class AlgorithmDatabaseInitializer implements ServletContextListener {
         for (String filePath : algorithmFileNames) {
             try {
                 Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-                Algorithm.store(new Algorithm(filePath, algorithmInterfaces));
+                Algorithm algorithm = new Algorithm(filePath, algorithmInterfaces);
+                algorithm.setName(filePath.replaceAll(".jar", ""));
+				Algorithm.store(algorithm);
             } catch (EntityStorageException | IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

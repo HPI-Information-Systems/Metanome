@@ -27,58 +27,61 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available algorithms
+ * Service Implementation for service that lists available algorithms stored in the database.
  * <p/>
- * TODO docs
+ * @author Jakob Zwiener
  */
 public class FinderServiceImpl extends RemoteServiceServlet implements
         FinderService {
+	private static final long serialVersionUID = 2742248537386173766L;
 
-    private static final long serialVersionUID = 1L;
+	/**
+     * Lists all algorithms from the database that implement a certain interface, or all if algorithm class is null.
+     *
+     * @param algorithmClass the implemented algorithm interface.
+     * @return the algorithms
+     */
+    protected List<Algorithm> listAlgorithms(Class<?> algorithmClass) {
+        return Algorithm.retrieveAll(algorithmClass);
+    }
 
     /**
-     * TODO docs
-     *
-     * @param algorithmClass the subclass of algorithms to be listed, or null for all algorithms
-     * @return a list of filenames (without path)
+     * @return all inclusion dependency algorithms in the database
      */
-    protected String[] listAlgorithmFileNames(Class<?> algorithmClass) {
-        List<Algorithm> algorithms = Algorithm.retrieveAll(algorithmClass);
-
-        String[] algorithmNames = new String[algorithms.size()];
-
-        int algorithmIndex = 0;
-        for (Algorithm algorithm : algorithms) {
-            algorithmNames[algorithmIndex] = algorithm.getFileName();
-            algorithmIndex++;
-        }
-
-        return algorithmNames;
-    }
-
     @Override
-    public String[] listInclusionDependencyAlgorithmFileNames() {
-        return listAlgorithmFileNames(InclusionDependencyAlgorithm.class);
+    public List<Algorithm> listInclusionDependencyAlgorithms() {
+        return listAlgorithms(InclusionDependencyAlgorithm.class);
     }
 
+    /**
+     * @return all unique column combination algorithms in the database
+     */
     @Override
-    public String[] listFunctionalDependencyAlgorithmFileNames() {
-        return listAlgorithmFileNames(FunctionalDependencyAlgorithm.class);
+    public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
+        return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
     }
 
+    /**
+     * @return all functional dependency algorithms in the database
+     */
     @Override
-    public String[] listUniqueColumnCombinationsAlgorithmFileNames() {
-        return listAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
+    public List<Algorithm> listFunctionalDependencyAlgorithms() {
+        return listAlgorithms(FunctionalDependencyAlgorithm.class);
     }
 
+    /**
+     * @return all basic statistics algorithms in the database
+     */
     @Override
-    public String[] listBasicStatisticsAlgorithmFileNames() {
-        return listAlgorithmFileNames(BasicStatisticsAlgorithm.class);
+    public List<Algorithm> listBasicStatisticsAlgorithms() {
+        return listAlgorithms(BasicStatisticsAlgorithm.class);
     }
 
+    /**
+     * @return all algorithms in the database
+     */
     @Override
-    public String[] listAllAlgorithmFileNames() {
-        return listAlgorithmFileNames(null);
+    public List<Algorithm> listAllAlgorithms() {
+        return listAlgorithms(null);
     }
-
 }

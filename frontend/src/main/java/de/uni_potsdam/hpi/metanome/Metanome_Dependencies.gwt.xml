@@ -30,12 +30,12 @@
         <include name="ConfigurationSettingBoolean.java"/>
         <include name="ConfigurationSettingCsvFile.java"/>
         <include name="ConfigurationSettingDataSource.java"/>
-        <include name="ConfigurationSettingSQLIterator.java"/>
+        <include name="ConfigurationSettingSqlIterator.java"/>
         <include name="ConfigurationSettingString.java"/>
         <include name="ConfigurationSpecification.java"/>
         <include name="ConfigurationSpecificationBoolean.java"/>
         <include name="ConfigurationSpecificationCsvFile.java"/>
-        <include name="ConfigurationSpecificationSQLIterator.java"/>
+        <include name="ConfigurationSpecificationSqlIterator.java"/>
         <include name="ConfigurationSpecificationString.java"/>
     </source>
     <source path="algorithm_integration/result_receiver">
@@ -55,5 +55,8 @@
     </source>
     <source path="algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>
+    </source>
+    <source path="results_db">
+        <include name="Algorithm.java"/>
     </source>
 </module>

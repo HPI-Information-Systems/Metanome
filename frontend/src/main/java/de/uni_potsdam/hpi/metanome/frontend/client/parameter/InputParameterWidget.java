@@ -21,8 +21,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 import java.util.ArrayList;
@@ -73,7 +71,7 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
     protected abstract void addInputField(boolean optional);
 
-    public abstract ConfigurationSpecification getUpdatedSpecification() throws AlgorithmConfigurationException;
+    public abstract ConfigurationSpecification getUpdatedSpecification();
 
     public boolean isDataSource() {
         return false;

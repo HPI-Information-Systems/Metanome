@@ -20,6 +20,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -29,7 +30,12 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataS
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
 import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -39,8 +45,8 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * this must contain an algorithm and a data source that are currently available
      */
-    private String algorithmName = "example_ucc_algorithm.jar";
     private String dataSourceName = "inputA.csv";
+    LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
 
     private BasePage testPage;
 
@@ -63,9 +69,11 @@ public class GwtTestBasePage extends GWTTestCase {
     public void testAddAlgorithmsToRunConfigurations() {
         BasePage page = new BasePage();
         int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
+        algorithms.add(new Algorithm("Algorithm 1"));
+        algorithms.add(new Algorithm("Algorithm 2"));
 
         //Execute
-        page.addAlgorithmsToRunConfigurations("Algorithm 1", "Algorithm 2");
+        page.addAlgorithmsToRunConfigurations(algorithms);
 
         //Check
         assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
@@ -73,23 +81,28 @@ public class GwtTestBasePage extends GWTTestCase {
 
     /**
      * Test control flow from Algorithms to Run configuration
-     *
-     * @throws InterruptedException
      */
     @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
+    	final String algorithmName = "some_name";
         final BasePage page = new BasePage();
+        Algorithm a = new Algorithm("file/name");
+        a.setAuthor("author");
+        a.setName(algorithmName);
+		algorithms.add(a);
 
-        page.addAlgorithmsToRunConfigurations(algorithmName);
+        page.addAlgorithmsToRunConfigurations(algorithms);
 
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+            @Override
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
             }
 
-            public void onSuccess(String[] result) {
+            @Override
+            public void onSuccess(List<Algorithm> result) {
                 page.addAlgorithmsToRunConfigurations(result);
 
                 //Execute
@@ -108,7 +121,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
@@ -117,25 +130,26 @@ public class GwtTestBasePage extends GWTTestCase {
      * Test control flow from Data source to Run configuration
      *
      * @throws AlgorithmConfigurationException
-     * @throws InterruptedException
      */
     @Test
     public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
         final BasePage page = new BasePage();
         final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
-                new ConfigurationSpecificationCsvFile("test"), new TabWrapper());
+                new ConfigurationSpecificationCsvFile("test"));
         ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
         dataSource.setFileName(dataSourceName);
         final ConfigurationSettingCsvFile finalDataSource = dataSource;
 //		dataSourceWidget.setDataSource(dataSource);
 
-        AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+            @Override
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
             }
 
-            public void onSuccess(String[] result) {
+            @Override
+            public void onSuccess(List<Algorithm> result) {
                 page.addAlgorithmsToRunConfigurations(result);
 
                 //Execute
@@ -152,7 +166,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithmFileNames(callback);
+        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
