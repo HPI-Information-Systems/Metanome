@@ -158,7 +158,7 @@ public class GwtTestParameter extends GWTTestCase {
 
         assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
 
-        assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
+        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
         assertEquals(identifierSql, sqlWidget.getUpdatedSpecification().getIdentifier());
     }
 
@@ -191,8 +191,8 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
         assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
 
-        assertTrue(sqlWidget instanceof InputParameterSQLIteratorWidget);
-        assertEquals(2, ((InputParameterSQLIteratorWidget) sqlWidget).getWidgetCount());
+        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
+        assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
     }
 
     @Test

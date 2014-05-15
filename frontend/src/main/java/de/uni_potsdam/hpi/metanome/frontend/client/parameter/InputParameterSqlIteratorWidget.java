@@ -23,7 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 
 import java.util.List;
 
-public class InputParameterSQLIteratorWidget extends InputParameterDataSourceWidget {
+public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
 
     /**
      * Corresponding inputParameter, where the value is going to be written
@@ -31,7 +31,7 @@ public class InputParameterSQLIteratorWidget extends InputParameterDataSourceWid
     private ConfigurationSpecificationSQLIterator specification;
     private List<SQLIteratorInput> inputWidgets;
 
-    public InputParameterSQLIteratorWidget(
+    public InputParameterSqlIteratorWidget(
             ConfigurationSpecificationSQLIterator config) {
         super(config);
     }
