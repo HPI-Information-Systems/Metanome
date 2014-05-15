@@ -16,12 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
  * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
  */
-public interface IntegerParameterAlgorithm {
+public interface IntegerParameterAlgorithm extends Algorithm {
 	/**
 	 * Sets a integer configuration value on the algorithm.
 	 *
