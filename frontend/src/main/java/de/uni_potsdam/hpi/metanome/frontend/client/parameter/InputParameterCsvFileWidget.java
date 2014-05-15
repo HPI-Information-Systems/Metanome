@@ -24,6 +24,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
@@ -93,7 +94,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
     }
 
     @Override
-    public ConfigurationSpecificationCsvFile getUpdatedSpecification() {
+    public ConfigurationSpecificationCsvFile getUpdatedSpecification() throws InputValidationException {
         // Build an array with the actual number of set values.
         ConfigurationSettingCsvFile[] values = new ConfigurationSettingCsvFile[inputWidgets.size()];
 

@@ -16,21 +16,25 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class ParameterTable extends FlexTable {
 
     private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
     private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<InputParameterDataSourceWidget>();
     private Button executeButton;
+	private TabWrapper errorReceiver;
 
     /**
      * Creates a ParameterTable for user input for the given parameters.
@@ -39,10 +43,12 @@ public class ParameterTable extends FlexTable {
      *
      * @param paramList         the list of parameters asked for by the algorithm.
      * @param primaryDataSource
+     * @param errorReceiver 
      */
-    public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource) {
+    public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource, TabWrapper errorReceiver) {
         super();
-
+        this.errorReceiver = errorReceiver;
+        
         int i = 0;
         for (ConfigurationSpecification param : paramList) {
             this.setText(i, 0, param.getIdentifier());
@@ -88,7 +94,11 @@ public class ParameterTable extends FlexTable {
     public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
         LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
         for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets) {
-            parameterList.add(childWidget.getUpdatedSpecification());
+            try {
+				parameterList.add(childWidget.getUpdatedSpecification());
+			} catch (InputValidationException e) {
+				this.errorReceiver.addError(e.getMessage());
+			}
         }
         return parameterList;
     }
@@ -101,7 +111,11 @@ public class ParameterTable extends FlexTable {
     public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
         LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
         for (InputParameterWidget childWidget : this.childWidgets) {
-            parameterList.add(childWidget.getUpdatedSpecification());
+            try {
+				parameterList.add(childWidget.getUpdatedSpecification());
+			} catch (InputValidationException e) {
+				this.errorReceiver.addError(e.getMessage());
+			}
         }
         return parameterList;
     }
@@ -116,5 +130,4 @@ public class ParameterTable extends FlexTable {
     private RunConfigurationPage getAlgorithmTab() {
         return (RunConfigurationPage) this.getParent();
     }
-
 }

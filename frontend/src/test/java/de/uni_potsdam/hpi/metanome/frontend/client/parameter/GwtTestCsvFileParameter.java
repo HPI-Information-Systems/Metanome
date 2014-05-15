@@ -28,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
 public class GwtTestCsvFileParameter extends GWTTestCase {
@@ -45,9 +46,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 	 * Tests the selection of a specific item corresponding to the given ConfigurationSetting.
 	 * 
 	 * @throws AlgorithmConfigurationException
+	 * @throws InputValidationException 
 	 */
 	@Test
-	public void testSelectDataSourceOnFilledDropdown() throws AlgorithmConfigurationException {
+	public void testSelectDataSourceOnFilledDropdown() throws AlgorithmConfigurationException, InputValidationException {
 		CsvFileInput widget = new CsvFileInput(false);
 		widget.addToListbox(csvFiles);
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
@@ -66,9 +68,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 	 * child widget. 
 	 * 
 	 * @throws AlgorithmConfigurationException
+	 * @throws InputValidationException 
 	 */
 	@Test
-	public void testSetDataSource() throws AlgorithmConfigurationException {
+	public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
 		//Setup
 		InputParameterCsvFileWidget dataSourceWidget = setUpInputParameterWidget();
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();

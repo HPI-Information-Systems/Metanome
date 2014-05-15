@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.*;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
 public class CsvFileInput extends InputField {
@@ -207,15 +208,19 @@ public class CsvFileInput extends InputField {
      *
      * @param configSetting the object on which to set the values
      * @return the inputParameter with updated values
+     * @throws InputValidationException 
      */
-    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) {
+    protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) throws InputValidationException {
         configSetting.setFileName(this.listbox.getValue(this.listbox.getSelectedIndex()));
+        if (configSetting.getFileName().equals("--"))
+        	throw new InputValidationException("You must choose a CSV file from the list.");
+        
         configSetting.setAdvanced(this.advancedCheckbox.getValue());
 
         if (configSetting.isAdvanced()) {
-            configSetting.setSeparatorChar(StringHelper.getFirstCharFromInput(this.separatorTextbox.getValue()));
-            configSetting.setQuoteChar(StringHelper.getFirstCharFromInput(this.quoteTextbox.getValue()));
-            configSetting.setEscapeChar(StringHelper.getFirstCharFromInput(this.escapeTextbox.getValue()));
+            configSetting.setSeparatorChar(StringHelper.getValidatedInput(this.separatorTextbox.getValue()));
+            configSetting.setQuoteChar(StringHelper.getValidatedInput(this.quoteTextbox.getValue()));
+            configSetting.setEscapeChar(StringHelper.getValidatedInput(this.escapeTextbox.getValue()));
             configSetting.setStrictQuotes(this.strictQuotesCheckbox.getValue());
             configSetting.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
             if (this.skiplinesIntegerbox.getValue() != null)
@@ -276,8 +281,9 @@ public class CsvFileInput extends InputField {
 
     /**
      * @return a new ConfigurationSetting object with the current user input
+     * @throws InputValidationException 
      */
-    public ConfigurationSettingCsvFile getValuesAsSettings() {
+    public ConfigurationSettingCsvFile getValuesAsSettings() throws InputValidationException {
         ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
         return setCurrentValues(setting);
     }

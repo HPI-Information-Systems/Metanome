@@ -80,7 +80,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      */
     public void addParameterTable(List<ConfigurationSpecification> paramList) {
         removeParameterTable();
-        parameterTable = new ParameterTable(paramList, primaryDataSource);
+        parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
         this.add(parameterTable, DockPanel.SOUTH);
     }
 

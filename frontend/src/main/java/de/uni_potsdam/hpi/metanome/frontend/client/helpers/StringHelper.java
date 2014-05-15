@@ -38,10 +38,10 @@ public class StringHelper {
 	 * @return
 	 * @throws AlgorithmConfigurationException 
 	 */
-	public static char getValidatedInput(String value) throws AlgorithmConfigurationException {
+	public static char getValidatedInput(String value) throws InputValidationException {
 		char firstChar = getFirstCharFromInput(value);
 		if (firstChar == 0)
-			throw new AlgorithmConfigurationException("You must specify one-character values for advanced settings.");
+			throw new InputValidationException("You must specify one-character values for advanced CSV settings.");
 		return firstChar;
 	}
 }
