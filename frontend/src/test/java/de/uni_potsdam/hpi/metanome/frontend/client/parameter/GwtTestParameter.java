@@ -91,6 +91,7 @@ public class GwtTestParameter extends GWTTestCase {
         paramList.add(ConfigurationSpecificationSQLIterator);
 
         ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+        chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
 
         //Execute
         List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
@@ -104,11 +105,21 @@ public class GwtTestParameter extends GWTTestCase {
 
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
-//        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile)); not true because validation fails (no file selected)
+        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
         assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
     }
 
-    @Test
+    /**
+	 * @param widget
+	 */
+	private void chooseCsvFile(InputParameterCsvFileWidget widget) {
+		for (CsvFileInput csvInput : widget.inputWidgets) {
+			csvInput.listbox.addItem("some file");
+			csvInput.listbox.setSelectedIndex(1);
+		}
+	}
+
+	@Test
     public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
         //Setup
         String identifierString = "stringParam";

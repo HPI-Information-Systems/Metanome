@@ -47,7 +47,8 @@ public class TabWrapper extends VerticalPanel {
 	
 
 	public void addError(String message) {
-		this.errorPanel.add(new Label(message));
+		Label label = new Label(message);
+		this.errorPanel.add(label);
 	}
 	
 	public void clearErrors(){
