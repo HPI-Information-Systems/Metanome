@@ -57,7 +57,7 @@ public class ConfigurationValueFactory {
     }
 
     /**
-     * Converts a {@link de.de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
+     * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
      *
      * @param specification the sql iterator specification
      * @return the created sql input generator
