@@ -33,6 +33,8 @@ public class TabWrapper extends VerticalPanel {
 	 * 
 	 */
 	public TabWrapper() {
+		this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().tab());
+		
 		this.errorPanel = new VerticalPanel();
 		this.add(this.errorPanel);
 	}
@@ -48,6 +50,7 @@ public class TabWrapper extends VerticalPanel {
 
 	public void addError(String message) {
 		Label label = new Label(message);
+		label.setStyleName(MetanomeResources.INSTANCE.metanomeStyle().errorMessage());
 		this.errorPanel.add(label);
 	}
 	

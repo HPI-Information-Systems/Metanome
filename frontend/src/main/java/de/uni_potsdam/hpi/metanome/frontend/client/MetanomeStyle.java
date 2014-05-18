@@ -16,21 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.resources.client.CssResource;
 
-public class MetanomeEntryPoint implements EntryPoint {
+/**
+ * @author Claudia Exeler
+ *
+ */
+public interface MetanomeStyle extends CssResource {
 
-    @Override
-    public void onModuleLoad() {
-    	MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
-    	
-        RootPanel.get().setHeight("100%");
-        LayoutPanel bodyPanel = new LayoutPanel();
-        bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
-		RootPanel.get().add(bodyPanel);
-        bodyPanel.add(new BasePage());
-    }
-
+	String body();
+	String basePage();
+	String gwtTabLayoutPanelTab();
+	String tab();
+	String errorMessage();
 }
