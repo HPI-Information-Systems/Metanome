@@ -17,6 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 
+import java.util.List;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -25,11 +27,10 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.List;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
@@ -40,6 +41,7 @@ public class AlgorithmChooser extends HorizontalPanel {
     protected ListBox listbox;
 
     protected ParameterServiceAsync parameterService;
+    protected TabWrapper errorReceiver;
 
     /**
      * Constructor.
@@ -47,8 +49,10 @@ public class AlgorithmChooser extends HorizontalPanel {
      * @param jarFilenames
      * @param algorithmSubclass
      */
-    public AlgorithmChooser(List<Algorithm> algorithms) {
+    public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
+	
         super();
+        this.errorReceiver = tabWrapper;
         this.parameterService = GWT.create(ParameterService.class);
 
         this.label = new Label("Choose your algorithm:");
@@ -72,10 +76,11 @@ public class AlgorithmChooser extends HorizontalPanel {
      */
     public void submit() {
         String selectedValue = getSelectedAlgorithm();
+        this.errorReceiver.clearErrors();
 
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
+                errorReceiver.addError("Error while retrieving configuration requirements.");
             }
 
             public void onSuccess(List<ConfigurationSpecification> result) {
@@ -161,6 +166,10 @@ public class AlgorithmChooser extends HorizontalPanel {
         // TODO filter out any algorithms that would not accept the given data source
         System.out.println("Filtering algorithms for a data source is not yet implemented");
 
+    }
+    
+    public void setErrorReceiver(TabWrapper receiver) {
+    	this.errorReceiver = receiver;
     }
 
 

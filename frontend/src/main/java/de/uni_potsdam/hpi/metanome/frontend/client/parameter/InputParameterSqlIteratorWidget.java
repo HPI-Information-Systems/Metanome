@@ -16,12 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.List;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-
-import java.util.List;
 
 public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
 

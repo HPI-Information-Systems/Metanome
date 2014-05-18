@@ -28,14 +28,14 @@ import org.junit.Test;
 public class GwtTestCommonWidgets extends GWTTestCase {
 
     @Test
-    public void testJarChooser() {
+    public void testAlgorithmChooser() {
         //Setup
         LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
         algorithms.add(new Algorithm("Algorithm 1"));
         algorithms.add(new Algorithm("Algorithm 2"));
 
         //Execute
-        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms);
+        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
         //Test
         assertEquals(2, jarChooser.getWidgetCount());

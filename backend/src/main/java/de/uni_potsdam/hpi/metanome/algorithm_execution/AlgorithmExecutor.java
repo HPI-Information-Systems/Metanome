@@ -69,8 +69,8 @@ public class AlgorithmExecutor implements Closeable {
     public long executeAlgorithm(String algorithmFileName,
                                  List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
 
-        List<ConfigurationValue> parameterValues = new LinkedList<>();
-        //TODO convert specs to values
+        List<ConfigurationValue> parameterValues = new LinkedList<ConfigurationValue>();
+
         for (ConfigurationSpecification specification : parameters) {
             parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
         }
