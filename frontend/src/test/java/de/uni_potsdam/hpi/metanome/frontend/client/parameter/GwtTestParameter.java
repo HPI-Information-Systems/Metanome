@@ -16,33 +16,22 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.TextBox;
-
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import com.google.gwt.user.client.ui.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GwtTestParameter extends GWTTestCase {
 
     @Test
     public void testParameterTable() {
         //Setup
-        List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        List<ConfigurationSpecification> paramList = new ArrayList<>();
 
         ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
         ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
@@ -78,7 +67,7 @@ public class GwtTestParameter extends GWTTestCase {
     @Test
     public void testRetrieveSimpleParameterValues() throws InputValidationException {
         //Setup
-        ArrayList<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
         ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
         ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
@@ -240,7 +229,7 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
         primaryDataSource.setFileName("/inputA.csv");
 
-        ArrayList<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
         ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
         paramList.add(ConfigurationSpecificationCsvFile);
 

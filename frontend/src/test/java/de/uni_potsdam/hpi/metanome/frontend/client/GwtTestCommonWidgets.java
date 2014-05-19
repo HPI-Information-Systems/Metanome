@@ -16,21 +16,19 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.LinkedList;
-
 import com.google.gwt.junit.client.GWTTestCase;
-
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
 import org.junit.Test;
+
+import java.util.LinkedList;
 
 public class GwtTestCommonWidgets extends GWTTestCase {
 
     @Test
     public void testAlgorithmChooser() {
         //Setup
-        LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
+        LinkedList<Algorithm> algorithms = new LinkedList<>();
         algorithms.add(new Algorithm("Algorithm 1"));
         algorithms.add(new Algorithm("Algorithm 2"));
 

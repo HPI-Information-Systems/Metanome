@@ -34,7 +34,7 @@ public class ColumnCombination implements Serializable {
      * Exists for GWT serialization.
      */
     protected ColumnCombination() {
-        columnCombination = new TreeSet<ColumnIdentifier>();
+        columnCombination = new TreeSet<>();
     }
 
     /**
@@ -43,7 +43,7 @@ public class ColumnCombination implements Serializable {
      * @param columnIdentifier the identifier in the ColumnCombination
      */
     public ColumnCombination(ColumnIdentifier... columnIdentifier) {
-        columnCombination = new TreeSet<ColumnIdentifier>(Arrays.asList(columnIdentifier));
+        columnCombination = new TreeSet<>(Arrays.asList(columnIdentifier));
     }
 
     /**
