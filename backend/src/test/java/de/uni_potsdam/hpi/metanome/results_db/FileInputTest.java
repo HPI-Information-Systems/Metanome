@@ -60,12 +60,26 @@ public class FileInputTest {
     }
 
     /**
+     * Test method for {@link FileInput#FileInput()}
+     *
+     * After calling the constructor the default parser parameters should be set.
+     */
+    @Test
+    public void testConstructor() {
+        // Execute functionality
+        FileInput actualFileInput = new FileInput();
+
+        // Check result
+        checkDefaultParserSettings(actualFileInput);
+    }
+
+    /**
      * Test method for {@link FileInput#FileInput(String)}
      *
      * After calling the constructor with a file name, the file name should be set and the default parser settings.
      */
     @Test
-    public void testConstructor() {
+    public void testConstructorFileName() {
         // Setup
         // Expected values
         String expectedFileName = "some file name";
@@ -75,6 +89,10 @@ public class FileInputTest {
 
         // Check result
         assertEquals(expectedFileName, actualFileInput.getFileName());
+        checkDefaultParserSettings(actualFileInput);
+    }
+
+    protected void checkDefaultParserSettings(FileInput actualFileInput) {
         assertEquals(CSVParser.DEFAULT_SEPARATOR, actualFileInput.getSeparator());
         assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, actualFileInput.getQuotechar());
         assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, actualFileInput.getEscapechar());

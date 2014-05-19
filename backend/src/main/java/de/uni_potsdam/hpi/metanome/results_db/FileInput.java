@@ -41,19 +41,9 @@ public class FileInput extends Input {
     protected boolean skipDifferingLines;
 
     /**
-     * Exists for hibernate serialization
+     * Constructs a FileInput with default parser settings.
      */
-    protected FileInput() {
-
-    }
-
-    /**
-     * Constructs a FileInput with a given file name. Default parser settings are set.
-     *
-     * @param fileName input's file name
-     */
-    public FileInput(String fileName) {
-        this.fileName = fileName;
+    public FileInput() {
         this.separator = CSVParser.DEFAULT_SEPARATOR;
         this.quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
         this.escapechar = CSVParser.DEFAULT_ESCAPE_CHARACTER;
@@ -62,6 +52,17 @@ public class FileInput extends Input {
         this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
         this.hasHeader = CsvFile.DEFAULT_HAS_HEADER;
         this.skipDifferingLines = CsvFile.DEFAULT_SKIP_DIFFERING_LINES;
+    }
+
+    /**
+     * Constructs a FileInput with a given file name. Default parser settings are set.
+     *
+     * @param fileName input's file name
+     */
+    public FileInput(String fileName) {
+        this();
+        this.fileName = fileName;
+
     }
 
     /**
