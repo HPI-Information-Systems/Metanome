@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
@@ -54,6 +57,32 @@ public class FileInputTest {
 
         // Cleanup
         HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link FileInput#FileInput(String)}
+     *
+     * After calling the constructor with a file name, the file name should be set and the default parser settings.
+     */
+    @Test
+    public void testConstructor() {
+        // Setup
+        // Expected values
+        String expectedFileName = "some file name";
+
+        // Execute functionality
+        FileInput actualFileInput = new FileInput(expectedFileName);
+
+        // Check result
+        assertEquals(expectedFileName, actualFileInput.getFileName());
+        assertEquals(CSVParser.DEFAULT_SEPARATOR, actualFileInput.getSeparator());
+        assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, actualFileInput.getQuotechar());
+        assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, actualFileInput.getEscapechar());
+        assertEquals(CSVReader.DEFAULT_SKIP_LINES, actualFileInput.getSkipLines());
+        assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, actualFileInput.isStrictQuotes());
+        assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, actualFileInput.isIgnoreLeadingWhiteSpace());
+        assertEquals(CsvFile.DEFAULT_HAS_HEADER, actualFileInput.isHasHeader());
+        assertEquals(CsvFile.DEFAULT_SKIP_DIFFERING_LINES, actualFileInput.isSkipDifferingLines());
     }
 
     /**
