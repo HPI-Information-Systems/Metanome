@@ -22,10 +22,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SqlIteratorGenerator implements SqlInputGenerator {
 
     protected Connection dbConnection;
+    private List<Statement> statements = new LinkedList<>();
 
     /**
      * Exists for tests.
@@ -67,6 +70,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
         Statement sqlStatement;
         try {
             sqlStatement = dbConnection.createStatement();
+            statements.add(sqlStatement);
         } catch (SQLException e) {
             throw new InputGenerationException("Could not create sql statement on connection.");
         }
@@ -83,6 +87,13 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     @Override
     public ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException {
         return executeQuery(queryString);
+    }
+
+    @Override
+    public void closeAllStatements() throws SQLException {
+        for (Statement statement : statements) {
+            statement.close();
+        }
     }
 
     @Override

@@ -16,13 +16,15 @@
 
 package de.uni_potsdam.hpi.metanome.input.sql;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.input.sql.SqlIterator}
@@ -30,7 +32,6 @@ import static org.mockito.Mockito.verify;
  * @author Jakob Zwiener
  */
 public class SqlIteratorGeneratorTest {
-
 
     /**
      * Test method for {@link SqlIteratorGenerator#close()}
@@ -51,5 +52,34 @@ public class SqlIteratorGeneratorTest {
 
         // Check result
         verify(connection).close();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator#executeQuery(String)} and {@link SqlIteratorGenerator#closeAllStatements()}
+     * <p/>
+     * All executed statements should be stored and closed on closeAllStatements.
+     */
+    @Test
+    public void testCloseAllStatements() throws SQLException, InputGenerationException {
+        // Setup
+        SqlIteratorGenerator sqlIteratorGenerator = new SqlIteratorGenerator();
+        Connection connection = mock(Connection.class);
+        sqlIteratorGenerator.dbConnection = connection;
+
+        Statement statementMock1 = mock(Statement.class);
+        when(statementMock1.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
+        Statement statementMock2 = mock(Statement.class);
+        when(statementMock2.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
+
+        when(connection.createStatement()).thenReturn(statementMock1, statementMock2);
+
+        // Execute functionality
+        sqlIteratorGenerator.executeQuery("some query 1");
+        sqlIteratorGenerator.executeQuery("some query 2");
+        sqlIteratorGenerator.closeAllStatements();
+
+        // Check result
+        verify(statementMock1).close();
+        verify(statementMock2).close();
     }
 }
