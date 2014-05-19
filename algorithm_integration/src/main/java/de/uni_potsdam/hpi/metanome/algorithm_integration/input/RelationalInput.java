@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableList;
  *
  * @author Jakob Zwiener
  */
-public interface RelationalInput {
+public interface RelationalInput extends AutoCloseable {
 
     /**
      * If the {@link RelationalInput} has another row this method returns true.

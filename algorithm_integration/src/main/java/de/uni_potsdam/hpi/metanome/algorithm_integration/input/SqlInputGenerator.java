@@ -23,7 +23,7 @@ import java.sql.ResultSet;
  *
  * @author Jakob Zwiener
  */
-public interface SQLInputGenerator {
+public interface SqlInputGenerator extends AutoCloseable {
 
     /**
      * Creates a {@link RelationalInput} from an sql statement issued to a database.

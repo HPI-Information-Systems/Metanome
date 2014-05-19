@@ -22,23 +22,28 @@ import com.google.common.collect.ImmutableList;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
 
 /**
  * {@link CsvFile}s are Iterators over lines in a csv file.
+ *
+ * @author Jakob Zwiener
  */
-public class CsvFile implements RelationalInput, Closeable {
+public class CsvFile implements RelationalInput {
 
     protected static final boolean DEFAULT_HAS_HEADER = false;
+    protected static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
     protected static final String DEFAULT_HEADER_STRING = "column";
 
     protected CSVReader csvReader;
+    protected boolean skipDifferingLines;
     protected ImmutableList<String> headerLine;
     protected ImmutableList<String> nextLine;
     protected String relationName;
     protected int numberOfColumns = 0;
+    // Initialized to -1 because of lookahead
+    protected int currentLineNumber = -1;
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar) throws InputIterationException {
         this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
@@ -53,15 +58,22 @@ public class CsvFile implements RelationalInput, Closeable {
     }
 
     public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader) throws InputIterationException {
+        this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader, DEFAULT_SKIP_DIFFERING_LINES);
+    }
+
+    public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape, int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader, boolean skipDifferingLines) throws InputIterationException {
         this.relationName = relationName;
         this.csvReader = new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace);
-        if (hasHeader) {
-            this.headerLine = readNextLine();
-        }
+        this.skipDifferingLines = skipDifferingLines;
 
         this.nextLine = readNextLine();
         if (this.nextLine != null) {
             this.numberOfColumns = this.nextLine.size();
+        }
+
+        if (hasHeader) {
+            this.headerLine = this.nextLine;
+            next();
         }
 
         // If the header is still null generate a standard header the size of number of columns.
@@ -78,11 +90,38 @@ public class CsvFile implements RelationalInput, Closeable {
     @Override
     public ImmutableList<String> next() throws InputIterationException {
         ImmutableList<String> currentLine = this.nextLine;
-        this.nextLine = readNextLine();
-        if ((hasNext()) && (this.nextLine.size() != currentLine.size())) {
-            throw new InputIterationException("Csv line length did not match.");
+
+        if (currentLine == null) {
+            return null;
         }
+        this.nextLine = readNextLine();
+
+        if (this.skipDifferingLines) {
+            readToNextValidLine();
+        } else {
+            failDifferingLine(currentLine);
+        }
+
         return currentLine;
+    }
+
+    protected void failDifferingLine(ImmutableList<String> currentLine) throws InputIterationException {
+        if (currentLine.size() != this.numberOfColumns()) {
+            throw new InputIterationException("Csv line length did not match on line " + currentLineNumber);
+        }
+    }
+
+    protected void readToNextValidLine() throws InputIterationException {
+        if (!hasNext()) {
+            return;
+        }
+
+        while (this.nextLine.size() != this.numberOfColumns()) {
+            this.nextLine = readNextLine();
+            if (!hasNext()) {
+                break;
+            }
+        }
     }
 
     protected ImmutableList<String> generateHeaderLine() {
@@ -97,6 +136,7 @@ public class CsvFile implements RelationalInput, Closeable {
         String[] lineArray;
         try {
             lineArray = this.csvReader.readNext();
+            currentLineNumber++;
         } catch (IOException e) {
             throw new InputIterationException("Could not read next line in csv file.");
         }

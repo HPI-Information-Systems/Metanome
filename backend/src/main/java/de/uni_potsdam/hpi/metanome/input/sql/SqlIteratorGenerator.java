@@ -19,13 +19,19 @@ package de.uni_potsdam.hpi.metanome.input.sql;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SQLInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.sql.*;
 
-public class SqlIteratorGenerator implements SQLInputGenerator {
+public class SqlIteratorGenerator implements SqlInputGenerator {
 
     protected Connection dbConnection;
+
+    /**
+     * Exists for tests.
+     */
+    protected SqlIteratorGenerator() {
+    }
 
     public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
         try {
@@ -53,7 +59,7 @@ public class SqlIteratorGenerator implements SQLInputGenerator {
     /**
      * Executes the given query and returns the associated {@link ResultSet}.
      *
-     * @param queryString
+     * @param queryString the query string to execute
      * @return associated {@link ResultSet}
      * @throws InputGenerationException
      */
@@ -67,6 +73,7 @@ public class SqlIteratorGenerator implements SQLInputGenerator {
         ResultSet resultSet;
         try {
             resultSet = sqlStatement.executeQuery(queryString);
+            sqlStatement.closeOnCompletion();
         } catch (SQLException e) {
             throw new InputGenerationException("Could not execute sql statement.");
         }
@@ -79,4 +86,8 @@ public class SqlIteratorGenerator implements SQLInputGenerator {
         return executeQuery(queryString);
     }
 
+    @Override
+    public void close() throws SQLException {
+        dbConnection.close();
+    }
 }

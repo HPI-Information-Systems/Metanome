@@ -21,6 +21,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
 import java.util.LinkedList;
@@ -28,9 +30,10 @@ import java.util.List;
 
 public class ParameterTable extends FlexTable {
 
-    private List<InputParameterWidget> childWidgets = new LinkedList<InputParameterWidget>();
-    private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<InputParameterDataSourceWidget>();
+    private List<InputParameterWidget> childWidgets = new LinkedList<>();
+    private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<>();
     private Button executeButton;
+    private TabWrapper errorReceiver;
 
     /**
      * Creates a ParameterTable for user input for the given parameters.
@@ -39,9 +42,11 @@ public class ParameterTable extends FlexTable {
      *
      * @param paramList         the list of parameters asked for by the algorithm.
      * @param primaryDataSource
+     * @param errorReceiver
      */
-    public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource) {
+    public ParameterTable(List<ConfigurationSpecification> paramList, ConfigurationSettingDataSource primaryDataSource, TabWrapper errorReceiver) {
         super();
+        this.errorReceiver = errorReceiver;
 
         int i = 0;
         for (ConfigurationSpecification param : paramList) {
@@ -75,18 +80,23 @@ public class ParameterTable extends FlexTable {
      * the execution service corresponding to the current tab.
      */
     public void submit() {
-        List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
-        List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
-        getAlgorithmTab().callExecutionService(parameters, dataSources);
+        try {
+            List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
+            List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
+            getAlgorithmTab().callExecutionService(parameters, dataSources);
+        } catch (InputValidationException e) {
+            this.errorReceiver.addError(e.getMessage());
+        }
     }
 
     /**
      * Iterates over the child widgets that represent data sources and retrieves their user input.
      *
      * @return The list of {@link InputParameterDataSource}s of this ParameterTable with their user-set values.
+     * @throws InputValidationException
      */
-    public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() {
-        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
+    public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() throws InputValidationException {
+        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
         for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets) {
             parameterList.add(childWidget.getUpdatedSpecification());
         }
@@ -97,9 +107,10 @@ public class ParameterTable extends FlexTable {
      * Iterates over the child widgets and retrieves their user input.
      *
      * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set values.
+     * @throws InputValidationException
      */
-    public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() {
-        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<ConfigurationSpecification>();
+    public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues() throws InputValidationException {
+        LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
         for (InputParameterWidget childWidget : this.childWidgets) {
             parameterList.add(childWidget.getUpdatedSpecification());
         }
@@ -116,5 +127,4 @@ public class ParameterTable extends FlexTable {
     private RunConfigurationPage getAlgorithmTab() {
         return (RunConfigurationPage) this.getParent();
     }
-
 }

@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressBar extends Widget {

@@ -70,7 +70,7 @@ public class AlgorithmExecutor implements Closeable {
                                  List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
 
         List<ConfigurationValue> parameterValues = new LinkedList<>();
-        //TODO convert specs to values
+
         for (ConfigurationSpecification specification : parameters) {
             parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
         }

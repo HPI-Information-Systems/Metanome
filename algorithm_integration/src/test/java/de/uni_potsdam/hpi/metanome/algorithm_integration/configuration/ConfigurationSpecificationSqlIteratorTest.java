@@ -23,9 +23,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link ConfigurationSpecificationSQLIterator}
+ * Tests for {@link ConfigurationSpecificationSqlIterator}
  */
-public class ConfigurationSpecificationSQLIteratorTest {
+public class ConfigurationSpecificationSqlIteratorTest {
 
     /**
      * @throws Exception
@@ -44,7 +44,7 @@ public class ConfigurationSpecificationSQLIteratorTest {
     }
 
     /**
-     * Test method for {@link ConfigurationSpecificationSQLIterator#ConfigurationSpecificationSQLIterator(String)}
+     * Test method for {@link ConfigurationSpecificationSqlIterator#ConfigurationSpecificationSqlIterator(String)}
      * <p/>
      * The identifier should be set in the constructor and be retrievable through getIdentifier.
      * The numberOfValues should be set to 1.
@@ -55,7 +55,7 @@ public class ConfigurationSpecificationSQLIteratorTest {
         // Expected values
         String expectedIdentifier = "parameter1";
         int expectedNumberOfValues = 1;
-        ConfigurationSpecificationSQLIterator configSpec = new ConfigurationSpecificationSQLIterator(expectedIdentifier);
+        ConfigurationSpecificationSqlIterator configSpec = new ConfigurationSpecificationSqlIterator(expectedIdentifier);
 
         // Execute functionality
         String actualIdentifier = configSpec.getIdentifier();
@@ -67,7 +67,7 @@ public class ConfigurationSpecificationSQLIteratorTest {
     }
 
     /**
-     * Test method for {@link ConfigurationSpecificationSQLIterator#ConfigurationSpecificationSQLIterator(String)}
+     * Test method for {@link ConfigurationSpecificationSqlIterator#ConfigurationSpecificationSqlIterator(String)}
      * <p/>
      * The identifier should be set in the constructor and be retrievable through getIdentifier.
      * The numberOfValues should be set to 2.
@@ -78,7 +78,7 @@ public class ConfigurationSpecificationSQLIteratorTest {
         // Expected values
         String expectedIdentifier = "parameter1";
         int expectedNumberOfValues = 2;
-        ConfigurationSpecificationSQLIterator configSpec = new ConfigurationSpecificationSQLIterator(expectedIdentifier, expectedNumberOfValues);
+        ConfigurationSpecificationSqlIterator configSpec = new ConfigurationSpecificationSqlIterator(expectedIdentifier, expectedNumberOfValues);
 
         // Execute functionality
         String actualIdentifier = configSpec.getIdentifier();

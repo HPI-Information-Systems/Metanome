@@ -75,14 +75,14 @@ public class ProgressCacheTest {
     public void testUpdateProgressInvalidValues() {
         // Setup
         // Expected values
-        List<Float> validValues = new LinkedList<Float>();
+        List<Float> validValues = new LinkedList<>();
         validValues.add(1f);
         validValues.add(0f);
         validValues.add(0.5f);
 
         float expectedLastValidValue = 0.42f;
 
-        List<Float> invalidValues = new LinkedList<Float>();
+        List<Float> invalidValues = new LinkedList<>();
         invalidValues.add(1.1f);
         invalidValues.add(-0.1f);
         invalidValues.add(23f);

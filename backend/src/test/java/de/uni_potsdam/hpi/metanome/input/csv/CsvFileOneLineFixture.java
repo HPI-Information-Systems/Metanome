@@ -76,7 +76,7 @@ public class CsvFileOneLineFixture {
      * @return quoted strings
      */
     protected List<String> quoteStrings(List<String> unquotedStrings) {
-        List<String> quotedStrings = new LinkedList<String>();
+        List<String> quotedStrings = new LinkedList<>();
 
         for (String unquotedString : unquotedStrings) {
             quotedStrings.add(this.quoteChar + unquotedString + this.quoteChar);
@@ -98,7 +98,7 @@ public class CsvFileOneLineFixture {
     }
 
     public ImmutableList<String> getExpectedDefaultColumnNames() {
-        List<String> defaultColumnNames = new LinkedList<String>();
+        List<String> defaultColumnNames = new LinkedList<>();
 
         for (int i = 0; i < getExpectedNumberOfColumns(); i++) {
             defaultColumnNames.add(CsvFile.DEFAULT_HEADER_STRING + (i + 1));

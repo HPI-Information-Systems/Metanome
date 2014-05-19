@@ -20,7 +20,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -31,7 +30,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -42,12 +40,11 @@ import java.util.List;
  */
 public class GwtTestBasePage extends GWTTestCase {
 
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
     /**
      * this must contain an algorithm and a data source that are currently available
      */
     private String dataSourceName = "inputA.csv";
-    LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
-
     private BasePage testPage;
 
     /**
@@ -85,12 +82,12 @@ public class GwtTestBasePage extends GWTTestCase {
     @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
-    	final String algorithmName = "some_name";
+        final String algorithmName = "some_name";
         final BasePage page = new BasePage();
         Algorithm a = new Algorithm("file/name");
         a.setAuthor("author");
         a.setName(algorithmName);
-		algorithms.add(a);
+        algorithms.add(a);
 
         page.addAlgorithmsToRunConfigurations(algorithms);
 
@@ -110,7 +107,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
                 //Check
                 assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-                assertEquals(algorithmName, ((RunConfigurationPage) page.getWidget(page.getSelectedIndex()))
+                assertEquals(algorithmName, getRunConfigurationPage(page)
                         .getCurrentlySelectedAlgorithm());
 
 //				TODO Add testing to ensure the parameter table is shown
@@ -155,7 +152,7 @@ public class GwtTestBasePage extends GWTTestCase {
                 //Execute
                 page.jumpToRunConfiguration(null, finalDataSource);
 
-                RunConfigurationPage runConfigPage = (RunConfigurationPage) page.getWidget(page.getSelectedIndex());
+                RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 
                 //Check
                 assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
@@ -169,6 +166,11 @@ public class GwtTestBasePage extends GWTTestCase {
         ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
+    }
+
+    private RunConfigurationPage getRunConfigurationPage(
+            final BasePage page) {
+        return (RunConfigurationPage) ((TabWrapper) page.getWidget(page.getSelectedIndex())).contentPanel;
     }
 
     @Override

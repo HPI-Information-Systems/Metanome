@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.Label;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -37,9 +39,12 @@ import java.util.List;
  * The page can be referenced (and switched to) by other pages with pre-set values. Executing an
  * algorithm navigates to the corresponding Results page.
  */
-public class RunConfigurationPage extends DockPanel {
+public class RunConfigurationPage extends DockPanel implements TabContent {
     public ConfigurationSettingDataSource primaryDataSource;
+    
     protected BasePage basePage;
+    protected TabWrapper errorReceiver;
+
     protected ParameterTable parameterTable;
     protected AlgorithmChooser algorithmChooser;
     protected Label primaryDataSourceLabel;
@@ -59,7 +64,8 @@ public class RunConfigurationPage extends DockPanel {
 
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
-        this.algorithmChooser = new AlgorithmChooser(null);
+
+		this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
         this.add(this.algorithmChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
@@ -74,7 +80,7 @@ public class RunConfigurationPage extends DockPanel {
      */
     public void addParameterTable(List<ConfigurationSpecification> paramList) {
         removeParameterTable();
-        parameterTable = new ParameterTable(paramList, primaryDataSource);
+        parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
         this.add(parameterTable, DockPanel.SOUTH);
     }
 
@@ -151,5 +157,15 @@ public class RunConfigurationPage extends DockPanel {
     public AlgorithmChooser getJarChooser() {
         return algorithmChooser;
     }
+
+
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+		this.algorithmChooser.setErrorReceiver(tab);
+	}
 
 }

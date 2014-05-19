@@ -34,7 +34,7 @@ public class ConfigurationValueRelationalInputGenerator implements Configuration
     protected final RelationalInputGenerator[] values;
 
     /**
-     * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier and the boolean value.
+     * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier and the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator}values.
      *
      * @param identifier
      * @param values
