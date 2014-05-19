@@ -35,6 +35,8 @@ public class FileInput extends Input {
     protected boolean ignoreLeadingWhiteSpace;
     protected boolean hasHeader;
 
+    // TODO add constructor with standard parser settings
+
     /**
      * Stores an FileInput in the database.
      *

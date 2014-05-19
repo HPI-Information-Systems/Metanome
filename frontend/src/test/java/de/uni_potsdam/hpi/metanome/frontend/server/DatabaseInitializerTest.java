@@ -17,15 +17,16 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
+import de.uni_potsdam.hpi.metanome.results_db.*;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import javax.servlet.ServletContextEvent;
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,25 +35,25 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link AlgorithmDatabaseInitializer}
+ * Tests for {@link DatabaseInitializer}
  *
  * @author Jakob Zwiener
  */
-public class AlgorithmDatabaseInitializerTest {
+public class DatabaseInitializerTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmDatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
+     * Test method for {@link DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
      * <p/>
      * All algorithm jars should be represented by algorithms in the database with correct file names as key.
      * Algorithms should have the correct types assigned.
      */
     @Test
-    public void testContextInitialized() throws IOException, ClassNotFoundException {
+    public void testContextInitializedAlgorithms() throws IOException, ClassNotFoundException {
         // Setup
         HibernateUtil.clear();
 
         AlgorithmFinder jarFinder = new AlgorithmFinder();
-        AlgorithmDatabaseInitializer initializer = new AlgorithmDatabaseInitializer();
+        DatabaseInitializer initializer = new DatabaseInitializer();
 
         // Expected values
         String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
@@ -83,21 +84,21 @@ public class AlgorithmDatabaseInitializerTest {
 
         Algorithm algorithm = new Algorithm(algorithmFileName, algorithmInterfaces);
         algorithm.setName(algorithmFileName.replaceAll(".jar", ""));
-        
-		return algorithm;
+
+        return algorithm;
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmDatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
+     * Test method for {@link DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
      * <p/>
      * If the algorithm table is already populated it should not be initialized.
      */
     @Test
-    public void testContextInitializedNotEmpty() throws EntityStorageException {
+    public void testContextInitializedAlgorithmsNotEmpty() throws EntityStorageException {
         // Setup
         HibernateUtil.clear();
 
-        AlgorithmDatabaseInitializer initializer = new AlgorithmDatabaseInitializer();
+        DatabaseInitializer initializer = new DatabaseInitializer();
         // Expected values
         Algorithm expectedAlgorithm = new Algorithm("some file name");
         Algorithm.store(expectedAlgorithm);
@@ -108,6 +109,73 @@ public class AlgorithmDatabaseInitializerTest {
 
         // Check result
         assertThat(actualAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
+     * <p/>
+     * The database should be initialized with the found input files. The input file entries should have the correct file name.
+     *
+     * @throws UnsupportedEncodingException
+     * @throws EntityStorageException
+     */
+    @Test
+    public void testContextInitializedInputs() throws UnsupportedEncodingException, EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        InputDataFinder dataFinder = new InputDataFinder();
+        DatabaseInitializer initializer = new DatabaseInitializer();
+
+        // Expected values
+        File[] inputDataFiles = dataFinder.getAvailableCsvs();
+        String[] expectedFileNames = new String[inputDataFiles.length];
+        for (int i = 0; i < inputDataFiles.length; i++) {
+            expectedFileNames[i] = inputDataFiles[i].getName();
+        }
+
+        // Execute functionality
+        initializer.contextInitialized(mock(ServletContextEvent.class));
+        List<Input> actualInputs = Input.retrieveAll();
+
+        // Check result
+        // Extract actual input file names
+        List<String> actualFileNames = new LinkedList<>();
+        for (Input actualInput : actualInputs) {
+            actualFileNames.add(((FileInput) actualInput).getFileName());
+        }
+
+        // Check input's file names
+        assertThat(actualFileNames, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFileNames));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
+     * <p/>
+     * If the inputs table is already populated it should not be initialized.
+     */
+    @Test
+    public void testContextInitializedInputsNotEmpty() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        DatabaseInitializer initializer = new DatabaseInitializer();
+        // Expected values
+        FileInput expectedFileInput = new FileInput();
+        FileInput.store(expectedFileInput);
+
+        // Execute functionality
+        initializer.contextInitialized(mock(ServletContextEvent.class));
+        List<Input> actualInputs = Input.retrieveAll();
+
+        // Check result
+        assertThat(actualInputs, IsIterableContainingInAnyOrder.containsInAnyOrder((Input) expectedFileInput));
 
         // Cleanup
         HibernateUtil.clear();
