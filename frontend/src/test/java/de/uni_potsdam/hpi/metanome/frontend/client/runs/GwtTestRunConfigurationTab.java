@@ -16,20 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests for the algorithm specific pages (tabs)
@@ -52,7 +49,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
     public void testAddParameterTable() {
         //Setup
         RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-        List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        List<ConfigurationSpecification> paramList = new ArrayList<>();
         int widgetCount = runConfigPage.getWidgetCount();
 
         //Execute
@@ -67,7 +64,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
         //Setup
         RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
         int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
-        LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
+        LinkedList<Algorithm> algorithms = new LinkedList<>();
         algorithms.add(new Algorithm("Algorithm 1"));
         algorithms.add(new Algorithm("Algorithm 2"));
 
@@ -96,7 +93,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
     public void testForwardParamters() {
         //Setup
         RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-        List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        List<ConfigurationSpecification> paramList = new ArrayList<>();
         paramList.add(new ConfigurationSpecificationString("someString"));
         paramList.add(new ConfigurationSpecificationCsvFile("theDataSource"));
 
@@ -108,10 +105,10 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
     }
 
     protected String setUpJarChooser(RunConfigurationPage runConfigPage) {
-    	String algoName = "somethingRandom";
-    	LinkedList<Algorithm> algorithms = new LinkedList<Algorithm>();
-    	Algorithm a1 = new Algorithm("file/name/1");
-    	a1.setName("Algorithm 1");
+        String algoName = "somethingRandom";
+        LinkedList<Algorithm> algorithms = new LinkedList<>();
+        Algorithm a1 = new Algorithm("file/name/1");
+        a1.setName("Algorithm 1");
         algorithms.add(a1);
         Algorithm a2 = new Algorithm("file/name/2");
         a2.setName(algoName);
@@ -119,7 +116,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
         Algorithm a3 = new Algorithm("file/name/3");
         a3.setName("A..3");
         algorithms.add(a3);
-        
+
         runConfigPage.addAlgorithms(algorithms);
         assertEquals("--", runConfigPage.getCurrentlySelectedAlgorithm());
         return algoName;

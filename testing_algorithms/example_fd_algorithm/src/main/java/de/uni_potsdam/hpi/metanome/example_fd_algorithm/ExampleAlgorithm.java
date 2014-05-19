@@ -41,7 +41,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 
     @Override
     public List<ConfigurationSpecification> getConfigurationRequirements() {
-        List<ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
+        List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
 
         configurationSpecification.add(new ConfigurationSpecificationString("pathToOutputFile"));
         configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
