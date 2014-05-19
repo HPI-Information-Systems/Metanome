@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class ResultsHub implements CloseableOmniscientResultReceiver {
 
-    protected Set<CloseableOmniscientResultReceiver> subscriber = new HashSet<CloseableOmniscientResultReceiver>();
+    protected Set<CloseableOmniscientResultReceiver> subscriber = new HashSet<>();
 
     /**
      * Adds an {@link CloseableOmniscientResultReceiver} to the set of subscribers.

@@ -80,7 +80,7 @@ public class ResultSetTwoLinesFixture {
     }
 
     public List<Boolean> getExpectedNextValues() {
-        List<Boolean> expectedNextValues = new ArrayList<Boolean>();
+        List<Boolean> expectedNextValues = new ArrayList<>();
 
         expectedNextValues.add(true);
         expectedNextValues.add(true);
@@ -90,7 +90,7 @@ public class ResultSetTwoLinesFixture {
     }
 
     public List<ImmutableList<String>> getExpectedRecords() {
-        List<ImmutableList<String>> expectedRecords = new ArrayList<ImmutableList<String>>();
+        List<ImmutableList<String>> expectedRecords = new ArrayList<>();
 
         expectedRecords.add(ImmutableList.of("cell1", "cell2", "cell3"));
         expectedRecords.add(ImmutableList.of("cell4", "cell5", "cell6"));
