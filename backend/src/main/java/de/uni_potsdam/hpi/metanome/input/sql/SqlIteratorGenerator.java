@@ -39,6 +39,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
         try {
             this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
+            this.dbConnection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new AlgorithmConfigurationException("Failed to get Database Connection");
         }
