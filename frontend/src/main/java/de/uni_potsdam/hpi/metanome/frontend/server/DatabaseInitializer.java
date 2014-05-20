@@ -85,7 +85,7 @@ public class DatabaseInitializer implements ServletContextListener {
     }
 
     /**
-     * TODO docs
+     * Prefills the inputs table in the database with the existing input files.
      */
     protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
         // only prefill input table if currently empty
@@ -98,9 +98,7 @@ public class DatabaseInitializer implements ServletContextListener {
         File[] inputs = inputDataFinder.getAvailableCsvs();
 
         for (File input : inputs) {
-            FileInput fileInput = new FileInput();
-            // TODO fill with standard settings
-            fileInput.setFileName(input.getName());
+            FileInput fileInput = new FileInput(input.getName());
             try {
                 FileInput.store(fileInput);
             } catch (EntityStorageException e) {
