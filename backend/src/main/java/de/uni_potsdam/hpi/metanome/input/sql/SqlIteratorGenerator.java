@@ -25,8 +25,21 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Generates {@link de.uni_potsdam.hpi.metanome.input.sql.SqlIterator}s or {@link java.sql.ResultSet}s for a given query.
+ *
+ * @author Jakob Zwiener
+ * @see de.uni_potsdam.hpi.metanome.input.sql.SqlIterator
+ * @see java.sql.ResultSet
+ */
 public class SqlIteratorGenerator implements SqlInputGenerator {
 
+    public static final int DEFAULT_FETCH_SIZE = 100;
+    private int fetchSize = DEFAULT_FETCH_SIZE;
+    public static final int DEFAULT_RESULT_SET_TYPE = ResultSet.TYPE_FORWARD_ONLY;
+    private int resultSetType = DEFAULT_RESULT_SET_TYPE;
+    public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
+    private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
     protected Connection dbConnection;
     private List<Statement> statements = new LinkedList<>();
 
@@ -39,6 +52,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
         try {
             this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
+            this.dbConnection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new AlgorithmConfigurationException("Failed to get Database Connection");
         }
@@ -69,7 +83,8 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     protected ResultSet executeQuery(String queryString) throws InputGenerationException {
         Statement sqlStatement;
         try {
-            sqlStatement = dbConnection.createStatement();
+            sqlStatement = dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
+            sqlStatement.setFetchSize(getFetchSize());
             statements.add(sqlStatement);
         } catch (SQLException e) {
             throw new InputGenerationException("Could not create sql statement on connection.");
@@ -99,5 +114,32 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     @Override
     public void close() throws SQLException {
         dbConnection.close();
+    }
+
+    public int getFetchSize() {
+        return fetchSize;
+    }
+
+    public SqlIteratorGenerator setFetchSize(int fetchSize) {
+        this.fetchSize = fetchSize;
+        return this;
+    }
+
+    public int getResultSetType() {
+        return resultSetType;
+    }
+
+    public SqlIteratorGenerator setResultSetType(int resultSetType) {
+        this.resultSetType = resultSetType;
+        return this;
+    }
+
+    public int getResultSetConcurrency() {
+        return resultSetConcurrency;
+    }
+
+    public SqlIteratorGenerator setResultSetConcurrency(int resultSetConcurrency) {
+        this.resultSetConcurrency = resultSetConcurrency;
+        return this;
     }
 }
