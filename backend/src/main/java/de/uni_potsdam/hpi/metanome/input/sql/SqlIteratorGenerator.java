@@ -84,6 +84,7 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
         Statement sqlStatement;
         try {
             sqlStatement = dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
+            sqlStatement.setFetchSize(getFetchSize());
             statements.add(sqlStatement);
         } catch (SQLException e) {
             throw new InputGenerationException("Could not create sql statement on connection.");
