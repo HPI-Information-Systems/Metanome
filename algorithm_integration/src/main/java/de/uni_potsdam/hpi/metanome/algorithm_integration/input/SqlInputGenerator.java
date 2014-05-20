@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.input;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Generates new copies of {@link RelationalInput}s or {@link ResultSet}s.
@@ -42,4 +43,9 @@ public interface SqlInputGenerator extends AutoCloseable {
      * @throws InputGenerationException if the result cannot be generated
      */
     ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException;
+
+    /**
+     * Closes all executed statements.
+     */
+    void closeAllStatements() throws SQLException;
 }
