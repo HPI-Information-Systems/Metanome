@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class ResultsCache implements CloseableOmniscientResultReceiver {
 
-    protected List<Result> results = new LinkedList<Result>();
+    protected List<Result> results = new LinkedList<>();
 
     @Override
     public void receiveResult(BasicStatistic statistic) {
@@ -59,7 +59,7 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
      */
     public ArrayList<Result> getNewResults() {
         // FIXME synchronization
-        ArrayList<Result> currentResults = new ArrayList<Result>(results);
+        ArrayList<Result> currentResults = new ArrayList<>(results);
         results.clear();
         return currentResults;
     }

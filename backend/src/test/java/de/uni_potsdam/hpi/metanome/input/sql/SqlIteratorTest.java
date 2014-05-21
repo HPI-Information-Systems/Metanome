@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -178,7 +179,7 @@ public class SqlIteratorTest {
     /**
      * Test method for {@link SqlIterator#close()}
      * <p/>
-     * The sql iterator should be closeable. After closing the iterator, the underlying result set should be closed.
+     * The sql iterator should be closeable. After closing the iterator, the underlying result set and statement should be closed.
      *
      * @throws java.lang.Exception
      */
@@ -186,6 +187,8 @@ public class SqlIteratorTest {
     public void testClose() throws Exception {
         // Setup
         ResultSet resultSetMock = twoLinesResultSetFixture.getTestData();
+        Statement statementMock = mock(Statement.class);
+        when(resultSetMock.getStatement()).thenReturn(statementMock);
         SqlIterator sqlIterator = new SqlIterator(resultSetMock);
 
         // Execute functionality
@@ -193,6 +196,7 @@ public class SqlIteratorTest {
 
         // Check result
         verify(resultSetMock).close();
+        verify(statementMock).close();
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.List;
 public class PositionListIndexFixture {
 
     PositionListIndex getFirstPLI() {
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
 
         long[] cluster1 = {2, 4, 8};
         clusters.add(new LongArrayList(cluster1));
@@ -44,7 +44,7 @@ public class PositionListIndexFixture {
     }
 
     protected PositionListIndex getPermutatedFirstPLI() {
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
 
         long[] cluster1 = {7, 6, 5};
         clusters.add(new LongArrayList(cluster1));
@@ -55,7 +55,7 @@ public class PositionListIndexFixture {
     }
 
     protected PositionListIndex getSupersetOfFirstPLI() {
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
 
         long[] cluster1 = {7, 6, 5};
         clusters.add(new LongArrayList(cluster1));
@@ -82,7 +82,7 @@ public class PositionListIndexFixture {
     }
 
     protected PositionListIndex getSecondPLI() {
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
 
         long[] cluster1 = {1, 2, 5, 8};
         clusters.add(new LongArrayList(cluster1));
@@ -97,7 +97,7 @@ public class PositionListIndexFixture {
     }
 
     protected PositionListIndex getExpectedIntersectedPLI() {
-        List<LongArrayList> clusters = new ArrayList<LongArrayList>();
+        List<LongArrayList> clusters = new ArrayList<>();
 
         long[] cluster1 = {2, 8};
         clusters.add(new LongArrayList(cluster1));

@@ -17,10 +17,12 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.Input}
@@ -72,6 +74,34 @@ public class InputTest {
         oldId = input.getId();
         Input.store(input);
         assertNotEquals(oldId, input.getId());
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Input#retrieveAll()}
+     */
+    @Test
+    public void testRetrieveAll() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Input expectedInput = new Input();
+        Input.store(expectedInput);
+
+        FileInput expectedFileInput = new FileInput();
+        FileInput.store(expectedFileInput);
+
+        TableInput expectedTableInput = new TableInput();
+        TableInput.store(expectedTableInput);
+
+        // Execute functionality
+        List<Input> actualInputs = Input.retrieveAll();
+
+        // Check result
+        assertThat(actualInputs, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedInput, expectedFileInput, expectedTableInput));
 
         // Cleanup
         HibernateUtil.clear();

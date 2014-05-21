@@ -23,8 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder}
+ */
 public class InputDataFinderTest {
 
     InputDataFinder inputDataFinder;
@@ -34,6 +37,11 @@ public class InputDataFinderTest {
         inputDataFinder = new InputDataFinder();
     }
 
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder#retrieveCsvFiles(String)}
+     * <p/>
+     * When run on the a folder without any .csv files, the finder should not return any files. Otherwise it should return the correct number of csv files.
+     */
     @Test
     public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
         //Setup
@@ -45,16 +53,24 @@ public class InputDataFinderTest {
         File[] csvsInCsvFolder = inputDataFinder.retrieveCsvFiles(pathToCsvFolder);
 
         //Check
-        assertTrue(csvsInAlgorithmsFolder.length == 0);
-        assertTrue(csvsInCsvFolder.length > 0);
+        assertEquals(0, csvsInAlgorithmsFolder.length);
+        assertEquals(2, csvsInCsvFolder.length);
     }
 
+    /**
+     * Test method for {@link InputDataFinder#getAvailableCsvs()}
+     *
+     * The method should retrieve the correct number of csv input files.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     @Test
     public void testRetrieveAllCsvFiles() throws IOException, ClassNotFoundException {
         //Execute
-        File[] csvs = inputDataFinder.getAvailableCsvs();
+        File[] actualCsvs = inputDataFinder.getAvailableCsvs();
 
         //Check
-        assertTrue(csvs.length > 0);
+        assertEquals(2, actualCsvs.length);
     }
 }

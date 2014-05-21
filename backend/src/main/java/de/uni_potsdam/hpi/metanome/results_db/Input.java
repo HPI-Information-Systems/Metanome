@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Represents superclass inputs in the database.
@@ -50,6 +51,16 @@ public class Input {
         return (Input) HibernateUtil.retrieve(Input.class, id);
     }
 
+    /**
+     * Retrieves all inputs and subclasses stored in the database.
+     *
+     * @return a list of all inputs
+     * @throws EntityStorageException
+     */
+    public static List<Input> retrieveAll() throws EntityStorageException {
+        return HibernateUtil.queryCriteria(Input.class);
+    }
+
     @Id
     @GeneratedValue
     public long getId() {
@@ -76,4 +87,6 @@ public class Input {
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
     }
+
+
 }

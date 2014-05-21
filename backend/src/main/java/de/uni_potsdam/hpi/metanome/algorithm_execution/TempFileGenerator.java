@@ -48,7 +48,7 @@ public class TempFileGenerator implements FileGenerator {
         // Create subdir.
         new File(this.pathToFolder).mkdirs();
 
-        this.createdFiles = new LinkedList<File>();
+        this.createdFiles = new LinkedList<>();
     }
 
     @Override

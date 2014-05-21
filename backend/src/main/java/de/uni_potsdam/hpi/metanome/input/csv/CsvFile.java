@@ -32,8 +32,9 @@ import java.io.Reader;
  */
 public class CsvFile implements RelationalInput {
 
-    protected static final boolean DEFAULT_HAS_HEADER = false;
-    protected static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
+    public static final boolean DEFAULT_HAS_HEADER = false;
+    public static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
+
     protected static final String DEFAULT_HEADER_STRING = "column";
 
     protected CSVReader csvReader;

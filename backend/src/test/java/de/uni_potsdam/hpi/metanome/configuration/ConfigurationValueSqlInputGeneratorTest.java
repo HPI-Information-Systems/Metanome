@@ -16,20 +16,19 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import org.junit.Test;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link ConfigurationValueSqlInputGenerator}
@@ -50,7 +49,7 @@ public class ConfigurationValueSqlInputGeneratorTest {
     public void testTriggerSetValue() throws AlgorithmConfigurationException {
         // Setup
         SqlInputParameterAlgorithm algorithm = mock(SqlInputParameterAlgorithm.class);
-        Set<Class<?>> interfaces = new HashSet<Class<?>>();
+        Set<Class<?>> interfaces = new HashSet<>();
         interfaces.add(SqlInputParameterAlgorithm.class);
         // Expected values
         String expectedIdentifier = "configId1";

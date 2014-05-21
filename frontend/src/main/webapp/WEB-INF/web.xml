@@ -60,7 +60,7 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmDatabaseInitializer</listener-class>
+        <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer</listener-class>
     </listener>
 
 </web-app>

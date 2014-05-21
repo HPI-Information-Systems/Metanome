@@ -30,31 +30,31 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PLIBuilderFixture {
-    protected List<ArrayList<String>> columns = new LinkedList<ArrayList<String>>();
+    protected List<ArrayList<String>> columns = new LinkedList<>();
 
     public PLIBuilderFixture() {
-        ArrayList<String> column1 = new ArrayList<String>();
+        ArrayList<String> column1 = new ArrayList<>();
         column1.add("1");
         column1.add("2");
         column1.add("3");
         column1.add("4");
         column1.add("5");
         columns.add(column1);
-        ArrayList<String> column2 = new ArrayList<String>();
+        ArrayList<String> column2 = new ArrayList<>();
         column2.add("1");
         column2.add("1");
         column2.add("1");
         column2.add("1");
         column2.add("1");
         columns.add(column2);
-        ArrayList<String> column3 = new ArrayList<String>();
+        ArrayList<String> column3 = new ArrayList<>();
         column3.add("5");
         column3.add("5");
         column3.add("3");
         column3.add("3");
         column3.add("5");
         columns.add(column3);
-        ArrayList<String> column4 = new ArrayList<String>();
+        ArrayList<String> column4 = new ArrayList<>();
         column4.add("");
         column4.add("2");
         column4.add("");
@@ -85,22 +85,22 @@ public class PLIBuilderFixture {
     }
 
     public List<TreeSet<String>> getExpectedDistinctSortedColumns() {
-        List<TreeSet<String>> distinctSortedColumns = new LinkedList<TreeSet<String>>();
+        List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
 
         for (ArrayList<String> columnValues : columns) {
-            distinctSortedColumns.add(new TreeSet<String>(columnValues));
+            distinctSortedColumns.add(new TreeSet<>(columnValues));
         }
 
         return distinctSortedColumns;
     }
 
     public List<PositionListIndex> getExpectedPLIList() {
-        List<PositionListIndex> expectedPLIList = new LinkedList<PositionListIndex>();
-        List<LongArrayList> list1 = new LinkedList<LongArrayList>();
+        List<PositionListIndex> expectedPLIList = new LinkedList<>();
+        List<LongArrayList> list1 = new LinkedList<>();
         PositionListIndex PLI1 = new PositionListIndex(list1);
         expectedPLIList.add(PLI1);
 
-        List<LongArrayList> list2 = new LinkedList<LongArrayList>();
+        List<LongArrayList> list2 = new LinkedList<>();
         LongArrayList arrayList21 = new LongArrayList();
         arrayList21.add(0);
         arrayList21.add(1);
@@ -111,7 +111,7 @@ public class PLIBuilderFixture {
         PositionListIndex PLI2 = new PositionListIndex(list2);
         expectedPLIList.add(PLI2);
 
-        List<LongArrayList> list3 = new LinkedList<LongArrayList>();
+        List<LongArrayList> list3 = new LinkedList<>();
         LongArrayList arrayList31 = new LongArrayList();
         LongArrayList arrayList32 = new LongArrayList();
 
@@ -127,7 +127,7 @@ public class PLIBuilderFixture {
         PositionListIndex PLI3 = new PositionListIndex(list3);
         expectedPLIList.add(PLI3);
 
-        List<LongArrayList> list4 = new LinkedList<LongArrayList>();
+        List<LongArrayList> list4 = new LinkedList<>();
         LongArrayList arrayList41 = new LongArrayList();
 
         arrayList41.add(0);
