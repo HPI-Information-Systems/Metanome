@@ -22,10 +22,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
- *
+ * Searches for input files in Metanome's input data directory.
  */
 public class InputDataFinder {
 
+    /**
+     * Returns all possible input files from Metanome's input file directory.
+     *
+     * @return an array of input files
+     * @throws UnsupportedEncodingException
+     */
     public File[] getAvailableCsvs() throws UnsupportedEncodingException {
         String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
@@ -33,8 +39,7 @@ public class InputDataFinder {
     }
 
     /**
-     * retrieves all CSV Files located directly in the given directory
-     * TODO consider sharing code with algorithm finding methods
+     * Retrieves all csv files located directly in the given directory.
      *
      * @param pathToFolder path to the folder to be searched in
      * @return names of all CSV files located directly in the given directory (no subfolders)

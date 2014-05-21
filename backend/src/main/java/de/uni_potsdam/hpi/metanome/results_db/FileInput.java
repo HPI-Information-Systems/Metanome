@@ -16,6 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
+
 import javax.persistence.Entity;
 
 /**
@@ -27,13 +31,39 @@ import javax.persistence.Entity;
 public class FileInput extends Input {
 
     protected String fileName;
-    protected String separator;
-    protected String quotechar;
-    protected String escapechar;
+    protected char separator;
+    protected char quotechar;
+    protected char escapechar;
     protected int skipLines;
     protected boolean strictQuotes;
     protected boolean ignoreLeadingWhiteSpace;
     protected boolean hasHeader;
+    protected boolean skipDifferingLines;
+
+    /**
+     * Constructs a FileInput with default parser settings.
+     */
+    public FileInput() {
+        this.separator = CSVParser.DEFAULT_SEPARATOR;
+        this.quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
+        this.escapechar = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+        this.skipLines = CSVReader.DEFAULT_SKIP_LINES;
+        this.strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
+        this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+        this.hasHeader = CsvFile.DEFAULT_HAS_HEADER;
+        this.skipDifferingLines = CsvFile.DEFAULT_SKIP_DIFFERING_LINES;
+    }
+
+    /**
+     * Constructs a FileInput with a given file name. Default parser settings are set.
+     *
+     * @param fileName input's file name
+     */
+    public FileInput(String fileName) {
+        this();
+        this.fileName = fileName;
+
+    }
 
     /**
      * Stores an FileInput in the database.
@@ -64,27 +94,27 @@ public class FileInput extends Input {
         this.fileName = fileName;
     }
 
-    public String getSeparator() {
+    public char getSeparator() {
         return separator;
     }
 
-    public void setSeparator(String separator) {
+    public void setSeparator(char separator) {
         this.separator = separator;
     }
 
-    public String getQuotechar() {
+    public char getQuotechar() {
         return quotechar;
     }
 
-    public void setQuotechar(String quotechar) {
+    public void setQuotechar(char quotechar) {
         this.quotechar = quotechar;
     }
 
-    public String getEscapechar() {
+    public char getEscapechar() {
         return escapechar;
     }
 
-    public void setEscapechar(String escapechar) {
+    public void setEscapechar(char escapechar) {
         this.escapechar = escapechar;
     }
 
@@ -118,5 +148,13 @@ public class FileInput extends Input {
 
     public void setHasHeader(boolean hasHeader) {
         this.hasHeader = hasHeader;
+    }
+
+    public boolean isSkipDifferingLines() {
+        return skipDifferingLines;
+    }
+
+    public void setSkipDifferingLines(boolean skipDifferingLines) {
+        this.skipDifferingLines = skipDifferingLines;
     }
 }
