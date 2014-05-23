@@ -111,7 +111,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException{
+	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 2)) {
 			System.out.println("Input file is not being set on algorithm.");
 			relationalInputsSet = true;
@@ -121,7 +121,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
+	public void setIntegerConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
 			numberOfTables = values[0];
 		} else {

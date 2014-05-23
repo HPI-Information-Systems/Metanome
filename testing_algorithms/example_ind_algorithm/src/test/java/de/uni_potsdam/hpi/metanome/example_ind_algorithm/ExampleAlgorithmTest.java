@@ -38,14 +38,14 @@ import static org.mockito.Mockito.*;
 
 /**
  * Test for {@link ExampleAlgorithm}
- * 
+ *
  * @author Jakob Zwiener
  */
 public class ExampleAlgorithmTest {
 
 	protected ExampleAlgorithm algorithm;
 	protected String relationalInputsIdentifier = "input file";
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -59,29 +59,30 @@ public class ExampleAlgorithmTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		
+
 	}
 
 	/**
 	 * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
-	 * 
+	 * <p/>
 	 * The algorithm should return one configuration specification of string type
 	 */
 	@Test
 	public void testGetConfigurationRequirements() {
 		// Execute functionality
 		List<ConfigurationSpecification> actualConfigurationRequirements = this.algorithm.getConfigurationRequirements();
-		
+
 		// Check result
 		assertEquals(3, actualConfigurationRequirements.size());
 	}
 
 	/**
 	 * Test method for {@link ExampleAlgorithm#setConfigurationValue(String, String...)}
-	 * 
+	 * Test method for {@link ExampleAlgorithm#setIntegerConfigurationValue(String, int...)}
+	 * <p/>
 	 * The algorithm should store the path when it is supplied through setConfigurationValue.
-	 * 
-	 * @throws AlgorithmConfigurationException 
+	 *
+	 * @throws AlgorithmConfigurationException
 	 */
 	@Test
 	public void testSetConfigurationValue() throws AlgorithmConfigurationException {
@@ -89,17 +90,17 @@ public class ExampleAlgorithmTest {
 		// Expected values
 		String expectedConfigurationValue1 = "test";
 		int expectedConfigurationValue2 = 7;
-		
+
 		// Execute functionality
 		this.algorithm.setConfigurationValue(ExampleAlgorithm.STRING_IDENTIFIER, expectedConfigurationValue1);
-		this.algorithm.setConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, expectedConfigurationValue2);
-		
+		this.algorithm.setIntegerConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, expectedConfigurationValue2);
+
 		// Check result
 		assertEquals(expectedConfigurationValue1, this.algorithm.tableName);
 		assertEquals(expectedConfigurationValue2, this.algorithm.numberOfTables);
 
 		try {
-			this.algorithm.setConfigurationValue("someIdentifier", expectedConfigurationValue2);
+			this.algorithm.setIntegerConfigurationValue("someIdentifier", expectedConfigurationValue2);
 			fail("Exception should have been thrown.");
 		} catch (AlgorithmConfigurationException e) {
 			// Intentionally left blank
@@ -108,9 +109,9 @@ public class ExampleAlgorithmTest {
 
 	/**
 	 * When the algorithm is started after configuration a result should be received.
-	 * 
-	 * @throws AlgorithmExecutionException 
-	 * @throws UnsupportedEncodingException 
+	 *
+	 * @throws AlgorithmExecutionException
+	 * @throws UnsupportedEncodingException
 	 */
 	@Test
 	public void testExecute() throws AlgorithmExecutionException, UnsupportedEncodingException {
@@ -120,20 +121,20 @@ public class ExampleAlgorithmTest {
 		tempFile.deleteOnExit();
 		FileGenerator fileGenerator = mock(FileGenerator.class);
 		when(fileGenerator.getTemporaryFile())
-			.thenReturn(tempFile);
+				.thenReturn(tempFile);
 		this.algorithm.setConfigurationValue(ExampleAlgorithm.STRING_IDENTIFIER, "something");
-		this.algorithm.setConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, 7);
+		this.algorithm.setIntegerConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, 7);
 		this.algorithm.setConfigurationValue(relationalInputsIdentifier, mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class));
-		
+
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);
 		this.algorithm.setTempFileGenerator(fileGenerator);
 		this.algorithm.execute();
-		
+
 		// Check result
 		verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
 		verify(fileGenerator).getTemporaryFile();
-		
+
 		// Cleanup
 		tempFile.delete();
 	}

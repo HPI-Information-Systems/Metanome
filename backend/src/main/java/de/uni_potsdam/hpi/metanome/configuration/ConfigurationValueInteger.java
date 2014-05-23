@@ -59,6 +59,6 @@ public class ConfigurationValueInteger implements ConfigurationValue {
 		}
 
 		IntegerParameterAlgorithm integerParameterAlgorithm = (IntegerParameterAlgorithm) algorithm;
-		integerParameterAlgorithm.setConfigurationValue(identifier, values);
+		integerParameterAlgorithm.setIntegerConfigurationValue(identifier, values);
 	}
 }

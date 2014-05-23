@@ -53,7 +53,7 @@ public class ConfigurationValueIntegerTest {
 		configValue.triggerSetValue(algorithm, interfaces);
 
 		// Check result
-		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+		verify(algorithm).setIntegerConfigurationValue(expectedIdentifier, expectedConfigurationValue);
 	}
 
 }
