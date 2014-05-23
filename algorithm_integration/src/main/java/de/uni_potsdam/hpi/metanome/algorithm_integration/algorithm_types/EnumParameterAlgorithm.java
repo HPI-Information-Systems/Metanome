@@ -32,6 +32,6 @@ public interface EnumParameterAlgorithm extends Algorithm {
 	 * @param values     the lists of string values for configuration
 	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
 	 */
-	void setConfigurationValue(String identifier, ArrayList<String>... values) throws AlgorithmConfigurationException;
+	void setConfigurationValue(String identifier, String[] selectedValues, ArrayList<String>... values) throws AlgorithmConfigurationException;
 
 }

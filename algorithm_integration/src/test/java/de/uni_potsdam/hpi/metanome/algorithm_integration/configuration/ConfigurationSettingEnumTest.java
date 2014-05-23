@@ -35,11 +35,18 @@ public class ConfigurationSettingEnumTest {
 		// Setup
 		// Expected values
 		ArrayList<String> expectedValues = new ArrayList<>();
+		expectedValues.add("first");
+		expectedValues.add("second");
+		expectedValues.add("third");
+		String expectedSelectedValue = "second";
 
 		// Execute functionality
-		ConfigurationSettingEnum setting = new ConfigurationSettingEnum(expectedValues);
+		ConfigurationSettingEnum setting1 = new ConfigurationSettingEnum(expectedValues);
+		ConfigurationSettingEnum setting2 = new ConfigurationSettingEnum(expectedValues, expectedSelectedValue);
 
 		// Check result
-		assertEquals(expectedValues, setting.value);
+		assertEquals(expectedValues, setting1.value);
+		assertEquals(expectedValues, setting2.value);
+		assertEquals(expectedSelectedValue, setting2.selectedValue);
 	}
 }

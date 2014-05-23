@@ -23,11 +23,18 @@ import java.util.ArrayList;
 public class ConfigurationSettingEnum implements Serializable {
 
 	public ArrayList<String> value;
+	public String selectedValue;
 
 	public ConfigurationSettingEnum() {
 	}
 
+	public ConfigurationSettingEnum(ArrayList<String> value, String selectedValue) {
+		this.value = value;
+		this.selectedValue = selectedValue;
+	}
+
 	public ConfigurationSettingEnum(ArrayList<String> value) {
 		this.value = value;
+		this.selectedValue = null;
 	}
 }

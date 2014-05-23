@@ -95,14 +95,16 @@ public class ExampleAlgorithmTest {
 		ArrayList<String> expectedConfigurationValueEnum = new ArrayList<>();
 		expectedConfigurationValueEnum.add("first");
 		expectedConfigurationValueEnum.add("second");
+		String[] selectedValues = {"second"};
 
 		// Execute functionality
 		this.algorithm.setConfigurationValue(pathIdentifier, expectedConfigurationValueString);
-		this.algorithm.setConfigurationValue(columnIdentifier, expectedConfigurationValueEnum);
+		this.algorithm.setConfigurationValue(columnIdentifier, selectedValues, expectedConfigurationValueEnum);
 
 		// Check result
 		assertEquals(expectedConfigurationValueString, this.algorithm.path);
 		assertEquals(expectedConfigurationValueEnum, this.algorithm.columns);
+		assertEquals(selectedValues[0], this.algorithm.selectedColumn);
 	}
 
 	/**
@@ -121,7 +123,8 @@ public class ExampleAlgorithmTest {
 		ArrayList<String> configurationValueEnum = new ArrayList<>();
 		configurationValueEnum.add("first");
 		configurationValueEnum.add("second");
-		this.algorithm.setConfigurationValue(columnIdentifier, configurationValueEnum);
+		String[] selectedValues = {"second"};
+		this.algorithm.setConfigurationValue(columnIdentifier, selectedValues, configurationValueEnum);
 
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);

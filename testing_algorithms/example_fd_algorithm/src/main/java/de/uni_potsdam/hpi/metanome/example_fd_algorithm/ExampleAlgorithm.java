@@ -40,6 +40,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	public final static String SQL_IDENTIFIER = "DB-connection";
 	protected String path = null;
 	protected ArrayList<String> columns = null;
+	protected String selectedColumn = null;
 	protected FunctionalDependencyResultReceiver resultReceiver;
 
 	@Override
@@ -56,7 +57,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 
 	@Override
 	public void execute() {
-		if (path != null && columns != null) {
+		if (path != null && selectedColumn != null && columns != null) {
 			try {
 				resultReceiver.receiveResult(
 						new FunctionalDependency(
@@ -97,11 +98,10 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier,
-									  ArrayList<String>... values)
-			throws AlgorithmConfigurationException {
-		if ((identifier.equals(ENUM_IDENTIFIER)) && (values.length == 1)) {
+	public void setConfigurationValue(String identifier, String[] selectedValues, ArrayList<String>... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals(ENUM_IDENTIFIER)) && (values.length == 1) && (selectedValues.length == 1)) {
 			columns = values[0];
+			selectedColumn = selectedValues[0];
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}

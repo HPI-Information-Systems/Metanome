@@ -94,7 +94,8 @@ public class AlgorithmExecutorTest {
 		ArrayList<String> configurationValueEnum = new ArrayList<>();
 		configurationValueEnum.add("first");
 		configurationValueEnum.add("second");
-		configs.add(new ConfigurationValueEnum("name of columns", configurationValueEnum));
+		String[] selectedValues = {"second"};
+		configs.add(new ConfigurationValueEnum("name of columns", selectedValues, configurationValueEnum));
 
 		// Execute functionality
 		long elapsedTime = executor.executeAlgorithmWithValues("example_fd_algorithm.jar", configs);

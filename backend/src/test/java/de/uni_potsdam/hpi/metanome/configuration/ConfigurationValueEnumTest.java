@@ -44,6 +44,7 @@ public class ConfigurationValueEnumTest {
 		EnumParameterAlgorithm algorithm = mock(EnumParameterAlgorithm.class);
 		Set<Class<?>> interfaces = new HashSet<>();
 		interfaces.add(EnumParameterAlgorithm.class);
+
 		// Expected values
 		String expectedIdentifier = "configId1";
 		ArrayList<String> list1 = new ArrayList<>();
@@ -54,14 +55,18 @@ public class ConfigurationValueEnumTest {
 		ArrayList<String>[] expectedConfigurationValue = (ArrayList<String>[]) new ArrayList[2];
 		expectedConfigurationValue[0] = list1;
 		expectedConfigurationValue[1] = list2;
+		String[] expectedSelectedValues = {"second", "first"};
 
 		// Execute functionality
 		ConfigurationValueEnum configValue = new ConfigurationValueEnum(
-				new ConfigurationSpecificationEnum(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
+				new ConfigurationSpecificationEnum(expectedIdentifier).getIdentifier(),
+				expectedSelectedValues,
+				expectedConfigurationValue
+		);
 		configValue.triggerSetValue(algorithm, interfaces);
 
 		// Check result
-		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedSelectedValues, expectedConfigurationValue);
 	}
 
 }
