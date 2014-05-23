@@ -34,12 +34,11 @@ import java.util.List;
 
 public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, ListBoxParameterAlgorithm {
 
-	public final static String LISTBOX_IDENTIFIER = "name of columns";
+	public final static String LISTBOX_IDENTIFIER = "column names";
 	public final static String STRING_IDENTIFIER = "pathToOutputFile";
 	public final static String CSVFILE_IDENTIFIER = "input file";
 	public final static String SQL_IDENTIFIER = "DB-connection";
 	protected String path = null;
-	protected ArrayList<String> columns = null;
 	protected String selectedColumn = null;
 	protected FunctionalDependencyResultReceiver resultReceiver;
 
@@ -57,7 +56,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 
 	@Override
 	public void execute() {
-		if (path != null && selectedColumn != null && columns != null) {
+		if (path != null && selectedColumn != null) {
 			try {
 				resultReceiver.receiveResult(
 						new FunctionalDependency(
@@ -80,7 +79,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+	public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 1)) {
 			path = values[0];
 		} else {
@@ -89,7 +88,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier,
+	public void setRelationalInputConfigurationValue(String identifier,
 									  RelationalInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals(CSVFILE_IDENTIFIER)) {
@@ -98,9 +97,8 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String[] selectedValues, ArrayList<String>... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals(LISTBOX_IDENTIFIER)) && (values.length == 1) && (selectedValues.length == 1)) {
-			columns = values[0];
+	public void setListBoxConfigurationValue(String identifier, String... selectedValues) throws AlgorithmConfigurationException {
+		if ((identifier.equals(LISTBOX_IDENTIFIER)) && (selectedValues.length == 1)) {
 			selectedColumn = selectedValues[0];
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");

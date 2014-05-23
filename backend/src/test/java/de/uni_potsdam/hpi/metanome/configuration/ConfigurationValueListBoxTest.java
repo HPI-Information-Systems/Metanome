@@ -21,7 +21,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBox
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,26 +46,16 @@ public class ConfigurationValueListBoxTest {
 
 		// Expected values
 		String expectedIdentifier = "configId1";
-		ArrayList<String> list1 = new ArrayList<>();
-		list1.add("first");
-		list1.add("second");
-		ArrayList<String> list2 = new ArrayList<>();
-		list1.add("first");
-		ArrayList<String>[] expectedConfigurationValue = (ArrayList<String>[]) new ArrayList[2];
-		expectedConfigurationValue[0] = list1;
-		expectedConfigurationValue[1] = list2;
-		String[] expectedSelectedValues = {"second", "first"};
+		String[] expectedConfigurationValue = new String[1];
+		expectedConfigurationValue[0] = "column1";
 
 		// Execute functionality
 		ConfigurationValueListBox configValue = new ConfigurationValueListBox(
-				new ConfigurationSpecificationListBox(expectedIdentifier).getIdentifier(),
-				expectedSelectedValues,
-				expectedConfigurationValue
-		);
+				new ConfigurationSpecificationListBox(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
 		configValue.triggerSetValue(algorithm, interfaces);
 
 		// Check result
-		verify(algorithm).setConfigurationValue(expectedIdentifier, expectedSelectedValues, expectedConfigurationValue);
+		verify(algorithm).setListBoxConfigurationValue(expectedIdentifier, expectedConfigurationValue);
 	}
 
 }

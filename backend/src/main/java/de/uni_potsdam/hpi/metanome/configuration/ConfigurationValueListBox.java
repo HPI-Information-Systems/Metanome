@@ -22,36 +22,31 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBox
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 
 public class ConfigurationValueListBox implements ConfigurationValue {
 
 	protected final String identifier;
-	protected final ArrayList<String>[] values;
 	protected final String[] selectedValues;
 
 	/**
 	 * Constructs a ConfigurationValueListBox using the specification's identifier and the list of string values.
 	 *
 	 * @param identifier the configuration value enum identifier
-	 * @param values     the configuration value list of string values
+	 * @param selectedValues     the configuration value string values
 	 */
-	public ConfigurationValueListBox(String identifier, String[] selectedValues, ArrayList<String>... values) {
+	public ConfigurationValueListBox(String identifier, String... selectedValues) {
 		this.identifier = identifier;
-		this.values = values;
 		this.selectedValues = selectedValues;
 	}
 
 	public ConfigurationValueListBox(
 			ConfigurationSpecificationListBox specification) {
 		this.identifier = specification.getIdentifier();
-		this.values = (ArrayList<String>[]) new ArrayList[specification.getSettings().length];
 		this.selectedValues = new String[specification.getSettings().length];
 		int i = 0;
 		for (ConfigurationSettingListBox setting : specification.getSettings()) {
-			this.values[i] = setting.value;
 			this.selectedValues[i] = setting.selectedValue;
 			i++;
 		}
@@ -64,6 +59,6 @@ public class ConfigurationValueListBox implements ConfigurationValue {
 		}
 
 		ListBoxParameterAlgorithm listBoxParameterAlgorithm = (ListBoxParameterAlgorithm) algorithm;
-		listBoxParameterAlgorithm.setConfigurationValue(identifier, selectedValues, values);
+		listBoxParameterAlgorithm.setListBoxConfigurationValue(identifier, selectedValues);
 	}
 }

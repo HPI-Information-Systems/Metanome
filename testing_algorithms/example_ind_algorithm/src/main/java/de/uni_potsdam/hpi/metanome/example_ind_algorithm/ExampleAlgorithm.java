@@ -42,80 +42,80 @@ import java.util.List;
 
 public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
-    protected String tableName = null;
-    protected InclusionDependencyResultReceiver resultReceiver;
-    protected FileGenerator tempFileGenerator;
-    protected boolean relationalInputsSet = false;
+	protected String tableName = null;
+	protected InclusionDependencyResultReceiver resultReceiver;
+	protected FileGenerator tempFileGenerator;
+	protected boolean relationalInputsSet = false;
 
-    @Override
-    public List<ConfigurationSpecification> getConfigurationRequirements() {
-        List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+	@Override
+	public List<ConfigurationSpecification> getConfigurationRequirements() {
+		List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
 
-        configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
-        configurationSpecification.add(new ConfigurationSpecificationString("tableName"));
+		configurationSpecification.add(new ConfigurationSpecificationCsvFile("input file"));
+		configurationSpecification.add(new ConfigurationSpecificationString("tableName"));
 
-        return configurationSpecification;
-    }
+		return configurationSpecification;
+	}
 
-    @Override
-    public void execute() throws AlgorithmExecutionException {
-        File tempFile = tempFileGenerator.getTemporaryFile();
-        PrintWriter tempWriter;
-        try {
-            tempWriter = new PrintWriter(tempFile);
-        } catch (FileNotFoundException e) {
-            throw new AlgorithmExecutionException("File not found.");
-        }
-        tempWriter.write("table1");
-        tempWriter.close();
+	@Override
+	public void execute() throws AlgorithmExecutionException {
+		File tempFile = tempFileGenerator.getTemporaryFile();
+		PrintWriter tempWriter;
+		try {
+			tempWriter = new PrintWriter(tempFile);
+		} catch (FileNotFoundException e) {
+			throw new AlgorithmExecutionException("File not found.");
+		}
+		tempWriter.write("table1");
+		tempWriter.close();
 
-        String tableName1;
-        try {
-            tableName1 = FileUtils.readFileToString(tempFile);
-        } catch (IOException e) {
-            throw new AlgorithmExecutionException("Could not read from file.");
-        }
+		String tableName1;
+		try {
+			tableName1 = FileUtils.readFileToString(tempFile);
+		} catch (IOException e) {
+			throw new AlgorithmExecutionException("Could not read from file.");
+		}
 
-        if ((tableName != null) && relationalInputsSet) {
-            resultReceiver.receiveResult(
-                    new InclusionDependency(
-                            new ColumnCombination(
-                                    new ColumnIdentifier(tableName1, "column1"),
-                                    new ColumnIdentifier("table1", "column2")),
-                            new ColumnCombination(
-                                    new ColumnIdentifier("table2", "column3"),
-                                    new ColumnIdentifier("table2", "column2"))
-                    )
-            );
-        }
-    }
+		if ((tableName != null) && relationalInputsSet) {
+			resultReceiver.receiveResult(
+					new InclusionDependency(
+							new ColumnCombination(
+									new ColumnIdentifier(tableName1, "column1"),
+									new ColumnIdentifier("table1", "column2")),
+							new ColumnCombination(
+									new ColumnIdentifier("table2", "column3"),
+									new ColumnIdentifier("table2", "column2"))
+					)
+			);
+		}
+	}
 
-    @Override
-    public void setResultReceiver(InclusionDependencyResultReceiver resultReceiver) {
-        this.resultReceiver = resultReceiver;
-    }
+	@Override
+	public void setResultReceiver(InclusionDependencyResultReceiver resultReceiver) {
+		this.resultReceiver = resultReceiver;
+	}
 
-    @Override
-    public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
-        if ((identifier.equals("tableName")) && (values.length == 1)) {
-            tableName = values[0];
-        } else {
-            throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
-        }
-    }
+	@Override
+	public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals("tableName")) && (values.length == 1)) {
+			tableName = values[0];
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+		}
+	}
 
-    @Override
-    public void setTempFileGenerator(FileGenerator tempFileGenerator) {
-        this.tempFileGenerator = tempFileGenerator;
-    }
+	@Override
+	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
+		this.tempFileGenerator = tempFileGenerator;
+	}
 
-    @Override
-    public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
-        if ((identifier.equals("input file")) && (values.length == 2)) {
-            System.out.println("Input file is not being set on algorithm.");
-            relationalInputsSet = true;
-        } else {
-            throw new AlgorithmConfigurationException("Incorrect configuration.");
-        }
-    }
+	@Override
+	public void setRelationalInputConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals("input file")) && (values.length == 2)) {
+			System.out.println("Input file is not being set on algorithm.");
+			relationalInputsSet = true;
+		} else {
+			throw new AlgorithmConfigurationException("Incorrect configuration.");
+		}
+	}
 }

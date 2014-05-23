@@ -26,7 +26,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -81,7 +80,7 @@ public class ExampleAlgorithmTest {
 	}
 
 	/**
-	 * Test method for {@link ExampleAlgorithm#setConfigurationValue(String, String...)
+	 * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)
 	 * <p/>
 	 * The algorithm should store the path when it is supplied through setConfigurationValue.
 	 *
@@ -92,19 +91,15 @@ public class ExampleAlgorithmTest {
 		// Setup
 		// Expected values
 		String expectedConfigurationValueString = "test";
-		ArrayList<String> expectedConfigurationValueEnum = new ArrayList<>();
-		expectedConfigurationValueEnum.add("first");
-		expectedConfigurationValueEnum.add("second");
-		String[] selectedValues = {"second"};
+		String selectedValues = "second";
 
 		// Execute functionality
-		this.algorithm.setConfigurationValue(pathIdentifier, expectedConfigurationValueString);
-		this.algorithm.setConfigurationValue(columnIdentifier, selectedValues, expectedConfigurationValueEnum);
+		this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValueString);
+		this.algorithm.setListBoxConfigurationValue(columnIdentifier, selectedValues);
 
 		// Check result
 		assertEquals(expectedConfigurationValueString, this.algorithm.path);
-		assertEquals(expectedConfigurationValueEnum, this.algorithm.columns);
-		assertEquals(selectedValues[0], this.algorithm.selectedColumn);
+		assertEquals(selectedValues, this.algorithm.selectedColumn);
 	}
 
 	/**
@@ -119,12 +114,8 @@ public class ExampleAlgorithmTest {
 	public void testExecute() throws CouldNotReceiveResultException, AlgorithmConfigurationException {
 		// Setup
 		FunctionalDependencyResultReceiver resultReceiver = mock(FunctionalDependencyResultReceiver.class);
-		this.algorithm.setConfigurationValue(pathIdentifier, "something");
-		ArrayList<String> configurationValueEnum = new ArrayList<>();
-		configurationValueEnum.add("first");
-		configurationValueEnum.add("second");
-		String[] selectedValues = {"second"};
-		this.algorithm.setConfigurationValue(columnIdentifier, selectedValues, configurationValueEnum);
+		this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
+		this.algorithm.setListBoxConfigurationValue(columnIdentifier, "columnname");
 
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);

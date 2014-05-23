@@ -91,11 +91,8 @@ public class AlgorithmExecutorTest {
 		// Setup
 		List<ConfigurationValue> configs = new ArrayList<>();
 		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
-		ArrayList<String> configurationValueEnum = new ArrayList<>();
-		configurationValueEnum.add("first");
-		configurationValueEnum.add("second");
 		String[] selectedValues = {"second"};
-		configs.add(new ConfigurationValueListBox("name of columns", selectedValues, configurationValueEnum));
+		configs.add(new ConfigurationValueListBox("column names", selectedValues));
 
 		// Execute functionality
 		long elapsedTime = executor.executeAlgorithmWithValues("example_fd_algorithm.jar", configs);

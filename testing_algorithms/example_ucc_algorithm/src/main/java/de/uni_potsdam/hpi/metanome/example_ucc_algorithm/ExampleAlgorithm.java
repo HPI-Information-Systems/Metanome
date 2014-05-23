@@ -86,7 +86,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+	public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
 		System.out.println("setting value for " + identifier);
 		if ((identifier.equals("pathToInputFile")) && (values.length == 2)) {
 			path1 = values[0];
@@ -97,8 +97,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier,
-									  RelationalInputGenerator... values)
+	public void setRelationalInputConfigurationValue(String identifier,
+													 RelationalInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals("input file")) {
 			System.out.println("Input file is not being set on algorithm.");
