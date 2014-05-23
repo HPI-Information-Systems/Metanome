@@ -28,11 +28,12 @@ public class TabWrapper extends VerticalPanel {
 
 	protected VerticalPanel errorPanel;
 	protected TabContent contentPanel;
-		
-	/**
-	 * 
-	 */
-	public TabWrapper() {
+    protected boolean inError = false;
+
+    /**
+     *
+     */
+    public TabWrapper() {
 		this.errorPanel = new VerticalPanel();
 		this.add(this.errorPanel);
 	}
@@ -49,9 +50,19 @@ public class TabWrapper extends VerticalPanel {
 	public void addError(String message) {
 		Label label = new Label(message);
 		this.errorPanel.add(label);
-	}
-	
-	public void clearErrors(){
-		this.errorPanel.clear();
-	}
+        this.setInError(true);
+    }
+
+    public void clearErrors() {
+        this.errorPanel.clear();
+        this.setInError(false);
+    }
+
+    public boolean isInError() {
+        return inError;
+    }
+
+    public void setInError(boolean inError) {
+        this.inError = inError;
+    }
 }
