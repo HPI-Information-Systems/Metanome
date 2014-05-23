@@ -30,6 +30,6 @@ public interface IntegerParameterAlgorithm extends Algorithm {
 	 * @param values     the integer values for configuration
 	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
 	 */
-	void setConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException;
+	void setIntegerConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException;
 
 }

@@ -51,12 +51,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 
 	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
+		List<ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
-		
+
 		return configurationSpecification;
 	}
 
@@ -71,7 +71,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		}
 		tempWriter.write("table1");
 		tempWriter.close();
-		
+
 		String tableName1;
 		try {
 			tableName1 = FileUtils.readFileToString(tempFile);
@@ -82,12 +82,14 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		if ((tableName != null) && relationalInputsSet && (numberOfTables != -1)) {
 			resultReceiver.receiveResult(
 					new InclusionDependency(
-						new ColumnCombination(
-								new ColumnIdentifier(tableName1, "column1"), 
-								new ColumnIdentifier("table1", "column2")),
-						new ColumnCombination(
-								new ColumnIdentifier("table2", "column3"),
-								new ColumnIdentifier("table2", "column2"))));		
+							new ColumnCombination(
+									new ColumnIdentifier(tableName1, "column1"),
+									new ColumnIdentifier("table1", "column2")),
+							new ColumnCombination(
+									new ColumnIdentifier("table2", "column3"),
+									new ColumnIdentifier("table2", "column2"))
+					)
+			);
 		}
 	}
 
@@ -109,9 +111,9 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
 		this.tempFileGenerator = tempFileGenerator;
 	}
-	
+
 	@Override
-	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException{
+	public void setConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 2)) {
 			System.out.println("Input file is not being set on algorithm.");
 			relationalInputsSet = true;
@@ -121,7 +123,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 
 	@Override
-	public void setConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
+	public void setIntegerConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
 			numberOfTables = values[0];
 		} else {
