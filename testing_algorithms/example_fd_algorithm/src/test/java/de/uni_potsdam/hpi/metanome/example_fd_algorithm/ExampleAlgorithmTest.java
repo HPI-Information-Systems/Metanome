@@ -54,7 +54,7 @@ public class ExampleAlgorithmTest {
 	public void setUp() throws Exception {
 		algorithm = new ExampleAlgorithm();
 		pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
-		columnIdentifier = ExampleAlgorithm.ENUM_IDENTIFIER;
+		columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
 	}
 
 	/**

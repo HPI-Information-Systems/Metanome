@@ -30,8 +30,8 @@ public class WidgetFactory {
 			widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
 		else if (config instanceof ConfigurationSpecificationSqlIterator)
 			widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
-		if (config instanceof ConfigurationSpecificationEnum)
-			widget = new InputParameterEnumWidget((ConfigurationSpecificationEnum) config);
+		if (config instanceof ConfigurationSpecificationListBox)
+			widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
 		return widget;
 	}
 }

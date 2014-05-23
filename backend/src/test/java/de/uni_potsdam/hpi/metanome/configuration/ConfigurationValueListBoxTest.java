@@ -17,8 +17,8 @@
 package de.uni_potsdam.hpi.metanome.configuration;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.EnumParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationEnum;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ import java.util.Set;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class ConfigurationValueEnumTest {
+public class ConfigurationValueListBoxTest {
 
 	/**
-	 * Test method for {@link ConfigurationValueEnum#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
+	 * Test method for {@link ConfigurationValueListBox#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
 	 * <p/>
 	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
 	 * dispatch call to determine the parameters type.
@@ -41,9 +41,9 @@ public class ConfigurationValueEnumTest {
 	@Test
 	public void testTriggerSetValue() throws AlgorithmConfigurationException {
 		// Setup
-		EnumParameterAlgorithm algorithm = mock(EnumParameterAlgorithm.class);
+		ListBoxParameterAlgorithm algorithm = mock(ListBoxParameterAlgorithm.class);
 		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(EnumParameterAlgorithm.class);
+		interfaces.add(ListBoxParameterAlgorithm.class);
 
 		// Expected values
 		String expectedIdentifier = "configId1";
@@ -58,8 +58,8 @@ public class ConfigurationValueEnumTest {
 		String[] expectedSelectedValues = {"second", "first"};
 
 		// Execute functionality
-		ConfigurationValueEnum configValue = new ConfigurationValueEnum(
-				new ConfigurationSpecificationEnum(expectedIdentifier).getIdentifier(),
+		ConfigurationValueListBox configValue = new ConfigurationValueListBox(
+				new ConfigurationSpecificationListBox(expectedIdentifier).getIdentifier(),
 				expectedSelectedValues,
 				expectedConfigurationValue
 		);

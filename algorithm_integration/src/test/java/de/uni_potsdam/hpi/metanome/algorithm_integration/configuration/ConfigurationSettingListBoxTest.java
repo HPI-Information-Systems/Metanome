@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingEnum}
+ * Tests for {@link ConfigurationSettingListBox}
  */
-public class ConfigurationSettingEnumTest {
+public class ConfigurationSettingListBoxTest {
 
 	/**
-	 * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingEnum#ConfigurationSettingEnum(java.util.ArrayList)}
+	 * Test method for {@link ConfigurationSettingListBox#ConfigurationSettingListBox(java.util.ArrayList)}
 	 */
 	@Test
 	public void testConstructor() {
@@ -41,8 +41,8 @@ public class ConfigurationSettingEnumTest {
 		String expectedSelectedValue = "second";
 
 		// Execute functionality
-		ConfigurationSettingEnum setting1 = new ConfigurationSettingEnum(expectedValues);
-		ConfigurationSettingEnum setting2 = new ConfigurationSettingEnum(expectedValues, expectedSelectedValue);
+		ConfigurationSettingListBox setting1 = new ConfigurationSettingListBox(expectedValues);
+		ConfigurationSettingListBox setting2 = new ConfigurationSettingListBox(expectedValues, expectedSelectedValue);
 
 		// Check result
 		assertEquals(expectedValues, setting1.value);

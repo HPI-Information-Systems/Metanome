@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
  */
-public interface EnumParameterAlgorithm extends Algorithm {
+public interface ListBoxParameterAlgorithm extends Algorithm {
 	/**
 	 * Sets a integer configuration value on the algorithm.
 	 *

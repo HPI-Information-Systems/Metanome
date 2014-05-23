@@ -17,23 +17,23 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingEnum;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationEnum;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class GwtTestEnumParameter extends GWTTestCase {
+public class GwtTestListBoxParameter extends GWTTestCase {
 
 	@Test
 	public void testCreateWithFixedNumber() {
 		//Setup
 		int noOfValues = 3;
-		ConfigurationSpecificationEnum specification = new ConfigurationSpecificationEnum("enum", noOfValues);
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
 
 		//Execute
-		InputParameterEnumWidget widget = new InputParameterEnumWidget(specification);
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 
 		//Check
 		assertEquals(noOfValues, widget.inputWidgets.size());
@@ -45,10 +45,10 @@ public class GwtTestEnumParameter extends GWTTestCase {
 	public void testCreateWithArbitraryNumber() {
 		//Setup
 		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-		ConfigurationSpecificationEnum specification = new ConfigurationSpecificationEnum("enum", noOfValues);
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
 
 		//Execute
-		InputParameterEnumWidget widget = new InputParameterEnumWidget(specification);
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 
 		//Check
 		assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
@@ -59,9 +59,9 @@ public class GwtTestEnumParameter extends GWTTestCase {
 	@Test
 	public void testAddInput() {
 		//Setup
-		ConfigurationSpecificationEnum specification = new ConfigurationSpecificationEnum("enum",
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterEnumWidget widget = new InputParameterEnumWidget(specification);
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
 
@@ -76,9 +76,9 @@ public class GwtTestEnumParameter extends GWTTestCase {
 	@Test
 	public void testRemoveInput() {
 		//Setup
-		ConfigurationSpecificationEnum specification = new ConfigurationSpecificationEnum("enum",
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterEnumWidget widget = new InputParameterEnumWidget(specification);
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
 
@@ -97,14 +97,14 @@ public class GwtTestEnumParameter extends GWTTestCase {
 		value.add("first");
 		value.add("second");
 		String expectedSelectedValue = "second";
-		ConfigurationSpecificationEnum specification = new ConfigurationSpecificationEnum("enum",
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterEnumWidget widget = new InputParameterEnumWidget(specification);
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 
 		//Execute
-		((EnumInput) widget.getWidget(0)).setValues(value);
-		((EnumInput) widget.getWidget(0)).listbox.setSelectedIndex(value.indexOf(expectedSelectedValue));
-		ConfigurationSettingEnum[] settings = widget.getUpdatedSpecification().getSettings();
+		((ListBoxInput) widget.getWidget(0)).setValues(value);
+		((ListBoxInput) widget.getWidget(0)).listbox.setSelectedIndex(value.indexOf(expectedSelectedValue));
+		ConfigurationSettingListBox[] settings = widget.getUpdatedSpecification().getSettings();
 
 		//Check
 		assertEquals(1, settings.length);

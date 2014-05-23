@@ -26,12 +26,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link ConfigurationSpecificationEnum}
+ * Tests for {@link ConfigurationSpecificationListBox}
  */
-public class ConfigurationSpecificationEnumTest {
+public class ConfigurationSpecificationListBoxTest {
 
 	/**
-	 * Test method for {@link ConfigurationSpecificationEnum#ConfigurationSpecificationEnum(String)}
+	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String)}
 	 * <p/>
 	 * The identifier should be set in the constructor and be retrievable through getIdentifier.
 	 * The numberOfValues should be set to 1.
@@ -42,7 +42,7 @@ public class ConfigurationSpecificationEnumTest {
 		// Expected values
 		String expectedIdentifier = "parameter1";
 		int expectedNumberOfValues = 1;
-		ConfigurationSpecificationEnum configSpec = new ConfigurationSpecificationEnum(expectedIdentifier);
+		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
@@ -54,7 +54,7 @@ public class ConfigurationSpecificationEnumTest {
 	}
 
 	/**
-	 * Test method for {@link ConfigurationSpecificationEnum#ConfigurationSpecificationEnum(String, int)}
+	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, int)}
 	 * <p/>
 	 * The identifier should be set in the constructor and be retrievable through getIdentifier.
 	 * The numberOfValues should be set to 2.
@@ -65,7 +65,7 @@ public class ConfigurationSpecificationEnumTest {
 		// Expected values
 		String expectedIdentifier = "parameter1";
 		int expectedNumberOfValues = 2;
-		ConfigurationSpecificationEnum configSpec = new ConfigurationSpecificationEnum(expectedIdentifier, expectedNumberOfValues);
+		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier, expectedNumberOfValues);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
@@ -77,19 +77,19 @@ public class ConfigurationSpecificationEnumTest {
 	}
 
 	/**
-	 * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationEnum#getSettings()} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationEnum#setSettings(ConfigurationSettingEnum...)}
+	 * Test method for {@link ConfigurationSpecificationListBox#getSettings()} and {@link ConfigurationSpecificationListBox#setSettings(ConfigurationSettingListBox...)}
 	 */
 	@Test
 	public void testGetSetSpecification() {
 		// Setup
-		ConfigurationSpecificationEnum specificationEnum = new ConfigurationSpecificationEnum("parameter1");
+		ConfigurationSpecificationListBox specificationEnum = new ConfigurationSpecificationListBox("parameter1");
 		// Expected values
-		ConfigurationSettingEnum expectedSetting1 = new ConfigurationSettingEnum();
-		ConfigurationSettingEnum expectedSetting2 = new ConfigurationSettingEnum();
+		ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
+		ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
 
 		// Execute functionality
 		specificationEnum.setSettings(expectedSetting1, expectedSetting2);
-		List<ConfigurationSettingEnum> actualSettings = Arrays.asList(specificationEnum.getSettings());
+		List<ConfigurationSettingListBox> actualSettings = Arrays.asList(specificationEnum.getSettings());
 
 		// Check results
 		assertThat(actualSettings, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedSetting1, expectedSetting2));

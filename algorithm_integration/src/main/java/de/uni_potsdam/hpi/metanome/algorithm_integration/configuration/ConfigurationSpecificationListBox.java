@@ -18,43 +18,43 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 
 /**
- * Concrete {@link ConfigurationSpecification} for list of strings (enum).
+ * Concrete {@link ConfigurationSpecification} for list box of strings.
  *
  * @author Tanja Bergmann
  * @see ConfigurationSpecification
  */
-public class ConfigurationSpecificationEnum extends ConfigurationSpecification {
+public class ConfigurationSpecificationListBox extends ConfigurationSpecification {
 
-	private ConfigurationSettingEnum[] settings;
+	private ConfigurationSettingListBox[] settings;
 
 	/**
-	 * Construct a ConfigurationSpecificationEnum, requesting 1 value.
+	 * Construct a ConfigurationSpecificationListBox, requesting 1 value.
 	 *
 	 * @param identifier the specification's identifier
 	 */
-	public ConfigurationSpecificationEnum(String identifier) {
+	public ConfigurationSpecificationListBox(String identifier) {
 		super(identifier);
 	}
 
 
 	/**
-	 * Constructs a {@link ConfigurationSpecificationEnum}, potentially requesting several values.
+	 * Constructs a {@link ConfigurationSpecificationListBox}, potentially requesting several values.
 	 *
 	 * @param identifier     the specification's identifier
 	 * @param numberOfValues the number of values expected
 	 */
-	public ConfigurationSpecificationEnum(String identifier,
-										  int numberOfValues) {
+	public ConfigurationSpecificationListBox(String identifier,
+											 int numberOfValues) {
 
 		super(identifier, numberOfValues);
 	}
 
 	@Override
-	public ConfigurationSettingEnum[] getSettings() {
+	public ConfigurationSettingListBox[] getSettings() {
 		return this.settings;
 	}
 
-	public void setSettings(ConfigurationSettingEnum... settings) {
+	public void setSettings(ConfigurationSettingListBox... settings) {
 		this.settings = settings;
 	}
 }

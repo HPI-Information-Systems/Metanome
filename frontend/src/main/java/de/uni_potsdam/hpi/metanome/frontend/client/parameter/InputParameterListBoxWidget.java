@@ -16,40 +16,40 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingEnum;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationEnum;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 
 import java.util.List;
 
-public class InputParameterEnumWidget extends InputParameterWidget {
+public class InputParameterListBoxWidget extends InputParameterWidget {
 
-	protected ConfigurationSpecificationEnum specification;
-	protected List<EnumInput> inputWidgets;
+	protected ConfigurationSpecificationListBox specification;
+	protected List<ListBoxInput> inputWidgets;
 
-	public InputParameterEnumWidget(ConfigurationSpecificationEnum config) {
+	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
 		super(config);
 	}
 
 	@Override
 	protected void addInputField(boolean optional) {
-		EnumInput field = new EnumInput(optional);
+		ListBoxInput field = new ListBoxInput(optional);
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
 		this.insert(field, index);
 	}
 
 	@Override
-	public ConfigurationSpecificationEnum getUpdatedSpecification() {
+	public ConfigurationSpecificationListBox getUpdatedSpecification() {
 		this.specification.setSettings(this.getConfigurationSettings());
 		return this.specification;
 	}
 
-	protected ConfigurationSettingEnum[] getConfigurationSettings() {
-		ConfigurationSettingEnum[] values = new ConfigurationSettingEnum[this.inputWidgets.size()];
+	protected ConfigurationSettingListBox[] getConfigurationSettings() {
+		ConfigurationSettingListBox[] values = new ConfigurationSettingListBox[this.inputWidgets.size()];
 		int i = 0;
-		for (EnumInput ei : this.inputWidgets) {
-			values[i] = new ConfigurationSettingEnum(ei.getValues(), ei.getSelectedValue());
+		for (ListBoxInput lbi : this.inputWidgets) {
+			values[i] = new ConfigurationSettingListBox(lbi.getValues(), lbi.getSelectedValue());
 			i++;
 		}
 		return values;
@@ -63,7 +63,7 @@ public class InputParameterEnumWidget extends InputParameterWidget {
 
 	@Override
 	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-		this.inputWidgets = (List<EnumInput>) inputWidgetsList;
+		this.inputWidgets = (List<ListBoxInput>) inputWidgetsList;
 	}
 
 
@@ -74,6 +74,6 @@ public class InputParameterEnumWidget extends InputParameterWidget {
 
 	@Override
 	public void setSpecification(ConfigurationSpecification config) {
-		this.specification = (ConfigurationSpecificationEnum) config;
+		this.specification = (ConfigurationSpecificationListBox) config;
 	}
 }

@@ -32,13 +32,13 @@
         <include name="ConfigurationSettingDataSource.java"/>
         <include name="ConfigurationSettingSqlIterator.java"/>
         <include name="ConfigurationSettingString.java"/>
-        <include name="ConfigurationSettingEnum.java"/>
+        <include name="ConfigurationSettingListBox.java"/>
         <include name="ConfigurationSpecification.java"/>
         <include name="ConfigurationSpecificationBoolean.java"/>
         <include name="ConfigurationSpecificationCsvFile.java"/>
         <include name="ConfigurationSpecificationSqlIterator.java"/>
         <include name="ConfigurationSpecificationString.java"/>
-        <include name="ConfigurationSpecificationEnum.java"/>
+        <include name="ConfigurationSpecificationListBox.java"/>
     </source>
     <source path="algorithm_integration/result_receiver">
         <include name="OmniscientResultReceiver.java"/>

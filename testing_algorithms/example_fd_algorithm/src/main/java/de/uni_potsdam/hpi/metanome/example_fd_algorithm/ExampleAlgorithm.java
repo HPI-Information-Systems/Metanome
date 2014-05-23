@@ -19,8 +19,8 @@ package de.uni_potsdam.hpi.metanome.example_fd_algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.EnumParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
@@ -32,9 +32,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, EnumParameterAlgorithm {
+public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, ListBoxParameterAlgorithm {
 
-	public final static String ENUM_IDENTIFIER = "name of columns";
+	public final static String LISTBOX_IDENTIFIER = "name of columns";
 	public final static String STRING_IDENTIFIER = "pathToOutputFile";
 	public final static String CSVFILE_IDENTIFIER = "input file";
 	public final static String SQL_IDENTIFIER = "DB-connection";
@@ -50,7 +50,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSVFILE_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationSqlIterator(SQL_IDENTIFIER));
-		configurationSpecification.add(new ConfigurationSpecificationEnum(ENUM_IDENTIFIER));
+		configurationSpecification.add(new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER));
 
 		return configurationSpecification;
 	}
@@ -99,7 +99,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 
 	@Override
 	public void setConfigurationValue(String identifier, String[] selectedValues, ArrayList<String>... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals(ENUM_IDENTIFIER)) && (values.length == 1) && (selectedValues.length == 1)) {
+		if ((identifier.equals(LISTBOX_IDENTIFIER)) && (values.length == 1) && (selectedValues.length == 1)) {
 			columns = values[0];
 			selectedColumn = selectedValues[0];
 		} else {

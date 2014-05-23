@@ -26,14 +26,14 @@ import java.util.ArrayList;
  *
  * @author Tanja
  */
-public class EnumInput extends InputField {
+public class ListBoxInput extends InputField {
 
 	protected ListBox listbox;
 
 	/**
 	 * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
 	 */
-	public EnumInput(boolean optional) {
+	public ListBoxInput(boolean optional) {
 		super(optional);
 
 		this.listbox = new ListBox();

@@ -29,7 +29,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueEnum;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueListBox;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
@@ -95,7 +95,7 @@ public class AlgorithmExecutorTest {
 		configurationValueEnum.add("first");
 		configurationValueEnum.add("second");
 		String[] selectedValues = {"second"};
-		configs.add(new ConfigurationValueEnum("name of columns", selectedValues, configurationValueEnum));
+		configs.add(new ConfigurationValueListBox("name of columns", selectedValues, configurationValueEnum));
 
 		// Execute functionality
 		long elapsedTime = executor.executeAlgorithmWithValues("example_fd_algorithm.jar", configs);

@@ -20,20 +20,20 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ConfigurationSettingEnum implements Serializable {
+public class ConfigurationSettingListBox implements Serializable {
 
 	public ArrayList<String> value;
 	public String selectedValue;
 
-	public ConfigurationSettingEnum() {
+	public ConfigurationSettingListBox() {
 	}
 
-	public ConfigurationSettingEnum(ArrayList<String> value, String selectedValue) {
+	public ConfigurationSettingListBox(ArrayList<String> value, String selectedValue) {
 		this.value = value;
 		this.selectedValue = selectedValue;
 	}
 
-	public ConfigurationSettingEnum(ArrayList<String> value) {
+	public ConfigurationSettingListBox(ArrayList<String> value) {
 		this.value = value;
 		this.selectedValue = null;
 	}
