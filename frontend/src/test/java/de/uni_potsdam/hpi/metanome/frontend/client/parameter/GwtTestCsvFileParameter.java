@@ -27,7 +27,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
@@ -101,6 +100,8 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertFalse(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());	
 		assertFalse(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());	
 		assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());	
+		assertFalse(widget.headerCheckbox.isAttached() && widget.headerCheckbox.isVisible());	
+		assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox.isVisible());	
 		
 		// Execute
 		widget.advancedCheckbox.setValue(true, true);
@@ -113,6 +114,8 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertTrue(widget.quoteTextbox.isVisible());	
 		assertTrue(widget.strictQuotesCheckbox.isVisible());	
 		assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
+		assertTrue(widget.headerCheckbox.isVisible());	
+		assertTrue(widget.skipDifferingLinesCheckbox.isVisible());	
 		
 		// Check values
 		assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, 
@@ -127,6 +130,8 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 				widget.ignoreLeadingWhiteSpaceCheckbox.getValue().booleanValue());
 		assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, 
 						widget.strictQuotesCheckbox.getValue().booleanValue());
+		assertEquals(true, widget.headerCheckbox.getValue().booleanValue());
+		assertEquals(false, widget.skipDifferingLinesCheckbox.getValue().booleanValue());
 	}
 	
 	

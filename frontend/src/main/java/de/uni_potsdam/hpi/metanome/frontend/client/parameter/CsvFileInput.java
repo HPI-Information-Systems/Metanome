@@ -121,7 +121,7 @@ public class CsvFileInput extends InputField {
         this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
         this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
         this.headerCheckbox.setValue(csvSetting.hasHeader());
-        this.skipDifferingLinesCheckbox.setValue(csvSetting.isSkipDifferingLinesCheckbox());
+        this.skipDifferingLinesCheckbox.setValue(csvSetting.isSkipDifferingLines());
     }
 
     /**
