@@ -31,6 +31,8 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private boolean strictQuotes;
     private boolean ignoreLeadingWhiteSpace;
     private int line;
+	private boolean header;
+	private boolean skipDifferingLines;
 
     public ConfigurationSettingCsvFile() {
     }
@@ -38,7 +40,8 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     // TODO add constructor for is not advanced (only fileName and advanced = false)
 
     public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
-                                       char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line) {
+                                       char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line,
+                                       boolean header, boolean skipDifferingLines) {
         this.fileName = fileName;
         this.advanced = advanced;
         this.separatorChar = separator;
@@ -47,6 +50,8 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.strictQuotes = strictQuotes;
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
         this.line = line;
+        this.header = header;
+        this.skipDifferingLines  = skipDifferingLines;
     }
     
     public String getFileName() {
@@ -116,4 +121,12 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     public String getValueAsString() {
         return fileName;
     }
+
+	public boolean hasHeader() {
+		return header;
+	}
+
+	public boolean isSkipDifferingLines() {
+		return skipDifferingLines;
+	}
 }
