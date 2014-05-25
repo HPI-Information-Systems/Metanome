@@ -118,15 +118,23 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.line = value;
     }
 
-    public String getValueAsString() {
-        return fileName;
-    }
-
 	public boolean hasHeader() {
 		return header;
 	}
 
+	public void setHeader(boolean header) {
+		this.header = header;
+	}
+	
 	public boolean isSkipDifferingLines() {
 		return skipDifferingLines;
+	}
+
+	public void setSkipDifferingLines(boolean skipDifferingLines) {
+		this.skipDifferingLines = skipDifferingLines;
+	}
+	
+	public String getValueAsString() {
+		return fileName;
 	}
 }
