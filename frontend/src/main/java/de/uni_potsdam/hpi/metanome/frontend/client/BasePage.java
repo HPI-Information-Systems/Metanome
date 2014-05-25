@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
@@ -27,14 +30,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Overall Application page that has tabs for the various functions (subpages).
@@ -43,7 +44,7 @@ import java.util.List;
  */
 public class BasePage extends TabLayoutPanel {
 
-    protected TabLayoutPanel resultsPage;
+    protected ResultsPage resultsPage;
     protected RunConfigurationPage runConfigurationsPage;
 
     protected FinderServiceAsync finderService;
@@ -53,24 +54,18 @@ public class BasePage extends TabLayoutPanel {
      */
     public BasePage() {
         super(1, Unit.CM);
-        this.setWidth("100%");
-        this.setHeight("100%");
-
-        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
+        
+        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());        
         this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
-        this.insert(createRunConfigurationsPage(), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
-        this.insert(createResultsPage(), "Results", Tabs.RESULTS.ordinal());
+        
+        this.runConfigurationsPage = new RunConfigurationPage(this);
+        this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+        
+        this.resultsPage = new ResultsPage(this);
+        this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
+        
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
-    }
-
-    /**
-     * Create the "Run Configuration" Page, which allows to configure an algorithm and trigger its execution.
-     *
-     * @return RunConfigurationPage to be placed on the page
-     */
-    protected TabWrapper createRunConfigurationsPage() {
-        runConfigurationsPage = new RunConfigurationPage(this);
-        return new TabWrapper(this.runConfigurationsPage);
     }
 
     /**
@@ -82,19 +77,6 @@ public class BasePage extends TabLayoutPanel {
         Label temporaryContent = new Label();
         temporaryContent.setText("Metanome Version 0.0.2.");
         return temporaryContent;
-    }
-
-    /**
-     * Create the "Results" Page, which displays so far profiled information on selected data sources
-     *
-     * @return TabLayout on which results shall be placed
-     */
-    private TabLayoutPanel createResultsPage() {
-        resultsPage = new TabLayoutPanel(1, Unit.CM);
-        resultsPage.setHeight("100%");
-        resultsPage.setWidth("99%");
-
-        return resultsPage;
     }
 
     /**
@@ -112,7 +94,7 @@ public class BasePage extends TabLayoutPanel {
 
         ScrollPanel resultsTab = new ScrollPanel();
         resultsTab.setHeight("95%");
-        resultsPage.add(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
+//        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
 
         ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
         executionService.executeAlgorithm(algorithmName,
@@ -124,7 +106,6 @@ public class BasePage extends TabLayoutPanel {
         resultsTab.add(new TabWrapper(resultsTabContent));
 
         this.selectTab(resultsPage);
-        resultsPage.selectTab(resultsTab);
     }
 
     /**

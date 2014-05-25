@@ -61,17 +61,15 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
      * This method triggers retrieval of all available data sources and returns a widget with a list of them.
      */
     private void createDataSourcesList() {
-        this.add(new HTML("<b>CSV Files</b>"));
+        this.add(new HTML("<h3>CSV Files</h3>"));
         csvFilesList = new FlexTable();
         this.add(csvFilesList);
         listCsvFiles();
 
-        this.add(new HTML("<hr><b>Database Connections</b>"));
+        this.add(new HTML("<h3>Database Connections</h3>"));
         FlexTable dbConnectionsList = new FlexTable();
         this.add(dbConnectionsList);
         listDbConnections();
-
-        this.add(new HTML("<hr>"));
     }
 
     private void listCsvFiles() {

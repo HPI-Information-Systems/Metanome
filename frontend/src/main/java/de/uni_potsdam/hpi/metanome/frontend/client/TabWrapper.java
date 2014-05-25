@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Claudia Exeler
  *
  */
-public class TabWrapper extends VerticalPanel {
+public class TabWrapper extends DockPanel {
 
 	protected VerticalPanel errorPanel;
 	protected TabContent contentPanel;
@@ -33,8 +34,10 @@ public class TabWrapper extends VerticalPanel {
 	 * 
 	 */
 	public TabWrapper() {
+		this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().tab());
+		
 		this.errorPanel = new VerticalPanel();
-		this.add(this.errorPanel);
+		this.add(this.errorPanel, DockPanel.NORTH);
 	}
 
 	public TabWrapper(TabContent panel) {
@@ -42,12 +45,13 @@ public class TabWrapper extends VerticalPanel {
 		
 		this.contentPanel = panel;
 		this.contentPanel.setErrorReceiver(this);
-		this.add(this.contentPanel);		
+		this.add(this.contentPanel, DockPanel.NORTH);		
 	}
 	
 
 	public void addError(String message) {
 		Label label = new Label(message);
+		label.setStyleName(MetanomeResources.INSTANCE.metanomeStyle().errorMessage());
 		this.errorPanel.add(label);
 	}
 	

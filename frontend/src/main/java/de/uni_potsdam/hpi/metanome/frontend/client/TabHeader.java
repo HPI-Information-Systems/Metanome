@@ -20,27 +20,29 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
+
 /**
  * Widget to be put into the tab bars of result tabs. Includes the algorithm name as well
  * as a close button.
  *
- * @author Claudia
+ * @author Claudia Exeler
  */
 public class TabHeader extends HorizontalPanel {
 
     private final Panel tab;
-    private final TabLayoutPanel tabPanel;
+    private final ResultsPage tabPanel;
 
     /**
      * Constructor.
      *
      * @param algorithmName the name of the algorithm or whatever should be displayed as tab title
      * @param tabContent    the panel holding the corresponding tab's contents
-     * @param parent        the TabLayoutPanel where resultsTab will be added to
+     * @param resultsPage        the TabLayoutPanel where resultsTab will be added to
      */
-    public TabHeader(String algorithmName, Panel tabContent, TabLayoutPanel parent) {
+    public TabHeader(String algorithmName, Panel tabContent, ResultsPage resultsPage) {
         this.tab = tabContent;
-        this.tabPanel = parent;
+        this.tabPanel = resultsPage;
 
         this.setSpacing(3);
         this.add(new Label(algorithmName));
