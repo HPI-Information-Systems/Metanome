@@ -117,7 +117,7 @@ public class CsvFileInput extends InputField {
         this.separatorTextbox.setValue("" + csvSetting.getSeparatorChar());
         this.quoteTextbox.setValue("" + csvSetting.getQuoteChar());
         this.escapeTextbox.setValue("" + csvSetting.getEscapeChar());
-        this.skiplinesIntegerbox.setValue(csvSetting.getLine());
+        this.skiplinesIntegerbox.setValue(csvSetting.getSkipLines());
         this.strictQuotesCheckbox.setValue(csvSetting.isStrictQuotes());
         this.ignoreLeadingWhiteSpaceCheckbox.setValue(csvSetting.isIgnoreLeadingWhiteSpace());
         this.headerCheckbox.setValue(csvSetting.hasHeader());
@@ -238,9 +238,9 @@ public class CsvFileInput extends InputField {
             configSetting.setHeader(this.headerCheckbox.getValue());
             configSetting.setSkipDifferingLines(this.skipDifferingLinesCheckbox.getValue());
             if (this.skiplinesIntegerbox.getValue() != null)
-                configSetting.setLine(this.skiplinesIntegerbox.getValue());
+                configSetting.setSkipLines(this.skiplinesIntegerbox.getValue());
             else
-                configSetting.setLine(0);
+                configSetting.setSkipLines(0);
         }
 
         return configSetting;

@@ -134,7 +134,45 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertEquals(false, widget.skipDifferingLinesCheckbox.getValue().booleanValue());
 	}
 	
+	@Test 
+	public void testRetrieveAdvancedValues() throws InputValidationException {
+		boolean boolValue = true;
+		String charValue = "t";
+		int intValue = 2;
+		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("spec_id");
+		InputParameterCsvFileWidget widget = new InputParameterCsvFileWidget(configSpec);
+		CsvFileInput input = widget.inputWidgets.get(0);
+		String filename = "someCSVfile";
+		input.listbox.insertItem(filename, 1);
+		
+		input.listbox.setSelectedIndex(1);
+		input.advancedCheckbox.setValue(true, true);
+		input.escapeTextbox.setValue(charValue);	
+		input.skiplinesIntegerbox.setValue(intValue);
+		input.separatorTextbox.setValue(charValue);
+		input.quoteTextbox.setValue(charValue);
+		input.strictQuotesCheckbox.setValue(boolValue);
+		input.ignoreLeadingWhiteSpaceCheckbox.setValue(boolValue);
+		input.headerCheckbox.setValue(boolValue);
+		input.skipDifferingLinesCheckbox.setValue(boolValue);	
+
+		ConfigurationSettingCsvFile setting = widget.getUpdatedSpecification().getSettings()[0];
+		
+		assertEquals(setting.getFileName(), filename);		
+		assertEquals(setting.isAdvanced(), true);
+		assertEquals(setting.getEscapeChar(), charValue.charAt(0));
+		assertEquals(setting.getSkipLines(), intValue);
+		assertEquals(setting.getSeparatorChar(), charValue.charAt(0));
+		assertEquals(setting.getQuoteChar(), charValue.charAt(0));
+		assertEquals(setting.isStrictQuotes(), boolValue);
+		assertEquals(setting.isIgnoreLeadingWhiteSpace(), boolValue);
+		assertEquals(setting.hasHeader(), boolValue);
+		assertEquals(setting.isSkipDifferingLines(), boolValue);
+
+		
+	}
 	
+		
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";

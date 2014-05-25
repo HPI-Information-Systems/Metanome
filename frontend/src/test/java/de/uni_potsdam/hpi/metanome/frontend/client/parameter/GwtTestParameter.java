@@ -218,7 +218,7 @@ public class GwtTestParameter extends GWTTestCase {
         assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
         assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
         assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
-        assertEquals(line, csvSpec.getLine());
+        assertEquals(line, csvSpec.getSkipLines());
         assertEquals(boolTrue, csvSpec.isStrictQuotes());
         assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
     }
