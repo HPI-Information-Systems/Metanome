@@ -30,7 +30,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private char escapeChar;
     private boolean strictQuotes;
     private boolean ignoreLeadingWhiteSpace;
-    private int line;
+    private int skipLines;
 	private boolean header;
 	private boolean skipDifferingLines;
 
@@ -49,7 +49,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.escapeChar = escape;
         this.strictQuotes = strictQuotes;
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
-        this.line = line;
+        this.skipLines = line;
         this.header = header;
         this.skipDifferingLines  = skipDifferingLines;
     }
@@ -110,12 +110,12 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.ignoreLeadingWhiteSpace = value;
     }
 
-    public int getLine() {
-        return line;
+    public int getSkipLines() {
+        return skipLines;
     }
 
-    public void setLine(int value) {
-        this.line = value;
+    public void setSkipLines(int value) {
+        this.skipLines = value;
     }
 
 	public boolean hasHeader() {

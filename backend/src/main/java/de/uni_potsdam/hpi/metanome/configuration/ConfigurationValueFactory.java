@@ -94,7 +94,7 @@ public class ConfigurationValueFactory {
             try {
                 if (setting.isAdvanced())
                     csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()), setting.getSeparatorChar(),
-                            setting.getQuoteChar(), setting.getEscapeChar(), setting.getLine(),
+                            setting.getQuoteChar(), setting.getEscapeChar(), setting.getSkipLines(),
                             setting.isStrictQuotes(), setting.isIgnoreLeadingWhiteSpace(), setting.hasHeader(), 
                             setting.isSkipDifferingLines());
                 else
