@@ -40,25 +40,6 @@ public class GwtTestCommonWidgets extends GWTTestCase {
         assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
     }
 
-    //@Test
-//	public void testCsvFileWidget() throws AlgorithmConfigurationException {
-//		//Setup
-//		String path = "inputA.csv";
-//		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-//		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
-//		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
-//		setting.setFileName(path);
-//		
-//		//Execute
-//		dataSourceWidget.setDataSource(setting);
-//		
-//		//Check 
-//		assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getItemCount() > 1);
-//		ConfigurationSettingDataSource retrievedSetting = 
-//				(ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification().getSettings()[0];
-//		assertEquals(path, retrievedSetting.getValueAsString());
-//	}
-
     @Override
     public String getModuleName() {
         return "de.uni_potsdam.hpi.metanome.frontend.Metanome";

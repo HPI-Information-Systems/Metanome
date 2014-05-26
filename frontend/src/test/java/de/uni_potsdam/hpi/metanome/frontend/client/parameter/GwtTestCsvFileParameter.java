@@ -22,6 +22,10 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
@@ -168,10 +172,58 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertEquals(setting.isIgnoreLeadingWhiteSpace(), boolValue);
 		assertEquals(setting.hasHeader(), boolValue);
 		assertEquals(setting.isSkipDifferingLines(), boolValue);
-
-		
 	}
 	
+    @Test
+    public void testValidation() throws InputValidationException {
+        //Setup
+        ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
+        csvSpec.setAdvanced(true);
+        CsvFileInput csvWidget = new CsvFileInput(csvSpec, false);
+        FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
+        String characterString = "X";
+        int line = 5;
+        boolean boolTrue = true;
+        boolean noCharExceptionCaught = false;
+        boolean noFileExceptionCaught = false;
+
+        //Execute
+        csvWidget.listbox.addItem("new file");
+        csvWidget.listbox.setSelectedIndex(1);
+        
+        ((TextBox) advancedPanel.getWidget(0, 1)).setValue(characterString);
+        ((TextBox) advancedPanel.getWidget(1, 1)).setValue(characterString);
+        ((IntegerBox) advancedPanel.getWidget(3, 1)).setValue(line);
+        ((CheckBox) advancedPanel.getWidget(4, 1)).setValue(boolTrue);
+        ((CheckBox) advancedPanel.getWidget(5, 1)).setValue(boolTrue);
+        try {
+            csvSpec = csvWidget.getValuesAsSettings();
+        } catch (InputValidationException e) {
+            noCharExceptionCaught = true;
+        }
+        ((TextBox) advancedPanel.getWidget(2, 1)).setValue(characterString);
+        csvWidget.listbox.setSelectedIndex(0);
+        try {
+            csvSpec = csvWidget.getValuesAsSettings();
+        } catch (InputValidationException e) {
+            noFileExceptionCaught = true;
+        }
+        
+        csvWidget.listbox.setSelectedIndex(1);
+        
+        csvSpec = csvWidget.getValuesAsSettings();
+
+        //Check
+		assertTrue(noCharExceptionCaught);
+		assertTrue(noFileExceptionCaught);
+//
+//        assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
+//        assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
+//        assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
+//        assertEquals(line, csvSpec.getSkipLines());
+//        assertEquals(boolTrue, csvSpec.isStrictQuotes());
+//        assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
+    }
 		
 	@Override
 	public String getModuleName() {
