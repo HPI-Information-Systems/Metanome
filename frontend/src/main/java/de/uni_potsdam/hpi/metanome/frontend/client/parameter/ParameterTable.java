@@ -117,7 +117,23 @@ public class ParameterTable extends FlexTable {
         return parameterList;
     }
 
-
+    /**
+     * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose underlying
+     * {@link ConfigurationSpecification} has the given identifier.
+     * 
+     * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
+     * @return This parameter's child widgets that corresponds to the given identifier, 
+     * or null if such a child does not exist.
+     */
+    public InputParameterWidget getChild(String identifier) {
+    	for (InputParameterWidget w : this.childWidgets){
+    		if (w.getSpecification().getIdentifier().equals(identifier))
+    			return w;
+    	}
+    	return null; //TODO: throw an exception instead?
+    }
+    
+    
     /**
      * The AlgorithmTabs implement algorithm type specific methods, which can
      * be called via the AlgorithmTab's interface.
