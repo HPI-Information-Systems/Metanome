@@ -58,5 +58,6 @@
     </source>
     <source path="results_db">
         <include name="Algorithm.java"/>
+        <include name="AlgorithmContentEquals.java"/>
     </source>
 </module>

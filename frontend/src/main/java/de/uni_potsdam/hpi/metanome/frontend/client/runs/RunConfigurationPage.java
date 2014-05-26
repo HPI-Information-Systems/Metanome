@@ -19,7 +19,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
@@ -41,7 +40,7 @@ import java.util.List;
  */
 public class RunConfigurationPage extends DockPanel implements TabContent {
     public ConfigurationSettingDataSource primaryDataSource;
-    
+
     protected BasePage basePage;
     protected TabWrapper errorReceiver;
 
@@ -54,7 +53,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     /**
      * Constructor. Initializes ExecutoinService and registers given algorithms.
      * However, more algorithms can be registered whenever they become available,
-     * through <link>addAlgorithms(String... algorithmNames)</link>
+     * through <link>addAlgorithm(Algorithm algorithm)</link>
      *
      * @param algorithmNames
      */
@@ -65,7 +64,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
         this.primaryDataSourceLabel = new Label();
         this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
 
-		this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
+        this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
         this.add(this.algorithmChooser, DockPanel.NORTH);
 
         this.executionService = GWT.create(ExecutionService.class);
@@ -86,11 +85,15 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 
     /**
      * Method to add more algorithms after construction.
+     * <p/>
+     * TODO docs
      *
      * @param result
      */
     public void addAlgorithms(List<Algorithm> algorithms) {
-        this.algorithmChooser.addAlgorithms(algorithms);
+        for (Algorithm algorithm : algorithms) {
+            this.algorithmChooser.addAlgorithm(algorithm);
+        }
     }
 
     /**
@@ -159,13 +162,13 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     }
 
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-		this.algorithmChooser.setErrorReceiver(tab);
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+        this.algorithmChooser.setErrorReceiver(tab);
+    }
 
 }
