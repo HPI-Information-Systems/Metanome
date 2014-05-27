@@ -52,6 +52,10 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
         results.add(uniqueColumnCombination);
     }
 
+    public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) {
+        results.add(conditionalUniqueColumnCombination);
+    }
+
     /**
      * Should return all results once. After receiving the list it should be cleared and only filled by new results.
      *

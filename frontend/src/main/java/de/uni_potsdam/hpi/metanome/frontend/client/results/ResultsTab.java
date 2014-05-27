@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -47,6 +46,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
     protected TabWrapper errorReceiver;
 
     protected ResultTable uccTable;
+    protected ResultTable cuccTable;
     protected ResultTable indTable;
     protected ResultTable fdTable;
     protected ResultTable basicsTable;
@@ -66,6 +66,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
         indTable = new ResultTable("Inclusion Dependencies");
         uccTable = new ResultTable("Unique Column Combinations");
+        cuccTable = new ResultTable("Conditional Unique Column Combinations");
         fdTable = new ResultTable("Functional Dependencies");
         basicsTable = new ResultTable("Basic Statistics");
 
@@ -197,6 +198,21 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
         int col = 0;
         for (ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
             uccTable.setText(row, col, colId.toString());
+            col++;
+        }
+    }
+
+    @Override
+    public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
+            throws CouldNotReceiveResultException {
+        if (this.resultsPanel.getWidgetIndex(cuccTable) < 0)
+            this.resultsPanel.add(cuccTable);
+
+        int row = cuccTable.getRowCount();
+        int col = 0;
+        for (ColumnIdentifier colId : conditionalUniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
+            //FIXME Jens should display cucc correct
+            cuccTable.setText(row, col, colId.toString());
             col++;
         }
     }
