@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
-
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.io.Serializable;
 import java.util.LinkedList;
