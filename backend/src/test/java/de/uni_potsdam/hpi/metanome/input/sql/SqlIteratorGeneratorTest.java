@@ -146,7 +146,7 @@ public class SqlIteratorGeneratorTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator#executeQuery(String)} and {@link SqlIteratorGenerator#closeAllStatements()}
      * <p/>
-     * All executed statements should be stored and closed on closeAllStatements.
+     * All executed statements should be stored and closed on closeAllStatements. Already closed statements should not be closed again.
      */
     @Test
     public void testCloseAllStatements() throws SQLException, InputGenerationException {
@@ -159,16 +159,21 @@ public class SqlIteratorGeneratorTest {
         when(statementMock1.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
         Statement statementMock2 = mock(Statement.class);
         when(statementMock2.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
+        Statement statementMock3 = mock(Statement.class);
+        when(statementMock3.isClosed()).thenReturn(true);
+        when(statementMock3.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
 
-        when(connection.createStatement(anyInt(), anyInt())).thenReturn(statementMock1, statementMock2);
+        when(connection.createStatement(anyInt(), anyInt())).thenReturn(statementMock1, statementMock2, statementMock3);
 
         // Execute functionality
         sqlIteratorGenerator.executeQuery("some query 1");
         sqlIteratorGenerator.executeQuery("some query 2");
+        sqlIteratorGenerator.executeQuery("some query 3");
         sqlIteratorGenerator.closeAllStatements();
 
         // Check result
         verify(statementMock1).close();
         verify(statementMock2).close();
+        verify(statementMock3, never()).close();
     }
 }
