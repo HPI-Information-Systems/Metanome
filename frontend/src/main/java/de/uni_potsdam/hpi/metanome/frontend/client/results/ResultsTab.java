@@ -209,10 +209,11 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
             this.resultsPanel.add(cuccTable);
 
         int row = cuccTable.getRowCount();
-        int col = 0;
-        for (ColumnIdentifier colId : conditionalUniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
-            //FIXME Jens should display cucc correct
-            cuccTable.setText(row, col, colId.toString());
+        cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
+        cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
+        int col = 2;
+        for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
+            cuccTable.setText(row, col, condition.toString());
             col++;
         }
     }
@@ -224,7 +225,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
         int row = fdTable.getRowCount();
         fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-        fdTable.setText(row, 1, "-->");
+        fdTable.setText(row, 1, FunctionalDependency.FD_SEPARATOR);
         fdTable.setText(row, 2, functionalDependency.getDependant().toString());
     }
 

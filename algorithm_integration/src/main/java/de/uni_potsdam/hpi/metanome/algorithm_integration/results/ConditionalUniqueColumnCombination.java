@@ -17,10 +17,10 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +30,9 @@ import java.util.List;
  */
 public class ConditionalUniqueColumnCombination implements Result {
 
-//    private static final long serialVersionUID = 6744030409666817339L;
+    public static final String CUCC_SEPARATOR = " | ";
+
+    private static final long serialVersionUID = 6746670304066817339L;
 
     protected ColumnCombination columnCombination;
     protected List<ColumnCondition> conditionList;
@@ -41,25 +43,20 @@ public class ConditionalUniqueColumnCombination implements Result {
      */
     protected ConditionalUniqueColumnCombination() {
         this.columnCombination = new ColumnCombination();
+        this.conditionList = new LinkedList<>();
     }
 
     /**
-     * Constructs a {@link UniqueColumnCombination} from a number of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}s.
-     *
-     * @param columnIdentifier the column identifier comprising the column combination
-     */
-    public ConditionalUniqueColumnCombination(ColumnIdentifier... columnIdentifier) {
-        this.columnCombination = new ColumnCombination(columnIdentifier);
-    }
-
-    /**
-     * Constructs a {@link UniqueColumnCombination} from a {@link ColumnCombination}.
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination}.
      *
      * @param columnCombination a supposedly unique column combination
+     * @param columnConditions List of conditions for the CUCC
      */
-    public ConditionalUniqueColumnCombination(ColumnCombination columnCombination) {
+    public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, List<ColumnCondition> columnConditions) {
         this.columnCombination = columnCombination;
+        this.conditionList = columnConditions;
     }
+
 
     @Override
     public void sendResultTo(OmniscientResultReceiver resultReceiver) throws CouldNotReceiveResultException {
@@ -70,11 +67,42 @@ public class ConditionalUniqueColumnCombination implements Result {
      * @return the column combination
      */
     public ColumnCombination getColumnCombination() {
-        return columnCombination;
+        return this.columnCombination;
+    }
+
+    /**
+     * @return the condition list
+     */
+    public List<ColumnCondition> getConditions() {
+        return this.conditionList;
     }
 
     @Override
     public String toString() {
-        return columnCombination.toString();
+        return columnCombination.toString() + conditionList.toString();
+
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConditionalUniqueColumnCombination that = (ConditionalUniqueColumnCombination) o;
+
+        if (columnCombination != null ? !columnCombination.equals(that.columnCombination) : that.columnCombination != null)
+            return false;
+        if (conditionList != null ? !conditionList.equals(that.conditionList) : that.conditionList != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = columnCombination != null ? columnCombination.hashCode() : 0;
+        result = 31 * result + (conditionList != null ? conditionList.hashCode() : 0);
+        return result;
+    }
+
 }

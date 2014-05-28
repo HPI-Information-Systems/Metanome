@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,8 +31,58 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     protected ColumnIdentifier column;
     protected List<String> columnValues;
 
+    /**
+     * Exists for Gwt serialization
+     */
+    protected ColumnCondition() {
+        this.column = new ColumnIdentifier();
+        this.columnValues = new LinkedList<>();
+    }
+
+    /**
+     * @param identifier   column of the condition
+     * @param columnValues where the condition is true
+     */
+    public ColumnCondition(ColumnIdentifier identifier, String... columnValues) {
+        this.column = identifier;
+        for (String columnValue : columnValues) {
+            this.columnValues.add(columnValue);
+        }
+    }
+
+    /**
+     * @param identifier      column of the condition
+     * @param columnValueList contains values where the condition is true
+     */
+
+    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValueList) {
+        this.column = identifier;
+        this.columnValues = columnValueList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ColumnCondition that = (ColumnCondition) o;
+
+        if (column != null ? !column.equals(that.column) : that.column != null) return false;
+        if (columnValues != null ? !columnValues.equals(that.columnValues) : that.columnValues != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = column != null ? column.hashCode() : 0;
+        result = 31 * result + (columnValues != null ? columnValues.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public int compareTo(ColumnCondition o) {
+        //FIXME Jens implement compareTO
         return 0;
     }
 }
