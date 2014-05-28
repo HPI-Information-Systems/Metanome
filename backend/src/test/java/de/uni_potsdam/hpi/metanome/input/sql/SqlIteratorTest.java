@@ -199,4 +199,30 @@ public class SqlIteratorTest {
         verify(statementMock).close();
     }
 
+    /**
+     * Test method for {@link SqlIterator#close()}
+     * <p/>
+     * The result set and statement underlying the iterator should not be closed, if they have previously been closed.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testCloseAlreadyClosed() throws Exception {
+        // Setup
+        ResultSet resultSetMock = twoLinesResultSetFixture.getTestData();
+        when(resultSetMock.isClosed()).thenReturn(true);
+        Statement statementMock = mock(Statement.class);
+        when(statementMock.isClosed()).thenReturn(true);
+        SqlIterator sqlIterator = new SqlIterator(resultSetMock);
+
+        when(resultSetMock.getStatement()).thenReturn(statementMock);
+
+        // Execute functionality
+        sqlIterator.close();
+
+        // Check result
+        verify(resultSetMock, never()).close();
+        verify(statementMock, never()).close();
+    }
+
 }
