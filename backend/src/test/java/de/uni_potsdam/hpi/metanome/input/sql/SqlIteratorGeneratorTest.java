@@ -144,6 +144,28 @@ public class SqlIteratorGeneratorTest {
     }
 
     /**
+     * Test method for {@link SqlIteratorGenerator#close()}
+     *
+     * If the db connection is already it should not be closed again.
+     *
+     * @throws SQLException
+     */
+    @Test
+    public void testCloseConnectionAlreadyClosed() throws SQLException {
+        // Setup
+        SqlIteratorGenerator sqlIteratorGenerator = new SqlIteratorGenerator();
+        Connection connection = mock(Connection.class);
+        when(connection.isClosed()).thenReturn(true);
+        sqlIteratorGenerator.dbConnection = connection;
+
+        // Execute functionality
+        sqlIteratorGenerator.close();
+
+        // Check result
+        verify(connection, never()).close();
+    }
+
+    /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator#executeQuery(String)} and {@link SqlIteratorGenerator#closeAllStatements()}
      * <p/>
      * All executed statements should be stored and closed on closeAllStatements. Already closed statements should not be closed again.

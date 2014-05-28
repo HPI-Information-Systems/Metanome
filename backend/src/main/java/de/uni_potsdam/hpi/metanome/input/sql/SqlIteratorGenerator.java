@@ -116,7 +116,9 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
 
     @Override
     public void close() throws SQLException {
-        dbConnection.close();
+        if (!dbConnection.isClosed()) {
+            dbConnection.close();
+        }
     }
 
     public int getFetchSize() {
