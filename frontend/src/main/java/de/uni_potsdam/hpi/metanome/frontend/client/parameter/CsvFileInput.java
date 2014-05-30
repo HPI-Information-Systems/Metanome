@@ -18,11 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -147,7 +145,7 @@ public class CsvFileInput extends InputField {
     public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
         int index = 1;                            //start at 1 because index 0 has default ("--") entry
         for (String value : fileNames) {
-            String displayName = value.substring(value.lastIndexOf("/") + 1);
+            String displayName = value.replaceAll(".*(/|\\\\)", "");
             listbox.addItem(displayName, value);
             if (isPreselected(value)) {
                 listbox.setSelectedIndex(index);
@@ -177,8 +175,8 @@ public class CsvFileInput extends InputField {
     private boolean isPreselected(String value) {
         if (value == null || this.preselectedFilename == null)
             return false;
-        return value.substring(value.lastIndexOf("/") + 1).equals(
-                preselectedFilename.substring(preselectedFilename.lastIndexOf("/") + 1));
+        return value.replaceAll(".*(/|\\\\)", "").equals(
+                preselectedFilename.replaceAll(".*(/|\\\\)", ""));
     }
 
     /**

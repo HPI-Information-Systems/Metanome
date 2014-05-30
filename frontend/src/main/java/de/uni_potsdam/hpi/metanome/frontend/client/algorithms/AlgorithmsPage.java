@@ -49,27 +49,26 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         this.finderService = GWT.create(FinderService.class);
         this.basePage = parent;
 
-        this.add(new HTML("<b>Unique Column Combinations</b>"));
+        this.add(new HTML("<h3>Unique Column Combinations</h3>"));
         this.uccList = new FlexTable();
         this.add(this.uccList);
         listAndAddUccAlgorithms();
 
-        this.add(new HTML("<hr><b>Functional Dependencies</b>"));
+        this.add(new HTML("<h3>Functional Dependencies</h3>"));
         this.fdList = new FlexTable();
         this.add(this.fdList);
         listFdAlgorithms();
 
-        this.add(new HTML("<hr><b>Inclusion Dependencies</b>"));
+        this.add(new HTML("<h3>Inclusion Dependencies<//h3>"));
         this.indList = new FlexTable();
         this.add(this.indList);
         listIndAlgorithms();
 
-        this.add(new HTML("<hr><b>Basic Statistics</b>"));
+        this.add(new HTML("<h3>Basic Statistics</h3>"));
         this.statsList = new FlexTable();
         this.add(this.statsList);
         listStatsAlgorithms();
 
-        this.add(new HTML("<hr>"));
         Label temporaryAddContent = new Label();
         temporaryAddContent.setText("To add a new algorithm, put its jar in the designated folder.");
         this.add(temporaryAddContent);
