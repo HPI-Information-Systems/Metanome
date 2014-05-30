@@ -198,7 +198,7 @@ public class GwtTestParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testCsvFileWidget() {
+	public void testCsvFileWidget() throws InputValidationException {
 		//Setup
 		ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
 		csvSpec.setAdvanced(true);
@@ -234,8 +234,11 @@ public class GwtTestParameter extends GWTTestCase {
 
 		csvWidget.listbox.setSelectedIndex(1);
 
+		csvSpec = csvWidget.getValuesAsSettings();
+
 		//Check
-//		assertTrue(exceptionCaught); TODO input validation
+		assertTrue(noCharExceptionCaught);
+		assertTrue(noFileExceptionCaught);
 
 		assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
 		assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());

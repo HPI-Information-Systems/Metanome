@@ -41,8 +41,7 @@ public class ConfigurationValueInteger implements ConfigurationValue {
 		this.values = values;
 	}
 
-	public ConfigurationValueInteger(
-			ConfigurationSpecificationInteger specification) {
+	public ConfigurationValueInteger(ConfigurationSpecificationInteger specification) {
 		this.identifier = specification.getIdentifier();
 		this.values = new int[specification.getSettings().length];
 		int i = 0;

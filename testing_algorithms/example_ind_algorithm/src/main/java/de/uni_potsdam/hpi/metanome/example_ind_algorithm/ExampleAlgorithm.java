@@ -82,6 +82,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		this.resultReceiver = resultReceiver;
 	}
 
+
+	@Override
+	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
+		this.tempFileGenerator = tempFileGenerator;
+	}
+
 	@Override
 	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 1)) {
@@ -89,11 +95,6 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}
-	}
-
-	@Override
-	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
-		this.tempFileGenerator = tempFileGenerator;
 	}
 
 	@Override

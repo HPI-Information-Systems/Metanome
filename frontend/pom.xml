@@ -106,6 +106,12 @@
         </dependency>
         <dependency>
             <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <artifactId>example_ind_algorithm</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>example_holistic_algorithm</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>runtime</scope>
@@ -232,6 +238,13 @@
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome</groupId>
                                     <artifactId>example_holistic_algorithm</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>src/main/resources/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                                    <artifactId>example_ind_algorithm</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>src/main/resources/algorithms</outputDirectory>

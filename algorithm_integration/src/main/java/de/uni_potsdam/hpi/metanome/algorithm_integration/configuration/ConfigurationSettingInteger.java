@@ -22,10 +22,10 @@ public class ConfigurationSettingInteger implements Serializable {
 
 	public int value;
 
-	public ConfigurationSettingInteger() {
-	}
+	public ConfigurationSettingInteger() { }
 
 	public ConfigurationSettingInteger(int value) {
 		this.value = value;
 	}
+
 }
