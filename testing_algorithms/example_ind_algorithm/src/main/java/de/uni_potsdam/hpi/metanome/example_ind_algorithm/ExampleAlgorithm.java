@@ -1,19 +1,3 @@
-/*
- * Copyright 2014 by the Metanome project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.uni_potsdam.hpi.metanome.example_ind_algorithm;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -51,12 +35,12 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 
 	@Override
 	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		List <ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
+		List<ConfigurationSpecification> configurationSpecification = new ArrayList<ConfigurationSpecification>();
 
 		configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
 		configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
-		
+
 		return configurationSpecification;
 	}
 
@@ -82,12 +66,14 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 		if ((tableName != null) && relationalInputsSet && (numberOfTables != -1)) {
 			resultReceiver.receiveResult(
 					new InclusionDependency(
-						new ColumnCombination(
-								new ColumnIdentifier(tableName1, "column1"), 
-								new ColumnIdentifier("table1", "column2")),
-						new ColumnCombination(
-								new ColumnIdentifier("table2", "column3"),
-								new ColumnIdentifier("table2", "column2"))));		
+							new ColumnCombination(
+									new ColumnIdentifier(tableName1, "column1"),
+									new ColumnIdentifier("table1", "column2")),
+							new ColumnCombination(
+									new ColumnIdentifier("table2", "column3"),
+									new ColumnIdentifier("table2", "column2"))
+					)
+			);
 		}
 	}
 
@@ -97,17 +83,17 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 
 	@Override
-	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
-		this.tempFileGenerator = tempFileGenerator;
-	}
-
-	@Override
 	public void setConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
 		if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 1)) {
 			tableName = values[0];
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
 		}
+	}
+
+	@Override
+	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
+		this.tempFileGenerator = tempFileGenerator;
 	}
 
 	@Override
