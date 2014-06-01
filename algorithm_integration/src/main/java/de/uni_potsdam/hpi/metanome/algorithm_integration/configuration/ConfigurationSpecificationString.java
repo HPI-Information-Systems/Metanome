@@ -27,6 +27,9 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
 
     private ConfigurationSettingString[] settings;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSpecificationString() {
     }
 
@@ -51,9 +54,9 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
         super(identifier, numberOfValues);
     }
 
-	public void setValues(ConfigurationSettingString... configurationSettings) {
-		this.settings = configurationSettings;
-	}
+    public void setValues(ConfigurationSettingString... configurationSettings) {
+        this.settings = configurationSettings;
+    }
 
     @Override
     public ConfigurationSettingString[] getSettings() {

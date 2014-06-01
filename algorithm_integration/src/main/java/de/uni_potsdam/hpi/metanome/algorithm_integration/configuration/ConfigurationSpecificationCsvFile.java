@@ -27,6 +27,9 @@ public class ConfigurationSpecificationCsvFile extends ConfigurationSpecificatio
 
     private ConfigurationSettingCsvFile[] settings;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSpecificationCsvFile() {
     }
 
