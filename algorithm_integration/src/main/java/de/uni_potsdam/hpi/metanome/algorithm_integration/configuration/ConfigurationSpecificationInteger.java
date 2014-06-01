@@ -27,6 +27,12 @@ public class ConfigurationSpecificationInteger extends ConfigurationSpecificatio
 
 	private ConfigurationSettingInteger[] settings;
 
+    /**
+     * Exists for GWT serialization.
+     */
+    public ConfigurationSpecificationInteger() {
+    }
+
 	/**
 	 * Construct a ConfigurationSpecificationInteger, requesting 1 value.
 	 *
