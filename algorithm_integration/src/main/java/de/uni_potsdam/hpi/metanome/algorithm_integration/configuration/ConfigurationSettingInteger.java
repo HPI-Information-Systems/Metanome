@@ -20,12 +20,16 @@ import java.io.Serializable;
 
 public class ConfigurationSettingInteger implements Serializable {
 
-	public int value;
+    public int value;
 
-	public ConfigurationSettingInteger() { }
+    /**
+     * Exists for GWT serialization.
+     */
+    public ConfigurationSettingInteger() {
+    }
 
-	public ConfigurationSettingInteger(int value) {
-		this.value = value;
-	}
+    public ConfigurationSettingInteger(int value) {
+        this.value = value;
+    }
 
 }

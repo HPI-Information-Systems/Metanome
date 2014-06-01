@@ -22,33 +22,33 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test for ConfigurationSettingBoolean
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingBooleanTest {
+public class ConfigurationSettingStringTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString#ConfigurationSettingString(String)}
      */
     @Test
     public void testConstructor() {
         // Setup
         // Expected values
-        boolean expectedValue = true;
+        String expectedValue = "some value";
 
         // Execute functionality
-        ConfigurationSettingBoolean setting = new ConfigurationSettingBoolean(expectedValue);
+        ConfigurationSettingString actualSetting = new ConfigurationSettingString(expectedValue);
 
         // Check result
-        assertEquals(expectedValue, setting.value);
+        assertEquals(expectedValue, actualSetting.getValue());
     }
 
     /**
-     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean} are serializable in GWT.
+     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString} are serializable in GWT.
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingBoolean(true));
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingString("some value"));
     }
 }
