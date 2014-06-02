@@ -17,6 +17,9 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IntegerBox;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+
+import java.text.ParseException;
 
 
 public class IntegerInput extends InputField {
@@ -33,13 +36,21 @@ public class IntegerInput extends InputField {
 	}
 
 	/**
+	 * Checks if the textbox contains only numbers and returns the number or an exception if it does not contain only numbers or -1 if the textbox is emtpy.
+	 *
 	 * @return the value of its text box
+	 * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
 	 */
-	public Integer getValue() {
-		Integer val = this.textbox.getValue();
+	public Integer getValue() throws InputValidationException {
+		Integer val;
+		try {
+			val = this.textbox.getValueOrThrow();
+		} catch (ParseException e) {
+			throw new InputValidationException("Only numbers are allowed!");
+		}
 		if (val == null) {
 			return -1;
 		}
-		return this.textbox.getValue();
+		return val;
 	}
 }

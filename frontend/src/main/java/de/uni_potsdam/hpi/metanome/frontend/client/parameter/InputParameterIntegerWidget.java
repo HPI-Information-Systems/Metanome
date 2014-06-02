@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.List;
 
@@ -40,12 +41,12 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
 	}
 
 	@Override
-	public ConfigurationSpecificationInteger getUpdatedSpecification() {
+	public ConfigurationSpecificationInteger getUpdatedSpecification() throws InputValidationException {
 		this.specification.setSettings(this.getConfigurationSettings());
 		return this.specification;
 	}
 
-	protected ConfigurationSettingInteger[] getConfigurationSettings() {
+	protected ConfigurationSettingInteger[] getConfigurationSettings() throws InputValidationException {
 		ConfigurationSettingInteger[] values = new ConfigurationSettingInteger[this.inputWidgets.size()];
 		int i = 0;
 		for (IntegerInput ii : this.inputWidgets) {

@@ -20,6 +20,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import org.junit.Test;
 
 public class GwtTestIntegerParameter extends GWTTestCase {
@@ -100,11 +101,25 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 		InputParameterIntegerWidget widget2 = new InputParameterIntegerWidget(specification2);
 
+		InputParameterIntegerWidget widget3 = new InputParameterIntegerWidget(specification2);
+
 		//Execute
 		((IntegerInput) widget1.getWidget(0)).textbox.setValue(value1, true);
-		ConfigurationSettingInteger[] settings1 = widget1.getUpdatedSpecification().getSettings();
+		ConfigurationSettingInteger[] settings1 = new ConfigurationSettingInteger[0];
+		try {
+			settings1 = widget1.getUpdatedSpecification().getSettings();
+		} catch (InputValidationException e) {
+			fail();
+		}
 
-		ConfigurationSettingInteger[] settings2 = widget2.getUpdatedSpecification().getSettings();
+		ConfigurationSettingInteger[] settings2 = new ConfigurationSettingInteger[0];
+		try {
+			settings2 = widget2.getUpdatedSpecification().getSettings();
+		} catch (InputValidationException e) {
+			fail();
+		}
+
+		((IntegerInput) widget3.getWidget(0)).textbox.setText("not a number");
 
 		//Check
 		assertEquals(1, settings1.length);
@@ -112,6 +127,12 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 
 		assertEquals(1, settings2.length);
 		assertEquals(-1, settings2[0].value);
+
+		try {
+			widget3.getUpdatedSpecification().getSettings();
+		} catch (InputValidationException e) {
+			assertTrue(true);
+		}
 	}
 
 	@Override
