@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
@@ -93,5 +94,13 @@ public class ConfigurationSpecificationListBoxTest {
 
 		// Check results
 		assertThat(actualSettings, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedSetting1, expectedSetting2));
+	}
+
+	/**
+	 * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox} are serializable in GWT.
+	 */
+	@Test
+	public void testGwtSerialization() {
+		GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationListBox("some identifier", 3));
 	}
 }

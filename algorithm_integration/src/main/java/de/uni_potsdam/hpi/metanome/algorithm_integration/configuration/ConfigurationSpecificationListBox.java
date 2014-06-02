@@ -28,6 +28,12 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
 	private ConfigurationSettingListBox[] settings;
 
 	/**
+	 * Exists for GWT serialization.
+	 */
+	public ConfigurationSpecificationListBox() {
+	}
+
+	/**
 	 * Construct a ConfigurationSpecificationListBox, requesting 1 value.
 	 *
 	 * @param identifier the specification's identifier
