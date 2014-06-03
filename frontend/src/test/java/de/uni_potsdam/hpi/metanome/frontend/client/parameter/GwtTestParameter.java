@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -28,77 +29,77 @@ import java.util.List;
 
 public class GwtTestParameter extends GWTTestCase {
 
-    @Test
-    public void testParameterTable() {
-        //Setup
-        List<ConfigurationSpecification> paramList = new ArrayList<>();
+	@Test
+	public void testParameterTable() {
+		//Setup
+		List<ConfigurationSpecification> paramList = new ArrayList<>();
 
-        ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
-        ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
-        ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
+		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
+		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
+		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
 
-        paramList.add(ConfigurationSpecificationString);
-        paramList.add(ConfigurationSpecificationBoolean);
-        paramList.add(ConfigurationSpecificationCsvFile);
+		paramList.add(ConfigurationSpecificationString);
+		paramList.add(ConfigurationSpecificationBoolean);
+		paramList.add(ConfigurationSpecificationCsvFile);
 
-        //Execute
-        ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+		//Execute
+		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
-        //Check
-        assertEquals(4, pt.getRowCount());
+		//Check
+		assertEquals(4, pt.getRowCount());
 
-        // - STRING row
-        assertEquals(2, pt.getCellCount(0));
-        assertEquals(InputParameterStringWidget.class, pt.getWidget(0, 1).getClass());
+		// - STRING row
+		assertEquals(2, pt.getCellCount(0));
+		assertEquals(InputParameterStringWidget.class, pt.getWidget(0, 1).getClass());
 
-        // - BOOL row
-        assertEquals(2, pt.getCellCount(1));
-        assertEquals(InputParameterBooleanWidget.class, pt.getWidget(1, 1).getClass());
+		// - BOOL row
+		assertEquals(2, pt.getCellCount(1));
+		assertEquals(InputParameterBooleanWidget.class, pt.getWidget(1, 1).getClass());
 
-        // - CSV FILE row
-        assertEquals(2, pt.getCellCount(2));
-        assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(2, 1).getClass());
+		// - CSV FILE row
+		assertEquals(2, pt.getCellCount(2));
+		assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(2, 1).getClass());
 
-        // - Submit button row
-        assertEquals(1, pt.getCellCount(3));
-        assertEquals(Button.class, pt.getWidget(3, 0).getClass());
-    }
+		// - Submit button row
+		assertEquals(1, pt.getCellCount(3));
+		assertEquals(Button.class, pt.getWidget(3, 0).getClass());
+	}
 
-    @Test
-    public void testRetrieveSimpleParameterValues() throws InputValidationException {
-        //Setup
-        ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
+	@Test
+	public void testRetrieveSimpleParameterValues() throws InputValidationException {
+		//Setup
+		ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
-        ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
-        ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
-        ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-        ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
+		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
+		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
+		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
+		ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
 
-        paramList.add(ConfigurationSpecificationString);
-        paramList.add(ConfigurationSpecificationBoolean);
-        paramList.add(ConfigurationSpecificationCsvFile);
-        paramList.add(ConfigurationSpecificationSQLIterator);
+		paramList.add(ConfigurationSpecificationString);
+		paramList.add(ConfigurationSpecificationBoolean);
+		paramList.add(ConfigurationSpecificationCsvFile);
+		paramList.add(ConfigurationSpecificationSQLIterator);
 
-        ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
-        chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
+		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+		chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
 
-        //Execute
-        List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
-        List<ConfigurationSpecification> retrievedDataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
+		//Execute
+		List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
+		List<ConfigurationSpecification> retrievedDataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
 
-        //Check
-        assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
-        assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
-        assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+		//Check
+		assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
+		assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
+		assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
+		assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
 
-        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
-        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
-        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
-        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
-    }
+		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
+		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
+		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
+		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+	}
 
-    /**
+	/**
 	 * @param widget
 	 */
 	private void chooseCsvFile(InputParameterCsvFileWidget widget) {
@@ -109,134 +110,134 @@ public class GwtTestParameter extends GWTTestCase {
 	}
 
 	@Test
-    public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
-        //Setup
-        String identifierString = "stringParam";
-        ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString);
-        String identifierBoolean = "boolParam";
-        ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean);
-        String identifierCsv = "csvParam";
-        ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
-        String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
+	public void testConfigurationSpecificationWidgetCreation() throws InputValidationException, AlgorithmConfigurationException {
+		//Setup
+		String identifierString = "stringParam";
+		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString);
+		String identifierBoolean = "boolParam";
+		ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean);
+		String identifierCsv = "csvParam";
+		ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
+		String identifierSql = "sqlParam";
+		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
 
-        //Execute
-        InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-        InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-        InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-        InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
+		//Execute
+		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
+		InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
+		InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
+		InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
 
-        //Check
-        assertTrue(stringWidget instanceof InputParameterStringWidget);
-        assertEquals(identifierString, stringWidget.getSpecification().getIdentifier());
+		//Check
+		assertTrue(stringWidget instanceof InputParameterStringWidget);
+		assertEquals(identifierString, stringWidget.getSpecification().getIdentifier());
 
-        assertTrue(boolWidget instanceof InputParameterBooleanWidget);
-        assertEquals(identifierBoolean, boolWidget.getSpecification().getIdentifier());
+		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
+		assertEquals(identifierBoolean, boolWidget.getSpecification().getIdentifier());
 
-        assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
-        assertEquals(identifierCsv, csvWidget.getSpecification().getIdentifier());
+		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
+		assertEquals(identifierCsv, csvWidget.getSpecification().getIdentifier());
 
-        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
-        assertEquals(identifierSql, sqlWidget.getSpecification().getIdentifier());
-    }
+		assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
+		assertEquals(identifierSql, sqlWidget.getSpecification().getIdentifier());
+	}
 
-    @Test
-    public void testMultipleValuesWidgetCreation() {
-        //Setup
-        String identifierString = "stringParam";
-        ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString, 2);
-        String identifierBoolean = "boolParam";
-        ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean, 2);
-        String identifierCsv = "csvParam";
-        ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
-        String identifierSql = "sqlParam";
-        ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
+	@Test
+	public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
+		//Setup
+		String identifierString = "stringParam";
+		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString, 2);
+		String identifierBoolean = "boolParam";
+		ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean, 2);
+		String identifierCsv = "csvParam";
+		ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
+		String identifierSql = "sqlParam";
+		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
 
-        //Execute
-        InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-        InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-        InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-        InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
+		//Execute
+		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
+		InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
+		InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
+		InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
 
-        //Check
-        assertTrue(stringWidget instanceof InputParameterStringWidget);
-        assertEquals(2, ((InputParameterStringWidget) stringWidget).getWidgetCount());
+		//Check
+		assertTrue(stringWidget instanceof InputParameterStringWidget);
+		assertEquals(2, ((InputParameterStringWidget) stringWidget).getWidgetCount());
 
-        assertTrue(boolWidget instanceof InputParameterBooleanWidget);
-        assertEquals(2, ((InputParameterBooleanWidget) boolWidget).getWidgetCount());
+		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
+		assertEquals(2, ((InputParameterBooleanWidget) boolWidget).getWidgetCount());
 
-        assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
-        assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
+		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
+		assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
 
-        assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
-        assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
-    }
+		assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
+		assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
+	}
 
-    @Test
-    public void testCsvFileWidget() throws InputValidationException {
-        //Setup
-        ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
-        csvSpec.setAdvanced(true);
-        CsvFileInput csvWidget = new CsvFileInput(csvSpec, false);
-        FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
-        String characterString = "X";
-        int line = 5;
-        boolean boolTrue = true;
-        boolean noCharExceptionCaught = false;
-        boolean noFileExceptionCaught = false;
+	@Test
+	public void testCsvFileWidget() throws InputValidationException {
+		//Setup
+		ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
+		csvSpec.setAdvanced(true);
+		CsvFileInput csvWidget = new CsvFileInput(csvSpec, false);
+		FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
+		String characterString = "X";
+		int line = 5;
+		boolean boolTrue = true;
+		boolean noCharExceptionCaught = false;
+		boolean noFileExceptionCaught = false;
 
-        //Execute
-        csvWidget.listbox.addItem("new file");
-        csvWidget.listbox.setSelectedIndex(1);
-        
-        ((TextBox) advancedPanel.getWidget(0, 1)).setValue(characterString);
-        ((TextBox) advancedPanel.getWidget(1, 1)).setValue(characterString);
-        ((IntegerBox) advancedPanel.getWidget(3, 1)).setValue(line);
-        ((CheckBox) advancedPanel.getWidget(4, 1)).setValue(boolTrue);
-        ((CheckBox) advancedPanel.getWidget(5, 1)).setValue(boolTrue);
-        try {
-            csvSpec = csvWidget.getValuesAsSettings();
-        } catch (InputValidationException e) {
-            noCharExceptionCaught = true;
-        }
-        ((TextBox) advancedPanel.getWidget(2, 1)).setValue(characterString);
-        csvWidget.listbox.setSelectedIndex(0);
-        try {
-            csvSpec = csvWidget.getValuesAsSettings();
-        } catch (InputValidationException e) {
-            noFileExceptionCaught = true;
-        }
-        
-        csvWidget.listbox.setSelectedIndex(1);
-        
-        csvSpec = csvWidget.getValuesAsSettings();
+		//Execute
+		csvWidget.listbox.addItem("new file");
+		csvWidget.listbox.setSelectedIndex(1);
 
-        //Check
+		((TextBox) advancedPanel.getWidget(0, 1)).setValue(characterString);
+		((TextBox) advancedPanel.getWidget(1, 1)).setValue(characterString);
+		((IntegerBox) advancedPanel.getWidget(3, 1)).setValue(line);
+		((CheckBox) advancedPanel.getWidget(4, 1)).setValue(boolTrue);
+		((CheckBox) advancedPanel.getWidget(5, 1)).setValue(boolTrue);
+		try {
+			csvSpec = csvWidget.getValuesAsSettings();
+		} catch (InputValidationException e) {
+			noCharExceptionCaught = true;
+		}
+		((TextBox) advancedPanel.getWidget(2, 1)).setValue(characterString);
+		csvWidget.listbox.setSelectedIndex(0);
+		try {
+			csvSpec = csvWidget.getValuesAsSettings();
+		} catch (InputValidationException e) {
+			noFileExceptionCaught = true;
+		}
+
+		csvWidget.listbox.setSelectedIndex(1);
+
+		csvSpec = csvWidget.getValuesAsSettings();
+
+		//Check
 		assertTrue(noCharExceptionCaught);
 		assertTrue(noFileExceptionCaught);
 
-        assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
-        assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
-        assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
-        assertEquals(line, csvSpec.getLine());
-        assertEquals(boolTrue, csvSpec.isStrictQuotes());
-        assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
-    }
+		assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
+		assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
+		assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
+		assertEquals(line, csvSpec.getLine());
+		assertEquals(boolTrue, csvSpec.isStrictQuotes());
+		assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
+	}
 
-    //@Test
-    public void testSetPrimaryDataSource() {
-        //Setup
-        ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
-        primaryDataSource.setFileName("/inputA.csv");
+	//@Test
+	public void testSetPrimaryDataSource() {
+		//Setup
+		ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
+		primaryDataSource.setFileName("/inputA.csv");
 
-        ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
-        ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-        paramList.add(ConfigurationSpecificationCsvFile);
+		ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
+		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
+		paramList.add(ConfigurationSpecificationCsvFile);
 
-        //Execute
-        ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
+		//Execute
+		ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
 
-        //Check
+		//Check
 //		boolean foundDataSource = false;
 //		for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
 //			for (Object setting : dataSource.getSettings()) {
@@ -250,11 +251,11 @@ public class GwtTestParameter extends GWTTestCase {
 //		 
 //		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).widgets.get(0).listbox;
 //		assertEquals(primaryDataSource.getValueAsString(), listbox.getValue(listbox.getSelectedIndex()));
-    }
+	}
 
 
-    @Override
-    public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
-    }
+	@Override
+	public String getModuleName() {
+		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+	}
 }

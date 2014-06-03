@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
@@ -27,13 +28,29 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
 	protected ConfigurationSpecificationListBox specification;
 	protected List<ListBoxInput> inputWidgets;
 
-	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
+	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) throws AlgorithmConfigurationException {
 		super(config);
 	}
 
 	@Override
-	protected void addInputField(boolean optional) {
+	protected void addInputField(boolean optional) throws AlgorithmConfigurationException {
+		this.addInputField(optional, 0);
+	}
+
+	@Override
+	protected void addInputField(boolean optional, int specificationIndex) throws AlgorithmConfigurationException {
 		ListBoxInput field = new ListBoxInput(optional);
+
+		try {
+			ConfigurationSettingListBox setting = this.specification.getSettings()[specificationIndex];
+			field.setValues(setting.values);
+			if (setting.selectedValue != null) {
+				field.setSelectedValue(setting.selectedValue);
+			}
+		} catch (NullPointerException e) {
+			throw new AlgorithmConfigurationException("No values for list box set!");
+		}
+
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
 		this.insert(field, index);

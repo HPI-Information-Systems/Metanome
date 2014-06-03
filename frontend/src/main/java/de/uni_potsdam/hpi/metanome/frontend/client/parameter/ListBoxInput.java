@@ -66,4 +66,11 @@ public class ListBoxInput extends InputField {
 		int selectedIndex = this.listbox.getSelectedIndex();
 		return this.listbox.getValue(selectedIndex);
 	}
+
+	public void setSelectedValue(String selectedValue) {
+		for (int i = 0; i < this.listbox.getItemCount(); i++) {
+			if (this.listbox.getValue(i).equals(selectedValue))
+				this.listbox.setSelectedIndex(i);
+		}
+	}
 }

@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
@@ -27,10 +28,16 @@ import java.util.ArrayList;
 public class GwtTestListBoxParameter extends GWTTestCase {
 
 	@Test
-	public void testCreateWithFixedNumber() {
+	public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
 		//Setup
 		int noOfValues = 3;
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
+		specification.setSettings(new ConfigurationSettingListBox[]{setting, setting, setting});
 
 		//Execute
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
@@ -42,10 +49,16 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testCreateWithArbitraryNumber() {
+	public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
 		//Setup
 		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
+		specification.setSettings(setting);
 
 		//Execute
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
@@ -57,10 +70,16 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testAddInput() {
+	public void testAddInput() throws AlgorithmConfigurationException {
 		//Setup
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+		specification.setSettings(setting);
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
@@ -74,10 +93,16 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testRemoveInput() {
+	public void testRemoveInput() throws AlgorithmConfigurationException {
 		//Setup
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+		specification.setSettings(setting);
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
@@ -93,23 +118,30 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 	@Test
 	public void testRetrieveValues() {
 		//Setup
-		ArrayList<String> value = new ArrayList<>();
-		value.add("first");
-		value.add("second");
-		String expectedSelectedValue = "second";
-		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		String expectedSelectedValue = "Column 3";
+		ConfigurationSettingListBox expectedSetting = new ConfigurationSettingListBox(values, expectedSelectedValue);
+		ConfigurationSpecificationListBox expectedSpecification = new ConfigurationSpecificationListBox("enum",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+		expectedSpecification.setSettings(expectedSetting);
+		InputParameterListBoxWidget widget = null;
+		try {
+			widget = new InputParameterListBoxWidget(expectedSpecification);
+		} catch (AlgorithmConfigurationException e) {
+			fail();
+		}
 
 		//Execute
-		((ListBoxInput) widget.getWidget(0)).setValues(value);
-		((ListBoxInput) widget.getWidget(0)).listbox.setSelectedIndex(value.indexOf(expectedSelectedValue));
-		ConfigurationSettingListBox[] settings = widget.getUpdatedSpecification().getSettings();
+		ConfigurationSettingListBox[] specification = widget.getUpdatedSpecification().getSettings();
 
 		//Check
-		assertEquals(1, settings.length);
-		assertEquals(value, settings[0].value);
-		assertEquals(expectedSelectedValue, settings[0].selectedValue);
+		assertEquals(expectedSpecification.getSettings().length, specification.length);
+		assertEquals(values.size(), specification[0].values.size());
+		assertEquals(expectedSelectedValue, specification[0].selectedValue);
+		assertEquals(values, specification[0].values);
 	}
 
 	@Override

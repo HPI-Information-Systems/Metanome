@@ -22,19 +22,19 @@ import java.util.ArrayList;
 
 public class ConfigurationSettingListBox implements Serializable {
 
-	public ArrayList<String> value;
+	public ArrayList<String> values;
 	public String selectedValue;
 
 	public ConfigurationSettingListBox() {
 	}
 
-	public ConfigurationSettingListBox(ArrayList<String> value, String selectedValue) {
-		this.value = value;
+	public ConfigurationSettingListBox(ArrayList<String> values, String selectedValue) {
+		this.values = values;
 		this.selectedValue = selectedValue;
 	}
 
-	public ConfigurationSettingListBox(ArrayList<String> value) {
-		this.value = value;
+	public ConfigurationSettingListBox(ArrayList<String> values) {
+		this.values = values;
 		this.selectedValue = null;
 	}
 }

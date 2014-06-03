@@ -45,8 +45,8 @@ public class ConfigurationSettingListBoxTest {
 		ConfigurationSettingListBox setting2 = new ConfigurationSettingListBox(expectedValues, expectedSelectedValue);
 
 		// Check result
-		assertEquals(expectedValues, setting1.value);
-		assertEquals(expectedValues, setting2.value);
+		assertEquals(expectedValues, setting1.values);
+		assertEquals(expectedValues, setting2.values);
 		assertEquals(expectedSelectedValue, setting2.selectedValue);
 	}
 }
