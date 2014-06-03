@@ -25,8 +25,11 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test for {@link TempFileGenerator}
@@ -142,5 +145,35 @@ public class TempFileGeneratorTest {
         assertFalse(actualFile1.exists());
         assertFalse(actualFile2.exists());
     }
+
+
+	/**
+	 * Test method for {@link TempFileGenerator#close()}
+	 * <p/>
+	 * All files should be delete, even if one file throws an Exception and can not be deleted.
+	 *
+	 * @throws java.io.UnsupportedEncodingException
+	 */
+	@Test
+	public void testCloseWithException() throws UnsupportedEncodingException {
+		// Setup
+		File file1 = mock(File.class);
+		File file2 = mock(File.class);
+		File file3 = mock(File.class);
+
+		TempFileGenerator tempFileGenerator = new TempFileGenerator();
+		tempFileGenerator.createdFiles.add(file1);
+		tempFileGenerator.createdFiles.add(file2);
+		tempFileGenerator.createdFiles.add(file3);
+
+		doThrow(new RuntimeException()).when(file2).delete();
+
+		// Execute functionality
+		tempFileGenerator.close();
+
+		// Check result
+		assertFalse(file1.exists());
+		assertFalse(file3.exists());
+	}
 
 }
