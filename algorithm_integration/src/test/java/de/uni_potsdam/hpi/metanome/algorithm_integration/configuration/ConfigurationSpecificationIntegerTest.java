@@ -17,35 +17,22 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
-import org.junit.After;
-import org.junit.Before;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link ConfigurationSpecificationString}
+ * Tests for {@link ConfigurationSpecificationInteger}
  */
-public class ConfigurationSpecificationStringTest {
+public class ConfigurationSpecificationIntegerTest {
 
     /**
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
-    /**
-     * Test method for {@link ConfigurationSpecificationString#ConfigurationSpecificationString(String)}
+     * Test method for {@link ConfigurationSpecificationInteger#ConfigurationSpecificationInteger(String)}
      * <p/>
      * The identifier should be set in the constructor and be retrievable through getIdentifier.
      * The numberOfValues should be set to 1.
@@ -56,7 +43,7 @@ public class ConfigurationSpecificationStringTest {
         // Expected values
         String expectedIdentifier = "parameter1";
         int expectedNumberOfValues = 1;
-        ConfigurationSpecificationString configSpec = new ConfigurationSpecificationString(expectedIdentifier);
+        ConfigurationSpecificationInteger configSpec = new ConfigurationSpecificationInteger(expectedIdentifier);
 
         // Execute functionality
         String actualIdentifier = configSpec.getIdentifier();
@@ -68,7 +55,7 @@ public class ConfigurationSpecificationStringTest {
     }
 
     /**
-     * Test method for {@link ConfigurationSpecificationString#ConfigurationSpecificationString(String, int)}
+     * Test method for {@link ConfigurationSpecificationInteger#ConfigurationSpecificationInteger(String, int)}
      * <p/>
      * The identifier should be set in the constructor and be retrievable through getIdentifier.
      * The numberOfValues should be set to 2.
@@ -79,7 +66,7 @@ public class ConfigurationSpecificationStringTest {
         // Expected values
         String expectedIdentifier = "parameter1";
         int expectedNumberOfValues = 2;
-        ConfigurationSpecificationString configSpec = new ConfigurationSpecificationString(expectedIdentifier, expectedNumberOfValues);
+        ConfigurationSpecificationInteger configSpec = new ConfigurationSpecificationInteger(expectedIdentifier, expectedNumberOfValues);
 
         // Execute functionality
         String actualIdentifier = configSpec.getIdentifier();
@@ -91,10 +78,29 @@ public class ConfigurationSpecificationStringTest {
     }
 
     /**
-     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString} are serializable in GWT.
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger#getSettings()} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger#setSettings(ConfigurationSettingInteger...)}
+     */
+    @Test
+    public void testGetSetSpecification() {
+        // Setup
+        ConfigurationSpecificationInteger specificationInteger = new ConfigurationSpecificationInteger("parameter1");
+        // Expected values
+        ConfigurationSettingInteger expectedSetting1 = new ConfigurationSettingInteger();
+        ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
+
+        // Execute functionality
+        specificationInteger.setSettings(expectedSetting1, expectedSetting2);
+        List<ConfigurationSettingInteger> actualSettings = Arrays.asList(specificationInteger.getSettings());
+
+        // Check results
+        assertThat(actualSettings, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedSetting1, expectedSetting2));
+    }
+
+    /**
+     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger} are serializable in GWT.
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationString("some identifier", 3));
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationInteger("some identifier", 3));
     }
 }

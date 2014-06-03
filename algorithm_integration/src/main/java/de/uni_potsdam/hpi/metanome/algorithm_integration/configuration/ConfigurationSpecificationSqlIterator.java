@@ -27,6 +27,9 @@ public class ConfigurationSpecificationSqlIterator extends ConfigurationSpecific
 
     private ConfigurationSettingSqlIterator[] settings;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSpecificationSqlIterator() {
     }
 
