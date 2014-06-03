@@ -18,7 +18,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -43,21 +42,20 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      *
      * @param configSpec
      */
-    public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
-        super(configSpec);
+	public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) throws AlgorithmConfigurationException {
+		super(configSpec);
 
         this.addAvailableCsvsToListbox(inputWidgets);
     }
-
 
     /**
      * Calls the InputDataService to retrieve available CSV files (specified by their
      * file paths) and adds them as entries to the given ListBox. Only the actual file
      * name (not the preceding directories) are displayed.
      *
-     * @param listbox the ListBox to add the available files' names to
-     */
-    private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
+	 * @param widgets
+	 */
+	private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
         AsyncCallback<String[]> callback = getCallback(widgets);
 
         InputDataServiceAsync service = GWT.create(InputDataService.class);
@@ -87,11 +85,16 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
 
     @Override
     protected void addInputField(boolean optional) {
-        CsvFileInput widget = new CsvFileInput(optional);
-        this.inputWidgets.add(widget);
-        int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
-        this.insert(widget, index);
-    }
+		this.addInputField(optional, 0);
+	}
+
+	@Override
+	protected void addInputField(boolean optional, int specificationIndex) {
+		CsvFileInput widget = new CsvFileInput(optional);
+		this.inputWidgets.add(widget);
+		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+		this.insert(widget, index);
+	}
 
     @Override
     public ConfigurationSpecificationCsvFile getUpdatedSpecification() throws InputValidationException {

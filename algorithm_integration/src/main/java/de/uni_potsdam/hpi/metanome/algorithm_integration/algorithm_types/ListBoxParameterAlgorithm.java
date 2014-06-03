@@ -18,22 +18,18 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 
 /**
- * An {@link Algorithm} that takes {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator} configuration values.
- *
- * @author Jakob Zwiener
+ * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
  */
-public interface SqlInputParameterAlgorithm extends Algorithm {
-
+public interface ListBoxParameterAlgorithm extends Algorithm {
 	/**
-	 * Sets a SqlInputGenerator configuration value on the algorithm.
+	 * Sets a integer configuration value on the algorithm.
 	 *
-	 * @param identifier the parameter's identifier
-	 * @param values     one or multiple SqlInputGenerator values
+	 * @param identifier     the values identifier
+	 * @param selectedValues the string values for configuration
 	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
 	 */
-	void setSqlInputConfigurationValue(String identifier, SqlInputGenerator... values) throws AlgorithmConfigurationException;
+	void setListBoxConfigurationValue(String identifier, String... selectedValues) throws AlgorithmConfigurationException;
 
 }

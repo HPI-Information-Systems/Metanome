@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
@@ -26,7 +27,7 @@ import org.junit.Test;
 public class GwtTestIntegerParameter extends GWTTestCase {
 
 	@Test
-	public void testCreateWithFixedNumber() {
+	public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
 		//Setup
 		int noOfValues = 3;
 		ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("integer", noOfValues);
@@ -41,7 +42,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testCreateWithArbitraryNumber() {
+	public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
 		//Setup
 		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
 		ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("integer", noOfValues);
@@ -56,7 +57,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testAddInput() {
+	public void testAddInput() throws AlgorithmConfigurationException {
 		//Setup
 		ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("bool",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
@@ -73,7 +74,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testRemoveInput() {
+	public void testRemoveInput() throws AlgorithmConfigurationException {
 		//Setup
 		ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("bool",
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
@@ -90,7 +91,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testRetrieveValues() {
+	public void testRetrieveValues() throws AlgorithmConfigurationException {
 		//Setup
 		int value1 = 7;
 		ConfigurationSpecificationInteger specification1 = new ConfigurationSpecificationInteger("integer",

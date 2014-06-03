@@ -52,10 +52,15 @@ public class ParameterTable extends FlexTable {
         for (ConfigurationSpecification param : paramList) {
             this.setText(i, 0, param.getIdentifier());
 
-            InputParameterWidget currentWidget = WidgetFactory.buildWidget(param);
-            this.setWidget(i, 1, currentWidget);
-            if (currentWidget.isDataSource()) {
-                InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
+			InputParameterWidget currentWidget = null;
+			try {
+				currentWidget = WidgetFactory.buildWidget(param);
+			} catch (AlgorithmConfigurationException e) {
+				e.printStackTrace();
+			}
+			this.setWidget(i, 1, currentWidget);
+			if (currentWidget.isDataSource()) {
+				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
                 if (dataSourceWidget.accepts(primaryDataSource))
                     try {
                         dataSourceWidget.setDataSource(primaryDataSource);

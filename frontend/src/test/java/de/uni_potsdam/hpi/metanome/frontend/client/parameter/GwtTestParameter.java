@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -33,21 +34,30 @@ public class GwtTestParameter extends GWTTestCase {
 		//Setup
 		List<ConfigurationSpecification> paramList = new ArrayList<>();
 
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
+
 		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
 		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
 		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("NumberOfTables");
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
+		ConfigurationSpecificationListBox.setSettings(setting);
 
 		paramList.add(ConfigurationSpecificationString);
 		paramList.add(ConfigurationSpecificationBoolean);
 		paramList.add(ConfigurationSpecificationCsvFile);
+		paramList.add(ConfigurationSpecificationListBox);
 		paramList.add(ConfigurationSpecificationInteger);
 
 		//Execute
 		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
 		//Check
-		assertEquals(5, pt.getRowCount());
+		assertEquals(6, pt.getRowCount());
 
 		// - STRING row
 		assertEquals(2, pt.getCellCount(0));
@@ -61,14 +71,17 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals(2, pt.getCellCount(2));
 		assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(2, 1).getClass());
 
-		// - INTEGER row
+		// - LIST BOX row
 		assertEquals(2, pt.getCellCount(3));
-		assertEquals(InputParameterIntegerWidget.class, pt.getWidget(3, 1).getClass());
+		assertEquals(InputParameterListBoxWidget.class, pt.getWidget(3, 1).getClass());
+
+		// - INTEGER row
+		assertEquals(2, pt.getCellCount(4));
+		assertEquals(InputParameterIntegerWidget.class, pt.getWidget(4, 1).getClass());
 
 		// - Submit button row
-		assertEquals(1, pt.getCellCount(4));
-		assertEquals(Button.class, pt.getWidget(4, 0).getClass());
-
+		assertEquals(1, pt.getCellCount(5));
+		assertEquals(Button.class, pt.getWidget(5, 0).getClass());
 	}
 
 	@Test
@@ -76,20 +89,30 @@ public class GwtTestParameter extends GWTTestCase {
 		//Setup
 		ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
+
 		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
-		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("integer");
 		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-		ConfigurationSpecificationSqlIterator ConfigurationSpecificationSqlIterator = new ConfigurationSpecificationSqlIterator("sql");
+		ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
+		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("integer");
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
+		ConfigurationSpecificationListBox.setSettings(setting);
 
 		paramList.add(ConfigurationSpecificationString);
-		paramList.add(ConfigurationSpecificationInteger);
 		paramList.add(ConfigurationSpecificationBoolean);
 		paramList.add(ConfigurationSpecificationCsvFile);
-		paramList.add(ConfigurationSpecificationSqlIterator);
+		paramList.add(ConfigurationSpecificationSQLIterator);
+		paramList.add(ConfigurationSpecificationInteger);
+		paramList.add(ConfigurationSpecificationListBox);
 
 		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
-		chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(3, 1));
+		chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
+
 
 		//Execute
 		List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
@@ -97,16 +120,18 @@ public class GwtTestParameter extends GWTTestCase {
 
 		//Check
 		assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
-		assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
 		assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
+		assertTrue(retrievedParams.contains(ConfigurationSpecificationListBox));
+		assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
 		assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
-		assertTrue(!retrievedParams.contains(ConfigurationSpecificationSqlIterator));
+		assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
 
 		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
-		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationInteger));
 		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
+		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationInteger));
+		assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
 		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
-		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSqlIterator));
+		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
 	}
 
 	/**
@@ -120,8 +145,14 @@ public class GwtTestParameter extends GWTTestCase {
 	}
 
 	@Test
-	public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
+	public void testConfigurationSpecificationWidgetCreation() throws InputValidationException, AlgorithmConfigurationException {
 		//Setup
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
+
 		String identifierString = "stringParam";
 		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString);
 		String identifierInteger = "integerParam";
@@ -132,36 +163,47 @@ public class GwtTestParameter extends GWTTestCase {
 		ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
+		String identifierListbox = "listboxParam";
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox);
+		listboxParam.setSettings(setting);
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-		InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
 		InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
 		InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
+		InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
 		InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
-
-		chooseCsvFile((InputParameterCsvFileWidget) csvWidget);
+		InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
 
 		//Check
 		assertTrue(stringWidget instanceof InputParameterStringWidget);
-		assertEquals(identifierString, stringWidget.getUpdatedSpecification().getIdentifier());
-
-		assertTrue(integerWidget instanceof InputParameterIntegerWidget);
-		assertEquals(identifierInteger, integerWidget.getUpdatedSpecification().getIdentifier());
+		assertEquals(identifierString, stringWidget.getSpecification().getIdentifier());
 
 		assertTrue(boolWidget instanceof InputParameterBooleanWidget);
-		assertEquals(identifierBoolean, boolWidget.getUpdatedSpecification().getIdentifier());
+		assertEquals(identifierBoolean, boolWidget.getSpecification().getIdentifier());
 
 		assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
-		assertEquals(identifierCsv, csvWidget.getUpdatedSpecification().getIdentifier());
+		assertEquals(identifierCsv, csvWidget.getSpecification().getIdentifier());
 
 		assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
-		assertEquals(identifierSql, sqlWidget.getUpdatedSpecification().getIdentifier());
+		assertEquals(identifierSql, sqlWidget.getSpecification().getIdentifier());
+
+		assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
+		assertEquals(identifierListbox, listboxWidget.getSpecification().getIdentifier());
+
+		assertTrue(integerWidget instanceof InputParameterIntegerWidget);
+		assertEquals(identifierInteger, integerWidget.getSpecification().getIdentifier());
 	}
 
 	@Test
-	public void testMultipleValuesWidgetCreation() {
+	public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
 		//Setup
+		ArrayList<String> values = new ArrayList<>();
+		values.add("Column 1");
+		values.add("Column 3");
+		values.add("Column 2");
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
+
 		String identifierString = "stringParam";
 		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString, 2);
 		String identifierInteger = "integerParam";
@@ -172,13 +214,17 @@ public class GwtTestParameter extends GWTTestCase {
 		ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
+		String identifierListbox = "listboxParam";
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, 2);
+		listboxParam.setSettings(new ConfigurationSettingListBox[]{setting, setting});
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-		InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
 		InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
 		InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
+		InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
 		InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
+		InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
 
 		//Check
 		assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -195,6 +241,9 @@ public class GwtTestParameter extends GWTTestCase {
 
 		assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
 		assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
+
+		assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
+		assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());
 	}
 
 	@Test
