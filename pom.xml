@@ -45,6 +45,11 @@
             <name>Claudia Exeler</name>
             <email>claudia.exeler@student.hpi.uni-potsdam.de</email>
         </developer>
+        <developer>
+            <id>tanja</id>
+            <name>Tanja Bergmann</name>
+            <email>tanja.bergmann@student.hpi.uni-potsdam.de</email>
+        </developer>
     </developers>
 
     <properties>

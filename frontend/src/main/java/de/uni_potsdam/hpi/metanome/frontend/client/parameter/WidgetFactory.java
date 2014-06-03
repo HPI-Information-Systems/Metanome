@@ -21,18 +21,20 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 
 public class WidgetFactory {
 
-	public static InputParameterWidget buildWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
-		InputParameterWidget widget = null;
-		if (config instanceof ConfigurationSpecificationBoolean)
-			widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
-		else if (config instanceof ConfigurationSpecificationString)
-			widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
-		else if (config instanceof ConfigurationSpecificationCsvFile)
-			widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
-		else if (config instanceof ConfigurationSpecificationSqlIterator)
-			widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
-		if (config instanceof ConfigurationSpecificationListBox)
+    public static InputParameterWidget buildWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
+        InputParameterWidget widget = null;
+        if (config instanceof ConfigurationSpecificationBoolean)
+            widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
+        else if (config instanceof ConfigurationSpecificationString)
+            widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
+        else if (config instanceof ConfigurationSpecificationCsvFile)
+            widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
+        else if (config instanceof ConfigurationSpecificationSqlIterator)
+            widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
+		else if (config instanceof ConfigurationSpecificationInteger)
+			widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
+		else if (config instanceof ConfigurationSpecificationListBox)
 			widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
-		return widget;
-	}
+        return widget;
+    }
 }

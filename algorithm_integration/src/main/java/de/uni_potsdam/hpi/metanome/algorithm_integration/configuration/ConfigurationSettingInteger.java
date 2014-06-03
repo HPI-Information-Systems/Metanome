@@ -18,21 +18,18 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import java.io.Serializable;
 
-/**
- * @author Jakob Zwiener
- */
-public class ConfigurationSettingBoolean implements Serializable {
-    private static final long serialVersionUID = 3374302400843066557L;
+public class ConfigurationSettingInteger implements Serializable {
 
-    public boolean value;
+    public int value;
 
     /**
      * Exists for GWT serialization.
      */
-    public ConfigurationSettingBoolean() {
+    public ConfigurationSettingInteger() {
     }
 
-    public ConfigurationSettingBoolean(boolean value) {
+    public ConfigurationSettingInteger(int value) {
         this.value = value;
     }
+
 }

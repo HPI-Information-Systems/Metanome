@@ -16,11 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import static org.junit.Assert.assertEquals;
-
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link ConfigurationSpecificationSqlIterator}
@@ -87,5 +88,13 @@ public class ConfigurationSpecificationSqlIteratorTest {
         // Check result
         assertEquals(expectedIdentifier, actualIdentifier);
         assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    }
+
+    /**
+     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator} are serializable in GWT.
+     */
+    @Test
+    public void testGwtSerialization() {
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationSqlIterator("some identifier", 3));
     }
 }

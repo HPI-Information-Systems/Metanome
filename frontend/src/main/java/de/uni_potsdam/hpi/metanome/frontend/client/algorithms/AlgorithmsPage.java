@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -35,12 +34,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
     protected final FinderServiceAsync finderService;
     protected final BasePage basePage;
-    protected TabWrapper errorReceiver;
-    
     private final FlexTable uccList;
     private final FlexTable fdList;
     private final FlexTable indList;
     private final FlexTable statsList;
+    protected TabWrapper errorReceiver;
 
     public AlgorithmsPage(BasePage parent) {
         this.setWidth("100%");
@@ -128,7 +126,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         for (Algorithm algorithm : algorithms) {
             //Using the HTML title to associate an algorithm with each button.
             Button runButton = new Button("Run");
-            runButton.setTitle(algorithm.getFileName());
+            runButton.setTitle(algorithm.getName());
             runButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
