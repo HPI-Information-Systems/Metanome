@@ -111,7 +111,11 @@ public class SqlIterator implements RelationalInput {
 
     @Override
     public void close() throws Exception {
-        resultSet.close();
-        resultSet.getStatement().close();
+        if (!resultSet.isClosed()) {
+            resultSet.close();
+        }
+        if (!resultSet.isClosed()) {
+            resultSet.getStatement().close();
+        }
     }
 }
