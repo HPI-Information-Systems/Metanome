@@ -12,5 +12,4 @@ script: "mvn -q clean verify"
 
 after_success:
   - mvn coveralls:cobertura
-  - if [[ "$TRAVIS_BRANCH" != "master" && "$TRAVIS_JDK_VERSION" != "oraclejdk7" ]]; then echo "Deployments are only done for the master branch and oraclejdk7. "; exit 0; fi
-  - mvn deploy --settings deploysettings.xml
+  - if [[ "$TRAVIS_BRANCH" != "master" && "$TRAVIS_JDK_VERSION" != "oraclejdk7" ]]; then echo "Deployments are only done for the master branch and oraclejdk7. "; exit 0; else; mvn deploy --settings deploysettings.xml; fi
