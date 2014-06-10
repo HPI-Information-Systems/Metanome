@@ -31,6 +31,8 @@ public interface FinderService extends RemoteService {
 
     public List<Algorithm> listUniqueColumnCombinationsAlgorithms();
 
+    public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms();
+
     public List<Algorithm> listBasicStatisticsAlgorithms();
 
     public List<Algorithm> listAllAlgorithms();
