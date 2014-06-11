@@ -16,79 +16,85 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.List;
-
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 
+import java.util.List;
+
 public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
 
-    /**
-     * Corresponding inputParameter, where the value is going to be written
-     */
-    private ConfigurationSpecificationSqlIterator specification;
-    private List<SqlIteratorInput> inputWidgets;
+	/**
+	 * Corresponding inputParameter, where the value is going to be written
+	 */
+	private ConfigurationSpecificationSqlIterator specification;
+	private List<SqlIteratorInput> inputWidgets;
 
-    public InputParameterSqlIteratorWidget(
-            ConfigurationSpecificationSqlIterator config) {
-        super(config);
-    }
+	public InputParameterSqlIteratorWidget(
+			ConfigurationSpecificationSqlIterator config) throws AlgorithmConfigurationException {
+		super(config);
+	}
 
-    @Override
-    protected void addInputField(boolean optional) {
-        SqlIteratorInput widget = new SqlIteratorInput(optional);
-        this.inputWidgets.add(widget);
-        this.add(widget);
-    }
+	@Override
+	protected void addInputField(boolean optional) {
+		this.addInputField(optional, 0);
+	}
 
-    @Override
-    public ConfigurationSpecification getUpdatedSpecification() {
-        // Build an array with the actual number of set values.
-        ConfigurationSettingSqlIterator[] values = new ConfigurationSettingSqlIterator[inputWidgets.size()];
+	@Override
+	protected void addInputField(boolean optional, int specificationIndex) {
+		SqlIteratorInput widget = new SqlIteratorInput(optional);
+		this.inputWidgets.add(widget);
+		this.add(widget);
+	}
 
-        for (int i = 0; i < inputWidgets.size(); i++) {
-            values[i] = inputWidgets.get(i).getValue();
-        }
+	@Override
+	public ConfigurationSpecification getUpdatedSpecification() {
+		// Build an array with the actual number of set values.
+		ConfigurationSettingSqlIterator[] values = new ConfigurationSettingSqlIterator[inputWidgets.size()];
 
-        specification.setValues(values);
+		for (int i = 0; i < inputWidgets.size(); i++) {
+			values[i] = inputWidgets.get(i).getValue();
+		}
 
-        return this.specification;
-    }
+		specification.setValues(values);
 
-    @Override
-    public void setDataSource(ConfigurationSettingDataSource dataSource) {
-        if (dataSource instanceof ConfigurationSettingSqlIterator)
-            this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
-        else
-            ; //TODO throw some exception
-    }
+		return this.specification;
+	}
 
-    @Override
-    public boolean accepts(ConfigurationSettingDataSource setting) {
-        return setting instanceof ConfigurationSettingSqlIterator;
-    }
+	@Override
+	public void setDataSource(ConfigurationSettingDataSource dataSource) {
+		if (dataSource instanceof ConfigurationSettingSqlIterator)
+			this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
+		else
+			; //TODO throw some exception
+	}
 
-    @Override
-    public List<SqlIteratorInput> getInputWidgets() {
-        return this.inputWidgets;
-    }
+	@Override
+	public boolean accepts(ConfigurationSettingDataSource setting) {
+		return setting instanceof ConfigurationSettingSqlIterator;
+	}
 
-    @Override
-    public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-        this.inputWidgets = (List<SqlIteratorInput>) inputWidgetsList;
-    }
+	@Override
+	public List<SqlIteratorInput> getInputWidgets() {
+		return this.inputWidgets;
+	}
 
-    @Override
-    public ConfigurationSpecification getSpecification() {
-        return this.specification;
-    }
+	@Override
+	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
+		this.inputWidgets = (List<SqlIteratorInput>) inputWidgetsList;
+	}
 
-    @Override
-    public void setSpecification(ConfigurationSpecification config) {
-        this.specification = (ConfigurationSpecificationSqlIterator) config;
-    }
+	@Override
+	public ConfigurationSpecification getSpecification() {
+		return this.specification;
+	}
+
+	@Override
+	public void setSpecification(ConfigurationSpecification config) {
+		this.specification = (ConfigurationSpecificationSqlIterator) config;
+	}
 
 
 }

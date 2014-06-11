@@ -26,6 +26,9 @@ public class ConfigurationSettingBoolean implements Serializable {
 
     public boolean value;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSettingBoolean() {
     }
 

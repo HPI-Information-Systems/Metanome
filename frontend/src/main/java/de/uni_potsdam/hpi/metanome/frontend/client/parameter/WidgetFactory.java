@@ -16,15 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 
 public class WidgetFactory {
 
-    public static InputParameterWidget buildWidget(ConfigurationSpecification config) {
+    public static InputParameterWidget buildWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
         InputParameterWidget widget = null;
         if (config instanceof ConfigurationSpecificationBoolean)
             widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
@@ -34,6 +31,10 @@ public class WidgetFactory {
             widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
         else if (config instanceof ConfigurationSpecificationSqlIterator)
             widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
+		else if (config instanceof ConfigurationSpecificationInteger)
+			widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
+		else if (config instanceof ConfigurationSpecificationListBox)
+			widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
         return widget;
     }
 }

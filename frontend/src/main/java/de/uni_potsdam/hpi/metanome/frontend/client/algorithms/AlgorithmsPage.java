@@ -140,7 +140,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         for (Algorithm algorithm : algorithms) {
             //Using the HTML title to associate an algorithm with each button.
             Button runButton = new Button("Run");
-            runButton.setTitle(algorithm.getFileName());
+            runButton.setTitle(algorithm.getName());
             runButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {

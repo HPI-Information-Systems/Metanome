@@ -32,6 +32,9 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private boolean ignoreLeadingWhiteSpace;
     private int line;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSettingCsvFile() {
     }
 
@@ -48,7 +51,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
         this.line = line;
     }
-    
+
     public String getFileName() {
         return fileName;
     }

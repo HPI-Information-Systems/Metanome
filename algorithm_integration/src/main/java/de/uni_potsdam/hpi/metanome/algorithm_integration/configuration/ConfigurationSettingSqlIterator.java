@@ -24,6 +24,9 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
     private String username;
     private String password;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSettingSqlIterator() {
     }
 

@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
@@ -32,8 +32,8 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
     protected Button addButton;
 
-    public InputParameterWidget(ConfigurationSpecification config) {
-        super();
+	public InputParameterWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
+		super();
 
         this.setSpecification(config);
 
@@ -44,9 +44,9 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
         } else {
             this.setInputWidgets(new ArrayList<InputField>(this.getSpecification().getNumberOfValues()));
             for (int i = 0; i < this.getSpecification().getNumberOfValues(); i++) {
-                this.addInputField(false);
-            }
-        }
+				this.addInputField(false, i);
+			}
+		}
     }
 
     public boolean removeField(InputField w) {
@@ -64,14 +64,20 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
             @Override
             public void onClick(ClickEvent event) {
-                addInputField(true);
-            }
-        });
+				try {
+					addInputField(true);
+				} catch (AlgorithmConfigurationException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
         this.add(this.addButton);
     }
 
-    protected abstract void addInputField(boolean optional);
+	protected abstract void addInputField(boolean optional) throws AlgorithmConfigurationException;
+
+	protected abstract void addInputField(boolean optional, int index) throws AlgorithmConfigurationException;
 
     public abstract ConfigurationSpecification getUpdatedSpecification() throws InputValidationException;
 

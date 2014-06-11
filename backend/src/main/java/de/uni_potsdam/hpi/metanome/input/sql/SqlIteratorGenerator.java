@@ -107,13 +107,18 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     @Override
     public void closeAllStatements() throws SQLException {
         for (Statement statement : statements) {
+            if (statement.isClosed()) {
+                continue;
+            }
             statement.close();
         }
     }
 
     @Override
     public void close() throws SQLException {
-        dbConnection.close();
+        if (!dbConnection.isClosed()) {
+            dbConnection.close();
+        }
     }
 
     public int getFetchSize() {
