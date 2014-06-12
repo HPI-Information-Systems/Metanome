@@ -87,6 +87,11 @@ public class FinderServiceImplTest {
         expectedUccAlgorithm.setUcc(true);
         Algorithm.store(expectedUccAlgorithm);
 
+        Algorithm expectedCuccAlgorithm = new Algorithm("cucc algorithm");
+        expectedCuccAlgorithm.setCucc(true);
+        Algorithm.store(expectedCuccAlgorithm);
+
+
         Algorithm expectedFdAlgorithm = new Algorithm("fd algorithm");
         expectedFdAlgorithm.setFd(true);
         Algorithm.store(expectedFdAlgorithm);
@@ -101,6 +106,7 @@ public class FinderServiceImplTest {
         // Execute functionality
         List<Algorithm> actualIndAlgorithms = finderService.listInclusionDependencyAlgorithms();
         List<Algorithm> actualUccAlgorithms = finderService.listUniqueColumnCombinationsAlgorithms();
+        List<Algorithm> actualCuccAlgorithms = finderService.listConditionalUniqueColumnCombinationsAlgorithms();
         List<Algorithm> actualFdAlgorithms = finderService.listFunctionalDependencyAlgorithms();
         List<Algorithm> actualBasicStatAlgorithms = finderService.listBasicStatisticsAlgorithms();
         List<Algorithm> actualAllAlgorithms = finderService.listAllAlgorithms();
@@ -108,9 +114,10 @@ public class FinderServiceImplTest {
         // Check result
         assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
         assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm));
+        assertThat(actualCuccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
         assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm));
         assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
-        assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm, expectedUccAlgorithm, expectedFdAlgorithm, expectedBasicStatAlgorithm, otherAlgorithm));
+        assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm, expectedUccAlgorithm, expectedCuccAlgorithm, expectedFdAlgorithm, expectedBasicStatAlgorithm, otherAlgorithm));
 
         // Cleanup
         HibernateUtil.clear();
