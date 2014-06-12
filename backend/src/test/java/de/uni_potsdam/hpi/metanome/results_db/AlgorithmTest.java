@@ -46,6 +46,7 @@ public class AlgorithmTest {
         // Setup
         Set<Class<?>> algorithmInterfaces = new HashSet<>();
         algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+        algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
         algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
         algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
         algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
@@ -61,6 +62,7 @@ public class AlgorithmTest {
         assertTrue(actualAlgorithm.isInd());
         assertTrue(actualAlgorithm.isFd());
         assertTrue(actualAlgorithm.isUcc());
+        assertTrue(actualAlgorithm.isCucc());
         assertTrue(actualAlgorithm.isBasicStat());
     }
 
@@ -158,6 +160,10 @@ public class AlgorithmTest {
         expectedUccAlgorithm.setUcc(true);
         Algorithm.store(expectedUccAlgorithm);
 
+        Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path");
+        expectedCuccAlgorithm.setCucc(true);
+        Algorithm.store(expectedCuccAlgorithm);
+
         Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path");
         expectedBasicStatAlgorithm.setBasicStat(true);
         Algorithm.store(expectedBasicStatAlgorithm);
@@ -174,6 +180,7 @@ public class AlgorithmTest {
         List<Algorithm> actualIndAlgorithms = Algorithm.retrieveAll(InclusionDependencyAlgorithm.class);
         List<Algorithm> actualFdAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class);
         List<Algorithm> actualUccAlgorithms = Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
+        List<Algorithm> actualCuccAlgorithms = Algorithm.retrieveAll(ConditionalUniqueColumnCombinationAlgorithm.class);
         List<Algorithm> actualBasicStatAlgorithms = Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
         List<Algorithm> actualHolisticAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class, UniqueColumnCombinationsAlgorithm.class);
 
@@ -182,6 +189,7 @@ public class AlgorithmTest {
         assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
         assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm, expectedHolisticAlgorithm));
         assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
+        assertThat(actualCuccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
         assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
         assertThat(actualHolisticAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedHolisticAlgorithm));
 

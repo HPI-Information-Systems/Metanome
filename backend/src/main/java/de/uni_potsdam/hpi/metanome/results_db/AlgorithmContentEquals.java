@@ -52,6 +52,10 @@ public class AlgorithmContentEquals {
         if (!(algo1.isUcc() == algo2.isUcc())) {
             return false;
         }
+
+        if (!(algo1.isCucc() == algo2.isCucc())) {
+            return false;
+        }
         return algo1.isBasicStat() == algo2.isBasicStat();
 
     }
