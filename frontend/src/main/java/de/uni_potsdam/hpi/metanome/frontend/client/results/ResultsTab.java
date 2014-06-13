@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -109,8 +108,10 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
     public void cancelTimerOnFail(Throwable caught) {
         this.timer.cancel();
-        this.remove(runningIndicator);
-        this.remove(progressBar);
+		if (runningIndicator != null)
+        	this.remove(runningIndicator);
+		if (progressBar  != null)
+        	this.remove(progressBar);
         this.add(new Label("Algorithm did not execute successfully"));
     }
 
