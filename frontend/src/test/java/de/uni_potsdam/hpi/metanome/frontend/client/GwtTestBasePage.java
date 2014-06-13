@@ -59,7 +59,7 @@ public class GwtTestBasePage extends GWTTestCase {
         testPage = new BasePage();
 
         //Check
-        assertEquals(6, testPage.getWidgetCount());
+        assertEquals(5, testPage.getWidgetCount());
 
         Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
 		assertTrue(wrapper instanceof TabWrapper);

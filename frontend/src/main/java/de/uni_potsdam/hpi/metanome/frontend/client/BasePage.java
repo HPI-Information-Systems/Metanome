@@ -18,10 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -65,8 +62,6 @@ public class BasePage extends TabLayoutPanel {
         this.resultsPage = new ResultsPage(this);
         this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
 
-		this.insert(new ScrollPanel(new TabWrapper(new ResultsVisualizationPage(this))), "Visualization", Tabs.VISUALIZATION.ordinal());
-        
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
     }
 
@@ -76,9 +71,12 @@ public class BasePage extends TabLayoutPanel {
      * @return Widget with contents to be placed on the page.
      */
     private Widget createAboutPage() {
+		SimplePanel content = new SimplePanel();
         Label temporaryContent = new Label();
         temporaryContent.setText("Metanome Version 0.0.2.");
-        return temporaryContent;
+		content.add(temporaryContent);
+		content.addStyleName("aboutPage");
+        return content;
     }
 
     /**
@@ -94,6 +92,11 @@ public class BasePage extends TabLayoutPanel {
 
         String executionIdentifier = getExecutionIdetifier(algorithmName);
 
+		TabPanel resultTabsContainer = new TabPanel();
+		resultTabsContainer.setWidth("100%");
+		resultTabsContainer.setHeight("100%");
+
+		// Create new tab with result table
         ScrollPanel resultsTab = new ScrollPanel();
         resultsTab.setHeight("95%");
 //        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
@@ -107,9 +110,20 @@ public class BasePage extends TabLayoutPanel {
 
         resultsTab.add(new TabWrapper(resultsTabContent));
 
+		// Create new tab with visualizations of result
+		ScrollPanel visualizationTab = new ScrollPanel();
+		visualizationTab.setHeight("95%");
+		visualizationTab.add(new TabWrapper(new ResultsVisualizationPage()));
+
+		// Add first tab to result tab container
+		resultTabsContainer.add(resultsTab, "Table");
+		resultTabsContainer.add(visualizationTab, "Visualization");
+		resultTabsContainer.selectTab(0);
+
+		// remove old result tab and replace it with the new one
 		this.remove(Tabs.RESULTS.ordinal());
-		this.insert(resultsTab, "Results", Tabs.RESULTS.ordinal());
-        this.selectTab(resultsTab);
+		this.insert(resultTabsContainer, "Results", Tabs.RESULTS.ordinal());
+        this.selectTab(resultTabsContainer);
     }
 
     /**
@@ -165,6 +179,6 @@ public class BasePage extends TabLayoutPanel {
         this.runConfigurationsPage.addAlgorithms(algorithms);
     }
 
-    public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, VISUALIZATION, ABOUT}
+    public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT}
 
 }

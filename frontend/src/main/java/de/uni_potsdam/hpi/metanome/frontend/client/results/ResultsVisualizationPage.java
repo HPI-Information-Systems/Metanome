@@ -16,13 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
@@ -31,53 +27,23 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
  * @author Tanja Bergmann
  *
  */
-public class ResultsVisualizationPage extends HorizontalPanel implements TabContent {
+public class ResultsVisualizationPage extends FlowPanel implements TabContent {
 
-	protected final BasePage basePage;
 	protected TabWrapper errorReceiver;
 
-	public ResultsVisualizationPage(BasePage parent) {
-		this.basePage = parent;
+	public ResultsVisualizationPage() {
+		this.setWidth("100%");
 
-		Button b_ind = new Button("Draw Inclusion Dependencies!");
-		final Element buttonElement_ind = b_ind.getElement();
-		b_ind.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Element div = DOM.createDiv();
-				buttonElement_ind.getParentElement().appendChild(div);
+		SimplePanel indPanel = new SimplePanel();
+		this.add(indPanel);
+		SimplePanel uccPanel = new SimplePanel();
+		this.add(uccPanel);
+		SimplePanel fdPanel = new SimplePanel();
+		this.add(fdPanel);
 
-				drawInclusionDependencies(div);
-			}
-		});
-
-		Button b_ucc = new Button("Draw Unique Column Combinations!");
-		final Element buttonElement_ucc = b_ucc.getElement();
-		b_ucc.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Element div = DOM.createDiv();
-				buttonElement_ucc.getParentElement().appendChild(div);
-
-				drawUniqueColumnCombinations(div);
-			}
-		});
-
-		Button b_fd = new Button("Draw Functional Dependencies!");
-		final Element buttonElement_fd = b_fd.getElement();
-		b_fd.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Element div = DOM.createDiv();
-				buttonElement_fd.getParentElement().appendChild(div);
-
-				//drawFunctionalDependencies(div);
-			}
-		});
-
-		this.add(b_ind);
-		this.add(b_ucc);
-		this.add(b_fd);
+		drawInclusionDependencies(indPanel.getElement());
+		drawUniqueColumnCombinations(uccPanel.getElement());
+		//drawFunctionalDependencies(fdDiv);
 	}
 
 
