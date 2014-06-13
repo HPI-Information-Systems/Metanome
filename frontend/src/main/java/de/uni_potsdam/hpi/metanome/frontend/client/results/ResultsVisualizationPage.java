@@ -39,20 +39,45 @@ public class ResultsVisualizationPage extends HorizontalPanel implements TabCont
 	public ResultsVisualizationPage(BasePage parent) {
 		this.basePage = parent;
 
-		Button b = new Button("Draw Inclusion Dependencies!");
-		final Element buttonElement = b.getElement();
-
-		b.addClickHandler(new ClickHandler() {
+		Button b_ind = new Button("Draw Inclusion Dependencies!");
+		final Element buttonElement_ind = b_ind.getElement();
+		b_ind.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				Element div = DOM.createDiv();
-				buttonElement.getParentElement().appendChild(div);
+				buttonElement_ind.getParentElement().appendChild(div);
 
 				drawInclusionDependencies(div);
 			}
 		});
 
-		this.add(b);
+		Button b_ucc = new Button("Draw Unique Column Combinations!");
+		final Element buttonElement_ucc = b_ucc.getElement();
+		b_ucc.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Element div = DOM.createDiv();
+				buttonElement_ucc.getParentElement().appendChild(div);
+
+				drawUniqueColumnCombinations(div);
+			}
+		});
+
+		Button b_fd = new Button("Draw Functional Dependencies!");
+		final Element buttonElement_fd = b_fd.getElement();
+		b_fd.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Element div = DOM.createDiv();
+				buttonElement_fd.getParentElement().appendChild(div);
+
+				//drawFunctionalDependencies(div);
+			}
+		});
+
+		this.add(b_ind);
+		this.add(b_ucc);
+		this.add(b_fd);
 	}
 
 
@@ -67,5 +92,15 @@ public class ResultsVisualizationPage extends HorizontalPanel implements TabCont
 	// call d3 with dom element & data
 	private native void drawInclusionDependencies(Element div)/*-{
         $wnd.draw_ind(div);
+    }-*/;
+
+	// call d3 with dom element & data
+	private native void drawUniqueColumnCombinations(Element div)/*-{
+        $wnd.draw_ucc(div);
+    }-*/;
+
+	// call d3 with dom element & data
+	private native void drawFunctionalDependencies(Element div)/*-{
+        $wnd.draw_fd(div);
     }-*/;
 }

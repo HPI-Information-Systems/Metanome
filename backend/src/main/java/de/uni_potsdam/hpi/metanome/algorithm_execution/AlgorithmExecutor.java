@@ -117,6 +117,10 @@ public class AlgorithmExecutor implements Closeable {
         AlgorithmJarLoader loader = new AlgorithmJarLoader();
         Algorithm algorithm;
 
+		// frontend uses only the names (without jar)
+		if (!algorithmFileName.endsWith(".jar"))
+			algorithmFileName = algorithmFileName + ".jar";
+
         algorithm = loader.loadAlgorithm(algorithmFileName);
 
         Set<Class<?>> interfaces = getInterfaces(algorithm);

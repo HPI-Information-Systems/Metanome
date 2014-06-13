@@ -65,7 +65,7 @@ public class BasePage extends TabLayoutPanel {
         this.resultsPage = new ResultsPage(this);
         this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
 
-		this.insert(new TabWrapper(new ResultsVisualizationPage(this)), "Visualization", Tabs.VISUALIZATION.ordinal());
+		this.insert(new ScrollPanel(new TabWrapper(new ResultsVisualizationPage(this))), "Visualization", Tabs.VISUALIZATION.ordinal());
         
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
     }

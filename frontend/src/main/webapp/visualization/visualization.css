@@ -31,3 +31,32 @@ text {
     font: 10px sans-serif;
     pointer-events: none;
 }
+
+text {
+    font-size: 12px;
+    pointer-events: none;
+}
+
+text.parent {
+    fill: #1f77b4;
+}
+
+circle {
+    fill: #E6E6E6;
+    pointer-events: all;
+}
+
+circle.parent {
+    fill: #008FFF;
+    fill-opacity: .1;
+    stroke: aliceblue;
+}
+
+circle.parent:hover {
+    stroke: #ff7f0e;
+    stroke-width: .5px;
+}
+
+circle.child {
+    pointer-events: none;
+}
