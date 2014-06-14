@@ -16,43 +16,36 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
-import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
-import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
  * @author Tanja Bergmann
  *
  */
-public class ResultsVisualizationPage extends FlowPanel implements TabContent {
-
-	protected TabWrapper errorReceiver;
+public class ResultsVisualizationPage extends VerticalPanel {
 
 	public ResultsVisualizationPage() {
 		this.setWidth("100%");
+		this.setHeight("100%");
 
 		SimplePanel indPanel = new SimplePanel();
 		this.add(indPanel);
+
 		SimplePanel uccPanel = new SimplePanel();
 		this.add(uccPanel);
+
 		SimplePanel fdPanel = new SimplePanel();
 		this.add(fdPanel);
 
-		drawInclusionDependencies(indPanel.getElement());
-		drawUniqueColumnCombinations(uccPanel.getElement());
-		//drawFunctionalDependencies(fdDiv);
-	}
+		prepareFDVisualization(fdPanel);
 
-
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
+		//drawInclusionDependencies(indPanel.getElement());
+		//drawUniqueColumnCombinations(uccPanel.getElement());
 	}
 
 	// call d3 with dom element & data
@@ -65,8 +58,30 @@ public class ResultsVisualizationPage extends FlowPanel implements TabContent {
         $wnd.draw_ucc(div);
     }-*/;
 
+
+	private void prepareFDVisualization(SimplePanel fdPanel) {
+		HTML svgHtml = new HTML("<div id='svgDiv'/>");
+		HTML mainHtml = new HTML("<div id='mainDiv'/>");
+		HTML bpgHtml = new HTML("<div id='bpg'/>");
+		HTML toolTipHtml = new HTML("<div id='toolTip' class='tooltip' style='width:250px; height:120px; position:absolute;s' />");
+		HTML header1Html = new HTML("<div id='header1' class='header2' />");
+		HTML header2Html = new HTML("<div id='header2' class='header3' />");
+		HTML headHtml = new HTML("<div id='head' class='header' />");
+
+		DOM.appendChild(fdPanel.getElement(), bpgHtml.getElement());
+		DOM.appendChild(bpgHtml.getElement(), mainHtml.getElement());
+		DOM.appendChild(mainHtml.getElement(), svgHtml.getElement());
+		DOM.appendChild(bpgHtml.getElement(), toolTipHtml.getElement());
+		DOM.appendChild(toolTipHtml.getElement(), header1Html.getElement());
+		DOM.appendChild(toolTipHtml.getElement(), headHtml.getElement());
+		DOM.appendChild(toolTipHtml.getElement(), header2Html.getElement());
+
+		drawFunctionalDependencies(svgHtml.getElement(), mainHtml.getElement(), bpgHtml.getElement(), toolTipHtml.getElement(), header1Html.getElement(), header2Html.getElement(), headHtml.getElement());
+	}
+
+
 	// call d3 with dom element & data
-	private native void drawFunctionalDependencies(Element div)/*-{
-        $wnd.draw_fd(div);
+	private native void drawFunctionalDependencies(Element svgDiv, Element mainDiv, Element bpgDiv, Element toolTipDiv, Element header1Div, Element header2Div, Element headDiv)/*-{
+        $wnd.draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, headDiv, $doc);
     }-*/;
 }

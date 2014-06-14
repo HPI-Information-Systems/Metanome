@@ -98,7 +98,6 @@ public class BasePage extends TabLayoutPanel {
 
 		// Create new tab with result table
         ScrollPanel resultsTab = new ScrollPanel();
-        resultsTab.setHeight("95%");
 //        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
 
         ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
@@ -108,12 +107,12 @@ public class BasePage extends TabLayoutPanel {
                 resultsTabContent.getCancelCallback());
         resultsTabContent.startPolling();
 
-        resultsTab.add(new TabWrapper(resultsTabContent));
+        resultsTab.add(resultsTabContent);
 
 		// Create new tab with visualizations of result
 		ScrollPanel visualizationTab = new ScrollPanel();
-		visualizationTab.setHeight("95%");
-		visualizationTab.add(new TabWrapper(new ResultsVisualizationPage()));
+		visualizationTab.setHeight("100%");
+		visualizationTab.add(new ResultsVisualizationPage());
 
 		// Add first tab to result tab container
 		resultTabsContainer.add(resultsTab, "Table");
@@ -123,7 +122,7 @@ public class BasePage extends TabLayoutPanel {
 		// remove old result tab and replace it with the new one
 		this.remove(Tabs.RESULTS.ordinal());
 		this.insert(resultTabsContainer, "Results", Tabs.RESULTS.ordinal());
-        this.selectTab(resultTabsContainer);
+        this.selectTab(Tabs.RESULTS.ordinal());
     }
 
     /**
