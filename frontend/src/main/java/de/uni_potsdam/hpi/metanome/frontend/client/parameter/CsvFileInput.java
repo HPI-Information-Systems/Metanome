@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
@@ -70,36 +67,36 @@ public class CsvFileInput extends InputField {
         this.add(advancedTable);
 
         separatorTextbox = getNewOneCharTextbox();
-        separatorTextbox.setValue(String.valueOf(CSVParser.DEFAULT_SEPARATOR));
+        separatorTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_SEPARATOR));
         addRow(advancedTable, separatorTextbox, "Separator Character");
 
         quoteTextbox = getNewOneCharTextbox();
-        quoteTextbox.setValue(String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER));
+        quoteTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_QUOTE));
         addRow(advancedTable, quoteTextbox, "Quote Character");
 
         escapeTextbox = getNewOneCharTextbox();
-        escapeTextbox.setValue(String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER));
+        escapeTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_ESCAPE));
         addRow(advancedTable, escapeTextbox, "Escape Character");
 
         skiplinesIntegerbox = new IntegerBox();
         skiplinesIntegerbox.setWidth("5em");
-        skiplinesIntegerbox.setValue(CSVReader.DEFAULT_SKIP_LINES);
+        skiplinesIntegerbox.setValue(ConfigurationSettingCsvFile.DEFAULT_SKIPLINES);
         addRow(advancedTable, skiplinesIntegerbox, "Line");
 
         strictQuotesCheckbox = new CheckBox();
-        strictQuotesCheckbox.setValue(CSVParser.DEFAULT_STRICT_QUOTES);
+        strictQuotesCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_STRICTQUOTES);
         addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 
         ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-        ignoreLeadingWhiteSpaceCheckbox.setValue(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+        ignoreLeadingWhiteSpaceCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_IGNORELEADINGWHITESPACE);
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
         
         headerCheckbox = new CheckBox();
-        headerCheckbox.setValue(true);
+        headerCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_HEADER);
         addRow(advancedTable, headerCheckbox, "Has Header");
         
         skipDifferingLinesCheckbox = new CheckBox();
-        skipDifferingLinesCheckbox.setValue(false);
+        skipDifferingLinesCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_SKIPDIFFERINGLINES);
         addRow(advancedTable, skipDifferingLinesCheckbox, "Skip Lines With Differing Length");
     }
 

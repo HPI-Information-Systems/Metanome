@@ -84,8 +84,7 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
             public void onSuccess(String[] result) {
                 ConfigurationSettingDataSource[] dataSources = new ConfigurationSettingDataSource[result.length];
                 for (int i = 0; i < result.length; i++) {
-                    ConfigurationSettingCsvFile csvSetting = new ConfigurationSettingCsvFile();
-                    csvSetting.setFileName(result[i]);
+                    ConfigurationSettingCsvFile csvSetting = new ConfigurationSettingCsvFile(result[i]);
                     dataSources[i] = csvSetting;
                 }
                 addDataSourcesToList(dataSources, csvFilesList);
