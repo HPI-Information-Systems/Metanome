@@ -31,7 +31,7 @@ import java.util.List;
 public class ParameterTable extends FlexTable {
 
     private List<InputParameterWidget> childWidgets = new LinkedList<>();
-    private List<InputParameterDataSourceWidget> dataSourceWidgets = new LinkedList<>();
+    private List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
     private Button executeButton;
     private TabWrapper errorReceiver;
 
@@ -63,7 +63,7 @@ public class ParameterTable extends FlexTable {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                this.dataSourceWidgets.add(dataSourceWidget);
+                this.dataSourceChildWidgets.add(dataSourceWidget);
             } else
                 this.childWidgets.add(currentWidget);
             i++;
@@ -97,7 +97,7 @@ public class ParameterTable extends FlexTable {
      */
     public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues() throws InputValidationException {
         LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
-        for (InputParameterDataSourceWidget childWidget : this.dataSourceWidgets) {
+        for (InputParameterDataSourceWidget childWidget : this.dataSourceChildWidgets) {
             parameterList.add(childWidget.getUpdatedSpecification());
         }
         return parameterList;
@@ -127,6 +127,10 @@ public class ParameterTable extends FlexTable {
      */
     public InputParameterWidget getInputParameterWidget(String identifier) {
     	for (InputParameterWidget w : this.childWidgets){
+    		if (w.getSpecification().getIdentifier().equals(identifier))
+    			return w;
+    	}
+    	for (InputParameterWidget w : this.dataSourceChildWidgets) {
     		if (w.getSpecification().getIdentifier().equals(identifier))
     			return w;
     	}
