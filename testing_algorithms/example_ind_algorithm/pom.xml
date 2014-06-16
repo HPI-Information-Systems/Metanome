@@ -56,8 +56,8 @@
     <dependency>
     	<groupId>com.google.guava</groupId>
     	<artifactId>guava</artifactId>
-    	<version>12.0</version>
-    	<scope>compile</scope>
+        <version>17.0</version>
+        <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>commons-io</groupId>

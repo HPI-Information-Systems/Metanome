@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -25,7 +26,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -124,6 +124,6 @@ public class AlgorithmFinder {
             jar.close();
         }
 
-        return new HashSet<>(Arrays.asList(algorithmClass.getInterfaces()));
+        return new HashSet<>(ClassUtils.getAllInterfaces(algorithmClass));
     }
 }

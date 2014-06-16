@@ -67,30 +67,30 @@ public class AlgorithmExecutorTest {
         executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     }
 
-	/**
-	 * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, List)}
-	 * <p/>
-	 * Tests the execution of an fd algorithm. The elapsed time should be greater than 0ns.
-	 *
-	 * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
-	 * @throws AlgorithmConfigurationException
-	 * @throws AlgorithmExecutionException
-	 * @throws NoSuchMethodException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 */
-	@Test
-	public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		// Setup
-		List<ConfigurationValue> configs = new ArrayList<>();
-		configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
-		String[] selectedValues = {"second"};
-		configs.add(new ConfigurationValueListBox("column names", selectedValues));
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, List)}
+     * <p/>
+     * Tests the execution of an fd algorithm. The elapsed time should be greater than 0ns.
+     *
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
+     * @throws AlgorithmConfigurationException
+     * @throws AlgorithmExecutionException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     * @throws IllegalArgumentException
+     */
+    @Test
+    public void executeFunctionalDependencyAlgorithmTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        // Setup
+        List<ConfigurationValue> configs = new ArrayList<>();
+        configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
+        String[] selectedValues = {"second"};
+        configs.add(new ConfigurationValueListBox("column names", selectedValues));
 
         // Execute functionality
         long elapsedTime = executor.executeAlgorithmWithValues("example_fd_algorithm.jar", configs);
@@ -102,7 +102,7 @@ public class AlgorithmExecutorTest {
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
-     *
+     * <p/>
      * Tests the execution of an ind algorithm.
      *
      * @throws AlgorithmConfigurationException
@@ -121,12 +121,12 @@ public class AlgorithmExecutorTest {
     public void executeInclusionDependencyTest() throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Setup
         List<ConfigurationValue> configs = new ArrayList<>();
-		configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
-		configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
-		configs.add(new ConfigurationValueRelationalInputGenerator(
-				ExampleAlgorithm.CSV_FILE_IDENTIFIER,
-				mock(RelationalInputGenerator.class),
-				mock(RelationalInputGenerator.class)));
+        configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
+        configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
+        configs.add(new ConfigurationValueRelationalInputGenerator(
+                ExampleAlgorithm.CSV_FILE_IDENTIFIER,
+                mock(RelationalInputGenerator.class),
+                mock(RelationalInputGenerator.class)));
 
         // Execute functionality
         executor.executeAlgorithmWithValues("example_ind_algorithm.jar", configs);
@@ -137,7 +137,7 @@ public class AlgorithmExecutorTest {
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
-     *
+     * <p/>
      * Tests the execution of an ucc algorithm.
      *
      * @throws AlgorithmConfigurationException
@@ -169,7 +169,7 @@ public class AlgorithmExecutorTest {
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
-     *
+     * <p/>
      * Tests the execution of an holistic algorithm.
      *
      * @throws AlgorithmExecutionException
@@ -196,6 +196,33 @@ public class AlgorithmExecutorTest {
         // Check result
         verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
         verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, java.util.List)}
+     * <p/>
+     * Algorithms that do not implement the metanome interfaces directly should still be executable.
+     *
+     * @throws IllegalAccessException
+     * @throws IOException
+     * @throws InstantiationException
+     * @throws AlgorithmExecutionException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void testExecuteIndirectInterfaceAlgorithm() throws IllegalAccessException, IOException, InstantiationException, AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        // Setup
+        List<ConfigurationValue> configurationValues = new LinkedList<>();
+        configurationValues.add(new ConfigurationValueRelationalInputGenerator("identifier", mock(RelationalInputGenerator.class)));
+
+        // Execute functionality
+        executor.executeAlgorithmWithValues("example_indirect_interfaces_algorithm.jar", configurationValues);
+
+        // Check result
+        verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+
     }
 
     //FIXME add test for incorrect file name

@@ -27,11 +27,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -163,9 +167,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     protected Set<Class<?>> getInterfaces(Object object) {
-        Set<Class<?>> interfaces = new HashSet<>();
-        Collections.addAll(interfaces, object.getClass().getInterfaces());
-        return interfaces;
+        return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
     }
 
     @Override
