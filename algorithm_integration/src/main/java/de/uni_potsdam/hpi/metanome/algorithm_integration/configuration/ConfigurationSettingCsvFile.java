@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+
 
 /**
  * @author Jakob Zwiener
@@ -33,11 +36,23 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private int skipLines;
 	private boolean header;
 	private boolean skipDifferingLines;
+	
+	public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
+	public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
+	public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+	public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
+	public final static boolean DEFAULT_IGNORELEADINGWHITESPACE = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+	public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
+	public final static boolean DEFAULT_HEADER = true;
+	public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
     public ConfigurationSettingCsvFile() {
     }
 
-    // TODO add constructor for is not advanced (only fileName and advanced = false)
+    public ConfigurationSettingCsvFile(String fileName) {
+    	this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES, 
+    			DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER, DEFAULT_SKIPDIFFERINGLINES);
+    }
 
     public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
                                        char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line,
