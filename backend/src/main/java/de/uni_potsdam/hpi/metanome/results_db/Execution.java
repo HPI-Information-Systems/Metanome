@@ -22,6 +22,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -36,8 +37,8 @@ public class Execution {
     // TODO cascading save to children
 
     protected Algorithm algorithm;
-    protected Date begin;
-    protected Date end;
+    protected Timestamp begin;
+    protected Timestamp end;
     // TODO store proper config
     protected String config;
     protected Collection<Input> inputs = new ArrayList<>();
@@ -53,10 +54,19 @@ public class Execution {
     }
 
     /**
+     * Generates an Execution with the current time as start time.
+     *
+     * @param algorithm the executed algorithm
+     */
+    public Execution(Algorithm algorithm) {
+        this(algorithm, new Timestamp(new Date().getTime()));
+    }
+
+    /**
      * @param algorithm the executed algorithm
      * @param begin     the start time of the execution
      */
-    public Execution(Algorithm algorithm, Date begin) {
+    public Execution(Algorithm algorithm, Timestamp begin) {
         this.algorithm = algorithm;
         this.begin = begin;
     }
@@ -77,8 +87,26 @@ public class Execution {
      * @param begin     the start time of the execution
      * @return the execution
      */
-    public static Execution retrieve(Algorithm algorithm, Date begin) throws EntityStorageException {
+    public static Execution retrieve(Algorithm algorithm, Timestamp begin) throws EntityStorageException {
         return (Execution) HibernateUtil.retrieve(Execution.class, new ExecutionId(algorithm, begin));
+    }
+
+    /**
+     * Retrieves all executions stored in the database
+     *
+     * @return a list of all executions
+     */
+    public static List<Execution> retrieveAll() {
+        List<Execution> executions = null;
+
+        try {
+            executions = HibernateUtil.queryCriteria(Execution.class);
+        } catch (EntityStorageException e) {
+            // Algorithm should implement Entity, so the exception should not occur.
+            e.printStackTrace();
+        }
+
+        return executions;
     }
 
     @Id
@@ -92,19 +120,19 @@ public class Execution {
     }
 
     @Id
-    public Date getBegin() {
+    public Timestamp getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(Timestamp begin) {
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 

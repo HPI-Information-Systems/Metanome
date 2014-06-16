@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.results_db;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -68,7 +69,7 @@ public class ResultTest {
         // Store prerequisite objects in the database
         Algorithm algorithm = new Algorithm("some algorithm file name");
         Algorithm.store(algorithm);
-        Execution execution = new Execution(algorithm, new Date());
+        Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()));
         Execution.store(execution);
 
         // Expected values
