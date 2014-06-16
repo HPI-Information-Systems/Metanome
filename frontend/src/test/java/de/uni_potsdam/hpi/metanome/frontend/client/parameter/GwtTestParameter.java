@@ -33,13 +33,13 @@ public class GwtTestParameter extends GWTTestCase {
         //Setup
         List<ConfigurationSpecification> paramList = new ArrayList<>();
 
-        ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
-        ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
-        ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
+        ConfigurationSpecificationString configurationSpecificationString = new ConfigurationSpecificationString("Filename");
+        ConfigurationSpecificationBoolean configurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
+        ConfigurationSpecificationCsvFile configurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
 
-        paramList.add(ConfigurationSpecificationString);
-        paramList.add(ConfigurationSpecificationBoolean);
-        paramList.add(ConfigurationSpecificationCsvFile);
+        paramList.add(configurationSpecificationString);
+        paramList.add(configurationSpecificationBoolean);
+        paramList.add(configurationSpecificationCsvFile);
 
         //Execute
         ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
@@ -80,7 +80,7 @@ public class GwtTestParameter extends GWTTestCase {
         paramList.add(configurationSpecificationSQLIterator);
 
         ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
-        chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
+        chooseCsvFile((InputParameterCsvFileWidget) pt.getInputParameterWidget("csv"));
 
         //Execute
         List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();

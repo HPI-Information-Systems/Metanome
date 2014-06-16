@@ -16,21 +16,24 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
@@ -191,11 +194,11 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         csvWidget.listbox.addItem("new file");
         csvWidget.listbox.setSelectedIndex(1);
         
-        ((TextBox) advancedPanel.getWidget(0, 1)).setValue(characterString);
-        ((TextBox) advancedPanel.getWidget(1, 1)).setValue(characterString);
-        ((IntegerBox) advancedPanel.getWidget(3, 1)).setValue(line);
-        ((CheckBox) advancedPanel.getWidget(4, 1)).setValue(boolTrue);
-        ((CheckBox) advancedPanel.getWidget(5, 1)).setValue(boolTrue);
+        csvWidget.escapeTextbox.setValue(characterString);
+        csvWidget.quoteTextbox.setValue(characterString);
+        csvWidget.skiplinesIntegerbox.setValue(line);
+        csvWidget.ignoreLeadingWhiteSpaceCheckbox.setValue(boolTrue);
+        csvWidget.strictQuotesCheckbox.setValue(boolTrue);
         try {
             csvSpec = csvWidget.getValuesAsSettings();
         } catch (InputValidationException e) {
@@ -216,13 +219,41 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         //Check
 		assertTrue(noCharExceptionCaught);
 		assertTrue(noFileExceptionCaught);
-//
-//        assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
-//        assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
-//        assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
-//        assertEquals(line, csvSpec.getSkipLines());
-//        assertEquals(boolTrue, csvSpec.isStrictQuotes());
-//        assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
+    }
+    
+    @Test
+    public void testAdvancedSettingsThroughParameterTable() throws InputValidationException {
+    	//Setup
+    	boolean boolValue = true;
+    	String charValue = "#";
+    	int intValue = 4;
+    	
+        List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
+        ConfigurationSpecificationCsvFile configurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
+        paramList.add(configurationSpecificationCsvFile);
+        ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+
+        //Set Values
+        CsvFileInput csvInput = ((InputParameterCsvFileWidget) pt.getInputParameterWidget("inputData")).inputWidgets.get(0);
+        csvInput.advancedCheckbox.setValue(true, true);
+        csvInput.escapeTextbox.setValue(charValue);
+        csvInput.headerCheckbox.setValue(boolValue);
+        csvInput.ignoreLeadingWhiteSpaceCheckbox.setValue(boolValue);
+        csvInput.quoteTextbox.setValue(charValue);
+        csvInput.separatorTextbox.setValue(charValue);
+        csvInput.skipDifferingLinesCheckbox.setValue(boolValue);
+        csvInput.skiplinesIntegerbox.setValue(intValue);
+        csvInput.strictQuotesCheckbox.setValue(boolValue);
+        
+        //Retrieve
+        List<ConfigurationSpecification> dataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
+        
+        //Check 
+        assertEquals(1, dataSources.size());
+        assertTrue(dataSources.get(0) instanceof ConfigurationSpecificationCsvFile);
+        assertEquals(1, dataSources.get(0).getSettings().length);
+        ConfigurationSettingCsvFile csvSetting = (ConfigurationSettingCsvFile) dataSources.get(0).getSettings()[0];
+    	//TODO test that advanced values are correct when calling ParameterTable.getDataSourcesWithValues
     }
 		
 	@Override

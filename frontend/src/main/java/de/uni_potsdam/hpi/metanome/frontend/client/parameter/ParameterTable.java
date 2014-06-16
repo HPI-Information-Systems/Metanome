@@ -125,12 +125,12 @@ public class ParameterTable extends FlexTable {
      * @return This parameter's child widgets that corresponds to the given identifier, 
      * or null if such a child does not exist.
      */
-    public InputParameterWidget getChild(String identifier) {
+    public InputParameterWidget getInputParameterWidget(String identifier) {
     	for (InputParameterWidget w : this.childWidgets){
     		if (w.getSpecification().getIdentifier().equals(identifier))
     			return w;
     	}
-    	return null; //TODO: throw an exception instead?
+    	return null;
     }
     
     
