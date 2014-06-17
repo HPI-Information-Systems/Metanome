@@ -50,7 +50,7 @@ public class FinderServiceImplTest {
         // Expected values
         Algorithm[] expectedAlgorithms = {new Algorithm("some file name 1"), new Algorithm("some file name 2"), new Algorithm("some file name 3")};
         for (Algorithm algorithm : expectedAlgorithms) {
-            Algorithm.store(algorithm);
+            algorithm.store();
         }
 
         // Execute functionality
@@ -79,24 +79,24 @@ public class FinderServiceImplTest {
         FinderServiceImpl finderService = new FinderServiceImpl();
 
         // Expected values
-        Algorithm expectedIndAlgorithm = new Algorithm("ind algorithm");
-        expectedIndAlgorithm.setInd(true);
-        Algorithm.store(expectedIndAlgorithm);
+        Algorithm expectedIndAlgorithm = new Algorithm("ind algorithm")
+                .setInd(true)
+                .store();
 
-        Algorithm expectedUccAlgorithm = new Algorithm("ucc algorithm");
-        expectedUccAlgorithm.setUcc(true);
-        Algorithm.store(expectedUccAlgorithm);
+        Algorithm expectedUccAlgorithm = new Algorithm("ucc algorithm")
+                .setUcc(true)
+                .store();
 
-        Algorithm expectedFdAlgorithm = new Algorithm("fd algorithm");
-        expectedFdAlgorithm.setFd(true);
-        Algorithm.store(expectedFdAlgorithm);
+        Algorithm expectedFdAlgorithm = new Algorithm("fd algorithm")
+                .setFd(true)
+                .store();
 
-        Algorithm expectedBasicStatAlgorithm = new Algorithm("basic stat algorithm");
-        expectedBasicStatAlgorithm.setBasicStat(true);
-        Algorithm.store(expectedBasicStatAlgorithm);
+        Algorithm expectedBasicStatAlgorithm = new Algorithm("basic stat algorithm")
+                .setBasicStat(true)
+                .store();
 
-        Algorithm otherAlgorithm = new Algorithm("other algorithm");
-        Algorithm.store(otherAlgorithm);
+        Algorithm otherAlgorithm = new Algorithm("other algorithm")
+                .store();
 
         // Execute functionality
         List<Algorithm> actualIndAlgorithms = finderService.listInclusionDependencyAlgorithms();

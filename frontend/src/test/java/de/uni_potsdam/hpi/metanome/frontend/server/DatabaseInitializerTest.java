@@ -100,8 +100,8 @@ public class DatabaseInitializerTest {
 
         DatabaseInitializer initializer = new DatabaseInitializer();
         // Expected values
-        Algorithm expectedAlgorithm = new Algorithm("some file name");
-        Algorithm.store(expectedAlgorithm);
+        Algorithm expectedAlgorithm = new Algorithm("some file name")
+                .store();
 
         // Execute functionality
         initializer.contextInitialized(mock(ServletContextEvent.class));
@@ -167,8 +167,8 @@ public class DatabaseInitializerTest {
 
         DatabaseInitializer initializer = new DatabaseInitializer();
         // Expected values
-        FileInput expectedFileInput = new FileInput();
-        FileInput.store(expectedFileInput);
+        FileInput expectedFileInput = new FileInput()
+                .store();
 
         // Execute functionality
         initializer.contextInitialized(mock(ServletContextEvent.class));
