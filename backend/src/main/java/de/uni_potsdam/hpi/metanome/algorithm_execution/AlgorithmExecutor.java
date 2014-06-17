@@ -27,15 +27,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.Execution;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -94,6 +94,8 @@ public class AlgorithmExecutor implements Closeable {
             throw new AlgorithmLoadingException("Could not invoke.");
         } catch (NoSuchMethodException e) {
             throw new AlgorithmLoadingException("No such method.");
+        } catch (EntityStorageException e) {
+            throw new AlgorithmLoadingException("Algorithm not found in database.");
         }
     }
 
@@ -117,7 +119,7 @@ public class AlgorithmExecutor implements Closeable {
      * @throws AlgorithmExecutionException
      */
     public long executeAlgorithmWithValues(String algorithmFileName,
-                                           List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
+                                           List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
         AlgorithmJarLoader loader = new AlgorithmJarLoader();
         Algorithm algorithm;
 
@@ -125,7 +127,7 @@ public class AlgorithmExecutor implements Closeable {
 
         Set<Class<?>> interfaces = getInterfaces(algorithm);
 
-        for (ConfigurationValue configValue : parameters) { //TODO convert to values first
+        for (ConfigurationValue configValue : parameters) {
             configValue.triggerSetValue(algorithm, interfaces);
         }
 
@@ -159,11 +161,17 @@ public class AlgorithmExecutor implements Closeable {
             progressEstimatingAlgorithm.setProgressReceiver(progressCache);
         }
 
+        long beforeWallClockTime = new Date().getTime();
         long before = System.nanoTime();
         algorithm.execute();
         long after = System.nanoTime();
+        long elapsedNanos = after - before;
 
-        return after - before;
+        new Execution(de.uni_potsdam.hpi.metanome.results_db.Algorithm.retrieve(algorithmFileName), new Timestamp(beforeWallClockTime))
+                .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
+                .store();
+
+        return elapsedNanos;
     }
 
     protected Set<Class<?>> getInterfaces(Object object) {
