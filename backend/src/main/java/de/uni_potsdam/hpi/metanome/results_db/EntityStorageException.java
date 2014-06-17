@@ -17,8 +17,6 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 /**
- * TODO docs
- *
  * @author Jakob Zwiener
  */
 public class EntityStorageException extends Exception {

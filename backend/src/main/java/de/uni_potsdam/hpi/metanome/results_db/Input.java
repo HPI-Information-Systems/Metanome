@@ -31,16 +31,6 @@ public class Input {
     protected long id;
 
     /**
-     * Stores an Input in the database.
-     *
-     * @param input the Input to store
-     * @throws EntityStorageException
-     */
-    public static void store(Input input) throws EntityStorageException {
-        HibernateUtil.store(input);
-    }
-
-    /**
      * Retrieves an Input from the database.
      *
      * @param id the Input's id
@@ -61,14 +51,28 @@ public class Input {
         return HibernateUtil.queryCriteria(Input.class);
     }
 
+    /**
+     * Stores the Input in the database.
+     *
+     * @return the Input
+     * @throws EntityStorageException
+     */
+    public Input store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     @GeneratedValue
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public Input setId(long id) {
         this.id = id;
+
+        return this;
     }
 
     @Override

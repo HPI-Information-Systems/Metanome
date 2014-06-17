@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.Result}
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 public class ResultTest {
 
     /**
-     * Test method for {@link Result#store(Result)} and {@link Result#retrieve(String)}
+     * Test method for {@link Result#store()} and {@link Result#retrieve(String)}
      * <p/>
      * Tests persistence of a Result without attached {@link Execution}.
      */
@@ -46,7 +47,7 @@ public class ResultTest {
         Result expectedResult = new Result(expectedFilePath);
 
         // Execute functionality
-        Result.store(expectedResult);
+        assertSame(expectedResult, expectedResult.store());
         Result actualResult = Result.retrieve(expectedFilePath);
 
         // Check result
@@ -57,7 +58,7 @@ public class ResultTest {
     }
 
     /**
-     * Test method for {@link Result#store(Result)} and {@link Result#retrieve(String)}
+     * Test method for {@link Result#store()} and {@link Result#retrieve(String)}
      * <p/>
      * Tests persistence of a Result with an attached {@link Execution}.
      */
@@ -67,10 +68,10 @@ public class ResultTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some algorithm file name");
-        Algorithm.store(algorithm);
-        Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()));
-        Execution.store(execution);
+        Algorithm algorithm = new Algorithm("some algorithm file name")
+                .store();
+        Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()))
+                .store();
 
         // Expected values
         String filePath = "some file name";
@@ -78,7 +79,7 @@ public class ResultTest {
         expectedResult.setExecution(execution);
 
         // Execute functionality
-        Result.store(expectedResult);
+        expectedResult.store();
         Result actualResult = Result.retrieve(filePath);
 
         // Check result

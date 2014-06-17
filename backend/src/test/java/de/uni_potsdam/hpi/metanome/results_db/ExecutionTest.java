@@ -34,7 +34,7 @@ import static org.mockito.Mockito.mock;
 public class ExecutionTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * Executions should be storable and retrievable by id.
      */
@@ -45,14 +45,14 @@ public class ExecutionTest {
 
         // Store prerequisite objects in the database.
         Algorithm algorithm = new Algorithm("some file path");
-        Algorithm.store(algorithm);
+        algorithm.store();
 
         // Expected values
         Timestamp begin = new Timestamp(new Date().getTime());
         Execution expectedExecution = new Execution(algorithm, begin);
 
         // Execute functionality
-        Execution.store(expectedExecution);
+        assertSame(expectedExecution, expectedExecution.store());
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         // Check result
@@ -64,7 +64,7 @@ public class ExecutionTest {
 
     /**
      * Test method for {@link Execution#Execution(Algorithm)}
-     *
+     * <p/>
      * When constructing an {@link Execution} without a {@link Timestamp} the current time should be recorded.
      */
     @Test
@@ -86,12 +86,12 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedAlgorithm = new Algorithm("some file name 1");
-        Algorithm.store(expectedAlgorithm);
-        Execution expectedExecution1 = new Execution(expectedAlgorithm);
-        Execution.store(expectedExecution1);
-        Execution expectedExecution2 = new Execution(expectedAlgorithm);
-        Execution.store(expectedExecution2);
+        Algorithm expectedAlgorithm = new Algorithm("some file name 1")
+                .store();
+        Execution expectedExecution1 = new Execution(expectedAlgorithm)
+                .store();
+        Execution expectedExecution2 = new Execution(expectedAlgorithm)
+                .store();
 
         // Execute functionality
         List<Execution> actualExecutions = Execution.retrieveAll();
@@ -104,7 +104,7 @@ public class ExecutionTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and
      * {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * After roundtripping an execution all its {@link de.uni_potsdam.hpi.metanome.results_db.Input}s should be retrievable from it.
@@ -115,23 +115,23 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some path");
-        Algorithm.store(algorithm);
-        Input input1 = new Input();
-        Input.store(input1);
-        Input input2 = new Input();
-        Input.store(input2);
+        Algorithm algorithm = new Algorithm("some path")
+                .store();
+        Input input1 = new Input()
+                .store();
+        Input input2 = new Input()
+                .store();
         Collection<Input> inputs = new ArrayList<>();
         inputs.add(input1);
         inputs.add(input2);
 
         // Expected values
         Timestamp begin = new Timestamp(new Date().getTime());
-        Execution expectedExecution = new Execution(algorithm, begin);
-        expectedExecution.setInputs(inputs);
+        Execution expectedExecution = new Execution(algorithm, begin)
+                .setInputs(inputs);
 
         // Execute functionality
-        Execution.store(expectedExecution);
+        expectedExecution.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
         Collection<Input> actualInputs = actualExecution.getInputs();
 
@@ -144,7 +144,7 @@ public class ExecutionTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * Test the database roundtrip of an Execution with multiple {@link de.uni_potsdam.hpi.metanome.results_db.Input}s and {@link de.uni_potsdam.hpi.metanome.results_db.Result}s.
      */
@@ -154,8 +154,8 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some algorithm jar path");
-        Algorithm.store(algorithm);
+        Algorithm algorithm = new Algorithm("some algorithm jar path")
+                .store();
 
         // Expected values
         Timestamp begin = new Timestamp(new Date().getTime());
@@ -175,11 +175,11 @@ public class ExecutionTest {
         expectedExecution.addInput(expectedTableInput);
 
         // Execute functionality
-        Input.store(expectedFileInput);
-        Input.store(expectedTableInput);
-        Execution.store(expectedExecution);
-        Result.store(expectedResult1);
-        Result.store(expectedResult2);
+        expectedFileInput.store();
+        expectedTableInput.store();
+        expectedExecution.store();
+        expectedResult1.store();
+        expectedResult2.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         Set<Result> actualResults = actualExecution.getResults();
@@ -211,8 +211,8 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some algorithm file path");
-        Algorithm.store(algorithm);
+        Algorithm algorithm = new Algorithm("some algorithm file path")
+                .store();
 
         // Expected values
         Timestamp begin = new Timestamp(new Date().getTime());
@@ -224,9 +224,9 @@ public class ExecutionTest {
         expectedExecution.addResult(expectedResult1);
         expectedExecution.addResult(expectedResult2);
 
-        Execution.store(expectedExecution);
-        Result.store(expectedResult1);
-        Result.store(expectedResult2);
+        expectedExecution.store();
+        expectedResult1.store();
+        expectedResult2.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         Set<Result> actualResults = actualExecution.getResults();
@@ -275,10 +275,10 @@ public class ExecutionTest {
         // Setup
         Execution execution = new Execution(mock(Algorithm.class), mock(Timestamp.class));
         // Expected values
-        Input input1 = new Input();
-        input1.setId(42);
-        Input input2 = new Input();
-        input2.setId(23);
+        Input input1 = new Input()
+                .setId(42);
+        Input input2 = new Input()
+                .setId(23);
 
         // Execute functionality
         // Check result

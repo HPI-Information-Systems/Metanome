@@ -22,8 +22,7 @@ import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.FileInput}
@@ -33,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 public class FileInputTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.FileInput#store(Input)} and {@link de.uni_potsdam.hpi.metanome.results_db.FileInput#retrieve(long)}
+     * Test method for {@link FileInput#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.FileInput#retrieve(long)}
      * <p/>
      * FileInputs should be storable and retrievable by id.
      */
@@ -47,7 +46,7 @@ public class FileInputTest {
         expectedFileInput.setHasHeader(true);
 
         // Execute functionality
-        FileInput.store(expectedFileInput);
+        assertSame(expectedFileInput, expectedFileInput.store());
         long id = expectedFileInput.getId();
         FileInput actualFileInput = FileInput.retrieve(id);
 
@@ -61,7 +60,7 @@ public class FileInputTest {
 
     /**
      * Test method for {@link FileInput#FileInput()}
-     *
+     * <p/>
      * After calling the constructor the default parser parameters should be set.
      */
     @Test
@@ -75,7 +74,7 @@ public class FileInputTest {
 
     /**
      * Test method for {@link FileInput#FileInput(String)}
-     *
+     * <p/>
      * After calling the constructor with a file name, the file name should be set and the default parser settings.
      */
     @Test
@@ -112,12 +111,12 @@ public class FileInputTest {
     public void testEqualsAndHashCode() {
         // Setup
         int id = 42;
-        FileInput fileInput = new FileInput();
-        fileInput.setId(id);
-        FileInput equalFileInput = new FileInput();
-        equalFileInput.setId(id);
-        FileInput notEqualFileInput = new FileInput();
-        notEqualFileInput.setId(23);
+        FileInput fileInput = new FileInput()
+                .setId(id);
+        FileInput equalFileInput = new FileInput()
+                .setId(id);
+        FileInput notEqualFileInput = new FileInput()
+                .setId(23);
 
         // Execute functionality
         // Check result

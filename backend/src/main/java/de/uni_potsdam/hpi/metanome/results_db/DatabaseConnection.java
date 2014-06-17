@@ -33,15 +33,6 @@ public class DatabaseConnection {
     protected String password;
 
     /**
-     * Stores a DatabaseConnection in the database.
-     *
-     * @param databaseConnection the DataConnection to store
-     */
-    public static void store(DatabaseConnection databaseConnection) throws EntityStorageException {
-        HibernateUtil.store(databaseConnection);
-    }
-
-    /**
      * Retrieves a DatabaseConnection from the database.
      *
      * @param id the DatabaseConnection's id
@@ -51,37 +42,57 @@ public class DatabaseConnection {
         return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
     }
 
+    /**
+     * Stores the DatabaseConnection in the database.
+     *
+     * @return the DatabaseConnection
+     * @throws EntityStorageException
+     */
+    public DatabaseConnection store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public DatabaseConnection setId(long id) {
         this.id = id;
+
+        return this;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public DatabaseConnection setUrl(String url) {
         this.url = url;
+
+        return this;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public DatabaseConnection setUsername(String username) {
         this.username = username;
+
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public DatabaseConnection setPassword(String password) {
         this.password = password;
+
+        return this;
     }
 
     @Override

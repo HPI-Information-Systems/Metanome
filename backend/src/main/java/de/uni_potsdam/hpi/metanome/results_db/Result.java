@@ -50,15 +50,6 @@ public class Result {
     }
 
     /**
-     * Stores a result in the database.
-     *
-     * @param result the result to store
-     */
-    public static void store(Result result) throws EntityStorageException {
-        HibernateUtil.store(result);
-    }
-
-    /**
      * Retrieves a result from the databse.
      *
      * @param filePath the result's file path.
@@ -68,13 +59,27 @@ public class Result {
         return (Result) HibernateUtil.retrieve(Result.class, filePath);
     }
 
+    /**
+     * Stores the Result in the database.
+     *
+     * @return the Result
+     * @throws EntityStorageException
+     */
+    public Result store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String filePath) {
+    public Result setFileName(String filePath) {
         this.fileName = filePath;
+
+        return this;
     }
 
     @ManyToOne(targetEntity = Execution.class)
@@ -88,40 +93,50 @@ public class Result {
      *
      * @param execution the Execution to add
      */
-    public void setExecution(Execution execution) {
+    public Result setExecution(Execution execution) {
         this.execution = execution;
+
+        return this;
     }
 
     public boolean isInd() {
         return isInd;
     }
 
-    public void setInd(boolean isInd) {
+    public Result setInd(boolean isInd) {
         this.isInd = isInd;
+
+        return this;
     }
 
     public boolean isFd() {
         return isFd;
     }
 
-    public void setFd(boolean isFd) {
+    public Result setFd(boolean isFd) {
         this.isFd = isFd;
+
+        return this;
     }
 
     public boolean isUcc() {
         return isUcc;
     }
 
-    public void setUcc(boolean isUcc) {
+    public Result setUcc(boolean isUcc) {
         this.isUcc = isUcc;
+
+        return this;
     }
 
     public boolean isBasicStat() {
         return isBasicStat;
     }
 
-    public void setBasicStat(boolean isBasicStat) {
+    public Result setBasicStat(boolean isBasicStat) {
         this.isBasicStat = isBasicStat;
+
+        return this;
     }
 
     @Override

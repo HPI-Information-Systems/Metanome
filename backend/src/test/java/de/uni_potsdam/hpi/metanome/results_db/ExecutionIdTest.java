@@ -46,7 +46,6 @@ public class ExecutionIdTest {
 
         // Execute functionality
         // Check result
-
         // Reflexivity
         new EqualsAndHashCodeTester<ExecutionId>()
                 .performBasicEqualsAndHashCodeChecks(executionId, equalExecutionId, notEqualExecutionId);

@@ -72,15 +72,6 @@ public class Execution {
     }
 
     /**
-     * Stores an execution in the database.
-     *
-     * @param execution the execution to store
-     */
-    public static void store(Execution execution) throws EntityStorageException {
-        HibernateUtil.store(execution);
-    }
-
-    /**
      * Retrieves an Exectution from the database.
      *
      * @param algorithm the executed algorithm
@@ -109,14 +100,28 @@ public class Execution {
         return executions;
     }
 
+    /**
+     * Stores the Execution in the database.
+     *
+     * @return the Execution
+     * @throws EntityStorageException
+     */
+    public Execution store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     @ManyToOne(targetEntity = Algorithm.class)
     public Algorithm getAlgorithm() {
         return algorithm;
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
+    public Execution setAlgorithm(Algorithm algorithm) {
         this.algorithm = algorithm;
+
+        return this;
     }
 
     @Id
@@ -124,24 +129,30 @@ public class Execution {
         return begin;
     }
 
-    public void setBegin(Timestamp begin) {
+    public Execution setBegin(Timestamp begin) {
         this.begin = begin;
+
+        return this;
     }
 
     public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Timestamp end) {
+    public Execution setEnd(Timestamp end) {
         this.end = end;
+
+        return this;
     }
 
     public String getConfig() {
         return config;
     }
 
-    public void setConfig(String config) {
+    public Execution setConfig(String config) {
         this.config = config;
+
+        return this;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -156,8 +167,10 @@ public class Execution {
         return inputs;
     }
 
-    public void setInputs(Collection<Input> inputs) {
+    public Execution setInputs(Collection<Input> inputs) {
         this.inputs = inputs;
+
+        return this;
     }
 
     @OneToMany(
@@ -169,24 +182,30 @@ public class Execution {
         return results;
     }
 
-    public void setResults(Set<Result> results) {
+    public Execution setResults(Set<Result> results) {
         this.results = results;
+
+        return this;
     }
 
     public String getHardwareDescription() {
         return hardwareDescription;
     }
 
-    public void setHardwareDescription(String hardwareDescription) {
+    public Execution setHardwareDescription(String hardwareDescription) {
         this.hardwareDescription = hardwareDescription;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Execution setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
     @Override
@@ -215,8 +234,10 @@ public class Execution {
      *
      * @param input the Input to add.
      */
-    public void addInput(Input input) {
+    public Execution addInput(Input input) {
         inputs.add(input);
+
+        return this;
     }
 
     /**
@@ -224,8 +245,10 @@ public class Execution {
      *
      * @param result the Result to add
      */
-    public void addResult(Result result) {
+    public Execution addResult(Result result) {
         result.setExecution(this);
         results.add(result);
+
+        return this;
     }
 }
