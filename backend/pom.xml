@@ -111,6 +111,13 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                                    <artifactId>example_indirect_interfaces_algorithm</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.uni-potsdam.hpi.metanome</groupId>
                                     <artifactId>example_ucc_algorithm</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
@@ -216,6 +223,12 @@
         </dependency>
         <dependency>
             <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <artifactId>example_indirect_interfaces_algorithm</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>example_ucc_algorithm</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>test</scope>
@@ -241,7 +254,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>15.0</version>
+            <version>17.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -251,9 +264,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
