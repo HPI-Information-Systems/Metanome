@@ -43,9 +43,9 @@ import java.util.*;
 @Entity
 @GwtCompatible
 public class Algorithm implements Serializable {
-	private static final long serialVersionUID = -3276487707781514801L;
+    private static final long serialVersionUID = -3276487707781514801L;
 
-	protected String fileName;
+    protected String fileName;
     protected String name;
     protected String author;
     protected String description;
@@ -69,7 +69,7 @@ public class Algorithm implements Serializable {
     /**
      * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
      *
-     * @param fileName the file name of the algorithm jar
+     * @param fileName            the file name of the algorithm jar
      * @param algorithmInterfaces the implemented interfaces
      */
     @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
@@ -92,28 +92,28 @@ public class Algorithm implements Serializable {
             setBasicStat(true);
         }
     }
-    
+
     /**
      * This constructor sets all attributes as given, and sets the algorithm types based on the given
      * interfaces. If no name is specified, fileName is used for this purpose.
-     * 
-     * @param fileName the file name of the algorithm jar
-     * @param name the name of the implemented algorithm
-     * @param author name(s) of the author(s)
-     * @param description any additional information on the algorithm
+     *
+     * @param fileName            the file name of the algorithm jar
+     * @param name                the name of the implemented algorithm
+     * @param author              name(s) of the author(s)
+     * @param description         any additional information on the algorithm
      * @param algorithmInterfaces the implemented interfaces
      */
     @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
     public Algorithm(String fileName, String name, String author, String description, Set<Class<?>> algorithmInterfaces) {
-    	this(fileName, algorithmInterfaces);
-    	
-    	if (name != null)
-    		this.name = name;
-    	else
-    		this.name = fileName;
-    	
-    	this.author = author;
-    	this.description = description;
+        this(fileName, algorithmInterfaces);
+
+        if (name != null)
+            this.name = name;
+        else
+            this.name = fileName;
+
+        this.author = author;
+        this.description = description;
     }
 
     /**
@@ -250,8 +250,10 @@ public class Algorithm implements Serializable {
         return isCucc;
     }
 
-    public void setCucc(boolean isCucc) {
+    public Algorithm setCucc(boolean isCucc) {
         this.isCucc = isCucc;
+
+        return this;
     }
 
     public boolean isBasicStat() {

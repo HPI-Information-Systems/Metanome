@@ -33,7 +33,7 @@ public class ConditionalUniqueColumnCombination implements Result {
 
     public static final String CUCC_SEPARATOR = " | ";
 
-    private static final long serialVersionUID = 6746670304066817339L;
+    //private static final long serialVersionUID = 6746670304066817339L;
 
     protected ColumnCombination columnCombination;
     protected List<ColumnCondition> conditionList;
