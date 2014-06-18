@@ -17,8 +17,8 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * A column with condition for conditional results e.g. [@Link ConditionalUniqueColumnCombination}
@@ -27,14 +27,14 @@ import java.util.List;
  */
 public class ColumnCondition implements Comparable<ColumnCondition>, Serializable {
     protected ColumnIdentifier column;
-    protected List<String> columnValues;
+    protected TreeSet<String> columnValues;
 
     /**
      * Exists for Gwt serialization
      */
     protected ColumnCondition() {
         this.column = new ColumnIdentifier();
-        this.columnValues = new LinkedList<>();
+        this.columnValues = new TreeSet<>();
     }
 
     /**
@@ -42,21 +42,22 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
      * @param columnValues where the condition is true
      */
     public ColumnCondition(ColumnIdentifier identifier, String... columnValues) {
+        this();
         this.column = identifier;
         for (String columnValue : columnValues) {
             this.columnValues.add(columnValue);
         }
     }
 
-    /**
-     * @param identifier      column of the condition
-     * @param columnValueList contains values where the condition is true
-     */
-
-    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValueList) {
-        this.column = identifier;
-        this.columnValues = columnValueList;
-    }
+//    /**
+//     * @param identifier      column of the condition
+//     * @param columnValueList contains values where the condition is true
+//     */
+//
+//    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValueList) {
+//        this.column = identifier;
+//        this.columnValues = columnValueList;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,22 +66,44 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
 
         ColumnCondition that = (ColumnCondition) o;
 
-        if (column != null ? !column.equals(that.column) : that.column != null) return false;
-        if (columnValues != null ? !columnValues.equals(that.columnValues) : that.columnValues != null) return false;
+        if (!column.equals(that.column)) return false;
+        if (!columnValues.equals(that.columnValues)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = column != null ? column.hashCode() : 0;
-        result = 31 * result + (columnValues != null ? columnValues.hashCode() : 0);
+        int result = column.hashCode();
+        result = 31 * result + columnValues.hashCode();
         return result;
     }
 
     @Override
     public int compareTo(ColumnCondition o) {
-        //FIXME Jens implement compareTO
+        int columnComparison = this.column.compareTo(o.column);
+        if (0 != columnComparison) {
+            return columnComparison;
+        } else {
+            int lengthComparison = this.columnValues.size() - o.columnValues.size();
+
+            if (0 != lengthComparison) {
+                return lengthComparison;
+            } else {
+                Iterator<String> thisIterator = this.columnValues.iterator();
+
+                Iterator<String> thatIterator = o.columnValues.iterator();
+                while (thisIterator.hasNext() && thatIterator.hasNext()) {
+                    String thisString = thisIterator.next();
+                    String thatString = thatIterator.next();
+
+                    int stringComparison = thisString.compareTo(thatString);
+                    if (0 != stringComparison) {
+                        return stringComparison;
+                    }
+                }
+            }
+        }
         return 0;
     }
 }

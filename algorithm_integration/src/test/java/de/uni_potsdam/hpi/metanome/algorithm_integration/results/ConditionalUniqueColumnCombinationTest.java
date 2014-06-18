@@ -20,18 +20,20 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}
@@ -55,9 +57,9 @@ public class ConditionalUniqueColumnCombinationTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#sendResultTo(de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#sendResultTo(de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver)}
      * <p/>
-     * The {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination} should be sendable to the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}.
+     * The {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} should be sendable to the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}.
      *
      * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException
      */
@@ -75,94 +77,93 @@ public class ConditionalUniqueColumnCombinationTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#UniqueColumnCombination(de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier...)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#toString()}
      * <p/>
-     * A {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination} should store all it's identifiers. Identifiers can only appear once in the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}.
+     * A {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} should return the contained {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination} and the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} string representation.
      */
     @Test
-    @Ignore
-    public void testConstructorColumnIdentifiers() {
-        // Setup
-        // Expected values
-        ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-        ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-
-        // Execute functionality
-        UniqueColumnCombination actualUniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
-
-        // Check result
-        assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2), actualUniqueColumnCombination.getColumnCombination());
-    }
-
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#UniqueColumnCombination(de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination)}
-     * <p/>
-     * A {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination} should store a given {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination} on construction.
-     */
-    @Test
-    @Ignore
-    public void testConstructorColumnCombination() {
-        // Setup
-        // Expected values
-        ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-        ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-        ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
-
-        // Execute functionality
-        UniqueColumnCombination actualUniqueColumnCombination = new UniqueColumnCombination(expectedColumnCombination);
-
-        // Check result
-        assertEquals(expectedColumnCombination, actualUniqueColumnCombination.getColumnCombination());
-    }
-
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#toString()}
-     * <p/>
-     * A {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination} should return the contained {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination}s string representation.
-     */
-    @Test
-    @Ignore
     public void testToString() {
         // Setup
         ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
         ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-        UniqueColumnCombination uniqueColumnCombination = new UniqueColumnCombination(expectedColumn1, expectedColumn2);
+        List<ColumnCondition> conditionList = new LinkedList<>();
+        ColumnCondition mockColumnCondition1 = mock(ColumnCondition.class);
+        ColumnCondition mockColumnCondition2 = mock(ColumnCondition.class);
+        conditionList.add(mockColumnCondition1);
+        conditionList.add(mockColumnCondition2);
+        String expectedStringCondition1 = "condition1";
+        String expectedStringCondition2 = "condition2";
+        when(mockColumnCondition1.toString()).thenReturn(expectedStringCondition1);
+        when(mockColumnCondition2.toString()).thenReturn(expectedStringCondition2);
+
+        ConditionalUniqueColumnCombination actualConditionalColumnCombination = new ConditionalUniqueColumnCombination(new ColumnCombination(expectedColumn1, expectedColumn2), conditionList.toArray(new ColumnCondition[conditionList.size()]));
         // Expected values
-        String expectedStringRepresentation = new ColumnCombination(expectedColumn1, expectedColumn2).toString();
+        String expectedStringRepresentation = new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "[" + expectedStringCondition1 + ", " + expectedStringCondition2 + "]";
 
         // Execute functionality
         // Check result
-        assertEquals(expectedStringRepresentation, uniqueColumnCombination.toString());
+        assertEquals(expectedStringRepresentation, actualConditionalColumnCombination.toString());
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination#hashCode()}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#hashCode()}
      * <p/>
-     * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}s containing the same {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}s in different order should be equal.
+     * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}s containing the same {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}s in different order should be equal.
      */
     @Test
-    @Ignore
     public void testEqualsHashCode() {
         // Setup
         ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
         ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
         ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
-        UniqueColumnCombination expectedColumnCombination1 = new UniqueColumnCombination(column12, column13, column11);
         ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
         ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
         ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
-        UniqueColumnCombination expectedColumnCombination2 = new UniqueColumnCombination(column21, column22, column23);
-        UniqueColumnCombination expectedColumnCombinationNotEquals = new UniqueColumnCombination(column21, column23);
+
+        List<ColumnCondition> conditions1 = new LinkedList<>();
+        conditions1.add(new ColumnCondition(column11, "a"));
+        conditions1.add(new ColumnCondition(column13, "a", "b"));
+
+        List<ColumnCondition> conditions1Eq = new LinkedList<>();
+        conditions1Eq.add(new ColumnCondition(column11, "a"));
+        conditions1Eq.add(new ColumnCondition((column23), "b", "a"));
+
+        List<ColumnCondition> conditions2 = new LinkedList<>();
+        conditions2.add(new ColumnCondition(column21, "a"));
+        conditions2.add(new ColumnCondition(column23, "a"));
+
+//        List<ColumnCondition> conditions3 = new LinkedList<>();
+//        conditions3.add(new ColumnCondition(column21, "a"));
+//        conditions3.add(new ColumnCondition(column23, "a"));
+
+
+        ConditionalUniqueColumnCombination expectedColumnCombination1 = new ConditionalUniqueColumnCombination(new ColumnCombination(column12, column13, column11), conditions1.toArray(new ColumnCondition[conditions1.size()]));
+
+        ConditionalUniqueColumnCombination expectedColumnCombination2 = new ConditionalUniqueColumnCombination(new ColumnCombination(column21, column22, column23), conditions1.toArray(new ColumnCondition[conditions1.size()]));
+        ConditionalUniqueColumnCombination expectedColumnCombination2Eq = new ConditionalUniqueColumnCombination(new ColumnCombination(column11, column13, column12), conditions1Eq.toArray(new ColumnCondition[conditions1Eq.size()]));
+        ConditionalUniqueColumnCombination expectedColumnCombinationNotEquals = new ConditionalUniqueColumnCombination(new ColumnCombination(column21, column23), conditions2.toArray(new ColumnCondition[conditions2.size()]));
+        ConditionalUniqueColumnCombination expectedColumnCombinationNotEquals2 = new ConditionalUniqueColumnCombination(new ColumnCombination(column12, column13, column11), conditions2.toArray(new ColumnCondition[conditions2.size()]));
 
         // Execute functionality
         // Check result
         assertEquals(expectedColumnCombination1, expectedColumnCombination1);
         assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination1.hashCode());
+
         assertNotSame(expectedColumnCombination1, expectedColumnCombination2);
         assertEquals(expectedColumnCombination1, expectedColumnCombination2);
         assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2.hashCode());
+
+        assertNotSame(expectedColumnCombination1, expectedColumnCombination2Eq);
+        assertEquals(expectedColumnCombination1, expectedColumnCombination2Eq);
+        assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2Eq.hashCode());
+
+        assertNotSame(expectedColumnCombination1, expectedColumnCombinationNotEquals);
         assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals);
         assertNotEquals(expectedColumnCombination1.hashCode(), expectedColumnCombinationNotEquals.hashCode());
+
+        assertNotSame(expectedColumnCombination1, expectedColumnCombinationNotEquals2);
+        assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals2);
+        assertNotEquals(expectedColumnCombination1.hashCode(), expectedColumnCombinationNotEquals2.hashCode());
     }
 
     /**
@@ -170,7 +171,7 @@ public class ConditionalUniqueColumnCombinationTest {
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConditionalUniqueColumnCombination());
+        GwtSerializationTester.checkGwtSerializability(new ConditionalUniqueColumnCombination(mock(ColumnCombination.class), mock(ColumnCondition.class)));
     }
 
 }

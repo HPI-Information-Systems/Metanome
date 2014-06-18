@@ -21,8 +21,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Represents a conditional unique column combination
@@ -36,7 +36,7 @@ public class ConditionalUniqueColumnCombination implements Result {
     //private static final long serialVersionUID = 6746670304066817339L;
 
     protected ColumnCombination columnCombination;
-    protected List<ColumnCondition> conditionList;
+    protected TreeSet<ColumnCondition> conditionList;
 
 
     /**
@@ -44,7 +44,7 @@ public class ConditionalUniqueColumnCombination implements Result {
      */
     protected ConditionalUniqueColumnCombination() {
         this.columnCombination = new ColumnCombination();
-        this.conditionList = new LinkedList<>();
+        this.conditionList = new TreeSet<>();
     }
 
     /**
@@ -53,9 +53,12 @@ public class ConditionalUniqueColumnCombination implements Result {
      * @param columnCombination a supposedly unique column combination
      * @param columnConditions List of conditions for the CUCC
      */
-    public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, List<ColumnCondition> columnConditions) {
+    public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, ColumnCondition... columnConditions) {
+        this();
         this.columnCombination = columnCombination;
-        this.conditionList = columnConditions;
+        for (ColumnCondition columnCondition : columnConditions) {
+            this.conditionList.add(columnCondition);
+        }
     }
 
 
@@ -74,7 +77,7 @@ public class ConditionalUniqueColumnCombination implements Result {
     /**
      * @return the condition list
      */
-    public List<ColumnCondition> getConditions() {
+    public Set<ColumnCondition> getConditions() {
         return this.conditionList;
     }
 
@@ -105,5 +108,4 @@ public class ConditionalUniqueColumnCombination implements Result {
         result = 31 * result + (conditionList != null ? conditionList.hashCode() : 0);
         return result;
     }
-
 }
