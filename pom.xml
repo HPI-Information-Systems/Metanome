@@ -130,4 +130,14 @@
         <module>testing_algorithms</module>
         <module>test_helper</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>deployment</id>
+            <modules>
+                <module>deployment</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>
