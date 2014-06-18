@@ -126,7 +126,6 @@
         <module>algorithm_integration</module>
         <module>algorithm_template_root</module>
         <module>backend</module>
-        <module>deployment</module>
         <module>frontend</module>
         <module>testing_algorithms</module>
         <module>test_helper</module>
@@ -134,15 +133,9 @@
 
     <profiles>
         <profile>
-            <id>travis</id>
+            <id>deployment</id>
             <modules>
-                <module>algorithm_helper</module>
-                <module>algorithm_integration</module>
-                <module>algorithm_template_root</module>
-                <module>backend</module>
-                <module>frontend</module>
-                <module>testing_algorithms</module>
-                <module>test_helper</module>
+                <module>deployment</module>
             </modules>
         </profile>
     </profiles>
