@@ -19,9 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -35,8 +33,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +52,6 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * Test BasePage constructor.
      */
-    @Test
     public void testNewBasePage() {
         //Execute
         testPage = new BasePage();
@@ -65,23 +60,22 @@ public class GwtTestBasePage extends GWTTestCase {
         assertEquals(5, testPage.getWidgetCount());
 
         Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
-		assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
-        
-		wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
+
+        wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+        assertTrue(wrapper instanceof TabWrapper);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
+
         wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
+
         wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
     }
 
-    @Test
     public void testAddAlgorithmsToRunConfigurations() {
         BasePage page = new BasePage();
         int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
@@ -98,14 +92,13 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * Test control flow from Algorithms to Run configuration
      */
-    @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
         final String algorithmName = "some_name";
         final BasePage page = new BasePage();
-        Algorithm a = new Algorithm("file/name");
-        a.setAuthor("author");
-        a.setName(algorithmName);
+        Algorithm a = new Algorithm("file/name")
+                .setAuthor("author")
+                .setName(algorithmName);
         algorithms.add(a);
 
         page.addAlgorithmsToRunConfigurations(algorithms);
@@ -113,8 +106,8 @@ public class GwtTestBasePage extends GWTTestCase {
         AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
             @Override
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
                 caught.printStackTrace();
+                fail();
             }
 
             @Override
@@ -147,7 +140,6 @@ public class GwtTestBasePage extends GWTTestCase {
      *
      * @throws AlgorithmConfigurationException
      */
-    @Test
     public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
         final BasePage page = new BasePage();
         final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
