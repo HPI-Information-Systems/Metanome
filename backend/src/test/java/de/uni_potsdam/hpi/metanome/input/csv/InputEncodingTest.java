@@ -17,7 +17,6 @@
 package de.uni_potsdam.hpi.metanome.input.csv;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gwt.editor.client.Editor;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
@@ -67,7 +66,6 @@ public class InputEncodingTest {
     }
 
 
-
     /**
      * TODO docs
      *
@@ -76,7 +74,8 @@ public class InputEncodingTest {
      * @throws InputGenerationException
      * @throws InputIterationException
      */
-    @Test @Ignore
+    @Test
+    @Ignore
     public void testUTF16LittleEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf16littleEndian);
         RelationalInput input = generator.generateNewCopy();
@@ -95,7 +94,8 @@ public class InputEncodingTest {
      * @throws InputGenerationException
      * @throws InputIterationException
      */
-    @Test@Ignore
+    @Test
+    @Ignore
 
     public void testUTF16BigEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf16BigEndian);
@@ -115,7 +115,8 @@ public class InputEncodingTest {
      * @throws InputGenerationException
      * @throws InputIterationException
      */
-    @Test@Ignore
+    @Test
+    @Ignore
     public void testUTF8() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf8);
         RelationalInput input = generator.generateNewCopy();
@@ -135,7 +136,8 @@ public class InputEncodingTest {
      * @throws InputGenerationException
      * @throws InputIterationException
      */
-    @Test@Ignore
+    @Test
+    @Ignore
     public void testUTF8WithoutBom() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf8WithoutBom);
         RelationalInput input = generator.generateNewCopy();
