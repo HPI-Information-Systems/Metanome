@@ -51,10 +51,12 @@ public class InputEncodingTest {
     }
 
     /**
-     * TODO docs
+     * Helper method that reads the csv file relationName from the resource path of this project
+     * and creates {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator}
+     * for the csv file
      *
      * @param relationName
-     * @return
+     * @return {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator}
      * @throws UnsupportedEncodingException
      * @throws FileNotFoundException
      */
@@ -65,7 +67,8 @@ public class InputEncodingTest {
     }
 
     /**
-     * TODO docs
+     * Testcase that read a utf-16-little-endian encoded csv file and tests if the correct
+     * string values are extracted by the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
      *
      * @throws UnsupportedEncodingException
      * @throws FileNotFoundException
@@ -74,17 +77,23 @@ public class InputEncodingTest {
      */
     @Test
     public void testUTF16LittleEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
+        //Setup
         RelationalInputGenerator generator = getInputGenerator(this.utf16littleEndian);
         RelationalInput input = generator.generateNewCopy();
+
+        //Execute functionality
         assertTrue(input.hasNext());
         ImmutableList<String> firstLine = input.next();
+
+        //Check result
         assertEquals("hello", firstLine.get(0));
         assertEquals("world", firstLine.get(1));
         assertFalse(input.hasNext());
     }
 
     /**
-     * TODO docs
+     * Testcase that read a utf-16-big-endian encoded csv file and tests if the correct
+     * string values are extracted by the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
      *
      * @throws UnsupportedEncodingException
      * @throws FileNotFoundException
@@ -93,17 +102,23 @@ public class InputEncodingTest {
      */
     @Test
     public void testUTF16BigEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
+        //Setup
         RelationalInputGenerator generator = getInputGenerator(this.utf16BigEndian);
         RelationalInput input = generator.generateNewCopy();
+
+        //Execute functionality
         assertTrue(input.hasNext());
         ImmutableList<String> firstLine = input.next();
+
+        //Check result
         assertEquals("hello", firstLine.get(0));
         assertEquals("world", firstLine.get(1));
         assertFalse(input.hasNext());
     }
 
     /**
-     * TODO docs
+     * Testcase that read a utf-8-with-Byte-order-mark(BOM) encoded csv file and tests if the correct
+     * string values are extracted by the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
      *
      * @throws UnsupportedEncodingException
      * @throws FileNotFoundException
@@ -112,17 +127,25 @@ public class InputEncodingTest {
      */
     @Test
     public void testUTF8() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
+        //Setup
         RelationalInputGenerator generator = getInputGenerator(this.utf8);
         RelationalInput input = generator.generateNewCopy();
+
+        //Execute functionality
         assertTrue(input.hasNext());
         ImmutableList<String> firstLine = input.next();
+
+        //Check result
         assertEquals("hello", firstLine.get(0));
         assertEquals("world", firstLine.get(1));
         assertFalse(input.hasNext());
     }
 
     /**
-     * TODO docs
+     * Testcase that read a utf-8-without-Byte-order-mark(BOM) encoded csv file and tests if the correct
+     * string values are extracted by the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
+     *
+     * This is probably the most common utf8 encoding at this time.
      *
      * @throws UnsupportedEncodingException
      * @throws FileNotFoundException
@@ -131,10 +154,15 @@ public class InputEncodingTest {
      */
     @Test
     public void testUTF8WithoutBom() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
+        //Setup
         RelationalInputGenerator generator = getInputGenerator(this.utf8WithoutBom);
         RelationalInput input = generator.generateNewCopy();
+
+        //Execute functionality
         assertTrue(input.hasNext());
         ImmutableList<String> firstLine = input.next();
+
+        //Check result
         assertEquals("hello", firstLine.get(0));
         assertEquals("world", firstLine.get(1));
         assertFalse(input.hasNext());
