@@ -22,6 +22,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * @author Jakob Zwiener
+ * 
+ * Stores one CSV file configuration.
  */
 public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
     private static final long serialVersionUID = -770650561337139324L;
@@ -46,14 +48,37 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 	public final static boolean DEFAULT_HEADER = true;
 	public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
+	/**
+	 * Default constructor for serialization purposes.
+	 */
     public ConfigurationSettingCsvFile() {
     }
 
+    /**
+     * Simple constructor, uses default values.
+     * 
+     * @param fileName	the name of the CSV file
+     */
     public ConfigurationSettingCsvFile(String fileName) {
     	this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES, 
     			DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER, DEFAULT_SKIPDIFFERINGLINES);
     }
 
+    /**
+     * Advanced constructor.
+     * 
+     * @param fileName	the name of the CSV file
+     * @param advanced	true if the custom configurations should be used; that is, if one of the following parameters differs
+     * from the default value
+     * @param separator
+     * @param quote
+     * @param escape
+     * @param strictQuotes
+     * @param ignoreLeadingWhiteSpace
+     * @param line
+     * @param header
+     * @param skipDifferingLines
+     */
     public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
                                        char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line,
                                        boolean header, boolean skipDifferingLines) {
@@ -149,6 +174,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 		this.skipDifferingLines = skipDifferingLines;
 	}
 	
+	@Override
 	public String getValueAsString() {
 		return fileName;
 	}
