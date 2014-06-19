@@ -24,19 +24,25 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
+ *
  * @author Jens Hildebrandt
  */
 public class ColumnConditionTest {
+
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition#equals(Object)} and {@link ColumnCondition#hashCode()}
+     * <p/>
+     * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} containing the same condition values for the same column should be equal
+     */
 
     @Test
     public void testEqualsHashCode() {
         ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
         ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
-        ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
 
         ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
-        ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
-        ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
 
         List<String> conditionValues1 = new LinkedList<>();
         conditionValues1.add("a");
@@ -50,7 +56,6 @@ public class ColumnConditionTest {
         conditionValues3.add("a");
         conditionValues3.add("b");
         conditionValues3.add("c");
-
 
         ColumnCondition columnCondition1 = new ColumnCondition(column11, conditionValues1.toArray(new String[conditionValues1.size()]));
 
@@ -72,11 +77,9 @@ public class ColumnConditionTest {
         assertEquals(columnCondition1, columnConditionEq2);
 
         assertNotSame(columnCondition1, columnConditionNotEq);
-//        assertEquals(columnCondition1.hashCode(), columnConditionNotEq.hashCode());
         assertNotEquals(columnCondition1, columnConditionNotEq);
 
         assertNotSame(columnCondition1, columnConditionNotEq2);
-//        assertEquals(columnCondition1.hashCode(), columnConditionNotEq2.hashCode());
         assertNotEquals(columnCondition1, columnConditionNotEq2);
     }
 }

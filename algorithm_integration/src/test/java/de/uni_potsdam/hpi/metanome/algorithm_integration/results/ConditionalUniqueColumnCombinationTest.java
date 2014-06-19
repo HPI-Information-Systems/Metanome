@@ -36,9 +36,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Test for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}
+ * Test for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
  *
- * @author Jakob Zwiener
+ * @author Jens Hildebrandt
  */
 public class ConditionalUniqueColumnCombinationTest {
 
@@ -108,7 +108,7 @@ public class ConditionalUniqueColumnCombinationTest {
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#hashCode()}
      * <p/>
-     * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}s containing the same {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}s in different order should be equal.
+     * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}s containing the same {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}s  and the same {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s in different order should be equal.
      */
     @Test
     public void testEqualsHashCode() {
