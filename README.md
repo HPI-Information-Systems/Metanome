@@ -7,7 +7,9 @@ The [Metanome project](http://www.hpi.uni-potsdam.de/naumann/projekte/metanome_d
 
 #### Building Metanome
 Metanome is a maven project, which can be build by executing:
-```mvn verify```.
+
+```mvn verify```
+
 The verify phase should be executed as GWTTests are executed in this phase of the build.
 
 Metanome can be packaged together with a jetty webserver and profiling algorithms. 
