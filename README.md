@@ -15,13 +15,12 @@ The verify phase should be executed as GWTTests are executed in this phase of th
 Metanome can be packaged together with a jetty webserver and profiling algorithms. 
 To speedup builds this package is not created in the default maven profile. 
 The deployment package can be created by executing the build with the deployment profile: 
-```
-mvn verify -P deployment
-```
+
+```mvn verify -P deployment```
+
 or by executing package on the deployment project directly (if metanome has not been installed dependencies will be retrieved online): 
-```
-mvn -f deployment/pom.xml package
-```
+
+```mvn -f deployment/pom.xml package```
 
 #### Downloads
 Metanome releases can be found on the download page at:
