@@ -16,11 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.input.csv;
 
-/**
- * Created by Jens on 10.02.14.
- */
-
 import com.google.common.collect.ImmutableList;
+import com.google.gwt.editor.client.Editor;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
@@ -37,6 +34,8 @@ import java.net.URLDecoder;
 import static org.junit.Assert.*;
 
 /**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
+ * <p/>
  * Tests using different input file encodings
  * current tested encodings are:
  * utf8, utf8 without Bom, utf16 little endian, utf16 big endian
@@ -53,14 +52,31 @@ public class InputEncodingTest {
     public InputEncodingTest() throws CouldNotReceiveResultException {
     }
 
+    /**
+     * TODO docs
+     *
+     * @param relationName
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     */
     public RelationalInputGenerator getInputGenerator(String relationName) throws UnsupportedEncodingException, FileNotFoundException {
         String pathToInputFile = URLDecoder.decode(Thread.currentThread().getContextClassLoader().getResource(relationName).getPath(), "utf-8");
         RelationalInputGenerator inputGenerator = new CsvFileGenerator(new File(pathToInputFile));
         return inputGenerator;
     }
 
-    @Test
-    @Ignore
+
+
+    /**
+     * TODO docs
+     *
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws InputGenerationException
+     * @throws InputIterationException
+     */
+    @Test @Ignore
     public void testUTF16LittleEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf16littleEndian);
         RelationalInput input = generator.generateNewCopy();
@@ -71,8 +87,16 @@ public class InputEncodingTest {
         assertFalse(input.hasNext());
     }
 
-    @Test
-    @Ignore
+    /**
+     * TODO docs
+     *
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws InputGenerationException
+     * @throws InputIterationException
+     */
+    @Test@Ignore
+
     public void testUTF16BigEndian() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf16BigEndian);
         RelationalInput input = generator.generateNewCopy();
@@ -83,8 +107,15 @@ public class InputEncodingTest {
         assertFalse(input.hasNext());
     }
 
-    @Test
-    @Ignore
+    /**
+     * TODO docs
+     *
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws InputGenerationException
+     * @throws InputIterationException
+     */
+    @Test@Ignore
     public void testUTF8() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf8);
         RelationalInput input = generator.generateNewCopy();
@@ -95,7 +126,16 @@ public class InputEncodingTest {
         assertFalse(input.hasNext());
     }
 
-    @Test
+
+    /**
+     * TODO docs
+     *
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws InputGenerationException
+     * @throws InputIterationException
+     */
+    @Test@Ignore
     public void testUTF8WithoutBom() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException {
         RelationalInputGenerator generator = getInputGenerator(this.utf8WithoutBom);
         RelationalInput input = generator.generateNewCopy();
