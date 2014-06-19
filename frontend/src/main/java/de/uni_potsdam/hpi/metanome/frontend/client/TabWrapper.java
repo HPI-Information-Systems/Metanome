@@ -29,6 +29,7 @@ public class TabWrapper extends DockPanel {
 
 	protected VerticalPanel errorPanel;
 	protected TabContent contentPanel;
+    protected boolean inError = false;
 		
 	/**
 	 * 
@@ -53,9 +54,19 @@ public class TabWrapper extends DockPanel {
 		Label label = new Label(message);
 		label.setStyleName(MetanomeResources.INSTANCE.metanomeStyle().errorMessage());
 		this.errorPanel.add(label);
-	}
-	
-	public void clearErrors(){
-		this.errorPanel.clear();
-	}
+        this.setInError(true);
+    }
+
+    public void clearErrors() {
+        this.errorPanel.clear();
+        this.setInError(false);
+    }
+
+    public boolean isInError() {
+        return inError;
+    }
+
+    public void setInError(boolean inError) {
+        this.inError = inError;
+    }
 }

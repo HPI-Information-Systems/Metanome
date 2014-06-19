@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_execution;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileCreationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,10 +71,13 @@ public class TempFileGenerator implements FileGenerator {
     }
 
     @Override
-    public void close() throws IOException {
-        // FIXME catch exception (should continue deleting)
+    public void close() {
         for (File tempFile : createdFiles) {
-            tempFile.delete();
+            try {
+                tempFile.delete();
+            } catch (Exception e) {
+                System.out.println("A file could not be deleted.");
+            }
         }
     }
 }

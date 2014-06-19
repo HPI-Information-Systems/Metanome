@@ -52,13 +52,12 @@
       <groupId>de.uni-potsdam.hpi.metanome</groupId>
       <artifactId>algorithm_integration</artifactId>
       <version>0.0.2-SNAPSHOT</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>com.google.guava</groupId>
     	<artifactId>guava</artifactId>
-    	<version>12.0</version>
-    	<scope>compile</scope>
+        <version>17.0</version>
+        <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>commons-io</groupId>

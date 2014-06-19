@@ -45,6 +45,11 @@
             <name>Claudia Exeler</name>
             <email>claudia.exeler@student.hpi.uni-potsdam.de</email>
         </developer>
+        <developer>
+            <id>tanja</id>
+            <name>Tanja Bergmann</name>
+            <email>tanja.bergmann@student.hpi.uni-potsdam.de</email>
+        </developer>
     </developers>
 
     <properties>
@@ -125,4 +130,14 @@
         <module>testing_algorithms</module>
         <module>test_helper</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>deployment</id>
+            <modules>
+                <module>deployment</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>

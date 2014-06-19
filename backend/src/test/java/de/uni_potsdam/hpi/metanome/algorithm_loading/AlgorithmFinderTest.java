@@ -118,7 +118,7 @@ public class AlgorithmFinderTest {
         String[] algos = algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
 
         //Check
-        assertEquals(2, algos.length); //TODO determine number of expected algorithms dynamically
+        assertEquals(3, algos.length); //TODO determine number of expected algorithms dynamically
         //TODO make sure no wrong algorithms are returned
     }
 }

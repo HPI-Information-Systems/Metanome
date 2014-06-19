@@ -26,11 +26,21 @@ public class ConfigurationSettingString implements Serializable {
 
     public String value;
 
-
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSettingString() {
     }
 
     public ConfigurationSettingString(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
         this.value = value;
     }
 }

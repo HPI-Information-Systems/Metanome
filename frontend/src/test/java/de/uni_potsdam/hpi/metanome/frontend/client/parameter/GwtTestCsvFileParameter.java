@@ -40,19 +40,19 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 public class GwtTestCsvFileParameter extends GWTTestCase {
 	private String aFileName = "inputA.csv";
 	private String[] csvFiles = {"inputB.csv", aFileName};
-	
-	private InputParameterCsvFileWidget setUpInputParameterWidget() {
+
+	private InputParameterCsvFileWidget setUpInputParameterWidget() throws AlgorithmConfigurationException {
 		ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
 		InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
 		dataSourceWidget.getCallback(dataSourceWidget.inputWidgets).onSuccess(csvFiles);
 		return dataSourceWidget;
 	}
-	
+
 	/**
 	 * Tests the selection of a specific item corresponding to the given ConfigurationSetting.
-	 * 
+	 *
 	 * @throws AlgorithmConfigurationException
-	 * @throws InputValidationException 
+	 * @throws InputValidationException
 	 */
 	@Test
 	public void testSelectDataSourceOnFilledDropdown() throws AlgorithmConfigurationException, InputValidationException {
@@ -60,21 +60,21 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		widget.addToListbox(csvFiles);
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		setting.setFileName(aFileName);
-		
+
 		//Execute
 		widget.selectDataSource(setting);
-		
+
 		//Check
 		assertEquals(aFileName, widget.listbox.getItemText(widget.listbox.getSelectedIndex()));
 		assertEquals(aFileName, widget.getValuesAsSettings().getFileName());
 	}
-	
+
 	/**
-	 * When setting a data source on the parent widget (InputParameter), it should be set in the first 
-	 * child widget. 
-	 * 
+	 * When setting a data source on the parent widget (InputParameter), it should be set in the first
+	 * child widget.
+	 *
 	 * @throws AlgorithmConfigurationException
-	 * @throws InputValidationException 
+	 * @throws InputValidationException
 	 */
 	@Test
 	public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
@@ -82,17 +82,17 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		InputParameterCsvFileWidget dataSourceWidget = setUpInputParameterWidget();
 		ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
 		setting.setFileName(aFileName);
-		
+
 		//Execute
 		dataSourceWidget.setDataSource(setting);
-		
+
 		//Check 
 		assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getItemCount() > 1);
-		ConfigurationSettingDataSource retrievedSetting = 
+		ConfigurationSettingDataSource retrievedSetting =
 				(ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification().getSettings()[0];
 		assertEquals(aFileName, retrievedSetting.getValueAsString());
 	}
-	
+
 	/**
 	 * When selecting the "Advanced" checkbox, additional input fields become visible, containing the default values
 	 * that will be used if none are specified.
@@ -110,30 +110,32 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 		assertFalse(widget.headerCheckbox.isAttached() && widget.headerCheckbox.isVisible());	
 		assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox.isVisible());	
 		
+
 		// Execute
 		widget.advancedCheckbox.setValue(true, true);
-		
+
 		// Check visibility
 		assertTrue(widget.advancedTable.isVisible());
-		assertTrue(widget.escapeTextbox.isVisible());	
-		assertTrue(widget.skiplinesIntegerbox.isVisible());	
-		assertTrue(widget.separatorTextbox.isVisible());	
-		assertTrue(widget.quoteTextbox.isVisible());	
-		assertTrue(widget.strictQuotesCheckbox.isVisible());	
+		assertTrue(widget.escapeTextbox.isVisible());
+		assertTrue(widget.skiplinesIntegerbox.isVisible());
+		assertTrue(widget.separatorTextbox.isVisible());
+		assertTrue(widget.quoteTextbox.isVisible());
+		assertTrue(widget.strictQuotesCheckbox.isVisible());
 		assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
 		assertTrue(widget.headerCheckbox.isVisible());	
 		assertTrue(widget.skipDifferingLinesCheckbox.isVisible());	
 		
+
 		// Check values
-		assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, 
+		assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER,
 				StringHelper.getFirstCharFromInput(widget.escapeTextbox.getValue()));
-		assertEquals(CSVParser.DEFAULT_SEPARATOR, 
+		assertEquals(CSVParser.DEFAULT_SEPARATOR,
 				StringHelper.getFirstCharFromInput(widget.separatorTextbox.getValue()));
-		assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, 
+		assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER,
 				StringHelper.getFirstCharFromInput(widget.quoteTextbox.getValue()));
-		assertEquals(CSVReader.DEFAULT_SKIP_LINES, 
+		assertEquals(CSVReader.DEFAULT_SKIP_LINES,
 				widget.skiplinesIntegerbox.getValue().intValue());
-		assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, 
+		assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
 				widget.ignoreLeadingWhiteSpaceCheckbox.getValue().booleanValue());
 		assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, 
 						widget.strictQuotesCheckbox.getValue().booleanValue());
@@ -255,7 +257,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         ConfigurationSettingCsvFile csvSetting = (ConfigurationSettingCsvFile) dataSources.get(0).getSettings()[0];
     	//TODO test that advanced values are correct when calling ParameterTable.getDataSourcesWithValues
     }
-		
+
 	@Override
 	public String getModuleName() {
 		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";

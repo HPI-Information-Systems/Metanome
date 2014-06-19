@@ -48,9 +48,10 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
 	public final static boolean DEFAULT_HEADER = true;
 	public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
-	/**
-	 * Default constructor for serialization purposes.
-	 */
+
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSettingCsvFile() {
     }
 
@@ -93,7 +94,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
         this.header = header;
         this.skipDifferingLines  = skipDifferingLines;
     }
-    
+
     public String getFileName() {
         return fileName;
     }

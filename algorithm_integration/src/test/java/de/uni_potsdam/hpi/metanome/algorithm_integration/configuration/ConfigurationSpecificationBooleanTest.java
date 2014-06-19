@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,5 +109,13 @@ public class ConfigurationSpecificationBooleanTest {
         // Check result
         assertEquals(expectedValue0, configSpec.settings[0]);
         assertEquals(expectedValue1, configSpec.settings[1]);
+    }
+
+    /**
+     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean} are serializable in GWT.
+     */
+    @Test
+    public void testGwtSerialization() {
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationBoolean("some identifier", 3));
     }
 }

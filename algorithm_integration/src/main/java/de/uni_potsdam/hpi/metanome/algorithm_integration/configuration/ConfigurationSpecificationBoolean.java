@@ -28,6 +28,9 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
 
     public ConfigurationSettingBoolean[] settings;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSpecificationBoolean() {
     }
 
