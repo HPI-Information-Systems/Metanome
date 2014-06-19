@@ -32,7 +32,13 @@ public class CsvFileInput extends InputField {
      * Dropdown menu for choosing a CSV file
      */
     public ListBox listbox;
+    /**
+     * Triggers whether advanced options are displayed and evaluated.
+     */
     protected CheckBox advancedCheckbox;
+    /**
+     * Wraps all advanced options' UI elements
+     */
     protected FlexTable advancedTable;
     protected TextBox separatorTextbox;
     protected TextBox quoteTextbox;
@@ -43,6 +49,9 @@ public class CsvFileInput extends InputField {
     protected CheckBox headerCheckbox;
     protected CheckBox skipDifferingLinesCheckbox;
 
+    /**
+     * When using the link from Data Sources page, this is where the selected file is stored.
+     */
     private String preselectedFilename;
 
     /**
