@@ -144,7 +144,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 	}
 	
 	@Test 
-	public void testRetrieveAdvancedValues() throws InputValidationException {
+	public void testRetrieveAdvancedValues() throws InputValidationException, AlgorithmConfigurationException {
 		boolean boolValue = true;
 		String charValue = "t";
 		int intValue = 2;
