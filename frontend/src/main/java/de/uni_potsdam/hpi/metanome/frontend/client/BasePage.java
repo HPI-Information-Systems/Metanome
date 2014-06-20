@@ -84,13 +84,13 @@ public class BasePage extends TabLayoutPanel {
 	 * and fetch results at a regular interval.
 	 *
 	 * @param executionService
-	 * @param algorithmName
+	 * @param algorithmFileName
 	 * @param parameters
 	 */
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-											   String algorithmName, List<ConfigurationSpecification> parameters) {
+											   String algorithmFileName, List<ConfigurationSpecification> parameters) {
 
-		String executionIdentifier = getExecutionIdetifier(algorithmName);
+		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
 		TabLayoutPanel resultTabsContainer = new TabLayoutPanel(1, Unit.CM);
 		resultTabsContainer.setWidth("100%");
@@ -100,7 +100,7 @@ public class BasePage extends TabLayoutPanel {
 		ScrollPanel resultsTab = new ScrollPanel();
 //        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
 		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
-		executionService.executeAlgorithm(algorithmName,
+		executionService.executeAlgorithm(algorithmFileName,
 				executionIdentifier,
 				parameters,
 				resultsTabContent.getCancelCallback());
