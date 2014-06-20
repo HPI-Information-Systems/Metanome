@@ -201,12 +201,13 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         csvWidget.skiplinesIntegerbox.setValue(line);
         csvWidget.ignoreLeadingWhiteSpaceCheckbox.setValue(boolTrue);
         csvWidget.strictQuotesCheckbox.setValue(boolTrue);
+
         try {
             csvSpec = csvWidget.getValuesAsSettings();
         } catch (InputValidationException e) {
             noCharExceptionCaught = true;
         }
-        ((TextBox) advancedPanel.getWidget(2, 1)).setValue(characterString);
+        csvWidget.separatorTextbox.setValue(characterString);
         csvWidget.listbox.setSelectedIndex(0);
         try {
             csvSpec = csvWidget.getValuesAsSettings();
@@ -237,6 +238,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
         //Set Values
         CsvFileInput csvInput = ((InputParameterCsvFileWidget) pt.getInputParameterWidget("inputData")).inputWidgets.get(0);
+        
+        csvInput.listbox.addItem("new file");
+        csvInput.listbox.setSelectedIndex(1);
+        
         csvInput.advancedCheckbox.setValue(true, true);
         csvInput.escapeTextbox.setValue(charValue);
         csvInput.headerCheckbox.setValue(boolValue);
