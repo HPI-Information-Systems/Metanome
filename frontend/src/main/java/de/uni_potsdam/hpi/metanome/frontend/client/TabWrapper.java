@@ -23,37 +23,36 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Claudia Exeler
- *
  */
 public class TabWrapper extends DockPanel {
 
-	protected VerticalPanel errorPanel;
-	protected TabContent contentPanel;
+    protected VerticalPanel errorPanel;
+    protected TabContent contentPanel;
     protected boolean inError = false;
-		
-	/**
-	 * 
-	 */
-	public TabWrapper() {
-		this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().tab());
-		
-		this.errorPanel = new VerticalPanel();
-		this.add(this.errorPanel, DockPanel.NORTH);
-	}
 
-	public TabWrapper(TabContent panel) {
-		this();
-		
-		this.contentPanel = panel;
-		this.contentPanel.setErrorReceiver(this);
-		this.add(this.contentPanel, DockPanel.NORTH);		
-	}
-	
+    /**
+     *
+     */
+    public TabWrapper() {
+        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().tab());
 
-	public void addError(String message) {
-		Label label = new Label(message);
-		label.setStyleName(MetanomeResources.INSTANCE.metanomeStyle().errorMessage());
-		this.errorPanel.add(label);
+        this.errorPanel = new VerticalPanel();
+        this.add(this.errorPanel, DockPanel.NORTH);
+    }
+
+    public TabWrapper(TabContent panel) {
+        this();
+
+        this.contentPanel = panel;
+        this.contentPanel.setErrorReceiver(this);
+        this.add(this.contentPanel, DockPanel.NORTH);
+    }
+
+
+    public void addError(String message) {
+        Label label = new Label(message);
+        label.setStyleName(MetanomeResources.INSTANCE.metanomeStyle().errorMessage());
+        this.errorPanel.add(label);
         this.setInError(true);
     }
 

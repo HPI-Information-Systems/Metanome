@@ -21,11 +21,10 @@ import com.google.gwt.resources.client.ClientBundle;
 
 /**
  * @author Claudia Exeler
- *
  */
 public interface MetanomeResources extends ClientBundle {
-	public static final MetanomeResources INSTANCE = GWT.create(MetanomeResources.class);
+    public static final MetanomeResources INSTANCE = GWT.create(MetanomeResources.class);
 
-	@Source("css/metanome.css")
-	MetanomeStyle metanomeStyle();
+    @Source("css/metanome.css")
+    MetanomeStyle metanomeStyle();
 }

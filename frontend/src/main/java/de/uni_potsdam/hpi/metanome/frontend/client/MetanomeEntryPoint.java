@@ -24,12 +24,12 @@ public class MetanomeEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-    	MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
-    	
+        MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
+
         RootPanel.get().setHeight("100%");
         LayoutPanel bodyPanel = new LayoutPanel();
         bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
-		RootPanel.get().add(bodyPanel);
+        RootPanel.get().add(bodyPanel);
         bodyPanel.add(new BasePage());
     }
 

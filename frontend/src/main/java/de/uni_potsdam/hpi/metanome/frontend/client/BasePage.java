@@ -16,16 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -36,6 +32,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Overall Application page that has tabs for the various functions (subpages).
@@ -55,16 +54,16 @@ public class BasePage extends TabLayoutPanel {
     public BasePage() {
         super(1, Unit.CM);
         this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
-        
-        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());        
+
+        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
         this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
-        
+
         this.runConfigurationsPage = new RunConfigurationPage(this);
         this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
-        
+
         this.resultsPage = new ResultsPage(this);
         this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
-        
+
         this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
     }
 

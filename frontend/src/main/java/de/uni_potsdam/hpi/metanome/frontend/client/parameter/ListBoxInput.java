@@ -28,49 +28,49 @@ import java.util.ArrayList;
  */
 public class ListBoxInput extends InputField {
 
-	protected ListBox listbox;
+    protected ListBox listbox;
 
-	/**
-	 * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-	 */
-	public ListBoxInput(boolean optional) {
-		super(optional);
+    /**
+     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
+     */
+    public ListBoxInput(boolean optional) {
+        super(optional);
 
-		this.listbox = new ListBox();
-		this.add(this.listbox);
-	}
+        this.listbox = new ListBox();
+        this.add(this.listbox);
+    }
 
-	/**
-	 * @return the list of string values of its listbox
-	 */
-	public ArrayList<String> getValues() {
-		ArrayList<String> list = new ArrayList<>();
-		for (int i = 0; i < this.listbox.getItemCount(); i++)
-			list.add(this.listbox.getValue(i));
+    /**
+     * @return the list of string values of its listbox
+     */
+    public ArrayList<String> getValues() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < this.listbox.getItemCount(); i++)
+            list.add(this.listbox.getValue(i));
 
-		return list;
-	}
+        return list;
+    }
 
-	/**
-	 * set all values of the list to the list box
-	 */
-	public void setValues(ArrayList<String> list) {
-		for (String element : list)
-			this.listbox.addItem(element);
-	}
+    /**
+     * set all values of the list to the list box
+     */
+    public void setValues(ArrayList<String> list) {
+        for (String element : list)
+            this.listbox.addItem(element);
+    }
 
-	/**
-	 * @return the selected value of its listbox
-	 */
-	public String getSelectedValue() {
-		int selectedIndex = this.listbox.getSelectedIndex();
-		return this.listbox.getValue(selectedIndex);
-	}
+    /**
+     * @return the selected value of its listbox
+     */
+    public String getSelectedValue() {
+        int selectedIndex = this.listbox.getSelectedIndex();
+        return this.listbox.getValue(selectedIndex);
+    }
 
-	public void setSelectedValue(String selectedValue) {
-		for (int i = 0; i < this.listbox.getItemCount(); i++) {
-			if (this.listbox.getValue(i).equals(selectedValue))
-				this.listbox.setSelectedIndex(i);
-		}
-	}
+    public void setSelectedValue(String selectedValue) {
+        for (int i = 0; i < this.listbox.getItemCount(); i++) {
+            if (this.listbox.getValue(i).equals(selectedValue))
+                this.listbox.setSelectedIndex(i);
+        }
+    }
 }

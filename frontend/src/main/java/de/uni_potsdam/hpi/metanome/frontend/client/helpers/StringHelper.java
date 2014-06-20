@@ -29,19 +29,19 @@ public class StringHelper {
         } else if (string.equals("\\t")) {
             return '\t';
         } else {
-        	return 0;
-		} 
+            return 0;
+        }
     }
 
-	/**
-	 * @param value
-	 * @return
-	 * @throws AlgorithmConfigurationException 
-	 */
-	public static char getValidatedInput(String value) throws InputValidationException {
-		char firstChar = getFirstCharFromInput(value);
-		if (firstChar == 0)
-			throw new InputValidationException("You must specify one-character values for advanced CSV settings.");
-		return firstChar;
-	}
+    /**
+     * @param value
+     * @return
+     * @throws AlgorithmConfigurationException
+     */
+    public static char getValidatedInput(String value) throws InputValidationException {
+        char firstChar = getFirstCharFromInput(value);
+        if (firstChar == 0)
+            throw new InputValidationException("You must specify one-character values for advanced CSV settings.");
+        return firstChar;
+    }
 }
