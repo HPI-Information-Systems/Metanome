@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
@@ -28,33 +27,18 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
     protected ConfigurationSpecificationListBox specification;
     protected List<ListBoxInput> inputWidgets;
 
-    public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) throws AlgorithmConfigurationException {
-        super(config);
-    }
+	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
+		super(config);
+	}
 
     @Override
-    protected void addInputField(boolean optional) throws AlgorithmConfigurationException {
-        this.addInputField(optional, 0);
-    }
-
-    @Override
-    protected void addInputField(boolean optional, int specificationIndex) throws AlgorithmConfigurationException {
-        ListBoxInput field = new ListBoxInput(optional);
-
-        try {
-            ConfigurationSettingListBox setting = this.specification.getSettings()[specificationIndex];
-            field.setValues(setting.values);
-            if (setting.selectedValue != null) {
-                field.setSelectedValue(setting.selectedValue);
-            }
-        } catch (NullPointerException e) {
-            throw new AlgorithmConfigurationException("No values for list box set!");
-        }
-
-        this.inputWidgets.add(field);
-        int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
-        this.insert(field, index);
-    }
+	protected void addInputField(boolean optional) {
+		ListBoxInput field = new ListBoxInput(optional);
+		field.setValues(this.specification.getValues());
+		this.inputWidgets.add(field);
+		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+		this.insert(field, index);
+	}
 
     @Override
     public ConfigurationSpecificationListBox getUpdatedSpecification() {
@@ -66,9 +50,9 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
         ConfigurationSettingListBox[] values = new ConfigurationSettingListBox[this.inputWidgets.size()];
         int i = 0;
         for (ListBoxInput lbi : this.inputWidgets) {
-            values[i] = new ConfigurationSettingListBox(lbi.getValues(), lbi.getSelectedValue());
-            i++;
-        }
+			values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
+			i++;
+		}
         return values;
     }
 
@@ -93,4 +77,9 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
     public void setSpecification(ConfigurationSpecification config) {
         this.specification = (ConfigurationSpecificationListBox) config;
     }
+
+	protected void setSelection(String value) {
+		for (ListBoxInput input : this.inputWidgets)
+			input.setSelectedValue(value);
+	}
 }

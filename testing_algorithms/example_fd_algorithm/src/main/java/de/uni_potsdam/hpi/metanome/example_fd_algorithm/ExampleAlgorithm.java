@@ -54,9 +54,8 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		listBoxValues.add("column 1");
 		listBoxValues.add("column 2");
 		listBoxValues.add("column 3");
-		ConfigurationSettingListBox settingListBox = new ConfigurationSettingListBox(listBoxValues);
 		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, 1);
-		specificationListBox.setSettings(settingListBox);
+		specificationListBox.setValues(listBoxValues);
 		configurationSpecification.add(specificationListBox);
 
 		return configurationSpecification;
