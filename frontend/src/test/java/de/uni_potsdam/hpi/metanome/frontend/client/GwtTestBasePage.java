@@ -62,20 +62,20 @@ public class GwtTestBasePage extends GWTTestCase {
         assertEquals(5, testPage.getWidgetCount());
 
         Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
-		assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
-        
-		wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
+
+        wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+        assertTrue(wrapper instanceof TabWrapper);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
+
         wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
+
         wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
     }
 
     @Test

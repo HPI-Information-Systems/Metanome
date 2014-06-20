@@ -18,16 +18,15 @@ package de.uni_potsdam.hpi.metanome.frontend.client.helpers;
 
 /**
  * @author Claudia
- *
  */
 public class InputValidationException extends Exception {
-	private static final long serialVersionUID = 4546830585261912401L;
+    private static final long serialVersionUID = 4546830585261912401L;
 
-	public InputValidationException() {
-		super();
-	}
-	
-	public InputValidationException(String message) {
-		super(message);
-	}
+    public InputValidationException() {
+        super();
+    }
+
+    public InputValidationException(String message) {
+        super(message);
+    }
 }

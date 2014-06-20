@@ -31,10 +31,10 @@ public class WidgetFactory {
             widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
         else if (config instanceof ConfigurationSpecificationSqlIterator)
             widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
-		else if (config instanceof ConfigurationSpecificationInteger)
-			widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
-		else if (config instanceof ConfigurationSpecificationListBox)
-			widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
+        else if (config instanceof ConfigurationSpecificationInteger)
+            widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
+        else if (config instanceof ConfigurationSpecificationListBox)
+            widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
         return widget;
     }
 }

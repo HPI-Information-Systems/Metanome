@@ -32,8 +32,8 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
     protected Button addButton;
 
-	public InputParameterWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
-		super();
+    public InputParameterWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
+        super();
 
         this.setSpecification(config);
 
@@ -44,9 +44,9 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
         } else {
             this.setInputWidgets(new ArrayList<InputField>(this.getSpecification().getNumberOfValues()));
             for (int i = 0; i < this.getSpecification().getNumberOfValues(); i++) {
-				this.addInputField(false, i);
-			}
-		}
+                this.addInputField(false, i);
+            }
+        }
     }
 
     public boolean removeField(InputField w) {
@@ -64,20 +64,20 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
             @Override
             public void onClick(ClickEvent event) {
-				try {
-					addInputField(true);
-				} catch (AlgorithmConfigurationException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+                try {
+                    addInputField(true);
+                } catch (AlgorithmConfigurationException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         this.add(this.addButton);
     }
 
-	protected abstract void addInputField(boolean optional) throws AlgorithmConfigurationException;
+    protected abstract void addInputField(boolean optional) throws AlgorithmConfigurationException;
 
-	protected abstract void addInputField(boolean optional, int index) throws AlgorithmConfigurationException;
+    protected abstract void addInputField(boolean optional, int index) throws AlgorithmConfigurationException;
 
     public abstract ConfigurationSpecification getUpdatedSpecification() throws InputValidationException;
 

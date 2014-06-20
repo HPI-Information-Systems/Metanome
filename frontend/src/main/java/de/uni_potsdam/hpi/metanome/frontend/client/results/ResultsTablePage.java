@@ -120,7 +120,7 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 
             @Override
             public void onFailure(Throwable caught) {
-            	errorReceiver.addError("Could not fetch results.");
+                errorReceiver.addError("Could not fetch results.");
             }
 
             @Override
@@ -135,7 +135,7 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 
             @Override
             public void onFailure(Throwable caught) {
-            	errorReceiver.addError("Could not fetch progress.");
+                errorReceiver.addError("Could not fetch progress.");
             }
 
             @Override
@@ -150,8 +150,8 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
             try {
                 r.sendResultTo(this);
             } catch (CouldNotReceiveResultException e) {
-            	this.errorReceiver.addError(e.getMessage());
-            	e.printStackTrace();	//TODO remove after testing
+                this.errorReceiver.addError(e.getMessage());
+                e.printStackTrace();    //TODO remove after testing
             }
         }
     }
@@ -213,11 +213,11 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
         fdTable.setText(row, 2, functionalDependency.getDependant().toString());
     }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+    }
 }
