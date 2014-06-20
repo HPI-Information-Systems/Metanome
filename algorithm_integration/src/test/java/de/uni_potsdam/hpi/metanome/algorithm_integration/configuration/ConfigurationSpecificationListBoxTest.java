@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,16 +43,23 @@ public class ConfigurationSpecificationListBoxTest {
 		// Setup
 		// Expected values
 		String expectedIdentifier = "parameter1";
+		ArrayList<String> expectedValues = new ArrayList<>();
+		expectedValues.add("first");
+		expectedValues.add("second");
+		expectedValues.add("third");
 		int expectedNumberOfValues = 1;
 		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier);
+		configSpec.setValues(expectedValues);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
 		int actualNumberOfValues = configSpec.getNumberOfValues();
+		ArrayList<String> actualValues = configSpec.getValues();
 
 		// Check result
 		assertEquals(expectedIdentifier, actualIdentifier);
 		assertEquals(expectedNumberOfValues, actualNumberOfValues);
+		assertEquals(expectedValues, actualValues);
 	}
 
 	/**
@@ -65,16 +73,23 @@ public class ConfigurationSpecificationListBoxTest {
 		// Setup
 		// Expected values
 		String expectedIdentifier = "parameter1";
+		ArrayList<String> expectedValues = new ArrayList<>();
+		expectedValues.add("first");
+		expectedValues.add("second");
+		expectedValues.add("third");
 		int expectedNumberOfValues = 2;
 		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier, expectedNumberOfValues);
+		configSpec.setValues(expectedValues);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
 		int actualNumberOfValues = configSpec.getNumberOfValues();
+		ArrayList<String> actualValues = configSpec.getValues();
 
 		// Check result
 		assertEquals(expectedIdentifier, actualIdentifier);
 		assertEquals(expectedNumberOfValues, actualNumberOfValues);
+		assertEquals(expectedValues, actualValues);
 	}
 
 	/**
@@ -83,14 +98,19 @@ public class ConfigurationSpecificationListBoxTest {
 	@Test
 	public void testGetSetSpecification() {
 		// Setup
-		ConfigurationSpecificationListBox specificationEnum = new ConfigurationSpecificationListBox("parameter1");
+		ArrayList<String> expectedValues = new ArrayList<>();
+		expectedValues.add("first");
+		expectedValues.add("second");
+		expectedValues.add("third");
+		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox("parameter1");
+		specificationListBox.setValues(expectedValues);
 		// Expected values
 		ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
 		ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
 
 		// Execute functionality
-		specificationEnum.setSettings(expectedSetting1, expectedSetting2);
-		List<ConfigurationSettingListBox> actualSettings = Arrays.asList(specificationEnum.getSettings());
+		specificationListBox.setSettings(expectedSetting1, expectedSetting2);
+		List<ConfigurationSettingListBox> actualSettings = Arrays.asList(specificationListBox.getSettings());
 
 		// Check results
 		assertThat(actualSettings, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedSetting1, expectedSetting2));
