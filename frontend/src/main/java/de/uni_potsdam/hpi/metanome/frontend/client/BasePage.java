@@ -41,78 +41,74 @@ import java.util.List;
  */
 public class BasePage extends TabLayoutPanel {
 
-    protected ResultsPage resultsPage;
-    protected RunConfigurationPage runConfigurationsPage;
+	protected ResultsPage resultsPage;
+	protected RunConfigurationPage runConfigurationsPage;
 
-    protected FinderServiceAsync finderService;
+	protected FinderServiceAsync finderService;
 
-    /**
-     * Constructor. Initiates creation of subpages.
-     */
-    public BasePage() {
-        super(1, Unit.CM);
-        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
+	/**
+	 * Constructor. Initiates creation of subpages.
+	 */
+	public BasePage() {
+		super(1, Unit.CM);
+		this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
 
-        this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
-        this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
-        
-        this.runConfigurationsPage = new RunConfigurationPage(this);
-        this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
-        
-        this.resultsPage = new ResultsPage(this);
-        this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
+		this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+		this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
 
-        this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
-    }
+		this.runConfigurationsPage = new RunConfigurationPage(this);
+		this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 
-    /**
-     * Create the "About" Page, which should include information about the project.
-     *
-     * @return Widget with contents to be placed on the page.
-     */
-    private Widget createAboutPage() {
+		this.resultsPage = new ResultsPage(this);
+		this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
+
+		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
+	}
+
+	/**
+	 * Create the "About" Page, which should include information about the project.
+	 *
+	 * @return Widget with contents to be placed on the page.
+	 */
+	private Widget createAboutPage() {
 		SimplePanel content = new SimplePanel();
-        Label temporaryContent = new Label();
-        temporaryContent.setText("Metanome Version 0.0.2.");
+		Label temporaryContent = new Label();
+		temporaryContent.setText("Metanome Version 0.0.2.");
 		content.add(temporaryContent);
-		content.addStyleName("aboutPage");
-        return content;
-    }
+		//content.addStyleName("aboutPage");
+		return content;
+	}
 
-    /**
-     * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
-     * and fetch results at a regular interval.
-     *
-     * @param executionService
-     * @param algorithmName
-     * @param parameters
-     */
-    public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-                                               String algorithmName, List<ConfigurationSpecification> parameters) {
+	/**
+	 * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
+	 * and fetch results at a regular interval.
+	 *
+	 * @param executionService
+	 * @param algorithmName
+	 * @param parameters
+	 */
+	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
+											   String algorithmName, List<ConfigurationSpecification> parameters) {
 
-        String executionIdentifier = getExecutionIdetifier(algorithmName);
+		String executionIdentifier = getExecutionIdetifier(algorithmName);
 
-		TabPanel resultTabsContainer = new TabPanel();
+		TabLayoutPanel resultTabsContainer = new TabLayoutPanel(1, Unit.CM);
 		resultTabsContainer.setWidth("100%");
 		resultTabsContainer.setHeight("100%");
 
 		// Create new tab with result table
-        ScrollPanel resultsTab = new ScrollPanel();
+		ScrollPanel resultsTab = new ScrollPanel();
 //        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
-
-        ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
-        executionService.executeAlgorithm(algorithmName,
-                executionIdentifier,
-                parameters,
-                resultsTabContent.getCancelCallback());
-        resultsTabContent.startPolling();
-
-        resultsTab.add(resultsTabContent);
+		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
+		executionService.executeAlgorithm(algorithmName,
+				executionIdentifier,
+				parameters,
+				resultsTabContent.getCancelCallback());
+		resultsTabContent.startPolling();
+		resultsTab.add(resultsTabContent);
 
 		// Create new tab with visualizations of result
-		ScrollPanel visualizationTab = new ScrollPanel();
-		visualizationTab.setHeight("100%");
-		visualizationTab.add(new ResultsVisualizationPage());
+		ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
 
 		// Add first tab to result tab container
 		resultTabsContainer.add(resultsTab, "Table");
@@ -122,27 +118,27 @@ public class BasePage extends TabLayoutPanel {
 		// remove old result tab and replace it with the new one
 		this.remove(Tabs.RESULTS.ordinal());
 		this.insert(resultTabsContainer, "Results", Tabs.RESULTS.ordinal());
-        this.selectTab(Tabs.RESULTS.ordinal());
-    }
+		this.selectTab(Tabs.RESULTS.ordinal());
+	}
 
-    /**
-     * Generates a string that uniquely identifies an algorithm execution.
-     *
-     * @param algorithmName the name of the algorithm being executed
-     * @return a string consisting of the algorithmName and the current date and time
-     */
-    protected String getExecutionIdetifier(String algorithmName) {
-        DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
-        return algorithmName + format.format(new Date());
-    }
+	/**
+	 * Generates a string that uniquely identifies an algorithm execution.
+	 *
+	 * @param algorithmName the name of the algorithm being executed
+	 * @return a string consisting of the algorithmName and the current date and time
+	 */
+	protected String getExecutionIdetifier(String algorithmName) {
+		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
+		return algorithmName + format.format(new Date());
+	}
 
-    /**
-     * Generates a string representing all given data sources by concatenating their names.
-     * These are used as titles for the result tabs.
-     *
-     * @param dataSources    the list of InputParameterDataSources to be descirbed
-     * @return a String with the names of all given data source parameters
-     */
+	/**
+	 * Generates a string representing all given data sources by concatenating their names.
+	 * These are used as titles for the result tabs.
+	 *
+	 * @param dataSources    the list of InputParameterDataSources to be descirbed
+	 * @return a String with the names of all given data source parameters
+	 */
 //	private String getDataSourcesString(
 //			List<ConfigurationSpecification> dataSources) {
 //		String dataSourcesString = "";
@@ -155,29 +151,29 @@ public class BasePage extends TabLayoutPanel {
 //		return dataSourcesString;
 //	}
 
-    /**
-     * Hand control from any page to Run Configurations, and pre-configure the latter with
-     * the algorithm and/or data source.
-     *
-     * @param algorithmName algorithm that shall be run
-     */
-    public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
-        this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
-        if (algorithmName != null)
-            this.runConfigurationsPage.selectAlgorithm(algorithmName);
-        if (dataSource != null)
-            this.runConfigurationsPage.setPrimaryDataSource(dataSource);
-    }
+	/**
+	 * Hand control from any page to Run Configurations, and pre-configure the latter with
+	 * the algorithm and/or data source.
+	 *
+	 * @param algorithmName algorithm that shall be run
+	 */
+	public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
+		this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
+		if (algorithmName != null)
+			this.runConfigurationsPage.selectAlgorithm(algorithmName);
+		if (dataSource != null)
+			this.runConfigurationsPage.setPrimaryDataSource(dataSource);
+	}
 
-    /**
-     * Forwards any algorithms found by AlgorithmPage to be available in RunConfigurations
-     *
-     * @param algorithms
-     */
-    public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
-        this.runConfigurationsPage.addAlgorithms(algorithms);
-    }
+	/**
+	 * Forwards any algorithms found by AlgorithmPage to be available in RunConfigurations
+	 *
+	 * @param algorithms
+	 */
+	public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
+		this.runConfigurationsPage.addAlgorithms(algorithms);
+	}
 
-    public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT}
+	public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT}
 
 }

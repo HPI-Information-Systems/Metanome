@@ -16,36 +16,37 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
 
 
 /**
  * @author Tanja Bergmann
- *
  */
-public class ResultsVisualizationPage extends VerticalPanel {
+public class ResultsVisualizationPage extends StackLayoutPanel {
 
 	public ResultsVisualizationPage() {
+		super(Style.Unit.EM);
+
+		this.setHeight("700px");
 		this.setWidth("100%");
-		this.setHeight("100%");
 
-		SimplePanel indPanel = new SimplePanel();
-		this.add(indPanel);
-
-		SimplePanel uccPanel = new SimplePanel();
-		this.add(uccPanel);
-
-		SimplePanel fdPanel = new SimplePanel();
-		this.add(fdPanel);
+		SimplePanel indPanel = new ScrollPanel();
+		SimplePanel uccPanel = new ScrollPanel();
+		SimplePanel fdPanel = new ScrollPanel();
 
 		prepareFDVisualization(fdPanel);
+		drawInclusionDependencies(indPanel.getElement());
+		drawUniqueColumnCombinations(uccPanel.getElement());
 
-		//drawInclusionDependencies(indPanel.getElement());
-		//drawUniqueColumnCombinations(uccPanel.getElement());
+		this.add(indPanel, new HTML("Inclusion Dependencies"), 3);
+		this.add(uccPanel, new HTML("Unique Column Combinations"), 3);
+		this.add(fdPanel, new HTML("Functional Dependencies"), 3);
 	}
 
 	// call d3 with dom element & data
