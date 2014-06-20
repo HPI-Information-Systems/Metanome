@@ -35,7 +35,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsyn
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver, TabContent {
+public class ResultsTablePage extends VerticalPanel implements OmniscientResultReceiver, TabContent {
 
     protected ExecutionServiceAsync executionService;
 
@@ -55,7 +55,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
     protected ProgressBar progressBar = null;
 
 
-    public ResultsTab(ExecutionServiceAsync executionService, String executionIdentifier) {
+    public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
         this.executionService = executionService;
         this.executionIdentifier = executionIdentifier;
 

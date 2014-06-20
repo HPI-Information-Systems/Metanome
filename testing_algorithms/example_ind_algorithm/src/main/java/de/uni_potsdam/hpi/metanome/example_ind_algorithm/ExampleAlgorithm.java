@@ -26,7 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import org.apache.commons.io.FileUtils;
@@ -38,7 +38,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, IntegerParameterAlgorithm {
+public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm, IntegerParameterAlgorithm {
 
 	public final static String CSV_FILE_IDENTIFIER = "input file";
 	public final static String STRING_IDENTIFIER = "tableName";
@@ -47,7 +47,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	protected int numberOfTables = -1;
 	protected InclusionDependencyResultReceiver resultReceiver;
 	protected FileGenerator tempFileGenerator;
-	protected boolean relationalInputsSet = false;
+	protected boolean fileInputSet = false;
 
     @Override
     public List<ConfigurationSpecification> getConfigurationRequirements() {
@@ -79,7 +79,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
             throw new AlgorithmExecutionException("Could not read from file.");
         }
 
-		if ((tableName != null) && relationalInputsSet && (numberOfTables != -1)) {
+		if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
             resultReceiver.receiveResult(
                     new InclusionDependency(
                             new ColumnCombination(
@@ -114,10 +114,10 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
 	}
 	
 	@Override
-	public void setRelationalInputConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 2)) {
+	public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException {
+		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 1)) {
 			System.out.println("Input file is not being set on algorithm.");
-			relationalInputsSet = true;
+			fileInputSet = true;
 		} else {
 			throw new AlgorithmConfigurationException("Incorrect configuration.");
 		}
