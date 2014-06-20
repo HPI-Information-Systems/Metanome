@@ -20,13 +20,16 @@ import com.google.gwt.resources.client.CssResource;
 
 /**
  * @author Claudia Exeler
- *
  */
 public interface MetanomeStyle extends CssResource {
 
-	String body();
-	String basePage();
-	String gwtTabLayoutPanelTab();
-	String tab();
-	String errorMessage();
+    String body();
+
+    String basePage();
+
+    String gwtTabLayoutPanelTab();
+
+    String tab();
+
+    String errorMessage();
 }

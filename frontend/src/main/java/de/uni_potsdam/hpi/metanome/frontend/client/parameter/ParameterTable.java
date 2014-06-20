@@ -52,15 +52,15 @@ public class ParameterTable extends FlexTable {
         for (ConfigurationSpecification param : paramList) {
             this.setText(i, 0, param.getIdentifier());
 
-			InputParameterWidget currentWidget = null;
-			try {
-				currentWidget = WidgetFactory.buildWidget(param);
-			} catch (AlgorithmConfigurationException e) {
-				e.printStackTrace();
-			}
-			this.setWidget(i, 1, currentWidget);
-			if (currentWidget.isDataSource()) {
-				InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
+            InputParameterWidget currentWidget = null;
+            try {
+                currentWidget = WidgetFactory.buildWidget(param);
+            } catch (AlgorithmConfigurationException e) {
+                e.printStackTrace();
+            }
+            this.setWidget(i, 1, currentWidget);
+            if (currentWidget.isDataSource()) {
+                InputParameterDataSourceWidget dataSourceWidget = (InputParameterDataSourceWidget) currentWidget;
                 if (dataSourceWidget.accepts(primaryDataSource))
                     try {
                         dataSourceWidget.setDataSource(primaryDataSource);
@@ -125,24 +125,24 @@ public class ParameterTable extends FlexTable {
     /**
      * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose underlying
      * {@link ConfigurationSpecification} has the given identifier.
-     * 
+     *
      * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
-     * @return This parameter's child widgets that corresponds to the given identifier, 
+     * @return This parameter's child widgets that corresponds to the given identifier,
      * or null if such a child does not exist.
      */
     public InputParameterWidget getInputParameterWidget(String identifier) {
-    	for (InputParameterWidget w : this.childWidgets){
-    		if (w.getSpecification().getIdentifier().equals(identifier))
-    			return w;
-    	}
-    	for (InputParameterWidget w : this.dataSourceChildWidgets) {
-    		if (w.getSpecification().getIdentifier().equals(identifier))
-    			return w;
-    	}
-    	return null;
+        for (InputParameterWidget w : this.childWidgets) {
+            if (w.getSpecification().getIdentifier().equals(identifier))
+                return w;
+        }
+        for (InputParameterWidget w : this.dataSourceChildWidgets) {
+            if (w.getSpecification().getIdentifier().equals(identifier))
+                return w;
+        }
+        return null;
     }
-    
-    
+
+
     /**
      * The AlgorithmTabs implement algorithm type specific methods, which can
      * be called via the AlgorithmTab's interface.

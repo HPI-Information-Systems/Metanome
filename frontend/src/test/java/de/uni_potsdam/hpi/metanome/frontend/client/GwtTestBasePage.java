@@ -16,16 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -39,6 +33,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -64,20 +62,20 @@ public class GwtTestBasePage extends GWTTestCase {
         assertEquals(5, testPage.getWidgetCount());
 
         Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
-		assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
-        
-		wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
+
+        wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+        assertTrue(wrapper instanceof TabWrapper);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
+
         wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
-        
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
+
         wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
         assertTrue(wrapper instanceof TabWrapper);
-		assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+        assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
     }
 
     @Test
