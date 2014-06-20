@@ -53,7 +53,7 @@ public class BasePage extends TabLayoutPanel {
      */
     public BasePage() {
         super(1, Unit.CM);
-        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
+//        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
 
         this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
         this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
