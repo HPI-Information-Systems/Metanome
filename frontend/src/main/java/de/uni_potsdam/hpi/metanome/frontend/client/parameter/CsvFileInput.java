@@ -98,11 +98,11 @@ public class CsvFileInput extends InputField {
         ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
         ignoreLeadingWhiteSpaceCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_IGNORELEADINGWHITESPACE);
         addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
-        
+
         headerCheckbox = new CheckBox();
         headerCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_HEADER);
         addRow(advancedTable, headerCheckbox, "Has Header");
-        
+
         skipDifferingLinesCheckbox = new CheckBox();
         skipDifferingLinesCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_SKIPDIFFERINGLINES);
         addRow(advancedTable, skipDifferingLinesCheckbox, "Skip Lines With Differing Length");
@@ -225,13 +225,13 @@ public class CsvFileInput extends InputField {
      *
      * @param configSetting the object on which to set the values
      * @return the inputParameter with updated values
-     * @throws InputValidationException 
+     * @throws InputValidationException
      */
     protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting) throws InputValidationException {
         configSetting.setFileName(this.listbox.getValue(this.listbox.getSelectedIndex()));
         if (configSetting.getFileName().equals("--"))
-        	throw new InputValidationException("You must choose a CSV file from the list.");
-        
+            throw new InputValidationException("You must choose a CSV file from the list.");
+
         configSetting.setAdvanced(this.advancedCheckbox.getValue());
 
         if (configSetting.isAdvanced()) {
@@ -300,7 +300,7 @@ public class CsvFileInput extends InputField {
 
     /**
      * @return a new ConfigurationSetting object with the current user input
-     * @throws InputValidationException 
+     * @throws InputValidationException
      */
     public ConfigurationSettingCsvFile getValuesAsSettings() throws InputValidationException {
         ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();

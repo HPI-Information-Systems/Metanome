@@ -31,16 +31,16 @@ public class GwtTestTabWrapper extends GWTTestCase {
      * this must contain an algorithm and a data source that are currently available
      */
     private String message = "Could not find example_ucc_algorithm.jar";
-	private TabWrapper tabWrapper;
+    private TabWrapper tabWrapper;
 
 
     /**
      * Test constructor.
      */
     public void testCreate() {
-    	TabContent content = new RunConfigurationPage(null);
-    	
-    	//Execute
+        TabContent content = new RunConfigurationPage(null);
+
+        //Execute
         tabWrapper = new TabWrapper(content);
 
         //Check
@@ -62,10 +62,10 @@ public class GwtTestTabWrapper extends GWTTestCase {
         assertTrue(tabWrapper.errorPanel.getWidgetCount() == 1);
         assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(0)).getText());
         assertTrue(tabWrapper.isInError());
-        
+
         //Execute
         tabWrapper.addError(message);
-        
+
         //Check
         assertTrue(tabWrapper.errorPanel.getWidgetCount() == 2);
         assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
@@ -80,7 +80,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
     public void testClearErrors() {
         // Setup
         tabWrapper = new TabWrapper(new DataSourcesPage(null));
-    	tabWrapper.addError(message + "2");
+        tabWrapper.addError(message + "2");
 
         // Check precondition
         assertTrue(tabWrapper.isInError());
@@ -89,7 +89,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
         tabWrapper.clearErrors();
 
         // Check
-    	assertTrue(tabWrapper.errorPanel.getWidgetCount() == 0);
+        assertTrue(tabWrapper.errorPanel.getWidgetCount() == 0);
         assertFalse(tabWrapper.isInError());
     }
 

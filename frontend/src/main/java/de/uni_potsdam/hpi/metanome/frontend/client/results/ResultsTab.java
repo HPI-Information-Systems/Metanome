@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -119,7 +118,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
             @Override
             public void onFailure(Throwable caught) {
-            	errorReceiver.addError("Could not fetch results.");
+                errorReceiver.addError("Could not fetch results.");
             }
 
             @Override
@@ -134,7 +133,7 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
             @Override
             public void onFailure(Throwable caught) {
-            	errorReceiver.addError("Could not fetch progress.");
+                errorReceiver.addError("Could not fetch progress.");
             }
 
             @Override
@@ -149,8 +148,8 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
             try {
                 r.sendResultTo(this);
             } catch (CouldNotReceiveResultException e) {
-            	this.errorReceiver.addError(e.getMessage());
-            	e.printStackTrace();	//TODO remove after testing
+                this.errorReceiver.addError(e.getMessage());
+                e.printStackTrace();    //TODO remove after testing
             }
         }
     }
@@ -212,11 +211,11 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
         fdTable.setText(row, 2, functionalDependency.getDependant().toString());
     }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+    }
 }

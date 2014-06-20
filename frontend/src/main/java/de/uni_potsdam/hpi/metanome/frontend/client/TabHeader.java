@@ -18,8 +18,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.*;
-
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 
 /**
@@ -38,7 +40,7 @@ public class TabHeader extends HorizontalPanel {
      *
      * @param algorithmName the name of the algorithm or whatever should be displayed as tab title
      * @param tabContent    the panel holding the corresponding tab's contents
-     * @param resultsPage        the TabLayoutPanel where resultsTab will be added to
+     * @param resultsPage   the TabLayoutPanel where resultsTab will be added to
      */
     public TabHeader(String algorithmName, Panel tabContent, ResultsPage resultsPage) {
         this.tab = tabContent;

@@ -42,8 +42,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      *
      * @param configSpec
      */
-	public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) throws AlgorithmConfigurationException {
-		super(configSpec);
+    public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) throws AlgorithmConfigurationException {
+        super(configSpec);
 
         this.addAvailableCsvsToListbox(inputWidgets);
     }
@@ -53,9 +53,9 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
      * file paths) and adds them as entries to the given ListBox. Only the actual file
      * name (not the preceding directories) are displayed.
      *
-	 * @param widgets
-	 */
-	private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
+     * @param widgets
+     */
+    private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
         AsyncCallback<String[]> callback = getCallback(widgets);
 
         InputDataServiceAsync service = GWT.create(InputDataService.class);
@@ -63,8 +63,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
     }
 
 
-	protected AsyncCallback<String[]> getCallback(final List<CsvFileInput> widgets) {
-		return new AsyncCallback<String[]>() {
+    protected AsyncCallback<String[]> getCallback(final List<CsvFileInput> widgets) {
+        return new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 // TODO: Do something with errors.
                 caught.printStackTrace();
@@ -81,20 +81,20 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
                 }
             }
         };
-	}
+    }
 
     @Override
     protected void addInputField(boolean optional) {
-		this.addInputField(optional, 0);
-	}
+        this.addInputField(optional, 0);
+    }
 
-	@Override
-	protected void addInputField(boolean optional, int specificationIndex) {
-		CsvFileInput widget = new CsvFileInput(optional);
-		this.inputWidgets.add(widget);
-		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
-		this.insert(widget, index);
-	}
+    @Override
+    protected void addInputField(boolean optional, int specificationIndex) {
+        CsvFileInput widget = new CsvFileInput(optional);
+        this.inputWidgets.add(widget);
+        int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+        this.insert(widget, index);
+    }
 
     @Override
     public ConfigurationSpecificationCsvFile getUpdatedSpecification() throws InputValidationException {
