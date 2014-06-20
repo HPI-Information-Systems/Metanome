@@ -16,9 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-
+import com.google.gwt.user.client.ui.VerticalPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -27,7 +26,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
  * @author Claudia Exeler
  *
  */
-public class ResultsPage extends HorizontalPanel implements TabContent {
+public class ResultsPage extends VerticalPanel implements TabContent {
 
     protected final BasePage basePage;
     protected TabWrapper errorReceiver;

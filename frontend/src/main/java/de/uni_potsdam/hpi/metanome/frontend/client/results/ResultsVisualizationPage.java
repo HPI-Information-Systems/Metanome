@@ -32,9 +32,7 @@ public class ResultsVisualizationPage extends StackLayoutPanel {
 
 	public ResultsVisualizationPage() {
 		super(Style.Unit.EM);
-
-		this.setHeight("700px");
-		this.setWidth("100%");
+		this.setSize("1800px", "700px");
 
 		SimplePanel indPanel = new ScrollPanel();
 		SimplePanel uccPanel = new ScrollPanel();
@@ -44,9 +42,9 @@ public class ResultsVisualizationPage extends StackLayoutPanel {
 		drawInclusionDependencies(indPanel.getElement());
 		drawUniqueColumnCombinations(uccPanel.getElement());
 
-		this.add(indPanel, new HTML("Inclusion Dependencies"), 3);
-		this.add(uccPanel, new HTML("Unique Column Combinations"), 3);
-		this.add(fdPanel, new HTML("Functional Dependencies"), 3);
+		this.add(indPanel, new HTML("Inclusion Dependencies"), 2);
+		this.add(uccPanel, new HTML("Unique Column Combinations"), 2);
+		this.add(fdPanel, new HTML("Functional Dependencies"), 2);
 	}
 
 	// call d3 with dom element & data

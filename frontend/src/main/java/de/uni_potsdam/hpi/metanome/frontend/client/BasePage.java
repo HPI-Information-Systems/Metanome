@@ -24,7 +24,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTab;
+import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -92,20 +92,19 @@ public class BasePage extends TabLayoutPanel {
 
 		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
-		TabLayoutPanel resultTabsContainer = new TabLayoutPanel(1, Unit.CM);
+		TabPanel resultTabsContainer = new TabPanel();
 		resultTabsContainer.setWidth("100%");
 		resultTabsContainer.setHeight("100%");
 
 		// Create new tab with result table
 		ScrollPanel resultsTab = new ScrollPanel();
-//        resultsPage.addExecution(resultsTab, new TabHeader(executionIdentifier, resultsTab, resultsPage));
-		ResultsTab resultsTabContent = new ResultsTab(executionService, executionIdentifier);
+		ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
 		executionService.executeAlgorithm(algorithmFileName,
 				executionIdentifier,
 				parameters,
-				resultsTabContent.getCancelCallback());
-		resultsTabContent.startPolling();
-		resultsTab.add(resultsTabContent);
+				resultsTableContent.getCancelCallback());
+		resultsTableContent.startPolling();
+		resultsTab.add(resultsTableContent);
 
 		// Create new tab with visualizations of result
 		ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
@@ -115,9 +114,9 @@ public class BasePage extends TabLayoutPanel {
 		resultTabsContainer.add(visualizationTab, "Visualization");
 		resultTabsContainer.selectTab(0);
 
-		// remove old result tab and replace it with the new one
-		this.remove(Tabs.RESULTS.ordinal());
-		this.insert(resultTabsContainer, "Results", Tabs.RESULTS.ordinal());
+		// remove the content from the result page and set the content to the new fetched result
+		this.resultsPage.clear();
+		this.resultsPage.add(resultTabsContainer);
 		this.selectTab(Tabs.RESULTS.ordinal());
 	}
 
