@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Fil
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
@@ -123,10 +124,8 @@ public class AlgorithmExecutorTest {
         List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
         configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
-        configs.add(new ConfigurationValueRelationalInputGenerator(
-                ExampleAlgorithm.CSV_FILE_IDENTIFIER,
-                mock(RelationalInputGenerator.class),
-                mock(RelationalInputGenerator.class)));
+		FileInputGenerator[] fileInputs = {mock(FileInputGenerator.class)};
+        configs.add(new ConfigurationValueFileInputGenerator(ExampleAlgorithm.CSV_FILE_IDENTIFIER, fileInputs));
 
         // Execute functionality
         executor.executeAlgorithmWithValues("example_ind_algorithm.jar", configs);

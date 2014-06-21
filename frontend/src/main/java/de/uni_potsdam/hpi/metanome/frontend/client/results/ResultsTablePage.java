@@ -35,7 +35,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsyn
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ResultsTab extends VerticalPanel implements OmniscientResultReceiver, TabContent {
+public class ResultsTablePage extends VerticalPanel implements OmniscientResultReceiver, TabContent {
 
     protected ExecutionServiceAsync executionService;
 
@@ -55,12 +55,12 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
     protected ProgressBar progressBar = null;
 
 
-    public ResultsTab(ExecutionServiceAsync executionService, String executionIdentifier) {
+    public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
         this.executionService = executionService;
         this.executionIdentifier = executionIdentifier;
 
+		this.setSize("1800px", "700px");
         this.resultsPanel = new HorizontalPanel();
-        this.setWidth("100%");
         this.add(resultsPanel);
 
         indTable = new ResultTable("Inclusion Dependencies");
@@ -108,8 +108,10 @@ public class ResultsTab extends VerticalPanel implements OmniscientResultReceive
 
     public void cancelTimerOnFail(Throwable caught) {
         this.timer.cancel();
-        this.remove(runningIndicator);
-        this.remove(progressBar);
+		if (runningIndicator != null)
+        	this.remove(runningIndicator);
+		if (progressBar  != null)
+        	this.remove(progressBar);
         this.add(new Label("Algorithm did not execute successfully"));
     }
 
