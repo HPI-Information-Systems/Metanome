@@ -43,9 +43,11 @@ public class ConfigurationSettingCsvFileTest {
         boolean expectedIsStrictQuotes = false;
         boolean expectedIsIgnoreLeadingWhitespace = true;
         int expectedLines = 2;
+        boolean expectedHeader = true;
+        boolean expectedDifferingLines = false;
 
         // Execute functionality
-        ConfigurationSettingCsvFile actualSetting = new ConfigurationSettingCsvFile(expectedFileName, expectedIsAdvanced, expectedSeparator, expectedQuote, expectedEscape, expectedIsStrictQuotes, expectedIsIgnoreLeadingWhitespace, expectedLines);
+        ConfigurationSettingCsvFile actualSetting = new ConfigurationSettingCsvFile(expectedFileName, expectedIsAdvanced, expectedSeparator, expectedQuote, expectedEscape, expectedIsStrictQuotes, expectedIsIgnoreLeadingWhitespace, expectedLines, expectedHeader, expectedDifferingLines);
 
         // Check result
         assertEquals(expectedFileName, actualSetting.getFileName());
@@ -55,7 +57,7 @@ public class ConfigurationSettingCsvFileTest {
         assertEquals(expectedEscape, actualSetting.getEscapeChar());
         assertEquals(expectedIsStrictQuotes, actualSetting.isStrictQuotes());
         assertEquals(expectedIsIgnoreLeadingWhitespace, actualSetting.isIgnoreLeadingWhiteSpace());
-        assertEquals(expectedLines, actualSetting.getLine());
+        assertEquals(expectedLines, actualSetting.getSkipLines());
     }
 
     /**
@@ -63,6 +65,6 @@ public class ConfigurationSettingCsvFileTest {
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingCsvFile("fileName", true, ',', '"', '\\', true, true, 2));
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingCsvFile("fileName", true, ',', '"', '\\', true, true, 2, true, true));
     }
 }

@@ -149,8 +149,8 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
             });
 
             list.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
-            list.setText(row, 1, "Author: "+ algorithm.getAuthor());
-            list.setText(row, 2, "File: "+algorithm.getFileName());
+            list.setText(row, 1, "Author: " + algorithm.getAuthor());
+            list.setText(row, 2, "File: " + algorithm.getFileName());
             list.setWidget(row, 3, runButton);
             row++;
         }
@@ -160,11 +160,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         basePage.jumpToRunConfiguration(algorithmName, null);
     }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+    }
 }

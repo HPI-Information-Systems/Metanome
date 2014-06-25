@@ -19,14 +19,14 @@ package de.uni_potsdam.hpi.metanome.example_ucc_algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
-		StringParameterAlgorithm, RelationalInputParameterAlgorithm,
+		StringParameterAlgorithm, FileInputParameterAlgorithm,
 		ProgressEstimatingAlgorithm {
 
 	protected String path1, path2 = null;
@@ -97,9 +97,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 	}
 
 	@Override
-	public void setRelationalInputConfigurationValue(String identifier,
-													 RelationalInputGenerator... values)
-			throws AlgorithmConfigurationException {
+	public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException {
 		if (identifier.equals("input file")) {
 			System.out.println("Input file is not being set on algorithm.");
 		}
