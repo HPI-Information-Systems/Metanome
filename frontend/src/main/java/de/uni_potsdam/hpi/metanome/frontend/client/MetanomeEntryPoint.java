@@ -30,6 +30,7 @@ public class MetanomeEntryPoint implements EntryPoint {
         RootPanel.get().setHeight("100%");
         LayoutPanel bodyPanel = new LayoutPanel();
 //        bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
+        bodyPanel.addStyleName("body");
         RootPanel.get().add(bodyPanel);
         bodyPanel.add(new BasePage());
     }

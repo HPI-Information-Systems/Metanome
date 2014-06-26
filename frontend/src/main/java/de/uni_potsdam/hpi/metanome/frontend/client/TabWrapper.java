@@ -35,7 +35,8 @@ public class TabWrapper extends DockPanel {
      */
     public TabWrapper() {
 //        this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().tab());
-
+    	this.addStyleName("tab");
+    	
         this.errorPanel = new VerticalPanel();
         this.add(this.errorPanel, DockPanel.NORTH);
     }

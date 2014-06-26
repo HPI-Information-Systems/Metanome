@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-
-body {
-    background-color: grey;
-    height: 100%;
+.body{
+	height: 100%;
     left: 20px;
     right: 20px;
+    background-color: grey;
+    
+}
+
+body {
 }
 
 h3 {
@@ -33,6 +36,10 @@ h3 {
 .basePage {
     width: 97%;
     height: 90%;
+}
+
+.gwtTabLayoutPanelTab {
+    background-color: darkred;
 }
 
 .tab {
