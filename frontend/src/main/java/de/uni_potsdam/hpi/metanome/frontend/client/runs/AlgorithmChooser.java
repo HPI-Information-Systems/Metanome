@@ -153,13 +153,19 @@ public class AlgorithmChooser extends HorizontalPanel {
     }
 
     /**
-     * Add more entries.
+     * Add another entry, but only if it is not yet present. (Assuming algorithm's name as key)
      * <p/>
      * TODO docs
      */
     public void addAlgorithm(Algorithm algorithm) {
-        this.algorithms.put(algorithm.getName(), algorithm);
-        this.listbox.addItem(algorithm.getName());
+    	String name = algorithm.getName();
+    	if (name == null)
+    		name = algorithm.getFileName();
+    	
+    	if (!this.algorithms.containsKey(name)) {
+	        this.algorithms.put(name, algorithm);
+	        this.listbox.addItem(name);
+    	}
     }
 
     /**

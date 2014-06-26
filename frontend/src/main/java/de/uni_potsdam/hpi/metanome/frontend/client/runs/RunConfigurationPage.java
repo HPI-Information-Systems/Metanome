@@ -86,9 +86,8 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     /**
      * Method to add more algorithms after construction.
      * <p/>
-     * TODO docs
      *
-	 * @param algorithms
+	 * @param algorithms a list of algorithms to be added
 	 */
     public void addAlgorithms(List<Algorithm> algorithms) {
         for (Algorithm algorithm : algorithms) {
