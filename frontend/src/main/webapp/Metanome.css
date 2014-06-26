@@ -36,8 +36,8 @@ h3 {
     left: 20px !important;
 }
 
-.gwtTabLayoutPanelTab {
-    background-color: darkred;
+.gwt-TabLayoutPanelContent {
+    background: white !important;
 }
 
 .tab {
