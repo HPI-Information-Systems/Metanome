@@ -1,12 +1,28 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 function draw_ind(div) {
 
     // get the data
-    d3.csv("ind_data.csv", function(links) {
+    d3.csv("ind_data.csv", function (links) {
 
         var nodes = {};
 
         // Compute the distinct nodes from the links.
-        links.forEach(function(link) {
+        links.forEach(function (link) {
             link.source = nodes[link.source] ||
                 (nodes[link.source] = {name: link.source});
             link.target = nodes[link.target] ||
@@ -66,11 +82,13 @@ function draw_ind(div) {
         node.append("text")
             .attr("x", 12)
             .attr("dy", ".35em")
-            .text(function(d) { return d.name; });
+            .text(function (d) {
+                return d.name;
+            });
 
-    // add the curvy lines
+        // add the curvy lines
         function tick() {
-            path.attr("d", function(d) {
+            path.attr("d", function (d) {
                 var dx = d.target.x - d.source.x,
                     dy = d.target.y - d.source.y,
                     dr = Math.sqrt(dx * dx + dy * dy);
@@ -83,14 +101,14 @@ function draw_ind(div) {
             });
 
             node
-                .attr("transform", function(d) {
-                    return "translate(" + d.x + "," + d.y + ")"; });
+                .attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
         }
 
     });
-     
-}
 
+}
 
 
 function draw_ucc(div) {
@@ -105,7 +123,9 @@ function draw_ucc(div) {
 
     var pack = d3.layout.pack()
         .size([r, r])
-        .value(function(d) { return d.size; })
+        .value(function (d) {
+            return d.size;
+        })
 
     var vis = d3.select(div).insert("svg:svg", "h2")
         .attr("width", w)
@@ -113,7 +133,7 @@ function draw_ucc(div) {
         .append("svg:g")
         .attr("transform", "translate(" + (w - r) / 2 + "," + (h - r) / 2 + ")");
 
-    d3.json("ucc_data.json", function(data) {
+    d3.json("ucc_data.json", function (data) {
         node = root = data;
 
         var nodes = pack.nodes(root);
@@ -121,24 +141,46 @@ function draw_ucc(div) {
         vis.selectAll("circle")
             .data(nodes)
             .enter().append("svg:circle")
-            .attr("class", function(d) { return d.children ? "parent" : "child"; })
-            .attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; })
-            .attr("r", function(d) { return d.r; })
-            .on("click", function(d) { return zoom(node == d ? root : d); });
+            .attr("class", function (d) {
+                return d.children ? "parent" : "child";
+            })
+            .attr("cx", function (d) {
+                return d.x;
+            })
+            .attr("cy", function (d) {
+                return d.y;
+            })
+            .attr("r", function (d) {
+                return d.r;
+            })
+            .on("click", function (d) {
+                return zoom(node == d ? root : d);
+            });
 
         vis.selectAll("text")
             .data(nodes)
             .enter().append("svg:text")
-            .attr("class", function(d) { return d.children ? "parent" : "child"; })
-            .attr("x", function(d) { return d.x; })
-            .attr("y", function(d) { return d.y; })
+            .attr("class", function (d) {
+                return d.children ? "parent" : "child";
+            })
+            .attr("x", function (d) {
+                return d.x;
+            })
+            .attr("y", function (d) {
+                return d.y;
+            })
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
-            .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
-            .text(function(d) { return d.name; });
+            .style("opacity", function (d) {
+                return d.r > 20 ? 1 : 0;
+            })
+            .text(function (d) {
+                return d.name;
+            });
 
-        d3.select(window).on("click", function() { zoom(root); });
+        d3.select(window).on("click", function () {
+            zoom(root);
+        });
     });
 
     function zoom(d, i) {
@@ -150,14 +192,26 @@ function draw_ucc(div) {
             .duration(d3.event.altKey ? 7500 : 750);
 
         t.selectAll("circle")
-            .attr("cx", function(d) { return x(d.x); })
-            .attr("cy", function(d) { return y(d.y); })
-            .attr("r", function(d) { return k * d.r; });
+            .attr("cx", function (d) {
+                return x(d.x);
+            })
+            .attr("cy", function (d) {
+                return y(d.y);
+            })
+            .attr("r", function (d) {
+                return k * d.r;
+            });
 
         t.selectAll("text")
-            .attr("x", function(d) { return x(d.x); })
-            .attr("y", function(d) { return y(d.y); })
-            .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
+            .attr("x", function (d) {
+                return x(d.x);
+            })
+            .attr("y", function (d) {
+                return y(d.y);
+            })
+            .style("opacity", function (d) {
+                return k * d.r > 20 ? 1 : 0;
+            });
 
         node = d;
         d3.event.stopPropagation();

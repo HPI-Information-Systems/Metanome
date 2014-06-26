@@ -124,7 +124,7 @@ public class AlgorithmExecutorTest {
         List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
         configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
-		FileInputGenerator[] fileInputs = {mock(FileInputGenerator.class)};
+        FileInputGenerator[] fileInputs = {mock(FileInputGenerator.class)};
         configs.add(new ConfigurationValueFileInputGenerator(ExampleAlgorithm.CSV_FILE_IDENTIFIER, fileInputs));
 
         // Execute functionality

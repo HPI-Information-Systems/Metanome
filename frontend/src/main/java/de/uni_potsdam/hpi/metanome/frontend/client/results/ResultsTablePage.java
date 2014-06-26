@@ -61,7 +61,7 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
         this.executionService = executionService;
         this.executionIdentifier = executionIdentifier;
 
-		this.setSize("1800px", "700px");
+        this.setSize("1800px", "700px");
         this.resultsPanel = new HorizontalPanel();
         this.add(resultsPanel);
 
@@ -111,10 +111,10 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 
     public void cancelTimerOnFail(Throwable caught) {
         this.timer.cancel();
-		if (runningIndicator != null)
-        	this.remove(runningIndicator);
-		if (progressBar  != null)
-        	this.remove(progressBar);
+        if (runningIndicator != null)
+            this.remove(runningIndicator);
+        if (progressBar != null)
+            this.remove(progressBar);
         this.add(new Label("Algorithm did not execute successfully"));
     }
 

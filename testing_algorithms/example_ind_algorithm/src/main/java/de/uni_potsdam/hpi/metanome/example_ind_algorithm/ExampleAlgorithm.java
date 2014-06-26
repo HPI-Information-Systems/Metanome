@@ -40,22 +40,22 @@ import java.util.List;
 
 public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm, IntegerParameterAlgorithm {
 
-	public final static String CSV_FILE_IDENTIFIER = "input file";
-	public final static String STRING_IDENTIFIER = "tableName";
-	public final static String INTEGER_IDENTIFIER = "numberOfTables";
-	protected String tableName = null;
-	protected int numberOfTables = -1;
-	protected InclusionDependencyResultReceiver resultReceiver;
-	protected FileGenerator tempFileGenerator;
-	protected boolean fileInputSet = false;
+    public final static String CSV_FILE_IDENTIFIER = "input file";
+    public final static String STRING_IDENTIFIER = "tableName";
+    public final static String INTEGER_IDENTIFIER = "numberOfTables";
+    protected String tableName = null;
+    protected int numberOfTables = -1;
+    protected InclusionDependencyResultReceiver resultReceiver;
+    protected FileGenerator tempFileGenerator;
+    protected boolean fileInputSet = false;
 
     @Override
     public List<ConfigurationSpecification> getConfigurationRequirements() {
         List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
 
-		configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
-		configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
-		configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
+        configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
+        configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
+        configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
 
         return configurationSpecification;
     }
@@ -79,7 +79,7 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
             throw new AlgorithmExecutionException("Could not read from file.");
         }
 
-		if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
+        if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
             resultReceiver.receiveResult(
                     new InclusionDependency(
                             new ColumnCombination(
@@ -104,31 +104,31 @@ public class ExampleAlgorithm implements InclusionDependencyAlgorithm, TempFileA
         this.tempFileGenerator = tempFileGenerator;
     }
 
-	@Override
-	public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals("tableName")) && (values.length == 1)) {
-			tableName = values[0];
-		} else {
-			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
-		}
-	}
-	
-	@Override
-	public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 1)) {
-			System.out.println("Input file is not being set on algorithm.");
-			fileInputSet = true;
-		} else {
-			throw new AlgorithmConfigurationException("Incorrect configuration.");
-		}
-	}
+    @Override
+    public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
+        if ((identifier.equals("tableName")) && (values.length == 1)) {
+            tableName = values[0];
+        } else {
+            throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+        }
+    }
 
-	@Override
-	public void setIntegerConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
-			numberOfTables = values[0];
-		} else {
-			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
-		}
-	}
+    @Override
+    public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException {
+        if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 1)) {
+            System.out.println("Input file is not being set on algorithm.");
+            fileInputSet = true;
+        } else {
+            throw new AlgorithmConfigurationException("Incorrect configuration.");
+        }
+    }
+
+    @Override
+    public void setIntegerConfigurationValue(String identifier, int... values) throws AlgorithmConfigurationException {
+        if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
+            numberOfTables = values[0];
+        } else {
+            throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+        }
+    }
 }

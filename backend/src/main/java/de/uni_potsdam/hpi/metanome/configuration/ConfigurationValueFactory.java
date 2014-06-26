@@ -41,24 +41,24 @@ public class ConfigurationValueFactory {
     public static ConfigurationValue createConfigurationValue(
             ConfigurationSpecification specification) throws AlgorithmConfigurationException {
 
-		if (specification instanceof ConfigurationSpecificationBoolean) {
-			return new ConfigurationValueBoolean((ConfigurationSpecificationBoolean) specification);
-		} else if (specification instanceof ConfigurationSpecificationCsvFile) {
-			return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
-					createFileInputGenerators((ConfigurationSpecificationCsvFile) specification));
-		} else if (specification instanceof ConfigurationSpecificationSqlIterator) {
-			return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
-					createSqlIteratorGenerators((ConfigurationSpecificationSqlIterator) specification));
-		} else if (specification instanceof ConfigurationSpecificationString) {
-			return new ConfigurationValueString((ConfigurationSpecificationString) specification);
-		} else if (specification instanceof ConfigurationSpecificationInteger) {
-			return new ConfigurationValueInteger((ConfigurationSpecificationInteger) specification);
-		} else if (specification instanceof ConfigurationSpecificationListBox) {
-			return new ConfigurationValueListBox((ConfigurationSpecificationListBox) specification);
-		} else {
-			throw new AlgorithmConfigurationException("Unsupported ConfigurationSpecification subclass.");
-		}
-	}
+        if (specification instanceof ConfigurationSpecificationBoolean) {
+            return new ConfigurationValueBoolean((ConfigurationSpecificationBoolean) specification);
+        } else if (specification instanceof ConfigurationSpecificationCsvFile) {
+            return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
+                    createFileInputGenerators((ConfigurationSpecificationCsvFile) specification));
+        } else if (specification instanceof ConfigurationSpecificationSqlIterator) {
+            return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
+                    createSqlIteratorGenerators((ConfigurationSpecificationSqlIterator) specification));
+        } else if (specification instanceof ConfigurationSpecificationString) {
+            return new ConfigurationValueString((ConfigurationSpecificationString) specification);
+        } else if (specification instanceof ConfigurationSpecificationInteger) {
+            return new ConfigurationValueInteger((ConfigurationSpecificationInteger) specification);
+        } else if (specification instanceof ConfigurationSpecificationListBox) {
+            return new ConfigurationValueListBox((ConfigurationSpecificationListBox) specification);
+        } else {
+            throw new AlgorithmConfigurationException("Unsupported ConfigurationSpecification subclass.");
+        }
+    }
 
     /**
      * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator} to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
@@ -99,7 +99,7 @@ public class ConfigurationValueFactory {
                 if (setting.isAdvanced())
                     csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()), setting.getSeparatorChar(),
                             setting.getQuoteChar(), setting.getEscapeChar(), setting.getSkipLines(),
-                            setting.isStrictQuotes(), setting.isIgnoreLeadingWhiteSpace(), setting.hasHeader(), 
+                            setting.isStrictQuotes(), setting.isIgnoreLeadingWhiteSpace(), setting.hasHeader(),
                             setting.isSkipDifferingLines());
                 else
                     csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()));

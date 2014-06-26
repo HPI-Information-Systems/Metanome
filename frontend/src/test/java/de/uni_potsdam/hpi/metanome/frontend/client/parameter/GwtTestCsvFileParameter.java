@@ -20,7 +20,6 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -235,10 +234,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
         //Set Values
         CsvFileInput csvInput = ((InputParameterCsvFileWidget) pt.getInputParameterWidget("inputData")).inputWidgets.get(0);
-        
+
         csvInput.listbox.addItem("new file");
         csvInput.listbox.setSelectedIndex(1);
-        
+
         csvInput.advancedCheckbox.setValue(true, true);
         csvInput.escapeTextbox.setValue(charValue);
         csvInput.headerCheckbox.setValue(boolValue);

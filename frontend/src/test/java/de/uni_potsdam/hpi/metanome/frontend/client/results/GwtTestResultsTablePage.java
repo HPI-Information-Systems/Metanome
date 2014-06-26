@@ -40,7 +40,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
     public void testReceiveResultBasicStatistic() {
         // Setup
         ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-		ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+        ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
 
         // Execute functionality
         // Check result
