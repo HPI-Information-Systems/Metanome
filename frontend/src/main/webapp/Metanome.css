@@ -16,13 +16,10 @@
 
 .body{
 	height: 100%;
-    left: 20px;
-    right: 20px;
+    left: 0px;
+    right: 0px;
     background-color: grey;
     
-}
-
-body {
 }
 
 h3 {
@@ -36,6 +33,7 @@ h3 {
 .basePage {
     width: 97%;
     height: 90%;
+    left: 20px !important;
 }
 
 .gwtTabLayoutPanelTab {
