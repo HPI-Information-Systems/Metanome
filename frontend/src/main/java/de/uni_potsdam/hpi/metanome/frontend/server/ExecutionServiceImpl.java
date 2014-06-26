@@ -43,68 +43,68 @@ import java.util.List;
  */
 public class ExecutionServiceImpl extends RemoteServiceServlet implements ExecutionService {
 
-    private static final long serialVersionUID = -2758103927345131933L;
+	private static final long serialVersionUID = -2758103927345131933L;
 
-    protected HashMap<String, ResultsCache> currentResultReceiver = new HashMap<>();
-    protected HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
+	protected HashMap<String, ResultsCache> currentResultReceiver = new HashMap<>();
+	protected HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
 
-    /**
-     * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write result files and
-     * cache results for the frontend.
-     *
-     * @param executionIdentifier the identifier associated with this execution
-     * @return an {@link AlgorithmExecutor}
-     * @throws FileNotFoundException
-     * @throws UnsupportedEncodingException
-     */
-    protected AlgorithmExecutor buildExecutor(String executionIdentifier) throws FileNotFoundException, UnsupportedEncodingException {
-        ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier, "results");
-        ResultsCache resultsCache = new ResultsCache();
-        ResultsHub resultsHub = new ResultsHub();
-        resultsHub.addSubscriber(resultPrinter);
-        resultsHub.addSubscriber(resultsCache);
+	/**
+	 * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write result files and
+	 * cache results for the frontend.
+	 *
+	 * @param executionIdentifier the identifier associated with this execution
+	 * @return an {@link AlgorithmExecutor}
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+	protected AlgorithmExecutor buildExecutor(String executionIdentifier) throws FileNotFoundException, UnsupportedEncodingException {
+		ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier, "results");
+		ResultsCache resultsCache = new ResultsCache();
+		ResultsHub resultsHub = new ResultsHub();
+		resultsHub.addSubscriber(resultPrinter);
+		resultsHub.addSubscriber(resultsCache);
 
-        FileGenerator fileGenerator = new TempFileGenerator();
+		FileGenerator fileGenerator = new TempFileGenerator();
 
-        ProgressCache progressCache = new ProgressCache();
+		ProgressCache progressCache = new ProgressCache();
 
-        AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
-        currentResultReceiver.put(executionIdentifier, resultsCache);
-        currentProgressCaches.put(executionIdentifier, progressCache);
-        return executor;
-    }
+		AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
+		currentResultReceiver.put(executionIdentifier, resultsCache);
+		currentProgressCaches.put(executionIdentifier, progressCache);
+		return executor;
+	}
 
-    @Override
-    public long executeAlgorithm(String algorithmName, String executionIdentifier, List<ConfigurationSpecification> parameters)
-            throws AlgorithmLoadingException, AlgorithmExecutionException {
-        AlgorithmExecutor executor;
+	@Override
+	public long executeAlgorithm(String algorithmFileName, String executionIdentifier, List<ConfigurationSpecification> parameters)
+			throws AlgorithmLoadingException, AlgorithmExecutionException {
+		AlgorithmExecutor executor;
 
-        try {
-            executor = buildExecutor(executionIdentifier);
-        } catch (FileNotFoundException e) {
-            throw new AlgorithmExecutionException("Could not generate result file.");
-        } catch (UnsupportedEncodingException e) {
-            throw new AlgorithmExecutionException("Could not build temporary file generator.");
-        }
-        long executionTime = executor.executeAlgorithm(algorithmName, parameters);
-        try {
-            executor.close();
-        } catch (IOException e) {
-            throw new AlgorithmExecutionException("Could not close algorithm executor.");
-        }
+		try {
+			executor = buildExecutor(executionIdentifier);
+		} catch (FileNotFoundException e) {
+			throw new AlgorithmExecutionException("Could not generate result file.");
+		} catch (UnsupportedEncodingException e) {
+			throw new AlgorithmExecutionException("Could not build temporary file generator.");
+		}
+		long executionTime = executor.executeAlgorithm(algorithmFileName, parameters);
+		try {
+			executor.close();
+		} catch (IOException e) {
+			throw new AlgorithmExecutionException("Could not close algorithm executor.");
+		}
 
-        return executionTime;
-    }
+		return executionTime;
+	}
 
-    @Override
-    public ArrayList<Result> fetchNewResults(String executionIdentifier) {
-        // FIXME return exception when algorithm name is not in map
-        return currentResultReceiver.get(executionIdentifier).getNewResults();
-    }
+	@Override
+	public ArrayList<Result> fetchNewResults(String executionIdentifier) {
+		// FIXME return exception when algorithm name is not in map
+		return currentResultReceiver.get(executionIdentifier).getNewResults();
+	}
 
-    @Override
-    public float fetchProgress(String executionIdentifier) {
-        // FIXME return exception when algorithm name is not in map
-        return currentProgressCaches.get(executionIdentifier).getProgress();
-    }
+	@Override
+	public float fetchProgress(String executionIdentifier) {
+		// FIXME return exception when algorithm name is not in map
+		return currentProgressCaches.get(executionIdentifier).getProgress();
+	}
 }

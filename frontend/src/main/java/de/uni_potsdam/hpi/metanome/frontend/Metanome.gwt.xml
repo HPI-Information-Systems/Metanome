@@ -48,6 +48,5 @@
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
     <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
-    
 </module>
 
