@@ -54,6 +54,13 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         // Check result
         assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm1, jarChooser.algorithms.get(expectedAlgorithm1.getName())));
         assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm2, jarChooser.algorithms.get(expectedAlgorithm2.getName())));
+    
+        // Execute duplicate insert
+        int previousCount = jarChooser.getListItemCount();
+        jarChooser.addAlgorithm(expectedAlgorithm1);
+    
+        // Check
+        assertEquals(previousCount, jarChooser.getListItemCount());
     }
 
     /**
@@ -102,13 +109,6 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         //Test
         assertEquals(2, jarChooser.getWidgetCount());
         assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
-    }
-    
-    /**
-     * Make sure each algorithm is only shown once.
-     */
-    public void testUniqueness() {
-    	
     }
 
     @Override

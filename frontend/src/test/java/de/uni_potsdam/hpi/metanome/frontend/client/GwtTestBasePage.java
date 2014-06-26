@@ -110,7 +110,6 @@ public class GwtTestBasePage extends GWTTestCase {
         AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
             @Override
             public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
                 caught.printStackTrace();
             }
 
