@@ -35,7 +35,7 @@ import java.util.List;
 public class GwtTestAlgorithmChooser extends GWTTestCase {
 
     /**
-     * TODO docs
+     * Test that one can add an algorithm after the JarChooser's initial construction
      */
     public void testAddAlgorithm() {
         // Setup
@@ -57,7 +57,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     }
 
     /**
-     * TODO docs
+     * Ensure that when an algorithm is chosen and submitted, the method adding a ParameterTable is called.
      */
     public void testSubmit() {
         // Setup
@@ -88,7 +88,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     }
 
     /**
-     * TODO docs
+     * Ensure that all algorithms in the list given at construction are displayed
      */
     public void testConstructor() {
         //Setup
@@ -102,6 +102,13 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         //Test
         assertEquals(2, jarChooser.getWidgetCount());
         assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
+    }
+    
+    /**
+     * Make sure each algorithm is only shown once.
+     */
+    public void testUniqueness() {
+    	
     }
 
     @Override
