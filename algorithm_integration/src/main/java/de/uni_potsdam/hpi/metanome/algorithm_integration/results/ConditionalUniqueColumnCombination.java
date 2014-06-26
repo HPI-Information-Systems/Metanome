@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -48,12 +49,26 @@ public class ConditionalUniqueColumnCombination implements Result {
     }
 
     /**
-     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination}.
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
      *
      * @param columnCombination a supposedly unique column combination
      * @param columnConditions List of conditions for the CUCC
      */
     public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, ColumnCondition... columnConditions) {
+        this();
+        this.columnCombination = columnCombination;
+        for (ColumnCondition columnCondition : columnConditions) {
+            this.conditionList.add(columnCondition);
+        }
+    }
+
+    /**
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
+     *
+     * @param columnCombination a supposedly unique column combination
+     * @param columnConditions  List of conditions for the CUCC
+     */
+    public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, List<ColumnCondition> columnConditions) {
         this();
         this.columnCombination = columnCombination;
         for (ColumnCondition columnCondition : columnConditions) {

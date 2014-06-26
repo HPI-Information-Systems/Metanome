@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -42,6 +43,18 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
      * @param columnValues where the condition is true
      */
     public ColumnCondition(ColumnIdentifier identifier, String... columnValues) {
+        this();
+        this.column = identifier;
+        for (String columnValue : columnValues) {
+            this.columnValues.add(columnValue);
+        }
+    }
+
+    /**
+     * @param identifier   column of the condition
+     * @param columnValues where the condition is true
+     */
+    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValues) {
         this();
         this.column = identifier;
         for (String columnValue : columnValues) {
