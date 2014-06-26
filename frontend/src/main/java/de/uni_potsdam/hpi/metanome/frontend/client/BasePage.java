@@ -46,12 +46,12 @@ public class BasePage extends TabLayoutPanel {
 
 	protected FinderServiceAsync finderService;
 
-	/**
-	 * Constructor. Initiates creation of subpages.
-	 */
-	public BasePage() {
-		super(1, Unit.CM);
-		this.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().basePage());
+    /**
+     * Constructor. Initiates creation of subpages.
+     */
+    public BasePage() {
+        super(1, Unit.CM);
+        this.addStyleName("basePage");
 
 		this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 		this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
