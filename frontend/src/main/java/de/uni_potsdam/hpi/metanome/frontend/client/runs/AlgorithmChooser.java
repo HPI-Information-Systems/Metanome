@@ -17,21 +17,22 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
@@ -41,7 +42,7 @@ public class AlgorithmChooser extends HorizontalPanel {
     protected Label label;
     protected ListBox listbox;
 
-    protected Map<String, Algorithm> algorithms = new HashMap<>();
+    protected Map<String, Algorithm> algorithms = new HashMap<String, Algorithm>();
 
     protected ParameterServiceAsync parameterService;
     protected TabWrapper errorReceiver;
@@ -164,11 +165,29 @@ public class AlgorithmChooser extends HorizontalPanel {
     	
     	if (!this.algorithms.containsKey(name)) {
 	        this.algorithms.put(name, algorithm);
-	        this.listbox.addItem(name);
+	        sortedInsert(name);
     	}
     }
 
     /**
+     * Inserts a new item in alphabetical ordering, that is, after before the first item that is lexicographically larger 
+     * than the argument.
+     * 
+     * @param name The value to be inserted.
+     */
+	private void sortedInsert(String name) {
+		int insertIndex = 0;
+		do {
+			insertIndex++;
+			if (insertIndex >= this.listbox.getItemCount()) {
+				this.listbox.addItem(name);	
+				return;
+			}
+		} while (this.listbox.getValue(insertIndex).compareTo(name) < 0);
+		this.listbox.insertItem(name, insertIndex);
+	}
+
+	/**
      * Filters the list of algorithms so that only those are displayed that would accept the given data source
      *
      * @param dataSource the data source that shall be profiled / for which algorithms should be filtered

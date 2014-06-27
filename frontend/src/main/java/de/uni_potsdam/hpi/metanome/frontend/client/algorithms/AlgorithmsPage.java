@@ -116,9 +116,8 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
             }
 
             public void onSuccess(List<Algorithm> result) {
+            	basePage.addAlgorithmsToRunConfigurations(result);
                 addAlgorithmsToList(result, list);
-
-                basePage.addAlgorithmsToRunConfigurations(result);
             }
         };
     }
