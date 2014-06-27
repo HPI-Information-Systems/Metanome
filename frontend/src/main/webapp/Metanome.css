@@ -16,12 +16,10 @@
 
 .body {
     height: 100%;
-    left: 20px;
-    right: 20px;
-}
-
-body {
+    left: 0px;
+    right: 0px;
     background-color: grey;
+
 }
 
 h3 {
@@ -35,10 +33,11 @@ h3 {
 .basePage {
     width: 97%;
     height: 90%;
+    left: 20px !important;
 }
 
-.gwtTabLayoutPanelTab {
-    background-color: darkred;
+.gwt-TabLayoutPanelContent {
+    background: white !important;
 }
 
 .tab {
@@ -49,4 +48,5 @@ h3 {
 
 .errorMessage {
     color: darkred;
+    font-weight: bold;
 }

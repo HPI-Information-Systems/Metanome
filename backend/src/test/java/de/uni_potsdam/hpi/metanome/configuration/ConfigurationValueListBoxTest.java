@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBox
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,10 +49,11 @@ public class ConfigurationValueListBoxTest {
 		String expectedIdentifier = "configId1";
 		String[] expectedConfigurationValue = new String[1];
 		expectedConfigurationValue[0] = "column1";
+		ArrayList<String> expectedValues = new ArrayList<String>();
 
 		// Execute functionality
 		ConfigurationValueListBox configValue = new ConfigurationValueListBox(
-				new ConfigurationSpecificationListBox(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
+				new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues).getIdentifier(), expectedConfigurationValue);
 		configValue.triggerSetValue(algorithm, interfaces);
 
 		// Check result

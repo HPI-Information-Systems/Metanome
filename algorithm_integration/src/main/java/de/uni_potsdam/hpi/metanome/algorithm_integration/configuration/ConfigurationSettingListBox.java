@@ -18,23 +18,16 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class ConfigurationSettingListBox implements Serializable {
 
-	public ArrayList<String> values;
 	public String selectedValue;
 
 	public ConfigurationSettingListBox() {
 	}
 
-	public ConfigurationSettingListBox(ArrayList<String> values, String selectedValue) {
-		this.values = values;
+	public ConfigurationSettingListBox(String selectedValue) {
 		this.selectedValue = selectedValue;
 	}
 
-	public ConfigurationSettingListBox(ArrayList<String> values) {
-		this.values = values;
-		this.selectedValue = null;
-	}
 }

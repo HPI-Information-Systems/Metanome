@@ -41,6 +41,7 @@ import java.util.List;
  */
 public class BasePage extends TabLayoutPanel {
 
+<<<<<<< HEAD
     protected ResultsPage resultsPage;
     protected RunConfigurationPage runConfigurationsPage;
 
@@ -138,6 +139,111 @@ public class BasePage extends TabLayoutPanel {
      * @param dataSources    the list of InputParameterDataSources to be descirbed
      * @return a String with the names of all given data source parameters
      */
+=======
+	protected ResultsPage resultsPage;
+	protected TabWrapper resultPageTabWrapper;
+	protected RunConfigurationPage runConfigurationsPage;
+
+	protected FinderServiceAsync finderService;
+
+	/**
+	 * Constructor. Initiates creation of subpages.
+	 */
+	public BasePage() {
+		super(1, Unit.CM);
+		this.addStyleName("basePage");
+
+		this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+		this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
+
+		this.runConfigurationsPage = new RunConfigurationPage(this);
+		this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+
+		this.resultsPage = new ResultsPage(this);
+		this.resultPageTabWrapper = new TabWrapper(this.resultsPage);
+		this.insert(this.resultPageTabWrapper, "Results", Tabs.RESULTS.ordinal());
+
+		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
+	}
+
+	/**
+	 * Create the "About" Page, which should include information about the project.
+	 *
+	 * @return Widget with contents to be placed on the page.
+	 */
+	private Widget createAboutPage() {
+		SimplePanel content = new SimplePanel();
+		Label temporaryContent = new Label();
+		temporaryContent.setText("Metanome Version 0.0.2.");
+		content.add(temporaryContent);
+		//content.addStyleName("aboutPage");
+		return content;
+	}
+
+	/**
+	 * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
+	 * and fetch results at a regular interval.
+	 *
+	 * @param executionService
+	 * @param algorithmFileName
+	 * @param parameters
+	 */
+	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
+											   String algorithmFileName, List<ConfigurationSpecification> parameters) {
+
+		// clear previous errors
+		this.resultPageTabWrapper.clearErrors();
+
+		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
+
+		TabPanel resultTabsContainer = new TabPanel();
+		resultTabsContainer.setWidth("100%");
+		resultTabsContainer.setHeight("100%");
+
+		// Create new tab with result table
+		ScrollPanel resultsTab = new ScrollPanel();
+		ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
+		resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
+		executionService.executeAlgorithm(algorithmFileName,
+				executionIdentifier,
+				parameters,
+				resultsTableContent.getCancelCallback());
+		resultsTableContent.startPolling();
+		resultsTab.add(resultsTableContent);
+
+		// Create new tab with visualizations of result
+		ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
+
+		// Add first tab to result tab container
+		resultTabsContainer.add(resultsTab, "Table");
+		resultTabsContainer.add(visualizationTab, "Visualization");
+		resultTabsContainer.selectTab(0);
+
+		// remove the content from the result page and set the content to the new fetched result
+		this.resultsPage.clear();
+		this.resultsPage.add(resultTabsContainer);
+		this.selectTab(Tabs.RESULTS.ordinal());
+	}
+
+	/**
+	 * Generates a string that uniquely identifies an algorithm execution.
+	 *
+	 * @param algorithmName the name of the algorithm being executed
+	 * @return a string consisting of the algorithmName and the current date and time
+	 */
+	protected String getExecutionIdetifier(String algorithmName) {
+		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
+		return algorithmName + format.format(new Date());
+	}
+
+	/**
+	 * Generates a string representing all given data sources by concatenating their names.
+	 * These are used as titles for the result tabs.
+	 *
+	 * @param dataSources    the list of InputParameterDataSources to be descirbed
+	 * @return a String with the names of all given data source parameters
+	 */
+>>>>>>> 076a068052cc93745d43d9b76e8f707ae43ccfac
 //	private String getDataSourcesString(
 //			List<ConfigurationSpecification> dataSources) {
 //		String dataSourcesString = "";

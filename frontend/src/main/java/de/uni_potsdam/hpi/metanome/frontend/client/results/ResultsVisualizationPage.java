@@ -30,9 +30,15 @@ import com.google.gwt.user.client.ui.StackLayoutPanel;
  */
 public class ResultsVisualizationPage extends StackLayoutPanel {
 
+<<<<<<< HEAD
     public ResultsVisualizationPage() {
         super(Style.Unit.EM);
         this.setSize("1800px", "700px");
+=======
+	public ResultsVisualizationPage() {
+		super(Style.Unit.EM);
+		this.setSize("1800px", "650px");
+>>>>>>> 076a068052cc93745d43d9b76e8f707ae43ccfac
 
         SimplePanel indPanel = new ScrollPanel();
         SimplePanel uccPanel = new ScrollPanel();

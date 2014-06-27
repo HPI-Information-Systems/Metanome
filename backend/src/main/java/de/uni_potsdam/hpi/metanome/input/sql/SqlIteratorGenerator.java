@@ -34,117 +34,117 @@ import java.util.List;
  */
 public class SqlIteratorGenerator implements SqlInputGenerator {
 
-    public static final int DEFAULT_FETCH_SIZE = 100;
-    private int fetchSize = DEFAULT_FETCH_SIZE;
-    public static final int DEFAULT_RESULT_SET_TYPE = ResultSet.TYPE_FORWARD_ONLY;
-    private int resultSetType = DEFAULT_RESULT_SET_TYPE;
-    public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
-    private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
-    protected Connection dbConnection;
-    private List<Statement> statements = new LinkedList<>();
+	public static final int DEFAULT_FETCH_SIZE = 100;
+	private int fetchSize = DEFAULT_FETCH_SIZE;
+	public static final int DEFAULT_RESULT_SET_TYPE = ResultSet.TYPE_FORWARD_ONLY;
+	private int resultSetType = DEFAULT_RESULT_SET_TYPE;
+	public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
+	private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
+	protected Connection dbConnection;
+	private List<Statement> statements = new LinkedList<>();
 
-    /**
-     * Exists for tests.
-     */
-    protected SqlIteratorGenerator() {
-    }
+	/**
+	 * Exists for tests.
+	 */
+	protected SqlIteratorGenerator() {
+	}
 
-    public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
-        try {
-            this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
-            this.dbConnection.setAutoCommit(false);
-        } catch (SQLException e) {
-            throw new AlgorithmConfigurationException("Failed to get Database Connection");
-        }
-    }
+	public SqlIteratorGenerator(String dbUrl, String userName, String password) throws AlgorithmConfigurationException {
+		try {
+			this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
+			this.dbConnection.setAutoCommit(false);
+		} catch (SQLException e) {
+			throw new AlgorithmConfigurationException("Failed to get Database Connection.");
+		}
+	}
 
-    @Override
-    public RelationalInput generateRelationalInputFromSql(String queryString) throws InputGenerationException {
+	@Override
+	public RelationalInput generateRelationalInputFromSql(String queryString) throws InputGenerationException {
 
-        ResultSet resultSet = executeQuery(queryString);
+		ResultSet resultSet = executeQuery(queryString);
 
-        SqlIterator sqlIterator;
-        try {
-            sqlIterator = new SqlIterator(resultSet);
-        } catch (SQLException e) {
-            throw new InputGenerationException("Could not construct sql input.");
-        }
+		SqlIterator sqlIterator;
+		try {
+			sqlIterator = new SqlIterator(resultSet);
+		} catch (SQLException e) {
+			throw new InputGenerationException("Could not construct sql input.");
+		}
 
-        return sqlIterator;
-    }
+		return sqlIterator;
+	}
 
-    /**
-     * Executes the given query and returns the associated {@link ResultSet}.
-     *
-     * @param queryString the query string to execute
-     * @return associated {@link ResultSet}
-     * @throws InputGenerationException
-     */
-    protected ResultSet executeQuery(String queryString) throws InputGenerationException {
-        Statement sqlStatement;
-        try {
-            sqlStatement = dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
-            sqlStatement.setFetchSize(getFetchSize());
-            statements.add(sqlStatement);
-        } catch (SQLException e) {
-            throw new InputGenerationException("Could not create sql statement on connection.");
-        }
-        ResultSet resultSet;
-        try {
-            resultSet = sqlStatement.executeQuery(queryString);
-        } catch (SQLException e) {
-            throw new InputGenerationException("Could not execute sql statement.");
-        }
+	/**
+	 * Executes the given query and returns the associated {@link ResultSet}.
+	 *
+	 * @param queryString the query string to execute
+	 * @return associated {@link ResultSet}
+	 * @throws InputGenerationException
+	 */
+	protected ResultSet executeQuery(String queryString) throws InputGenerationException {
+		Statement sqlStatement;
+		try {
+			sqlStatement = dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
+			sqlStatement.setFetchSize(getFetchSize());
+			statements.add(sqlStatement);
+		} catch (SQLException e) {
+			throw new InputGenerationException("Could not create sql statement on connection.");
+		}
+		ResultSet resultSet;
+		try {
+			resultSet = sqlStatement.executeQuery(queryString);
+		} catch (SQLException e) {
+			throw new InputGenerationException("Could not execute sql statement.");
+		}
 
-        return resultSet;
-    }
+		return resultSet;
+	}
 
-    @Override
-    public ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException {
-        return executeQuery(queryString);
-    }
+	@Override
+	public ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException {
+		return executeQuery(queryString);
+	}
 
-    @Override
-    public void closeAllStatements() throws SQLException {
-        for (Statement statement : statements) {
-            if (statement.isClosed()) {
-                continue;
-            }
-            statement.close();
-        }
-    }
+	@Override
+	public void closeAllStatements() throws SQLException {
+		for (Statement statement : statements) {
+			if (statement.isClosed()) {
+				continue;
+			}
+			statement.close();
+		}
+	}
 
-    @Override
-    public void close() throws SQLException {
-        if (!dbConnection.isClosed()) {
-            dbConnection.close();
-        }
-    }
+	@Override
+	public void close() throws SQLException {
+		if (!dbConnection.isClosed()) {
+			dbConnection.close();
+		}
+	}
 
-    public int getFetchSize() {
-        return fetchSize;
-    }
+	public int getFetchSize() {
+		return fetchSize;
+	}
 
-    public SqlIteratorGenerator setFetchSize(int fetchSize) {
-        this.fetchSize = fetchSize;
-        return this;
-    }
+	public SqlIteratorGenerator setFetchSize(int fetchSize) {
+		this.fetchSize = fetchSize;
+		return this;
+	}
 
-    public int getResultSetType() {
-        return resultSetType;
-    }
+	public int getResultSetType() {
+		return resultSetType;
+	}
 
-    public SqlIteratorGenerator setResultSetType(int resultSetType) {
-        this.resultSetType = resultSetType;
-        return this;
-    }
+	public SqlIteratorGenerator setResultSetType(int resultSetType) {
+		this.resultSetType = resultSetType;
+		return this;
+	}
 
-    public int getResultSetConcurrency() {
-        return resultSetConcurrency;
-    }
+	public int getResultSetConcurrency() {
+		return resultSetConcurrency;
+	}
 
-    public SqlIteratorGenerator setResultSetConcurrency(int resultSetConcurrency) {
-        this.resultSetConcurrency = resultSetConcurrency;
-        return this;
-    }
+	public SqlIteratorGenerator setResultSetConcurrency(int resultSetConcurrency) {
+		this.resultSetConcurrency = resultSetConcurrency;
+		return this;
+	}
 }
