@@ -40,6 +40,8 @@
     <add-linker name="xsiframe"/>
     <set-configuration-property name="devModeRedirectEnabled" value="true"/>
 
+    <stylesheet src="../Metanome.css"/>
+
     <!-- Inherit the default GWT style sheet. You can change       -->
     <!-- the theme of your GWT application by uncommenting          -->
     <!-- any one of the following lines.                           -->

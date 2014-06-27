@@ -55,8 +55,8 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      * However, more algorithms can be registered whenever they become available,
      * through <link>addAlgorithm(Algorithm algorithm)</link>
      *
-     * @param algorithmNames
-     */
+	 * @param basePage
+	 */
     public RunConfigurationPage(BasePage basePage) {
         this.setWidth("100%");
         this.basePage = basePage;
@@ -86,10 +86,9 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
     /**
      * Method to add more algorithms after construction.
      * <p/>
-     * TODO docs
      *
-     * @param result
-     */
+	 * @param algorithms a list of algorithms to be added
+	 */
     public void addAlgorithms(List<Algorithm> algorithms) {
         for (Algorithm algorithm : algorithms) {
             this.algorithmChooser.addAlgorithm(algorithm);
@@ -151,9 +150,10 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      */
     public void callExecutionService(List<ConfigurationSpecification> parameters, List<ConfigurationSpecification> dataSources) {
         final String algorithmName = getCurrentlySelectedAlgorithm();
-        parameters.addAll(dataSources);
-        basePage.startExecutionAndResultPolling(executionService, algorithmName, parameters);
-    }
+		final String algorithmFileName = getAlgorithmFileName(algorithmName);
+		parameters.addAll(dataSources);
+		basePage.startExecutionAndResultPolling(executionService, algorithmFileName, parameters);
+	}
 
     // Getters & Setters
 
@@ -167,8 +167,14 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
      */
     @Override
     public void setErrorReceiver(TabWrapper tab) {
-        this.errorReceiver = tab;
-        this.algorithmChooser.setErrorReceiver(tab);
-    }
+		this.errorReceiver = tab;
+		this.algorithmChooser.setErrorReceiver(tab);
+	}
 
+	/**
+	 * Returns the file name of the algorithm, which is needed for execution
+	 */
+	private String getAlgorithmFileName(String name) {
+		return this.algorithmChooser.algorithms.get(name).getFileName();
+	}
 }

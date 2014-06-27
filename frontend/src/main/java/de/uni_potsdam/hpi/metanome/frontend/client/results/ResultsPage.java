@@ -16,32 +16,34 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 /**
  * @author Claudia Exeler
+ *
  */
-public class ResultsPage extends HorizontalPanel implements TabContent {
+public class ResultsPage extends VerticalPanel implements TabContent {
 
     protected final BasePage basePage;
     protected TabWrapper errorReceiver;
 
-    public ResultsPage(BasePage parent) {
-        this.basePage = parent;
+	public ResultsPage(BasePage parent) {
+		this.basePage = parent;
+		
+		this.add(new Label("Here goes a list of previous executions, with some filtering options.     "));
+		this.add(new Label("And on the right half we can have the results of the execution selected on the left."));
+	}
 
-        this.add(new Label("Here goes a list of previous executions, with some filtering options.     "));
-        this.add(new Label("And on the right half we can have the results of the execution selected on the left."));
-    }
-
-    /* (non-Javadoc)
-     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-     */
-    @Override
-    public void setErrorReceiver(TabWrapper tab) {
-        this.errorReceiver = tab;
-    }
+	/* (non-Javadoc)
+	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+	 */
+	@Override
+	public void setErrorReceiver(TabWrapper tab) {
+		this.errorReceiver = tab;
+	}
 }
