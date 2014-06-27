@@ -38,45 +38,45 @@ import java.util.Map;
  */
 public class AlgorithmChooser extends HorizontalPanel {
 
-	protected Label label;
-	protected ListBox listbox;
+    protected Label label;
+    protected ListBox listbox;
 
-	protected Map<String, Algorithm> algorithms = new HashMap<>();
+    protected Map<String, Algorithm> algorithms = new HashMap<String, Algorithm>();
 
-	protected ParameterServiceAsync parameterService;
-	protected TabWrapper errorReceiver;
+    protected ParameterServiceAsync parameterService;
+    protected TabWrapper errorReceiver;
 
 
-	/**
-	 * Constructor.
-	 *
-	 * @param jarFilenames
-	 * @param algorithmSubclass
-	 */
-	public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
+    /**
+     * Constructor.
+     *
+     * @param algorithms
+     * @param tabWrapper
+     */
+    public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
 
-		super();
-		this.errorReceiver = tabWrapper;
-		this.parameterService = GWT.create(ParameterService.class);
+        super();
+        this.errorReceiver = tabWrapper;
+        this.parameterService = GWT.create(ParameterService.class);
 
-		this.label = new Label("Choose your algorithm:");
-		this.add(label);
+        this.label = new Label("Choose your algorithm:");
+        this.add(label);
 
-		this.listbox = new ListBox();
+        this.listbox = new ListBox();
 
-		//unselectable default entry
-		this.listbox.addItem("--");
-		this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-		this.listbox.setSelectedIndex(0);
+        //unselectable default entry
+        this.listbox.addItem("--");
+        this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+        this.listbox.setSelectedIndex(0);
 
-		if (algorithms != null) {
-			for (Algorithm algorithm : algorithms) {
-				this.addAlgorithm(algorithm);
-			}
-		}
-		this.add(listbox);
-		this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
-	}
+        if (algorithms != null) {
+            for (Algorithm algorithm : algorithms) {
+                this.addAlgorithm(algorithm);
+            }
+        }
+        this.add(listbox);
+        this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
+    }
 
 	/**
 	 * Specifies the action undertaken when a jar file is chosen.
@@ -85,100 +85,118 @@ public class AlgorithmChooser extends HorizontalPanel {
 		String selectedValue = getSelectedAlgorithm();
 		this.errorReceiver.clearErrors();
 
-		AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
-			public void onFailure(Throwable caught) {
-				errorReceiver.addError("Error while retrieving configuration requirements.");
-			}
+        AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
+            public void onFailure(Throwable caught) {
+                errorReceiver.addError("Error while retrieving configuration requirements.");
+            }
 
-			public void onSuccess(List<ConfigurationSpecification> result) {
-				forwardParameters(result);
-			}
-		};
+            public void onSuccess(List<ConfigurationSpecification> result) {
+                forwardParameters(result);
+            }
+        };
 
-		// Make the call to the parameter service.
-		callParameterService(algorithms.get(selectedValue).getFileName(), callback);
-	}
+        // Make the call to the parameter service.
+        callParameterService(algorithms.get(selectedValue).getFileName(), callback);
+    }
 
-	/**
-	 * Calls the service to retrieve parameters to be specified by the user and display
-	 * corresponding widget
-	 *
-	 * @param selectedValue the name of the selected algorithm
-	 * @param callback      callback object for RPC
-	 */
-	public void callParameterService(String selectedValue, AsyncCallback<List<ConfigurationSpecification>> callback) {
-		parameterService.retrieveParameters(selectedValue, callback);
-	}
+    /**
+     * Calls the service to retrieve parameters to be specified by the user and display
+     * corresponding widget
+     *
+     * @param selectedValue the name of the selected algorithm
+     * @param callback      callback object for RPC
+     */
+    public void callParameterService(String selectedValue, AsyncCallback<List<ConfigurationSpecification>> callback) {
+        parameterService.retrieveParameters(selectedValue, callback);
+    }
 
-	/**
-	 * Handles the incoming list of parameters by adding a ParameterTable to the corresponding
-	 * tab.
-	 *
-	 * @param paramList list of parameters necessary for the chosen algorithm
-	 */
-	protected void forwardParameters(List<ConfigurationSpecification> paramList) {
-		((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
-	}
+    /**
+     * Handles the incoming list of parameters by adding a ParameterTable to the corresponding
+     * tab.
+     *
+     * @param paramList list of parameters necessary for the chosen algorithm
+     */
+    protected void forwardParameters(List<ConfigurationSpecification> paramList) {
+        ((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
+    }
 
-	/**
-	 * @return the number of items in the listbox, that is, the number of available
-	 * algorithms in this JarChooser
-	 */
-	public int getListItemCount() {
-		return this.listbox.getItemCount();
-	}
+    /**
+     * @return the number of items in the listbox, that is, the number of available
+     * algorithms in this JarChooser
+     */
+    public int getListItemCount() {
+        return this.listbox.getItemCount();
+    }
 
-	/**
-	 * @return the value at the currently selected index
-	 */
-	public String getSelectedAlgorithm() {
-		return listbox.getValue(listbox.getSelectedIndex());
-	}
+    /**
+     * @return the value at the currently selected index
+     */
+    public String getSelectedAlgorithm() {
+        return listbox.getValue(listbox.getSelectedIndex());
+    }
 
-	/**
-	 * Select the entry with the given value.
-	 *
-	 * @param algorithmName value to select
-	 * @throws IndexOutOfBoundsException if none of the entries have the given value.
-	 */
-	public void setSelectedAlgorithm(String algorithmName) {
-		for (int i = 0; i < listbox.getItemCount(); i++) {
-			if (listbox.getValue(i).equals(algorithmName)) {
-				this.listbox.setSelectedIndex(i);
-				return;
-			}
-		}
+    /**
+     * Select the entry with the given value.
+     *
+     * @param algorithmName value to select
+     * @throws IndexOutOfBoundsException if none of the entries have the given value.
+     */
+    public void setSelectedAlgorithm(String algorithmName) {
+        for (int i = 0; i < listbox.getItemCount(); i++) {
+            if (listbox.getValue(i).equals(algorithmName)) {
+                this.listbox.setSelectedIndex(i);
+                return;
+            }
+        }
 
 		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser.");
 	}
 
-	/**
-	 * Add another entry, but only if it is not yet present. (Assuming algorithm's name as key)
-	 * <p/>
-	 * TODO docs
-	 */
-	public void addAlgorithm(Algorithm algorithm) {
-		String name = algorithm.getName();
-		if (name == null)
-			name = algorithm.getFileName();
+    /**
+     * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
+     * <p/>
+     * @param algorithm	The algorithm to be added
+     */
+    public void addAlgorithm(Algorithm algorithm) {
+    	String name = algorithm.getName();
+    	if (name == null)
+    		name = algorithm.getFileName();
+    	
+    	if (!this.algorithms.containsKey(name)) {
+	        this.algorithms.put(name, algorithm);
+	        sortedInsert(name);
+    	}
+    }
 
-		if (!this.algorithms.containsKey(name)) {
-			this.algorithms.put(name, algorithm);
-			this.listbox.addItem(name);
-		}
+    /**
+     * Inserts a new item in alphabetical ordering, that is, after before the first item that is lexicographically larger 
+     * than the argument.
+     * 
+     * @param name The value to be inserted.
+     */
+	private void sortedInsert(String name) {
+		int insertIndex = 0;
+		do {
+			insertIndex++;
+			if (insertIndex >= this.listbox.getItemCount()) {
+				this.listbox.addItem(name);	
+				return;
+			}
+		} while (this.listbox.getValue(insertIndex).compareTo(name) < 0);
+		this.listbox.insertItem(name, insertIndex);
 	}
 
 	/**
-	 * Filters the list of algorithms so that only those are displayed that would accept the given data source
-	 *
-	 * @param dataSource the data source that shall be profiled / for which algorithms should be filtered
-	 */
-	public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
-		this.listbox.setSelectedIndex(0);
-		// TODO filter out any algorithms that would not accept the given data source
-		System.out.println("Filtering algorithms for a data source is not yet implemented");
+     * Filters the list of algorithms so that only those are displayed that would accept the given data source
+     *
+     * @param dataSource the data source that shall be profiled / for which algorithms should be filtered
+     */
+    public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
+        this.listbox.setSelectedIndex(0);
+        // TODO filter out any algorithms that would not accept the given data source
+        System.out.println("Filtering algorithms for a data source is not yet implemented.");
 
-	}
+    }
 
 	public void setErrorReceiver(TabWrapper receiver) {
 		this.errorReceiver = receiver;
