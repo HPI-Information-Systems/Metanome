@@ -25,8 +25,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link PLIBuilder}
@@ -45,6 +44,8 @@ public class PLIBuilderTest {
 
     @After
     public void tearDown() throws Exception {
+        fixture = null;
+        builder = null;
     }
 
     /**
@@ -86,5 +87,27 @@ public class PLIBuilderTest {
 
         // Check result
         assertEquals(expectedDistinctSortedColumns, actualDistinctSortedColumns);
+    }
+
+    /**
+     * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder::getNumberOfTuples}
+     */
+    @Test
+    public void testGetNumberOfTuples() throws InputIterationException {
+        //Setup
+        long expectedNumberOfColumns = fixture.getExpectedNumberOfTuples();
+
+        //Execute functionality
+        try {
+            builder.getNumberOfTuples();
+            fail();
+        } catch (InputIterationException e) {
+            //Intentionally left blank
+        }
+
+
+        builder.getPLIList();
+        assertEquals(expectedNumberOfColumns, builder.getNumberOfTuples());
+        //Check result
     }
 }

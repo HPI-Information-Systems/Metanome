@@ -28,7 +28,7 @@ import java.util.*;
  * A list of all columns' sorted distinct values can be constructed as a byproduct.
  */
 public class PLIBuilder {
-
+    protected long numberOfTuples = -1;
     protected List<HashMap<String, LongArrayList>> columns = null;
     protected RelationalInput input;
 
@@ -49,6 +49,22 @@ public class PLIBuilder {
         }
 
         return purgePLIEntries();
+    }
+
+
+    /**
+     * Returns the number of tuples in the input after calculating the plis.
+     * Can be used after calculateRawPLI was called.
+     *
+     * @return number of tuples in dataset
+     */
+    public long getNumberOfTuples() throws InputIterationException {
+        if (this.numberOfTuples == -1) {
+            throw new InputIterationException();
+        } else {
+            return this.numberOfTuples;
+        }
+
     }
 
     /**
@@ -74,7 +90,9 @@ public class PLIBuilder {
 
     protected void calculateRawPLI() throws InputIterationException {
         long rowCount = 0;
+        this.numberOfTuples = 0;
         while (input.hasNext()) {
+            this.numberOfTuples++;
             ImmutableList<String> row = input.next();
             int columnCount = 0;
             for (String cellValue : row) {

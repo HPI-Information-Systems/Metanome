@@ -84,6 +84,10 @@ public class PLIBuilderFixture {
         return simpleRelationalInput;
     }
 
+    public long getExpectedNumberOfTuples() {
+        return columns.get(0).size();
+    }
+
     public List<TreeSet<String>> getExpectedDistinctSortedColumns() {
         List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
 
