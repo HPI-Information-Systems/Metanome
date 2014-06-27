@@ -59,7 +59,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         int previousCount = jarChooser.getListItemCount();
         jarChooser.addAlgorithm(expectedAlgorithm1);
     
-        // Check
+        // Check that the algorithm was not added again
         assertEquals(previousCount, jarChooser.getListItemCount());
     }
 
@@ -109,6 +109,36 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         //Test
         assertEquals(2, jarChooser.getWidgetCount());
         assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
+    }
+    
+    /**
+     * Test that the algorithms are listed in alphabetical order of their names
+     */
+    public void testOrdering() {
+    	// Setup
+        LinkedList<Algorithm> algorithms = new LinkedList<>();
+        Algorithm algo1 = new Algorithm("");
+        algo1.setName("C");
+        algorithms.add(algo1);
+        Algorithm algo2 = new Algorithm("");
+        algo2.setName("B");
+        algorithms.add(algo2);
+        Algorithm algo3 = new Algorithm("");
+        algo3.setName("A");
+        
+        
+        // Create dropdown
+        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+        
+        // Check
+        assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
+        
+        // Add another algorithm
+        jarChooser.addAlgorithm(algo3);
+        
+        // Check
+        assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
+        assertTrue(jarChooser.listbox.getItemText(2).compareTo(jarChooser.listbox.getItemText(3)) < 0);
     }
 
     @Override

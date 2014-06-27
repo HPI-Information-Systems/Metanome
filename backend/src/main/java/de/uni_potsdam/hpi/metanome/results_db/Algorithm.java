@@ -45,7 +45,7 @@ import java.util.*;
 )
 @Entity
 @GwtCompatible
-public class Algorithm implements Serializable {
+public class Algorithm implements Serializable, Comparable<Algorithm> {
 	private static final long serialVersionUID = -3276487707781514801L;
 
 	protected String fileName;
@@ -266,4 +266,12 @@ public class Algorithm implements Serializable {
     public int hashCode() {
         return fileName != null ? fileName.hashCode() : 0;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Algorithm o) {		
+		return this.getName().compareTo(o.getName());
+	}
 }
