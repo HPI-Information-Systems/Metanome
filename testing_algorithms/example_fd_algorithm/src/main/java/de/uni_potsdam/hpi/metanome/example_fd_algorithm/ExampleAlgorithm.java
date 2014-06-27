@@ -54,9 +54,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		listBoxValues.add("column 1");
 		listBoxValues.add("column 2");
 		listBoxValues.add("column 3");
-		ConfigurationSettingListBox settingListBox = new ConfigurationSettingListBox(listBoxValues);
-		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, 1);
-		specificationListBox.setSettings(settingListBox);
+		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
 		configurationSpecification.add(specificationListBox);
 
 		return configurationSpecification;
@@ -97,7 +95,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 
 	@Override
 	public void setFileInputConfigurationValue(String identifier,
-													 FileInputGenerator... values)
+											   FileInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals(CSVFILE_IDENTIFIER)) {
 			System.out.println("Input file is not being set on algorithm.");

@@ -32,7 +32,7 @@ public class ResultsVisualizationPage extends StackLayoutPanel {
 
 	public ResultsVisualizationPage() {
 		super(Style.Unit.EM);
-		this.setSize("1800px", "700px");
+		this.setSize("1800px", "650px");
 
 		SimplePanel indPanel = new ScrollPanel();
 		SimplePanel uccPanel = new ScrollPanel();

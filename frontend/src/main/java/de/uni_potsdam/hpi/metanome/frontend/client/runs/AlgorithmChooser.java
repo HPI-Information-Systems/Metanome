@@ -17,22 +17,21 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
@@ -51,8 +50,8 @@ public class AlgorithmChooser extends HorizontalPanel {
     /**
      * Constructor.
      *
-     * @param jarFilenames
-     * @param algorithmSubclass
+     * @param algorithms
+     * @param tabWrapper
      */
     public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
 
@@ -79,12 +78,12 @@ public class AlgorithmChooser extends HorizontalPanel {
         this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
     }
 
-    /**
-     * Specifies the action undertaken when a jar file is chosen.
-     */
-    public void submit() {
-        String selectedValue = getSelectedAlgorithm();
-        this.errorReceiver.clearErrors();
+	/**
+	 * Specifies the action undertaken when a jar file is chosen.
+	 */
+	public void submit() {
+		String selectedValue = getSelectedAlgorithm();
+		this.errorReceiver.clearErrors();
 
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
             public void onFailure(Throwable caught) {
@@ -150,8 +149,8 @@ public class AlgorithmChooser extends HorizontalPanel {
             }
         }
 
-        throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser");
-    }
+		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser.");
+	}
 
     /**
      * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
@@ -195,13 +194,13 @@ public class AlgorithmChooser extends HorizontalPanel {
     public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
         this.listbox.setSelectedIndex(0);
         // TODO filter out any algorithms that would not accept the given data source
-        System.out.println("Filtering algorithms for a data source is not yet implemented");
+        System.out.println("Filtering algorithms for a data source is not yet implemented.");
 
     }
 
-    public void setErrorReceiver(TabWrapper receiver) {
-        this.errorReceiver = receiver;
-    }
+	public void setErrorReceiver(TabWrapper receiver) {
+		this.errorReceiver = receiver;
+	}
 
 
 }

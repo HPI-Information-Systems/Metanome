@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-.body{
-	height: 100%;
+.body {
+    height: 100%;
     left: 0px;
     right: 0px;
     background-color: grey;
-    
+
 }
 
 h3 {
@@ -48,4 +48,5 @@ h3 {
 
 .errorMessage {
     color: darkred;
+    font-weight: bold;
 }

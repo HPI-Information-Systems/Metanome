@@ -85,7 +85,7 @@ public class AlgorithmExecutor implements Closeable {
 		} catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
 			throw new AlgorithmLoadingException();
 		} catch (IOException e) {
-			throw new AlgorithmLoadingException("IO Exception");
+			throw new AlgorithmLoadingException("IO Exception.");
 		} catch (ClassNotFoundException e) {
 			throw new AlgorithmLoadingException("Class not found.");
 		} catch (InstantiationException e) {
