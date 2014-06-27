@@ -37,22 +37,26 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
 	}
 
 	/**
-	 * Construct a ConfigurationSpecificationListBox, requesting 1 value.
+	 * Construct a ConfigurationSpecificationListBox, requesting 2 values.
 	 *
 	 * @param identifier the specification's identifier
+	 * @param values     the values, which should be displayed in the list box
 	 */
-	public ConfigurationSpecificationListBox(String identifier) {
+	public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values) {
 		super(identifier);
+		this.values = values;
 	}
 
 	/**
 	 * Constructs a {@link ConfigurationSpecificationListBox}, potentially requesting several values.
 	 *
 	 * @param identifier     the specification's identifier
+	 * @param values         the values, which should be displayed in the list box
 	 * @param numberOfValues the number of values expected
 	 */
-	public ConfigurationSpecificationListBox(String identifier, int numberOfValues) {
+	public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values, int numberOfValues) {
 		super(identifier, numberOfValues);
+		this.values = values;
 	}
 
 	@Override
@@ -69,12 +73,5 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
 	 */
 	public ArrayList<String> getValues() {
 		return this.values;
-	}
-
-	/**
-	 * @param values the values, which should be displayed in the list box
-	 */
-	public void setValues(ArrayList<String> values) {
-		this.values = values;
 	}
 }

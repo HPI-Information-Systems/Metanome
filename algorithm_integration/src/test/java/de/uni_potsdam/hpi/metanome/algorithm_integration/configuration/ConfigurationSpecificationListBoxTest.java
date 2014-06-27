@@ -33,7 +33,7 @@ import static org.junit.Assert.assertThat;
 public class ConfigurationSpecificationListBoxTest {
 
 	/**
-	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String)}
+	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, ArrayList<String>)}
 	 * <p/>
 	 * The identifier should be set in the constructor and be retrievable through getIdentifier.
 	 * The numberOfValues should be set to 1.
@@ -43,13 +43,13 @@ public class ConfigurationSpecificationListBoxTest {
 		// Setup
 		// Expected values
 		String expectedIdentifier = "parameter1";
+		int expectedNumberOfValues = 1;
 		ArrayList<String> expectedValues = new ArrayList<>();
 		expectedValues.add("first");
 		expectedValues.add("second");
 		expectedValues.add("third");
-		int expectedNumberOfValues = 1;
-		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier);
-		configSpec.setValues(expectedValues);
+
+		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
@@ -63,7 +63,7 @@ public class ConfigurationSpecificationListBoxTest {
 	}
 
 	/**
-	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, int)}
+	 * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, ArrayList<String>, int)}
 	 * <p/>
 	 * The identifier should be set in the constructor and be retrievable through getIdentifier.
 	 * The numberOfValues should be set to 2.
@@ -73,13 +73,13 @@ public class ConfigurationSpecificationListBoxTest {
 		// Setup
 		// Expected values
 		String expectedIdentifier = "parameter1";
+		int expectedNumberOfValues = 2;
 		ArrayList<String> expectedValues = new ArrayList<>();
 		expectedValues.add("first");
 		expectedValues.add("second");
 		expectedValues.add("third");
-		int expectedNumberOfValues = 2;
-		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier, expectedNumberOfValues);
-		configSpec.setValues(expectedValues);
+
+		ConfigurationSpecificationListBox configSpec = new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues, expectedNumberOfValues);
 
 		// Execute functionality
 		String actualIdentifier = configSpec.getIdentifier();
@@ -102,8 +102,8 @@ public class ConfigurationSpecificationListBoxTest {
 		expectedValues.add("first");
 		expectedValues.add("second");
 		expectedValues.add("third");
-		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox("parameter1");
-		specificationListBox.setValues(expectedValues);
+		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox("parameter1", expectedValues);
+
 		// Expected values
 		ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
 		ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
@@ -121,6 +121,6 @@ public class ConfigurationSpecificationListBoxTest {
 	 */
 	@Test
 	public void testGwtSerialization() {
-		GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationListBox("some identifier", 3));
+		GwtSerializationTester.checkGwtSerializability(new ConfigurationSpecificationListBox("some identifier", new ArrayList<String>(), 3));
 	}
 }

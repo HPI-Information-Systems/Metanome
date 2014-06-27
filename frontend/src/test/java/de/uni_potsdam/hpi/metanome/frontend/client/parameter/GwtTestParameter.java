@@ -43,8 +43,7 @@ public class GwtTestParameter extends GWTTestCase {
 		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
 		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("NumberOfTables");
-		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
-		ConfigurationSpecificationListBox.setValues(values);
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox", values);
 
 		paramList.add(ConfigurationSpecificationString);
 		paramList.add(ConfigurationSpecificationBoolean);
@@ -98,8 +97,7 @@ public class GwtTestParameter extends GWTTestCase {
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
 		ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
 		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("integer");
-		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
-		ConfigurationSpecificationListBox.setValues(values);
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox", values);
 
 		paramList.add(ConfigurationSpecificationString);
 		paramList.add(ConfigurationSpecificationBoolean);
@@ -161,8 +159,7 @@ public class GwtTestParameter extends GWTTestCase {
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
 		String identifierListbox = "listboxParam";
-		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox);
-		listboxParam.setValues(values);
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, values);
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -211,8 +208,7 @@ public class GwtTestParameter extends GWTTestCase {
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
 		String identifierListbox = "listboxParam";
-		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, 2);
-		listboxParam.setValues(values);
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, values, 2);
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
