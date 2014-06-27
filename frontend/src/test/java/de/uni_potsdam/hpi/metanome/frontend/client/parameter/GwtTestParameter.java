@@ -108,7 +108,7 @@ public class GwtTestParameter extends GWTTestCase {
 
 		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 		chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
-
+		enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
 
 		//Execute
 		List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
@@ -137,6 +137,15 @@ public class GwtTestParameter extends GWTTestCase {
 		for (CsvFileInput csvInput : widget.inputWidgets) {
 			csvInput.listbox.addItem("some file");
 			csvInput.listbox.setSelectedIndex(1);
+		}
+	}
+
+	/**
+	 * @param widget
+	 */
+	private void enterNumber(InputParameterIntegerWidget widget) {
+		for (IntegerInput integerInput : widget.inputWidgets) {
+			integerInput.textbox.setValue(7);
 		}
 	}
 

@@ -86,6 +86,7 @@ public class ParameterTable extends FlexTable {
 			List<ConfigurationSpecification> dataSources = getConfigurationSpecificationDataSourcesWithValues();
 			getAlgorithmTab().callExecutionService(parameters, dataSources);
 		} catch (InputValidationException e) {
+			this.errorReceiver.clearErrors();
 			this.errorReceiver.addError(e.getMessage());
 		}
 	}

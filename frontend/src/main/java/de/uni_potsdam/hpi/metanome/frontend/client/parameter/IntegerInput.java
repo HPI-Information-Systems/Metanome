@@ -23,34 +23,34 @@ import java.text.ParseException;
 
 
 public class IntegerInput extends InputField {
-    protected IntegerBox textbox;
+	protected IntegerBox textbox;
 
-    /**
-     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-     */
-    public IntegerInput(boolean optional) {
-        super(optional);
+	/**
+	 * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
+	 */
+	public IntegerInput(boolean optional) {
+		super(optional);
 
-        this.textbox = new IntegerBox();
-        this.add(this.textbox);
-    }
+		this.textbox = new IntegerBox();
+		this.add(this.textbox);
+	}
 
-    /**
-     * Checks if the textbox contains only numbers and returns the number or an exception if it does not contain only numbers or -1 if the textbox is emtpy.
-     *
-     * @return the value of its text box
-     * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
-     */
-    public Integer getValue() throws InputValidationException {
-        Integer val;
-        try {
-            val = this.textbox.getValueOrThrow();
-        } catch (ParseException e) {
-            throw new InputValidationException("Only numbers are allowed!");
-        }
-        if (val == null) {
-            return -1;
-        }
-        return val;
-    }
+	/**
+	 * Checks if the textbox contains only numbers and returns the number or an exception if it does not contain only numbers or -1 if the textbox is emtpy.
+	 *
+	 * @return the value of its text box
+	 * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
+	 */
+	public Integer getValue() throws InputValidationException {
+		Integer val;
+		try {
+			val = this.textbox.getValueOrThrow();
+		} catch (ParseException e) {
+			throw new InputValidationException("Only numbers are allowed!");
+		}
+		if (val == null) {
+			throw new InputValidationException("You have to enter a number!");
+		}
+		return val;
+	}
 }

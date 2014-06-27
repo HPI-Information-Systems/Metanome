@@ -42,16 +42,17 @@ import java.util.List;
 public class BasePage extends TabLayoutPanel {
 
 	protected ResultsPage resultsPage;
+	protected TabWrapper resultPageTabWrapper;
 	protected RunConfigurationPage runConfigurationsPage;
 
 	protected FinderServiceAsync finderService;
 
-    /**
-     * Constructor. Initiates creation of subpages.
-     */
-    public BasePage() {
-        super(1, Unit.CM);
-        this.addStyleName("basePage");
+	/**
+	 * Constructor. Initiates creation of subpages.
+	 */
+	public BasePage() {
+		super(1, Unit.CM);
+		this.addStyleName("basePage");
 
 		this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 		this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
@@ -60,7 +61,8 @@ public class BasePage extends TabLayoutPanel {
 		this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 
 		this.resultsPage = new ResultsPage(this);
-		this.insert(new TabWrapper(this.resultsPage), "Results", Tabs.RESULTS.ordinal());
+		this.resultPageTabWrapper = new TabWrapper(this.resultsPage);
+		this.insert(this.resultPageTabWrapper, "Results", Tabs.RESULTS.ordinal());
 
 		this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
 	}
@@ -90,6 +92,9 @@ public class BasePage extends TabLayoutPanel {
 	public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
 											   String algorithmFileName, List<ConfigurationSpecification> parameters) {
 
+		// clear previous errors
+		this.resultPageTabWrapper.clearErrors();
+
 		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
 		TabPanel resultTabsContainer = new TabPanel();
@@ -99,6 +104,7 @@ public class BasePage extends TabLayoutPanel {
 		// Create new tab with result table
 		ScrollPanel resultsTab = new ScrollPanel();
 		ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
+		resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
 		executionService.executeAlgorithm(algorithmFileName,
 				executionIdentifier,
 				parameters,
