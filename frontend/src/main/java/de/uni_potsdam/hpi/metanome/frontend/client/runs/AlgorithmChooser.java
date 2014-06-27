@@ -153,9 +153,9 @@ public class AlgorithmChooser extends HorizontalPanel {
     }
 
     /**
-     * Add another entry, but only if it is not yet present. (Assuming algorithm's name as key)
+     * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
      * <p/>
-     * TODO docs
+     * @param algorithm	The algorithm to be added
      */
     public void addAlgorithm(Algorithm algorithm) {
     	String name = algorithm.getName();
