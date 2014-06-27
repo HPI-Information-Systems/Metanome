@@ -49,10 +49,10 @@ public class ConditionalUniqueColumnCombination implements Result {
     }
 
     /**
-     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and an array of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
      *
      * @param columnCombination a supposedly unique column combination
-     * @param columnConditions List of conditions for the CUCC
+     * @param columnConditions array of conditions for the CUCC
      */
     public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, ColumnCondition... columnConditions) {
         this();
@@ -63,10 +63,10 @@ public class ConditionalUniqueColumnCombination implements Result {
     }
 
     /**
-     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link ColumnCombination} and a list of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s.
      *
      * @param columnCombination a supposedly unique column combination
-     * @param columnConditions  List of conditions for the CUCC
+     * @param columnConditions  list of conditions for the CUCC
      */
     public ConditionalUniqueColumnCombination(ColumnCombination columnCombination, List<ColumnCondition> columnConditions) {
         this();

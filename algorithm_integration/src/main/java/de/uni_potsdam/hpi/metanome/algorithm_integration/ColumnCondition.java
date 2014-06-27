@@ -39,6 +39,8 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     }
 
     /**
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and an array of {@link java.lang.String}s.
+     *
      * @param identifier   column of the condition
      * @param columnValues where the condition is true
      */
@@ -51,6 +53,8 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     }
 
     /**
+     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and a List of {@link java.lang.String}s.
+     *
      * @param identifier   column of the condition
      * @param columnValues where the condition is true
      */
@@ -61,16 +65,6 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
             this.columnValues.add(columnValue);
         }
     }
-
-//    /**
-//     * @param identifier      column of the condition
-//     * @param columnValueList contains values where the condition is true
-//     */
-//
-//    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValueList) {
-//        this.column = identifier;
-//        this.columnValues = columnValueList;
-//    }
 
     @Override
     public boolean equals(Object o) {
@@ -91,6 +85,16 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
         result = 31 * result + columnValues.hashCode();
         return result;
     }
+
+    /**
+     * @param o other {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
+     * @return an Integer, which indicates the order of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s:
+     * < 0: this is before other
+     * = 0: this is equal to other
+     * > 0: this is after other
+     * <p/>
+     * Note that the worst case runtime is O(n) with n is the number of the strings (if both are very similiar/are equal)
+     */
 
     @Override
     public int compareTo(ColumnCondition o) {
