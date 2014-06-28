@@ -27,18 +27,18 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
     protected ConfigurationSpecificationListBox specification;
     protected List<ListBoxInput> inputWidgets;
 
-	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
-		super(config);
-	}
+    public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
+        super(config);
+    }
 
     @Override
-	protected void addInputField(boolean optional) {
-		ListBoxInput field = new ListBoxInput(optional);
-		field.setValues(this.specification.getValues());
-		this.inputWidgets.add(field);
-		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
-		this.insert(field, index);
-	}
+    protected void addInputField(boolean optional) {
+        ListBoxInput field = new ListBoxInput(optional);
+        field.setValues(this.specification.getValues());
+        this.inputWidgets.add(field);
+        int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+        this.insert(field, index);
+    }
 
     @Override
     public ConfigurationSpecificationListBox getUpdatedSpecification() {
@@ -50,9 +50,9 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
         ConfigurationSettingListBox[] values = new ConfigurationSettingListBox[this.inputWidgets.size()];
         int i = 0;
         for (ListBoxInput lbi : this.inputWidgets) {
-			values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
-			i++;
-		}
+            values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
+            i++;
+        }
         return values;
     }
 
@@ -78,8 +78,8 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
         this.specification = (ConfigurationSpecificationListBox) config;
     }
 
-	protected void setSelection(String value) {
-		for (ListBoxInput input : this.inputWidgets)
-			input.setSelectedValue(value);
-	}
+    protected void setSelection(String value) {
+        for (ListBoxInput input : this.inputWidgets)
+            input.setSelectedValue(value);
+    }
 }

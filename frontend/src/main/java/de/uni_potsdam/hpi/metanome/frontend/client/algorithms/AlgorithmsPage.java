@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -130,7 +129,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
             }
 
             public void onSuccess(List<Algorithm> result) {
-            	basePage.addAlgorithmsToRunConfigurations(result);
+                basePage.addAlgorithmsToRunConfigurations(result);
                 addAlgorithmsToList(result, list);
             }
         };

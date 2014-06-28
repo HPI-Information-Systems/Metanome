@@ -38,13 +38,13 @@ import java.util.Date;
 
 public class ResultsTablePage extends VerticalPanel implements OmniscientResultReceiver, TabContent {
 
-	protected ExecutionServiceAsync executionService;
+    protected ExecutionServiceAsync executionService;
 
-	protected Timer timer;
-	protected String executionIdentifier;
+    protected Timer timer;
+    protected String executionIdentifier;
 
-	protected HorizontalPanel resultsPanel;
-	protected TabWrapper errorReceiver;
+    protected HorizontalPanel resultsPanel;
+    protected TabWrapper errorReceiver;
 
     protected ResultTable uccTable;
     protected ResultTable cuccTable;
@@ -53,337 +53,156 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
     protected ResultTable basicsTable;
 
 
-	protected Image runningIndicator;
+    protected Image runningIndicator;
 
-	protected ProgressBar progressBar = null;
+    protected ProgressBar progressBar = null;
 
 
-	public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
-		this.executionService = executionService;
-		this.executionIdentifier = executionIdentifier;
+    public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
+        this.executionService = executionService;
+        this.executionIdentifier = executionIdentifier;
+        this.setSize("1800px", "700px");
+        this.resultsPanel = new HorizontalPanel();
+        this.add(resultsPanel);
 
-//<<<<<<< HEAD
-//        this.setSize("1800px", "700px");
-//        this.resultsPanel = new HorizontalPanel();
-//        this.add(resultsPanel);
-//
-//        indTable = new ResultTable("Inclusion Dependencies");
-//        uccTable = new ResultTable("Unique Column Combinations");
-//        cuccTable = new ResultTable("Conditional Unique Column Combinations");
-//        fdTable = new ResultTable("Functional Dependencies");
-//        basicsTable = new ResultTable("Basic Statistics");
-//
-//        runningIndicator = new Image("ajax-loader.gif");
-//        this.add(runningIndicator);
-//    }
-//
-//    public void startPolling() {
-//        this.timer = new Timer() {
-//            public void run() {
-//                fetchNewResults();
-//                updateStatus();
-//            }
-//        };
-//
-//        this.timer.scheduleRepeating(10000);
-//    }
-//
-//    public AsyncCallback<Long> getCancelCallback() {
-//        AsyncCallback<Long> callback = new AsyncCallback<Long>() {
-//            public void onFailure(Throwable caught) {
-//                cancelTimerOnFail(caught);
-//            }
-//
-//            public void onSuccess(Long executionTime) {
-//                cancelTimerOnSuccess(executionTime);
-//            }
-//        };
-//        return callback;
-//    }
-//
-//    public void cancelTimerOnSuccess(Long executionTimeNanoSecs) {
-//        this.timer.cancel();
-//        this.remove(runningIndicator);
-//        fetchNewResults();
-//        updateStatus();
-//        DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-//        Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
-//        this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0)) + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
-//    }
-//
-//    public void cancelTimerOnFail(Throwable caught) {
-//        this.timer.cancel();
-//        if (runningIndicator != null)
-//            this.remove(runningIndicator);
-//        if (progressBar != null)
-//            this.remove(progressBar);
-//        this.add(new Label("Algorithm did not execute successfully"));
-//    }
-//
-//    protected void fetchNewResults() {
-//        executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                errorReceiver.addError("Could not fetch results.");
-//            }
-//
-//            @Override
-//            public void onSuccess(ArrayList<Result> result) {
-//                displayResults(result);
-//            }
-//        });
-//    }
-//
-//    protected void updateStatus() {
-//        executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                errorReceiver.addError("Could not fetch progress.");
-//            }
-//
-//            @Override
-//            public void onSuccess(Float progress) {
-//                updateProgress(progress);
-//            }
-//        });
-//    }
-//
-//    protected void displayResults(ArrayList<Result> results) {
-//        for (Result r : results) {
-//            try {
-//                r.sendResultTo(this);
-//            } catch (CouldNotReceiveResultException e) {
-//                this.errorReceiver.addError(e.getMessage());
-//                e.printStackTrace();    //TODO remove after testing
-//            }
-//        }
-//    }
-//
-//    protected void updateProgress(Float progress) {
-//        if (progress > 0) {
-//            if (progressBar == null) {
-//                this.remove(runningIndicator);
-//                progressBar = new ProgressBar(0, 1);
-//                this.add(progressBar);
-//            }
-//            progressBar.setProgress(progress);
-//        }
-//    }
-//
-//    @Override
-//    public void receiveResult(BasicStatistic statistic) {
-//        if (this.resultsPanel.getWidgetIndex(basicsTable) < 0)
-//            this.resultsPanel.add(basicsTable);
-//
-//        int row = basicsTable.getRowCount();
-//        basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
-//        basicsTable.setText(row, 1, statistic.getStatisticName());
-//        basicsTable.setText(row, 2, statistic.getStatisticValue().toString());
-//    }
-//
-//    @Override
-//    public void receiveResult(InclusionDependency inclusionDependency) {
-//        if (this.resultsPanel.getWidgetIndex(indTable) < 0)
-//            this.resultsPanel.add(indTable);
-//
-//        int row = indTable.getRowCount();
-//        indTable.setText(row, 0, inclusionDependency.getDependant().toString());
-//        indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
-//    }
-//
-//    @Override
-//    public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-//            throws CouldNotReceiveResultException {
-//        if (this.resultsPanel.getWidgetIndex(uccTable) < 0)
-//            this.resultsPanel.add(uccTable);
-//
-//        int row = uccTable.getRowCount();
-//        int col = 0;
-//        for (ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
-//            uccTable.setText(row, col, colId.toString());
-//            col++;
-//        }
-//    }
-//
-//    @Override
-//    public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-//            throws CouldNotReceiveResultException {
-//        if (this.resultsPanel.getWidgetIndex(cuccTable) < 0)
-//            this.resultsPanel.add(cuccTable);
-//
-//        int row = cuccTable.getRowCount();
-//        cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
-//        cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-//        int col = 2;
-//        for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
-//            cuccTable.setText(row, col, condition.toString());
-//            col++;
-//        }
-//    }
-//
-//    @Override
-//    public void receiveResult(FunctionalDependency functionalDependency) {
-//        if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
-//            this.resultsPanel.add(fdTable);
-//
-//        int row = fdTable.getRowCount();
-//        fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-//        fdTable.setText(row, 1, FunctionalDependency.FD_SEPARATOR);
-//        fdTable.setText(row, 2, functionalDependency.getDependant().toString());
-//    }
-//
-//    /* (non-Javadoc)
-//     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-//     */
-//    @Override
-//    public void setErrorReceiver(TabWrapper tab) {
-//        this.errorReceiver = tab;
-//    }
-//=======
-		this.setSize("1800px", "700px");
-		this.resultsPanel = new HorizontalPanel();
-		this.add(resultsPanel);
-
-		indTable = new ResultTable("Inclusion Dependencies");
-		uccTable = new ResultTable("Unique Column Combinations");
+        indTable = new ResultTable("Inclusion Dependencies");
+        uccTable = new ResultTable("Unique Column Combinations");
         cuccTable = new ResultTable("Conditional Unique Column Combinations");
-		fdTable = new ResultTable("Functional Dependencies");
-		basicsTable = new ResultTable("Basic Statistics");
+        fdTable = new ResultTable("Functional Dependencies");
+        basicsTable = new ResultTable("Basic Statistics");
 
-		runningIndicator = new Image("ajax-loader.gif");
-		this.add(runningIndicator);
-	}
+        runningIndicator = new Image("ajax-loader.gif");
+        this.add(runningIndicator);
+    }
 
-	public void startPolling() {
-		this.timer = new Timer() {
-			public void run() {
-				fetchNewResults();
-				updateStatus();
-			}
-		};
+    public void startPolling() {
+        this.timer = new Timer() {
+            public void run() {
+                fetchNewResults();
+                updateStatus();
+            }
+        };
 
-		this.timer.scheduleRepeating(10000);
-	}
+        this.timer.scheduleRepeating(10000);
+    }
 
-	public AsyncCallback<Long> getCancelCallback() {
-		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
-			public void onFailure(Throwable caught) {
-				cancelTimerOnFail(caught);
-			}
+    public AsyncCallback<Long> getCancelCallback() {
+        AsyncCallback<Long> callback = new AsyncCallback<Long>() {
+            public void onFailure(Throwable caught) {
+                cancelTimerOnFail(caught);
+            }
 
-			public void onSuccess(Long executionTime) {
-				cancelTimerOnSuccess(executionTime);
-			}
-		};
-		return callback;
-	}
+            public void onSuccess(Long executionTime) {
+                cancelTimerOnSuccess(executionTime);
+            }
+        };
+        return callback;
+    }
 
-	public void cancelTimerOnSuccess(Long executionTimeNanoSecs) {
-		this.timer.cancel();
-		this.remove(runningIndicator);
-		fetchNewResults();
-		updateStatus();
-		DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-		Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
-		this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0)) + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
-	}
+    public void cancelTimerOnSuccess(Long executionTimeNanoSecs) {
+        this.timer.cancel();
+        this.remove(runningIndicator);
+        fetchNewResults();
+        updateStatus();
+        DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
+        Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
+        this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0)) + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
+    }
 
-	public void cancelTimerOnFail(Throwable caught) {
-		this.timer.cancel();
-		this.clear();
-		this.errorReceiver.addError("Algorithm did not execute successfully: " + caught.getMessage());
-	}
+    public void cancelTimerOnFail(Throwable caught) {
+        this.timer.cancel();
+        this.clear();
+        this.errorReceiver.addError("Algorithm did not execute successfully: " + caught.getMessage());
+    }
 
-	protected void fetchNewResults() {
-		executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
+    protected void fetchNewResults() {
+        executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				errorReceiver.addError("Could not fetch results.");
-			}
+            @Override
+            public void onFailure(Throwable caught) {
+                errorReceiver.addError("Could not fetch results.");
+            }
 
-			@Override
-			public void onSuccess(ArrayList<Result> result) {
-				displayResults(result);
-			}
-		});
-	}
+            @Override
+            public void onSuccess(ArrayList<Result> result) {
+                displayResults(result);
+            }
+        });
+    }
 
-	protected void updateStatus() {
-		executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
+    protected void updateStatus() {
+        executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				errorReceiver.addError("Could not fetch progress.");
-			}
+            @Override
+            public void onFailure(Throwable caught) {
+                errorReceiver.addError("Could not fetch progress.");
+            }
 
-			@Override
-			public void onSuccess(Float progress) {
-				updateProgress(progress);
-			}
-		});
-	}
+            @Override
+            public void onSuccess(Float progress) {
+                updateProgress(progress);
+            }
+        });
+    }
 
-	protected void displayResults(ArrayList<Result> results) {
-		for (Result r : results) {
-			try {
-				r.sendResultTo(this);
-			} catch (CouldNotReceiveResultException e) {
-				this.errorReceiver.addError(e.getMessage());
-				e.printStackTrace();    //TODO remove after testing
-			}
-		}
-	}
+    protected void displayResults(ArrayList<Result> results) {
+        for (Result r : results) {
+            try {
+                r.sendResultTo(this);
+            } catch (CouldNotReceiveResultException e) {
+                this.errorReceiver.addError(e.getMessage());
+                e.printStackTrace();    //TODO remove after testing
+            }
+        }
+    }
 
-	protected void updateProgress(Float progress) {
-		if (progress > 0) {
-			if (progressBar == null) {
-				this.remove(runningIndicator);
-				progressBar = new ProgressBar(0, 1);
-				this.add(progressBar);
-			}
-			progressBar.setProgress(progress);
-		}
-	}
+    protected void updateProgress(Float progress) {
+        if (progress > 0) {
+            if (progressBar == null) {
+                this.remove(runningIndicator);
+                progressBar = new ProgressBar(0, 1);
+                this.add(progressBar);
+            }
+            progressBar.setProgress(progress);
+        }
+    }
 
-	@Override
-	public void receiveResult(BasicStatistic statistic) {
-		if (this.resultsPanel.getWidgetIndex(basicsTable) < 0)
-			this.resultsPanel.add(basicsTable);
+    @Override
+    public void receiveResult(BasicStatistic statistic) {
+        if (this.resultsPanel.getWidgetIndex(basicsTable) < 0)
+            this.resultsPanel.add(basicsTable);
 
-		int row = basicsTable.getRowCount();
-		basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
-		basicsTable.setText(row, 1, statistic.getStatisticName());
-		basicsTable.setText(row, 2, statistic.getStatisticValue().toString());
-	}
+        int row = basicsTable.getRowCount();
+        basicsTable.setText(row, 0, statistic.getColumnCombination().toString());
+        basicsTable.setText(row, 1, statistic.getStatisticName());
+        basicsTable.setText(row, 2, statistic.getStatisticValue().toString());
+    }
 
-	@Override
-	public void receiveResult(InclusionDependency inclusionDependency) {
-		if (this.resultsPanel.getWidgetIndex(indTable) < 0)
-			this.resultsPanel.add(indTable);
+    @Override
+    public void receiveResult(InclusionDependency inclusionDependency) {
+        if (this.resultsPanel.getWidgetIndex(indTable) < 0)
+            this.resultsPanel.add(indTable);
 
-		int row = indTable.getRowCount();
-		indTable.setText(row, 0, inclusionDependency.getDependant().toString());
-		indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
-	}
+        int row = indTable.getRowCount();
+        indTable.setText(row, 0, inclusionDependency.getDependant().toString());
+        indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
+    }
 
-	@Override
-	public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-			throws CouldNotReceiveResultException {
-		if (this.resultsPanel.getWidgetIndex(uccTable) < 0)
-			this.resultsPanel.add(uccTable);
+    @Override
+    public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
+            throws CouldNotReceiveResultException {
+        if (this.resultsPanel.getWidgetIndex(uccTable) < 0)
+            this.resultsPanel.add(uccTable);
 
-		int row = uccTable.getRowCount();
-		int col = 0;
-		for (ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
-			uccTable.setText(row, col, colId.toString());
-			col++;
-		}
-	}
+        int row = uccTable.getRowCount();
+        int col = 0;
+        for (ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination().getColumnIdentifiers()) {
+            uccTable.setText(row, col, colId.toString());
+            col++;
+        }
+    }
 
-        @Override
+    @Override
     public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
             throws CouldNotReceiveResultException {
         if (this.resultsPanel.getWidgetIndex(cuccTable) < 0)
@@ -399,22 +218,22 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
         }
     }
 
-	@Override
-	public void receiveResult(FunctionalDependency functionalDependency) {
-		if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
-			this.resultsPanel.add(fdTable);
+    @Override
+    public void receiveResult(FunctionalDependency functionalDependency) {
+        if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
+            this.resultsPanel.add(fdTable);
 
-		int row = fdTable.getRowCount();
-		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(row, 1, "-->");
-		fdTable.setText(row, 2, functionalDependency.getDependant().toString());
-	}
+        int row = fdTable.getRowCount();
+        fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
+        fdTable.setText(row, 1, "-->");
+        fdTable.setText(row, 2, functionalDependency.getDependant().toString());
+    }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+    }
 }

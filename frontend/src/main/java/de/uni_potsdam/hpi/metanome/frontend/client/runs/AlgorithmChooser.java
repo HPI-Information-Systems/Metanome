@@ -78,12 +78,12 @@ public class AlgorithmChooser extends HorizontalPanel {
         this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
     }
 
-	/**
-	 * Specifies the action undertaken when a jar file is chosen.
-	 */
-	public void submit() {
-		String selectedValue = getSelectedAlgorithm();
-		this.errorReceiver.clearErrors();
+    /**
+     * Specifies the action undertaken when a jar file is chosen.
+     */
+    public void submit() {
+        String selectedValue = getSelectedAlgorithm();
+        this.errorReceiver.clearErrors();
 
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
             public void onFailure(Throwable caught) {
@@ -149,44 +149,45 @@ public class AlgorithmChooser extends HorizontalPanel {
             }
         }
 
-		throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser.");
-	}
+        throw new IndexOutOfBoundsException("The value " + algorithmName + " is not available in this jarChooser.");
+    }
 
     /**
      * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
      * <p/>
-     * @param algorithm	The algorithm to be added
+     *
+     * @param algorithm The algorithm to be added
      */
     public void addAlgorithm(Algorithm algorithm) {
-    	String name = algorithm.getName();
-    	if (name == null)
-    		name = algorithm.getFileName();
-    	
-    	if (!this.algorithms.containsKey(name)) {
-	        this.algorithms.put(name, algorithm);
-	        sortedInsert(name);
-    	}
+        String name = algorithm.getName();
+        if (name == null)
+            name = algorithm.getFileName();
+
+        if (!this.algorithms.containsKey(name)) {
+            this.algorithms.put(name, algorithm);
+            sortedInsert(name);
+        }
     }
 
     /**
-     * Inserts a new item in alphabetical ordering, that is, after before the first item that is lexicographically larger 
+     * Inserts a new item in alphabetical ordering, that is, after before the first item that is lexicographically larger
      * than the argument.
-     * 
+     *
      * @param name The value to be inserted.
      */
-	private void sortedInsert(String name) {
-		int insertIndex = 0;
-		do {
-			insertIndex++;
-			if (insertIndex >= this.listbox.getItemCount()) {
-				this.listbox.addItem(name);	
-				return;
-			}
-		} while (this.listbox.getValue(insertIndex).compareTo(name) < 0);
-		this.listbox.insertItem(name, insertIndex);
-	}
+    private void sortedInsert(String name) {
+        int insertIndex = 0;
+        do {
+            insertIndex++;
+            if (insertIndex >= this.listbox.getItemCount()) {
+                this.listbox.addItem(name);
+                return;
+            }
+        } while (this.listbox.getValue(insertIndex).compareTo(name) < 0);
+        this.listbox.insertItem(name, insertIndex);
+    }
 
-	/**
+    /**
      * Filters the list of algorithms so that only those are displayed that would accept the given data source
      *
      * @param dataSource the data source that shall be profiled / for which algorithms should be filtered
@@ -198,9 +199,9 @@ public class AlgorithmChooser extends HorizontalPanel {
 
     }
 
-	public void setErrorReceiver(TabWrapper receiver) {
-		this.errorReceiver = receiver;
-	}
+    public void setErrorReceiver(TabWrapper receiver) {
+        this.errorReceiver = receiver;
+    }
 
 
 }

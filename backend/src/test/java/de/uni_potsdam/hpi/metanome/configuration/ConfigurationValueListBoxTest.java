@@ -30,34 +30,34 @@ import static org.mockito.Mockito.verify;
 
 public class ConfigurationValueListBoxTest {
 
-	/**
-	 * Test method for {@link ConfigurationValueListBox#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
-	 * <p/>
-	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
-	 * dispatch call to determine the parameters type.
-	 *
-	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException
-	 */
-	@Test
-	public void testTriggerSetValue() throws AlgorithmConfigurationException {
-		// Setup
-		ListBoxParameterAlgorithm algorithm = mock(ListBoxParameterAlgorithm.class);
-		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(ListBoxParameterAlgorithm.class);
+    /**
+     * Test method for {@link ConfigurationValueListBox#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
+     * <p/>
+     * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
+     * dispatch call to determine the parameters type.
+     *
+     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException
+     */
+    @Test
+    public void testTriggerSetValue() throws AlgorithmConfigurationException {
+        // Setup
+        ListBoxParameterAlgorithm algorithm = mock(ListBoxParameterAlgorithm.class);
+        Set<Class<?>> interfaces = new HashSet<>();
+        interfaces.add(ListBoxParameterAlgorithm.class);
 
-		// Expected values
-		String expectedIdentifier = "configId1";
-		String[] expectedConfigurationValue = new String[1];
-		expectedConfigurationValue[0] = "column1";
-		ArrayList<String> expectedValues = new ArrayList<String>();
+        // Expected values
+        String expectedIdentifier = "configId1";
+        String[] expectedConfigurationValue = new String[1];
+        expectedConfigurationValue[0] = "column1";
+        ArrayList<String> expectedValues = new ArrayList<String>();
 
-		// Execute functionality
-		ConfigurationValueListBox configValue = new ConfigurationValueListBox(
-				new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm, interfaces);
+        // Execute functionality
+        ConfigurationValueListBox configValue = new ConfigurationValueListBox(
+                new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues).getIdentifier(), expectedConfigurationValue);
+        configValue.triggerSetValue(algorithm, interfaces);
 
-		// Check result
-		verify(algorithm).setListBoxConfigurationValue(expectedIdentifier, expectedConfigurationValue);
-	}
+        // Check result
+        verify(algorithm).setListBoxConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+    }
 
 }

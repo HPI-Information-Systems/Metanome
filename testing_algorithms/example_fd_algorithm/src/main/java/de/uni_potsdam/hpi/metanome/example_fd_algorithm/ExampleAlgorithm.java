@@ -50,23 +50,13 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
         configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSVFILE_IDENTIFIER));
         configurationSpecification.add(new ConfigurationSpecificationSqlIterator(SQL_IDENTIFIER));
 
-<<<<<<< HEAD
+
         ArrayList<String> listBoxValues = new ArrayList<>();
         listBoxValues.add("column 1");
         listBoxValues.add("column 2");
         listBoxValues.add("column 3");
-        ConfigurationSettingListBox settingListBox = new ConfigurationSettingListBox(listBoxValues);
-        ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, 1);
-        specificationListBox.setSettings(settingListBox);
+        ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
         configurationSpecification.add(specificationListBox);
-=======
-		ArrayList<String> listBoxValues = new ArrayList<>();
-		listBoxValues.add("column 1");
-		listBoxValues.add("column 2");
-		listBoxValues.add("column 3");
-		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
-		configurationSpecification.add(specificationListBox);
->>>>>>> 076a068052cc93745d43d9b76e8f707ae43ccfac
 
         return configurationSpecification;
     }
@@ -104,7 +94,6 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
         }
     }
 
-<<<<<<< HEAD
     @Override
     public void setFileInputConfigurationValue(String identifier,
                                                FileInputGenerator... values)
@@ -113,16 +102,6 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
             System.out.println("Input file is not being set on algorithm.");
         }
     }
-=======
-	@Override
-	public void setFileInputConfigurationValue(String identifier,
-											   FileInputGenerator... values)
-			throws AlgorithmConfigurationException {
-		if (identifier.equals(CSVFILE_IDENTIFIER)) {
-			System.out.println("Input file is not being set on algorithm.");
-		}
-	}
->>>>>>> 076a068052cc93745d43d9b76e8f707ae43ccfac
 
     @Override
     public void setListBoxConfigurationValue(String identifier, String... selectedValues) throws AlgorithmConfigurationException {
