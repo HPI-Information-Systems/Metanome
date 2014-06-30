@@ -21,13 +21,20 @@ import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
- * @author Jakob Zwiener
- * 
  * Stores one CSV file configuration.
+ *
+ * @author Jakob Zwiener
  */
 public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
+    public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
+    public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
+    public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+    public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
+    public final static boolean DEFAULT_IGNORELEADINGWHITESPACE = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+    public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
+    public final static boolean DEFAULT_HEADER = true;
+    public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
     private static final long serialVersionUID = -770650561337139324L;
-
     private String fileName;
     private boolean advanced;
     private char separatorChar;
@@ -38,15 +45,6 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private int skipLines;
 	private boolean header;
 	private boolean skipDifferingLines;
-	
-	public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
-	public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
-	public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
-	public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
-	public final static boolean DEFAULT_IGNORELEADINGWHITESPACE = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-	public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
-	public final static boolean DEFAULT_HEADER = true;
-	public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
 
     /**
