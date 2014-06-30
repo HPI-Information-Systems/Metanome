@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 public class ConfigurationSettingSqlIteratorTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator#ConfigurationSettingSqlIterator(String, String, String)}
+     * Test method for {@link ConfigurationSettingSqlIterator#ConfigurationSettingSqlIterator(String, String, String, DbSystem)}
      */
     @Test
     public void testConstructor() {
@@ -38,14 +38,16 @@ public class ConfigurationSettingSqlIteratorTest {
         String expectedUrl = "some url";
         String expectedUsername = "some username";
         String expectedPassword = "some password";
+        DbSystem expectedSystem = DbSystem.HANA;
 
         // Execute functionality
-        ConfigurationSettingSqlIterator actualSetting = new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword);
+        ConfigurationSettingSqlIterator actualSetting = new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword, expectedSystem);
 
         // Check result
         assertEquals(expectedUrl, actualSetting.getDbUrl());
         assertEquals(expectedUsername, actualSetting.getUsername());
         assertEquals(expectedPassword, actualSetting.getPassword());
+        assertEquals(expectedSystem, actualSetting.getSystem());
     }
 
     /**
@@ -53,6 +55,6 @@ public class ConfigurationSettingSqlIteratorTest {
      */
     @Test
     public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingSqlIterator("dbUrl", "username", "password"));
+        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingSqlIterator("dbUrl", "username", "password", DbSystem.DB2));
     }
 }

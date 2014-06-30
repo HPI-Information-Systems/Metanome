@@ -23,6 +23,8 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
     private String dbUrl;
     private String username;
     private String password;
+    private DbSystem system;
+
 
     /**
      * Exists for GWT serialization.
@@ -30,10 +32,11 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
     public ConfigurationSettingSqlIterator() {
     }
 
-    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password) {
+    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password, DbSystem system) {
         this.dbUrl = dbUrl;
         this.username = username;
         this.password = password;
+        this.system = system;
     }
 
     public String getDbUrl() {
@@ -58,6 +61,14 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public DbSystem getSystem() {
+        return system;
+    }
+
+    public void setSystem(DbSystem system) {
+        this.system = system;
     }
 
     @Override
