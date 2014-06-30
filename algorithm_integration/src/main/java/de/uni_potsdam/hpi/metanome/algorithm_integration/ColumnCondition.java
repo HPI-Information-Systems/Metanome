@@ -93,7 +93,7 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
      * equal zero: this is equal to other
      * greater than zero: this is after other
      * <p/>
-     * Note that the worst case runtime is O(n) with n is the number of the strings (if both are very similiar/are equal)
+     * Note that the worst case runtime is O(n) with n is the number of the strings (if both are very similiar or equal)
      */
 
     @Override
