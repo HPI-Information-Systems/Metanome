@@ -54,6 +54,10 @@ public class PositionListIndex {
         return calculateIntersection(otherPLI);
     }
 
+    public List<LongArrayList> calculateConditionUnique(PositionListIndex PLICondition) {
+        return null;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

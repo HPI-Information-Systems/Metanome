@@ -182,4 +182,16 @@ public class PositionListIndexTest {
         assertEquals(fixture.getExpectedSecondPLIRawKeyError(), secondPli.getRawKeyError());
         assertEquals(fixture.getExpectedIntersectedPLIRawKeyError(), firstPli.intersect(secondPli).getRawKeyError());
     }
+
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex::calculateConditionUnique}
+     */
+    @Test
+    public void testCalculateConditionUnique() {
+        //Setup
+        //Execute functionality
+        //Check result
+
+    }
 }
