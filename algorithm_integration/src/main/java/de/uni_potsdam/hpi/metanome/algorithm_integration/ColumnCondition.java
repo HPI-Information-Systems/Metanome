@@ -89,9 +89,9 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     /**
      * @param o other {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
      * @return an Integer, which indicates the order of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s:
-     * < 0: this is before other
-     * = 0: this is equal to other
-     * > 0: this is after other
+     * below than zero: this is before other
+     * equal zero: this is equal to other
+     * greater than zero: this is after other
      * <p/>
      * Note that the worst case runtime is O(n) with n is the number of the strings (if both are very similiar/are equal)
      */
