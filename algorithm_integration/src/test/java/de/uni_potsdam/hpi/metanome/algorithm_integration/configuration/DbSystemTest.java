@@ -16,27 +16,41 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+
 /**
- * Enum representing database systems usable as input.
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem}
  *
  * @author Jakob Zwiener
  */
-public enum DbSystem {
-    DB2, MySQL, PostgreSQL, HANA, Oracle;
+public class DbSystemTest {
 
     /**
+     * Test method for {@link DbSystem#names()}
+     * <p/>
      * Returns a list of string representation of all options of the enum.
      *
-     * @return string representations of all options
+     * @throws Exception
      */
-    public static String[] names() {
-        DbSystem[] systems = values();
-        String[] names = new String[systems.length];
-
-        for (int i = 0; i < systems.length; i++) {
-            names[i] = systems[i].name();
+    @Test
+    public void testNames() throws Exception {
+        // Setup
+        // Expected values
+        Set<String> expectedEnumNames = new HashSet<>();
+        for (DbSystem value : DbSystem.class.getEnumConstants()) {
+            expectedEnumNames.add(value.name());
         }
 
-        return names;
+        // Execute functionality
+        String[] actualNames = DbSystem.names();
+
+        // Check result
+        assertEquals(expectedEnumNames, new HashSet<>(Arrays.asList(actualNames)));
     }
 }
