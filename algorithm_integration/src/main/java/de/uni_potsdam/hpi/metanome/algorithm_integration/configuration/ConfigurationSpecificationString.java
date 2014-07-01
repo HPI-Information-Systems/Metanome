@@ -49,7 +49,7 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
      * @param numberOfValues the number of values expected
      */
     public ConfigurationSpecificationString(String identifier,
-                                            int numberOfValues) {
+        int numberOfValues) {
 
         super(identifier, numberOfValues);
     }
