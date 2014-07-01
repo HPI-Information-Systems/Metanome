@@ -54,6 +54,12 @@ public class PositionListIndex {
         return calculateIntersection(otherPLI);
     }
 
+    /**
+     * Calculates the condition for a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}. this is the {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} of the partial unique and PLICondition is the {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} of the columns that may form the condition.
+     *
+     * @param PLICondition a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex} that forms the condition
+     * @return a list of conditions that hold. Each condition is maximal e.g. there exists no superset for the condition. Only on of the condition holds at a time (xor).
+     */
     public List<LongArrayList> calculateConditionUnique(PositionListIndex PLICondition) {
         ConditionTask firstTask = new ConditionTask(0);
         LinkedList<ConditionTask> queue = new LinkedList<>();
