@@ -37,4 +37,7 @@ The Metanome modules are continously deployed to sonatype and can be used by add
     </repository>
 </repositories>
 ```
+##### Coding style
+The project follows the google-styleguide please make sure that all contributions adhere to the correct format. Formatting settings for common ides can be found at: http://code.google.com/p/google-styleguide/
+All files should contain the apache copyright header. The header can be found in the ```COPYRIGHT_HEADER``` file.
 
