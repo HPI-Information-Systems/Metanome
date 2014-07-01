@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -190,8 +191,17 @@ public class PositionListIndexTest {
     @Test
     public void testCalculateConditionUnique() {
         //Setup
+        PositionListIndex uniquePLI = fixture.getUniquePLIForConditionTest();
+        PositionListIndex conditionPLI = fixture.getConditionPLIForConditionTest();
+        List<LongArrayList> expectedConditions = fixture.getExpectedConditions();
         //Execute functionality
+        List<LongArrayList> actualConditions = uniquePLI.calculateConditionUnique(conditionPLI);
         //Check result
+        assertThat(actualConditions,
+                IsIterableContainingInAnyOrder.containsInAnyOrder(
+                        expectedConditions.toArray()
+                )
+        );
 
     }
 }
