@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2014 by the Metanome project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN"
+        "http://google-web-toolkit.googlecode.com/svn/tags/2.4.0/distro-source/core/src/gwt-module.dtd">
+
+<module rename-to="metanome">
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="de.uni_potsdam.hpi.metanome.Metanome_Dependencies"/>
+
+    <entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
+
+    <source path="client"/>
+
+    <servlet path="/parameterService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl"/>
+    <servlet path="/finderService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl"/>
+    <servlet path="/executionService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl"/>
+    <servlet path="/inputDataService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl"/>
+
+    <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
+    <add-linker name="xsiframe"/>
+    <set-configuration-property name="devModeRedirectEnabled" value="true"/>
+
+    <!-- Inherit the default GWT style sheet. You can change       -->
+    <!-- the theme of your GWT application by uncommenting          -->
+    <!-- any one of the following lines.                           -->
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
+    <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+    <!-- <stylesheet src="../Metanome.css"/>  -->
+    
+</module>
+
