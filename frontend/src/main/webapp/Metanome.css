@@ -33,18 +33,18 @@ h3 {
 .basePage {
     width: 97%;
     height: 90%;
-    left: 20px !important;
+    left: 20px;
 }
 
 .gwt-TabLayoutPanelContent {
-    background: white !important;
+    background: white;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
-	margin-left: 0px !important;
+	margin-left: 0px;
 	margin-right: 2px;
-	padding: 6px 8px 6px 8px !important;
-	color: gray !important;
+	padding: 6px 8px 6px 8px;
+	color: gray;
 	-webkit-border-top-left-radius:6px;
 	-moz-border-radius-topleft:6px;
 	border-top-left-radius:6px;
@@ -54,7 +54,7 @@ h3 {
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
-	color: black !important;
+	color: black;
 }
 
 
@@ -73,9 +73,6 @@ h3 {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
 	background-color:#ededed;
 	-webkit-border-top-left-radius:6px;
 	-moz-border-radius-topleft:6px;
