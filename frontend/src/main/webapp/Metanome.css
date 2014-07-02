@@ -33,7 +33,7 @@ h3 {
 .basePage {
     width: 97%;
     height: 90%;
-    left: 20px;
+    left: 10px !important;
 }
 
 .gwt-TabLayoutPanelContent {
@@ -105,4 +105,7 @@ h3 {
 .gwt-Button:active {
 	position:relative;
 	top:1px;
+}
+.gwt-Button:focus {
+	outline-width: 3px;
 }
