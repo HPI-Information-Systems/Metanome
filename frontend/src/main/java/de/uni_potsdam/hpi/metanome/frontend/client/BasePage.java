@@ -16,9 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -30,9 +37,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Overall Application page that has tabs for the various functions (subpages).
@@ -97,12 +101,8 @@ public class BasePage extends TabLayoutPanel {
 
 		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
-		TabPanel resultTabsContainer = new TabPanel();
-		resultTabsContainer.setWidth("100%");
-		resultTabsContainer.setHeight("100%");
-
 		// Create new tab with result table
-		ScrollPanel resultsTab = new ScrollPanel();
+		// ScrollPanel resultsTab = new ScrollPanel();
 		ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
 		resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
 		executionService.executeAlgorithm(algorithmFileName,
@@ -110,19 +110,18 @@ public class BasePage extends TabLayoutPanel {
 				parameters,
 				resultsTableContent.getCancelCallback());
 		resultsTableContent.startPolling();
-		resultsTab.add(resultsTableContent);
+		// resultsTab.add(resultsTableContent);
 
 		// Create new tab with visualizations of result
 		ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
 
-		// Add first tab to result tab container
-		resultTabsContainer.add(resultsTab, "Table");
-		resultTabsContainer.add(visualizationTab, "Visualization");
-		resultTabsContainer.selectTab(0);
+		// // Add first tab to result tab container
+		// resultTabsContainer.add(resultsTab, "Table");
+		// resultTabsContainer.add(visualizationTab, "Visualization");
+		// resultTabsContainer.selectTab(0);
 
 		// remove the content from the result page and set the content to the new fetched result
-		this.resultsPage.clear();
-		this.resultsPage.add(resultTabsContainer);
+		this.resultsPage.update(resultsTableContent, visualizationTab);
 		this.selectTab(Tabs.RESULTS.ordinal());
 	}
 

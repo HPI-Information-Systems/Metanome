@@ -16,8 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
@@ -27,16 +27,17 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
  * @author Claudia Exeler
  *
  */
-public class ResultsPage extends VerticalPanel implements TabContent {
+public class ResultsPage extends TabLayoutPanel implements TabContent {
 
     protected final BasePage basePage;
     protected TabWrapper errorReceiver;
 
 	public ResultsPage(BasePage parent) {
+		super(1, Unit.CM);
 		this.basePage = parent;
-		
-		this.add(new Label("Here goes a list of previous executions, with some filtering options.     "));
-		this.add(new Label("And on the right half we can have the results of the execution selected on the left."));
+
+		this.setWidth("100%");
+		this.setHeight("100%");
 	}
 
 	/* (non-Javadoc)
@@ -45,5 +46,16 @@ public class ResultsPage extends VerticalPanel implements TabContent {
 	@Override
 	public void setErrorReceiver(TabWrapper tab) {
 		this.errorReceiver = tab;
+	}
+
+	/**
+	 * @param resultsTableContent
+	 * @param visualizationTab
+	 */
+	public void update(ResultsTablePage resultsTableContent,
+			ResultsVisualizationPage visualizationTab) {
+		this.clear();
+		this.add(resultsTableContent, "Table");
+		this.add(visualizationTab, "Visualization");
 	}
 }
