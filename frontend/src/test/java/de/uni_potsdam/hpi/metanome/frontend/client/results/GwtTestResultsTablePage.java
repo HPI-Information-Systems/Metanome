@@ -16,8 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import org.junit.Test;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -27,7 +30,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import org.junit.Test;
 
 public class GwtTestResultsTablePage extends GWTTestCase {
 
@@ -117,7 +119,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 
 }
