@@ -98,7 +98,7 @@ public class BasePage extends TabLayoutPanel {
 		String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
 		TabPanel resultTabsContainer = new TabPanel();
-		resultTabsContainer.setWidth("100%");
+//		resultTabsContainer.setWidth("100%");
 		resultTabsContainer.setHeight("100%");
 
 		// Create new tab with result table

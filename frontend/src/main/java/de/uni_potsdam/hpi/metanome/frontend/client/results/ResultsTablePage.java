@@ -204,10 +204,12 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 		if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
 			this.resultsPanel.add(fdTable);
 
-		int row = fdTable.getRowCount();
-		fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-		fdTable.setText(row, 1, "-->");
-		fdTable.setText(row, 2, functionalDependency.getDependant().toString());
+		for (int i=0; i<20; i++) {
+			int row = fdTable.getRowCount();
+			fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
+			fdTable.setText(row, 1, "-->");
+			fdTable.setText(row, 2, functionalDependency.getDependant().toString());
+		}
 	}
 
 	/* (non-Javadoc)

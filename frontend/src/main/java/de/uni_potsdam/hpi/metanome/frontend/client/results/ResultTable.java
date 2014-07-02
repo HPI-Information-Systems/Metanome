@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ResultTable extends VerticalPanel {
@@ -31,7 +32,9 @@ public class ResultTable extends VerticalPanel {
 
         this.table = new FlexTable();
         this.table.setStyleName("resultTable");
-        this.add(table);
+        
+        ScrollPanel scroll = new ScrollPanel(table);
+        this.add(scroll);
 
         this.setSpacing(5);
     }
