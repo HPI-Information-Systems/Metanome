@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
@@ -24,16 +27,18 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class ResultsTablePage extends VerticalPanel implements OmniscientResultReceiver, TabContent {
 
@@ -204,12 +209,11 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 		if (this.resultsPanel.getWidgetIndex(fdTable) < 0)
 			this.resultsPanel.add(fdTable);
 
-		for (int i=0; i<20; i++) {
-			int row = fdTable.getRowCount();
-			fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
-			fdTable.setText(row, 1, "-->");
-			fdTable.setText(row, 2, functionalDependency.getDependant().toString());
-		}
+		int row = fdTable.getRowCount();
+		fdTable.setText(row, 0, functionalDependency.getDeterminant()
+				.toString());
+		fdTable.setText(row, 1, "-->");
+		fdTable.setText(row, 2, functionalDependency.getDependant().toString());
 	}
 
 	/* (non-Javadoc)
