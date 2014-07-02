@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.user.client.ui.ListBox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A wrapper for a list box of strings that can contain a remove button. If the remove button is clicked, the list box
@@ -52,11 +53,13 @@ public class ListBoxInput extends InputField {
     }
 
     /**
-     * set all values of the list to the list box
+     * Sets all values of the list of items to the list box.
+     *
+     * @param items the items of the list box
      */
-    public void setValues(ArrayList<String> list) {
-        for (String element : list)
-            this.listbox.addItem(element);
+    public void setValues(List<String> items) {
+        for (String item : items)
+            this.listbox.addItem(item);
     }
 
     /**
