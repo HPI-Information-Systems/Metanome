@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Label;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
@@ -95,7 +96,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 
 }

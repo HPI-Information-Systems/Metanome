@@ -16,16 +16,29 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.*;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
-import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextBox;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 public class GwtTestParameter extends GWTTestCase {
 
@@ -330,6 +343,6 @@ public class GwtTestParameter extends GWTTestCase {
 
 	@Override
 	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
 	}
 }
