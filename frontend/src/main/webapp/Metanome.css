@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
+body {
+	font-family: arial;
+}	
+
 .body {
     height: 100%;
     left: 0px;
     right: 0px;
     background-color: grey;
-	font-family:arial;
 }
 
 h3 {
@@ -34,6 +37,27 @@ h3 {
     width: 97%;
     height: 90%;
     left: 10px !important;
+}
+
+
+.resultTable {
+    border-collapse: collapse;
+}
+.resultTable tr:nth-child(odd) { 
+	background-color:#d0e4f6; 
+}
+.resultTable tr:nth-child(even) { 
+	background-color:#ffffff; 
+}
+.resultTable td {
+	vertical-align:middle;
+	text-align:left;
+	padding: 2px 6px 2px 6px;
+}
+
+.resultTable-caption {
+	font-weight: bold;
+	font-family: arial;
 }
 
 .gwt-TabLayoutPanelContent {
