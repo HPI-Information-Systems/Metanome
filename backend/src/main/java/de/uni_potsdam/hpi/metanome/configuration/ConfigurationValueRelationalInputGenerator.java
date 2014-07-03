@@ -30,26 +30,29 @@ import java.util.Set;
  */
 public class ConfigurationValueRelationalInputGenerator implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final RelationalInputGenerator[] values;
+  protected final String identifier;
+  protected final RelationalInputGenerator[] values;
 
-	/**
-	 * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier and the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator}values.
-	 *
-	 * @param identifier
-	 * @param values
-	 */
-	public ConfigurationValueRelationalInputGenerator(String identifier, RelationalInputGenerator... values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier
+   * and the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator}values.
+   */
+  public ConfigurationValueRelationalInputGenerator(String identifier,
+                                                    RelationalInputGenerator... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept relational input configuration values.");
-		}
-		RelationalInputParameterAlgorithm relationalInputParameterAlgorithm = (RelationalInputParameterAlgorithm) algorithm;
-		relationalInputParameterAlgorithm.setRelationalInputConfigurationValue(identifier, values);
-	}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept relational input configuration values.");
+    }
+    RelationalInputParameterAlgorithm
+        relationalInputParameterAlgorithm =
+        (RelationalInputParameterAlgorithm) algorithm;
+    relationalInputParameterAlgorithm.setRelationalInputConfigurationValue(identifier, values);
+  }
 }

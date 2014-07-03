@@ -17,12 +17,15 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.Input}
@@ -31,99 +34,100 @@ import static org.junit.Assert.*;
  */
 public class InputTest {
 
-    /**
-     * Test method for {@link Input#store(Input)} and {@link Input#retrieve(long)}
-     * <p/>
-     * Inputs should be storable and retrievable by id.
-     */
-    @Test
-    public void testPersistence() throws EntityStorageException {
-        // Setup
-        HibernateUtil.clear();
+  /**
+   * Test method for {@link Input#store(Input)} and {@link Input#retrieve(long)} <p/> Inputs should
+   * be storable and retrievable by id.
+   */
+  @Test
+  public void testPersistence() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
 
-        // Expected values
-        Input expectedInput = new Input();
+    // Expected values
+    Input expectedInput = new Input();
 
-        // Execute functionality
-        Input.store(expectedInput);
-        long id = expectedInput.getId();
-        Input actualInput = Input.retrieve(id);
+    // Execute functionality
+    Input.store(expectedInput);
+    long id = expectedInput.getId();
+    Input actualInput = Input.retrieve(id);
 
-        // Check result
-        assertEquals(expectedInput, actualInput);
+    // Check result
+    assertEquals(expectedInput, actualInput);
 
-        // Cleanup
-        HibernateUtil.clear();
-    }
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Every time an input is saved a new id should be generated.
-     */
-    @Test
-    public void testIdGenerator() throws EntityStorageException {
-        // Setup
-        HibernateUtil.clear();
+  /**
+   * Every time an input is saved a new id should be generated.
+   */
+  @Test
+  public void testIdGenerator() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
 
-        Input input = new Input();
+    Input input = new Input();
 
-        // Execute functionality
-        // Check result
-        long oldId = input.getId();
-        Input.store(input);
-        assertNotEquals(oldId, input.getId());
-        oldId = input.getId();
-        Input.store(input);
-        assertNotEquals(oldId, input.getId());
+    // Execute functionality
+    // Check result
+    long oldId = input.getId();
+    Input.store(input);
+    assertNotEquals(oldId, input.getId());
+    oldId = input.getId();
+    Input.store(input);
+    assertNotEquals(oldId, input.getId());
 
-        // Cleanup
-        HibernateUtil.clear();
-    }
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Input#retrieveAll()}
-     */
-    @Test
-    public void testRetrieveAll() throws EntityStorageException {
-        // Setup
-        HibernateUtil.clear();
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Input#retrieveAll()}
+   */
+  @Test
+  public void testRetrieveAll() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
 
-        // Expected values
-        Input expectedInput = new Input();
-        Input.store(expectedInput);
+    // Expected values
+    Input expectedInput = new Input();
+    Input.store(expectedInput);
 
-        FileInput expectedFileInput = new FileInput();
-        FileInput.store(expectedFileInput);
+    FileInput expectedFileInput = new FileInput();
+    FileInput.store(expectedFileInput);
 
-        TableInput expectedTableInput = new TableInput();
-        TableInput.store(expectedTableInput);
+    TableInput expectedTableInput = new TableInput();
+    TableInput.store(expectedTableInput);
 
-        // Execute functionality
-        List<Input> actualInputs = Input.retrieveAll();
+    // Execute functionality
+    List<Input> actualInputs = Input.retrieveAll();
 
-        // Check result
-        assertThat(actualInputs, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedInput, expectedFileInput, expectedTableInput));
+    // Check result
+    assertThat(actualInputs, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedInput, expectedFileInput, expectedTableInput));
 
-        // Cleanup
-        HibernateUtil.clear();
-    }
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Test method for {@link Input#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.results_db.Input#hashCode()}
-     */
-    @Test
-    public void testEqualsAndHashCode() {
-        // Setup
-        // Expected values
-        int id = 42;
-        Input input = new Input();
-        input.setId(id);
-        Input equalInput = new Input();
-        equalInput.setId(id);
-        Input notEqualInput = new Input();
-        notEqualInput.setId(23);
+  /**
+   * Test method for {@link Input#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.results_db.Input#hashCode()}
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+    // Setup
+    // Expected values
+    int id = 42;
+    Input input = new Input();
+    input.setId(id);
+    Input equalInput = new Input();
+    equalInput.setId(id);
+    Input notEqualInput = new Input();
+    notEqualInput.setId(23);
 
-        // Execute functionality
-        // Check result
-        new EqualsAndHashCodeTester<Input>().performBasicEqualsAndHashCodeChecks(input, equalInput, notEqualInput);
-    }
+    // Execute functionality
+    // Check result
+    new EqualsAndHashCodeTester<Input>()
+        .performBasicEqualsAndHashCodeChecks(input, equalInput, notEqualInput);
+  }
 }

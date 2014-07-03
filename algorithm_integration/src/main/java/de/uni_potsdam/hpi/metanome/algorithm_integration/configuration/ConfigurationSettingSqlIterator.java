@@ -18,50 +18,51 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 
 public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSource {
-    private static final long serialVersionUID = 3242593091096735218L;
 
-    private String dbUrl;
-    private String username;
-    private String password;
+  private static final long serialVersionUID = 3242593091096735218L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSettingSqlIterator() {
-    }
+  private String dbUrl;
+  private String username;
+  private String password;
 
-    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password) {
-        this.dbUrl = dbUrl;
-        this.username = username;
-        this.password = password;
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSettingSqlIterator() {
+  }
 
-    public String getDbUrl() {
-        return dbUrl;
-    }
+  public ConfigurationSettingSqlIterator(String dbUrl, String username, String password) {
+    this.dbUrl = dbUrl;
+    this.username = username;
+    this.password = password;
+  }
 
-    public void setDbUrl(String dbUrl) {
-        this.dbUrl = dbUrl;
-    }
+  public String getDbUrl() {
+    return dbUrl;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public void setDbUrl(String dbUrl) {
+    this.dbUrl = dbUrl;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    @Override
-    public String getValueAsString() {
-        return this.dbUrl + ";" + this.username + ";" + this.password;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  @Override
+  public String getValueAsString() {
+    return this.dbUrl + ";" + this.username + ";" + this.password;
+  }
 }

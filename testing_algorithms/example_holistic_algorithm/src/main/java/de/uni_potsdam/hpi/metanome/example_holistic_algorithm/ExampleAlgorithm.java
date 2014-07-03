@@ -33,59 +33,62 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, UniqueColumnCombinationsAlgorithm, StringParameterAlgorithm {
+public class ExampleAlgorithm
+    implements FunctionalDependencyAlgorithm, UniqueColumnCombinationsAlgorithm,
+               StringParameterAlgorithm {
 
-	protected String path = null;
-	protected FunctionalDependencyResultReceiver fdResultReceiver;
-	protected UniqueColumnCombinationResultReceiver uccResultReceiver;
+  protected String path = null;
+  protected FunctionalDependencyResultReceiver fdResultReceiver;
+  protected UniqueColumnCombinationResultReceiver uccResultReceiver;
 
-	@Override
-	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+  @Override
+  public List<ConfigurationSpecification> getConfigurationRequirements() {
+    List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
 
-		configurationSpecification.add(new ConfigurationSpecificationString(
-				"pathToOutputFile"));
+    configurationSpecification.add(new ConfigurationSpecificationString(
+        "pathToOutputFile"));
 
-		return configurationSpecification;
-	}
+    return configurationSpecification;
+  }
 
-	@Override
-	public void execute() throws CouldNotReceiveResultException {
-		if (path != null) {
-			fdResultReceiver.receiveResult(
-					new FunctionalDependency(
-							new ColumnCombination(
-									new ColumnIdentifier("table1", "column1"),
-									new ColumnIdentifier("table1", "column2")),
-							new ColumnIdentifier("table1", "column5")
-					)
-			);
-			uccResultReceiver.receiveResult(new UniqueColumnCombination(
-					new ColumnIdentifier("table1", "column5"),
-					new ColumnIdentifier("table1", "column6")));
-		}
-	}
+  @Override
+  public void execute() throws CouldNotReceiveResultException {
+    if (path != null) {
+      fdResultReceiver.receiveResult(
+          new FunctionalDependency(
+              new ColumnCombination(
+                  new ColumnIdentifier("table1", "column1"),
+                  new ColumnIdentifier("table1", "column2")),
+              new ColumnIdentifier("table1", "column5")
+          )
+      );
+      uccResultReceiver.receiveResult(new UniqueColumnCombination(
+          new ColumnIdentifier("table1", "column5"),
+          new ColumnIdentifier("table1", "column6")));
+    }
+  }
 
-	@Override
-	public void setResultReceiver(
-			FunctionalDependencyResultReceiver resultReceiver) {
-		this.fdResultReceiver = resultReceiver;
-	}
+  @Override
+  public void setResultReceiver(
+      FunctionalDependencyResultReceiver resultReceiver) {
+    this.fdResultReceiver = resultReceiver;
+  }
 
-	@Override
-	public void setResultReceiver(
-			UniqueColumnCombinationResultReceiver resultReceiver) {
-		this.uccResultReceiver = resultReceiver;
+  @Override
+  public void setResultReceiver(
+      UniqueColumnCombinationResultReceiver resultReceiver) {
+    this.uccResultReceiver = resultReceiver;
 
-	}
+  }
 
-	@Override
-	public void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException {
-		if ((identifier.equals("pathToOutputFile")) && (values.length == 1)) {
-			path = values[0];
-		} else {
-			throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
-		}
-	}
+  @Override
+  public void setStringConfigurationValue(String identifier, String... values)
+      throws AlgorithmConfigurationException {
+    if ((identifier.equals("pathToOutputFile")) && (values.length == 1)) {
+      path = values[0];
+    } else {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+    }
+  }
 
 }

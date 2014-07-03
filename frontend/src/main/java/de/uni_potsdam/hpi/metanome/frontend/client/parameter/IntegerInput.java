@@ -17,40 +17,43 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.user.client.ui.IntegerBox;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 import java.text.ParseException;
 
 
 public class IntegerInput extends InputField {
-	protected IntegerBox textbox;
 
-	/**
-	 * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-	 */
-	public IntegerInput(boolean optional) {
-		super(optional);
+  protected IntegerBox textbox;
 
-		this.textbox = new IntegerBox();
-		this.add(this.textbox);
-	}
+  /**
+   * @param optional If true, a remove button will be rendered, to remove this widget from its
+   *                 parent.
+   */
+  public IntegerInput(boolean optional) {
+    super(optional);
 
-	/**
-	 * Checks if the textbox contains only numbers and returns the number or an exception if it does not contain only numbers or -1 if the textbox is emtpy.
-	 *
-	 * @return the value of its text box
-	 * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
-	 */
-	public Integer getValue() throws InputValidationException {
-		Integer val;
-		try {
-			val = this.textbox.getValueOrThrow();
-		} catch (ParseException e) {
-			throw new InputValidationException("Only numbers are allowed!");
-		}
-		if (val == null) {
-			throw new InputValidationException("You have to enter a number!");
-		}
-		return val;
-	}
+    this.textbox = new IntegerBox();
+    this.add(this.textbox);
+  }
+
+  /**
+   * Checks if the textbox contains only numbers and returns the number or an exception if it does
+   * not contain only numbers or -1 if the textbox is emtpy.
+   *
+   * @return the value of its text box
+   */
+  public Integer getValue() throws InputValidationException {
+    Integer val;
+    try {
+      val = this.textbox.getValueOrThrow();
+    } catch (ParseException e) {
+      throw new InputValidationException("Only numbers are allowed!");
+    }
+    if (val == null) {
+      throw new InputValidationException("You have to enter a number!");
+    }
+    return val;
+  }
 }

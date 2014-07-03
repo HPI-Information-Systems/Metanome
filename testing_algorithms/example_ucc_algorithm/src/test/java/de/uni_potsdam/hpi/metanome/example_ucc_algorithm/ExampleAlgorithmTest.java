@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,84 +44,81 @@ import static org.mockito.Mockito.verify;
  */
 public class ExampleAlgorithmTest {
 
-	protected ExampleAlgorithm algorithm;
-	protected String pathIdentifier;
+  protected ExampleAlgorithm algorithm;
+  protected String pathIdentifier;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		algorithm = new ExampleAlgorithm();
-		pathIdentifier = "pathToInputFile";
-	}
+  /**
+   * @throws java.lang.Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+    algorithm = new ExampleAlgorithm();
+    pathIdentifier = "pathToInputFile";
+  }
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
+  /**
+   * @throws java.lang.Exception
+   */
+  @After
+  public void tearDown() throws Exception {
 
-	}
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
-	 * <p/>
-	 * The algorithm should return one configuration specification of string type
-	 */
-	@Test
-	public void testGetConfigurationRequirements() {
-		// Execute functionality
-		List<ConfigurationSpecification> actualConfigurationRequirements = this.algorithm.getConfigurationRequirements();
+  /**
+   * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()} <p/> The algorithm
+   * should return one configuration specification of string type
+   */
+  @Test
+  public void testGetConfigurationRequirements() {
+    // Execute functionality
+    List<ConfigurationSpecification>
+        actualConfigurationRequirements =
+        this.algorithm.getConfigurationRequirements();
 
-		// Check result
-		assertEquals(2, actualConfigurationRequirements.size());
-		assertThat(actualConfigurationRequirements.get(0), instanceOf(ConfigurationSpecificationString.class));
-	}
+    // Check result
+    assertEquals(2, actualConfigurationRequirements.size());
+    assertThat(actualConfigurationRequirements.get(0),
+               instanceOf(ConfigurationSpecificationString.class));
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)}
-	 * <p/>
-	 * The algorithm should store the path when it is supplied through setConfigurationValue.
-	 *
-	 * @throws AlgorithmConfigurationException
-	 */
-	@Test
-	public void testSetConfigurationValue() throws AlgorithmConfigurationException {
-		// Setup
-		// Expected values
-		String[] expectedConfigurationValues = {"test1", "test2"};
+  /**
+   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)} <p/>
+   * The algorithm should store the path when it is supplied through setConfigurationValue.
+   */
+  @Test
+  public void testSetConfigurationValue() throws AlgorithmConfigurationException {
+    // Setup
+    // Expected values
+    String[] expectedConfigurationValues = {"test1", "test2"};
 
-		// Execute functionality
-		this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValues);
+    // Execute functionality
+    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValues);
 
-		// Check result
-		assertEquals(expectedConfigurationValues[0], this.algorithm.path1);
-		assertEquals(expectedConfigurationValues[1], this.algorithm.path2);
-	}
+    // Check result
+    assertEquals(expectedConfigurationValues[0], this.algorithm.path1);
+    assertEquals(expectedConfigurationValues[1], this.algorithm.path2);
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#execute()}
-	 * <p/>
-	 * When the algorithm is started after configuration a result should be received.
-	 *
-	 * @throws AlgorithmConfigurationException
-	 * @throws CouldNotReceiveResultException
-	 */
-	@Test
-	public void testExecute() throws AlgorithmConfigurationException, CouldNotReceiveResultException {
-		// Setup
-		UniqueColumnCombinationResultReceiver resultReceiver = mock(UniqueColumnCombinationResultReceiver.class);
-		ProgressReceiver progressCache = mock(ProgressReceiver.class);
-		String[] configurationValues = {"something1", "something2"};
-		this.algorithm.setStringConfigurationValue(pathIdentifier, configurationValues);
+  /**
+   * Test method for {@link ExampleAlgorithm#execute()} <p/> When the algorithm is started after
+   * configuration a result should be received.
+   */
+  @Test
+  public void testExecute() throws AlgorithmConfigurationException, CouldNotReceiveResultException {
+    // Setup
+    UniqueColumnCombinationResultReceiver
+        resultReceiver =
+        mock(UniqueColumnCombinationResultReceiver.class);
+    ProgressReceiver progressCache = mock(ProgressReceiver.class);
+    String[] configurationValues = {"something1", "something2"};
+    this.algorithm.setStringConfigurationValue(pathIdentifier, configurationValues);
 
-		// Execute functionality
-		this.algorithm.setResultReceiver(resultReceiver);
-		this.algorithm.setProgressReceiver(progressCache);
-		this.algorithm.execute();
+    // Execute functionality
+    this.algorithm.setResultReceiver(resultReceiver);
+    this.algorithm.setProgressReceiver(progressCache);
+    this.algorithm.execute();
 
-		// Check result
-		verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
-	}
+    // Check result
+    verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+  }
 }

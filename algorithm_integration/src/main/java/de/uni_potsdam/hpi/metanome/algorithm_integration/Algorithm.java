@@ -21,24 +21,26 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import java.util.List;
 
 /**
- * An algorithm should supply the configuration requirements, should initiate double dispatch with incoming
- * configurations and receive the different configuration types.
- * Subclassing of this class will not lead to a functioning algorithm, as only more concrete algorithms can be started.
+ * An algorithm should supply the configuration requirements, should initiate double dispatch with
+ * incoming configurations and receive the different configuration types. Subclassing of this class
+ * will not lead to a functioning algorithm, as only more concrete algorithms can be started.
  */
 public interface Algorithm {
 
-    /**
-     * Algorithms should supply a list of needed configuration parameters.
-     *
-     * @return a list of ConfigurationSpecifications
-     */
-    List<ConfigurationSpecification> getConfigurationRequirements();
+  /**
+   * Algorithms should supply a list of needed configuration parameters.
+   *
+   * @return a list of ConfigurationSpecifications
+   */
+  List<ConfigurationSpecification> getConfigurationRequirements();
 
-    /**
-     * Starts the execution of the algorithm.
-     *
-     * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException if the algorithm's execution fails
-     */
-    void execute() throws AlgorithmExecutionException;
+  /**
+   * Starts the execution of the algorithm.
+   *
+   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException if the algorithm's
+   *                                                                                       execution
+   *                                                                                       fails
+   */
+  void execute() throws AlgorithmExecutionException;
 
 }

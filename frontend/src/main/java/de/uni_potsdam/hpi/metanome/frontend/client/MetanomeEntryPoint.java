@@ -23,16 +23,16 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class MetanomeEntryPoint implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
+  @Override
+  public void onModuleLoad() {
 //        MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
-    	System.out.println(GWT.getModuleBaseURL());
-        RootPanel.get().setHeight("100%");
-        LayoutPanel bodyPanel = new LayoutPanel();
+    System.out.println(GWT.getModuleBaseURL());
+    RootPanel.get().setHeight("100%");
+    LayoutPanel bodyPanel = new LayoutPanel();
 //        bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
-        bodyPanel.addStyleName("body");
-        RootPanel.get().add(bodyPanel);
-        bodyPanel.add(new BasePage());
-    }
+    bodyPanel.addStyleName("body");
+    RootPanel.get().add(bodyPanel);
+    bodyPanel.add(new BasePage());
+  }
 
 }

@@ -23,30 +23,33 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
- * Creates a file for testing. The file content is stored upon construction and every call to {@link de.uni_potsdam.hpi.metanome.input.csv.FileFixture#getTestData(String)} writes and returns a file with the content to the given path.
+ * Creates a file for testing. The file content is stored upon construction and every call to {@link
+ * de.uni_potsdam.hpi.metanome.input.csv.FileFixture#getTestData(String)} writes and returns a file
+ * with the content to the given path.
  *
  * @author Jakob Zwiener
  */
 public class FileFixture {
 
-    protected String fileData;
+  protected String fileData;
 
-    public FileFixture(String fileData) {
-        this.fileData = fileData;
-    }
+  public FileFixture(String fileData) {
+    this.fileData = fileData;
+  }
 
-    public File getTestData(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
-        String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        filePath += fileName;
-        File file = new File(URLDecoder.decode(filePath, "utf-8"));
-        // Mark files for deletion once vm exits.
-        file.deleteOnExit();
+  public File getTestData(String fileName)
+      throws FileNotFoundException, UnsupportedEncodingException {
+    String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    filePath += fileName;
+    File file = new File(URLDecoder.decode(filePath, "utf-8"));
+    // Mark files for deletion once vm exits.
+    file.deleteOnExit();
 
-        PrintWriter writer = new PrintWriter(file);
+    PrintWriter writer = new PrintWriter(file);
 
-        writer.print(fileData);
-        writer.close();
+    writer.print(fileData);
+    writer.close();
 
-        return file;
-    }
+    return file;
+  }
 }

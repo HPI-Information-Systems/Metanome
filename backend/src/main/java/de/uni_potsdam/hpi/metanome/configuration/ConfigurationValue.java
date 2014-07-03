@@ -22,19 +22,19 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import java.util.Set;
 
 /**
- * Represents configuration values for {@link Algorithm}s. Sets it's own value on an {@link Algorithm}
- * through double dispatch (second call).
+ * Represents configuration values for {@link Algorithm}s. Sets it's own value on an {@link
+ * Algorithm} through double dispatch (second call).
  */
 public interface ConfigurationValue {
 
-    /**
-     * Sets the configuration value on the algorithm.
-     * The type of the configuration value is resolved in the implementations.
-     *
-     * @param algorithm           the algorithm to set the value on
-     * @param algorithmInterfaces the interfaces the algorithm implements
-     * @throws AlgorithmConfigurationException
-     */
-    void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException;
+  /**
+   * Sets the configuration value on the algorithm. The type of the configuration value is resolved
+   * in the implementations.
+   *
+   * @param algorithm           the algorithm to set the value on
+   * @param algorithmInterfaces the interfaces the algorithm implements
+   */
+  void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException;
 
 }

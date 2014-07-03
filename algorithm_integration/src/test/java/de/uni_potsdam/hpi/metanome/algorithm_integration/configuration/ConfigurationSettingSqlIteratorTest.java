@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,31 +29,36 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConfigurationSettingSqlIteratorTest {
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator#ConfigurationSettingSqlIterator(String, String, String)}
-     */
-    @Test
-    public void testConstructor() {
-        // Setup
-        // Expected values
-        String expectedUrl = "some url";
-        String expectedUsername = "some username";
-        String expectedPassword = "some password";
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator#ConfigurationSettingSqlIterator(String,
+   * String, String)}
+   */
+  @Test
+  public void testConstructor() {
+    // Setup
+    // Expected values
+    String expectedUrl = "some url";
+    String expectedUsername = "some username";
+    String expectedPassword = "some password";
 
-        // Execute functionality
-        ConfigurationSettingSqlIterator actualSetting = new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword);
+    // Execute functionality
+    ConfigurationSettingSqlIterator
+        actualSetting =
+        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword);
 
-        // Check result
-        assertEquals(expectedUrl, actualSetting.getDbUrl());
-        assertEquals(expectedUsername, actualSetting.getUsername());
-        assertEquals(expectedPassword, actualSetting.getPassword());
-    }
+    // Check result
+    assertEquals(expectedUrl, actualSetting.getDbUrl());
+    assertEquals(expectedUsername, actualSetting.getUsername());
+    assertEquals(expectedPassword, actualSetting.getPassword());
+  }
 
-    /**
-     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator} are serializable in GWT.
-     */
-    @Test
-    public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingSqlIterator("dbUrl", "username", "password"));
-    }
+  /**
+   * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator}
+   * are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(
+        new ConfigurationSettingSqlIterator("dbUrl", "username", "password"));
+  }
 }

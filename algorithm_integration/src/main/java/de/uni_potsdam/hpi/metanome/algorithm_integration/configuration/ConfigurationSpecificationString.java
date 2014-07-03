@@ -23,44 +23,45 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationString extends ConfigurationSpecification {
-    private static final long serialVersionUID = 7041289462720572215L;
 
-    private ConfigurationSettingString[] settings;
+  private static final long serialVersionUID = 7041289462720572215L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSpecificationString() {
-    }
+  private ConfigurationSettingString[] settings;
 
-    /**
-     * Construct a ConfigurationSepcificationString, requesting 1 value.
-     *
-     * @param identifier the specification's identifier
-     */
-    public ConfigurationSpecificationString(String identifier) {
-        super(identifier);
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationString() {
+  }
 
-    /**
-     * Constructs a {@link ConfigurationSpecificationString}, potentially requesting several values.
-     *
-     * @param identifier     the specification's identifier
-     * @param numberOfValues the number of values expected
-     */
-    public ConfigurationSpecificationString(String identifier,
-                                            int numberOfValues) {
+  /**
+   * Construct a ConfigurationSepcificationString, requesting 1 value.
+   *
+   * @param identifier the specification's identifier
+   */
+  public ConfigurationSpecificationString(String identifier) {
+    super(identifier);
+  }
 
-        super(identifier, numberOfValues);
-    }
+  /**
+   * Constructs a {@link ConfigurationSpecificationString}, potentially requesting several values.
+   *
+   * @param identifier     the specification's identifier
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationString(String identifier,
+                                          int numberOfValues) {
 
-    public void setValues(ConfigurationSettingString... configurationSettings) {
-        this.settings = configurationSettings;
-    }
+    super(identifier, numberOfValues);
+  }
 
-    @Override
-    public ConfigurationSettingString[] getSettings() {
-        return this.settings;
-    }
+  public void setValues(ConfigurationSettingString... configurationSettings) {
+    this.settings = configurationSettings;
+  }
+
+  @Override
+  public ConfigurationSettingString[] getSettings() {
+    return this.settings;
+  }
 
 }
