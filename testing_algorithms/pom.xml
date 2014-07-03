@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -40,6 +41,7 @@
         <module>example_fd_algorithm</module>
         <module>example_ind_algorithm</module>
         <module>example_ucc_algorithm</module>
+        <module>example_cucc_algorithm</module>
         <module>example_holistic_algorithm</module>
         <module>example_wrong_bootstrap_algorithm</module>
         <module>example_indirect_interfaces_algorithm</module>
