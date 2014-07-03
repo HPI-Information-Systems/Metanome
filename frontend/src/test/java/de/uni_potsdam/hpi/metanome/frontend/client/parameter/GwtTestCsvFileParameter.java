@@ -16,11 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
+
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -29,10 +35,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GwtTestCsvFileParameter extends GWTTestCase {
     private String aFileName = "inputA.csv";
@@ -262,6 +264,6 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 }
