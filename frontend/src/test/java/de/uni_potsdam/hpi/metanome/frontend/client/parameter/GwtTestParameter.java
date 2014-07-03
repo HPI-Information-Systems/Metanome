@@ -16,16 +16,29 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.*;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
-import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextBox;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 public class GwtTestParameter extends GWTTestCase {
 
@@ -38,14 +51,12 @@ public class GwtTestParameter extends GWTTestCase {
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 
 		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("Filename");
 		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("Omit warnings");
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("inputData");
 		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("NumberOfTables");
-		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
-		ConfigurationSpecificationListBox.setSettings(setting);
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox", values);
 
 		paramList.add(ConfigurationSpecificationString);
 		paramList.add(ConfigurationSpecificationBoolean);
@@ -93,15 +104,13 @@ public class GwtTestParameter extends GWTTestCase {
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 
 		ConfigurationSpecificationString ConfigurationSpecificationString = new ConfigurationSpecificationString("string");
 		ConfigurationSpecificationBoolean ConfigurationSpecificationBoolean = new ConfigurationSpecificationBoolean("bool");
 		ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
 		ConfigurationSpecificationSqlIterator ConfigurationSpecificationSQLIterator = new ConfigurationSpecificationSqlIterator("sql");
 		ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("integer");
-		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
-		ConfigurationSpecificationListBox.setSettings(setting);
+		ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox", values);
 
 		paramList.add(ConfigurationSpecificationString);
 		paramList.add(ConfigurationSpecificationBoolean);
@@ -112,7 +121,7 @@ public class GwtTestParameter extends GWTTestCase {
 
 		ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 		chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
-
+		enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
 
 		//Execute
 		List<ConfigurationSpecification> retrievedParams = pt.getConfigurationSpecificationsWithValues();
@@ -144,14 +153,22 @@ public class GwtTestParameter extends GWTTestCase {
 		}
 	}
 
+	/**
+	 * @param widget
+	 */
+	private void enterNumber(InputParameterIntegerWidget widget) {
+		for (IntegerInput integerInput : widget.inputWidgets) {
+			integerInput.textbox.setValue(7);
+		}
+	}
+
 	@Test
-	public void testConfigurationSpecificationWidgetCreation() throws InputValidationException, AlgorithmConfigurationException {
+	public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
 		//Setup
 		ArrayList<String> values = new ArrayList<>();
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 
 		String identifierString = "stringParam";
 		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString);
@@ -164,8 +181,7 @@ public class GwtTestParameter extends GWTTestCase {
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
 		String identifierListbox = "listboxParam";
-		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox);
-		listboxParam.setSettings(setting);
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, values);
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -202,7 +218,6 @@ public class GwtTestParameter extends GWTTestCase {
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
 
 		String identifierString = "stringParam";
 		ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString, 2);
@@ -215,8 +230,7 @@ public class GwtTestParameter extends GWTTestCase {
 		String identifierSql = "sqlParam";
 		ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql, 2);
 		String identifierListbox = "listboxParam";
-		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, 2);
-		listboxParam.setSettings(new ConfigurationSettingListBox[]{setting, setting});
+		ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, values, 2);
 
 		//Execute
 		InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -292,7 +306,7 @@ public class GwtTestParameter extends GWTTestCase {
 		assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
 		assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
 		assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
-		assertEquals(line, csvSpec.getLine());
+		assertEquals(line, csvSpec.getSkipLines());
 		assertEquals(boolTrue, csvSpec.isStrictQuotes());
 		assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
 	}
@@ -329,6 +343,6 @@ public class GwtTestParameter extends GWTTestCase {
 
 	@Override
 	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
 	}
 }

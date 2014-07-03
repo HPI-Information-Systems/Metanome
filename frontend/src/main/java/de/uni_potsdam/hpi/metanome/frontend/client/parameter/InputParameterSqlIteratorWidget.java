@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
@@ -32,18 +31,12 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
 	private ConfigurationSpecificationSqlIterator specification;
 	private List<SqlIteratorInput> inputWidgets;
 
-	public InputParameterSqlIteratorWidget(
-			ConfigurationSpecificationSqlIterator config) throws AlgorithmConfigurationException {
+	public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config) {
 		super(config);
 	}
 
 	@Override
 	protected void addInputField(boolean optional) {
-		this.addInputField(optional, 0);
-	}
-
-	@Override
-	protected void addInputField(boolean optional, int specificationIndex) {
 		SqlIteratorInput widget = new SqlIteratorInput(optional);
 		this.inputWidgets.add(widget);
 		this.add(widget);

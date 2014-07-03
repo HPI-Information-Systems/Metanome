@@ -19,12 +19,12 @@ package de.uni_potsdam.hpi.metanome.example_fd_algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
@@ -32,7 +32,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, RelationalInputParameterAlgorithm, ListBoxParameterAlgorithm {
+public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm, ListBoxParameterAlgorithm {
 
 	public final static String LISTBOX_IDENTIFIER = "column names";
 	public final static String STRING_IDENTIFIER = "pathToOutputFile";
@@ -54,9 +54,7 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 		listBoxValues.add("column 1");
 		listBoxValues.add("column 2");
 		listBoxValues.add("column 3");
-		ConfigurationSettingListBox settingListBox = new ConfigurationSettingListBox(listBoxValues);
-		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, 1);
-		specificationListBox.setSettings(settingListBox);
+		ConfigurationSpecificationListBox specificationListBox = new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
 		configurationSpecification.add(specificationListBox);
 
 		return configurationSpecification;
@@ -96,8 +94,8 @@ public class ExampleAlgorithm implements FunctionalDependencyAlgorithm, StringPa
 	}
 
 	@Override
-	public void setRelationalInputConfigurationValue(String identifier,
-													 RelationalInputGenerator... values)
+	public void setFileInputConfigurationValue(String identifier,
+											   FileInputGenerator... values)
 			throws AlgorithmConfigurationException {
 		if (identifier.equals(CSVFILE_IDENTIFIER)) {
 			System.out.println("Input file is not being set on algorithm.");

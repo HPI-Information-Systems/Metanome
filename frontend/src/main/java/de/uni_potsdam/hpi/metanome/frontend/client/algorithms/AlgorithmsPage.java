@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -28,6 +29,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
@@ -114,15 +116,15 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
             }
 
             public void onSuccess(List<Algorithm> result) {
+            	basePage.addAlgorithmsToRunConfigurations(result);
                 addAlgorithmsToList(result, list);
-
-                basePage.addAlgorithmsToRunConfigurations(result);
             }
         };
     }
 
     protected void addAlgorithmsToList(List<Algorithm> algorithms, FlexTable list) {
         int row = list.getRowCount();
+        Collections.sort(algorithms);
         for (Algorithm algorithm : algorithms) {
             //Using the HTML title to associate an algorithm with each button.
             Button runButton = new Button("Run");
@@ -135,8 +137,8 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
             });
 
             list.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
-            list.setText(row, 1, "Author: "+ algorithm.getAuthor());
-            list.setText(row, 2, "File: "+algorithm.getFileName());
+            list.setText(row, 1, "Author: " + algorithm.getAuthor());
+            list.setText(row, 2, "File: " + algorithm.getFileName());
             list.setWidget(row, 3, runButton);
             row++;
         }
@@ -146,11 +148,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         basePage.jumpToRunConfiguration(algorithmName, null);
     }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-	}
+    /* (non-Javadoc)
+     * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+     */
+    @Override
+    public void setErrorReceiver(TabWrapper tab) {
+        this.errorReceiver = tab;
+    }
 }

@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
@@ -29,18 +28,12 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
 	protected List<BooleanInput> inputWidgets;
 
 
-	public InputParameterBooleanWidget(ConfigurationSpecificationBoolean specification) throws AlgorithmConfigurationException {
+	public InputParameterBooleanWidget(ConfigurationSpecificationBoolean specification) {
 		super(specification);
-
 	}
 
 	@Override
 	protected void addInputField(boolean optional) {
-		this.addInputField(optional, 0);
-	}
-
-	@Override
-	protected void addInputField(boolean optional, int specificationIndex) {
 		BooleanInput field = new BooleanInput(optional);
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);

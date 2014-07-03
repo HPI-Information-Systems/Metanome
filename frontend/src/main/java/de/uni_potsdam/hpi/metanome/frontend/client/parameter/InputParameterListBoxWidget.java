@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
@@ -25,72 +24,62 @@ import java.util.List;
 
 public class InputParameterListBoxWidget extends InputParameterWidget {
 
-	protected ConfigurationSpecificationListBox specification;
-	protected List<ListBoxInput> inputWidgets;
+    protected ConfigurationSpecificationListBox specification;
+    protected List<ListBoxInput> inputWidgets;
 
-	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) throws AlgorithmConfigurationException {
+	public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
 		super(config);
 	}
 
-	@Override
-	protected void addInputField(boolean optional) throws AlgorithmConfigurationException {
-		this.addInputField(optional, 0);
-	}
-
-	@Override
-	protected void addInputField(boolean optional, int specificationIndex) throws AlgorithmConfigurationException {
+    @Override
+	protected void addInputField(boolean optional) {
 		ListBoxInput field = new ListBoxInput(optional);
-
-		try {
-			ConfigurationSettingListBox setting = this.specification.getSettings()[specificationIndex];
-			field.setValues(setting.values);
-			if (setting.selectedValue != null) {
-				field.setSelectedValue(setting.selectedValue);
-			}
-		} catch (NullPointerException e) {
-			throw new AlgorithmConfigurationException("No values for list box set!");
-		}
-
+		field.setValues(this.specification.getValues());
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
 		this.insert(field, index);
 	}
 
-	@Override
-	public ConfigurationSpecificationListBox getUpdatedSpecification() {
-		this.specification.setSettings(this.getConfigurationSettings());
-		return this.specification;
-	}
+    @Override
+    public ConfigurationSpecificationListBox getUpdatedSpecification() {
+        this.specification.setSettings(this.getConfigurationSettings());
+        return this.specification;
+    }
 
-	protected ConfigurationSettingListBox[] getConfigurationSettings() {
-		ConfigurationSettingListBox[] values = new ConfigurationSettingListBox[this.inputWidgets.size()];
-		int i = 0;
-		for (ListBoxInput lbi : this.inputWidgets) {
-			values[i] = new ConfigurationSettingListBox(lbi.getValues(), lbi.getSelectedValue());
+    protected ConfigurationSettingListBox[] getConfigurationSettings() {
+        ConfigurationSettingListBox[] values = new ConfigurationSettingListBox[this.inputWidgets.size()];
+        int i = 0;
+        for (ListBoxInput lbi : this.inputWidgets) {
+			values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
 			i++;
 		}
-		return values;
-	}
+        return values;
+    }
 
 
-	@Override
-	public List<? extends InputField> getInputWidgets() {
-		return this.inputWidgets;
-	}
+    @Override
+    public List<? extends InputField> getInputWidgets() {
+        return this.inputWidgets;
+    }
 
-	@Override
-	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-		this.inputWidgets = (List<ListBoxInput>) inputWidgetsList;
-	}
+    @Override
+    public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
+        this.inputWidgets = (List<ListBoxInput>) inputWidgetsList;
+    }
 
 
-	@Override
-	public ConfigurationSpecification getSpecification() {
-		return this.specification;
-	}
+    @Override
+    public ConfigurationSpecification getSpecification() {
+        return this.specification;
+    }
 
-	@Override
-	public void setSpecification(ConfigurationSpecification config) {
-		this.specification = (ConfigurationSpecificationListBox) config;
+    @Override
+    public void setSpecification(ConfigurationSpecification config) {
+        this.specification = (ConfigurationSpecificationListBox) config;
+    }
+
+	protected void setSelection(String value) {
+		for (ListBoxInput input : this.inputWidgets)
+			input.setSelectedValue(value);
 	}
 }

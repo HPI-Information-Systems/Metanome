@@ -16,28 +16,27 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import java.util.ArrayList;
+
 import org.junit.Test;
 
-import java.util.ArrayList;
+import com.google.gwt.junit.client.GWTTestCase;
+
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 
 public class GwtTestListBoxParameter extends GWTTestCase {
 
 	@Test
 	public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
 		//Setup
-		int noOfValues = 3;
 		ArrayList<String> values = new ArrayList<>();
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
-		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
-		specification.setSettings(new ConfigurationSettingListBox[]{setting, setting, setting});
+		int noOfValues = 3;
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
 		//Execute
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
@@ -51,14 +50,12 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 	@Test
 	public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
 		//Setup
-		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
 		ArrayList<String> values = new ArrayList<>();
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
-		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", noOfValues);
-		specification.setSettings(setting);
+		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
 		//Execute
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
@@ -76,10 +73,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
-		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
+
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", values,
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		specification.setSettings(setting);
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
@@ -99,10 +95,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 		values.add("Column 1");
 		values.add("Column 3");
 		values.add("Column 2");
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(values);
-		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum",
+		ConfigurationSpecificationListBox specification = new ConfigurationSpecificationListBox("enum", values,
 				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		specification.setSettings(setting);
+
 		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
 		int previousCount = widget.getWidgetCount();
 		int listCount = widget.inputWidgets.size();
@@ -123,29 +118,24 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 		values.add("Column 3");
 		values.add("Column 2");
 		String expectedSelectedValue = "Column 3";
-		ConfigurationSettingListBox expectedSetting = new ConfigurationSettingListBox(values, expectedSelectedValue);
-		ConfigurationSpecificationListBox expectedSpecification = new ConfigurationSpecificationListBox("enum",
-				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		expectedSpecification.setSettings(expectedSetting);
-		InputParameterListBoxWidget widget = null;
-		try {
-			widget = new InputParameterListBoxWidget(expectedSpecification);
-		} catch (AlgorithmConfigurationException e) {
-			fail();
-		}
+
+		ConfigurationSpecificationListBox expectedSpecification = new ConfigurationSpecificationListBox("enum", values, ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+
+		InputParameterListBoxWidget widget = new InputParameterListBoxWidget(expectedSpecification);
+		widget.setSelection(expectedSelectedValue);
 
 		//Execute
-		ConfigurationSettingListBox[] specification = widget.getUpdatedSpecification().getSettings();
+		ConfigurationSpecificationListBox specification = widget.getUpdatedSpecification();
 
 		//Check
-		assertEquals(expectedSpecification.getSettings().length, specification.length);
-		assertEquals(values.size(), specification[0].values.size());
-		assertEquals(expectedSelectedValue, specification[0].selectedValue);
-		assertEquals(values, specification[0].values);
+		assertEquals(expectedSpecification.getSettings().length, specification.getSettings().length);
+		assertEquals(values.size(), specification.getValues().size());
+		assertEquals(expectedSelectedValue, specification.getSettings()[0].selectedValue);
+		assertEquals(values, specification.getValues());
 	}
 
 	@Override
 	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
 	}
 }

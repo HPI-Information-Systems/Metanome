@@ -20,7 +20,7 @@
 
 <module rename-to="metanome">
     <inherits name="com.google.gwt.user.User"/>
-    <inherits name="com.google.gwt.resources.Resources" />
+    <inherits name="com.google.gwt.resources.Resources"/>
     <inherits name="de.uni_potsdam.hpi.metanome.Metanome_Dependencies"/>
 
     <entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
@@ -46,5 +46,7 @@
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
     <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+    <stylesheet src="../Metanome.css"/>
+    
 </module>
 

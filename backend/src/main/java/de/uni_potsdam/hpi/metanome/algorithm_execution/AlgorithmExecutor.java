@@ -39,45 +39,45 @@ import java.util.*;
 
 public class AlgorithmExecutor implements Closeable {
 
-    protected CloseableOmniscientResultReceiver resultReceiver;
-    protected ProgressCache progressCache;
+	protected CloseableOmniscientResultReceiver resultReceiver;
+	protected ProgressCache progressCache;
 
-    protected FileGenerator fileGenerator;
+	protected FileGenerator fileGenerator;
 
-    /**
-     * Constructs a new executor with new result receivers and generators.
-     *
-     * @param resultReceiver receives all of the algorithms results
-     * @param fileGenerator  generates temp files
-     */
-    public AlgorithmExecutor(
-            CloseableOmniscientResultReceiver resultReceiver,
-            ProgressCache progressCache,
-            FileGenerator fileGenerator) {
-        this.resultReceiver = resultReceiver;
-        this.progressCache = progressCache;
+	/**
+	 * Constructs a new executor with new result receivers and generators.
+	 *
+	 * @param resultReceiver receives all of the algorithms results
+	 * @param fileGenerator  generates temp files
+	 */
+	public AlgorithmExecutor(
+			CloseableOmniscientResultReceiver resultReceiver,
+			ProgressCache progressCache,
+			FileGenerator fileGenerator) {
+		this.resultReceiver = resultReceiver;
+		this.progressCache = progressCache;
 
-        this.fileGenerator = fileGenerator;
-    }
+		this.fileGenerator = fileGenerator;
+	}
 
-    /**
-     * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s and all receivers and generators are set before execution. The elapsed time while executing the algorithm in nano seconds is returned as long.
-     *
-     * @param algorithmFileName the algorithm's file name
-     * @param parameters        list of configuration specifications
-     * @return elapsed time in ns
-     * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
-     * @throws AlgorithmConfigurationException
-     * @throws AlgorithmExecutionException
-     */
-    public long executeAlgorithm(String algorithmFileName,
-                                 List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
+	/**
+	 * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s and all receivers and generators are set before execution. The elapsed time while executing the algorithm in nano seconds is returned as long.
+	 *
+	 * @param algorithmFileName the algorithm's file name
+	 * @param parameters        list of configuration specifications
+	 * @return elapsed time in ns
+	 * @throws de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException
+	 * @throws AlgorithmConfigurationException
+	 * @throws AlgorithmExecutionException
+	 */
+	public long executeAlgorithm(String algorithmFileName,
+								 List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException, AlgorithmExecutionException {
 
-        List<ConfigurationValue> parameterValues = new LinkedList<>();
+		List<ConfigurationValue> parameterValues = new LinkedList<>();
 
-        for (ConfigurationSpecification specification : parameters) {
-            parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
-        }
+		for (ConfigurationSpecification specification : parameters) {
+			parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
+		}
 
 
         try {
@@ -123,43 +123,43 @@ public class AlgorithmExecutor implements Closeable {
         AlgorithmJarLoader loader = new AlgorithmJarLoader();
         Algorithm algorithm;
 
-        algorithm = loader.loadAlgorithm(algorithmFileName);
+		algorithm = loader.loadAlgorithm(algorithmFileName);
 
-        Set<Class<?>> interfaces = getInterfaces(algorithm);
+		Set<Class<?>> interfaces = getInterfaces(algorithm);
 
         for (ConfigurationValue configValue : parameters) {
             configValue.triggerSetValue(algorithm, interfaces);
         }
 
-        if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-            FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
-            fdAlgorithm.setResultReceiver(resultReceiver);
-        }
+		if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+			FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
+			fdAlgorithm.setResultReceiver(resultReceiver);
+		}
 
-        if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-            InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
-            indAlgorithm.setResultReceiver(resultReceiver);
-        }
+		if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+			InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
+			indAlgorithm.setResultReceiver(resultReceiver);
+		}
 
-        if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-            UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
-            uccAlgorithm.setResultReceiver(resultReceiver);
-        }
+		if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+			UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
+			uccAlgorithm.setResultReceiver(resultReceiver);
+		}
 
-        if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
-            BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
-            basicStatAlgorithm.setResultReceiver(resultReceiver);
-        }
+		if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
+			BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
+			basicStatAlgorithm.setResultReceiver(resultReceiver);
+		}
 
-        if (interfaces.contains(TempFileAlgorithm.class)) {
-            TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
-            tempFileAlgorithm.setTempFileGenerator(fileGenerator);
-        }
+		if (interfaces.contains(TempFileAlgorithm.class)) {
+			TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
+			tempFileAlgorithm.setTempFileGenerator(fileGenerator);
+		}
 
-        if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
-            ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
-            progressEstimatingAlgorithm.setProgressReceiver(progressCache);
-        }
+		if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
+			ProgressEstimatingAlgorithm progressEstimatingAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
+			progressEstimatingAlgorithm.setProgressReceiver(progressCache);
+		}
 
         long beforeWallClockTime = new Date().getTime();
         long before = System.nanoTime();
@@ -174,12 +174,12 @@ public class AlgorithmExecutor implements Closeable {
         return elapsedNanos;
     }
 
-    protected Set<Class<?>> getInterfaces(Object object) {
-        return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
-    }
+	protected Set<Class<?>> getInterfaces(Object object) {
+		return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
+	}
 
-    @Override
-    public void close() throws IOException {
-        resultReceiver.close();
-    }
+	@Override
+	public void close() throws IOException {
+		resultReceiver.close();
+	}
 }

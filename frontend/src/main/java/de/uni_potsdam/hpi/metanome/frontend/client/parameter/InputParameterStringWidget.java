@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
@@ -28,17 +27,13 @@ public class InputParameterStringWidget extends InputParameterWidget {
 	protected ConfigurationSpecificationString specification;
 	protected List<StringInput> inputWidgets;
 
-	public InputParameterStringWidget(ConfigurationSpecificationString config) throws AlgorithmConfigurationException {
+	public InputParameterStringWidget(ConfigurationSpecificationString config) {
 		super(config);
 	}
 
 	@Override
 	protected void addInputField(boolean optional) {
-		this.addInputField(optional, 0);
-	}
 
-	@Override
-	protected void addInputField(boolean optional, int specificationIndex) {
 		StringInput field = new StringInput(optional);
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);

@@ -16,85 +16,87 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import org.junit.Test;
+
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import org.junit.Test;
 
 public class GwtTestBooleanParameter extends GWTTestCase {
 
-	@Test
-	public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
-		//Setup
-		int noOfValues = 3;
-		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", noOfValues);
+    @Test
+    public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
+        //Setup
+        int noOfValues = 3;
+        ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", noOfValues);
 
-		//Execute
-		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
+        //Execute
+        InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
 
-		//Check
-		assertEquals(noOfValues, widget.inputWidgets.size());
-		assertEquals(noOfValues, widget.getWidgetCount());
-		assertFalse(widget.inputWidgets.get(0).isOptional);
-	}
+        //Check
+        assertEquals(noOfValues, widget.inputWidgets.size());
+        assertEquals(noOfValues, widget.getWidgetCount());
+        assertFalse(widget.inputWidgets.get(0).isOptional);
+    }
 
-	@Test
-	public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
-		//Setup
-		int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", noOfValues);
+    @Test
+    public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
+        //Setup
+        int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
+        ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool", noOfValues);
 
-		//Execute
-		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
+        //Execute
+        InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
 
-		//Check
-		assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
-		assertEquals(widget.getWidgetCount(), 2);            //default input field + add button
-		assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
-	}
+        //Check
+        assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
+        assertEquals(widget.getWidgetCount(), 2);            //default input field + add button
+        assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
+    }
 
-	@Test
-	public void testAddInput() throws AlgorithmConfigurationException {
-		//Setup
-		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
-				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
-		int previousCount = widget.getWidgetCount();
-		int listCount = widget.inputWidgets.size();
+    @Test
+    public void testAddInput() throws AlgorithmConfigurationException {
+        //Setup
+        ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
+                ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+        InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
+        int previousCount = widget.getWidgetCount();
+        int listCount = widget.inputWidgets.size();
 
-		//Execute
-		widget.addInputField(true);
+        //Execute
+        widget.addInputField(true);
 
-		//Check
-		assertEquals(previousCount + 1, widget.getWidgetCount());
-		assertEquals(listCount + 1, widget.inputWidgets.size());
-	}
+        //Check
+        assertEquals(previousCount + 1, widget.getWidgetCount());
+        assertEquals(listCount + 1, widget.inputWidgets.size());
+    }
 
-	@Test
-	public void testRemoveInput() throws AlgorithmConfigurationException {
-		//Setup
-		ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
-				ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-		InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
-		int previousCount = widget.getWidgetCount();
-		int listCount = widget.inputWidgets.size();
+    @Test
+    public void testRemoveInput() throws AlgorithmConfigurationException {
+        //Setup
+        ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
+                ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+        InputParameterBooleanWidget widget = new InputParameterBooleanWidget(specification);
+        int previousCount = widget.getWidgetCount();
+        int listCount = widget.inputWidgets.size();
 
-		//Execute
-		widget.inputWidgets.get(0).removeSelf();
+        //Execute
+        widget.inputWidgets.get(0).removeSelf();
 
-		//Check
-		assertEquals(previousCount - 1, widget.getWidgetCount());
-		assertEquals(listCount - 1, widget.inputWidgets.size());
-	}
+        //Check
+        assertEquals(previousCount - 1, widget.getWidgetCount());
+        assertEquals(listCount - 1, widget.inputWidgets.size());
+    }
 
-	@Test
-	public void testRetrieveValues() {
-		//TODO
-	}
+    @Test
+    public void testRetrieveValues() {
+        //TODO
+    }
 
-	@Override
-	public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
-	}
+    @Override
+    public String getModuleName() {
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    }
 }

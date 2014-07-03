@@ -18,8 +18,6 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -28,25 +26,18 @@ import static org.junit.Assert.assertEquals;
 public class ConfigurationSettingListBoxTest {
 
 	/**
-	 * Test method for {@link ConfigurationSettingListBox#ConfigurationSettingListBox(java.util.ArrayList)}
+	 * Test method for {@link ConfigurationSettingListBox#ConfigurationSettingListBox(java.lang.String)}
 	 */
 	@Test
 	public void testConstructor() {
 		// Setup
 		// Expected values
-		ArrayList<String> expectedValues = new ArrayList<>();
-		expectedValues.add("first");
-		expectedValues.add("second");
-		expectedValues.add("third");
 		String expectedSelectedValue = "second";
 
 		// Execute functionality
-		ConfigurationSettingListBox setting1 = new ConfigurationSettingListBox(expectedValues);
-		ConfigurationSettingListBox setting2 = new ConfigurationSettingListBox(expectedValues, expectedSelectedValue);
+		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(expectedSelectedValue);
 
 		// Check result
-		assertEquals(expectedValues, setting1.values);
-		assertEquals(expectedValues, setting2.values);
-		assertEquals(expectedSelectedValue, setting2.selectedValue);
+		assertEquals(expectedSelectedValue, setting.selectedValue);
 	}
 }

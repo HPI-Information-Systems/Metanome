@@ -16,16 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser}
@@ -35,7 +36,7 @@ import java.util.List;
 public class GwtTestAlgorithmChooser extends GWTTestCase {
 
     /**
-     * TODO docs
+     * Test that one can add an algorithm after the JarChooser's initial construction
      */
     public void testAddAlgorithm() {
         // Setup
@@ -54,10 +55,17 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         // Check result
         assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm1, jarChooser.algorithms.get(expectedAlgorithm1.getName())));
         assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm2, jarChooser.algorithms.get(expectedAlgorithm2.getName())));
+    
+        // Execute duplicate insert
+        int previousCount = jarChooser.getListItemCount();
+        jarChooser.addAlgorithm(expectedAlgorithm1);
+    
+        // Check that the algorithm was not added again
+        assertEquals(previousCount, jarChooser.getListItemCount());
     }
 
     /**
-     * TODO docs
+     * Ensure that when an algorithm is chosen and submitted, the method adding a ParameterTable is called.
      */
     public void testSubmit() {
         // Setup
@@ -88,7 +96,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     }
 
     /**
-     * TODO docs
+     * Ensure that all algorithms in the list given at construction are displayed
      */
     public void testConstructor() {
         //Setup
@@ -103,9 +111,39 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         assertEquals(2, jarChooser.getWidgetCount());
         assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
     }
+    
+    /**
+     * Test that the algorithms are listed in alphabetical order of their names
+     */
+    public void testOrdering() {
+    	// Setup
+        LinkedList<Algorithm> algorithms = new LinkedList<>();
+        Algorithm algo1 = new Algorithm("");
+        algo1.setName("C");
+        algorithms.add(algo1);
+        Algorithm algo2 = new Algorithm("");
+        algo2.setName("B");
+        algorithms.add(algo2);
+        Algorithm algo3 = new Algorithm("");
+        algo3.setName("A");
+        
+        
+        // Create dropdown
+        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+        
+        // Check
+        assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
+        
+        // Add another algorithm
+        jarChooser.addAlgorithm(algo3);
+        
+        // Check
+        assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
+        assertTrue(jarChooser.listbox.getItemText(2).compareTo(jarChooser.listbox.getItemText(3)) < 0);
+    }
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 }

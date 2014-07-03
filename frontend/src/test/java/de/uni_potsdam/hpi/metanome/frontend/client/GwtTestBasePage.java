@@ -16,6 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -186,7 +191,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 
 }

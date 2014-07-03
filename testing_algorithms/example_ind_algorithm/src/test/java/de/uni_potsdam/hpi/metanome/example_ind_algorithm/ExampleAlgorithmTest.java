@@ -4,7 +4,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import org.junit.After;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 public class ExampleAlgorithmTest {
 
 	protected ExampleAlgorithm algorithm;
-	protected String relationalInputsIdentifier = "input file";
+	protected String fileInputIdentifier = "input file";
 	
 	/**
 	 * @throws java.lang.Exception
@@ -61,7 +61,7 @@ public class ExampleAlgorithmTest {
 	}
 
 	/**
-	 * Test method for {@link ExampleAlgorithm#setConfigurationValue(String, String...)}
+	 * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...) @link ExampleAlorithm#setIntegerConfigurationValue(String, Integer...)}
 	 * Test method for {@link ExampleAlgorithm#setIntegerConfigurationValue(String, int...)}
 	 * <p/>
 	 * The algorithm should store the path when it is supplied through setConfigurationValue.
@@ -108,7 +108,7 @@ public class ExampleAlgorithmTest {
 				.thenReturn(tempFile);
 		this.algorithm.setStringConfigurationValue(ExampleAlgorithm.STRING_IDENTIFIER, "something");
 		this.algorithm.setIntegerConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, 7);
-		this.algorithm.setRelationalInputConfigurationValue(relationalInputsIdentifier, mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class));
+		this.algorithm.setFileInputConfigurationValue(fileInputIdentifier, mock(FileInputGenerator.class));
 
 		// Execute functionality
 		this.algorithm.setResultReceiver(resultReceiver);

@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -24,12 +25,13 @@ public class MetanomeEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-    	MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
-    	
+//        MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
+    	System.out.println(GWT.getModuleBaseURL());
         RootPanel.get().setHeight("100%");
         LayoutPanel bodyPanel = new LayoutPanel();
-        bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
-		RootPanel.get().add(bodyPanel);
+//        bodyPanel.addStyleName(MetanomeResources.INSTANCE.metanomeStyle().body());
+        bodyPanel.addStyleName("body");
+        RootPanel.get().add(bodyPanel);
         bodyPanel.add(new BasePage());
     }
 

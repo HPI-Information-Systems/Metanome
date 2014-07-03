@@ -16,17 +16,25 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.*;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Tests RPC calls to server

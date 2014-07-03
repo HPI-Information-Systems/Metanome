@@ -49,7 +49,7 @@ public class IntegerInput extends InputField {
 			throw new InputValidationException("Only numbers are allowed!");
 		}
 		if (val == null) {
-			return -1;
+			throw new InputValidationException("You have to enter a number!");
 		}
 		return val;
 	}

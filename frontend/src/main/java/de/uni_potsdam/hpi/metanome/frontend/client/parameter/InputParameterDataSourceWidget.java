@@ -23,8 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 
 public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
 
-	public InputParameterDataSourceWidget(
-			ConfigurationSpecification config) throws AlgorithmConfigurationException {
+	public InputParameterDataSourceWidget(ConfigurationSpecification config) {
 		super(config);
 	}
 
