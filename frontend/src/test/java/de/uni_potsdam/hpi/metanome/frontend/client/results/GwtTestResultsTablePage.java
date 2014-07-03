@@ -18,15 +18,19 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+
 import org.junit.Test;
 
 public class GwtTestResultsTablePage extends GWTTestCase {
@@ -70,7 +74,28 @@ public class GwtTestResultsTablePage extends GWTTestCase {
         assertEquals(1, resultsTab.uccTable.getRowCount());
     }
 
-    /**
+  /**
+   * Test for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage:receiveResult(ConditionalUniqueColumnCombination)}
+   *
+   * After a result is received, the table should show it.
+   */
+  @Test
+  public void testReceiveResultConditionalUniqueColumnCombinations()
+      throws CouldNotReceiveResultException {
+    // Setup
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
+    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+
+    // Execute functionality
+    // Check result
+    assertEquals(0, resultsTab.cuccTable.getRowCount());
+    resultsTab.receiveResult(new ConditionalUniqueColumnCombination(
+        new ColumnCombination(new ColumnIdentifier("table1", "column1")),
+        new ColumnCondition(new ColumnIdentifier("table1", "column2"), "condition1")));
+    assertEquals(1, resultsTab.cuccTable.getRowCount());
+  }
+
+  /**
      * Test method for {@link ResultsTablePage#receiveResult(InclusionDependency)}
      * <p/>
      * After receiving a {@link InclusionDependency} the appropriate results table should be updated.
