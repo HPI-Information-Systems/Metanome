@@ -122,4 +122,9 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
         }
         return 0;
     }
+
+  @Override
+  public String toString() {
+    return this.column.toString() + ": " + this.columnValues.toString();
+  }
 }

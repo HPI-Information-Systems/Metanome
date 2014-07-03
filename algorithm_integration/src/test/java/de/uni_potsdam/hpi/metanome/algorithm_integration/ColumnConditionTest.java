@@ -21,7 +21,9 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
@@ -82,4 +84,18 @@ public class ColumnConditionTest {
         assertNotSame(columnCondition1, columnConditionNotEq2);
         assertNotEquals(columnCondition1, columnConditionNotEq2);
     }
+
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition::toString()}
+   */
+  @Test
+  public void testToString() {
+    //Setup
+    ColumnCondition actualColumnCondition = new ColumnCondition(
+        new ColumnIdentifier("hello", "world"),
+        "foo");
+    //check result
+    assertEquals("hello.world: [foo]", actualColumnCondition.toString());
+  }
 }

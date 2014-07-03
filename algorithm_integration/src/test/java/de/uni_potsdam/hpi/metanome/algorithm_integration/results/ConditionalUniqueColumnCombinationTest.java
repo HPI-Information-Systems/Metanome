@@ -25,6 +25,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,8 +33,11 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
@@ -87,18 +91,26 @@ public class ConditionalUniqueColumnCombinationTest {
         ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
         ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
         List<ColumnCondition> conditionList = new LinkedList<>();
-        ColumnCondition mockColumnCondition1 = mock(ColumnCondition.class);
-        ColumnCondition mockColumnCondition2 = mock(ColumnCondition.class);
-        conditionList.add(mockColumnCondition1);
-        conditionList.add(mockColumnCondition2);
-        String expectedStringCondition1 = "condition1";
-        String expectedStringCondition2 = "condition2";
-        when(mockColumnCondition1.toString()).thenReturn(expectedStringCondition1);
-        when(mockColumnCondition2.toString()).thenReturn(expectedStringCondition2);
+//        ColumnCondition mockColumnCondition1 = mock(ColumnCondition.class);
+//        ColumnCondition mockColumnCondition2 = mock(ColumnCondition.class);
+//        conditionList.add(mockColumnCondition1);
+//        conditionList.add(mockColumnCondition2);
+//        String expectedStringCondition1 = "condition1";
+//        String expectedStringCondition2 = "condition2";
+//        when(mockColumnCondition1.toString()).thenReturn(expectedStringCondition1);
+//        when(mockColumnCondition2.toString()).thenReturn(expectedStringCondition2);
+      conditionList.add(new ColumnCondition(new ColumnIdentifier("table1", "column1"), "condition1",
+                                            "condition2"));
+      conditionList
+          .add(new ColumnCondition(new ColumnIdentifier("table1", "column2"), "condition3"));
 
         ConditionalUniqueColumnCombination actualConditionalColumnCombination = new ConditionalUniqueColumnCombination(new ColumnCombination(expectedColumn1, expectedColumn2), conditionList.toArray(new ColumnCondition[conditionList.size()]));
         // Expected values
-        String expectedStringRepresentation = new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "[" + expectedStringCondition1 + ", " + expectedStringCondition2 + "]";
+      String
+          expectedStringRepresentation =
+          new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "["
+          + "table1.column1: [condition1, condition2]" + ", " + "table1.column2: [condition3]"
+          + "]";
 
         // Execute functionality
         // Check result
