@@ -36,7 +36,6 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
 		super(1, Unit.CM);
 		this.basePage = parent;
 
-		this.setWidth("100%");
 		this.setHeight("100%");
 	}
 
@@ -46,6 +45,7 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
 	@Override
 	public void setErrorReceiver(TabWrapper tab) {
 		this.errorReceiver = tab;
+		tab.addStyleName("fullSize");
 	}
 
 	/**

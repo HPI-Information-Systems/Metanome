@@ -64,7 +64,7 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
 		this.executionService = executionService;
 		this.executionIdentifier = executionIdentifier;
 
-		this.setSize("1800px", "700px");
+		this.setHeight("500px");
 		this.resultsPanel = new HorizontalPanel();
 		this.add(resultsPanel);
 
