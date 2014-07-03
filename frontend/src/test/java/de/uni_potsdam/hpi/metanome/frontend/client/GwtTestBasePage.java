@@ -16,10 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -33,10 +39,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -190,7 +192,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 
 }

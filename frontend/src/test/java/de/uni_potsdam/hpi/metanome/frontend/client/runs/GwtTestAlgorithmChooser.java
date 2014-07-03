@@ -16,16 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser}
@@ -143,6 +144,6 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 }

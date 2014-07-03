@@ -25,11 +25,13 @@ public class ResultTable extends VerticalPanel {
     private FlexTable table;
 
     public ResultTable(String title) {
-        this.add(new Label(title));
+        Label label = new Label(title);
+        label.setStyleName("resultTable-caption");
+		this.add(label);
 
         this.table = new FlexTable();
-        this.table.setBorderWidth(1);
-        this.add(table);
+        this.table.setStyleName("resultTable");
+		this.add(this.table);
 
         this.setSpacing(5);
     }
