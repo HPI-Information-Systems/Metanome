@@ -66,10 +66,9 @@ h3 {
 	height: 100%;
 }
 
-.gwt-TabLayoutPanelContentContainer div {
+.gwt-TabLayoutPanel div {
 	overflow-x: hidden;
 	overflow-y: scroll !important;	
-	background: white;
 }
 .gwt-TabLayoutPanelContent {
     background: white;
