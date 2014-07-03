@@ -26,11 +26,11 @@ import java.io.File;
  */
 public interface FileGenerator extends Closeable {
 
-    /**
-     * Returns a temporary file that will be deleted on close.
-     *
-     * @return temporary file
-     * @throws FileCreationException if the file cannot be created
-     */
-    File getTemporaryFile() throws FileCreationException;
+  /**
+   * Returns a temporary file that will be deleted on close.
+   *
+   * @return temporary file
+   * @throws FileCreationException if the file cannot be created
+   */
+  File getTemporaryFile() throws FileCreationException;
 }

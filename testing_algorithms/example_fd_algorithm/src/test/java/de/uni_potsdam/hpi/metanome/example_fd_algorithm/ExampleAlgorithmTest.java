@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,86 +43,83 @@ import static org.mockito.Mockito.verify;
  */
 public class ExampleAlgorithmTest {
 
-	protected ExampleAlgorithm algorithm;
-	protected String pathIdentifier;
-	protected String columnIdentifier;
+  protected ExampleAlgorithm algorithm;
+  protected String pathIdentifier;
+  protected String columnIdentifier;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		algorithm = new ExampleAlgorithm();
-		pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
-		columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
-	}
+  /**
+   * @throws java.lang.Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+    algorithm = new ExampleAlgorithm();
+    pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
+    columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
+  }
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
+  /**
+   * @throws java.lang.Exception
+   */
+  @After
+  public void tearDown() throws Exception {
 
-	}
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
-	 * <p/>
-	 * The algorithm should return one configuration specification of string type
-	 */
-	@Test
-	public void testGetConfigurationRequirements() {
-		// Execute functionality
-		List<ConfigurationSpecification> actualConfigurationRequirements = this.algorithm.getConfigurationRequirements();
+  /**
+   * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()} <p/> The algorithm
+   * should return one configuration specification of string type
+   */
+  @Test
+  public void testGetConfigurationRequirements() {
+    // Execute functionality
+    List<ConfigurationSpecification>
+        actualConfigurationRequirements =
+        this.algorithm.getConfigurationRequirements();
 
-		// Check result
-		assertEquals(4, actualConfigurationRequirements.size());
-		assertThat(actualConfigurationRequirements.get(0), instanceOf(ConfigurationSpecificationString.class));
-	}
+    // Check result
+    assertEquals(4, actualConfigurationRequirements.size());
+    assertThat(actualConfigurationRequirements.get(0),
+               instanceOf(ConfigurationSpecificationString.class));
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)
-	 * <p/>
-	 * The algorithm should store the path when it is supplied through setConfigurationValue.
-	 *
-	 * @throws AlgorithmConfigurationException
-	 */
-	@Test
-	public void testSetConfigurationValue() throws AlgorithmConfigurationException {
-		// Setup
-		// Expected values
-		String expectedConfigurationValueString = "test";
-		String selectedValues = "second";
+  /**
+   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...) <p/> The
+   * algorithm should store the path when it is supplied through setConfigurationValue.
+   */
+  @Test
+  public void testSetConfigurationValue() throws AlgorithmConfigurationException {
+    // Setup
+    // Expected values
+    String expectedConfigurationValueString = "test";
+    String selectedValues = "second";
 
-		// Execute functionality
-		this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValueString);
-		this.algorithm.setListBoxConfigurationValue(columnIdentifier, selectedValues);
+    // Execute functionality
+    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValueString);
+    this.algorithm.setListBoxConfigurationValue(columnIdentifier, selectedValues);
 
-		// Check result
-		assertEquals(expectedConfigurationValueString, this.algorithm.path);
-		assertEquals(selectedValues, this.algorithm.selectedColumn);
-	}
+    // Check result
+    assertEquals(expectedConfigurationValueString, this.algorithm.path);
+    assertEquals(selectedValues, this.algorithm.selectedColumn);
+  }
 
-	/**
-	 * Test method for {@link ExampleAlgorithm#execute()}
-	 * <p/>
-	 * When the algorithm is started after configuration a result should be received.
-	 *
-	 * @throws CouldNotReceiveResultException
-	 * @throws AlgorithmConfigurationException
-	 */
-	@Test
-	public void testExecute() throws CouldNotReceiveResultException, AlgorithmConfigurationException {
-		// Setup
-		FunctionalDependencyResultReceiver resultReceiver = mock(FunctionalDependencyResultReceiver.class);
-		this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
-		this.algorithm.setListBoxConfigurationValue(columnIdentifier, "columnname");
+  /**
+   * Test method for {@link ExampleAlgorithm#execute()} <p/> When the algorithm is started after
+   * configuration a result should be received.
+   */
+  @Test
+  public void testExecute() throws CouldNotReceiveResultException, AlgorithmConfigurationException {
+    // Setup
+    FunctionalDependencyResultReceiver
+        resultReceiver =
+        mock(FunctionalDependencyResultReceiver.class);
+    this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
+    this.algorithm.setListBoxConfigurationValue(columnIdentifier, "columnname");
 
-		// Execute functionality
-		this.algorithm.setResultReceiver(resultReceiver);
-		this.algorithm.execute();
+    // Execute functionality
+    this.algorithm.setResultReceiver(resultReceiver);
+    this.algorithm.execute();
 
-		// Check result
-		verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
-	}
+    // Check result
+    verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
+  }
 }

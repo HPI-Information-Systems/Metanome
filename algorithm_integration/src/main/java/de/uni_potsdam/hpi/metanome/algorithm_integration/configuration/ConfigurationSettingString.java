@@ -22,25 +22,26 @@ import java.io.Serializable;
  * @author Jakob Zwiener
  */
 public class ConfigurationSettingString implements Serializable {
-    private static final long serialVersionUID = 1753877522641977576L;
 
-    public String value;
+  private static final long serialVersionUID = 1753877522641977576L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSettingString() {
-    }
+  public String value;
 
-    public ConfigurationSettingString(String value) {
-        this.value = value;
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSettingString() {
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public ConfigurationSettingString(String value) {
+    this.value = value;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 }

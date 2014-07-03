@@ -21,6 +21,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface InputDataServiceAsync {
 
-    public void listCsvInputFiles(AsyncCallback<String[]> callback);
+  public void listCsvInputFiles(AsyncCallback<String[]> callback);
 
 }

@@ -25,5 +25,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueC
  *
  * @author Jakob Zwiener
  */
-public abstract class AlgorithmSuperclass implements UniqueColumnCombinationsAlgorithm, ProgressEstimatingAlgorithm, RelationalInputParameterAlgorithm {
+public abstract class AlgorithmSuperclass
+    implements UniqueColumnCombinationsAlgorithm, ProgressEstimatingAlgorithm,
+               RelationalInputParameterAlgorithm {
+
 }

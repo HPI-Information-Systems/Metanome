@@ -20,16 +20,27 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
- * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
+ * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes integers
+ * configuration values.
  */
 public interface ListBoxParameterAlgorithm extends Algorithm {
-	/**
-	 * Sets a integer configuration value on the algorithm.
-	 *
-	 * @param identifier     the values identifier
-	 * @param selectedValues the string values for configuration
-	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
-	 */
-	void setListBoxConfigurationValue(String identifier, String... selectedValues) throws AlgorithmConfigurationException;
+
+  /**
+   * Sets a integer configuration value on the algorithm.
+   *
+   * @param identifier     the values identifier
+   * @param selectedValues the string values for configuration
+   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the
+   *                                                                                           algorithm
+   *                                                                                           cannot
+   *                                                                                           be correctly
+   *                                                                                           configured
+   *                                                                                           using
+   *                                                                                           the received
+   *                                                                                           configuration
+   *                                                                                           values
+   */
+  void setListBoxConfigurationValue(String identifier, String... selectedValues)
+      throws AlgorithmConfigurationException;
 
 }

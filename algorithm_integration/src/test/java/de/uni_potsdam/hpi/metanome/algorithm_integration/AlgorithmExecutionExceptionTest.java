@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,34 +27,33 @@ import static org.junit.Assert.assertEquals;
  */
 public class AlgorithmExecutionExceptionTest {
 
-    /**
-     * Test method for {@link AlgorithmExecutionException#AlgorithmExecutionException(String)}
-     * <p/>
-     * The exception should store the message.
-     */
-    @Test
-    public void testAlgorithmExecutionException() {
-        // Setup
-        // Expected values
-        String expectedMessage = "some message";
+  /**
+   * Test method for {@link AlgorithmExecutionException#AlgorithmExecutionException(String)} <p/>
+   * The exception should store the message.
+   */
+  @Test
+  public void testAlgorithmExecutionException() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
 
-        // Execute functionality
-        String actualMessage;
-        try {
-            throw new AlgorithmExecutionException(expectedMessage);
-        } catch (AlgorithmExecutionException e) {
-            actualMessage = e.getMessage();
-        }
-
-        // Check result
-        assertEquals(expectedMessage, actualMessage);
+    // Execute functionality
+    String actualMessage;
+    try {
+      throw new AlgorithmExecutionException(expectedMessage);
+    } catch (AlgorithmExecutionException e) {
+      actualMessage = e.getMessage();
     }
 
-    /**
-     * Tests that the instances of {@link AlgorithmExecutionException} are serializable in GWT.
-     */
-    @Test
-    public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new AlgorithmExecutionException(""));
-    }
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Tests that the instances of {@link AlgorithmExecutionException} are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(new AlgorithmExecutionException(""));
+  }
 }

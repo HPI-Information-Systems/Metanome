@@ -31,38 +31,38 @@ import java.util.Set;
  */
 public class ConfigurationValueString implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final String[] values;
+  protected final String identifier;
+  protected final String[] values;
 
-	/**
-	 * Constructs a ConfigurationValueString using the specification's identifier and the string value.
-	 *
-	 * @param identifier
-	 * @param values
-	 */
-	public ConfigurationValueString(String identifier, String... values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueString using the specification's identifier and the string
+   * value.
+   */
+  public ConfigurationValueString(String identifier, String... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	public ConfigurationValueString(
-			ConfigurationSpecificationString specification) {
-		this.identifier = specification.getIdentifier();
-		this.values = new String[specification.getSettings().length];
-		int i = 0;
-		for (ConfigurationSettingString setting : specification.getSettings()) {
-			this.values[i] = setting.value;
-			i++;
-		}
-	}
+  public ConfigurationValueString(
+      ConfigurationSpecificationString specification) {
+    this.identifier = specification.getIdentifier();
+    this.values = new String[specification.getSettings().length];
+    int i = 0;
+    for (ConfigurationSettingString setting : specification.getSettings()) {
+      this.values[i] = setting.value;
+      i++;
+    }
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(StringParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept string configuration values.");
-		}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(StringParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept string configuration values.");
+    }
 
-		StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;
-		stringParameterAlgorithm.setStringConfigurationValue(identifier, values);
-	}
+    StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;
+    stringParameterAlgorithm.setStringConfigurationValue(identifier, values);
+  }
 }

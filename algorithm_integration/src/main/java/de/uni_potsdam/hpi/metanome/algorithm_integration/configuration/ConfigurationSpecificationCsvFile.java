@@ -23,48 +23,49 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationCsvFile extends ConfigurationSpecification {
-    private static final long serialVersionUID = 8842139128248338302L;
 
-    private ConfigurationSettingCsvFile[] settings;
+  private static final long serialVersionUID = 8842139128248338302L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSpecificationCsvFile() {
-    }
+  private ConfigurationSettingCsvFile[] settings;
 
-    /**
-     * Constructs a {@link ConfigurationSpecificationCsvFile}, requesting 1 value.
-     *
-     * @param identifier the specification's identifier
-     */
-    public ConfigurationSpecificationCsvFile(String identifier) {
-        super(identifier);
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationCsvFile() {
+  }
 
-    /**
-     * Constructs a {@link ConfigurationSpecificationCsvFile}, potentially requesting several values.
-     *
-     * @param identifier     the specification's identifier
-     * @param numberOfValues the number of values expected
-     */
-    public ConfigurationSpecificationCsvFile(String identifier,
-                                             int numberOfValues) {
+  /**
+   * Constructs a {@link ConfigurationSpecificationCsvFile}, requesting 1 value.
+   *
+   * @param identifier the specification's identifier
+   */
+  public ConfigurationSpecificationCsvFile(String identifier) {
+    super(identifier);
+  }
 
-        super(identifier, numberOfValues);
-    }
+  /**
+   * Constructs a {@link ConfigurationSpecificationCsvFile}, potentially requesting several values.
+   *
+   * @param identifier     the specification's identifier
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationCsvFile(String identifier,
+                                           int numberOfValues) {
 
-    public String getFileNameValue() {
-        // TODO return current value to select correct index?!
-        return null;
-    }
+    super(identifier, numberOfValues);
+  }
 
-    @Override
-    public ConfigurationSettingCsvFile[] getSettings() {
-        return this.settings;
-    }
+  public String getFileNameValue() {
+    // TODO return current value to select correct index?!
+    return null;
+  }
 
-    public void setValues(ConfigurationSettingCsvFile[] configurationSettings) {
-        this.settings = configurationSettings;
-    }
+  @Override
+  public ConfigurationSettingCsvFile[] getSettings() {
+    return this.settings;
+  }
+
+  public void setValues(ConfigurationSettingCsvFile[] configurationSettings) {
+    this.settings = configurationSettings;
+  }
 }

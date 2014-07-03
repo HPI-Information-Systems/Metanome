@@ -18,7 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+
 import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,26 +28,29 @@ import org.junit.Test;
 import java.util.List;
 
 public class ParameterServiceTest extends TestCase {
-    @Before
-    public void setUp() throws Exception {
-    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
 
 
-    @Test
-    public void testRetrieveUniqueColumnCombinationsParameters() throws AlgorithmExecutionException {
-        //Setup
-        ParameterServiceImpl parameterService = new ParameterServiceImpl();
+  @Test
+  public void testRetrieveUniqueColumnCombinationsParameters() throws AlgorithmExecutionException {
+    //Setup
+    ParameterServiceImpl parameterService = new ParameterServiceImpl();
 
-        //Execute
-        List<ConfigurationSpecification> inputParameters = parameterService.retrieveParameters("example_ucc_algorithm.jar");
+    //Execute
+    List<ConfigurationSpecification>
+        inputParameters =
+        parameterService.retrieveParameters("example_ucc_algorithm.jar");
 
-        //Check
-        assertNotNull(inputParameters);
-        assertFalse(inputParameters.isEmpty());
-        assertNotNull(inputParameters.get(0));
-    }
+    //Check
+    assertNotNull(inputParameters);
+    assertFalse(inputParameters.isEmpty());
+    assertNotNull(inputParameters.get(0));
+  }
 }

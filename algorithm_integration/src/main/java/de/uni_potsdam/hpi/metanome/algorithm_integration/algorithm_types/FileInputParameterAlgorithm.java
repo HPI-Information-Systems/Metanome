@@ -21,19 +21,30 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 
 /**
- * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} configuration values.
+ * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that takes {@link
+ * de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} configuration
+ * values.
  *
  * @author Jakob Zwiener
  */
 public interface FileInputParameterAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a FileInputGenerator configuration value on the algorithm.
-	 *
-	 * @param identifier the value's identifier
-	 * @param values     the configuration values
-	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
-	 */
-	void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException;
+  /**
+   * Sets a FileInputGenerator configuration value on the algorithm.
+   *
+   * @param identifier the value's identifier
+   * @param values     the configuration values
+   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the
+   *                                                                                           algorithm
+   *                                                                                           cannot
+   *                                                                                           be correctly
+   *                                                                                           configured
+   *                                                                                           using
+   *                                                                                           the received
+   *                                                                                           configuration
+   *                                                                                           values
+   */
+  void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
+      throws AlgorithmConfigurationException;
 
 }
