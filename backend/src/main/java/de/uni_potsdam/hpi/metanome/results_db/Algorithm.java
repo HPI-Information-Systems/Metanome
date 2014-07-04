@@ -18,19 +18,27 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * Represents an algorithm in the database.
@@ -55,6 +63,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     protected boolean isInd;
     protected boolean isFd;
     protected boolean isUcc;
+  protected boolean isCucc;
     protected boolean isBasicStat;
 
     /**
@@ -87,6 +96,9 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
             setUcc(true);
         }
+      if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+        setCucc(true);
+      }
         if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
             setBasicStat(true);
         }
@@ -249,14 +261,24 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     }
 
     public boolean isUcc() {
-        return isUcc;
+      return isUcc;
     }
 
-    public Algorithm setUcc(boolean isUcc) {
-        this.isUcc = isUcc;
+  public Algorithm setUcc(boolean isUcc) {
+    this.isUcc = isUcc;
 
-        return this;
-    }
+    return this;
+  }
+
+  public boolean isCucc() {
+    return isCucc;
+  }
+
+  public Algorithm setCucc(boolean isCucc) {
+    this.isCucc = isCucc;
+
+    return this;
+  }
 
     public boolean isBasicStat() {
         return isBasicStat;
