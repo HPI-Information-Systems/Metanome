@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -50,6 +52,17 @@ public class DatabaseConnection {
     public static DatabaseConnection retrieve(long id) throws EntityStorageException {
         return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
     }
+
+
+  /**
+   * Retrieves all database connections stored in the database.
+   *
+   * @return a list of all database connections
+   * @throws EntityStorageException
+   */
+  public static List<DatabaseConnection> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(DatabaseConnection.class);
+  }
 
     @Id
     public long getId() {

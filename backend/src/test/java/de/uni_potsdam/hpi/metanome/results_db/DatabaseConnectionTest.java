@@ -17,9 +17,14 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection}
@@ -72,4 +77,27 @@ public class DatabaseConnectionTest {
         new EqualsAndHashCodeTester<DatabaseConnection>()
                 .performBasicEqualsAndHashCodeChecks(databaseConnection, equalDatabaseConnection, notEqualDatabaseConnection);
     }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#retrieveAll()}
+   */
+  @Test
+  public void testRetrieveAll() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    DatabaseConnection expectedConnection = new DatabaseConnection();
+    DatabaseConnection.store(expectedConnection);
+
+    // Execute functionality
+    List<DatabaseConnection> actualConncection = DatabaseConnection.retrieveAll();
+
+    // Check result
+    assertThat(actualConncection, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedConnection));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
 }
