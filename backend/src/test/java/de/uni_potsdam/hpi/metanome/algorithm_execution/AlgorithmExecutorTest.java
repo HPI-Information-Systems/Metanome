@@ -29,7 +29,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
-import de.uni_potsdam.hpi.metanome.configuration.*;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFileInputGenerator;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueInteger;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueListBox;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator;
+import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueString;
 import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.uni_potsdam.hpi.metanome.example_ind_algorithm.ExampleAlgorithm;
 import de.uni_potsdam.hpi.metanome.input.csv.FileFixture;
@@ -38,6 +43,7 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.Execution;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -51,9 +57,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AlgorithmExecutorTest {
 
@@ -130,10 +140,9 @@ public class AlgorithmExecutorTest {
         List<ConfigurationValue> configs = new ArrayList<>();
         configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
         configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
-        configs.add(new ConfigurationValueRelationalInputGenerator(
+      configs.add(new ConfigurationValueFileInputGenerator(
                 ExampleAlgorithm.CSV_FILE_IDENTIFIER,
-                mock(RelationalInputGenerator.class),
-                mock(RelationalInputGenerator.class)));
+                mock(FileInputGenerator.class)));
         String algorithmFileName = "example_ind_algorithm.jar";
         new Algorithm(algorithmFileName)
                 .store();
