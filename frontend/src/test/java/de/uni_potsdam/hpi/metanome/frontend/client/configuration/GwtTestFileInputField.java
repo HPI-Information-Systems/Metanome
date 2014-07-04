@@ -23,9 +23,10 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -47,26 +48,108 @@ public class GwtTestFileInputField extends GWTTestCase {
     assertEquals(expectedFileName, input.getFileName());
   }
 
+  @Test
+  public void testGetValueWithInvalidValues() {
+    // Set up
+    // Expected
+    FileInputField field = new FileInputField();
+    // Execute
+    // Check
+    try {
+      field.getValue();
+    } catch (InputValidationException e) {
+      assertTrue(true);
+    }
+  }
+
+  @Test
+  public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
+    // Set up
+    // Expected
+    FileInputField field = new FileInputField();
+
+    String expectedFileName = "file name";
+    char separator = ';';
+    char quotechar = '"';
+    char escapechar = '\\';
+    int skipLines = 0;
+    boolean strictQuotes = true;
+    boolean ignoreLeadingWhiteSpace = false;
+    boolean hasHeader = true;
+    boolean skipDifferingLines = false;
+
+    field.setFileName(expectedFileName);
+    field.setSeparator(separator);
+    field.setQuotechar(quotechar);
+    field.setEscapechar(escapechar);
+    field.setSkipLines(skipLines);
+    field.setStrictQuotes(strictQuotes);
+    field.setIgnoreLeadingWhiteSpace(ignoreLeadingWhiteSpace);
+    field.setHasHeader(hasHeader);
+    field.setSkipDifferingLines(skipDifferingLines);
+
+    field.advancedCheckbox.setValue(true);
+
+    // Execute
+    FileInput input = field.getValue();
+
+    // Check
+    assertEquals(expectedFileName, input.getFileName());
+    assertEquals(separator, input.getSeparator());
+    assertEquals(quotechar, input.getQuotechar());
+    assertEquals(escapechar, input.getEscapechar());
+    assertEquals(skipLines, input.getSkipLines());
+    assertEquals(strictQuotes, input.isStrictQuotes());
+    assertEquals(ignoreLeadingWhiteSpace, input.isIgnoreLeadingWhiteSpace());
+    assertEquals(hasHeader, input.isHasHeader());
+    assertEquals(skipDifferingLines, input.isSkipDifferingLines());
+  }
+
+  @Test
+  public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
+    // Set up
+    FileInputField field = new FileInputField();
+    field.advancedCheckbox.setValue(true);
+
+    // Expected
+    String expectedFileName = "file name";
+    field.setFileName(expectedFileName);
+
+    // Execute
+    FileInput input = field.getValue();
+
+    // Check
+    assertEquals(expectedFileName, input.getFileName());
+    assertEquals(CSVParser.DEFAULT_SEPARATOR, input.getSeparator());
+    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, input.getQuotechar());
+    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, input.getEscapechar());
+    assertEquals(CSVReader.DEFAULT_SKIP_LINES, input.getSkipLines());
+    assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, input.isStrictQuotes());
+    assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, input.isIgnoreLeadingWhiteSpace());
+    assertEquals(CsvFile.DEFAULT_HAS_HEADER, input.isHasHeader());
+    assertEquals(CsvFile.DEFAULT_SKIP_DIFFERING_LINES, input.isSkipDifferingLines());
+  }
+
+
   /**
    * When selecting the "Advanced" checkbox, additional input fields become visible, containing the
    * default values that will be used if none are specified.
    */
   @Test
-  public void testAdvancedDefaultEntries() {
+  public void testVisibilityOfAdvancedSettings() {
+    // Set up
     FileInputField widget = new FileInputField();
 
+    // Check default visibility
     assertFalse(widget.advancedTable.isVisible());
     assertFalse(widget.escapeTextbox.isAttached() && widget.escapeTextbox.isVisible());
     assertFalse(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());
     assertFalse(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());
     assertFalse(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());
-    assertFalse(
-        widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
-    assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached()
-                && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
+    assertFalse(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
+    assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
     assertFalse(widget.headerCheckbox.isAttached() && widget.headerCheckbox.isVisible());
-    assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox
-        .isVisible());
+    assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox.isVisible());
 
     // Execute
     widget.advancedCheckbox.setValue(true, true);
@@ -81,22 +164,6 @@ public class GwtTestFileInputField extends GWTTestCase {
     assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
     assertTrue(widget.headerCheckbox.isVisible());
     assertTrue(widget.skipDifferingLinesCheckbox.isVisible());
-
-    // Check values
-    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER,
-                 StringHelper.getFirstCharFromInput(widget.escapeTextbox.getValue()));
-    assertEquals(CSVParser.DEFAULT_SEPARATOR,
-                 StringHelper.getFirstCharFromInput(widget.separatorTextbox.getValue()));
-    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER,
-                 StringHelper.getFirstCharFromInput(widget.quoteTextbox.getValue()));
-    assertEquals(CSVReader.DEFAULT_SKIP_LINES,
-                 widget.skiplinesIntegerbox.getValue().intValue());
-    assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
-                 widget.ignoreLeadingWhiteSpaceCheckbox.getValue().booleanValue());
-    assertEquals(CSVParser.DEFAULT_STRICT_QUOTES,
-                 widget.strictQuotesCheckbox.getValue().booleanValue());
-    assertEquals(true, widget.headerCheckbox.getValue().booleanValue());
-    assertEquals(false, widget.skipDifferingLinesCheckbox.getValue().booleanValue());
   }
 
   @Override

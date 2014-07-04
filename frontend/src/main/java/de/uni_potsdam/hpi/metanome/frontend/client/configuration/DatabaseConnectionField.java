@@ -53,12 +53,23 @@ public class DatabaseConnectionField extends HorizontalPanel {
     this.layoutTable.setWidget(row, 1, inputWidget);
   }
 
+  /**
+   * Set the url, username and password in the according text boxes.
+   * @param url       the url for the database connection
+   * @param username  the username for the database connection
+   * @param password  the password for the database connection
+   */
   public void setValues(String url, String username, String password) {
     this.dbUrlTextbox.setValue(url);
     this.usernameTextbox.setValue(username);
     this.passwordTextbox.setValue(password);
   }
 
+  /**
+   * Create a database connection with the specified values.
+   * @return a database connection
+   * @throws InputValidationException
+   */
   public DatabaseConnection getValue() throws InputValidationException {
     DatabaseConnection connection = new DatabaseConnection();
 

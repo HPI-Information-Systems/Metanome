@@ -28,10 +28,13 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import au.com.bytecode.opencsv.CSVParser;
+import au.com.bytecode.opencsv.CSVReader;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.text.ParseException;
@@ -79,37 +82,45 @@ public class FileInputField extends HorizontalPanel {
     this.add(advancedTable);
 
     separatorTextbox = getNewOneCharTextbox();
-    separatorTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_SEPARATOR));
     addRow(advancedTable, separatorTextbox, "Separator Character");
 
     quoteTextbox = getNewOneCharTextbox();
-    quoteTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_QUOTE));
     addRow(advancedTable, quoteTextbox, "Quote Character");
 
     escapeTextbox = getNewOneCharTextbox();
-    escapeTextbox.setValue(String.valueOf(ConfigurationSettingCsvFile.DEFAULT_ESCAPE));
     addRow(advancedTable, escapeTextbox, "Escape Character");
 
     skiplinesIntegerbox = new IntegerBox();
     skiplinesIntegerbox.setWidth("5em");
-    skiplinesIntegerbox.setValue(ConfigurationSettingCsvFile.DEFAULT_SKIPLINES);
     addRow(advancedTable, skiplinesIntegerbox, "Line");
 
     strictQuotesCheckbox = new CheckBox();
-    strictQuotesCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_STRICTQUOTES);
     addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 
     ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
-    ignoreLeadingWhiteSpaceCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_IGNORELEADINGWHITESPACE);
     addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
 
     headerCheckbox = new CheckBox();
-    headerCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_HEADER);
     addRow(advancedTable, headerCheckbox, "Has Header");
 
     skipDifferingLinesCheckbox = new CheckBox();
-    skipDifferingLinesCheckbox.setValue(ConfigurationSettingCsvFile.DEFAULT_SKIPDIFFERINGLINES);
     addRow(advancedTable, skipDifferingLinesCheckbox, "Skip Lines With Differing Length");
+
+    setDefaultAdvancedSettings();
+  }
+
+  /**
+   * Set the default values of the advanced settings
+   */
+  private void setDefaultAdvancedSettings() {
+    setSeparator(CSVParser.DEFAULT_SEPARATOR);
+    setQuotechar(CSVParser.DEFAULT_QUOTE_CHARACTER);
+    setEscapechar(CSVParser.DEFAULT_ESCAPE_CHARACTER);
+    setSkipLines(CSVReader.DEFAULT_SKIP_LINES);
+    setStrictQuotes(CSVParser.DEFAULT_STRICT_QUOTES);
+    setIgnoreLeadingWhiteSpace(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+    setHasHeader(CsvFile.DEFAULT_HAS_HEADER);
+    setSkipDifferingLines(CsvFile.DEFAULT_SKIP_DIFFERING_LINES);
   }
 
   /**
@@ -288,4 +299,37 @@ public class FileInputField extends HorizontalPanel {
     this.fileListBox.addItem(fileName);
     this.fileListBox.setSelectedIndex(1);
   }
+
+  protected void setSeparator(char separator) {
+    this.separatorTextbox.setValue(String.valueOf(separator));
+  }
+
+  protected void setEscapechar(char escapechar) {
+    this.escapeTextbox.setValue(String.valueOf(escapechar));
+  }
+
+  protected void setQuotechar(char quotechar) {
+    this.quoteTextbox.setValue(String.valueOf(quotechar));
+  }
+
+  protected void setSkipLines(int skipLines) {
+    this.skiplinesIntegerbox.setValue(skipLines);
+  }
+
+  protected void setStrictQuotes(boolean strictQuotes) {
+    this.strictQuotesCheckbox.setValue(strictQuotes);
+  }
+
+  protected void setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
+    this.ignoreLeadingWhiteSpaceCheckbox.setValue(ignoreLeadingWhiteSpace);
+  }
+
+  protected void setHasHeader(boolean hasHeader) {
+    this.headerCheckbox.setValue(hasHeader);
+  }
+
+  protected void setSkipDifferingLines(boolean skipDifferingLines) {
+    this.skipDifferingLinesCheckbox.setValue(skipDifferingLines);
+  }
+
 }
