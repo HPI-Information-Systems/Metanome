@@ -53,4 +53,8 @@ public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
     SqlInputParameterAlgorithm sqlInputParameterAlgorithm = (SqlInputParameterAlgorithm) algorithm;
     sqlInputParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8

@@ -37,6 +37,7 @@ import java.util.TreeSet;
  */
 public class PLIBuilder {
 
+<<<<<<< HEAD
   protected long numberOfTuples = -1;
   protected List<HashMap<String, LongArrayList>> columns = null;
   protected RelationalInput input;
@@ -45,6 +46,15 @@ public class PLIBuilder {
     this.input = input;
   }
 
+=======
+  protected List<HashMap<String, LongArrayList>> columns = null;
+  protected RelationalInput input;
+
+  public PLIBuilder(RelationalInput input) {
+    this.input = input;
+  }
+
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   /**
    * Builds a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
    * for every column in the input.
@@ -61,6 +71,7 @@ public class PLIBuilder {
     return purgePLIEntries();
   }
 
+<<<<<<< HEAD
 
   /**
    * Returns the number of tuples in the input after calculating the plis. Can be used after
@@ -93,8 +104,43 @@ public class PLIBuilder {
 
     for (HashMap<String, LongArrayList> columnMap : columns) {
       distinctSortedColumns.add(new TreeSet<>(columnMap.keySet()));
+=======
+  /**
+   * Builds a {@link TreeSet} of the values of every column in the input.
+   *
+   * @return all comlumns' sorted distinct values
+   * @throws InputIterationException if the input cannot be iterated
+   */
+  public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
+    if (columns == null) {
+      columns = new ArrayList<>();
+      calculateRawPLI();
     }
 
+    List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
+
+    for (HashMap<String, LongArrayList> columnMap : columns) {
+      distinctSortedColumns.add(new TreeSet<>(columnMap.keySet()));
+    }
+
+    return distinctSortedColumns;
+  }
+
+  protected void calculateRawPLI() throws InputIterationException {
+    long rowCount = 0;
+    while (input.hasNext()) {
+      ImmutableList<String> row = input.next();
+      int columnCount = 0;
+      for (String cellValue : row) {
+        addValue(rowCount, columnCount, cellValue);
+        columnCount++;
+      }
+      rowCount++;
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
+    }
+  }
+
+<<<<<<< HEAD
     return distinctSortedColumns;
   }
 
@@ -117,6 +163,12 @@ public class PLIBuilder {
     if (columns.size() <= columnCount) {
       columns.add(new HashMap<String, LongArrayList>());
     }
+=======
+  protected void addValue(long rowCount, int columnCount, String attributeCell) {
+    if (columns.size() <= columnCount) {
+      columns.add(new HashMap<String, LongArrayList>());
+    }
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
     if (columns.get(columnCount).containsKey(attributeCell)) {
       columns.get(columnCount).get(attributeCell).add(rowCount);
     } else {

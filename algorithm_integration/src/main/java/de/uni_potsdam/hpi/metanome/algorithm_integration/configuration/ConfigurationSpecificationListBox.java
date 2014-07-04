@@ -36,9 +36,8 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
   public ConfigurationSpecificationListBox() {
   }
 
-
   /**
-   * Construct a ConfigurationSpecificationListBox, requesting 2 values.
+   * Construct a ConfigurationSpecificationListBox, requesting 1 values.
    *
    * @param identifier the specification's identifier
    * @param values     the values, which should be displayed in the list box

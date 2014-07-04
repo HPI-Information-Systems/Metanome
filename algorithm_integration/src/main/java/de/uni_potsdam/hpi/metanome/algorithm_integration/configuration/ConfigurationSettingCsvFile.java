@@ -46,7 +46,6 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
   private int skipLines;
-
   private boolean header;
   private boolean skipDifferingLines;
 

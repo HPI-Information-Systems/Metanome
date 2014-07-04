@@ -31,10 +31,17 @@ public class PositionListIndexFixture {
     clusters.add(new LongArrayList(cluster1));
     long[] cluster2 = {5, 6, 7};
     clusters.add(new LongArrayList(cluster2));
+<<<<<<< HEAD
 
     return new PositionListIndex(clusters);
   }
 
+=======
+
+    return new PositionListIndex(clusters);
+  }
+
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   public long getExpectedFirstPLIRawKeyError() {
     return 4;
   }
@@ -110,6 +117,7 @@ public class PositionListIndexFixture {
   public int getExpectedIntersectedPLIRawKeyError() {
     return 2;
   }
+<<<<<<< HEAD
 
   public PositionListIndex getUniquePLIForConditionTest() {
     List<LongArrayList> clusters = new ArrayList<>();
@@ -144,5 +152,7 @@ public class PositionListIndexFixture {
 
     return conditions;
   }
+=======
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 
 }

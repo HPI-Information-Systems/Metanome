@@ -182,4 +182,8 @@ public class CsvFile implements RelationalInput {
   public ImmutableList<String> columnNames() {
     return headerLine;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8

@@ -65,6 +65,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean isFd;
   protected boolean isUcc;
   protected boolean isCucc;
+
   protected boolean isBasicStat;
 
   /**
@@ -98,6 +99,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       setUcc(true);
     }
+
     if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       setCucc(true);
     }
@@ -172,6 +174,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
       criteria.add(Restrictions.eq("fd", true));
     }
+
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       criteria.add(Restrictions.eq("ucc", true));
     }
@@ -292,6 +295,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   public Algorithm setBasicStat(boolean isBasicStat) {
     this.isBasicStat = isBasicStat;
 
+
     return this;
   }
 
@@ -299,6 +303,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   public boolean equals(Object o) {
     if (this == o) {
       return true;
+
     }
     if (!(o instanceof Algorithm)) {
       return false;

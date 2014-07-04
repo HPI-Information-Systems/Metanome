@@ -1,19 +1,3 @@
-/*
- * Copyright 2014 by the Metanome project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, headDiv, $doc) {
 
     /*
@@ -404,9 +388,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                       var relatedChord = chordsById[d.COLUMN_ID];
                       newArc.startAngle = relatedChord.currentAngle;
                       relatedChord.currentAngle =
-                      relatedChord.currentAngle + (Number(1) / relatedChord.value) * (relatedChord
-                                                                                          .endAngle
-                          - relatedChord.startAngle);
+                      relatedChord.currentAngle + (Number(1) / relatedChord.value)
+                          * (relatedChord.endAngle - relatedChord.startAngle);
                       newArc.endAngle = relatedChord.currentAngle;
                       newArc.value = Number(1);
                       var arc = d3.svg.arc(d, i).innerRadius(linkRadius).outerRadius(innerRadius);
@@ -466,8 +449,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .attr("r", function (d) {
                       var relatedNode = nodesById[d.FD_ID];
                       relatedNode.currentAmount = relatedNode.currentAmount - Number(20);
-                      var ratio = ((relatedNode.Amount - relatedNode.currentAmount) / relatedNode
-                          .Amount);
+                      var ratio = ((relatedNode.Amount - relatedNode.currentAmount)
+                          / relatedNode.Amount);
                       return relatedNode.r * ratio;
                   })
             .attr("transform", function (d, i) {
@@ -492,9 +475,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
             var a = relatedChord.currentLinkAngle - 1.57079633; //-90 degrees
             relatedChord.currentLinkAngle =
-            relatedChord.currentLinkAngle + (Number(1) / relatedChord.value) * (relatedChord
-                                                                                    .endAngle
-                - relatedChord.startAngle);
+            relatedChord.currentLinkAngle + (Number(1) / relatedChord.value)
+                * (relatedChord.endAngle - relatedChord.startAngle);
             var a1 = relatedChord.currentLinkAngle - 1.57079633;
 
             source.x = (r * Math.cos(a));
@@ -629,16 +611,16 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .style("stroke", "#555")
             .style("stroke-opacity", 0.4)
             .attr("d", function (d, i) {
-                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius - 20)
-                          .outerRadius(innerRadius);
+                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius
+                                                                 - 20).outerRadius(innerRadius);
                       return arc(d.source, i);
                   });
 
         arcGroup.transition()
             .select("path")
             .attr("d", function (d, i) {
-                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius - 20)
-                          .outerRadius(innerRadius);
+                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius
+                                                                 - 20).outerRadius(innerRadius);
                       return arc(d.source, i);
                   });
 

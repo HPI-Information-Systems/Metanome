@@ -19,7 +19,10 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 
+<<<<<<< HEAD
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+=======
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +33,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+<<<<<<< HEAD
 import static org.junit.Assert.assertThat;
+=======
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -185,6 +191,7 @@ public class PositionListIndexTest {
     assertEquals(fixture.getExpectedIntersectedPLIRawKeyError(),
                  firstPli.intersect(secondPli).getRawKeyError());
   }
+<<<<<<< HEAD
 
 
   /**
@@ -206,4 +213,6 @@ public class PositionListIndexTest {
     );
 
   }
+=======
+>>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 }
