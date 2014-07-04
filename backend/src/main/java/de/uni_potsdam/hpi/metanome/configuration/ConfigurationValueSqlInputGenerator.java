@@ -30,28 +30,27 @@ import java.util.Set;
  */
 public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final SqlInputGenerator[] values;
+  protected final String identifier;
+  protected final SqlInputGenerator[] values;
 
-	/**
-	 * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and
-	 * a SqlInputGenerator as value.
-	 *
-	 * @param identifier
-	 * @param values
-	 */
-	public ConfigurationValueSqlInputGenerator(String identifier, SqlInputGenerator... values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and a
+   * SqlInputGenerator as value.
+   */
+  public ConfigurationValueSqlInputGenerator(String identifier, SqlInputGenerator... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(SqlInputParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept sql input configuration values.");
-		}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(SqlInputParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept sql input configuration values.");
+    }
 
-		SqlInputParameterAlgorithm sqlInputParameterAlgorithm = (SqlInputParameterAlgorithm) algorithm;
-		sqlInputParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
-	}
+    SqlInputParameterAlgorithm sqlInputParameterAlgorithm = (SqlInputParameterAlgorithm) algorithm;
+    sqlInputParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
+  }
 }

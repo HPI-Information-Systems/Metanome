@@ -28,71 +28,67 @@ import java.util.Set;
 
 public class ResultsHub implements CloseableOmniscientResultReceiver {
 
-    protected Set<CloseableOmniscientResultReceiver> subscriber = new HashSet<>();
+  protected Set<CloseableOmniscientResultReceiver> subscriber = new HashSet<>();
 
-    /**
-     * Adds an {@link CloseableOmniscientResultReceiver} to the set of subscribers.
-     *
-     * @param resultReceiver
-     */
-    public void addSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
-        subscriber.add(resultReceiver);
+  /**
+   * Adds an {@link CloseableOmniscientResultReceiver} to the set of subscribers.
+   */
+  public void addSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
+    subscriber.add(resultReceiver);
+  }
+
+  /**
+   * @return subscriber
+   */
+  public Set<CloseableOmniscientResultReceiver> getSubscriber() {
+    return subscriber;
+  }
+
+  /**
+   * Removes an {@link CloseableOmniscientResultReceiver} from the subscriber set.
+   */
+  public void removeSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
+    subscriber.remove(resultReceiver);
+  }
+
+  @Override
+  public void receiveResult(BasicStatistic statistic)
+      throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(statistic);
+    }
+  }
+
+  @Override
+  public void receiveResult(FunctionalDependency functionalDependency)
+      throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(functionalDependency);
+    }
+  }
+
+  @Override
+  public void receiveResult(InclusionDependency inclusionDependency)
+      throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(inclusionDependency);
     }
 
-    /**
-     * @return subscriber
-     */
-    public Set<CloseableOmniscientResultReceiver> getSubscriber() {
-        return subscriber;
-    }
+  }
 
-    /**
-     * Removes an {@link CloseableOmniscientResultReceiver} from the subscriber set.
-     *
-     * @param resultReceiver
-     */
-    public void removeSubscriber(CloseableOmniscientResultReceiver resultReceiver) {
-        subscriber.remove(resultReceiver);
+  @Override
+  public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
+      throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(uniqueColumnCombination);
     }
+  }
 
-    @Override
-    public void receiveResult(BasicStatistic statistic)
-            throws CouldNotReceiveResultException {
-        for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
-            resultReceiver.receiveResult(statistic);
-        }
+  @Override
+  public void close() throws IOException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.close();
     }
-
-    @Override
-    public void receiveResult(FunctionalDependency functionalDependency)
-            throws CouldNotReceiveResultException {
-        for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
-            resultReceiver.receiveResult(functionalDependency);
-        }
-    }
-
-    @Override
-    public void receiveResult(InclusionDependency inclusionDependency)
-            throws CouldNotReceiveResultException {
-        for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
-            resultReceiver.receiveResult(inclusionDependency);
-        }
-
-    }
-
-    @Override
-    public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-            throws CouldNotReceiveResultException {
-        for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
-            resultReceiver.receiveResult(uniqueColumnCombination);
-        }
-    }
-
-    @Override
-    public void close() throws IOException {
-        for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
-            resultReceiver.close();
-        }
-    }
+  }
 
 }

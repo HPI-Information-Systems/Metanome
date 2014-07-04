@@ -31,59 +31,67 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * An example algorithm for testing that expects 5 {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s and sends a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic} to the result receiver.
+ * An example algorithm for testing that expects 5 {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s
+ * and sends a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic} to
+ * the result receiver.
  *
  * @author Jakob Zwiener
  */
 public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputParameterAlgorithm {
 
-	public static final String INPUT_FILE_IDENTIFIER = "input file";
-	public static final int NUMBER_OF_INPUT_FILES = 5;
-	public static final String STATISTIC_NAME = "file name statistic";
-	public static final ColumnIdentifier COLUMN_IDENTIFIER = new ColumnIdentifier("testTable", "testColumn");
+  public static final String INPUT_FILE_IDENTIFIER = "input file";
+  public static final int NUMBER_OF_INPUT_FILES = 5;
+  public static final String STATISTIC_NAME = "file name statistic";
+  public static final ColumnIdentifier
+      COLUMN_IDENTIFIER =
+      new ColumnIdentifier("testTable", "testColumn");
 
-	protected BasicStatisticsResultReceiver resultReceiver = null;
-	protected FileInputGenerator[] inputs = null;
+  protected BasicStatisticsResultReceiver resultReceiver = null;
+  protected FileInputGenerator[] inputs = null;
 
-	@Override
-	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		List<ConfigurationSpecification> configuration = new LinkedList<>();
+  @Override
+  public List<ConfigurationSpecification> getConfigurationRequirements() {
+    List<ConfigurationSpecification> configuration = new LinkedList<>();
 
-		configuration.add(new ConfigurationSpecificationCsvFile(INPUT_FILE_IDENTIFIER, NUMBER_OF_INPUT_FILES));
+    configuration.add(new ConfigurationSpecificationCsvFile(INPUT_FILE_IDENTIFIER,
+                                                            NUMBER_OF_INPUT_FILES));
 
-		return configuration;
-	}
+    return configuration;
+  }
 
-	@Override
-	public void execute() throws AlgorithmExecutionException {
-		if (resultReceiver == null) {
-			throw new AlgorithmExecutionException("No result receiver was set.");
-		}
-		if (inputs == null) {
-			throw new AlgorithmExecutionException("No inputs were set.");
-		}
-		if (inputs.length != NUMBER_OF_INPUT_FILES) {
-			throw new AlgorithmExecutionException("Wrong number of inputs set.");
-		}
+  @Override
+  public void execute() throws AlgorithmExecutionException {
+    if (resultReceiver == null) {
+      throw new AlgorithmExecutionException("No result receiver was set.");
+    }
+    if (inputs == null) {
+      throw new AlgorithmExecutionException("No inputs were set.");
+    }
+    if (inputs.length != NUMBER_OF_INPUT_FILES) {
+      throw new AlgorithmExecutionException("Wrong number of inputs set.");
+    }
 
-		String filePath = inputs[4].getInputFile().getAbsolutePath();
+    String filePath = inputs[4].getInputFile().getAbsolutePath();
 
-		resultReceiver.receiveResult(new BasicStatistic(STATISTIC_NAME, filePath, COLUMN_IDENTIFIER));
-	}
+    resultReceiver.receiveResult(new BasicStatistic(STATISTIC_NAME, filePath, COLUMN_IDENTIFIER));
+  }
 
-	@Override
-	public void setResultReceiver(BasicStatisticsResultReceiver resultReceiver) {
-		this.resultReceiver = resultReceiver;
-	}
+  @Override
+  public void setResultReceiver(BasicStatisticsResultReceiver resultReceiver) {
+    this.resultReceiver = resultReceiver;
+  }
 
-	@Override
-	public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values) throws AlgorithmConfigurationException {
-		if (!identifier.equals(INPUT_FILE_IDENTIFIER)) {
-			throw new AlgorithmConfigurationException("Metanome attempted to set a file input with wrong identifier.");
-		}
-		if (values.length != NUMBER_OF_INPUT_FILES) {
-			throw new AlgorithmConfigurationException("Metanome attempted to set an incorrect number of file inputs.");
-		}
-		inputs = values;
-	}
+  @Override
+  public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
+      throws AlgorithmConfigurationException {
+    if (!identifier.equals(INPUT_FILE_IDENTIFIER)) {
+      throw new AlgorithmConfigurationException(
+          "Metanome attempted to set a file input with wrong identifier.");
+    }
+    if (values.length != NUMBER_OF_INPUT_FILES) {
+      throw new AlgorithmConfigurationException(
+          "Metanome attempted to set an incorrect number of file inputs.");
+    }
+    inputs = values;
+  }
 }

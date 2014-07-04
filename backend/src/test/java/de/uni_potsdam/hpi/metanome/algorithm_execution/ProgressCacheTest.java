@@ -23,7 +23,9 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for {@link ProgressCache}
@@ -32,85 +34,80 @@ import static org.junit.Assert.*;
  */
 public class ProgressCacheTest {
 
-    protected ProgressCache progressCache;
+  protected ProgressCache progressCache;
 
-    protected float delta = 0.0001f;
+  protected float delta = 0.0001f;
 
-    @Before
-    public void setUp() throws Exception {
-        progressCache = new ProgressCache();
+  @Before
+  public void setUp() throws Exception {
+    progressCache = new ProgressCache();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
+
+  /**
+   * Test method for {@link ProgressCache#updateProgress(float)} <p/> The progress should be updated
+   * and retrievable through {@link ProgressCache#getProgress()}.
+   */
+  @Test
+  public void testUpdateProgress() {
+    // Setup
+    // Expected values
+    float expectedProgressUpdate1 = 3 / 7f;
+    float expectedProgressUpdate2 = 7 / 8f;
+
+    // Execute functionality
+    // Check result
+    assertTrue(progressCache.updateProgress(expectedProgressUpdate1));
+    assertEquals(expectedProgressUpdate1, progressCache.getProgress(), delta);
+    assertTrue(progressCache.updateProgress(expectedProgressUpdate2));
+    assertEquals(expectedProgressUpdate2, progressCache.getProgress(), delta);
+  }
+
+  /**
+   * Test method for {@link ProgressCache#updateProgress(float)} <p/> Progress values greater than 1
+   * or smaller than 0 should not be stored and false be returned.
+   */
+  @Test
+  public void testUpdateProgressInvalidValues() {
+    // Setup
+    // Expected values
+    List<Float> validValues = new LinkedList<>();
+    validValues.add(1f);
+    validValues.add(0f);
+    validValues.add(0.5f);
+
+    float expectedLastValidValue = 0.42f;
+
+    List<Float> invalidValues = new LinkedList<>();
+    invalidValues.add(1.1f);
+    invalidValues.add(-0.1f);
+    invalidValues.add(23f);
+
+    // Execute functionality
+    // Check result
+    for (Float progress : validValues) {
+      assertTrue(progressCache.updateProgress(progress));
     }
 
-    @After
-    public void tearDown() throws Exception {
+    assertTrue(progressCache.updateProgress(expectedLastValidValue));
+
+    for (Float progress : invalidValues) {
+      assertFalse(progressCache.updateProgress(progress));
     }
 
-    /**
-     * Test method for {@link ProgressCache#updateProgress(float)}
-     * <p/>
-     * The progress should be updated and retrievable through {@link ProgressCache#getProgress()}.
-     */
-    @Test
-    public void testUpdateProgress() {
-        // Setup
-        // Expected values
-        float expectedProgressUpdate1 = 3 / 7f;
-        float expectedProgressUpdate2 = 7 / 8f;
+    assertEquals(expectedLastValidValue, progressCache.getProgress(), delta);
+  }
 
-
-        // Execute functionality
-        // Check result
-        assertTrue(progressCache.updateProgress(expectedProgressUpdate1));
-        assertEquals(expectedProgressUpdate1, progressCache.getProgress(), delta);
-        assertTrue(progressCache.updateProgress(expectedProgressUpdate2));
-        assertEquals(expectedProgressUpdate2, progressCache.getProgress(), delta);
-    }
-
-    /**
-     * Test method for {@link ProgressCache#updateProgress(float)}
-     * <p/>
-     * Progress values greater than 1 or smaller than 0 should not be stored and false be returned.
-     */
-    @Test
-    public void testUpdateProgressInvalidValues() {
-        // Setup
-        // Expected values
-        List<Float> validValues = new LinkedList<>();
-        validValues.add(1f);
-        validValues.add(0f);
-        validValues.add(0.5f);
-
-        float expectedLastValidValue = 0.42f;
-
-        List<Float> invalidValues = new LinkedList<>();
-        invalidValues.add(1.1f);
-        invalidValues.add(-0.1f);
-        invalidValues.add(23f);
-
-        // Execute functionality
-        // Check result
-        for (Float progress : validValues) {
-            assertTrue(progressCache.updateProgress(progress));
-        }
-
-        assertTrue(progressCache.updateProgress(expectedLastValidValue));
-
-        for (Float progress : invalidValues) {
-            assertFalse(progressCache.updateProgress(progress));
-        }
-
-        assertEquals(expectedLastValidValue, progressCache.getProgress(), delta);
-    }
-
-    /**
-     * Test method for {@link ProgressCache#getProgress()}
-     * <p/>
-     * Progress should be zero initially.
-     */
-    @Test
-    public void testGetProgressInitial() {
-        // Check result
-        assertEquals(0, progressCache.getProgress(), delta);
-    }
+  /**
+   * Test method for {@link ProgressCache#getProgress()} <p/> Progress should be zero initially.
+   */
+  @Test
+  public void testGetProgressInitial() {
+    // Check result
+    assertEquals(0, progressCache.getProgress(), delta);
+  }
 
 }

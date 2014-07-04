@@ -24,12 +24,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
  */
 public interface BasicStatisticsResultReceiver {
 
-    /**
-     * Receives a basic statistic, consisting of the concerned columns, a name and a value
-     * of the statistic
-     *
-     * @param statistic the calculated value of the statistic on the columns
-     * @throws CouldNotReceiveResultException if the statistic could not be received
-     */
-    void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException;
+  /**
+   * Receives a basic statistic, consisting of the concerned columns, a name and a value of the
+   * statistic
+   *
+   * @param statistic the calculated value of the statistic on the columns
+   * @throws CouldNotReceiveResultException if the statistic could not be received
+   */
+  void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException;
 }

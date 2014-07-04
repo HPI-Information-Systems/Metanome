@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <groupId>de.uni-potsdam.hpi.metanome</groupId>
@@ -84,7 +85,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-        <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <groupId>de.uni-potsdam.hpi.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>compile</scope>
@@ -157,7 +158,8 @@
                     <compileSourcesArtifacts>
                         <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:algorithm_integration
                         </compileSourcesArtifact>
-                        <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend</compileSourcesArtifact>
+                        <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend
+                        </compileSourcesArtifact>
                     </compileSourcesArtifacts>
                     <extraJvmArgs>-Xmx1G</extraJvmArgs>
                 </configuration>
@@ -174,7 +176,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/webapp</directory>

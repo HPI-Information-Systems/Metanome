@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 
@@ -27,50 +28,49 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
  */
 public class GwtTestSqlIteratorInput extends GWTTestCase {
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#SqlIteratorInput(boolean)}
-     * <p/>
-     * After calling the constructor the optional parameter should be set correctly and all widgets should be initialized.
-     */
-    public void testConstructor() {
-        // Setup
-        // Expected values
-        boolean expectedOptional = true;
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#SqlIteratorInput(boolean)}
+   * <p/> After calling the constructor the optional parameter should be set correctly and all
+   * widgets should be initialized.
+   */
+  public void testConstructor() {
+    // Setup
+    // Expected values
+    boolean expectedOptional = true;
 
-        // Execute functionality
-        SqlIteratorInput actualSqlIteratorInput = new SqlIteratorInput(expectedOptional);
+    // Execute functionality
+    SqlIteratorInput actualSqlIteratorInput = new SqlIteratorInput(expectedOptional);
 
-        // Check result
-        assertEquals(expectedOptional, actualSqlIteratorInput.isOptional);
-        assertEquals(4, actualSqlIteratorInput.layoutTable.getRowCount());
-        assertNotNull(actualSqlIteratorInput.dbUrlTextbox);
-        assertNotNull(actualSqlIteratorInput.usernameTextbox);
-        assertNotNull(actualSqlIteratorInput.passwordTextbox);
-        assertNotNull(actualSqlIteratorInput.systemListBox);
-    }
+    // Check result
+    assertEquals(expectedOptional, actualSqlIteratorInput.isOptional);
+    assertEquals(4, actualSqlIteratorInput.layoutTable.getRowCount());
+    assertNotNull(actualSqlIteratorInput.dbUrlTextbox);
+    assertNotNull(actualSqlIteratorInput.usernameTextbox);
+    assertNotNull(actualSqlIteratorInput.passwordTextbox);
+    assertNotNull(actualSqlIteratorInput.systemListBox);
+  }
 
-    /**
-     * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
-     * <p/>
-     * The getValues and setValues methods should set and retrieve settings.
-     */
-    public void testGetSetValues() {
-        // Setup
-        SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false);
-        // Expected values
-        ConfigurationSettingSqlIterator expectedSetting =
-            new ConfigurationSettingSqlIterator("some url", "username", "password", DbSystem.HANA);
+  /**
+   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
+   * <p/> The getValues and setValues methods should set and retrieve settings.
+   */
+  public void testGetSetValues() {
+    // Setup
+    SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false);
+    // Expected values
+    ConfigurationSettingSqlIterator expectedSetting =
+        new ConfigurationSettingSqlIterator("some url", "username", "password", DbSystem.HANA);
 
-        // Execute functionality
-        sqlIteratorInput.setValues(expectedSetting);
-        ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput.getValues();
+    // Execute functionality
+    sqlIteratorInput.setValues(expectedSetting);
+    ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput.getValues();
 
-        // Check result
-        assertEquals(expectedSetting, actualSetting);
-    }
+    // Check result
+    assertEquals(expectedSetting, actualSetting);
+  }
 
-    @Override
-    public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+  }
 }

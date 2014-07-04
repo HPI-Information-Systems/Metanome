@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
@@ -28,7 +29,7 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 @RemoteServiceRelativePath("testService")
 public interface TestDatabaseHelperService extends RemoteService {
 
-    void resetDatabase();
+  void resetDatabase();
 
-    void storeAlgorithmInDatabase(Algorithm algorithm);
+  void storeAlgorithmInDatabase(Algorithm algorithm);
 }

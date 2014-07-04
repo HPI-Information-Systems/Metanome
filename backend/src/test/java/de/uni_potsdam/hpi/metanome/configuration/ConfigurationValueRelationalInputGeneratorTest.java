@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Progres
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -37,58 +38,66 @@ import static org.mockito.Mockito.verify;
  */
 public class ConfigurationValueRelationalInputGeneratorTest {
 
-	/**
-	 * Test method for {@link ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, Set)}
-	 * <p/>
-	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
-	 * dispatch call to determine the parameters type.
-	 *
-	 * @throws AlgorithmConfigurationException
-	 */
-	@Test
-	public void testTriggerSetValue() throws AlgorithmConfigurationException {
-		// Setup
-		RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
-		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(RelationalInputParameterAlgorithm.class);
-		// Expected values
-		String expectedIdentifier = "configId1";
-		RelationalInputGenerator[] expectedConfigurationValue = {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
+  /**
+   * Test method for {@link ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Set)} <p/> Parameters should be set on the algorithm through triggerSetValue. This is the last
+   * call in a double dispatch call to determine the parameters type.
+   */
+  @Test
+  public void testTriggerSetValue() throws AlgorithmConfigurationException {
+    // Setup
+    RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
+    Set<Class<?>> interfaces = new HashSet<>();
+    interfaces.add(RelationalInputParameterAlgorithm.class);
+    // Expected values
+    String expectedIdentifier = "configId1";
+    RelationalInputGenerator[]
+        expectedConfigurationValue =
+        {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
 
-		// Execute functionality
-		ConfigurationValueRelationalInputGenerator configValue = new ConfigurationValueRelationalInputGenerator(
-				new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm, interfaces);
+    // Execute functionality
+    ConfigurationValueRelationalInputGenerator
+        configValue =
+        new ConfigurationValueRelationalInputGenerator(
+            new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(),
+            expectedConfigurationValue);
+    configValue.triggerSetValue(algorithm, interfaces);
 
-		// Check result
-		verify(algorithm).setRelationalInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
-	}
+    // Check result
+    verify(algorithm)
+        .setRelationalInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+  }
 
-	/**
-	 * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
-	 * <p/>
-	 * When the correct algorithm interface is missing an exception should be thrown.
-	 */
-	@Test
-	public void testTriggerSetValueMissingInterface() {
-		// Setup
-		RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
-		// The file input parameter algorithm interface is missing.
-		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(ProgressEstimatingAlgorithm.class);
-		// Expected values
-		String expectedIdentifier = "configId1";
-		RelationalInputGenerator[] expectedConfigurationValues = {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * java.util.Set)} <p/> When the correct algorithm interface is missing an exception should be
+   * thrown.
+   */
+  @Test
+  public void testTriggerSetValueMissingInterface() {
+    // Setup
+    RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
+    // The file input parameter algorithm interface is missing.
+    Set<Class<?>> interfaces = new HashSet<>();
+    interfaces.add(ProgressEstimatingAlgorithm.class);
+    // Expected values
+    String expectedIdentifier = "configId1";
+    RelationalInputGenerator[]
+        expectedConfigurationValues =
+        {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
 
-		// Execute functionality
-		ConfigurationValueRelationalInputGenerator configValue = new ConfigurationValueRelationalInputGenerator(
-				new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(), expectedConfigurationValues);
-		try {
-			configValue.triggerSetValue(algorithm, interfaces);
-			fail("No exception was thrown.");
-		} catch (AlgorithmConfigurationException e) {
-			// Intentionally left blank
-		}
-	}
+    // Execute functionality
+    ConfigurationValueRelationalInputGenerator
+        configValue =
+        new ConfigurationValueRelationalInputGenerator(
+            new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(),
+            expectedConfigurationValues);
+    try {
+      configValue.triggerSetValue(algorithm, interfaces);
+      fail("No exception was thrown.");
+    } catch (AlgorithmConfigurationException e) {
+      // Intentionally left blank
+    }
+  }
 
 }

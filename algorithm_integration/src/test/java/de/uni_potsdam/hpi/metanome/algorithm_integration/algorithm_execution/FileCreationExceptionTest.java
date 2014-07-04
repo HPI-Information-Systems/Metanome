@@ -20,6 +20,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,49 +34,48 @@ import static org.junit.Assert.assertEquals;
  */
 public class FileCreationExceptionTest {
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
+  /**
+   * @throws java.lang.Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  /**
+   * @throws java.lang.Exception
+   */
+  @After
+  public void tearDown() throws Exception {
+  }
+
+  /**
+   * Test method for {@link FileCreationException#FileCreationException()} <p/> The exception should
+   * store the message.
+   */
+  @Test
+  public void testFileCreationException() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+
+    // Execute functionality
+    String actualMessage;
+    try {
+      throw new FileCreationException(expectedMessage);
+    } catch (FileCreationException e) {
+      actualMessage = e.getMessage();
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+  }
 
-    /**
-     * Test method for {@link FileCreationException#FileCreationException()}
-     * <p/>
-     * The exception should store the message.
-     */
-    @Test
-    public void testFileCreationException() {
-        // Setup
-        // Expected values
-        String expectedMessage = "some message";
-
-        // Execute functionality
-        String actualMessage;
-        try {
-            throw new FileCreationException(expectedMessage);
-        } catch (FileCreationException e) {
-            actualMessage = e.getMessage();
-        }
-
-        // Check result
-        assertEquals(expectedMessage, actualMessage);
-    }
-
-    /**
-     * Tests that the instances of {@link FileCreationException} are serializable in GWT.
-     */
-    @Test
-    public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new FileCreationException(""));
-    }
+  /**
+   * Tests that the instances of {@link FileCreationException} are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(new FileCreationException(""));
+  }
 
 }

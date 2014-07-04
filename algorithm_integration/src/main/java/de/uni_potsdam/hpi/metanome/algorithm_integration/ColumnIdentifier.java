@@ -20,75 +20,82 @@ import java.io.Serializable;
 
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
-    private static final long serialVersionUID = 6071753577078585888L;
+  private static final long serialVersionUID = 6071753577078585888L;
 
-    protected String tableIdentifier;
-    protected String columnIdentifier;
+  protected String tableIdentifier;
+  protected String columnIdentifier;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    protected ColumnIdentifier() {
-        this.tableIdentifier = "";
-        this.columnIdentifier = "";
+  /**
+   * Exists for GWT serialization.
+   */
+  protected ColumnIdentifier() {
+    this.tableIdentifier = "";
+    this.columnIdentifier = "";
+  }
+
+  /**
+   * @param tableIdentifier  table's identifer
+   * @param columnIdentifier column's identifier
+   */
+  public ColumnIdentifier(String tableIdentifier, String columnIdentifier) {
+    this.tableIdentifier = tableIdentifier;
+    this.columnIdentifier = columnIdentifier;
+  }
+
+  @Override
+  public String toString() {
+    return tableIdentifier + "." + columnIdentifier;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime
+             * result
+             + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
+    result = prime * result
+             + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    /**
-     * @param tableIdentifier  table's identifer
-     * @param columnIdentifier column's identifier
-     */
-    public ColumnIdentifier(String tableIdentifier, String columnIdentifier) {
-        this.tableIdentifier = tableIdentifier;
-        this.columnIdentifier = columnIdentifier;
+    if (obj == null) {
+      return false;
     }
-
-    @Override
-    public String toString() {
-        return tableIdentifier + "." + columnIdentifier;
+    if (getClass() != obj.getClass()) {
+      return false;
     }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime
-                * result
-                + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
-        result = prime * result
-                + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
-        return result;
+    ColumnIdentifier other = (ColumnIdentifier) obj;
+    if (columnIdentifier == null) {
+      if (other.columnIdentifier != null) {
+        return false;
+      }
+    } else if (!columnIdentifier.equals(other.columnIdentifier)) {
+      return false;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ColumnIdentifier other = (ColumnIdentifier) obj;
-        if (columnIdentifier == null) {
-            if (other.columnIdentifier != null)
-                return false;
-        } else if (!columnIdentifier.equals(other.columnIdentifier))
-            return false;
-        if (tableIdentifier == null) {
-            if (other.tableIdentifier != null)
-                return false;
-        } else if (!tableIdentifier.equals(other.tableIdentifier))
-            return false;
-        return true;
+    if (tableIdentifier == null) {
+      if (other.tableIdentifier != null) {
+        return false;
+      }
+    } else if (!tableIdentifier.equals(other.tableIdentifier)) {
+      return false;
     }
+    return true;
+  }
 
-    @Override
-    public int compareTo(ColumnIdentifier other) {
-        int tableIdentifierComparison = tableIdentifier.compareTo(other.tableIdentifier);
-        if (0 != tableIdentifierComparison) {
-            return tableIdentifierComparison;
-        } else {
-            return columnIdentifier.compareTo(other.columnIdentifier);
-        }
+  @Override
+  public int compareTo(ColumnIdentifier other) {
+    int tableIdentifierComparison = tableIdentifier.compareTo(other.tableIdentifier);
+    if (0 != tableIdentifierComparison) {
+      return tableIdentifierComparison;
+    } else {
+      return columnIdentifier.compareTo(other.columnIdentifier);
     }
+  }
 
 }

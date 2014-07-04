@@ -26,18 +26,18 @@ import static org.mockito.Mockito.when;
 
 public class ResultSetFixture {
 
-    public ResultSet getTestData() throws SQLException {
-        return getTestData(0);
-    }
+  public ResultSet getTestData() throws SQLException {
+    return getTestData(0);
+  }
 
-    public ResultSet getTestData(int numberOfColumns) throws SQLException {
-        ResultSet resultSet = mock(ResultSet.class);
-        ResultSetMetaData resultSetMetaData = mock(ResultSetMetaData.class);
-        when(resultSetMetaData.getColumnCount())
-                .thenReturn(numberOfColumns);
-        when(resultSet.getMetaData())
-                .thenReturn(resultSetMetaData);
+  public ResultSet getTestData(int numberOfColumns) throws SQLException {
+    ResultSet resultSet = mock(ResultSet.class);
+    ResultSetMetaData resultSetMetaData = mock(ResultSetMetaData.class);
+    when(resultSetMetaData.getColumnCount())
+        .thenReturn(numberOfColumns);
+    when(resultSet.getMetaData())
+        .thenReturn(resultSetMetaData);
 
-        return resultSet;
-    }
+    return resultSet;
+  }
 }

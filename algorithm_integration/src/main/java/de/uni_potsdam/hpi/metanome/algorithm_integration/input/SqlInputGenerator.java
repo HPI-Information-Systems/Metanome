@@ -26,26 +26,28 @@ import java.sql.SQLException;
  */
 public interface SqlInputGenerator extends AutoCloseable {
 
-    /**
-     * Creates a {@link RelationalInput} from an sql statement issued to a database.
-     *
-     * @param queryString the query string to generate the input
-     * @return the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput} containing the query result
-     * @throws InputGenerationException if the input cannot be generated
-     */
-    RelationalInput generateRelationalInputFromSql(String queryString) throws InputGenerationException;
+  /**
+   * Creates a {@link RelationalInput} from an sql statement issued to a database.
+   *
+   * @param queryString the query string to generate the input
+   * @return the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}
+   * containing the query result
+   * @throws InputGenerationException if the input cannot be generated
+   */
+  RelationalInput generateRelationalInputFromSql(String queryString)
+      throws InputGenerationException;
 
-    /**
-     * Creates a {@link ResultSet} from an sql statement issued to a database.
-     *
-     * @param queryString the query string to generate the input
-     * @return the {@link ResultSet} containing the query result
-     * @throws InputGenerationException if the result cannot be generated
-     */
-    ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException;
+  /**
+   * Creates a {@link ResultSet} from an sql statement issued to a database.
+   *
+   * @param queryString the query string to generate the input
+   * @return the {@link ResultSet} containing the query result
+   * @throws InputGenerationException if the result cannot be generated
+   */
+  ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException;
 
-    /**
-     * Closes all executed statements.
-     */
-    void closeAllStatements() throws SQLException;
+  /**
+   * Closes all executed statements.
+   */
+  void closeAllStatements() throws SQLException;
 }

@@ -17,12 +17,14 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 import java.util.List;
 
 public interface ParameterServiceAsync {
 
-    public void retrieveParameters(String selectedValue, AsyncCallback<List<ConfigurationSpecification>> callback);
+  public void retrieveParameters(String selectedValue,
+                                 AsyncCallback<List<ConfigurationSpecification>> callback);
 
 }

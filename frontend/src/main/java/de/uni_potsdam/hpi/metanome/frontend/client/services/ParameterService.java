@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
@@ -26,6 +27,7 @@ import java.util.List;
 @RemoteServiceRelativePath("parameterService")
 public interface ParameterService extends RemoteService {
 
-    public List<ConfigurationSpecification> retrieveParameters(String selectedValue) throws AlgorithmExecutionException;
+  public List<ConfigurationSpecification> retrieveParameters(String selectedValue)
+      throws AlgorithmExecutionException;
 
 }

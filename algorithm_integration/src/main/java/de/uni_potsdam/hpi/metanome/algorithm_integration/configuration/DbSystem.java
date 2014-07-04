@@ -22,21 +22,21 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @author Jakob Zwiener
  */
 public enum DbSystem {
-    DB2, MySQL, PostgreSQL, HANA, Oracle;
+  DB2, MySQL, PostgreSQL, HANA, Oracle;
 
-    /**
-     * Returns a list of string representation of all options of the enum.
-     *
-     * @return string representations of all options
-     */
-    public static String[] names() {
-        DbSystem[] systems = values();
-        String[] names = new String[systems.length];
+  /**
+   * Returns a list of string representation of all options of the enum.
+   *
+   * @return string representations of all options
+   */
+  public static String[] names() {
+    DbSystem[] systems = values();
+    String[] names = new String[systems.length];
 
-        for (int i = 0; i < systems.length; i++) {
-            names[i] = systems[i].name();
-        }
-
-        return names;
+    for (int i = 0; i < systems.length; i++) {
+      names[i] = systems[i].name();
     }
+
+    return names;
+  }
 }

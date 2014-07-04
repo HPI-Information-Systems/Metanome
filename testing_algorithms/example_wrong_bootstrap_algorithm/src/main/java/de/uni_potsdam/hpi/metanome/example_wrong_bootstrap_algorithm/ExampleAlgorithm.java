@@ -26,19 +26,19 @@ import java.util.List;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 
-    @Override
-    public List<ConfigurationSpecification> getConfigurationRequirements() {
-        return new LinkedList<>();
-    }
+  @Override
+  public List<ConfigurationSpecification> getConfigurationRequirements() {
+    return new LinkedList<>();
+  }
 
-    @Override
-    public void execute() throws AlgorithmExecutionException {
+  @Override
+  public void execute() throws AlgorithmExecutionException {
 
-    }
+  }
 
-    @Override
-    public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
+  @Override
+  public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
 
-    }
+  }
 
 }

@@ -18,14 +18,14 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 public class AlgorithmExecutionException extends Exception {
 
-    private static final long serialVersionUID = 3323364350205621228L;
+  private static final long serialVersionUID = 3323364350205621228L;
 
-    protected AlgorithmExecutionException() {
-        super();
-    }
+  protected AlgorithmExecutionException() {
+    super();
+  }
 
-    public AlgorithmExecutionException(String message) {
-        super(message);
-    }
+  public AlgorithmExecutionException(String message) {
+    super(message);
+  }
 
 }

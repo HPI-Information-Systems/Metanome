@@ -26,11 +26,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Functio
  */
 public interface FunctionalDependencyAlgorithm extends Algorithm {
 
-    /**
-     * Sets a {@link FunctionalDependencyResultReceiver} to send the results to.
-     *
-     * @param resultReceiver the result receiver the algorithm sents found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency}s to.
-     */
-    void setResultReceiver(FunctionalDependencyResultReceiver resultReceiver);
+  /**
+   * Sets a {@link FunctionalDependencyResultReceiver} to send the results to.
+   *
+   * @param resultReceiver the result receiver the algorithm sents found {@link
+   *                       de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency}s
+   *                       to.
+   */
+  void setResultReceiver(FunctionalDependencyResultReceiver resultReceiver);
 
 }
