@@ -17,23 +17,27 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 
+import com.google.common.base.Joiner;
+
 public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSource {
     private static final long serialVersionUID = 3242593091096735218L;
 
     private String dbUrl;
     private String username;
     private String password;
+    private DbSystem system;
 
     /**
      * Exists for GWT serialization.
      */
-    public ConfigurationSettingSqlIterator() {
+    protected ConfigurationSettingSqlIterator() {
     }
 
-    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password) {
+    public ConfigurationSettingSqlIterator(String dbUrl, String username, String password, DbSystem system) {
         this.dbUrl = dbUrl;
         this.username = username;
         this.password = password;
+        this.system = system;
     }
 
     public String getDbUrl() {
@@ -60,8 +64,46 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
         this.password = password;
     }
 
+    public DbSystem getSystem() {
+        return system;
+    }
+
+    public void setSystem(DbSystem system) {
+        this.system = system;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        ConfigurationSettingSqlIterator that = (ConfigurationSettingSqlIterator) o;
+
+        if (!dbUrl.equals(that.dbUrl))
+            return false;
+        if (!password.equals(that.password))
+            return false;
+        if (system != that.system)
+            return false;
+        if (!username.equals(that.username))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = dbUrl.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + system.hashCode();
+        return result;
+    }
+
     @Override
     public String getValueAsString() {
-        return this.dbUrl + ";" + this.username + ";" + this.password;
+        return Joiner.on(';').join(this.dbUrl, this.username, this.password, this.system);
     }
 }

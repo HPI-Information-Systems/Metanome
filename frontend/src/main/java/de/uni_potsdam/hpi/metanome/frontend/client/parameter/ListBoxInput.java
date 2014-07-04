@@ -19,58 +19,79 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.user.client.ui.ListBox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A wrapper for a list box of strings that can contain a remove button. If the remove button is clicked, the list box
- * is removed from the parent widget.
+ * A wrapper for a list box of strings that can contain a remove button. If the remove button is
+ * clicked, the list box is removed from the parent widget.
  *
  * @author Tanja
  */
 public class ListBoxInput extends InputField {
 
-    protected ListBox listbox;
+  protected ListBox listbox;
 
-    /**
-     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-     */
-    public ListBoxInput(boolean optional) {
-        super(optional);
+  /**
+   * @param optional If true, a remove button will be rendered, to remove this widget from its
+   *                 parent.
+   */
+  public ListBoxInput(boolean optional) {
+    super(optional);
 
-        this.listbox = new ListBox();
-        this.add(this.listbox);
+    this.listbox = new ListBox();
+    this.add(this.listbox);
+  }
+
+  /**
+   * @return the list of string values of its listbox
+   */
+  public List<String> getValues() {
+    int numberOfItems = this.listbox.getItemCount();
+    List<String> list = new ArrayList<>(numberOfItems);
+    for (int i = 0; i < numberOfItems; i++) {
+      list.add(this.listbox.getValue(i));
     }
 
-    /**
-     * @return the list of string values of its listbox
-     */
-    public ArrayList<String> getValues() {
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < this.listbox.getItemCount(); i++)
-            list.add(this.listbox.getValue(i));
+    return list;
+  }
 
-        return list;
+
+  /**
+   * Sets all values of the list of items to the list box.
+   *
+   * @param items the items of the list box
+   */
+  public void setValues(List<String> items) {
+    for (String item : items) {
+      this.listbox.addItem(item);
+    }
+  }
+
+  /**
+   * @return the selected value of its listbox
+   */
+  public String getSelectedValue() {
+    int selectedIndex = this.listbox.getSelectedIndex();
+
+    // If no value is selected return null.
+    if (selectedIndex < 0) {
+      return null;
     }
 
-    /**
-     * set all values of the list to the list box
-     */
-    public void setValues(ArrayList<String> list) {
-        for (String element : list)
-            this.listbox.addItem(element);
-    }
+    return this.listbox.getValue(selectedIndex);
+  }
 
-    /**
-     * @return the selected value of its listbox
-     */
-    public String getSelectedValue() {
-        int selectedIndex = this.listbox.getSelectedIndex();
-        return this.listbox.getValue(selectedIndex);
+  /**
+   * @param selectedValue the value to set
+   * @return whether the value was successfully set
+   */
+  public boolean setSelectedValue(String selectedValue) {
+    for (int i = 0; i < this.listbox.getItemCount(); i++) {
+      if (this.listbox.getValue(i).equals(selectedValue)) {
+        this.listbox.setSelectedIndex(i);
+        return true;
+      }
     }
-
-    public void setSelectedValue(String selectedValue) {
-        for (int i = 0; i < this.listbox.getItemCount(); i++) {
-            if (this.listbox.getValue(i).equals(selectedValue))
-                this.listbox.setSelectedIndex(i);
-        }
-    }
+    return false;
+  }
 }
