@@ -24,11 +24,17 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -213,7 +219,9 @@ public class ResultsTablePage extends VerticalPanel implements OmniscientResultR
         cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
         int col = 2;
         for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
-            cuccTable.setText(row, col, condition.toString());
+          cuccTable.setText(row, col,
+                            condition.getColumn().toString() + ": " + condition.getColumnValues()
+                                .toString());
             col++;
         }
     }

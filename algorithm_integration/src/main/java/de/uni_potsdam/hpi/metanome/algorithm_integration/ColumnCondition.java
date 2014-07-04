@@ -30,26 +30,29 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     protected ColumnIdentifier column;
     protected TreeSet<String> columnValues;
 
-    /**
+  /**
      * Exists for Gwt serialization
-     */
+
+   */
     protected ColumnCondition() {
         this.column = new ColumnIdentifier();
         this.columnValues = new TreeSet<>();
     }
 
-    /**
-     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and an array of {@link java.lang.String}s.
-     *
-     * @param identifier   column of the condition
-     * @param columnValues where the condition is true
-     */
-    public ColumnCondition(ColumnIdentifier identifier, String... columnValues) {
-        this();
-        this.column = identifier;
-        for (String columnValue : columnValues) {
-            this.columnValues.add(columnValue);
-        }
+  /**
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a
+   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and an array of
+   * {@link java.lang.String}s.
+   *
+   * @param identifier   column of the condition
+   * @param columnValues where the condition is true
+   */
+  public ColumnCondition(ColumnIdentifier identifier, String... columnValues) {
+    this();
+    this.column = identifier;
+    for (String columnValue : columnValues) {
+      this.columnValues.add(columnValue);
+    }
     }
 
     /**
@@ -65,6 +68,14 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
             this.columnValues.add(columnValue);
         }
     }
+
+  public TreeSet<String> getColumnValues() {
+    return columnValues;
+  }
+
+  public ColumnIdentifier getColumn() {
+    return column;
+  }
 
     @Override
     public boolean equals(Object o) {
