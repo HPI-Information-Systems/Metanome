@@ -42,6 +42,7 @@
         <include name="ConfigurationSpecificationString.java"/>
         <include name="ConfigurationSpecificationListBox.java"/>
         <include name="ConfigurationSpecificationInteger.java"/>
+        <include name="DbSystem.java"/>
     </source>
     <source path="algorithm_integration/result_receiver">
         <include name="OmniscientResultReceiver.java"/>

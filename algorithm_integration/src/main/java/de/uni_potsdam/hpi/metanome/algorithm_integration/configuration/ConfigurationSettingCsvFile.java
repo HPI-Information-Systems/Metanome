@@ -21,9 +21,10 @@ import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
+
+ * Stores one CSV file configuration.
+ *
  * @author Jakob Zwiener
- *         <p/>
- *         Stores one CSV file configuration.
  */
 public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
     public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
@@ -43,8 +44,10 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
     private boolean strictQuotes;
     private boolean ignoreLeadingWhiteSpace;
     private int skipLines;
+
     private boolean header;
     private boolean skipDifferingLines;
+
 
 
     /**

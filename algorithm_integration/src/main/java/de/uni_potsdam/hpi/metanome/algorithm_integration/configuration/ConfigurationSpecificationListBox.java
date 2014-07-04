@@ -36,6 +36,7 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
     public ConfigurationSpecificationListBox() {
     }
 
+
     /**
      * Construct a ConfigurationSpecificationListBox, requesting 2 values.
      *

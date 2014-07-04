@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.results_db;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 /**
+ * Enum representing database systems usable as input.
+ *
  * @author Jakob Zwiener
  */
-public class EntityStorageException extends Exception {
+public enum DbSystem {
+    DB2, MySQL, PostgreSQL, HANA, Oracle;
 
-    protected EntityStorageException() {
-        super();
+    /**
+     * Returns a list of string representation of all options of the enum.
+     *
+     * @return string representations of all options
+     */
+    public static String[] names() {
+        DbSystem[] systems = values();
+        String[] names = new String[systems.length];
+
+        for (int i = 0; i < systems.length; i++) {
+            names[i] = systems[i].name();
+        }
+
+        return names;
     }
-
-    public EntityStorageException(String message) {
-        super(message);
-    }
-
 }

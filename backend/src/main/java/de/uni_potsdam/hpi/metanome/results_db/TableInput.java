@@ -31,15 +31,6 @@ public class TableInput extends Input {
     protected DatabaseConnection databaseConnection;
 
     /**
-     * Stores a TableInput in the database.
-     *
-     * @param tableInput the TableInput to store
-     */
-    public static void store(TableInput tableInput) throws EntityStorageException {
-        HibernateUtil.store(tableInput);
-    }
-
-    /**
      * Retrieves a TableInput from the database.
      *
      * @param id the TableInput's id
@@ -47,6 +38,18 @@ public class TableInput extends Input {
      */
     public static TableInput retrieve(long id) throws EntityStorageException {
         return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
+    }
+
+    /**
+     * Stores the TableInput in the database.
+     *
+     * @return the TableInput
+     * @throws EntityStorageException
+     */
+    public TableInput store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
     }
 
     public String getTableName() {
@@ -64,5 +67,12 @@ public class TableInput extends Input {
 
     public void setDatabaseConnection(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
+    }
+
+    @Override
+    public TableInput setId(long id) {
+        super.setId(id);
+
+        return this;
     }
 }

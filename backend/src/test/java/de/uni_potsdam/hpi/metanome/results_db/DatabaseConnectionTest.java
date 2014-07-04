@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection}
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class DatabaseConnectionTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#store(DatabaseConnection)} and {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#retrieve(long)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#retrieve(long)}
      * <p/>
      * DatabaseConnections should be storable and retrievable by id.
      */
@@ -42,7 +43,7 @@ public class DatabaseConnectionTest {
         DatabaseConnection expectedDatabaseConnection = new DatabaseConnection();
 
         // Execute functionality
-        DatabaseConnection.store(expectedDatabaseConnection);
+        assertSame(expectedDatabaseConnection, expectedDatabaseConnection.store());
         long id = expectedDatabaseConnection.getId();
         DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
 
@@ -60,12 +61,12 @@ public class DatabaseConnectionTest {
     public void testEqualsAndHashCode() {
         // Setup
         long id = 42;
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.setId(id);
-        DatabaseConnection equalDatabaseConnection = new DatabaseConnection();
-        equalDatabaseConnection.setId(id);
-        DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection();
-        notEqualDatabaseConnection.setId(23);
+        DatabaseConnection databaseConnection = new DatabaseConnection()
+                .setId(id);
+        DatabaseConnection equalDatabaseConnection = new DatabaseConnection()
+                .setId(id);
+        DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection()
+                .setId(23);
 
         // Execute functionality
         // Check result

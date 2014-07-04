@@ -30,26 +30,31 @@ import java.util.Set;
  */
 public class ConfigurationValueFileInputGenerator implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final FileInputGenerator[] values;
+  protected final String identifier;
+  protected final FileInputGenerator[] values;
 
-	/**
-	 * Constructs a ConfigurationValueFileInputGenerator using the specification's identifier and the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} values.
-	 *
-	 * @param identifier the configuration value's identifier
-	 * @param values     the values to set
-	 */
-	public ConfigurationValueFileInputGenerator(String identifier, FileInputGenerator[] values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueFileInputGenerator using the specification's identifier and the
+   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} values.
+   *
+   * @param identifier the configuration value's identifier
+   * @param values     the values to set
+   */
+  public ConfigurationValueFileInputGenerator(String identifier, FileInputGenerator... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept file input configuration values.");
-		}
-		FileInputParameterAlgorithm fileInputParameterAlgorithm = (FileInputParameterAlgorithm) algorithm;
-		fileInputParameterAlgorithm.setFileInputConfigurationValue(identifier, values);
-	}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept file input configuration values.");
+    }
+    FileInputParameterAlgorithm
+        fileInputParameterAlgorithm =
+        (FileInputParameterAlgorithm) algorithm;
+    fileInputParameterAlgorithm.setFileInputConfigurationValue(identifier, values);
+  }
 }

@@ -18,7 +18,10 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.*;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -42,9 +45,8 @@ import java.util.*;
 )
 @Entity
 @GwtCompatible
-
 public class Algorithm implements Serializable, Comparable<Algorithm> {
-    private static final long serialVersionUID = -3276487707781514801L;
+	private static final long serialVersionUID = -3276487707781514801L;
 
     protected String fileName;
     protected String name;
@@ -53,7 +55,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     protected boolean isInd;
     protected boolean isFd;
     protected boolean isUcc;
-    protected boolean isCucc;
     protected boolean isBasicStat;
 
     /**
@@ -86,9 +87,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
             setUcc(true);
         }
-        if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-            setCucc(true);
-        }
         if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
             setBasicStat(true);
         }
@@ -115,17 +113,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
         this.author = author;
         this.description = description;
-    }
-
-    /**
-     * Stores an Algorithm in the database.
-     *
-     * @param algorithm the Algorithm to store
-     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
-     */
-    @GwtIncompatible("HibernateUtil is not gwt compatible.")
-    public static void store(Algorithm algorithm) throws EntityStorageException {
-        HibernateUtil.store(algorithm);
     }
 
     /**
@@ -172,9 +159,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
             criteria.add(Restrictions.eq("ucc", true));
         }
-        if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-            criteria.add(Restrictions.eq("cucc", true));
-        }
         if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
             criteria.add(Restrictions.eq("basicStat", true));
         }
@@ -190,69 +174,86 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         return algorithms;
     }
 
+    /**
+     * Stores the Algorithm in the database.
+     *
+     * @return the Algorithm
+     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
+     */
+    @GwtIncompatible("HibernateUtil is not gwt compatible.")
+    public Algorithm store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public Algorithm setFileName(String fileName) {
         this.fileName = fileName;
+
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Algorithm setName(String name) {
         this.name = name;
+
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public Algorithm setAuthor(String author) {
         this.author = author;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Algorithm setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
     public boolean isInd() {
         return isInd;
     }
 
-    public void setInd(boolean isInd) {
+    public Algorithm setInd(boolean isInd) {
         this.isInd = isInd;
+
+        return this;
     }
 
     public boolean isFd() {
         return isFd;
     }
 
-    public void setFd(boolean isFd) {
+    public Algorithm setFd(boolean isFd) {
         this.isFd = isFd;
+
+        return this;
     }
 
     public boolean isUcc() {
         return isUcc;
     }
 
-    public void setUcc(boolean isUcc) {
+    public Algorithm setUcc(boolean isUcc) {
         this.isUcc = isUcc;
-    }
-
-    public boolean isCucc() {
-        return isCucc;
-    }
-
-    public Algorithm setCucc(boolean isCucc) {
-        this.isCucc = isCucc;
 
         return this;
     }
@@ -261,8 +262,10 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         return isBasicStat;
     }
 
-    public void setBasicStat(boolean isBasicStat) {
+    public Algorithm setBasicStat(boolean isBasicStat) {
         this.isBasicStat = isBasicStat;
+
+        return this;
     }
 
     @Override
@@ -282,11 +285,11 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         return fileName != null ? fileName.hashCode() : 0;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    @Override
-    public int compareTo(Algorithm o) {
-        return this.getName().compareTo(o.getName());
-    }
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Algorithm o) {		
+		return this.getName().compareTo(o.getName());
+	}
 }

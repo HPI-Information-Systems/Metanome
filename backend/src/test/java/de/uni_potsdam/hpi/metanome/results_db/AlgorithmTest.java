@@ -46,7 +46,6 @@ public class AlgorithmTest {
         // Setup
         Set<Class<?>> algorithmInterfaces = new HashSet<>();
         algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
-        algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
         algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
         algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
         algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
@@ -62,14 +61,13 @@ public class AlgorithmTest {
         assertTrue(actualAlgorithm.isInd());
         assertTrue(actualAlgorithm.isFd());
         assertTrue(actualAlgorithm.isUcc());
-        assertTrue(actualAlgorithm.isCucc());
         assertTrue(actualAlgorithm.isBasicStat());
     }
 
     /**
-     * Test method for {@link Algorithm#store(Algorithm)} and {@link Algorithm#retrieve(String)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#store()} and {@link Algorithm#retrieve(String)}
      * <p/>
-     * Algorithms should be storable and retrievable by id.
+     * Algorithms should be storable and retrievable by id. The store method should return the stored algorithm instance.
      */
     @Test
     public void testPersistence() throws EntityStorageException {
@@ -81,7 +79,7 @@ public class AlgorithmTest {
         Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
 
         // Execute functionality
-        Algorithm.store(expectedAlgorithm);
+        assertSame(expectedAlgorithm, expectedAlgorithm.store());
         Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
 
         // Check result
@@ -100,10 +98,8 @@ public class AlgorithmTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedAlgorithm1 = new Algorithm("some file name 1");
-        Algorithm.store(expectedAlgorithm1);
-        Algorithm expectedAlgorithm2 = new Algorithm("some file name 2");
-        Algorithm.store(expectedAlgorithm2);
+        Algorithm expectedAlgorithm1 = new Algorithm("some file name 1").store();
+        Algorithm expectedAlgorithm2 = new Algorithm("some file name 2").store();
 
         // Execute functionality
         List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
@@ -148,39 +144,32 @@ public class AlgorithmTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedIndAlgorithm = new Algorithm("some ind algorithm file path");
-        expectedIndAlgorithm.setInd(true);
-        Algorithm.store(expectedIndAlgorithm);
+        Algorithm expectedIndAlgorithm = new Algorithm("some ind algorithm file path").setInd(true).store();
 
-        Algorithm expectedFdAlgorithm = new Algorithm("some fd algorithm file path");
-        expectedFdAlgorithm.setFd(true);
-        Algorithm.store(expectedFdAlgorithm);
+        Algorithm expectedFdAlgorithm = new Algorithm("some fd algorithm file path")
+                .setFd(true)
+                .store();
 
-        Algorithm expectedUccAlgorithm = new Algorithm("some ucc algorithm file path");
-        expectedUccAlgorithm.setUcc(true);
-        Algorithm.store(expectedUccAlgorithm);
+        Algorithm expectedUccAlgorithm = new Algorithm("some ucc algorithm file path")
+                .setUcc(true)
+                .store();
 
-        Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path");
-        expectedCuccAlgorithm.setCucc(true);
-        Algorithm.store(expectedCuccAlgorithm);
+        Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path")
+                .setBasicStat(true)
+                .store();
 
-        Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path");
-        expectedBasicStatAlgorithm.setBasicStat(true);
-        Algorithm.store(expectedBasicStatAlgorithm);
-
-        Algorithm expectedHolisticAlgorithm = new Algorithm("some holistic algorithm file path");
-        expectedHolisticAlgorithm.setFd(true);
-        expectedHolisticAlgorithm.setUcc(true);
-        Algorithm.store(expectedHolisticAlgorithm);
+        Algorithm expectedHolisticAlgorithm = new Algorithm("some holistic algorithm file path")
+                .setFd(true)
+                .setUcc(true)
+                .store();
 
         Algorithm otherAlgorithm = new Algorithm("some other path");
-        Algorithm.store(otherAlgorithm);
+        otherAlgorithm.store();
 
         // Execute functionality
         List<Algorithm> actualIndAlgorithms = Algorithm.retrieveAll(InclusionDependencyAlgorithm.class);
         List<Algorithm> actualFdAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class);
         List<Algorithm> actualUccAlgorithms = Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
-        List<Algorithm> actualCuccAlgorithms = Algorithm.retrieveAll(ConditionalUniqueColumnCombinationAlgorithm.class);
         List<Algorithm> actualBasicStatAlgorithms = Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
         List<Algorithm> actualHolisticAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class, UniqueColumnCombinationsAlgorithm.class);
 
@@ -189,7 +178,6 @@ public class AlgorithmTest {
         assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
         assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm, expectedHolisticAlgorithm));
         assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
-        assertThat(actualCuccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
         assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
         assertThat(actualHolisticAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedHolisticAlgorithm));
 

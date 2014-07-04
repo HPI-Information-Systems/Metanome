@@ -50,7 +50,7 @@ public class FinderServiceImplTest {
         // Expected values
         Algorithm[] expectedAlgorithms = {new Algorithm("some file name 1"), new Algorithm("some file name 2"), new Algorithm("some file name 3")};
         for (Algorithm algorithm : expectedAlgorithms) {
-            Algorithm.store(algorithm);
+            algorithm.store();
         }
 
         // Execute functionality
@@ -79,34 +79,28 @@ public class FinderServiceImplTest {
         FinderServiceImpl finderService = new FinderServiceImpl();
 
         // Expected values
-        Algorithm expectedIndAlgorithm = new Algorithm("ind algorithm");
-        expectedIndAlgorithm.setInd(true);
-        Algorithm.store(expectedIndAlgorithm);
+        Algorithm expectedIndAlgorithm = new Algorithm("ind algorithm")
+                .setInd(true)
+                .store();
 
-        Algorithm expectedUccAlgorithm = new Algorithm("ucc algorithm");
-        expectedUccAlgorithm.setUcc(true);
-        Algorithm.store(expectedUccAlgorithm);
+        Algorithm expectedUccAlgorithm = new Algorithm("ucc algorithm")
+                .setUcc(true)
+                .store();
 
-        Algorithm expectedCuccAlgorithm = new Algorithm("cucc algorithm");
-        expectedCuccAlgorithm.setCucc(true);
-        Algorithm.store(expectedCuccAlgorithm);
+        Algorithm expectedFdAlgorithm = new Algorithm("fd algorithm")
+                .setFd(true)
+                .store();
 
+        Algorithm expectedBasicStatAlgorithm = new Algorithm("basic stat algorithm")
+                .setBasicStat(true)
+                .store();
 
-        Algorithm expectedFdAlgorithm = new Algorithm("fd algorithm");
-        expectedFdAlgorithm.setFd(true);
-        Algorithm.store(expectedFdAlgorithm);
-
-        Algorithm expectedBasicStatAlgorithm = new Algorithm("basic stat algorithm");
-        expectedBasicStatAlgorithm.setBasicStat(true);
-        Algorithm.store(expectedBasicStatAlgorithm);
-
-        Algorithm otherAlgorithm = new Algorithm("other algorithm");
-        Algorithm.store(otherAlgorithm);
+        Algorithm otherAlgorithm = new Algorithm("other algorithm")
+                .store();
 
         // Execute functionality
         List<Algorithm> actualIndAlgorithms = finderService.listInclusionDependencyAlgorithms();
         List<Algorithm> actualUccAlgorithms = finderService.listUniqueColumnCombinationsAlgorithms();
-        List<Algorithm> actualCuccAlgorithms = finderService.listConditionalUniqueColumnCombinationsAlgorithms();
         List<Algorithm> actualFdAlgorithms = finderService.listFunctionalDependencyAlgorithms();
         List<Algorithm> actualBasicStatAlgorithms = finderService.listBasicStatisticsAlgorithms();
         List<Algorithm> actualAllAlgorithms = finderService.listAllAlgorithms();
@@ -114,10 +108,9 @@ public class FinderServiceImplTest {
         // Check result
         assertThat(actualIndAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
         assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm));
-        assertThat(actualCuccAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
         assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm));
         assertThat(actualBasicStatAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
-        assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm, expectedUccAlgorithm, expectedCuccAlgorithm, expectedFdAlgorithm, expectedBasicStatAlgorithm, otherAlgorithm));
+        assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm, expectedUccAlgorithm, expectedFdAlgorithm, expectedBasicStatAlgorithm, otherAlgorithm));
 
         // Cleanup
         HibernateUtil.clear();

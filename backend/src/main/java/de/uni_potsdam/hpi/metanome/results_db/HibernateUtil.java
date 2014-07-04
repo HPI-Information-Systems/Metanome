@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * TODO docs
+ * Used to perform low level database operations like storage and retrieval of objects.
  *
  * @author Jakob Zwiener
  */
@@ -115,7 +115,7 @@ public class HibernateUtil {
      * Creates and executes a {@link Criteria} of the type of the persistent class, after attaching all criterions in the array.
      *
      * @param persistentClass the type of {@link javax.persistence.Entity} to query
-     * @param criterionArray all the criteria the results should match
+     * @param criterionArray  all the criteria the results should match
      * @return the matching {@link javax.persistence.Entity}s
      * @throws EntityStorageException
      */

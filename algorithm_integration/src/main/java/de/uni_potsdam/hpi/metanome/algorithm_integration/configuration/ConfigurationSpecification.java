@@ -38,6 +38,9 @@ public abstract class ConfigurationSpecification implements Serializable {
      */
     protected int numberOfValues;
 
+    /**
+     * Exists for GWT serialization.
+     */
     public ConfigurationSpecification() {
     }
 

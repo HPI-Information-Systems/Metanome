@@ -16,11 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import org.junit.Test;
+
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import org.junit.Test;
 
 public class GwtTestBooleanParameter extends GWTTestCase {
 
@@ -95,6 +97,6 @@ public class GwtTestBooleanParameter extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
     }
 }

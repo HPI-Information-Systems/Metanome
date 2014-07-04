@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * @author Claudia Exeler
  */
-public class TabWrapper extends DockPanel {
+public class TabWrapper extends FlowPanel {
 
     protected VerticalPanel errorPanel;
     protected TabContent contentPanel;
@@ -57,6 +58,7 @@ public class TabWrapper extends DockPanel {
         this.errorPanel.add(label);
         this.setInError(true);
     }
+
 
     public void clearErrors() {
         this.errorPanel.clear();

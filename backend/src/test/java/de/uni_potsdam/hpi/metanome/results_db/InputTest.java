@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 public class InputTest {
 
     /**
-     * Test method for {@link Input#store(Input)} and {@link Input#retrieve(long)}
+     * Test method for {@link Input#store()} and {@link Input#retrieve(long)}
      * <p/>
      * Inputs should be storable and retrievable by id.
      */
@@ -45,7 +45,7 @@ public class InputTest {
         Input expectedInput = new Input();
 
         // Execute functionality
-        Input.store(expectedInput);
+        assertSame(expectedInput, expectedInput.store());
         long id = expectedInput.getId();
         Input actualInput = Input.retrieve(id);
 
@@ -69,10 +69,10 @@ public class InputTest {
         // Execute functionality
         // Check result
         long oldId = input.getId();
-        Input.store(input);
+        input.store();
         assertNotEquals(oldId, input.getId());
         oldId = input.getId();
-        Input.store(input);
+        input.store();
         assertNotEquals(oldId, input.getId());
 
         // Cleanup
@@ -88,14 +88,14 @@ public class InputTest {
         HibernateUtil.clear();
 
         // Expected values
-        Input expectedInput = new Input();
-        Input.store(expectedInput);
+        Input expectedInput = new Input()
+                .store();
 
-        FileInput expectedFileInput = new FileInput();
-        FileInput.store(expectedFileInput);
+        FileInput expectedFileInput = new FileInput()
+                .store();
 
-        TableInput expectedTableInput = new TableInput();
-        TableInput.store(expectedTableInput);
+        TableInput expectedTableInput = new TableInput()
+                .store();
 
         // Execute functionality
         List<Input> actualInputs = Input.retrieveAll();
@@ -115,12 +115,12 @@ public class InputTest {
         // Setup
         // Expected values
         int id = 42;
-        Input input = new Input();
-        input.setId(id);
-        Input equalInput = new Input();
-        equalInput.setId(id);
-        Input notEqualInput = new Input();
-        notEqualInput.setId(23);
+        Input input = new Input()
+                .setId(id);
+        Input equalInput = new Input()
+                .setId(id);
+        Input notEqualInput = new Input()
+                .setId(23);
 
         // Execute functionality
         // Check result
