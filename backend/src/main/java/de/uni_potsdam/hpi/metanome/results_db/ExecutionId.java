@@ -17,7 +17,7 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Represents the composite key of an {@link de.uni_potsdam.hpi.metanome.results_db.Execution} in the database.
@@ -26,7 +26,7 @@ import java.util.Date;
  */
 public class ExecutionId implements Serializable {
     protected Algorithm algorithm;
-    protected Date begin;
+    protected Timestamp begin;
 
     /**
      * Exists for hibernate serialization
@@ -35,7 +35,7 @@ public class ExecutionId implements Serializable {
 
     }
 
-    public ExecutionId(Algorithm algorithm, Date begin) {
+    public ExecutionId(Algorithm algorithm, Timestamp begin) {
         this.algorithm = algorithm;
         this.begin = begin;
     }
@@ -48,11 +48,11 @@ public class ExecutionId implements Serializable {
         this.algorithm = algorithm;
     }
 
-    public Date getBegin() {
+    public Timestamp getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(Timestamp begin) {
         this.begin = begin;
     }
 

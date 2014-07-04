@@ -20,10 +20,8 @@ import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -36,7 +34,7 @@ import static org.mockito.Mockito.mock;
 public class ExecutionTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * Executions should be storable and retrievable by id.
      */
@@ -47,14 +45,14 @@ public class ExecutionTest {
 
         // Store prerequisite objects in the database.
         Algorithm algorithm = new Algorithm("some file path");
-        Algorithm.store(algorithm);
+        algorithm.store();
 
         // Expected values
-        Date begin = new Date();
+        Timestamp begin = new Timestamp(new Date().getTime());
         Execution expectedExecution = new Execution(algorithm, begin);
 
         // Execute functionality
-        Execution.store(expectedExecution);
+        assertSame(expectedExecution, expectedExecution.store());
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         // Check result
@@ -65,8 +63,49 @@ public class ExecutionTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and
-     * {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
+     * Test method for {@link Execution#Execution(Algorithm)}
+     * <p/>
+     * When constructing an {@link Execution} without a {@link Timestamp} the current time should be recorded.
+     */
+    @Test
+    public void testConstructorDateNow() {
+        // Execute functionality
+        Execution execution = new Execution(mock(Algorithm.class));
+
+        // Check result
+        // The execution should have a timestamp for begin that is not older than 2 seconds.
+        assertTrue(new Date().getTime() - execution.getBegin().getTime() < 2000);
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieveAll()}
+     */
+    @Test
+    public void testRetrieveAll() throws EntityStorageException {
+        // Setup
+        HibernateUtil.clear();
+
+        // Expected values
+        Algorithm expectedAlgorithm = new Algorithm("some file name 1")
+                .store();
+        Execution expectedExecution1 = new Execution(expectedAlgorithm)
+                .store();
+        Execution expectedExecution2 = new Execution(expectedAlgorithm)
+                .store();
+
+        // Execute functionality
+        List<Execution> actualExecutions = Execution.retrieveAll();
+
+        // Check result
+        assertThat(actualExecutions, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedExecution1, expectedExecution2));
+
+        // Cleanup
+        HibernateUtil.clear();
+    }
+
+    /**
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and
+     * {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * After roundtripping an execution all its {@link de.uni_potsdam.hpi.metanome.results_db.Input}s should be retrievable from it.
      */
@@ -76,23 +115,23 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some path");
-        Algorithm.store(algorithm);
-        Input input1 = new Input();
-        Input.store(input1);
-        Input input2 = new Input();
-        Input.store(input2);
+        Algorithm algorithm = new Algorithm("some path")
+                .store();
+        Input input1 = new Input()
+                .store();
+        Input input2 = new Input()
+                .store();
         Collection<Input> inputs = new ArrayList<>();
         inputs.add(input1);
         inputs.add(input2);
 
         // Expected values
-        Date begin = new Date();
-        Execution expectedExecution = new Execution(algorithm, begin);
-        expectedExecution.setInputs(inputs);
+        Timestamp begin = new Timestamp(new Date().getTime());
+        Execution expectedExecution = new Execution(algorithm, begin)
+                .setInputs(inputs);
 
         // Execute functionality
-        Execution.store(expectedExecution);
+        expectedExecution.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
         Collection<Input> actualInputs = actualExecution.getInputs();
 
@@ -105,7 +144,7 @@ public class ExecutionTest {
     }
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store(Execution)} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.util.Date)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Execution#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)}
      * <p/>
      * Test the database roundtrip of an Execution with multiple {@link de.uni_potsdam.hpi.metanome.results_db.Input}s and {@link de.uni_potsdam.hpi.metanome.results_db.Result}s.
      */
@@ -115,11 +154,11 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some algorithm jar path");
-        Algorithm.store(algorithm);
+        Algorithm algorithm = new Algorithm("some algorithm jar path")
+                .store();
 
         // Expected values
-        Date begin = new Date();
+        Timestamp begin = new Timestamp(new Date().getTime());
         Execution expectedExecution = new Execution(algorithm, begin);
         // Adding results and inputs
         // Results
@@ -136,11 +175,11 @@ public class ExecutionTest {
         expectedExecution.addInput(expectedTableInput);
 
         // Execute functionality
-        Input.store(expectedFileInput);
-        Input.store(expectedTableInput);
-        Execution.store(expectedExecution);
-        Result.store(expectedResult1);
-        Result.store(expectedResult2);
+        expectedFileInput.store();
+        expectedTableInput.store();
+        expectedExecution.store();
+        expectedResult1.store();
+        expectedResult2.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         Set<Result> actualResults = actualExecution.getResults();
@@ -172,11 +211,11 @@ public class ExecutionTest {
         HibernateUtil.clear();
 
         // Store prerequisite objects in the database
-        Algorithm algorithm = new Algorithm("some algorithm file path");
-        Algorithm.store(algorithm);
+        Algorithm algorithm = new Algorithm("some algorithm file path")
+                .store();
 
         // Expected values
-        Date begin = new Date();
+        Timestamp begin = new Timestamp(new Date().getTime());
         Execution expectedExecution = new Execution(algorithm, begin);
         Result expectedResult1 = new Result("some result file path");
         Result expectedResult2 = new Result("some other result file path");
@@ -185,9 +224,9 @@ public class ExecutionTest {
         expectedExecution.addResult(expectedResult1);
         expectedExecution.addResult(expectedResult2);
 
-        Execution.store(expectedExecution);
-        Result.store(expectedResult1);
-        Result.store(expectedResult2);
+        expectedExecution.store();
+        expectedResult1.store();
+        expectedResult2.store();
         Execution actualExecution = Execution.retrieve(algorithm, begin);
 
         Set<Result> actualResults = actualExecution.getResults();
@@ -215,10 +254,10 @@ public class ExecutionTest {
     public void testEqualsAndHashCode() {
         // Setup
         Algorithm algorithm = new Algorithm("some algorithm file name");
-        Date begin = new Date();
+        Timestamp begin = new Timestamp(new Date().getTime());
         Execution execution = new Execution(algorithm, begin);
         Execution equalExecution = new Execution(algorithm, begin);
-        Execution notEqualExecution = new Execution(new Algorithm("some other file name"), new Date(197));
+        Execution notEqualExecution = new Execution(new Algorithm("some other file name"), new Timestamp(197));
 
         // Execute functionality
         // Check result
@@ -234,12 +273,12 @@ public class ExecutionTest {
     @Test
     public void testAddInput() {
         // Setup
-        Execution execution = new Execution(mock(Algorithm.class), mock(Date.class));
+        Execution execution = new Execution(mock(Algorithm.class), mock(Timestamp.class));
         // Expected values
-        Input input1 = new Input();
-        input1.setId(42);
-        Input input2 = new Input();
-        input2.setId(23);
+        Input input1 = new Input()
+                .setId(42);
+        Input input2 = new Input()
+                .setId(23);
 
         // Execute functionality
         // Check result

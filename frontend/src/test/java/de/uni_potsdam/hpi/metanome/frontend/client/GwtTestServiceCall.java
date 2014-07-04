@@ -44,9 +44,12 @@ public class GwtTestServiceCall extends GWTTestCase {
     /**
      * tests the call from client to executionService.executeAlgorithm()
      */
-    @Test
     public void testExecutionService() {
         // Setup
+        TestHelper.resetDatabaseSync();
+
+        String algorithmFileName = "example_ucc_algorithm.jar";
+        TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
         List<ConfigurationSpecification> configs = new ArrayList<>();
         ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
                 "pathToInputFile");
@@ -71,15 +74,17 @@ public class GwtTestServiceCall extends GWTTestCase {
         delayTestFinish(500);
 
         // Execute
-        executionService.executeAlgorithm("example_ucc_algorithm.jar",
+        executionService.executeAlgorithm(algorithmFileName,
                 "executionIdentifier1",
                 configs, callback);
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
     }
 
     /**
      * tests the call from client to parameterService.retrieveParameters
      */
-    @Test
     public void testParameterService() {
         // Setup
         AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
@@ -107,7 +112,6 @@ public class GwtTestServiceCall extends GWTTestCase {
     /**
      * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
      */
-    @Test
     public void testFinderService() {
         // Setup
         AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
@@ -129,11 +133,10 @@ public class GwtTestServiceCall extends GWTTestCase {
         delayTestFinish(500);
 
         finderService.listInclusionDependencyAlgorithms(callback);
-
     }
 
     @Override
     public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+        return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
     }
 }

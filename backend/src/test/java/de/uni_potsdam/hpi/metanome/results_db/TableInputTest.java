@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput}
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class TableInputTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#store(Input)} and {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#retrieve(long)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#store()} and {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#retrieve(long)}
      * <p/>
      * TableInputs should be storable and retrievable by id.
      */
@@ -44,7 +45,7 @@ public class TableInputTest {
         expectedTableInput.setTableName(expectedTableName);
 
         // Execute functionality
-        TableInput.store(expectedTableInput);
+        assertSame(expectedTableInput, expectedTableInput.store());
         long id = expectedTableInput.getId();
         TableInput actualTableInput = TableInput.retrieve(id);
         String actualTableName = actualTableInput.getTableName();
@@ -66,12 +67,12 @@ public class TableInputTest {
     public void testEqualsAndHashCode() {
         // Setup
         long id = 42;
-        TableInput tableInput = new TableInput();
-        tableInput.setId(id);
-        TableInput equalTableInput = new TableInput();
-        equalTableInput.setId(id);
-        TableInput notEqualTableInput = new TableInput();
-        notEqualTableInput.setId(23);
+        TableInput tableInput = new TableInput()
+                .setId(id);
+        TableInput equalTableInput = new TableInput()
+                .setId(id);
+        TableInput notEqualTableInput = new TableInput()
+                .setId(23);
 
         // Execute functionality
         // Check result

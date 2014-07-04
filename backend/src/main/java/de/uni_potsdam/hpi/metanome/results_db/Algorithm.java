@@ -48,7 +48,7 @@ import java.util.*;
 public class Algorithm implements Serializable, Comparable<Algorithm> {
 	private static final long serialVersionUID = -3276487707781514801L;
 
-	protected String fileName;
+    protected String fileName;
     protected String name;
     protected String author;
     protected String description;
@@ -71,7 +71,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     /**
      * The algorithm should have the appropriate algorithm types set, based on the implemented interfaces.
      *
-     * @param fileName the file name of the algorithm jar
+     * @param fileName            the file name of the algorithm jar
      * @param algorithmInterfaces the implemented interfaces
      */
     @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
@@ -91,39 +91,28 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
             setBasicStat(true);
         }
     }
-    
+
     /**
      * This constructor sets all attributes as given, and sets the algorithm types based on the given
      * interfaces. If no name is specified, fileName is used for this purpose.
-     * 
-     * @param fileName the file name of the algorithm jar
-     * @param name the name of the implemented algorithm
-     * @param author name(s) of the author(s)
-     * @param description any additional information on the algorithm
+     *
+     * @param fileName            the file name of the algorithm jar
+     * @param name                the name of the implemented algorithm
+     * @param author              name(s) of the author(s)
+     * @param description         any additional information on the algorithm
      * @param algorithmInterfaces the implemented interfaces
      */
     @GwtIncompatible("The algorithm interfaces are not gwt compatible.")
     public Algorithm(String fileName, String name, String author, String description, Set<Class<?>> algorithmInterfaces) {
-    	this(fileName, algorithmInterfaces);
-    	
-    	if (name != null)
-    		this.name = name;
-    	else
-    		this.name = fileName;
-    	
-    	this.author = author;
-    	this.description = description;
-    }
+        this(fileName, algorithmInterfaces);
 
-    /**
-     * Stores an Algorithm in the database.
-     *
-     * @param algorithm the Algorithm to store
-     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
-     */
-    @GwtIncompatible("HibernateUtil is not gwt compatible.")
-    public static void store(Algorithm algorithm) throws EntityStorageException {
-        HibernateUtil.store(algorithm);
+        if (name != null)
+            this.name = name;
+        else
+            this.name = fileName;
+
+        this.author = author;
+        this.description = description;
     }
 
     /**
@@ -185,69 +174,98 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
         return algorithms;
     }
 
+    /**
+     * Stores the Algorithm in the database.
+     *
+     * @return the Algorithm
+     * @throws de.uni_potsdam.hpi.metanome.results_db.EntityStorageException
+     */
+    @GwtIncompatible("HibernateUtil is not gwt compatible.")
+    public Algorithm store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     @Id
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public Algorithm setFileName(String fileName) {
         this.fileName = fileName;
+
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Algorithm setName(String name) {
         this.name = name;
+
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public Algorithm setAuthor(String author) {
         this.author = author;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Algorithm setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
     public boolean isInd() {
         return isInd;
     }
 
-    public void setInd(boolean isInd) {
+    public Algorithm setInd(boolean isInd) {
         this.isInd = isInd;
+
+        return this;
     }
 
     public boolean isFd() {
         return isFd;
     }
 
-    public void setFd(boolean isFd) {
+    public Algorithm setFd(boolean isFd) {
         this.isFd = isFd;
+
+        return this;
     }
 
     public boolean isUcc() {
         return isUcc;
     }
 
-    public void setUcc(boolean isUcc) {
+    public Algorithm setUcc(boolean isUcc) {
         this.isUcc = isUcc;
+
+        return this;
     }
 
     public boolean isBasicStat() {
         return isBasicStat;
     }
 
-    public void setBasicStat(boolean isBasicStat) {
+    public Algorithm setBasicStat(boolean isBasicStat) {
         this.isBasicStat = isBasicStat;
+
+        return this;
     }
 
     @Override

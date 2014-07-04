@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.results_db;
+package de.uni_potsdam.hpi.metanome.frontend.client;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
+ * {@link de.uni_potsdam.hpi.metanome.frontend.client.TestDatabaseHelperServiceAsync}
+ *
  * @author Jakob Zwiener
  */
-public class EntityStorageException extends Exception {
+public interface TestDatabaseHelperServiceAsync {
+    void resetDatabase(AsyncCallback<Void> async);
 
-    protected EntityStorageException() {
-        super();
-    }
-
-    public EntityStorageException(String message) {
-        super(message);
-    }
-
+    void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
 }

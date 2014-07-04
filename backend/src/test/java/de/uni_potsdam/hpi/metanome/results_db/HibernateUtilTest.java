@@ -143,10 +143,10 @@ public class HibernateUtilTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedAlgorithm1 = new Algorithm("some path 1");
-        Algorithm.store(expectedAlgorithm1);
-        Algorithm expectedAlgorithm2 = new Algorithm("some path 2");
-        Algorithm.store(expectedAlgorithm2);
+        Algorithm expectedAlgorithm1 = new Algorithm("some path 1")
+                .store();
+        Algorithm expectedAlgorithm2 = new Algorithm("some path 2")
+                .store();
 
         // Execute functionality
         List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
@@ -160,7 +160,7 @@ public class HibernateUtilTest {
 
     /**
      * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#queryCriteria(Class, org.hibernate.criterion.Criterion...)}
-     *
+     * <p/>
      * When querying for entities without adding any criteria, all entities of the correct type should be returned.
      *
      * @throws EntityStorageException
@@ -173,7 +173,7 @@ public class HibernateUtilTest {
         // Expected values
         Algorithm[] expectedAlgorithms = {new Algorithm("some path 1"), new Algorithm("some path 2")};
         for (Algorithm expectedAlgorithm : expectedAlgorithms) {
-            Algorithm.store(expectedAlgorithm);
+            expectedAlgorithm.store();
         }
 
         // Execute functionality
@@ -199,11 +199,11 @@ public class HibernateUtilTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedAlgorithm = new Algorithm("some path");
-        expectedAlgorithm.setFd(true);
-        Algorithm.store(expectedAlgorithm);
-        Algorithm otherAlgorithm = new Algorithm("some other path");
-        Algorithm.store(otherAlgorithm);
+        Algorithm expectedAlgorithm = new Algorithm("some path")
+                .setFd(true)
+                .store();
+        Algorithm otherAlgorithm = new Algorithm("some other path")
+                .store();
 
         // Execute functionality
         Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
@@ -227,13 +227,13 @@ public class HibernateUtilTest {
         HibernateUtil.clear();
 
         // Expected values
-        Algorithm expectedAlgorithm = new Algorithm("some path");
-        expectedAlgorithm.setFd(true);
-        expectedAlgorithm.setUcc(true);
-        Algorithm.store(expectedAlgorithm);
-        Algorithm otherAlgorithm = new Algorithm("some other path");
-        otherAlgorithm.setFd(true);
-        Algorithm.store(otherAlgorithm);
+        Algorithm expectedAlgorithm = new Algorithm("some path")
+                .setFd(true)
+                .setUcc(true)
+                .store();
+        Algorithm otherAlgorithm = new Algorithm("some other path")
+                .setFd(true)
+                .store();
 
         // Execute functionality
         Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
@@ -298,7 +298,7 @@ public class HibernateUtilTest {
         Algorithm expectedAlgorithm = new Algorithm(expectedAlgorithmId);
 
         // Execute functionality
-        Algorithm.store(expectedAlgorithm);
+        expectedAlgorithm.store();
         HibernateUtil.clear();
 
         // Check result

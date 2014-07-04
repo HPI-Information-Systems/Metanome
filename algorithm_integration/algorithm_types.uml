@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types</OriginalElement>
+  <nodes>
+    <node x="-100.80547550432283" y="618.720461095101">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm</node>
+    <node x="1109.4452449567723" y="595.0850144092218">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm</node>
+    <node x="1103.1239193083572" y="463.3919308357348">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm</node>
+    <node x="1092.6974063400573" y="689.8760806916426">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm</node>
+    <node x="1107.8659942363113" y="530.0749279538903">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm</node>
+    <node x="1101.331412103746" y="375.8731988472622">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm</node>
+    <node x="976.3602305475501" y="774.1239193083574">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm</node>
+    <node x="-54.902017291066215" y="723.71325648415">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm</node>
+    <node x="516.6599423631123" y="738.2161383285303">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm</node>
+    <node x="-73.42651296829973" y="535.292507204611">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm</node>
+    <node x="551.791066282421" y="325.9740634005765">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm</node>
+    <node x="-48.67146974063394" y="422.62391930835736">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm</node>
+    <node x="1044.2521613832853" y="242.9164265129683">de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm</node>
+    <node x="449.0" y="537.0">de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm" target="de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5749792874896438" x="792.7334293948127" y="593.5" />
+  <SelectedNodes>
+    <node>de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

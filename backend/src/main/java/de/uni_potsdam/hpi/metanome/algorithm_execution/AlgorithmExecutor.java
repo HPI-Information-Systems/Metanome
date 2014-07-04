@@ -27,15 +27,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.Execution;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -80,54 +80,56 @@ public class AlgorithmExecutor implements Closeable {
 		}
 
 
-		try {
-			return executeAlgorithmWithValues(algorithmFileName, parameterValues);
-		} catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
-			throw new AlgorithmLoadingException();
-		} catch (IOException e) {
-			throw new AlgorithmLoadingException("IO Exception.");
-		} catch (ClassNotFoundException e) {
-			throw new AlgorithmLoadingException("Class not found.");
-		} catch (InstantiationException e) {
-			throw new AlgorithmLoadingException("Could not instantiate.");
-		} catch (InvocationTargetException e) {
-			throw new AlgorithmLoadingException("Could not invoke.");
-		} catch (NoSuchMethodException e) {
-			throw new AlgorithmLoadingException("No such method.");
-		}
-	}
+        try {
+            return executeAlgorithmWithValues(algorithmFileName, parameterValues);
+        } catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
+            throw new AlgorithmLoadingException();
+        } catch (IOException e) {
+            throw new AlgorithmLoadingException("IO Exception");
+        } catch (ClassNotFoundException e) {
+            throw new AlgorithmLoadingException("Class not found.");
+        } catch (InstantiationException e) {
+            throw new AlgorithmLoadingException("Could not instantiate.");
+        } catch (InvocationTargetException e) {
+            throw new AlgorithmLoadingException("Could not invoke.");
+        } catch (NoSuchMethodException e) {
+            throw new AlgorithmLoadingException("No such method.");
+        } catch (EntityStorageException e) {
+            throw new AlgorithmLoadingException("Algorithm not found in database.");
+        }
+    }
 
-	/**
-	 * Executes an algorithm. The algorithm is loaded from the jar,
-	 * configured and all receivers and generators are set before execution.
-	 * The elapsed time while executing the algorithm in nano seconds is
-	 * returned as long.
-	 *
-	 * @param algorithmFileName the algorithm's file name
-	 * @param parameters        list of configuration values
-	 * @return elapsed time in ns
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws AlgorithmExecutionException
-	 */
-	public long executeAlgorithmWithValues(String algorithmFileName,
-										   List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException {
-		AlgorithmJarLoader loader = new AlgorithmJarLoader();
-		Algorithm algorithm;
+    /**
+     * Executes an algorithm. The algorithm is loaded from the jar,
+     * configured and all receivers and generators are set before execution.
+     * The elapsed time while executing the algorithm in nano seconds is
+     * returned as long.
+     *
+     * @param algorithmFileName the algorithm's file name
+     * @param parameters        list of configuration values
+     * @return elapsed time in ns
+     * @throws IllegalArgumentException
+     * @throws SecurityException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws AlgorithmExecutionException
+     */
+    public long executeAlgorithmWithValues(String algorithmFileName,
+                                           List<ConfigurationValue> parameters) throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
+        AlgorithmJarLoader loader = new AlgorithmJarLoader();
+        Algorithm algorithm;
 
 		algorithm = loader.loadAlgorithm(algorithmFileName);
 
 		Set<Class<?>> interfaces = getInterfaces(algorithm);
 
-		for (ConfigurationValue configValue : parameters) { //TODO convert to values first
-			configValue.triggerSetValue(algorithm, interfaces);
-		}
+        for (ConfigurationValue configValue : parameters) {
+            configValue.triggerSetValue(algorithm, interfaces);
+        }
 
 		if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
 			FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
@@ -159,12 +161,18 @@ public class AlgorithmExecutor implements Closeable {
 			progressEstimatingAlgorithm.setProgressReceiver(progressCache);
 		}
 
-		long before = System.nanoTime();
-		algorithm.execute();
-		long after = System.nanoTime();
+        long beforeWallClockTime = new Date().getTime();
+        long before = System.nanoTime();
+        algorithm.execute();
+        long after = System.nanoTime();
+        long elapsedNanos = after - before;
 
-		return after - before;
-	}
+        new Execution(de.uni_potsdam.hpi.metanome.results_db.Algorithm.retrieve(algorithmFileName), new Timestamp(beforeWallClockTime))
+                .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
+                .store();
+
+        return elapsedNanos;
+    }
 
 	protected Set<Class<?>> getInterfaces(Object object) {
 		return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));

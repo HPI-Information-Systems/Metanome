@@ -66,16 +66,6 @@ public class FileInput extends Input {
     }
 
     /**
-     * Stores an FileInput in the database.
-     *
-     * @param fileInput the FileInput to store
-     * @throws EntityStorageException
-     */
-    public static void store(FileInput fileInput) throws EntityStorageException {
-        HibernateUtil.store(fileInput);
-    }
-
-    /**
      * Retrieves a FileInput from the database.
      *
      * @param id the FileInput's id
@@ -86,75 +76,112 @@ public class FileInput extends Input {
         return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
     }
 
+    /**
+     * Stores the FileInput in the database.
+     *
+     * @return the FileInput
+     * @throws EntityStorageException
+     */
+    public FileInput store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
+    }
+
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public FileInput setFileName(String fileName) {
         this.fileName = fileName;
+
+        return this;
     }
 
     public char getSeparator() {
         return separator;
     }
 
-    public void setSeparator(char separator) {
+    public FileInput setSeparator(char separator) {
         this.separator = separator;
+
+        return this;
     }
 
     public char getQuotechar() {
         return quotechar;
     }
 
-    public void setQuotechar(char quotechar) {
+    public FileInput setQuotechar(char quotechar) {
         this.quotechar = quotechar;
+
+        return this;
     }
 
     public char getEscapechar() {
         return escapechar;
     }
 
-    public void setEscapechar(char escapechar) {
+    public FileInput setEscapechar(char escapechar) {
         this.escapechar = escapechar;
+
+        return this;
     }
 
     public int getSkipLines() {
         return skipLines;
     }
 
-    public void setSkipLines(int skipLines) {
+    public FileInput setSkipLines(int skipLines) {
         this.skipLines = skipLines;
+
+        return this;
     }
 
     public boolean isStrictQuotes() {
         return strictQuotes;
     }
 
-    public void setStrictQuotes(boolean strictQuotes) {
+    public FileInput setStrictQuotes(boolean strictQuotes) {
         this.strictQuotes = strictQuotes;
+
+        return this;
     }
 
     public boolean isIgnoreLeadingWhiteSpace() {
         return ignoreLeadingWhiteSpace;
     }
 
-    public void setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
+    public FileInput setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
         this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+
+        return this;
     }
 
     public boolean isHasHeader() {
         return hasHeader;
     }
 
-    public void setHasHeader(boolean hasHeader) {
+    public FileInput setHasHeader(boolean hasHeader) {
         this.hasHeader = hasHeader;
+
+        return this;
     }
 
     public boolean isSkipDifferingLines() {
         return skipDifferingLines;
     }
 
-    public void setSkipDifferingLines(boolean skipDifferingLines) {
+    public FileInput setSkipDifferingLines(boolean skipDifferingLines) {
         this.skipDifferingLines = skipDifferingLines;
+
+        return this;
+    }
+
+    @Override
+    public FileInput setId(long id) {
+        super.setId(id);
+
+        return this;
     }
 }

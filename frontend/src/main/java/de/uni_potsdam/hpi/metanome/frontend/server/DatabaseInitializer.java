@@ -75,9 +75,9 @@ public class DatabaseInitializer implements ServletContextListener {
         for (String filePath : algorithmFileNames) {
             try {
                 Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-                Algorithm algorithm = new Algorithm(filePath, algorithmInterfaces);
-                algorithm.setName(filePath.replaceAll(".jar", ""));
-                Algorithm.store(algorithm);
+                Algorithm algorithm = new Algorithm(filePath, algorithmInterfaces)
+                        .setName(filePath.replaceAll(".jar", ""))
+                        .store();
             } catch (EntityStorageException | IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -100,7 +100,7 @@ public class DatabaseInitializer implements ServletContextListener {
         for (File input : inputs) {
             FileInput fileInput = new FileInput(input.getName());
             try {
-                FileInput.store(fileInput);
+                fileInput.store();
             } catch (EntityStorageException e) {
                 e.printStackTrace();
             }

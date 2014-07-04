@@ -25,7 +25,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -39,6 +38,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -55,7 +57,6 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * Test BasePage constructor.
      */
-    @Test
     public void testNewBasePage() {
         //Execute
         testPage = new BasePage();
@@ -80,7 +81,6 @@ public class GwtTestBasePage extends GWTTestCase {
         assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
     }
 
-    @Test
     public void testAddAlgorithmsToRunConfigurations() {
         BasePage page = new BasePage();
         int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
@@ -97,14 +97,13 @@ public class GwtTestBasePage extends GWTTestCase {
     /**
      * Test control flow from Algorithms to Run configuration
      */
-    @Test
     public void testJumpToRunConfigurationFromAlgorithm() {
         // Setup
         final String algorithmName = "some_name";
         final BasePage page = new BasePage();
-        Algorithm a = new Algorithm("file/name");
-        a.setAuthor("author");
-        a.setName(algorithmName);
+        Algorithm a = new Algorithm("file/name")
+                .setAuthor("author")
+                .setName(algorithmName);
         algorithms.add(a);
 
         page.addAlgorithmsToRunConfigurations(algorithms);
@@ -113,6 +112,7 @@ public class GwtTestBasePage extends GWTTestCase {
             @Override
             public void onFailure(Throwable caught) {
                 caught.printStackTrace();
+                fail();
             }
 
             @Override
@@ -145,7 +145,6 @@ public class GwtTestBasePage extends GWTTestCase {
      *
      * @throws AlgorithmConfigurationException
      */
-    @Test
     public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
         final BasePage page = new BasePage();
         final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(

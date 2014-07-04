@@ -22,6 +22,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -36,8 +37,8 @@ public class Execution {
     // TODO cascading save to children
 
     protected Algorithm algorithm;
-    protected Date begin;
-    protected Date end;
+    protected Timestamp begin;
+    protected Timestamp end;
     // TODO store proper config
     protected String config;
     protected Collection<Input> inputs = new ArrayList<>();
@@ -53,21 +54,21 @@ public class Execution {
     }
 
     /**
+     * Generates an Execution with the current time as start time.
+     *
      * @param algorithm the executed algorithm
-     * @param begin     the start time of the execution
      */
-    public Execution(Algorithm algorithm, Date begin) {
-        this.algorithm = algorithm;
-        this.begin = begin;
+    public Execution(Algorithm algorithm) {
+        this(algorithm, new Timestamp(new Date().getTime()));
     }
 
     /**
-     * Stores an execution in the database.
-     *
-     * @param execution the execution to store
+     * @param algorithm the executed algorithm
+     * @param begin     the start time of the execution
      */
-    public static void store(Execution execution) throws EntityStorageException {
-        HibernateUtil.store(execution);
+    public Execution(Algorithm algorithm, Timestamp begin) {
+        this.algorithm = algorithm;
+        this.begin = begin;
     }
 
     /**
@@ -77,8 +78,38 @@ public class Execution {
      * @param begin     the start time of the execution
      * @return the execution
      */
-    public static Execution retrieve(Algorithm algorithm, Date begin) throws EntityStorageException {
+    public static Execution retrieve(Algorithm algorithm, Timestamp begin) throws EntityStorageException {
         return (Execution) HibernateUtil.retrieve(Execution.class, new ExecutionId(algorithm, begin));
+    }
+
+    /**
+     * Retrieves all executions stored in the database
+     *
+     * @return a list of all executions
+     */
+    public static List<Execution> retrieveAll() {
+        List<Execution> executions = null;
+
+        try {
+            executions = HibernateUtil.queryCriteria(Execution.class);
+        } catch (EntityStorageException e) {
+            // Algorithm should implement Entity, so the exception should not occur.
+            e.printStackTrace();
+        }
+
+        return executions;
+    }
+
+    /**
+     * Stores the Execution in the database.
+     *
+     * @return the Execution
+     * @throws EntityStorageException
+     */
+    public Execution store() throws EntityStorageException {
+        HibernateUtil.store(this);
+
+        return this;
     }
 
     @Id
@@ -87,33 +118,41 @@ public class Execution {
         return algorithm;
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
+    public Execution setAlgorithm(Algorithm algorithm) {
         this.algorithm = algorithm;
+
+        return this;
     }
 
     @Id
-    public Date getBegin() {
+    public Timestamp getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public Execution setBegin(Timestamp begin) {
         this.begin = begin;
+
+        return this;
     }
 
-    public Date getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public Execution setEnd(Timestamp end) {
         this.end = end;
+
+        return this;
     }
 
     public String getConfig() {
         return config;
     }
 
-    public void setConfig(String config) {
+    public Execution setConfig(String config) {
         this.config = config;
+
+        return this;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -128,8 +167,10 @@ public class Execution {
         return inputs;
     }
 
-    public void setInputs(Collection<Input> inputs) {
+    public Execution setInputs(Collection<Input> inputs) {
         this.inputs = inputs;
+
+        return this;
     }
 
     @OneToMany(
@@ -141,24 +182,30 @@ public class Execution {
         return results;
     }
 
-    public void setResults(Set<Result> results) {
+    public Execution setResults(Set<Result> results) {
         this.results = results;
+
+        return this;
     }
 
     public String getHardwareDescription() {
         return hardwareDescription;
     }
 
-    public void setHardwareDescription(String hardwareDescription) {
+    public Execution setHardwareDescription(String hardwareDescription) {
         this.hardwareDescription = hardwareDescription;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Execution setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
     @Override
@@ -187,8 +234,10 @@ public class Execution {
      *
      * @param input the Input to add.
      */
-    public void addInput(Input input) {
+    public Execution addInput(Input input) {
         inputs.add(input);
+
+        return this;
     }
 
     /**
@@ -196,8 +245,10 @@ public class Execution {
      *
      * @param result the Result to add
      */
-    public void addResult(Result result) {
+    public Execution addResult(Result result) {
         result.setExecution(this);
         results.add(result);
+
+        return this;
     }
 }
