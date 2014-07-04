@@ -18,20 +18,15 @@ package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-
-import org.junit.Test;
-
 
 public class GwtTestTableInputField extends GWTTestCase {
 
-  /**
-   * Test method for {@link TableInputField#getValue()}
-   * <p/>
-   */
-  @Test
-  public void testGetValue() throws InputValidationException, EntityStorageException {
+//  /**
+//   * Test method for {@link TableInputField#getValue()}
+//   * <p/>
+//   */
+//  @Test
+//  public void testGetValue() throws InputValidationException, EntityStorageException {
 //    //Setup
 //    HibernateUtil.clear();
 //
@@ -57,7 +52,7 @@ public class GwtTestTableInputField extends GWTTestCase {
 //
 //    // Cleanup
 //    HibernateUtil.clear();
-  }
+//  }
 
   @Override
   public String getModuleName() {

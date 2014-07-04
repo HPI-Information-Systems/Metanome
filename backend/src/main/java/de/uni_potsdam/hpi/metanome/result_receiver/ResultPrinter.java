@@ -22,112 +22,118 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * TODO docs
  */
 public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
-    protected PrintStream statStream;
-    protected PrintStream fdStream;
-    protected PrintStream uccStream;
-    protected PrintStream indStream;
+  protected PrintStream statStream;
+  protected PrintStream fdStream;
+  protected PrintStream uccStream;
+  protected PrintStream indStream;
 
-    protected String algorithmExecutionIdentifier;
-    protected String directoryName;
+  protected String algorithmExecutionIdentifier;
+  protected String directoryName;
 
-    public ResultPrinter(String algorithmExecutionIdentifier, String directoryName) throws FileNotFoundException {
-        File directory = new File(directoryName);
-        if (!directory.exists())
-            directory.mkdirs();
-
-        this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
-        this.directoryName = directoryName;
+  public ResultPrinter(String algorithmExecutionIdentifier, String directoryName)
+      throws FileNotFoundException {
+    File directory = new File(directoryName);
+    if (!directory.exists()) {
+      directory.mkdirs();
     }
 
-    @Override
-    public void receiveResult(BasicStatistic statistic)
-            throws CouldNotReceiveResultException {
-        getStatStream().println(statistic.toString());
+    this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
+    this.directoryName = directoryName;
+  }
+
+  @Override
+  public void receiveResult(BasicStatistic statistic)
+      throws CouldNotReceiveResultException {
+    getStatStream().println(statistic.toString());
+  }
+
+  @Override
+  public void receiveResult(FunctionalDependency functionalDependency)
+      throws CouldNotReceiveResultException {
+    getFdStream().println(functionalDependency.toString());
+  }
+
+  @Override
+  public void receiveResult(InclusionDependency inclusionDependency)
+      throws CouldNotReceiveResultException {
+    getIndStream().println(inclusionDependency.toString());
+  }
+
+  @Override
+  public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
+      throws CouldNotReceiveResultException {
+    getUccStream().println(uniqueColumnCombination.toString());
+  }
+
+  protected PrintStream getStatStream() throws CouldNotReceiveResultException {
+    if (statStream == null) {
+      statStream = openStream("_stats");
     }
 
-    @Override
-    public void receiveResult(FunctionalDependency functionalDependency)
-            throws CouldNotReceiveResultException {
-        getFdStream().println(functionalDependency.toString());
+    return statStream;
+  }
+
+  protected PrintStream getFdStream() throws CouldNotReceiveResultException {
+    if (fdStream == null) {
+      fdStream = openStream("_fds");
     }
 
-    @Override
-    public void receiveResult(InclusionDependency inclusionDependency)
-            throws CouldNotReceiveResultException {
-        getIndStream().println(inclusionDependency.toString());
+    return fdStream;
+  }
+
+  protected PrintStream getIndStream() throws CouldNotReceiveResultException {
+    if (indStream == null) {
+      indStream = openStream("_inds");
     }
 
-    @Override
-    public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-            throws CouldNotReceiveResultException {
-        getUccStream().println(uniqueColumnCombination.toString());
+    return indStream;
+  }
+
+  protected PrintStream getUccStream() throws CouldNotReceiveResultException {
+    if (uccStream == null) {
+      uccStream = openStream("_uccs");
     }
 
-    protected PrintStream getStatStream() throws CouldNotReceiveResultException {
-        if (statStream == null) {
-            statStream = openStream("_stats");
-        }
+    return uccStream;
+  }
 
-        return statStream;
+  protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
+    try {
+      return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
+    } catch (FileNotFoundException e) {
+      throw new CouldNotReceiveResultException("Could not open result file for writing.");
     }
+  }
 
-    protected PrintStream getFdStream() throws CouldNotReceiveResultException {
-        if (fdStream == null) {
-            fdStream = openStream("_fds");
-        }
+  protected String getOutputFilePathPrefix() {
+    return directoryName + "/" + algorithmExecutionIdentifier;
+  }
 
-        return fdStream;
+  @Override
+  public void close() throws IOException {
+    if (statStream != null) {
+      statStream.close();
     }
-
-    protected PrintStream getIndStream() throws CouldNotReceiveResultException {
-        if (indStream == null) {
-            indStream = openStream("_inds");
-        }
-
-        return indStream;
+    if (fdStream != null) {
+      fdStream.close();
     }
-
-    protected PrintStream getUccStream() throws CouldNotReceiveResultException {
-        if (uccStream == null) {
-            uccStream = openStream("_uccs");
-        }
-
-        return uccStream;
+    if (indStream != null) {
+      indStream.close();
     }
-
-    protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
-        try {
-            return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
-        } catch (FileNotFoundException e) {
-            throw new CouldNotReceiveResultException("Could not open result file for writing.");
-        }
+    if (uccStream != null) {
+      uccStream.close();
     }
-
-    protected String getOutputFilePathPrefix() {
-        return directoryName + "/" + algorithmExecutionIdentifier;
-    }
-
-    @Override
-    public void close() throws IOException {
-        if (statStream != null) {
-            statStream.close();
-        }
-        if (fdStream != null) {
-            fdStream.close();
-        }
-        if (indStream != null) {
-            indStream.close();
-        }
-        if (uccStream != null) {
-            uccStream.close();
-        }
-    }
+  }
 
 }

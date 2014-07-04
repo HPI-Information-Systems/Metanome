@@ -16,8 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import org.junit.Test;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -31,95 +29,92 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
+import org.junit.Test;
+
 public class GwtTestResultsTablePage extends GWTTestCase {
 
-    /**
-     * Test method for {@link ResultsTablePage#receiveResult(BasicStatistic)}
-     * <p/>
-     * After receiving a {@link BasicStatistic} the appropriate results table should be updated.
-     */
-    @Test
-    public void testReceiveResultBasicStatistic() {
-        // Setup
-        ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-		ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+  /**
+   * Test method for {@link ResultsTablePage#receiveResult(BasicStatistic)} <p/> After receiving a
+   * {@link BasicStatistic} the appropriate results table should be updated.
+   */
+  @Test
+  public void testReceiveResultBasicStatistic() {
+    // Setup
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
+    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
 
-        // Execute functionality
-        // Check result
-        assertEquals(0, resultsTab.basicsTable.getRowCount());
-        resultsTab.receiveResult(new BasicStatistic("Min", "MinValue", new ColumnIdentifier("table1", "column2")));
-        assertEquals(1, resultsTab.basicsTable.getRowCount());
-    }
+    // Execute functionality
+    // Check result
+    assertEquals(0, resultsTab.basicsTable.getRowCount());
+    resultsTab.receiveResult(
+        new BasicStatistic("Min", "MinValue", new ColumnIdentifier("table1", "column2")));
+    assertEquals(1, resultsTab.basicsTable.getRowCount());
+  }
 
-    /**
-     * Test method for {@link ResultsTablePage#receiveResult(UniqueColumnCombination)}
-     * <p/>
-     * After receiving a {@link UniqueColumnCombination} the appropriate results table should be updated.
-     *
-     * @throws CouldNotReceiveResultException
-     */
-    @Test
-    public void testReceiveResultUniqueColumnCombinations() throws CouldNotReceiveResultException {
-        // Setup
-        ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-        ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+  /**
+   * Test method for {@link ResultsTablePage#receiveResult(UniqueColumnCombination)} <p/> After
+   * receiving a {@link UniqueColumnCombination} the appropriate results table should be updated.
+   */
+  @Test
+  public void testReceiveResultUniqueColumnCombinations() throws CouldNotReceiveResultException {
+    // Setup
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
+    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
 
-        // Execute functionality
-        // Check result
-        assertEquals(0, resultsTab.uccTable.getRowCount());
-        resultsTab.receiveResult(new UniqueColumnCombination(
-                new ColumnIdentifier("table1", "column2")));
-        assertEquals(1, resultsTab.uccTable.getRowCount());
-    }
+    // Execute functionality
+    // Check result
+    assertEquals(0, resultsTab.uccTable.getRowCount());
+    resultsTab.receiveResult(new UniqueColumnCombination(
+        new ColumnIdentifier("table1", "column2")));
+    assertEquals(1, resultsTab.uccTable.getRowCount());
+  }
 
-    /**
-     * Test method for {@link ResultsTablePage#receiveResult(InclusionDependency)}
-     * <p/>
-     * After receiving a {@link InclusionDependency} the appropriate results table should be updated.
-     */
-    @Test
-    public void testReceiveResultInclusionDependency() {
-        // Setup
-        ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-        ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+  /**
+   * Test method for {@link ResultsTablePage#receiveResult(InclusionDependency)} <p/> After
+   * receiving a {@link InclusionDependency} the appropriate results table should be updated.
+   */
+  @Test
+  public void testReceiveResultInclusionDependency() {
+    // Setup
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
+    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
 
-        // Execute functionality
-        // Check result
-        assertEquals(0, resultsTab.indTable.getRowCount());
-        resultsTab.receiveResult(new InclusionDependency(
-                new ColumnCombination(
-                        new ColumnIdentifier("table1", "column2")),
-                new ColumnCombination(
-                        new ColumnIdentifier("table2", "column23"))
-        ));
-        assertEquals(1, resultsTab.indTable.getRowCount());
-    }
+    // Execute functionality
+    // Check result
+    assertEquals(0, resultsTab.indTable.getRowCount());
+    resultsTab.receiveResult(new InclusionDependency(
+        new ColumnCombination(
+            new ColumnIdentifier("table1", "column2")),
+        new ColumnCombination(
+            new ColumnIdentifier("table2", "column23"))
+    ));
+    assertEquals(1, resultsTab.indTable.getRowCount());
+  }
 
-    /**
-     * Test method for {@link ResultsTablePage#receiveResult(FunctionalDependency)}
-     * <p/>
-     * After receiving a {@link FunctionalDependency} the appropriate results table should be updated.
-     */
-    @Test
-    public void testReceiveResultFunctionalDependency() {
-        // Setup
-        ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-        ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+  /**
+   * Test method for {@link ResultsTablePage#receiveResult(FunctionalDependency)} <p/> After
+   * receiving a {@link FunctionalDependency} the appropriate results table should be updated.
+   */
+  @Test
+  public void testReceiveResultFunctionalDependency() {
+    // Setup
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
+    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
 
-        // Execute functionality
-        // Check result
-        assertEquals(0, resultsTab.fdTable.getRowCount());
-        resultsTab.receiveResult(new FunctionalDependency(
-                new ColumnCombination(
-                        new ColumnIdentifier("table1", "column2")),
-                new ColumnIdentifier("table1", "column23")
-        ));
-        assertEquals(1, resultsTab.fdTable.getRowCount());
-    }
+    // Execute functionality
+    // Check result
+    assertEquals(0, resultsTab.fdTable.getRowCount());
+    resultsTab.receiveResult(new FunctionalDependency(
+        new ColumnCombination(
+            new ColumnIdentifier("table1", "column2")),
+        new ColumnIdentifier("table1", "column23")
+    ));
+    assertEquals(1, resultsTab.fdTable.getRowCount());
+  }
 
-    @Override
-    public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }

@@ -17,9 +17,11 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput}
@@ -28,54 +30,54 @@ import static org.junit.Assert.assertEquals;
  */
 public class TableInputTest {
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#store(Input)} and {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#retrieve(long)}
-     * <p/>
-     * TableInputs should be storable and retrievable by id.
-     */
-    @Test
-    public void testPersistence() throws EntityStorageException {
-        // Setup
-        HibernateUtil.clear();
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#store()} and {@link
+   * de.uni_potsdam.hpi.metanome.results_db.TableInput#retrieve(long)} <p/> TableInputs should be
+   * storable and retrievable by id.
+   */
+  @Test
+  public void testPersistence() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
 
-        // Expected values
-        TableInput expectedTableInput = new TableInput();
-        String expectedTableName = "some table name";
-        expectedTableInput.setTableName(expectedTableName);
+    // Expected values
+    TableInput expectedTableInput = new TableInput();
+    String expectedTableName = "some table name";
+    expectedTableInput.setTableName(expectedTableName);
 
-        // Execute functionality
-        TableInput.store(expectedTableInput);
-        long id = expectedTableInput.getId();
-        TableInput actualTableInput = TableInput.retrieve(id);
-        String actualTableName = actualTableInput.getTableName();
+    // Execute functionality
+    assertSame(expectedTableInput, expectedTableInput.store());
+    long id = expectedTableInput.getId();
+    TableInput actualTableInput = TableInput.retrieve(id);
+    String actualTableName = actualTableInput.getTableName();
 
-        // Check result
-        assertEquals(expectedTableInput, actualTableInput);
-        assertEquals(expectedTableName, actualTableName);
+    // Check result
+    assertEquals(expectedTableInput, actualTableInput);
+    assertEquals(expectedTableName, actualTableName);
 
-        // Cleanup
-        HibernateUtil.clear();
-    }
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#hashCode()}
-     * <p/>
-     * Note that the equals and hashCode methods are inherited from {@link de.uni_potsdam.hpi.metanome.results_db.Input}.
-     */
-    @Test
-    public void testEqualsAndHashCode() {
-        // Setup
-        long id = 42;
-        TableInput tableInput = new TableInput();
-        tableInput.setId(id);
-        TableInput equalTableInput = new TableInput();
-        equalTableInput.setId(id);
-        TableInput notEqualTableInput = new TableInput();
-        notEqualTableInput.setId(23);
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#equals(Object)} and
+   * {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#hashCode()} <p/> Note that the equals
+   * and hashCode methods are inherited from {@link de.uni_potsdam.hpi.metanome.results_db.Input}.
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+    // Setup
+    long id = 42;
+    TableInput tableInput = new TableInput()
+        .setId(id);
+    TableInput equalTableInput = new TableInput()
+        .setId(id);
+    TableInput notEqualTableInput = new TableInput()
+        .setId(23);
 
-        // Execute functionality
-        // Check result
-        new EqualsAndHashCodeTester<TableInput>()
-                .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
-    }
+    // Execute functionality
+    // Check result
+    new EqualsAndHashCodeTester<TableInput>()
+        .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
+  }
 }

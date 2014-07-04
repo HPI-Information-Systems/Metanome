@@ -16,39 +16,36 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import static junit.framework.Assert.assertEquals;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Test;
+import static junit.framework.Assert.assertEquals;
 
 public class ExecutionServiceTest {
 
-    ExecutionServiceImpl executionService = new ExecutionServiceImpl();
+  ExecutionServiceImpl executionService = new ExecutionServiceImpl();
 
-    /**
-     * Test method for {@link ExecutionServiceImpl#fetchProgress(String)}
-     * <p/>
-     * When fetching the current progress for an execution the correct progress should be returned.
-     *
-     * @throws FileNotFoundException
-     * @throws UnsupportedEncodingException
-     */
-    @Test
-    public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
-        // Setup
-        // Expected values
-        String expectedExecutionIdentifier = "executionIdentifier";
-        executionService.buildExecutor(expectedExecutionIdentifier);
-        float expectedProgress = 0.42f;
+  /**
+   * Test method for {@link ExecutionServiceImpl#fetchProgress(String)} <p/> When fetching the
+   * current progress for an execution the correct progress should be returned.
+   */
+  @Test
+  public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
+    // Setup
+    // Expected values
+    String expectedExecutionIdentifier = "executionIdentifier";
+    executionService.buildExecutor(expectedExecutionIdentifier);
+    float expectedProgress = 0.42f;
 
-        // Execute functionality
-        executionService.currentProgressCaches.get(expectedExecutionIdentifier).updateProgress(expectedProgress);
-        float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
+    // Execute functionality
+    executionService.currentProgressCaches.get(expectedExecutionIdentifier)
+        .updateProgress(expectedProgress);
+    float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
 
-        // Check result
-        assertEquals(expectedProgress, actualProgress);
-    }
+    // Check result
+    assertEquals(expectedProgress, actualProgress);
+  }
 
 }

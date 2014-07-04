@@ -26,8 +26,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.Pro
  */
 public interface ProgressEstimatingAlgorithm extends Algorithm {
 
-    /**
-     * @param progressReceiver receiving the algorithm's progress
-     */
-    void setProgressReceiver(ProgressReceiver progressReceiver);
+  /**
+   * @param progressReceiver receiving the algorithm's progress
+   */
+  void setProgressReceiver(ProgressReceiver progressReceiver);
 }

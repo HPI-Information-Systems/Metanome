@@ -27,51 +27,52 @@ import java.util.ArrayList;
  */
 public class ConfigurationSpecificationListBox extends ConfigurationSpecification {
 
-	private ConfigurationSettingListBox[] settings;
-	private ArrayList<String> values;
+  private ConfigurationSettingListBox[] settings;
+  private ArrayList<String> values;
 
-	/**
-	 * Exists for GWT serialization.
-	 */
-	public ConfigurationSpecificationListBox() {
-	}
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationListBox() {
+  }
 
-	/**
-	 * Construct a ConfigurationSpecificationListBox, requesting 2 values.
-	 *
-	 * @param identifier the specification's identifier
-	 * @param values     the values, which should be displayed in the list box
-	 */
-	public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values) {
-		super(identifier);
-		this.values = values;
-	}
+  /**
+   * Construct a ConfigurationSpecificationListBox, requesting 1 values.
+   *
+   * @param identifier the specification's identifier
+   * @param values     the values, which should be displayed in the list box
+   */
+  public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values) {
+    super(identifier);
+    this.values = values;
+  }
 
-	/**
-	 * Constructs a {@link ConfigurationSpecificationListBox}, potentially requesting several values.
-	 *
-	 * @param identifier     the specification's identifier
-	 * @param values         the values, which should be displayed in the list box
-	 * @param numberOfValues the number of values expected
-	 */
-	public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values, int numberOfValues) {
-		super(identifier, numberOfValues);
-		this.values = values;
-	}
+  /**
+   * Constructs a {@link ConfigurationSpecificationListBox}, potentially requesting several values.
+   *
+   * @param identifier     the specification's identifier
+   * @param values         the values, which should be displayed in the list box
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values,
+                                           int numberOfValues) {
+    super(identifier, numberOfValues);
+    this.values = values;
+  }
 
-	@Override
-	public ConfigurationSettingListBox[] getSettings() {
-		return this.settings;
-	}
+  @Override
+  public ConfigurationSettingListBox[] getSettings() {
+    return this.settings;
+  }
 
-	public void setSettings(ConfigurationSettingListBox... settings) {
-		this.settings = settings;
-	}
+  public void setSettings(ConfigurationSettingListBox... settings) {
+    this.settings = settings;
+  }
 
-	/**
-	 * @return the values, which should be displayed in the list box
-	 */
-	public ArrayList<String> getValues() {
-		return this.values;
-	}
+  /**
+   * @return the values, which should be displayed in the list box
+   */
+  public ArrayList<String> getValues() {
+    return this.values;
+  }
 }

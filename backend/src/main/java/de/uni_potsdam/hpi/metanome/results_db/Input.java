@@ -16,8 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * Represents superclass inputs in the database.
@@ -28,65 +33,72 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Input {
 
-    protected long id;
+  protected long id;
 
-    /**
-     * Stores an Input in the database.
-     *
-     * @param input the Input to store
-     * @throws EntityStorageException
-     */
-    public static void store(Input input) throws EntityStorageException {
-        HibernateUtil.store(input);
+  /**
+   * Retrieves an Input from the database.
+   *
+   * @param id the Input's id
+   * @return the input
+   */
+  public static Input retrieve(long id) throws EntityStorageException {
+    return (Input) HibernateUtil.retrieve(Input.class, id);
+  }
+
+  /**
+   * Retrieves all inputs and subclasses stored in the database.
+   *
+   * @return a list of all inputs
+   */
+  public static List<Input> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(Input.class);
+  }
+
+  /**
+   * Stores the Input in the database.
+   *
+   * @return the Input
+   */
+  public Input store() throws EntityStorageException {
+    HibernateUtil.store(this);
+
+    return this;
+  }
+
+  @Id
+  @GeneratedValue
+  public long getId() {
+    return id;
+  }
+
+  public Input setId(long id) {
+    this.id = id;
+
+    return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Input)) {
+      return false;
     }
 
-    /**
-     * Retrieves an Input from the database.
-     *
-     * @param id the Input's id
-     * @return the input
-     * @throws EntityStorageException
-     */
-    public static Input retrieve(long id) throws EntityStorageException {
-        return (Input) HibernateUtil.retrieve(Input.class, id);
+    Input input = (Input) o;
+
+    if (id != input.id) {
+      return false;
     }
 
-    /**
-     * Retrieves all inputs and subclasses stored in the database.
-     *
-     * @return a list of all inputs
-     * @throws EntityStorageException
-     */
-    public static List<Input> retrieveAll() throws EntityStorageException {
-        return HibernateUtil.queryCriteria(Input.class);
-    }
+    return true;
+  }
 
-    @Id
-    @GeneratedValue
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Input)) return false;
-
-        Input input = (Input) o;
-
-        if (id != input.id) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
+  @Override
+  public int hashCode() {
+    return (int) (id ^ (id >>> 32));
+  }
 
 
 }

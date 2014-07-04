@@ -24,57 +24,57 @@ import java.util.List;
 
 public class InputParameterStringWidget extends InputParameterWidget {
 
-	protected ConfigurationSpecificationString specification;
-	protected List<StringInput> inputWidgets;
+  protected ConfigurationSpecificationString specification;
+  protected List<StringInput> inputWidgets;
 
-	public InputParameterStringWidget(ConfigurationSpecificationString config) {
-		super(config);
-	}
+  public InputParameterStringWidget(ConfigurationSpecificationString config) {
+    super(config);
+  }
 
-	@Override
-	protected void addInputField(boolean optional) {
+  @Override
+  protected void addInputField(boolean optional) {
 
-		StringInput field = new StringInput(optional);
-		this.inputWidgets.add(field);
-		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
-		this.insert(field, index);
-	}
+    StringInput field = new StringInput(optional);
+    this.inputWidgets.add(field);
+    int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+    this.insert(field, index);
+  }
 
-	@Override
-	public ConfigurationSpecificationString getUpdatedSpecification() {
-		this.specification.setValues(this.getConfigurationSettings());
-		return this.specification;
-	}
+  @Override
+  public ConfigurationSpecificationString getUpdatedSpecification() {
+    this.specification.setValues(this.getConfigurationSettings());
+    return this.specification;
+  }
 
-	protected ConfigurationSettingString[] getConfigurationSettings() {
-		ConfigurationSettingString[] values = new ConfigurationSettingString[this.inputWidgets.size()];
-		int i = 0;
-		for (StringInput si : this.inputWidgets) {
-			values[i] = new ConfigurationSettingString(si.getValue());
-			i++;
-		}
-		return values;
-	}
-
-
-	@Override
-	public List<? extends InputField> getInputWidgets() {
-		return this.inputWidgets;
-	}
-
-	@Override
-	public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-		this.inputWidgets = (List<StringInput>) inputWidgetsList;
-	}
+  protected ConfigurationSettingString[] getConfigurationSettings() {
+    ConfigurationSettingString[] values = new ConfigurationSettingString[this.inputWidgets.size()];
+    int i = 0;
+    for (StringInput si : this.inputWidgets) {
+      values[i] = new ConfigurationSettingString(si.getValue());
+      i++;
+    }
+    return values;
+  }
 
 
-	@Override
-	public ConfigurationSpecification getSpecification() {
-		return this.specification;
-	}
+  @Override
+  public List<? extends InputField> getInputWidgets() {
+    return this.inputWidgets;
+  }
 
-	@Override
-	public void setSpecification(ConfigurationSpecification config) {
-		this.specification = (ConfigurationSpecificationString) config;
-	}
+  @Override
+  public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
+    this.inputWidgets = (List<StringInput>) inputWidgetsList;
+  }
+
+
+  @Override
+  public ConfigurationSpecification getSpecification() {
+    return this.specification;
+  }
+
+  @Override
+  public void setSpecification(ConfigurationSpecification config) {
+    this.specification = (ConfigurationSpecificationString) config;
+  }
 }

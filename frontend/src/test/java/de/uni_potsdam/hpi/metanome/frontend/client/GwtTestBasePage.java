@@ -16,11 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -40,159 +35,159 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Tests related to the overall page.
  */
 public class GwtTestBasePage extends GWTTestCase {
 
-    LinkedList<Algorithm> algorithms = new LinkedList<>();
-    /**
-     * this must contain an algorithm and a data source that are currently available
-     */
-    private String dataSourceName = "inputA.csv";
-    private BasePage testPage;
+  LinkedList<Algorithm> algorithms = new LinkedList<>();
+  /**
+   * this must contain an algorithm and a data source that are currently available
+   */
+  private String dataSourceName = "inputA.csv";
+  private BasePage testPage;
 
-    /**
-     * Test BasePage constructor.
-     */
-    @Test
-    public void testNewBasePage() {
+  /**
+   * Test BasePage constructor.
+   */
+  public void testNewBasePage() {
+    //Execute
+    testPage = new BasePage();
+
+    //Check
+    assertEquals(5, testPage.getWidgetCount());
+
+    Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
+
+    wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
+
+    wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
+
+    wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+  }
+
+  public void testAddAlgorithmsToRunConfigurations() {
+    BasePage page = new BasePage();
+    int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+
+    //Execute
+    page.addAlgorithmsToRunConfigurations(algorithms);
+
+    //Check
+    assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
+  }
+
+  /**
+   * Test control flow from Algorithms to Run configuration
+   */
+  public void testJumpToRunConfigurationFromAlgorithm() {
+    // Setup
+    final String algorithmName = "some_name";
+    final BasePage page = new BasePage();
+    Algorithm a = new Algorithm("file/name")
+        .setAuthor("author")
+        .setName(algorithmName);
+    algorithms.add(a);
+
+    page.addAlgorithmsToRunConfigurations(algorithms);
+
+    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        caught.printStackTrace();
+        fail();
+      }
+
+      @Override
+      public void onSuccess(List<Algorithm> result) {
+        page.addAlgorithmsToRunConfigurations(result);
+
         //Execute
-        testPage = new BasePage();
+        page.jumpToRunConfiguration(algorithmName, null);
 
         //Check
-        assertEquals(5, testPage.getWidgetCount());
-
-        Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
-        assertTrue(wrapper instanceof TabWrapper);
-        assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
-
-        wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
-        assertTrue(wrapper instanceof TabWrapper);
-        assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
-
-        wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
-        assertTrue(wrapper instanceof TabWrapper);
-        assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
-
-        wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
-        assertTrue(wrapper instanceof TabWrapper);
-        assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
-    }
-
-    @Test
-    public void testAddAlgorithmsToRunConfigurations() {
-        BasePage page = new BasePage();
-        int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
-        algorithms.add(new Algorithm("Algorithm 1"));
-        algorithms.add(new Algorithm("Algorithm 2"));
-
-        //Execute
-        page.addAlgorithmsToRunConfigurations(algorithms);
-
-        //Check
-        assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
-    }
-
-    /**
-     * Test control flow from Algorithms to Run configuration
-     */
-    @Test
-    public void testJumpToRunConfigurationFromAlgorithm() {
-        // Setup
-        final String algorithmName = "some_name";
-        final BasePage page = new BasePage();
-        Algorithm a = new Algorithm("file/name");
-        a.setAuthor("author");
-        a.setName(algorithmName);
-        algorithms.add(a);
-
-        page.addAlgorithmsToRunConfigurations(algorithms);
-
-        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                caught.printStackTrace();
-            }
-
-            @Override
-            public void onSuccess(List<Algorithm> result) {
-                page.addAlgorithmsToRunConfigurations(result);
-
-                //Execute
-                page.jumpToRunConfiguration(algorithmName, null);
-
-                //Check
-                assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-                assertEquals(algorithmName, getRunConfigurationPage(page)
-                        .getCurrentlySelectedAlgorithm());
+        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+        assertEquals(algorithmName, getRunConfigurationPage(page)
+            .getCurrentlySelectedAlgorithm());
 
 //				TODO Add testing to ensure the parameter table is shown
 //				assertEquals(2, (((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidgetCount()); 
 //				assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1) instanceof ParameterTable); 
 
-                finishTest();
-            }
-        };
+        finishTest();
+      }
+    };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+    ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
-        delayTestFinish(5000);
-    }
+    delayTestFinish(5000);
+  }
 
-    /**
-     * Test control flow from Data source to Run configuration
-     *
-     * @throws AlgorithmConfigurationException
-     */
-    @Test
-    public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
-        final BasePage page = new BasePage();
-        final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
-                new ConfigurationSpecificationCsvFile("test"));
-        ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
-        dataSource.setFileName(dataSourceName);
-        final ConfigurationSettingCsvFile finalDataSource = dataSource;
+  /**
+   * Test control flow from Data source to Run configuration
+   */
+  public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
+    final BasePage page = new BasePage();
+    final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
+        new ConfigurationSpecificationCsvFile("test"));
+    ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
+    dataSource.setFileName(dataSourceName);
+    final ConfigurationSettingCsvFile finalDataSource = dataSource;
 //		dataSourceWidget.setDataSource(dataSource);
 
-        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
-                caught.printStackTrace();
-            }
+    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        // TODO: Do something with errors.
+        caught.printStackTrace();
+      }
 
-            @Override
-            public void onSuccess(List<Algorithm> result) {
-                page.addAlgorithmsToRunConfigurations(result);
+      @Override
+      public void onSuccess(List<Algorithm> result) {
+        page.addAlgorithmsToRunConfigurations(result);
 
-                //Execute
-                page.jumpToRunConfiguration(null, finalDataSource);
+        //Execute
+        page.jumpToRunConfiguration(null, finalDataSource);
 
-                RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
+        RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 
-                //Check
-                assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-                assertEquals(finalDataSource.getValueAsString(), runConfigPage.primaryDataSource.getValueAsString());
-                //TODO assert correct filtering
+        //Check
+        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+        assertEquals(finalDataSource.getValueAsString(),
+                     runConfigPage.primaryDataSource.getValueAsString());
+        //TODO assert correct filtering
 
-                finishTest();
-            }
-        };
+        finishTest();
+      }
+    };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+    ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
 
-        delayTestFinish(5000);
-    }
+    delayTestFinish(5000);
+  }
 
-    private RunConfigurationPage getRunConfigurationPage(
-            final BasePage page) {
-        return (RunConfigurationPage) ((TabWrapper) page.getWidget(page.getSelectedIndex())).contentPanel;
-    }
+  private RunConfigurationPage getRunConfigurationPage(
+      final BasePage page) {
+    return (RunConfigurationPage) ((TabWrapper) page
+        .getWidget(page.getSelectedIndex())).contentPanel;
+  }
 
-    @Override
-    public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }

@@ -18,14 +18,14 @@ package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 public class AlgorithmLoadingException extends Exception {
 
-    private static final long serialVersionUID = -1084394870338813708L;
+  private static final long serialVersionUID = -1084394870338813708L;
 
-    public AlgorithmLoadingException() {
-        super();
-    }
+  public AlgorithmLoadingException() {
+    super();
+  }
 
-    public AlgorithmLoadingException(String message) {
-        super(message);
-    }
+  public AlgorithmLoadingException(String message) {
+    super(message);
+  }
 
 }

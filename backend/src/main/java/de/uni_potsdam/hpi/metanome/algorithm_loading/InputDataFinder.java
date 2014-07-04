@@ -26,35 +26,35 @@ import java.net.URLDecoder;
  */
 public class InputDataFinder {
 
-    /**
-     * Returns all possible input files from Metanome's input file directory.
-     *
-     * @return an array of input files
-     * @throws UnsupportedEncodingException
-     */
-    public File[] getAvailableCsvs() throws UnsupportedEncodingException {
-        String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+  /**
+   * Returns all possible input files from Metanome's input file directory.
+   *
+   * @return an array of input files
+   */
+  public File[] getAvailableCsvs() throws UnsupportedEncodingException {
+    String
+        pathToFolder =
+        Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
-        return retrieveCsvFiles(pathToFolder);
-    }
+    return retrieveCsvFiles(pathToFolder);
+  }
 
-    /**
-     * Retrieves all csv files located directly in the given directory.
-     *
-     * @param pathToFolder path to the folder to be searched in
-     * @return names of all CSV files located directly in the given directory (no subfolders)
-     * @throws UnsupportedEncodingException
-     */
-    protected File[] retrieveCsvFiles(String pathToFolder) throws UnsupportedEncodingException {
-        File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
-        File[] csvs = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String name) {
-                return name.endsWith(".csv");
-            }
-        });
+  /**
+   * Retrieves all csv files located directly in the given directory.
+   *
+   * @param pathToFolder path to the folder to be searched in
+   * @return names of all CSV files located directly in the given directory (no subfolders)
+   */
+  protected File[] retrieveCsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+    File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
+    File[] csvs = folder.listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File file, String name) {
+        return name.endsWith(".csv");
+      }
+    });
 
-        return csvs;
-    }
+    return csvs;
+  }
 
 }

@@ -22,10 +22,10 @@ import com.google.gwt.user.client.ui.Button;
 
 public class ParameterTableSubmitHandler implements ClickHandler {
 
-    @Override
-    public void onClick(ClickEvent event) {
-        ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();
-        paramTable.submit();
-    }
+  @Override
+  public void onClick(ClickEvent event) {
+    ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();
+    paramTable.submit();
+  }
 
 }

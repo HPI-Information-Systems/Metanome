@@ -17,18 +17,16 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 /**
- * TODO docs
- *
  * @author Jakob Zwiener
  */
 public class EntityStorageException extends Exception {
 
-    protected EntityStorageException() {
-        super();
-    }
+  protected EntityStorageException() {
+    super();
+  }
 
-    public EntityStorageException(String message) {
-        super(message);
-    }
+  public EntityStorageException(String message) {
+    super(message);
+  }
 
 }

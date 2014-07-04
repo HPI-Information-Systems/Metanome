@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 
@@ -25,12 +26,12 @@ import java.util.List;
 
 public interface ExecutionServiceAsync {
 
-    public void executeAlgorithm(String algorithmName,
-                                 String executionIdentifier,
-                                 List<ConfigurationSpecification> parameters,
-                                 AsyncCallback<Long> callback);
+  public void executeAlgorithm(String algorithmName,
+                               String executionIdentifier,
+                               List<ConfigurationSpecification> parameters,
+                               AsyncCallback<Long> callback);
 
-    public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> callback);
+  public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> callback);
 
-    public void fetchProgress(String executionIdentifier, AsyncCallback<Float> callback);
+  public void fetchProgress(String executionIdentifier, AsyncCallback<Float> callback);
 }
