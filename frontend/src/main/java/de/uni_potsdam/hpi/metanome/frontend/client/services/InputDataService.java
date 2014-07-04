@@ -22,6 +22,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("inputDataService")
 public interface InputDataService extends RemoteService {
 
-    public String[] listCsvInputFiles();
+  public String[] listCsvInputFiles();
 
 }

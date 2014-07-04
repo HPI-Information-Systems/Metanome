@@ -25,37 +25,36 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 /**
  * @author Claudia Exeler
- *
  */
 public class ResultsPage extends TabLayoutPanel implements TabContent {
 
-    protected final BasePage basePage;
-    protected TabWrapper errorReceiver;
+  protected final BasePage basePage;
+  protected TabWrapper errorReceiver;
 
-	public ResultsPage(BasePage parent) {
-		super(1, Unit.CM);
-		this.basePage = parent;
+  public ResultsPage(BasePage parent) {
+    super(1, Unit.CM);
+    this.basePage = parent;
 
-		this.setHeight("100%");
-	}
+    this.setHeight("100%");
+  }
 
-	/* (non-Javadoc)
-	 * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
-	 */
-	@Override
-	public void setErrorReceiver(TabWrapper tab) {
-		this.errorReceiver = tab;
-		tab.addStyleName("fullSize");
-	}
+  /* (non-Javadoc)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   */
+  @Override
+  public void setErrorReceiver(TabWrapper tab) {
+    this.errorReceiver = tab;
+    tab.addStyleName("fullSize");
+  }
 
-	/**
-	 * @param resultsTableContent
-	 * @param visualizationTab
-	 */
-	public void update(ResultsTablePage resultsTableContent,
-			ResultsVisualizationPage visualizationTab) {
-		this.clear();
-		this.add(resultsTableContent, "Table");
-		this.add(visualizationTab, "Visualization");
-	}
+  /**
+   * @param resultsTableContent
+   * @param visualizationTab
+   */
+  public void update(ResultsTablePage resultsTableContent,
+                     ResultsVisualizationPage visualizationTab) {
+    this.clear();
+    this.add(resultsTableContent, "Table");
+    this.add(visualizationTab, "Visualization");
+  }
 }

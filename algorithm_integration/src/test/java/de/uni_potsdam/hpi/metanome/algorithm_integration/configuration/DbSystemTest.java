@@ -31,26 +31,23 @@ import static org.junit.Assert.assertEquals;
  */
 public class DbSystemTest {
 
-    /**
-     * Test method for {@link DbSystem#names()}
-     * <p/>
-     * Returns a list of string representation of all options of the enum.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testNames() throws Exception {
-        // Setup
-        // Expected values
-        Set<String> expectedEnumNames = new HashSet<>();
-        for (DbSystem value : DbSystem.class.getEnumConstants()) {
-            expectedEnumNames.add(value.name());
-        }
-
-        // Execute functionality
-        String[] actualNames = DbSystem.names();
-
-        // Check result
-        assertEquals(expectedEnumNames, new HashSet<>(Arrays.asList(actualNames)));
+  /**
+   * Test method for {@link DbSystem#names()} <p/> Returns a list of string representation of all
+   * options of the enum.
+   */
+  @Test
+  public void testNames() throws Exception {
+    // Setup
+    // Expected values
+    Set<String> expectedEnumNames = new HashSet<>();
+    for (DbSystem value : DbSystem.class.getEnumConstants()) {
+      expectedEnumNames.add(value.name());
     }
+
+    // Execute functionality
+    String[] actualNames = DbSystem.names();
+
+    // Check result
+    assertEquals(expectedEnumNames, new HashSet<>(Arrays.asList(actualNames)));
+  }
 }

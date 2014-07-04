@@ -50,38 +50,41 @@ import java.util.List;
  */
 public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
 
-    protected ProgressReceiver progressReceiver = null;
-    protected RelationalInputGenerator inputGenerator = null;
-    protected UniqueColumnCombinationResultReceiver resultReceiver = null;
+  protected ProgressReceiver progressReceiver = null;
+  protected RelationalInputGenerator inputGenerator = null;
+  protected UniqueColumnCombinationResultReceiver resultReceiver = null;
 
-    @Override
-    public void setProgressReceiver(ProgressReceiver progressReceiver) {
-        this.progressReceiver = progressReceiver;
+  @Override
+  public void setProgressReceiver(ProgressReceiver progressReceiver) {
+    this.progressReceiver = progressReceiver;
+  }
+
+  @Override
+  public void setRelationalInputConfigurationValue(String identifier,
+                                                   RelationalInputGenerator... values)
+      throws AlgorithmConfigurationException {
+    this.inputGenerator = values[0];
+  }
+
+  @Override
+  public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
+    this.resultReceiver = resultReceiver;
+  }
+
+  @Override
+  public List<ConfigurationSpecification> getConfigurationRequirements() {
+    List<ConfigurationSpecification> configurations = new LinkedList<>();
+
+    configurations.add(new ConfigurationSpecificationCsvFile("identifier"));
+
+    return configurations;
+  }
+
+  @Override
+  public void execute() throws AlgorithmExecutionException {
+    if ((progressReceiver != null) && (inputGenerator != null) && (resultReceiver != null)) {
+      resultReceiver
+          .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("table1", "column3")));
     }
-
-    @Override
-    public void setRelationalInputConfigurationValue(String identifier, RelationalInputGenerator... values) throws AlgorithmConfigurationException {
-        this.inputGenerator = values[0];
-    }
-
-    @Override
-    public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
-        this.resultReceiver = resultReceiver;
-    }
-
-    @Override
-    public List<ConfigurationSpecification> getConfigurationRequirements() {
-        List<ConfigurationSpecification> configurations = new LinkedList<>();
-
-        configurations.add(new ConfigurationSpecificationCsvFile("identifier"));
-
-        return configurations;
-    }
-
-    @Override
-    public void execute() throws AlgorithmExecutionException {
-        if ((progressReceiver != null) && (inputGenerator != null) && (resultReceiver != null)) {
-            resultReceiver.receiveResult(new UniqueColumnCombination(new ColumnIdentifier("table1", "column3")));
-        }
-    }
+  }
 }

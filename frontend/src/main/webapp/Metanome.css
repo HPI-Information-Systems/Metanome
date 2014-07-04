@@ -15,9 +15,9 @@
  */
 
 body {
-	font-family: arial;
-	overflow: hidden;
-}	
+    font-family: arial;
+    overflow: hidden;
+}
 
 .body {
     height: 100%;
@@ -40,56 +40,59 @@ h3 {
     left: 10px !important;
 }
 
-
 .resultTable {
     border-collapse: collapse;
 }
-.resultTable tr:nth-child(odd) { 
-	background-color:#d0e4f6; 
+
+.resultTable tr:nth-child(odd) {
+    background-color: #d0e4f6;
 }
-.resultTable tr:nth-child(even) { 
-	background-color:#ffffff; 
+
+.resultTable tr:nth-child(even) {
+    background-color: #ffffff;
 }
+
 .resultTable td {
-	vertical-align:middle;
-	text-align:left;
-	padding: 2px 6px 2px 6px;
+    vertical-align: middle;
+    text-align: left;
+    padding: 2px 6px 2px 6px;
 }
 
 .resultTable-caption {
-	font-weight: bold;
-	font-family: arial;
+    font-weight: bold;
+    font-family: arial;
 }
 
 .fullSize {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .gwt-TabLayoutPanel div {
-	overflow-x: hidden;
-	overflow-y: scroll !important;	
+    overflow-x: hidden;
+    overflow-y: scroll !important;
 }
+
 .gwt-TabLayoutPanelContent {
     background: white;
     border: none !important;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
-	margin-left: 0px;
-	margin-right: 2px;
-	padding: 6px 8px 6px 8px;
-	color: gray;
-	-webkit-border-top-left-radius:6px;
-	-moz-border-radius-topleft:6px;
-	border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
-	-moz-border-radius-topright:6px;
-	border-top-right-radius:6px;
+    margin-left: 0px;
+    margin-right: 2px;
+    padding: 6px 8px 6px 8px;
+    color: gray;
+    -webkit-border-top-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-right-radius: 6px;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
-	color: black;
+    color: black;
 }
 
 .errorMessage {
@@ -98,41 +101,44 @@ h3 {
 }
 
 .gwt-Button {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background-color:#ededed;
-	-webkit-border-top-left-radius:6px;
-	-moz-border-radius-topleft:6px;
-	border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
-	-moz-border-radius-topright:6px;
-	border-top-right-radius:6px;
-	-webkit-border-bottom-right-radius:6px;
-	-moz-border-radius-bottomright:6px;
-	border-bottom-right-radius:6px;
-	-webkit-border-bottom-left-radius:6px;
-	-moz-border-radius-bottomleft:6px;
-	border-bottom-left-radius:6px;
-	text-indent:0;
-	display:inline-block;
-	color:#777777;
-	font-size:12px !important;
-	font-weight:bold;
-	font-style:normal;
-	text-decoration:none;
-	text-align:center;
-	padding: 6px 6px 6px 6px !important;
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background-color: #ededed;
+    -webkit-border-top-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-left-radius: 6px;
+    text-indent: 0;
+    display: inline-block;
+    color: #777777;
+    font-size: 12px !important;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none;
+    text-align: center;
+    padding: 6px 6px 6px 6px !important;
 }
+
 .gwt-Button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-	background-color:#dfdfdf;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
+    background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
+    background-color: #dfdfdf;
 }
+
 .gwt-Button:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
+
 .gwt-Button:focus {
-	outline-width: 3px;
+    outline-width: 3px;
 }

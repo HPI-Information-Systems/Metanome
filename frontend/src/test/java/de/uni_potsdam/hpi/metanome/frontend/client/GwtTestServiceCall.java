@@ -16,11 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,107 +31,113 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Tests RPC calls to server
  */
 public class GwtTestServiceCall extends GWTTestCase {
 
-    /**
-     * tests the call from client to executionService.executeAlgorithm()
-     */
-    public void testExecutionService() {
-        // Setup
-        TestHelper.resetDatabaseSync();
+  /**
+   * tests the call from client to executionService.executeAlgorithm()
+   */
+  public void testExecutionService() {
+    // Setup
+    TestHelper.resetDatabaseSync();
 
-        String algorithmFileName = "example_ucc_algorithm.jar";
-        TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
-        List<ConfigurationSpecification> configs = new ArrayList<>();
-        ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
-                "pathToInputFile");
-        inputParameter.setValues(new ConfigurationSettingString("path/to/file1"), new ConfigurationSettingString("path/to/file2"));
-        configs.add(inputParameter);
+    String algorithmFileName = "example_ucc_algorithm.jar";
+    TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
+    List<ConfigurationSpecification> configs = new ArrayList<>();
+    ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
+        "pathToInputFile");
+    inputParameter.setValues(new ConfigurationSettingString("path/to/file1"),
+                             new ConfigurationSettingString("path/to/file2"));
+    configs.add(inputParameter);
 
-        AsyncCallback<Long> callback = new AsyncCallback<Long>() {
-            public void onFailure(Throwable caught) {
-                fail();
-            }
+    AsyncCallback<Long> callback = new AsyncCallback<Long>() {
+      public void onFailure(Throwable caught) {
+        fail();
+      }
 
-            public void onSuccess(Long executionTime) {
-                assertTrue(executionTime > 0);
-                finishTest();
-            }
+      public void onSuccess(Long executionTime) {
+        assertTrue(executionTime > 0);
+        finishTest();
+      }
+    };
+
+    ExecutionServiceAsync executionService = GWT
+        .create(ExecutionService.class);
+
+    // Set a delay period
+    delayTestFinish(500);
+
+    // Execute
+    executionService.executeAlgorithm(algorithmFileName,
+                                      "executionIdentifier1",
+                                      configs, callback);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * tests the call from client to parameterService.retrieveParameters
+   */
+  public void testParameterService() {
+    // Setup
+    AsyncCallback<List<ConfigurationSpecification>>
+        callback =
+        new AsyncCallback<List<ConfigurationSpecification>>() {
+          public void onFailure(Throwable caught) {
+            fail();
+          }
+
+          public void onSuccess(List<ConfigurationSpecification> result) {
+            assertNotNull(result);
+            finishTest();
+          }
         };
 
-        ExecutionServiceAsync executionService = GWT
-                .create(ExecutionService.class);
+    ParameterServiceAsync parameterService = GWT
+        .create(ParameterService.class);
 
-        // Set a delay period
-        delayTestFinish(500);
+    // Set a delay period
+    delayTestFinish(500);
 
-        // Execute
-        executionService.executeAlgorithm(algorithmFileName,
-                "executionIdentifier1",
-                configs, callback);
+    // Execute
+    parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
 
-        // Cleanup
-        TestHelper.resetDatabaseSync();
-    }
+  }
 
-    /**
-     * tests the call from client to parameterService.retrieveParameters
-     */
-    public void testParameterService() {
-        // Setup
-        AsyncCallback<List<ConfigurationSpecification>> callback = new AsyncCallback<List<ConfigurationSpecification>>() {
-            public void onFailure(Throwable caught) {
-                fail();
-            }
+  /**
+   * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
+   */
+  public void testFinderService() {
+    // Setup
+    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        fail();
+      }
 
-            public void onSuccess(List<ConfigurationSpecification> result) {
-                assertNotNull(result);
-                finishTest();
-            }
-        };
+      @Override
+      public void onSuccess(List<Algorithm> result) {
+        assertNotNull(result);
+        finishTest();
+      }
+    };
 
-        ParameterServiceAsync parameterService = GWT
-                .create(ParameterService.class);
+    FinderServiceAsync finderService = GWT.create(FinderService.class);
 
-        // Set a delay period
-        delayTestFinish(500);
+    // Set a delay period
+    delayTestFinish(500);
 
-        // Execute
-        parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
+    finderService.listInclusionDependencyAlgorithms(callback);
+  }
 
-    }
-
-    /**
-     * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
-     */
-    public void testFinderService() {
-        // Setup
-        AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                fail();
-            }
-
-            @Override
-            public void onSuccess(List<Algorithm> result) {
-                assertNotNull(result);
-                finishTest();
-            }
-        };
-
-        FinderServiceAsync finderService = GWT.create(FinderService.class);
-
-        // Set a delay period
-        delayTestFinish(500);
-
-        finderService.listInclusionDependencyAlgorithms(callback);
-    }
-
-    @Override
-    public String getModuleName() {
-        return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
+  }
 }

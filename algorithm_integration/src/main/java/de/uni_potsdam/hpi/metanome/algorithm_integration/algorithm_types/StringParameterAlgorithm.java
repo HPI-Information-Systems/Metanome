@@ -26,13 +26,22 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
  */
 public interface StringParameterAlgorithm extends Algorithm {
 
-	/**
-	 * Sets a string configuration value on the algorithm.
-	 *
-	 * @param identifier the values identifier
-	 * @param values     the String values for configuration
-	 * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm cannot be correctly configured using the received configuration values
-	 */
-	void setStringConfigurationValue(String identifier, String... values) throws AlgorithmConfigurationException;
+  /**
+   * Sets a string configuration value on the algorithm.
+   *
+   * @param identifier the values identifier
+   * @param values     the String values for configuration
+   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException if the
+   *                                                                                           algorithm
+   *                                                                                           cannot
+   *                                                                                           be correctly
+   *                                                                                           configured
+   *                                                                                           using
+   *                                                                                           the received
+   *                                                                                           configuration
+   *                                                                                           values
+   */
+  void setStringConfigurationValue(String identifier, String... values)
+      throws AlgorithmConfigurationException;
 
 }

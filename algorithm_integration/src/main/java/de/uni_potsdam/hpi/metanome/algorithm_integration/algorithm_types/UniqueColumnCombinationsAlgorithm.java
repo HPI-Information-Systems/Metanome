@@ -27,11 +27,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
  */
 public interface UniqueColumnCombinationsAlgorithm extends Algorithm {
 
-    /**
-     * Sets a {@link UniqueColumnCombinationResultReceiver} to send the results to.
-     *
-     * @param resultReceiver the result receiver for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}s
-     */
-    void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver);
+  /**
+   * Sets a {@link UniqueColumnCombinationResultReceiver} to send the results to.
+   *
+   * @param resultReceiver the result receiver for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}s
+   */
+  void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver);
 
 }

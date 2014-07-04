@@ -16,7 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.test_helper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * Test helper for equals and hashCode.
@@ -25,23 +27,23 @@ import static org.junit.Assert.*;
  */
 public class EqualsAndHashCodeTester<T> {
 
-    /**
-     * Performs basic tests for the methods equals and hashCode, based on a given instance, an equal instance and a
-     * non-equal instance.
-     */
-    public void performBasicEqualsAndHashCodeChecks(T base, T equal, T... notEquals) {
-        assertEquals(base, base);
-        assertEquals(base.hashCode(), base.hashCode());
+  /**
+   * Performs basic tests for the methods equals and hashCode, based on a given instance, an equal
+   * instance and a non-equal instance.
+   */
+  public void performBasicEqualsAndHashCodeChecks(T base, T equal, T... notEquals) {
+    assertEquals(base, base);
+    assertEquals(base.hashCode(), base.hashCode());
 
-        assertNotSame(base, equal);
-        assertEquals(base, equal);
-        assertEquals(base.hashCode(), equal.hashCode());
+    assertNotSame(base, equal);
+    assertEquals(base, equal);
+    assertEquals(base.hashCode(), equal.hashCode());
 
-        assertNotEquals(base, null);
+    assertNotEquals(base, null);
 
-        for (T notEqual : notEquals) {
-            assertNotEquals(base, notEqual);
-            assertNotEquals(base.hashCode(), notEqual.hashCode());
-        }
+    for (T notEqual : notEquals) {
+      assertNotEquals(base, notEqual);
+      assertNotEquals(base.hashCode(), notEqual.hashCode());
     }
+  }
 }

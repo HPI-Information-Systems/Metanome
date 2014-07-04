@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 
@@ -30,61 +31,63 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
  */
 public class TestHelper {
 
-    protected static TestDatabaseHelperServiceAsync testDatabaseHelperService = GWT.create(TestDatabaseHelperService.class);
+  protected static TestDatabaseHelperServiceAsync
+      testDatabaseHelperService =
+      GWT.create(TestDatabaseHelperService.class);
 
-    /**
-     * Resets the database synchronously.
-     */
-    public static void resetDatabaseSync() {
-        final boolean[] blocked = {true};
-        testDatabaseHelperService.resetDatabase(new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-            }
+  /**
+   * Resets the database synchronously.
+   */
+  public static void resetDatabaseSync() {
+    final boolean[] blocked = {true};
+    testDatabaseHelperService.resetDatabase(new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+      }
 
-            @Override
-            public void onSuccess(Void aVoid) {
-                blocked[0] = false;
-            }
-        });
+      @Override
+      public void onSuccess(Void aVoid) {
+        blocked[0] = false;
+      }
+    });
 
-        Timer rpcCheck = new Timer() {
-            @Override
-            public void run() {
-                if (blocked[0]) {
-                    this.schedule(100);
-                }
-            }
-        };
-        rpcCheck.schedule(100);
-    }
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
+  }
 
-    /**
-     * Stores an algorithm synchronously.
-     *
-     * @param algorithm the {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm} to store
-     */
-    public static void storeAlgorithmSync(Algorithm algorithm) {
-        final boolean[] blocked = {true};
-        testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-            }
+  /**
+   * Stores an algorithm synchronously.
+   *
+   * @param algorithm the {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm} to store
+   */
+  public static void storeAlgorithmSync(Algorithm algorithm) {
+    final boolean[] blocked = {true};
+    testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+      }
 
-            @Override
-            public void onSuccess(Void aVoid) {
-                blocked[0] = false;
-            }
-        });
+      @Override
+      public void onSuccess(Void aVoid) {
+        blocked[0] = false;
+      }
+    });
 
-        Timer rpcCheck = new Timer() {
-            @Override
-            public void run() {
-                if (blocked[0]) {
-                    this.schedule(100);
-                }
-            }
-        };
-        rpcCheck.schedule(100);
-    }
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
+  }
 }

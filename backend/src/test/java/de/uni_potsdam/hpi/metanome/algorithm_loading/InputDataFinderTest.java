@@ -30,47 +30,48 @@ import static org.junit.Assert.assertEquals;
  */
 public class InputDataFinderTest {
 
-    InputDataFinder inputDataFinder;
+  InputDataFinder inputDataFinder;
 
-    @Before
-    public void setUp() {
-        inputDataFinder = new InputDataFinder();
-    }
+  @Before
+  public void setUp() {
+    inputDataFinder = new InputDataFinder();
+  }
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder#retrieveCsvFiles(String)}
-     * <p/>
-     * When run on the a folder without any .csv files, the finder should not return any files. Otherwise it should return the correct number of csv files.
-     */
-    @Test
-    public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
-        //Setup
-        String pathToAlgorithmsFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
-        String pathToCsvFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder#retrieveCsvFiles(String)}
+   * <p/> When run on the a folder without any .csv files, the finder should not return any files.
+   * Otherwise it should return the correct number of csv files.
+   */
+  @Test
+  public void testRetrieveCsvFiles() throws UnsupportedEncodingException {
+    //Setup
+    String
+        pathToAlgorithmsFolder =
+        Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+    String
+        pathToCsvFolder =
+        Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
-        //Execute
-        File[] csvsInAlgorithmsFolder = inputDataFinder.retrieveCsvFiles(pathToAlgorithmsFolder);
-        File[] csvsInCsvFolder = inputDataFinder.retrieveCsvFiles(pathToCsvFolder);
+    //Execute
+    File[] csvsInAlgorithmsFolder = inputDataFinder.retrieveCsvFiles(pathToAlgorithmsFolder);
+    File[] csvsInCsvFolder = inputDataFinder.retrieveCsvFiles(pathToCsvFolder);
 
-        //Check
-        assertEquals(0, csvsInAlgorithmsFolder.length);
-        assertEquals(2, csvsInCsvFolder.length);
-    }
+    //Check
+    assertEquals(0, csvsInAlgorithmsFolder.length);
+    assertEquals(2, csvsInCsvFolder.length);
+  }
 
-    /**
-     * Test method for {@link InputDataFinder#getAvailableCsvs()}
-     *
-     * The method should retrieve the correct number of csv input files.
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    @Test
-    public void testRetrieveAllCsvFiles() throws IOException, ClassNotFoundException {
-        //Execute
-        File[] actualCsvs = inputDataFinder.getAvailableCsvs();
+  /**
+   * Test method for {@link InputDataFinder#getAvailableCsvs()}
+   *
+   * The method should retrieve the correct number of csv input files.
+   */
+  @Test
+  public void testRetrieveAllCsvFiles() throws IOException, ClassNotFoundException {
+    //Execute
+    File[] actualCsvs = inputDataFinder.getAvailableCsvs();
 
-        //Check
-        assertEquals(2, actualCsvs.length);
-    }
+    //Check
+    assertEquals(2, actualCsvs.length);
+  }
 }

@@ -18,32 +18,38 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 
 /**
- * A fixture generating a csv file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4 (long)).
+ * A fixture generating a csv file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4
+ * (long)).
  *
  * @author Jakob Zwiener
  */
 public class CsvFileShortLineFixture {
 
-    public CsvFile getTestData() throws InputGenerationException, InputIterationException {
-        return getTestData(false);
-    }
+  public CsvFile getTestData() throws InputGenerationException, InputIterationException {
+    return getTestData(false);
+  }
 
-    public CsvFile getTestData(boolean skipDifferingLines) throws InputIterationException, InputGenerationException {
-        return new CsvFile("some_file", new StringReader(Joiner.on(',').join(getExpectedFirstParsableLine()) + "\nfour,five\n" + Joiner.on(',').join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"), ',', '\'', '\\', 0, false, true, false, skipDifferingLines);
-    }
+  public CsvFile getTestData(boolean skipDifferingLines)
+      throws InputIterationException, InputGenerationException {
+    return new CsvFile("some_file", new StringReader(
+        Joiner.on(',').join(getExpectedFirstParsableLine()) + "\nfour,five\n" + Joiner.on(',')
+            .join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"), ',', '\'', '\\',
+                       0, false, true, false, skipDifferingLines);
+  }
 
-    public ImmutableList<String> getExpectedFirstParsableLine() {
-        return ImmutableList.of("one", "two", "three");
-    }
+  public ImmutableList<String> getExpectedFirstParsableLine() {
+    return ImmutableList.of("one", "two", "three");
+  }
 
-    public ImmutableList<String> getExpectedSecondParsableLine() {
-        return ImmutableList.of("six", "seven", "eight");
-    }
+  public ImmutableList<String> getExpectedSecondParsableLine() {
+    return ImmutableList.of("six", "seven", "eight");
+  }
 
 }

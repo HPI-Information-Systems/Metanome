@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
@@ -27,62 +28,63 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available algorithms stored in the database.
- * <p/>
+ * Service Implementation for service that lists available algorithms stored in the database. <p/>
  *
  * @author Jakob Zwiener
  */
 public class FinderServiceImpl extends RemoteServiceServlet implements
-        FinderService {
-    private static final long serialVersionUID = 2742248537386173766L;
+                                                            FinderService {
 
-    /**
-     * Lists all algorithms from the database that implement a certain interface, or all if algorithm class is null.
-     *
-     * @param algorithmClass the implemented algorithm interface.
-     * @return the algorithms
-     */
-    protected List<Algorithm> listAlgorithms(Class<?> algorithmClass) {
-        return Algorithm.retrieveAll(algorithmClass);
-    }
+  private static final long serialVersionUID = 2742248537386173766L;
 
-    /**
-     * @return all inclusion dependency algorithms in the database
-     */
-    @Override
-    public List<Algorithm> listInclusionDependencyAlgorithms() {
-        return listAlgorithms(InclusionDependencyAlgorithm.class);
-    }
+  /**
+   * Lists all algorithms from the database that implement a certain interface, or all if algorithm
+   * class is null.
+   *
+   * @param algorithmClass the implemented algorithm interface.
+   * @return the algorithms
+   */
+  protected List<Algorithm> listAlgorithms(Class<?> algorithmClass) {
+    return Algorithm.retrieveAll(algorithmClass);
+  }
 
-    /**
-     * @return all unique column combination algorithms in the database
-     */
-    @Override
-    public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
-        return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
-    }
+  /**
+   * @return all inclusion dependency algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listInclusionDependencyAlgorithms() {
+    return listAlgorithms(InclusionDependencyAlgorithm.class);
+  }
 
-    /**
-     * @return all functional dependency algorithms in the database
-     */
-    @Override
-    public List<Algorithm> listFunctionalDependencyAlgorithms() {
-        return listAlgorithms(FunctionalDependencyAlgorithm.class);
-    }
+  /**
+   * @return all unique column combination algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
+    return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+  }
 
-    /**
-     * @return all basic statistics algorithms in the database
-     */
-    @Override
-    public List<Algorithm> listBasicStatisticsAlgorithms() {
-        return listAlgorithms(BasicStatisticsAlgorithm.class);
-    }
+  /**
+   * @return all functional dependency algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listFunctionalDependencyAlgorithms() {
+    return listAlgorithms(FunctionalDependencyAlgorithm.class);
+  }
 
-    /**
-     * @return all algorithms in the database
-     */
-    @Override
-    public List<Algorithm> listAllAlgorithms() {
-        return listAlgorithms(null);
-    }
+  /**
+   * @return all basic statistics algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listBasicStatisticsAlgorithms() {
+    return listAlgorithms(BasicStatisticsAlgorithm.class);
+  }
+
+  /**
+   * @return all algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listAllAlgorithms() {
+    return listAlgorithms(null);
+  }
 }

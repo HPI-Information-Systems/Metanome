@@ -27,52 +27,51 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TableInput extends Input {
 
-    protected String tableName;
-    protected DatabaseConnection databaseConnection;
+  protected String tableName;
+  protected DatabaseConnection databaseConnection;
 
-    /**
-     * Retrieves a TableInput from the database.
-     *
-     * @param id the TableInput's id
-     * @return the tableInput
-     */
-    public static TableInput retrieve(long id) throws EntityStorageException {
-        return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
-    }
+  /**
+   * Retrieves a TableInput from the database.
+   *
+   * @param id the TableInput's id
+   * @return the tableInput
+   */
+  public static TableInput retrieve(long id) throws EntityStorageException {
+    return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
+  }
 
-    /**
-     * Stores the TableInput in the database.
-     *
-     * @return the TableInput
-     * @throws EntityStorageException
-     */
-    public TableInput store() throws EntityStorageException {
-        HibernateUtil.store(this);
+  /**
+   * Stores the TableInput in the database.
+   *
+   * @return the TableInput
+   */
+  public TableInput store() throws EntityStorageException {
+    HibernateUtil.store(this);
 
-        return this;
-    }
+    return this;
+  }
 
-    public String getTableName() {
-        return tableName;
-    }
+  public String getTableName() {
+    return tableName;
+  }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
+  }
 
-    @ManyToOne(targetEntity = DatabaseConnection.class)
-    public DatabaseConnection getDatabaseConnection() {
-        return databaseConnection;
-    }
+  @ManyToOne(targetEntity = DatabaseConnection.class)
+  public DatabaseConnection getDatabaseConnection() {
+    return databaseConnection;
+  }
 
-    public void setDatabaseConnection(DatabaseConnection databaseConnection) {
-        this.databaseConnection = databaseConnection;
-    }
+  public void setDatabaseConnection(DatabaseConnection databaseConnection) {
+    this.databaseConnection = databaseConnection;
+  }
 
-    @Override
-    public TableInput setId(long id) {
-        super.setId(id);
+  @Override
+  public TableInput setId(long id) {
+    super.setId(id);
 
-        return this;
-    }
+    return this;
+  }
 }
