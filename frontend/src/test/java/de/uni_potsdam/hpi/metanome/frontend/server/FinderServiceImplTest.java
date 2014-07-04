@@ -27,14 +27,14 @@ import java.util.List;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl}
+ * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl}
  *
  * @author Jakob Zwiener
  */
 public class FinderServiceImplTest {
 
     /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithms(Class)}
+     * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
      * <p/>
      * When no interface is specified all stored algorithms should be retrieved by the service.
      *
@@ -45,7 +45,7 @@ public class FinderServiceImplTest {
         // Setup
         HibernateUtil.clear();
 
-        FinderServiceImpl finderService = new FinderServiceImpl();
+        AlgorithmServiceImpl finderService = new AlgorithmServiceImpl();
 
         // Expected values
         Algorithm[] expectedAlgorithms = {new Algorithm("some file name 1"), new Algorithm("some file name 2"), new Algorithm("some file name 3")};
@@ -65,7 +65,7 @@ public class FinderServiceImplTest {
     }
 
     /**
-     * Test method for {@link FinderServiceImpl#listUniqueColumnCombinationsAlgorithms()}, {@link FinderServiceImpl#listInclusionDependencyAlgorithms()}, {@link FinderServiceImpl#listFunctionalDependencyAlgorithms()} and {@link FinderServiceImpl#listBasicStatisticsAlgorithms()}
+     * Test method for {@link AlgorithmServiceImpl#listUniqueColumnCombinationsAlgorithms()}, {@link AlgorithmServiceImpl#listInclusionDependencyAlgorithms()}, {@link AlgorithmServiceImpl#listFunctionalDependencyAlgorithms()} and {@link AlgorithmServiceImpl#listBasicStatisticsAlgorithms()}
      * <p/>
      * Stored algorithms that implement certain interfaces should be retrievable by the service.
      *
@@ -76,7 +76,7 @@ public class FinderServiceImplTest {
         // Setup
         HibernateUtil.clear();
 
-        FinderServiceImpl finderService = new FinderServiceImpl();
+        AlgorithmServiceImpl finderService = new AlgorithmServiceImpl();
 
         // Expected values
         Algorithm expectedIndAlgorithm = new Algorithm("ind algorithm");

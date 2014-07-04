@@ -29,13 +29,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
-  protected final FinderServiceAsync finderService;
+  protected final AlgorithmServiceAsync finderService;
   protected final BasePage basePage;
   private final FlexTable uccList;
   private final FlexTable fdList;
@@ -47,7 +47,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     this.setWidth("100%");
     this.setSpacing(5);
 
-    this.finderService = GWT.create(FinderService.class);
+    this.finderService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
 
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));

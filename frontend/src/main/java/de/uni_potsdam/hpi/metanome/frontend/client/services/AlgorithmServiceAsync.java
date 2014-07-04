@@ -16,22 +16,21 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.List;
 
-@RemoteServiceRelativePath("finderService")
-public interface FinderService extends RemoteService {
+public interface AlgorithmServiceAsync {
 
-    public List<Algorithm> listInclusionDependencyAlgorithms();
+    public void listInclusionDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public List<Algorithm> listFunctionalDependencyAlgorithms();
+    public void listFunctionalDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public List<Algorithm> listUniqueColumnCombinationsAlgorithms();
+    public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public List<Algorithm> listBasicStatisticsAlgorithms();
+    public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
 
-    public List<Algorithm> listAllAlgorithms();
+    public void listAllAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
+
 }

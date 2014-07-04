@@ -37,7 +37,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
@@ -51,7 +51,7 @@ public class BasePage extends TabLayoutPanel {
 	protected TabWrapper resultPageTabWrapper;
 	protected RunConfigurationPage runConfigurationsPage;
 
-	protected FinderServiceAsync finderService;
+	protected AlgorithmServiceAsync finderService;
 
 	/**
 	 * Constructor. Initiates creation of subpages.

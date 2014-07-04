@@ -36,8 +36,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFi
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
@@ -135,7 +135,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+        ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
@@ -180,7 +180,7 @@ public class GwtTestBasePage extends GWTTestCase {
             }
         };
 
-        ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+        ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
         delayTestFinish(5000);
     }
