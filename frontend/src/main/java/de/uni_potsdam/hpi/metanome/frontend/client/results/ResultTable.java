@@ -22,25 +22,25 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ResultTable extends VerticalPanel {
 
-    private FlexTable table;
+  private FlexTable table;
 
-    public ResultTable(String title) {
-        Label label = new Label(title);
-        label.setStyleName("resultTable-caption");
-		this.add(label);
+  public ResultTable(String title) {
+    Label label = new Label(title);
+    label.setStyleName("resultTable-caption");
+    this.add(label);
 
-        this.table = new FlexTable();
-        this.table.setStyleName("resultTable");
-		this.add(this.table);
+    this.table = new FlexTable();
+    this.table.setStyleName("resultTable");
+    this.add(this.table);
 
-        this.setSpacing(5);
-    }
+    this.setSpacing(5);
+  }
 
-    public void setText(int row, int column, String text) {
-        this.table.setText(row, column, text);
-    }
+  public void setText(int row, int column, String text) {
+    this.table.setText(row, column, text);
+  }
 
-    public int getRowCount() {
-        return this.table.getRowCount();
-    }
+  public int getRowCount() {
+    return this.table.getRowCount();
+  }
 }

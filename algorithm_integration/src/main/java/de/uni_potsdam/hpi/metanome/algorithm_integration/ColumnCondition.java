@@ -27,17 +27,17 @@ import java.util.TreeSet;
  * @author Jens Hildebrandt
  */
 public class ColumnCondition implements Comparable<ColumnCondition>, Serializable {
-    protected ColumnIdentifier column;
-    protected TreeSet<String> columnValues;
+
+  protected ColumnIdentifier column;
+  protected TreeSet<String> columnValues;
 
   /**
-     * Exists for Gwt serialization
-
+   * Exists for Gwt serialization
    */
-    protected ColumnCondition() {
-        this.column = new ColumnIdentifier();
-        this.columnValues = new TreeSet<>();
-    }
+  protected ColumnCondition() {
+    this.column = new ColumnIdentifier();
+    this.columnValues = new TreeSet<>();
+  }
 
   /**
    * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a
@@ -53,21 +53,23 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     for (String columnValue : columnValues) {
       this.columnValues.add(columnValue);
     }
-    }
+  }
 
-    /**
-     * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and a List of {@link java.lang.String}s.
-     *
-     * @param identifier   column of the condition
-     * @param columnValues where the condition is true
-     */
-    public ColumnCondition(ColumnIdentifier identifier, List<String> columnValues) {
-        this();
-        this.column = identifier;
-        for (String columnValue : columnValues) {
-            this.columnValues.add(columnValue);
-        }
+  /**
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a
+   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and a List of {@link
+   * java.lang.String}s.
+   *
+   * @param identifier   column of the condition
+   * @param columnValues where the condition is true
+   */
+  public ColumnCondition(ColumnIdentifier identifier, List<String> columnValues) {
+    this();
+    this.column = identifier;
+    for (String columnValue : columnValues) {
+      this.columnValues.add(columnValue);
     }
+  }
 
   public TreeSet<String> getColumnValues() {
     return columnValues;
@@ -77,62 +79,69 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     return column;
   }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ColumnCondition that = (ColumnCondition) o;
-
-        if (!column.equals(that.column)) return false;
-        if (!columnValues.equals(that.columnValues)) return false;
-
-        return true;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override
-    public int hashCode() {
-        int result = column.hashCode();
-        result = 31 * result + columnValues.hashCode();
-        return result;
+    ColumnCondition that = (ColumnCondition) o;
+
+    if (!column.equals(that.column)) {
+      return false;
+    }
+    if (!columnValues.equals(that.columnValues)) {
+      return false;
     }
 
-    /**
-     * @param o other {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
-     * @return an Integer, which indicates the order of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s:
-     * below than zero: this is before other
-     * equal zero: this is equal to other
-     * greater than zero: this is after other
-     * Note that the worst case runtime is O(n) with n is the number of the strings (if both are very similiar or equal)
-     */
+    return true;
+  }
 
-    @Override
-    public int compareTo(ColumnCondition o) {
-        int columnComparison = this.column.compareTo(o.column);
-        if (0 != columnComparison) {
-            return columnComparison;
-        } else {
-            int lengthComparison = this.columnValues.size() - o.columnValues.size();
+  @Override
+  public int hashCode() {
+    int result = column.hashCode();
+    result = 31 * result + columnValues.hashCode();
+    return result;
+  }
 
-            if (0 != lengthComparison) {
-                return lengthComparison;
-            } else {
-                Iterator<String> thisIterator = this.columnValues.iterator();
+  /**
+   * @param o other {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
+   * @return an Integer, which indicates the order of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s:
+   * below than zero: this is before other equal zero: this is equal to other greater than zero:
+   * this is after other Note that the worst case runtime is O(n) with n is the number of the
+   * strings (if both are very similiar or equal)
+   */
 
-                Iterator<String> thatIterator = o.columnValues.iterator();
-                while (thisIterator.hasNext() && thatIterator.hasNext()) {
-                    String thisString = thisIterator.next();
-                    String thatString = thatIterator.next();
+  @Override
+  public int compareTo(ColumnCondition o) {
+    int columnComparison = this.column.compareTo(o.column);
+    if (0 != columnComparison) {
+      return columnComparison;
+    } else {
+      int lengthComparison = this.columnValues.size() - o.columnValues.size();
 
-                    int stringComparison = thisString.compareTo(thatString);
-                    if (0 != stringComparison) {
-                        return stringComparison;
-                    }
-                }
-            }
+      if (0 != lengthComparison) {
+        return lengthComparison;
+      } else {
+        Iterator<String> thisIterator = this.columnValues.iterator();
+
+        Iterator<String> thatIterator = o.columnValues.iterator();
+        while (thisIterator.hasNext() && thatIterator.hasNext()) {
+          String thisString = thisIterator.next();
+          String thatString = thatIterator.next();
+
+          int stringComparison = thisString.compareTo(thatString);
+          if (0 != stringComparison) {
+            return stringComparison;
+          }
         }
-        return 0;
+      }
     }
+    return 0;
+  }
 
   @Override
   public String toString() {

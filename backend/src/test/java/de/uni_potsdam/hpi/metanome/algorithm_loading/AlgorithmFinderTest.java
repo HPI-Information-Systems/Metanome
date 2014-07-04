@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+
 import org.junit.Test;
 
 import java.io.File;
@@ -25,100 +26,92 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * TODO docs
  */
 public class AlgorithmFinderTest {
 
-    /**
-     * A valid algorithm jar should be loadable and of correct class.
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws SecurityException
-     * @throws IllegalArgumentException
-     */
-    @Test
-    public void getAlgorithmType() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
-        // Setup
-        String jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/example_ucc_algorithm.jar").getFile();
-        File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
+  /**
+   * A valid algorithm jar should be loadable and of correct class.
+   */
+  @Test
+  public void getAlgorithmType()
+      throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+             IllegalArgumentException, SecurityException, InvocationTargetException,
+             NoSuchMethodException {
+    // Setup
+    String
+        jarFilePath =
+        Thread.currentThread().getContextClassLoader()
+            .getResource("algorithms/example_ucc_algorithm.jar").getFile();
+    File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
-        // Execute functionality
-        Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
+    // Execute functionality
+    Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
 
-        // Check result
-        assertNotNull(algorithmInterfaces);
-        assertNotEquals(0, algorithmInterfaces.size());
-        assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
-    }
+    // Check result
+    assertNotNull(algorithmInterfaces);
+    assertNotEquals(0, algorithmInterfaces.size());
+    assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+  }
 
-    /**
-     * A valid algorithm jar should be loadable and of correct class.
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws SecurityException
-     * @throws IllegalArgumentException
-     */
-    @Test
-    public void getAlgorithmTypeByFileName() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
-        // Execute functionality
-        Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces("example_ucc_algorithm.jar");
+  /**
+   * A valid algorithm jar should be loadable and of correct class.
+   */
+  @Test
+  public void getAlgorithmTypeByFileName()
+      throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+             IllegalArgumentException, SecurityException, InvocationTargetException,
+             NoSuchMethodException {
+    // Execute functionality
+    Set<Class<?>>
+        algorithmInterfaces =
+        new AlgorithmFinder().getAlgorithmInterfaces("example_ucc_algorithm.jar");
 
-        // Check result
-        assertNotNull(algorithmInterfaces);
-        assertNotEquals(0, algorithmInterfaces.size());
-        assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
-    }
+    // Check result
+    assertNotNull(algorithmInterfaces);
+    assertNotEquals(0, algorithmInterfaces.size());
+    assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+  }
 
-    /**
-     * TODO docs
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    @Test
-    public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
-        // Setup
-        AlgorithmFinder algoFinder = new AlgorithmFinder();
+  /**
+   * TODO docs
+   */
+  @Test
+  public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {
+    // Setup
+    AlgorithmFinder algoFinder = new AlgorithmFinder();
 
-        //Execute
-        String[] algos = algoFinder.getAvailableAlgorithmFileNames(null);
+    //Execute
+    String[] algos = algoFinder.getAvailableAlgorithmFileNames(null);
 
-        //Check
-        assertTrue(algos.length > 0);
-    }
+    //Check
+    assertTrue(algos.length > 0);
+  }
 
-    /**
-     * Test method for {@link AlgorithmFinder#getAvailableAlgorithmFileNames(Class)}
-     * <p/>
-     * Should return the algorithms implementing the asked interface. Should not fail the whole search only,
-     * because one algorithm does not have the bootstrap class parameter set correclty.
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    @Test
-    public void testRetrieveUniqueColumnCombinationJarFiles() throws IOException, ClassNotFoundException {
-        // Setup
-        AlgorithmFinder algoFinder = new AlgorithmFinder();
+  /**
+   * Test method for {@link AlgorithmFinder#getAvailableAlgorithmFileNames(Class)} <p/> Should
+   * return the algorithms implementing the asked interface. Should not fail the whole search only,
+   * because one algorithm does not have the bootstrap class parameter set correclty.
+   */
+  @Test
+  public void testRetrieveUniqueColumnCombinationJarFiles()
+      throws IOException, ClassNotFoundException {
+    // Setup
+    AlgorithmFinder algoFinder = new AlgorithmFinder();
 
-        //Execute
-        String[] algos = algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
+    //Execute
+    String[]
+        algos =
+        algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
 
-        //Check
-        assertEquals(3, algos.length); //TODO determine number of expected algorithms dynamically
-        //TODO make sure no wrong algorithms are returned
-    }
+    //Check
+    assertEquals(3, algos.length); //TODO determine number of expected algorithms dynamically
+    //TODO make sure no wrong algorithms are returned
+  }
 }

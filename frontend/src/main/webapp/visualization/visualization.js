@@ -24,9 +24,9 @@ function draw_ind(div) {
         // Compute the distinct nodes from the links.
         links.forEach(function (link) {
             link.source = nodes[link.source] ||
-                (nodes[link.source] = {name: link.source});
+                          (nodes[link.source] = {name: link.source});
             link.target = nodes[link.target] ||
-                (nodes[link.target] = {name: link.target});
+                          (nodes[link.target] = {name: link.target});
             link.value = +link.value;
         });
 
@@ -83,8 +83,8 @@ function draw_ind(div) {
             .attr("x", 12)
             .attr("dy", ".35em")
             .text(function (d) {
-                return d.name;
-            });
+                      return d.name;
+                  });
 
         // add the curvy lines
         function tick() {
@@ -93,23 +93,22 @@ function draw_ind(div) {
                     dy = d.target.y - d.source.y,
                     dr = Math.sqrt(dx * dx + dy * dy);
                 return "M" +
-                    d.source.x + "," +
-                    d.source.y + "A" +
-                    dr + "," + dr + " 0 0,1 " +
-                    d.target.x + "," +
-                    d.target.y;
+                       d.source.x + "," +
+                       d.source.y + "A" +
+                       dr + "," + dr + " 0 0,1 " +
+                       d.target.x + "," +
+                       d.target.y;
             });
 
             node
                 .attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
+                          return "translate(" + d.x + "," + d.y + ")";
+                      });
         }
 
     });
 
 }
-
 
 function draw_ucc(div) {
 
@@ -124,8 +123,8 @@ function draw_ucc(div) {
     var pack = d3.layout.pack()
         .size([r, r])
         .value(function (d) {
-            return d.size;
-        })
+                   return d.size;
+               })
 
     var vis = d3.select(div).insert("svg:svg", "h2")
         .attr("width", w)
@@ -142,41 +141,41 @@ function draw_ucc(div) {
             .data(nodes)
             .enter().append("svg:circle")
             .attr("class", function (d) {
-                return d.children ? "parent" : "child";
-            })
+                      return d.children ? "parent" : "child";
+                  })
             .attr("cx", function (d) {
-                return d.x;
-            })
+                      return d.x;
+                  })
             .attr("cy", function (d) {
-                return d.y;
-            })
+                      return d.y;
+                  })
             .attr("r", function (d) {
-                return d.r;
-            })
+                      return d.r;
+                  })
             .on("click", function (d) {
-                return zoom(node == d ? root : d);
-            });
+                    return zoom(node == d ? root : d);
+                });
 
         vis.selectAll("text")
             .data(nodes)
             .enter().append("svg:text")
             .attr("class", function (d) {
-                return d.children ? "parent" : "child";
-            })
+                      return d.children ? "parent" : "child";
+                  })
             .attr("x", function (d) {
-                return d.x;
-            })
+                      return d.x;
+                  })
             .attr("y", function (d) {
-                return d.y;
-            })
+                      return d.y;
+                  })
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
             .style("opacity", function (d) {
-                return d.r > 20 ? 1 : 0;
-            })
+                       return d.r > 20 ? 1 : 0;
+                   })
             .text(function (d) {
-                return d.name;
-            });
+                      return d.name;
+                  });
 
         d3.select(window).on("click", function () {
             zoom(root);
@@ -193,25 +192,25 @@ function draw_ucc(div) {
 
         t.selectAll("circle")
             .attr("cx", function (d) {
-                return x(d.x);
-            })
+                      return x(d.x);
+                  })
             .attr("cy", function (d) {
-                return y(d.y);
-            })
+                      return y(d.y);
+                  })
             .attr("r", function (d) {
-                return k * d.r;
-            });
+                      return k * d.r;
+                  });
 
         t.selectAll("text")
             .attr("x", function (d) {
-                return x(d.x);
-            })
+                      return x(d.x);
+                  })
             .attr("y", function (d) {
-                return y(d.y);
-            })
+                      return y(d.y);
+                  })
             .style("opacity", function (d) {
-                return k * d.r > 20 ? 1 : 0;
-            });
+                       return k * d.r > 20 ? 1 : 0;
+                   });
 
         node = d;
         d3.event.stopPropagation();

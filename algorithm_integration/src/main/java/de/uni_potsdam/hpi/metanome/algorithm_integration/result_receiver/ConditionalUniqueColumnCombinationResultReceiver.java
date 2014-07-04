@@ -25,11 +25,13 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniq
  */
 public interface ConditionalUniqueColumnCombinationResultReceiver {
 
-    /**
-     * Receives a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination} from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm}.
-     *
-     * @param conditionalUniqueColumnCombination a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}
-     * @throws CouldNotReceiveResultException if the unique column combination could not be received
-     */
-    void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) throws CouldNotReceiveResultException;
+  /**
+   * Receives a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
+   * from a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm}.
+   *
+   * @param conditionalUniqueColumnCombination a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination}
+   * @throws CouldNotReceiveResultException if the unique column combination could not be received
+   */
+  void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
+      throws CouldNotReceiveResultException;
 }

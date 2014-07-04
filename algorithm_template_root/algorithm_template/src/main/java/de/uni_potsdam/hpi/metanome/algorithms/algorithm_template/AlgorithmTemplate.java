@@ -29,45 +29,47 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueC
 
 import java.util.List;
 
-public class AlgorithmTemplate implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm {
+public class AlgorithmTemplate
+    implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm, TempFileAlgorithm,
+               StringParameterAlgorithm {
 
-	@Override
-	public List<ConfigurationSpecification> getConfigurationRequirements() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public List<ConfigurationSpecification> getConfigurationRequirements() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public void execute() throws AlgorithmExecutionException {
-		// TODO Auto-generated method stub
+  @Override
+  public void execute() throws AlgorithmExecutionException {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	@Override
-	public void setStringConfigurationValue(String identifier, String... values)
-			throws AlgorithmConfigurationException {
-		// TODO Auto-generated method stub
+  @Override
+  public void setStringConfigurationValue(String identifier, String... values)
+      throws AlgorithmConfigurationException {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	@Override
-	public void setTempFileGenerator(FileGenerator tempFileGenerator) {
-		// TODO Auto-generated method stub
+  @Override
+  public void setTempFileGenerator(FileGenerator tempFileGenerator) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	@Override
-	public void setResultReceiver(
-			FunctionalDependencyResultReceiver resultReceiver) {
-		// TODO Auto-generated method stub
+  @Override
+  public void setResultReceiver(
+      FunctionalDependencyResultReceiver resultReceiver) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	@Override
-	public void setResultReceiver(
-			UniqueColumnCombinationResultReceiver resultReceiver) {
-		// TODO Auto-generated method stub
+  @Override
+  public void setResultReceiver(
+      UniqueColumnCombinationResultReceiver resultReceiver) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
 }

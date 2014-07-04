@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
@@ -26,27 +27,28 @@ import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
  *
  * @author Jakob Zwiener
  */
-public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet implements TestDatabaseHelperService {
+public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
+    implements TestDatabaseHelperService {
 
-    /**
-     * Resets the database.
-     */
-    @Override
-    public void resetDatabase() {
-        HibernateUtil.clear();
-    }
+  /**
+   * Resets the database.
+   */
+  @Override
+  public void resetDatabase() {
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Stores an algorithm in the database.
-     *
-     * @param algorithm the algorithm to store
-     */
-    @Override
-    public void storeAlgorithmInDatabase(Algorithm algorithm) {
-        try {
-            algorithm.store();
-        } catch (EntityStorageException e) {
-            e.printStackTrace();
-        }
+  /**
+   * Stores an algorithm in the database.
+   *
+   * @param algorithm the algorithm to store
+   */
+  @Override
+  public void storeAlgorithmInDatabase(Algorithm algorithm) {
+    try {
+      algorithm.store();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
     }
+  }
 }

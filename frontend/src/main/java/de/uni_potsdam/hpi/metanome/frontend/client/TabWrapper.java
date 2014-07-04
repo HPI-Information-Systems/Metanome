@@ -26,44 +26,44 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class TabWrapper extends FlowPanel {
 
-	protected VerticalPanel errorPanel;
-	protected TabContent contentPanel;
-	protected boolean inError = false;
+  protected VerticalPanel errorPanel;
+  protected TabContent contentPanel;
+  protected boolean inError = false;
 
-	/**
-	 *
-	 */
-	public TabWrapper() {
-		this.errorPanel = new VerticalPanel();
-		this.add(this.errorPanel);
-		this.errorPanel.addStyleName("errorMessage");
-	}
+  /**
+   *
+   */
+  public TabWrapper() {
+    this.errorPanel = new VerticalPanel();
+    this.add(this.errorPanel);
+    this.errorPanel.addStyleName("errorMessage");
+  }
 
-	public TabWrapper(TabContent panel) {
-		this();
+  public TabWrapper(TabContent panel) {
+    this();
 
-		this.contentPanel = panel;
-		this.contentPanel.setErrorReceiver(this);
-		this.add(this.contentPanel);
-	}
+    this.contentPanel = panel;
+    this.contentPanel.setErrorReceiver(this);
+    this.add(this.contentPanel);
+  }
 
 
-	public void addError(String message) {
-		Label label = new Label(message);
-		this.errorPanel.add(label);
-		this.setInError(true);
-	}
+  public void addError(String message) {
+    Label label = new Label(message);
+    this.errorPanel.add(label);
+    this.setInError(true);
+  }
 
-	public void clearErrors() {
-		this.errorPanel.clear();
-		this.setInError(false);
-	}
+  public void clearErrors() {
+    this.errorPanel.clear();
+    this.setInError(false);
+  }
 
-	public boolean isInError() {
-		return inError;
-	}
+  public boolean isInError() {
+    return inError;
+  }
 
-	public void setInError(boolean inError) {
-		this.inError = inError;
-	}
+  public void setInError(boolean inError) {
+    this.inError = inError;
+  }
 }

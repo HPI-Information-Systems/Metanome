@@ -28,12 +28,14 @@ import java.io.Serializable;
  */
 public interface Result extends Serializable {
 
-    /**
-     * Sends a result to an {@link OmniscientResultReceiver}.
-     *
-     * @param resultReceiver the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver} the result should send itself to
-     * @throws CouldNotReceiveResultException if the result could not be received
-     */
-    public void sendResultTo(OmniscientResultReceiver resultReceiver) throws CouldNotReceiveResultException;
+  /**
+   * Sends a result to an {@link OmniscientResultReceiver}.
+   *
+   * @param resultReceiver the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}
+   *                       the result should send itself to
+   * @throws CouldNotReceiveResultException if the result could not be received
+   */
+  public void sendResultTo(OmniscientResultReceiver resultReceiver)
+      throws CouldNotReceiveResultException;
 
 }

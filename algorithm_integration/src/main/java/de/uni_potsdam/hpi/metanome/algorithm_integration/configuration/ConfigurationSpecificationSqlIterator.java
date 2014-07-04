@@ -23,43 +23,45 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationSqlIterator extends ConfigurationSpecification {
-    private static final long serialVersionUID = 6601202469601881851L;
 
-    private ConfigurationSettingSqlIterator[] settings;
+  private static final long serialVersionUID = 6601202469601881851L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSpecificationSqlIterator() {
-    }
+  private ConfigurationSettingSqlIterator[] settings;
 
-    /**
-     * Construct a {@link ConfigurationSpecificationSqlIterator}, requesting 1 value.
-     *
-     * @param identifier the specification's identifier
-     */
-    public ConfigurationSpecificationSqlIterator(String identifier) {
-        super(identifier);
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationSqlIterator() {
+  }
 
-    /**
-     * Construcats a {@link ConfigurationSpecificationSqlIterator}, potentially requesting several values.
-     *
-     * @param identifier     the specification's identifier
-     * @param numberOfValues the number of values expected
-     */
-    public ConfigurationSpecificationSqlIterator(String identifier,
-                                                 int numberOfValues) {
+  /**
+   * Construct a {@link ConfigurationSpecificationSqlIterator}, requesting 1 value.
+   *
+   * @param identifier the specification's identifier
+   */
+  public ConfigurationSpecificationSqlIterator(String identifier) {
+    super(identifier);
+  }
 
-        super(identifier, numberOfValues);
-    }
+  /**
+   * Construcats a {@link ConfigurationSpecificationSqlIterator}, potentially requesting several
+   * values.
+   *
+   * @param identifier     the specification's identifier
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationSqlIterator(String identifier,
+                                               int numberOfValues) {
 
-    @Override
-    public ConfigurationSettingSqlIterator[] getSettings() {
-        return settings;
-    }
+    super(identifier, numberOfValues);
+  }
 
-    public void setValues(ConfigurationSettingSqlIterator[] values) {
-        this.settings = values;
-    }
+  @Override
+  public ConfigurationSettingSqlIterator[] getSettings() {
+    return settings;
+  }
+
+  public void setValues(ConfigurationSettingSqlIterator[] values) {
+    this.settings = values;
+  }
 }

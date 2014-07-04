@@ -24,11 +24,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDepen
  */
 public interface FunctionalDependencyResultReceiver {
 
-    /**
-     * Receives a {@link FunctionalDependency} from a {@link FunctionalDependencyAlgorithm}.
-     *
-     * @param functionalDependency a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency}
-     * @throws CouldNotReceiveResultException
-     */
-    void receiveResult(FunctionalDependency functionalDependency) throws CouldNotReceiveResultException;
+  /**
+   * Receives a {@link FunctionalDependency} from a {@link FunctionalDependencyAlgorithm}.
+   *
+   * @param functionalDependency a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency}
+   */
+  void receiveResult(FunctionalDependency functionalDependency)
+      throws CouldNotReceiveResultException;
 }

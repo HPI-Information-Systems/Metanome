@@ -27,38 +27,41 @@ import java.util.Set;
 
 public class ConfigurationValueListBox implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final String[] selectedValues;
+  protected final String identifier;
+  protected final String[] selectedValues;
 
-	/**
-	 * Constructs a ConfigurationValueListBox using the specification's identifier and the list of string values.
-	 *
-	 * @param identifier the configuration value enum identifier
-	 * @param selectedValues     the configuration value string values
-	 */
-	public ConfigurationValueListBox(String identifier, String... selectedValues) {
-		this.identifier = identifier;
-		this.selectedValues = selectedValues;
-	}
+  /**
+   * Constructs a ConfigurationValueListBox using the specification's identifier and the list of
+   * string values.
+   *
+   * @param identifier     the configuration value enum identifier
+   * @param selectedValues the configuration value string values
+   */
+  public ConfigurationValueListBox(String identifier, String... selectedValues) {
+    this.identifier = identifier;
+    this.selectedValues = selectedValues;
+  }
 
-	public ConfigurationValueListBox(
-			ConfigurationSpecificationListBox specification) {
-		this.identifier = specification.getIdentifier();
-		this.selectedValues = new String[specification.getSettings().length];
-		int i = 0;
-		for (ConfigurationSettingListBox setting : specification.getSettings()) {
-			this.selectedValues[i] = setting.selectedValue;
-			i++;
-		}
-	}
+  public ConfigurationValueListBox(
+      ConfigurationSpecificationListBox specification) {
+    this.identifier = specification.getIdentifier();
+    this.selectedValues = new String[specification.getSettings().length];
+    int i = 0;
+    for (ConfigurationSettingListBox setting : specification.getSettings()) {
+      this.selectedValues[i] = setting.selectedValue;
+      i++;
+    }
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(ListBoxParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept arraylist configuration values.");
-		}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(ListBoxParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept arraylist configuration values.");
+    }
 
-		ListBoxParameterAlgorithm listBoxParameterAlgorithm = (ListBoxParameterAlgorithm) algorithm;
-		listBoxParameterAlgorithm.setListBoxConfigurationValue(identifier, selectedValues);
-	}
+    ListBoxParameterAlgorithm listBoxParameterAlgorithm = (ListBoxParameterAlgorithm) algorithm;
+    listBoxParameterAlgorithm.setListBoxConfigurationValue(identifier, selectedValues);
+  }
 }

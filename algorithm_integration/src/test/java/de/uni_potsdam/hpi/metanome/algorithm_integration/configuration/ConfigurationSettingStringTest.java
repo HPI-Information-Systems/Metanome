@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,27 +29,28 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConfigurationSettingStringTest {
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString#ConfigurationSettingString(String)}
-     */
-    @Test
-    public void testConstructor() {
-        // Setup
-        // Expected values
-        String expectedValue = "some value";
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString#ConfigurationSettingString(String)}
+   */
+  @Test
+  public void testConstructor() {
+    // Setup
+    // Expected values
+    String expectedValue = "some value";
 
-        // Execute functionality
-        ConfigurationSettingString actualSetting = new ConfigurationSettingString(expectedValue);
+    // Execute functionality
+    ConfigurationSettingString actualSetting = new ConfigurationSettingString(expectedValue);
 
-        // Check result
-        assertEquals(expectedValue, actualSetting.getValue());
-    }
+    // Check result
+    assertEquals(expectedValue, actualSetting.getValue());
+  }
 
-    /**
-     * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString} are serializable in GWT.
-     */
-    @Test
-    public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingString("some value"));
-    }
+  /**
+   * Tests that the instances of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString}
+   * are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingString("some value"));
+  }
 }

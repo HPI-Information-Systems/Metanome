@@ -25,12 +25,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
  */
 public interface ProgressReceiver {
 
-    /**
-     * Updates the {@link Algorithm}'s progress. Progress should be between 0 and 1 including bounds.
-     * If the progress is invalid false is returned.
-     *
-     * @param progress the current progress normalized between 0 and 1 including bounds.
-     * @return true iff the new progress is valid.
-     */
-    boolean updateProgress(float progress);
+  /**
+   * Updates the {@link Algorithm}'s progress. Progress should be between 0 and 1 including bounds.
+   * If the progress is invalid false is returned.
+   *
+   * @param progress the current progress normalized between 0 and 1 including bounds.
+   * @return true iff the new progress is valid.
+   */
+  boolean updateProgress(float progress);
 }

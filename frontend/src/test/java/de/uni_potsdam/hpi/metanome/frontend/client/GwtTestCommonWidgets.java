@@ -16,35 +16,35 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.LinkedList;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import org.junit.Test;
+
+import java.util.LinkedList;
+
 public class GwtTestCommonWidgets extends GWTTestCase {
 
-    @Test
-    public void testAlgorithmChooser() {
-        //Setup
-        LinkedList<Algorithm> algorithms = new LinkedList<>();
-        algorithms.add(new Algorithm("Algorithm 1"));
-        algorithms.add(new Algorithm("Algorithm 2"));
+  @Test
+  public void testAlgorithmChooser() {
+    //Setup
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
 
-        //Execute
-        AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+    //Execute
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
-        //Test
-        assertEquals(2, jarChooser.getWidgetCount());
-        assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
-    }
+    //Test
+    assertEquals(2, jarChooser.getWidgetCount());
+    assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
+  }
 
-    @Override
-    public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }

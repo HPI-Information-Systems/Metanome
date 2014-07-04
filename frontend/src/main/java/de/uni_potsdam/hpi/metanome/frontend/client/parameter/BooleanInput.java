@@ -19,29 +19,30 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.user.client.ui.CheckBox;
 
 /**
- * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the checkbox
- * is removed from the parent widget.
+ * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the
+ * checkbox is removed from the parent widget.
  *
  * @author Claudia
  */
 public class BooleanInput extends InputField {
 
-    protected CheckBox checkbox;
+  protected CheckBox checkbox;
 
-    /**
-     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-     */
-    public BooleanInput(boolean optional) {
-        super(optional);
+  /**
+   * @param optional If true, a remove button will be rendered, to remove this widget from its
+   *                 parent.
+   */
+  public BooleanInput(boolean optional) {
+    super(optional);
 
-        this.checkbox = new CheckBox();
-        this.add(this.checkbox);
-    }
+    this.checkbox = new CheckBox();
+    this.add(this.checkbox);
+  }
 
-    /**
-     * @return the value of its checkbox
-     */
-    public boolean getValue() {
-        return this.checkbox.getValue();
-    }
+  /**
+   * @return the value of its checkbox
+   */
+  public boolean getValue() {
+    return this.checkbox.getValue();
+  }
 }

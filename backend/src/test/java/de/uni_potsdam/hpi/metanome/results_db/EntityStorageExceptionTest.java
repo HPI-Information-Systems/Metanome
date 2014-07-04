@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,34 +27,33 @@ import static org.junit.Assert.assertEquals;
  */
 public class EntityStorageExceptionTest {
 
-    /**
-     * Test method for {@link EntityStorageException#EntityStorageException(String)}
-     * <p/>
-     * The exception should store the message.
-     */
-    @Test
-    public void testEntityStorageException() {
-        // Setup
-        // Expected values
-        String expectedMessage = "some message";
+  /**
+   * Test method for {@link EntityStorageException#EntityStorageException(String)} <p/> The
+   * exception should store the message.
+   */
+  @Test
+  public void testEntityStorageException() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
 
-        // Execute functionality
-        String actualMessage;
-        try {
-            throw new EntityStorageException(expectedMessage);
-        } catch (EntityStorageException e) {
-            actualMessage = e.getMessage();
-        }
-
-        // Check result
-        assertEquals(expectedMessage, actualMessage);
+    // Execute functionality
+    String actualMessage;
+    try {
+      throw new EntityStorageException(expectedMessage);
+    } catch (EntityStorageException e) {
+      actualMessage = e.getMessage();
     }
 
-    /**
-     * Tests that the instances of {@link EntityStorageException} are serializable in GWT.
-     */
-    @Test
-    public void testGwtSerialization() {
-        GwtSerializationTester.checkGwtSerializability(new EntityStorageException(""));
-    }
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Tests that the instances of {@link EntityStorageException} are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(new EntityStorageException(""));
+  }
 }

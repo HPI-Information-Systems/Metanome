@@ -29,42 +29,40 @@ import java.util.Set;
  */
 public class ConfigurationValueBoolean implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final boolean[] values;
+  protected final String identifier;
+  protected final boolean[] values;
 
-	/**
-	 * Constructs a ConfigurationValueBoolean using the given identifier and the boolean values.
-	 *
-	 * @param identifier
-	 * @param values
-	 */
-	public ConfigurationValueBoolean(String identifier, boolean... values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueBoolean using the given identifier and the boolean values.
+   */
+  public ConfigurationValueBoolean(String identifier, boolean... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	/**
-	 * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean values.
-	 *
-	 * @param spec
-	 */
-	public ConfigurationValueBoolean(ConfigurationSpecificationBoolean spec) {
-		this.identifier = spec.getIdentifier();
-		this.values = new boolean[spec.getSettings().length];
-		int i = 0;
-		for (ConfigurationSettingBoolean setting : spec.getSettings()) {
-			this.values[i] = setting.value;
-			i++;
-		}
-	}
+  /**
+   * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean
+   * values.
+   */
+  public ConfigurationValueBoolean(ConfigurationSpecificationBoolean spec) {
+    this.identifier = spec.getIdentifier();
+    this.values = new boolean[spec.getSettings().length];
+    int i = 0;
+    for (ConfigurationSettingBoolean setting : spec.getSettings()) {
+      this.values[i] = setting.value;
+      i++;
+    }
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(BooleanParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept boolean configuration values.");
-		}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(BooleanParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept boolean configuration values.");
+    }
 
-		BooleanParameterAlgorithm booleanParameterAlgorithm = (BooleanParameterAlgorithm) algorithm;
-		booleanParameterAlgorithm.setBooleanConfigurationValue(identifier, values);
-	}
+    BooleanParameterAlgorithm booleanParameterAlgorithm = (BooleanParameterAlgorithm) algorithm;
+    booleanParameterAlgorithm.setBooleanConfigurationValue(identifier, values);
+  }
 }

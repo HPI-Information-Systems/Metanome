@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <groupId>de.uni-potsdam.hpi.metanome</groupId>
@@ -81,28 +82,36 @@
                                     <artifactId>depminer_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.build.directory}/dependency/algorithms
+                                    </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>fastfds_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.build.directory}/dependency/algorithms
+                                    </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>fdep_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.build.directory}/dependency/algorithms
+                                    </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
                                     <artifactId>tane_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/dependency/algorithms</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.build.directory}/dependency/algorithms
+                                    </outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                             <stripVersion>true</stripVersion>

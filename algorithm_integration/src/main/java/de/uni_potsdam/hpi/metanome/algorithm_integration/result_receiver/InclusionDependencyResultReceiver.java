@@ -24,11 +24,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDepend
  */
 public interface InclusionDependencyResultReceiver {
 
-    /**
-     * Receives an {@link InclusionDependency} from an {@link InclusionDependencyAlgorithm}.
-     *
-     * @param inclusionDependency a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency}
-     * @throws CouldNotReceiveResultException if the inclusion dependency could not be received
-     */
-    void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException;
+  /**
+   * Receives an {@link InclusionDependency} from an {@link InclusionDependencyAlgorithm}.
+   *
+   * @param inclusionDependency a found {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency}
+   * @throws CouldNotReceiveResultException if the inclusion dependency could not be received
+   */
+  void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException;
 }
