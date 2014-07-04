@@ -30,12 +30,8 @@ public interface FinderServiceAsync {
 
   public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-  public void listConditionalUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
-
-  public void listFunctionalDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
-
-  public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
-
+  public void listConditionalUniqueColumnCombinationsAlgorithms(
+      AsyncCallback<List<Algorithm>> callback);
 
   public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
 

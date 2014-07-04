@@ -178,6 +178,11 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       criteria.add(Restrictions.eq("ucc", true));
     }
+
+    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+      criteria.add(Restrictions.eq("cucc", true));
+    }
+
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       criteria.add(Restrictions.eq("basicStat", true));
     }
@@ -294,7 +299,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setBasicStat(boolean isBasicStat) {
     this.isBasicStat = isBasicStat;
-
 
     return this;
   }

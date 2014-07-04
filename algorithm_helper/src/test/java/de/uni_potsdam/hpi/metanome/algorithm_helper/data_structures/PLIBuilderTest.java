@@ -47,11 +47,8 @@ public class PLIBuilderTest {
 
   @After
   public void tearDown() throws Exception {
-<<<<<<< HEAD
     fixture = null;
     builder = null;
-=======
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   }
 
   /**
@@ -92,7 +89,6 @@ public class PLIBuilderTest {
     // Check result
     assertEquals(expectedDistinctSortedColumns, actualDistinctSortedColumns);
   }
-<<<<<<< HEAD
 
   /**
    * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder::getNumberOfTuples}
@@ -114,6 +110,4 @@ public class PLIBuilderTest {
     assertEquals(expectedNumberOfColumns, builder.getNumberOfTuples());
     //Check result
   }
-=======
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 }

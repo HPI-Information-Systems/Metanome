@@ -17,10 +17,7 @@
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
-<<<<<<< HEAD
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-=======
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
@@ -61,7 +58,6 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
     results.add(uniqueColumnCombination);
   }
 
-<<<<<<< HEAD
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) {
     results.add(conditionalUniqueColumnCombination);
   }
@@ -82,24 +78,6 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
   @Override
   public void close() throws IOException {
 
-=======
-  /**
-   * Should return all results once. After receiving the list it should be cleared and only filled
-   * by new results.
-   *
-   * @return new results
-   */
-  public ArrayList<Result> getNewResults() {
-    // FIXME synchronization
-    ArrayList<Result> currentResults = new ArrayList<>(results);
-    results.clear();
-    return currentResults;
-  }
-
-  @Override
-  public void close() throws IOException {
-
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   }
 
 }

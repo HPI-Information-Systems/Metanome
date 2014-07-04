@@ -37,10 +37,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   protected PrintStream statStream;
   protected PrintStream fdStream;
   protected PrintStream uccStream;
-<<<<<<< HEAD
   protected PrintStream cuccStream;
-=======
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   protected PrintStream indStream;
 
   protected String algorithmExecutionIdentifier;
@@ -51,7 +48,6 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     File directory = new File(directoryName);
     if (!directory.exists()) {
       directory.mkdirs();
-<<<<<<< HEAD
     }
 
     this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
@@ -126,68 +122,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
 
     return cuccStream;
-=======
-    }
 
-    this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
-    this.directoryName = directoryName;
-  }
-
-  @Override
-  public void receiveResult(BasicStatistic statistic)
-      throws CouldNotReceiveResultException {
-    getStatStream().println(statistic.toString());
-  }
-
-  @Override
-  public void receiveResult(FunctionalDependency functionalDependency)
-      throws CouldNotReceiveResultException {
-    getFdStream().println(functionalDependency.toString());
-  }
-
-  @Override
-  public void receiveResult(InclusionDependency inclusionDependency)
-      throws CouldNotReceiveResultException {
-    getIndStream().println(inclusionDependency.toString());
-  }
-
-  @Override
-  public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-      throws CouldNotReceiveResultException {
-    getUccStream().println(uniqueColumnCombination.toString());
-  }
-
-  protected PrintStream getStatStream() throws CouldNotReceiveResultException {
-    if (statStream == null) {
-      statStream = openStream("_stats");
-    }
-
-    return statStream;
-  }
-
-  protected PrintStream getFdStream() throws CouldNotReceiveResultException {
-    if (fdStream == null) {
-      fdStream = openStream("_fds");
-    }
-
-    return fdStream;
-  }
-
-  protected PrintStream getIndStream() throws CouldNotReceiveResultException {
-    if (indStream == null) {
-      indStream = openStream("_inds");
-    }
-
-    return indStream;
-  }
-
-  protected PrintStream getUccStream() throws CouldNotReceiveResultException {
-    if (uccStream == null) {
-      uccStream = openStream("_uccs");
-    }
-
-    return uccStream;
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
   }
 
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
@@ -215,12 +150,9 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
     if (uccStream != null) {
       uccStream.close();
-<<<<<<< HEAD
     }
     if (cuccStream != null) {
       cuccStream.close();
-=======
->>>>>>> 94ad3cb32e144c979864e6e1b3830cb2c41a7db8
     }
   }
 
