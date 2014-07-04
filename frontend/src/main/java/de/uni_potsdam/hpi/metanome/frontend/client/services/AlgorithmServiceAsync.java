@@ -16,21 +16,23 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
 import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 public interface AlgorithmServiceAsync {
 
-    public void listInclusionDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
+  public void listInclusionDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listFunctionalDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
+  public void listFunctionalDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
+  public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
+  public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-    public void listAllAlgorithms(AsyncCallback<List<Algorithm>> addJarChooserCallback);
+  public void listAllAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
+  public void addAlgorithm(Algorithm algorithm, AsyncCallback<Void> callback);
 }
