@@ -16,11 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.helpers;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-
-
+/**
+ * TODO docs
+ *
+ * @author Claudia Exeler
+ */
 public class StringHelper {
 
+  /**
+   * TODO docs
+   */
   public static char getFirstCharFromInput(String string) {
     if (string.length() == 1) {
       return string.charAt(0);
@@ -36,7 +41,7 @@ public class StringHelper {
   /**
    * @param value
    * @return
-   * @throws AlgorithmConfigurationException
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
    */
   public static char getValidatedInput(String value) throws InputValidationException {
     char firstChar = getFirstCharFromInput(value);
