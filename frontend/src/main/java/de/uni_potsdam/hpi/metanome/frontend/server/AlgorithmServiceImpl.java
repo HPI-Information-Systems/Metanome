@@ -26,6 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 /**
  * Service Implementation for service that lists available algorithms stored in the database.
@@ -92,6 +93,11 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
    */
   @Override
   public void addAlgorithm(Algorithm algorithm) {
-    // TODO Auto-generated method stub -
+    try {
+      algorithm.store();
+    } catch (EntityStorageException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }

@@ -93,7 +93,6 @@ public class AlgorithmEditForm extends FlowPanel {
       @Override
       public void onClick(ClickEvent event) {
         algorithmsPage.callAddAlgorithm(retrieveInputValues());
-
       }
     });
   }
