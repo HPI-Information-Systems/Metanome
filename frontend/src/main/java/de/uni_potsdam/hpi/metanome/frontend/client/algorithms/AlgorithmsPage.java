@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -176,7 +177,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * 
    * @param algorithm
    */
-  public void callAddAlgorithm(Algorithm algorithm) {
+  public void callAddAlgorithm(final Algorithm algorithm) {
     finderService.addAlgorithm(algorithm, new AsyncCallback<Void>() {
 
       @Override
@@ -186,8 +187,20 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
       @Override
       public void onSuccess(Void result) {
-        // TODO Auto-generated method stub: reload list of algorithms
-
+        ArrayList<Algorithm> list = new ArrayList<Algorithm>();
+        list.add(algorithm);
+        if (algorithm.isInd()) {
+          addAlgorithmsToList(list, indList);
+        }
+        if (algorithm.isFd()) {
+          addAlgorithmsToList(list, fdList);
+        }
+        if (algorithm.isUcc()) {
+          addAlgorithmsToList(list, uccList);
+        }
+        if (algorithm.isBasicStat()) {
+          addAlgorithmsToList(list, statsList);
+        }
       }
     });
 
