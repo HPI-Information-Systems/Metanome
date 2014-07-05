@@ -92,7 +92,6 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
    */
   @Override
   public void addAlgorithm(Algorithm algorithm) {
-    // TODO Auto-generated method stub
-
+    // TODO Auto-generated method stub -
   }
 }

@@ -16,6 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -26,11 +31,19 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
 /**
  * @author Claudia Exeler
  * 
  */
 public class AlgorithmEditForm extends FlowPanel {
+
+  private final AlgorithmsPage algorithmsPage;
 
   protected TextBox fileNameTextBox = new TextBox();
   protected TextBox nameTextBox = new TextBox();
@@ -41,7 +54,9 @@ public class AlgorithmEditForm extends FlowPanel {
   protected CheckBox uccCheckBox = new CheckBox("Unique Column Combinations");
   protected CheckBox basicStatsCheckBox = new CheckBox("Basic Statistics");
 
-  public AlgorithmEditForm() {
+  public AlgorithmEditForm(AlgorithmsPage parent) {
+    this.algorithmsPage = parent;
+
     this.add(new HTML("<h3>Add A New Algorithm</h3>"));
     this.add(new Label(
         "First, make your JAR file available by putting it in the algorithms folder."));
@@ -72,6 +87,7 @@ public class AlgorithmEditForm extends FlowPanel {
     p.add(this.uccCheckBox);
     p.add(this.basicStatsCheckBox);
     grid.setWidget(4, 1, p);
+
     return grid;
   }
 
@@ -79,7 +95,35 @@ public class AlgorithmEditForm extends FlowPanel {
    * @return
    */
   private Widget createSubmitButton() {
-    return new Button("Save");
+    return new Button("Save", new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        algorithmsPage.callAddAlgorithm(retrieveInputValues());
+
+      }
+    });
+  }
+
+
+  /**
+   * @return a new Algorithm instance with attribute values according to user input
+   */
+  protected Algorithm retrieveInputValues() {
+    // TODO input validation
+
+    Set<Class<?>> algorithmInterfaces = new HashSet<Class<?>>();
+    if (this.indCheckBox.getValue())
+      algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
+    if (this.fdCheckBox.getValue())
+      algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
+    if (this.uccCheckBox.getValue())
+      algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+    if (this.basicStatsCheckBox.getValue())
+      algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+
+    return new Algorithm(this.fileNameTextBox.getValue(), this.nameTextBox.getValue(),
+        this.authorTextBox.getValue(), this.descriptionTextBox.getValue(), algorithmInterfaces);
   }
 
 }

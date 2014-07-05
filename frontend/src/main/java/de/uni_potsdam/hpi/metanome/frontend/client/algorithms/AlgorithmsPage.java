@@ -37,19 +37,21 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
-  protected final AlgorithmServiceAsync finderService;
+  protected final AlgorithmServiceAsync algorithmService;
+
   protected final BasePage basePage;
+  protected TabWrapper errorReceiver;
+
   private final FlexTable uccList;
   private final FlexTable fdList;
   private final FlexTable indList;
   private final FlexTable statsList;
-  protected TabWrapper errorReceiver;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
     this.setSpacing(5);
 
-    this.finderService = GWT.create(AlgorithmService.class);
+    this.algorithmService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
 
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));
@@ -73,39 +75,35 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     listStatsAlgorithms();
 
     this.add(new HTML("<hr>"));
-    this.add(new AlgorithmEditForm());
-    // Label temporaryAddContent = new Label();
-    // temporaryAddContent
-    // .setText("To add a new algorithm, put its jar in the designated folder and provide details in this form:");
-    // this.add(temporaryAddContent);
+    this.add(new AlgorithmEditForm(this));
   }
 
   /**
    * Request a list of available UCC algorithms and display them in the uccList
    */
   private void listAndAddUccAlgorithms() {
-    finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
+    algorithmService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
   }
 
   /**
    * Request a list of available FD algorithms and display them in the fdList
    */
   private void listFdAlgorithms() {
-    finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
+    algorithmService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
   }
 
   /**
    * Request a list of available IND algorithms and display them in the indList
    */
   private void listIndAlgorithms() {
-    finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));
+    algorithmService.listInclusionDependencyAlgorithms(getCallback(this.indList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
   private void listStatsAlgorithms() {
-    finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
+    algorithmService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
   }
 
   /**
@@ -128,6 +126,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     };
   }
 
+  /**
+   * 
+   * @param algorithms
+   * @param list
+   */
   protected void addAlgorithmsToList(List<Algorithm> algorithms, FlexTable list) {
     int row = list.getRowCount();
     Collections.sort(algorithms);
@@ -150,8 +153,33 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     }
   }
 
+  /**
+   * 
+   * @param algorithmName
+   */
   protected void jumpToRunConfiguration(String algorithmName) {
-    basePage.jumpToRunConfiguration(algorithmName, null);
+    this.basePage.jumpToRunConfiguration(algorithmName, null);
+  }
+
+  /**
+   * 
+   * @param algorithm
+   */
+  protected void callAddAlgorithm(Algorithm algorithm) {
+    this.algorithmService.addAlgorithm(algorithm, new AsyncCallback<Void>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public void onSuccess(Void result) {
+        // TODO Auto-generated method stub
+
+      }
+    });
   }
 
   /*
