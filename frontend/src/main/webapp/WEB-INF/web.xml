@@ -25,7 +25,8 @@
     <!-- Servlets -->
     <servlet>
         <servlet-name>parameterServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl</servlet-class>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl
+        </servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>parameterServiceImpl</servlet-name>
@@ -43,7 +44,8 @@
 
     <servlet>
         <servlet-name>executionServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl</servlet-class>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl
+        </servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>executionServiceImpl</servlet-name>
@@ -52,7 +54,8 @@
 
     <servlet>
         <servlet-name>inputDataServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl</servlet-class>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl
+        </servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>inputDataServiceImpl</servlet-name>
@@ -60,7 +63,8 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer</listener-class>
+        <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer
+        </listener-class>
     </listener>
 
 </web-app>

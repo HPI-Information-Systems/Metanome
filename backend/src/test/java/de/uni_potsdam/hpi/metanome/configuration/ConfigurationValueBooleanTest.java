@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -36,58 +37,57 @@ import static org.mockito.Mockito.verify;
  */
 public class ConfigurationValueBooleanTest {
 
-	/**
-	 * Test method for {@link ConfigurationValueBoolean#ConfigurationValueBoolean(String, boolean...)}
-	 * <p/>
-	 * Parameters should be set on the algorithm through triggerSetValue. This is the last call in a double
-	 * dispatch call to determine the parameters type.
-	 *
-	 * @throws AlgorithmConfigurationException
-	 */
-	@Test
-	public void testTriggerSetValue() throws AlgorithmConfigurationException {
-		// Setup
-		BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
-		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(BooleanParameterAlgorithm.class);
-		// Expected values
-		String expectedIdentifier = "configId1";
-		boolean[] expectedConfigurationValue = {true, false};
+  /**
+   * Test method for {@link ConfigurationValueBoolean#ConfigurationValueBoolean(String, boolean...)}
+   * <p/> Parameters should be set on the algorithm through triggerSetValue. This is the last call
+   * in a double dispatch call to determine the parameters type.
+   */
+  @Test
+  public void testTriggerSetValue() throws AlgorithmConfigurationException {
+    // Setup
+    BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
+    Set<Class<?>> interfaces = new HashSet<>();
+    interfaces.add(BooleanParameterAlgorithm.class);
+    // Expected values
+    String expectedIdentifier = "configId1";
+    boolean[] expectedConfigurationValue = {true, false};
 
-		// Execute functionality
-		ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-				new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(), expectedConfigurationValue);
-		configValue.triggerSetValue(algorithm, interfaces);
+    // Execute functionality
+    ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
+        new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(),
+        expectedConfigurationValue);
+    configValue.triggerSetValue(algorithm, interfaces);
 
-		// Check result
-		verify(algorithm).setBooleanConfigurationValue(expectedIdentifier, expectedConfigurationValue);
-	}
+    // Check result
+    verify(algorithm).setBooleanConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+  }
 
-	/**
-	 * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueBoolean#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm, java.util.Set)}
-	 * <p/>
-	 * When the correct algorithm interface is missing an exception should be thrown.
-	 */
-	@Test
-	public void testTriggerSetValueMissingInterface() {
-		// Setup
-		BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
-		// The file input parameter algorithm interface is missing.
-		Set<Class<?>> interfaces = new HashSet<>();
-		interfaces.add(ProgressEstimatingAlgorithm.class);
-		// Expected values
-		String expectedIdentifier = "configId1";
-		boolean[] expectedConfigurationValues = {true, false};
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueBoolean#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * java.util.Set)} <p/> When the correct algorithm interface is missing an exception should be
+   * thrown.
+   */
+  @Test
+  public void testTriggerSetValueMissingInterface() {
+    // Setup
+    BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
+    // The file input parameter algorithm interface is missing.
+    Set<Class<?>> interfaces = new HashSet<>();
+    interfaces.add(ProgressEstimatingAlgorithm.class);
+    // Expected values
+    String expectedIdentifier = "configId1";
+    boolean[] expectedConfigurationValues = {true, false};
 
-		// Execute functionality
-		ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-				new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(), expectedConfigurationValues);
-		try {
-			configValue.triggerSetValue(algorithm, interfaces);
-			fail("No exception was thrown.");
-		} catch (AlgorithmConfigurationException e) {
-			// Intentionally left blank
-		}
-	}
+    // Execute functionality
+    ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
+        new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(),
+        expectedConfigurationValues);
+    try {
+      configValue.triggerSetValue(algorithm, interfaces);
+      fail("No exception was thrown.");
+    } catch (AlgorithmConfigurationException e) {
+      // Intentionally left blank
+    }
+  }
 
 }

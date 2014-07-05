@@ -17,62 +17,72 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
- * Represents the composite key of an {@link de.uni_potsdam.hpi.metanome.results_db.Execution} in the database.
+ * Represents the composite key of an {@link de.uni_potsdam.hpi.metanome.results_db.Execution} in
+ * the database.
  *
  * @author Jakob Zwiener
  */
 public class ExecutionId implements Serializable {
-    protected Algorithm algorithm;
-    protected Date begin;
 
-    /**
-     * Exists for hibernate serialization
-     */
-    private ExecutionId() {
+  protected Algorithm algorithm;
+  protected Timestamp begin;
 
+  /**
+   * Exists for hibernate serialization
+   */
+  private ExecutionId() {
+
+  }
+
+  public ExecutionId(Algorithm algorithm, Timestamp begin) {
+    this.algorithm = algorithm;
+    this.begin = begin;
+  }
+
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
+
+  public void setAlgorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+  }
+
+  public Timestamp getBegin() {
+    return begin;
+  }
+
+  public void setBegin(Timestamp begin) {
+    this.begin = begin;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ExecutionId)) {
+      return false;
     }
 
-    public ExecutionId(Algorithm algorithm, Date begin) {
-        this.algorithm = algorithm;
-        this.begin = begin;
+    ExecutionId that = (ExecutionId) o;
+
+    if (!algorithm.equals(that.algorithm)) {
+      return false;
+    }
+    if (!begin.equals(that.begin)) {
+      return false;
     }
 
-    public Algorithm getAlgorithm() {
-        return algorithm;
-    }
+    return true;
+  }
 
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
-
-    public Date getBegin() {
-        return begin;
-    }
-
-    public void setBegin(Date begin) {
-        this.begin = begin;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ExecutionId)) return false;
-
-        ExecutionId that = (ExecutionId) o;
-
-        if (!algorithm.equals(that.algorithm)) return false;
-        if (!begin.equals(that.begin)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = algorithm.hashCode();
-        result = 31 * result + begin.hashCode();
-        return result;
-    }
+  @Override
+  public int hashCode() {
+    int result = algorithm.hashCode();
+    result = 31 * result + begin.hashCode();
+    return result;
+  }
 }

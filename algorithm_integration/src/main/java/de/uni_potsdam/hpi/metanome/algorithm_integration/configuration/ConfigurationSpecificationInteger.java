@@ -25,42 +25,42 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  */
 public class ConfigurationSpecificationInteger extends ConfigurationSpecification {
 
-	private ConfigurationSettingInteger[] settings;
+  private ConfigurationSettingInteger[] settings;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSpecificationInteger() {
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationInteger() {
+  }
 
-	/**
-	 * Construct a ConfigurationSpecificationInteger, requesting 1 value.
-	 *
-	 * @param identifier the specification's identifier
-	 */
-	public ConfigurationSpecificationInteger(String identifier) {
-		super(identifier);
-	}
+  /**
+   * Construct a ConfigurationSpecificationInteger, requesting 1 value.
+   *
+   * @param identifier the specification's identifier
+   */
+  public ConfigurationSpecificationInteger(String identifier) {
+    super(identifier);
+  }
 
 
-	/**
-	 * Constructs a {@link ConfigurationSpecificationInteger}, potentially requesting several values.
-	 *
-	 * @param identifier     the specification's identifier
-	 * @param numberOfValues the number of values expected
-	 */
-	public ConfigurationSpecificationInteger(String identifier,
-											 int numberOfValues) {
+  /**
+   * Constructs a {@link ConfigurationSpecificationInteger}, potentially requesting several values.
+   *
+   * @param identifier     the specification's identifier
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationInteger(String identifier,
+                                           int numberOfValues) {
 
-		super(identifier, numberOfValues);
-	}
+    super(identifier, numberOfValues);
+  }
 
-	@Override
-	public ConfigurationSettingInteger[] getSettings() {
-		return this.settings;
-	}
+  @Override
+  public ConfigurationSettingInteger[] getSettings() {
+    return this.settings;
+  }
 
-	public void setSettings(ConfigurationSettingInteger... settings) {
-		this.settings = settings;
-	}
+  public void setSettings(ConfigurationSettingInteger... settings) {
+    this.settings = settings;
+  }
 }

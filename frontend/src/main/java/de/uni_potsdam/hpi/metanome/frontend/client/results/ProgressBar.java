@@ -22,33 +22,34 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressBar extends Widget {
-    private static final String PERCENT_PATTERN = "#,##0%";
-    private static final NumberFormat percentFormat = NumberFormat.getFormat(PERCENT_PATTERN);
 
-    private final Element progress;
-    private final Element percentageLabel;
-    private final double max;
-    private double percentage;
+  private static final String PERCENT_PATTERN = "#,##0%";
+  private static final NumberFormat percentFormat = NumberFormat.getFormat(PERCENT_PATTERN);
 
-    public ProgressBar(double value, double max) {
-        assert max != 0;
-        this.max = max;
+  private final Element progress;
+  private final Element percentageLabel;
+  private final double max;
+  private double percentage;
 
-        progress = DOM.createElement("progress");
-        progress.setAttribute("max", Double.toString(max));
-        progress.setAttribute("value", Double.toString(value));
+  public ProgressBar(double value, double max) {
+    assert max != 0;
+    this.max = max;
 
-        percentageLabel = DOM.createElement("span");
-        percentage = value / max;
-        percentageLabel.setInnerHTML(percentFormat.format(percentage));
-        progress.insertFirst(percentageLabel);
+    progress = DOM.createElement("progress");
+    progress.setAttribute("max", Double.toString(max));
+    progress.setAttribute("value", Double.toString(value));
 
-        setElement(progress);
-    }
+    percentageLabel = DOM.createElement("span");
+    percentage = value / max;
+    percentageLabel.setInnerHTML(percentFormat.format(percentage));
+    progress.insertFirst(percentageLabel);
 
-    public void setProgress(double value) {
-        progress.setAttribute("value", Double.toString(value));
-        percentage = value / max;
-        percentageLabel.setInnerHTML(percentFormat.format(percentage));
-    }
+    setElement(progress);
+  }
+
+  public void setProgress(double value) {
+    progress.setAttribute("value", Double.toString(value));
+    percentage = value / max;
+    percentageLabel.setInnerHTML(percentFormat.format(percentage));
+  }
 }

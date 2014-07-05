@@ -21,13 +21,13 @@ import java.io.Serializable;
 
 public class ConfigurationSettingListBox implements Serializable {
 
-	public String selectedValue;
+  public String selectedValue;
 
-	public ConfigurationSettingListBox() {
-	}
+  public ConfigurationSettingListBox() {
+  }
 
-	public ConfigurationSettingListBox(String selectedValue) {
-		this.selectedValue = selectedValue;
-	}
+  public ConfigurationSettingListBox(String selectedValue) {
+    this.selectedValue = selectedValue;
+  }
 
 }

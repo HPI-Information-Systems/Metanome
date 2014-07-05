@@ -19,29 +19,30 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the checkbox
- * is removed from the parent widget.
+ * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the
+ * checkbox is removed from the parent widget.
  *
  * @author Claudia
  */
 public class StringInput extends InputField {
 
-    protected TextBox textbox;
+  protected TextBox textbox;
 
-    /**
-     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
-     */
-    public StringInput(boolean optional) {
-        super(optional);
+  /**
+   * @param optional If true, a remove button will be rendered, to remove this widget from its
+   *                 parent.
+   */
+  public StringInput(boolean optional) {
+    super(optional);
 
-        this.textbox = new TextBox();
-        this.add(this.textbox);
-    }
+    this.textbox = new TextBox();
+    this.add(this.textbox);
+  }
 
-    /**
-     * @return the value of its checkbox
-     */
-    public String getValue() {
-        return this.textbox.getValue();
-    }
+  /**
+   * @return the value of its checkbox
+   */
+  public String getValue() {
+    return this.textbox.getValue();
+  }
 }

@@ -21,162 +21,157 @@ import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
- * @author Jakob Zwiener
- * 
  * Stores one CSV file configuration.
+ *
+ * @author Jakob Zwiener
  */
 public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
-    private static final long serialVersionUID = -770650561337139324L;
 
-    private String fileName;
-    private boolean advanced;
-    private char separatorChar;
-    private char quoteChar;
-    private char escapeChar;
-    private boolean strictQuotes;
-    private boolean ignoreLeadingWhiteSpace;
-    private int skipLines;
-	private boolean header;
-	private boolean skipDifferingLines;
-	
-	public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
-	public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
-	public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
-	public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
-	public final static boolean DEFAULT_IGNORELEADINGWHITESPACE = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-	public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
-	public final static boolean DEFAULT_HEADER = true;
-	public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
+  public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
+  public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
+  public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+  public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
+  public final static boolean
+      DEFAULT_IGNORELEADINGWHITESPACE =
+      CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+  public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
+  public final static boolean DEFAULT_HEADER = true;
+  public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
+  private static final long serialVersionUID = -770650561337139324L;
+  private String fileName;
+  private boolean advanced;
+  private char separatorChar;
+  private char quoteChar;
+  private char escapeChar;
+  private boolean strictQuotes;
+  private boolean ignoreLeadingWhiteSpace;
+  private int skipLines;
+  private boolean header;
+  private boolean skipDifferingLines;
 
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSettingCsvFile() {
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSettingCsvFile() {
+  }
 
-    /**
-     * Simple constructor, uses default values.
-     * 
-     * @param fileName	the name of the CSV file
-     */
-    public ConfigurationSettingCsvFile(String fileName) {
-    	this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES, 
-    			DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER, DEFAULT_SKIPDIFFERINGLINES);
-    }
+  /**
+   * Simple constructor, uses default values.
+   *
+   * @param fileName the name of the CSV file
+   */
+  public ConfigurationSettingCsvFile(String fileName) {
+    this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
+         DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
+         DEFAULT_SKIPDIFFERINGLINES);
+  }
 
-    /**
-     * Advanced constructor.
-     * 
-     * @param fileName	the name of the CSV file
-     * @param advanced	true if the custom configurations should be used; that is, if one of the following parameters differs
-     * from the default value
-     * @param separator
-     * @param quote
-     * @param escape
-     * @param strictQuotes
-     * @param ignoreLeadingWhiteSpace
-     * @param line
-     * @param header
-     * @param skipDifferingLines
-     */
-    public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
-                                       char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, int line,
-                                       boolean header, boolean skipDifferingLines) {
-        this.fileName = fileName;
-        this.advanced = advanced;
-        this.separatorChar = separator;
-        this.quoteChar = quote;
-        this.escapeChar = escape;
-        this.strictQuotes = strictQuotes;
-        this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
-        this.skipLines = line;
-        this.header = header;
-        this.skipDifferingLines  = skipDifferingLines;
-    }
+  /**
+   * Advanced constructor.
+   *
+   * @param fileName the name of the CSV file
+   * @param advanced true if the custom configurations should be used; that is, if one of the
+   *                 following parameters differs from the default value
+   */
+  public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
+                                     char escape, boolean strictQuotes,
+                                     boolean ignoreLeadingWhiteSpace, int line,
+                                     boolean header, boolean skipDifferingLines) {
+    this.fileName = fileName;
+    this.advanced = advanced;
+    this.separatorChar = separator;
+    this.quoteChar = quote;
+    this.escapeChar = escape;
+    this.strictQuotes = strictQuotes;
+    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+    this.skipLines = line;
+    this.header = header;
+    this.skipDifferingLines = skipDifferingLines;
+  }
 
-    public String getFileName() {
-        return fileName;
-    }
+  public String getFileName() {
+    return fileName;
+  }
 
-    public void setFileName(String value) {
-        this.fileName = value;
-    }
+  public void setFileName(String value) {
+    this.fileName = value;
+  }
 
-    public boolean isAdvanced() {
-        return advanced;
-    }
+  public boolean isAdvanced() {
+    return advanced;
+  }
 
-    public void setAdvanced(boolean value) {
-        this.advanced = value;
-    }
+  public void setAdvanced(boolean value) {
+    this.advanced = value;
+  }
 
-    public char getSeparatorChar() {
-        return separatorChar;
-    }
+  public char getSeparatorChar() {
+    return separatorChar;
+  }
 
-    public void setSeparatorChar(char value) {
-        this.separatorChar = value;
-    }
+  public void setSeparatorChar(char value) {
+    this.separatorChar = value;
+  }
 
-    public char getQuoteChar() {
-        return quoteChar;
-    }
+  public char getQuoteChar() {
+    return quoteChar;
+  }
 
-    public void setQuoteChar(char value) {
-        this.quoteChar = value;
-    }
+  public void setQuoteChar(char value) {
+    this.quoteChar = value;
+  }
 
-    public char getEscapeChar() {
-        return escapeChar;
-    }
+  public char getEscapeChar() {
+    return escapeChar;
+  }
 
-    public void setEscapeChar(char value) {
-        this.escapeChar = value;
-    }
+  public void setEscapeChar(char value) {
+    this.escapeChar = value;
+  }
 
-    public boolean isStrictQuotes() {
-        return strictQuotes;
-    }
+  public boolean isStrictQuotes() {
+    return strictQuotes;
+  }
 
-    public void setStrictQuotes(boolean value) {
-        this.strictQuotes = value;
-    }
+  public void setStrictQuotes(boolean value) {
+    this.strictQuotes = value;
+  }
 
-    public boolean isIgnoreLeadingWhiteSpace() {
-        return ignoreLeadingWhiteSpace;
-    }
+  public boolean isIgnoreLeadingWhiteSpace() {
+    return ignoreLeadingWhiteSpace;
+  }
 
-    public void setIgnoreLeadingWhiteSpace(boolean value) {
-        this.ignoreLeadingWhiteSpace = value;
-    }
+  public void setIgnoreLeadingWhiteSpace(boolean value) {
+    this.ignoreLeadingWhiteSpace = value;
+  }
 
-    public int getSkipLines() {
-        return skipLines;
-    }
+  public int getSkipLines() {
+    return skipLines;
+  }
 
-    public void setSkipLines(int value) {
-        this.skipLines = value;
-    }
+  public void setSkipLines(int value) {
+    this.skipLines = value;
+  }
 
-	public boolean hasHeader() {
-		return header;
-	}
+  public boolean hasHeader() {
+    return header;
+  }
 
-	public void setHeader(boolean header) {
-		this.header = header;
-	}
-	
-	public boolean isSkipDifferingLines() {
-		return skipDifferingLines;
-	}
+  public void setHeader(boolean header) {
+    this.header = header;
+  }
 
-	public void setSkipDifferingLines(boolean skipDifferingLines) {
-		this.skipDifferingLines = skipDifferingLines;
-	}
-	
-	@Override
-	public String getValueAsString() {
-		return fileName;
-	}
+  public boolean isSkipDifferingLines() {
+    return skipDifferingLines;
+  }
+
+  public void setSkipDifferingLines(boolean skipDifferingLines) {
+    this.skipDifferingLines = skipDifferingLines;
+  }
+
+  @Override
+  public String getValueAsString() {
+    return fileName;
+  }
 }

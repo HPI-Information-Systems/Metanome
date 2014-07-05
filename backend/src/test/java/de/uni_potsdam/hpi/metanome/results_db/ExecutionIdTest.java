@@ -17,8 +17,10 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -31,59 +33,62 @@ import static org.mockito.Mockito.mock;
  */
 public class ExecutionIdTest {
 
-    /**
-     * Test method for {@link ExecutionId#equals(Object)} and {@link ExecutionId#hashCode()}
-     */
-    @Test
-    public void testEqualsHashCode() {
-        // Setup
-        String expectedAlgorithmFilePath = "some algorithm";
-        Date date = new Date();
-        ExecutionId executionId = new ExecutionId(new Algorithm(expectedAlgorithmFilePath), date);
-        ExecutionId equalExecutionId = new ExecutionId(new Algorithm(expectedAlgorithmFilePath), new Date(date.getTime()));
-        ExecutionId notEqualExecutionId = new ExecutionId(new Algorithm("some other algorithm"), new Date(97123));
+  /**
+   * Test method for {@link ExecutionId#equals(Object)} and {@link ExecutionId#hashCode()}
+   */
+  @Test
+  public void testEqualsHashCode() {
+    // Setup
+    String expectedAlgorithmFilePath = "some algorithm";
+    Timestamp date = new Timestamp(new Date().getTime());
+    ExecutionId executionId = new ExecutionId(new Algorithm(expectedAlgorithmFilePath), date);
+    ExecutionId
+        equalExecutionId =
+        new ExecutionId(new Algorithm(expectedAlgorithmFilePath), new Timestamp(date.getTime()));
+    ExecutionId
+        notEqualExecutionId =
+        new ExecutionId(new Algorithm("some other algorithm"), new Timestamp(97123));
 
-        // Execute functionality
-        // Check result
+    // Execute functionality
+    // Check result
+    // Reflexivity
+    new EqualsAndHashCodeTester<ExecutionId>()
+        .performBasicEqualsAndHashCodeChecks(executionId, equalExecutionId, notEqualExecutionId);
+  }
 
-        // Reflexivity
-        new EqualsAndHashCodeTester<ExecutionId>()
-                .performBasicEqualsAndHashCodeChecks(executionId, equalExecutionId, notEqualExecutionId);
-    }
+  /**
+   * Test method for {@link ExecutionId#getAlgorithm()} and {@link de.uni_potsdam.hpi.metanome.results_db.ExecutionId#setAlgorithm(Algorithm)}
+   */
+  @Test
+  public void testGetAndSetAlgorithm() {
+    // Setup
+    ExecutionId executionId = new ExecutionId(mock(Algorithm.class), mock(Timestamp.class));
+    // Expected values
+    Algorithm expectedAlgorithm = mock(Algorithm.class);
 
-    /**
-     * Test method for {@link ExecutionId#getAlgorithm()} and {@link de.uni_potsdam.hpi.metanome.results_db.ExecutionId#setAlgorithm(Algorithm)}
-     */
-    @Test
-    public void testGetAndSetAlgorithm() {
-        // Setup
-        ExecutionId executionId = new ExecutionId(mock(Algorithm.class), mock(Date.class));
-        // Expected values
-        Algorithm expectedAlgorithm = mock(Algorithm.class);
+    // Execute functionality
+    executionId.setAlgorithm(expectedAlgorithm);
+    Algorithm actualAlgorithm = executionId.getAlgorithm();
 
-        // Execute functionality
-        executionId.setAlgorithm(expectedAlgorithm);
-        Algorithm actualAlgorithm = executionId.getAlgorithm();
+    // Check result
+    assertEquals(expectedAlgorithm, actualAlgorithm);
+  }
 
-        // Check result
-        assertEquals(expectedAlgorithm, actualAlgorithm);
-    }
+  /**
+   * Test method for {@link ExecutionId#getBegin()} and {@link de.uni_potsdam.hpi.metanome.results_db.ExecutionId#setBegin(java.sql.Timestamp)}
+   */
+  @Test
+  public void testGetAndSetBegin() {
+    // Setup
+    ExecutionId executionId = new ExecutionId(mock(Algorithm.class), mock(Timestamp.class));
+    // Expected values
+    Timestamp expectedBegin = mock(Timestamp.class);
 
-    /**
-     * Test method for {@link ExecutionId#getBegin()} and {@link de.uni_potsdam.hpi.metanome.results_db.ExecutionId#setBegin(java.util.Date)}
-     */
-    @Test
-    public void testGetAndSetBegin() {
-        // Setup
-        ExecutionId executionId = new ExecutionId(mock(Algorithm.class), mock(Date.class));
-        // Expected values
-        Date expectedBegin = mock(Date.class);
+    // Execute functionality
+    executionId.setBegin(expectedBegin);
+    Timestamp actualBegin = executionId.getBegin();
 
-        // Execute functionality
-        executionId.setBegin(expectedBegin);
-        Date actualBegin = executionId.getBegin();
-
-        // Check result
-        assertEquals(expectedBegin, actualBegin);
-    }
+    // Check result
+    assertEquals(expectedBegin, actualBegin);
+  }
 }

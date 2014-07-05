@@ -24,48 +24,49 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
  * @see ConfigurationSpecification
  */
 public class ConfigurationSpecificationBoolean extends ConfigurationSpecification {
-    private static final long serialVersionUID = -8167469173057966270L;
 
-    public ConfigurationSettingBoolean[] settings;
+  private static final long serialVersionUID = -8167469173057966270L;
 
-    /**
-     * Exists for GWT serialization.
-     */
-    public ConfigurationSpecificationBoolean() {
-    }
+  public ConfigurationSettingBoolean[] settings;
 
-    /**
-     * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
-     *
-     * @param identifier the specification's identifier
-     */
-    public ConfigurationSpecificationBoolean(String identifier) {
-        super(identifier);
-    }
+  /**
+   * Exists for GWT serialization.
+   */
+  public ConfigurationSpecificationBoolean() {
+  }
 
-    /**
-     * Constructs a {@link ConfigurationSpecificationBoolean}, potentially requesting several values.
-     *
-     * @param identifier     the specification's identifier
-     * @param numberOfValues the number of values expected
-     */
-    public ConfigurationSpecificationBoolean(String identifier,
-                                             int numberOfValues) {
+  /**
+   * Construct a {@link ConfigurationSpecificationBoolean}, requesting 1 value.
+   *
+   * @param identifier the specification's identifier
+   */
+  public ConfigurationSpecificationBoolean(String identifier) {
+    super(identifier);
+  }
 
-        super(identifier, numberOfValues);
-    }
+  /**
+   * Constructs a {@link ConfigurationSpecificationBoolean}, potentially requesting several values.
+   *
+   * @param identifier     the specification's identifier
+   * @param numberOfValues the number of values expected
+   */
+  public ConfigurationSpecificationBoolean(String identifier,
+                                           int numberOfValues) {
 
-    /**
-     * Sets the actual values on the specification.
-     *
-     * @param values the values
-     */
-    public void setValues(ConfigurationSettingBoolean... values) {
-        // TODO check number
-        this.settings = values;
-    }
+    super(identifier, numberOfValues);
+  }
 
-    public ConfigurationSettingBoolean[] getSettings() {
-        return settings;
-    }
+  /**
+   * Sets the actual values on the specification.
+   *
+   * @param values the values
+   */
+  public void setValues(ConfigurationSettingBoolean... values) {
+    // TODO check number
+    this.settings = values;
+  }
+
+  public ConfigurationSettingBoolean[] getSettings() {
+    return settings;
+  }
 }

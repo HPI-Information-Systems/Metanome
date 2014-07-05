@@ -17,9 +17,11 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection}
@@ -28,48 +30,50 @@ import static org.junit.Assert.assertEquals;
  */
 public class DatabaseConnectionTest {
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#store(DatabaseConnection)} and {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#retrieve(long)}
-     * <p/>
-     * DatabaseConnections should be storable and retrievable by id.
-     */
-    @Test
-    public void testPersistence() throws EntityStorageException {
-        // Setup
-        HibernateUtil.clear();
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#store()} and
+   * {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#retrieve(long)} <p/>
+   * DatabaseConnections should be storable and retrievable by id.
+   */
+  @Test
+  public void testPersistence() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
 
-        // Expected values
-        DatabaseConnection expectedDatabaseConnection = new DatabaseConnection();
+    // Expected values
+    DatabaseConnection expectedDatabaseConnection = new DatabaseConnection();
 
-        // Execute functionality
-        DatabaseConnection.store(expectedDatabaseConnection);
-        long id = expectedDatabaseConnection.getId();
-        DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
+    // Execute functionality
+    assertSame(expectedDatabaseConnection, expectedDatabaseConnection.store());
+    long id = expectedDatabaseConnection.getId();
+    DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
 
-        // Check result
-        assertEquals(expectedDatabaseConnection, actualDatabaseConnection);
+    // Check result
+    assertEquals(expectedDatabaseConnection, actualDatabaseConnection);
 
-        // Cleanup
-        HibernateUtil.clear();
-    }
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
-    /**
-     * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#equals(Object)} and {@link DatabaseConnection#hashCode()}
-     */
-    @Test
-    public void testEqualsAndHashCode() {
-        // Setup
-        long id = 42;
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.setId(id);
-        DatabaseConnection equalDatabaseConnection = new DatabaseConnection();
-        equalDatabaseConnection.setId(id);
-        DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection();
-        notEqualDatabaseConnection.setId(23);
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection#equals(Object)}
+   * and {@link DatabaseConnection#hashCode()}
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+    // Setup
+    long id = 42;
+    DatabaseConnection databaseConnection = new DatabaseConnection()
+        .setId(id);
+    DatabaseConnection equalDatabaseConnection = new DatabaseConnection()
+        .setId(id);
+    DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection()
+        .setId(23);
 
-        // Execute functionality
-        // Check result
-        new EqualsAndHashCodeTester<DatabaseConnection>()
-                .performBasicEqualsAndHashCodeChecks(databaseConnection, equalDatabaseConnection, notEqualDatabaseConnection);
-    }
+    // Execute functionality
+    // Check result
+    new EqualsAndHashCodeTester<DatabaseConnection>()
+        .performBasicEqualsAndHashCodeChecks(databaseConnection, equalDatabaseConnection,
+                                             notEqualDatabaseConnection);
+  }
 }

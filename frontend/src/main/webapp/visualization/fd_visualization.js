@@ -14,11 +14,11 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
         chordsTranslate = (outerRadius + 100);
 
     d3.select(mainDiv)
-        .style("width",(outerRadius*2 + 400) + "px")
-        .style("height",(outerRadius*2 + 400) + "px");
+        .style("width", (outerRadius * 2 + 400) + "px")
+        .style("height", (outerRadius * 2 + 400) + "px");
 
     d3.select(bpgDiv)
-        .style("width",(outerRadius*2 + 400) + "px");
+        .style("width", (outerRadius * 2 + 400) + "px");
 
     var svg = d3.select(svgDiv)
         .style("width", (outerRadius * 2 + 200) + "px")
@@ -126,7 +126,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
         labels = [],
         chords = [];
 
-
     /*
      DATA FETCHING
      */
@@ -193,7 +192,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
         }
     }
 
-
     /*
      MAIN
      */
@@ -225,7 +223,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             updateLinks(renderLinks);
         }
     }
-
 
     /*
      INITIALIZE
@@ -274,14 +271,15 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
         })
     }
 
-
     /*
      EVENTS
      */
 
     function node_onMouseOver(d, type) {
         if (type == "FD") {
-            if (d.depth < 2) return;
+            if (d.depth < 2) {
+                return;
+            }
             toolTip.transition()
                 .duration(200)
                 .style("opacity", ".9");
@@ -351,7 +349,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .style("font-size", (on == true) ? "14px" : "12px")
             .style("stroke-width", ((on == true) ? 2 : 0));
 
-
     }
 
     function highlightLinks(d, on) {
@@ -362,7 +359,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
     }
 
-
     /*
      UPDATE
      */
@@ -371,8 +367,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
         linkGroup = linksSvg.selectAll("g.links")
             .data(links, function (d, i) {
-                return d.Key;
-            });
+                      return d.Key;
+                  });
 
         var enter = linkGroup.enter().append("g").attr("class", "links");
         var update = linkGroup.transition();
@@ -381,83 +377,88 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .attr("class", "arc")
             .append("path")
             .attr("id", function (d) {
-                return "a_" + d.Key;
-            })
+                      return "a_" + d.Key;
+                  })
             .style("fill", function (d) {
-                return color;
-            })
+                       return color;
+                   })
             .style("fill-opacity", .2)
             .attr("d", function (d, i) {
-                var newArc = {};
-                var relatedChord = chordsById[d.COLUMN_ID];
-                newArc.startAngle = relatedChord.currentAngle;
-                relatedChord.currentAngle = relatedChord.currentAngle + (Number(1) / relatedChord.value) * (relatedChord.endAngle - relatedChord.startAngle);
-                newArc.endAngle = relatedChord.currentAngle;
-                newArc.value = Number(1);
-                var arc = d3.svg.arc(d, i).innerRadius(linkRadius).outerRadius(innerRadius);
-                totalConnections += newArc.value;
-                total.text(formatCurrency(totalConnections));
+                      var newArc = {};
+                      var relatedChord = chordsById[d.COLUMN_ID];
+                      newArc.startAngle = relatedChord.currentAngle;
+                      relatedChord.currentAngle =
+                      relatedChord.currentAngle + (Number(1) / relatedChord.value)
+                          * (relatedChord.endAngle - relatedChord.startAngle);
+                      newArc.endAngle = relatedChord.currentAngle;
+                      newArc.value = Number(1);
+                      var arc = d3.svg.arc(d, i).innerRadius(linkRadius).outerRadius(innerRadius);
+                      totalConnections += newArc.value;
+                      total.text(formatCurrency(totalConnections));
 
-                return arc(newArc, i);
-            })
+                      return arc(newArc, i);
+                  })
             .on("mouseover", function (d) {
-                node_onMouseOver(d, "CONNECTION");
-            })
+                    node_onMouseOver(d, "CONNECTION");
+                })
             .on("mouseout", function (d) {
-                node_onMouseOut(d, "CONNECTION");
-            });
+                    node_onMouseOut(d, "CONNECTION");
+                });
 
         /* LINKS */
         enter.append("path")
             .attr("class", "link")
             .attr("id", function (d) {
-                return "l_" + d.Key;
-            })
+                      return "l_" + d.Key;
+                  })
             .attr("d", function (d, i) {
-                d.links = createLinks(d);
-                var diag = diagonal(d.links[0], i);
-                diag += "L" + String(diagonal(d.links[1], i)).substr(1);
-                diag += "A" + (linkRadius) + "," + (linkRadius) + " 0 0,0 " + d.links[0].source.x + "," + d.links[0].source.y;
-                1
+                      d.links = createLinks(d);
+                      var diag = diagonal(d.links[0], i);
+                      diag += "L" + String(diagonal(d.links[1], i)).substr(1);
+                      diag +=
+                      "A" + (linkRadius) + "," + (linkRadius) + " 0 0,0 " + d.links[0].source.x
+                          + "," + d.links[0].source.y;
+                      1
 
-                return diag;
-            })
+                      return diag;
+                  })
             .style("stroke", function (d) {
-                return color;
-            })
+                       return color;
+                   })
             .style("stroke-opacity", .07)
             .style("fill-opacity", 0.1)
             .style("fill", function (d) {
-                return color;
-            })
+                       return color;
+                   })
             .on("mouseover", function (d) {
-                node_onMouseOver(d, "CONNECTION");
-            })
+                    node_onMouseOver(d, "CONNECTION");
+                })
             .on("mouseout", function (d) {
-                node_onMouseOut(d, "CONNECTION");
-            });
+                    node_onMouseOut(d, "CONNECTION");
+                });
 
         /* NODES */
         enter.append("g")
             .attr("class", "node")
             .append("circle")
             .style("fill", function (d) {
-                return color;
-            })
+                       return color;
+                   })
             .style("fill-opacity", 0.2)
             .style("stroke-opacity", 1)
             .attr("r", function (d) {
-                var relatedNode = nodesById[d.FD_ID];
-                relatedNode.currentAmount = relatedNode.currentAmount - Number(20);
-                var ratio = ((relatedNode.Amount - relatedNode.currentAmount) / relatedNode.Amount);
-                return relatedNode.r * ratio;
-            })
+                      var relatedNode = nodesById[d.FD_ID];
+                      relatedNode.currentAmount = relatedNode.currentAmount - Number(20);
+                      var ratio = ((relatedNode.Amount - relatedNode.currentAmount)
+                          / relatedNode.Amount);
+                      return relatedNode.r * ratio;
+                  })
             .attr("transform", function (d, i) {
-                return "translate(" + (d.links[0].target.x) + "," + (d.links[0].target.y) + ")";
-            })
+                      return "translate(" + (d.links[0].target.x) + "," + (d.links[0].target.y)
+                          + ")";
+                  })
 
         linkGroup.exit().remove();
-
 
         function createLinks(d) {
             var target = {};
@@ -473,7 +474,9 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             var currY = (r * Math.sin(relatedChord.currentLinkAngle - 1.57079633));
 
             var a = relatedChord.currentLinkAngle - 1.57079633; //-90 degrees
-            relatedChord.currentLinkAngle = relatedChord.currentLinkAngle + (Number(1) / relatedChord.value) * (relatedChord.endAngle - relatedChord.startAngle);
+            relatedChord.currentLinkAngle =
+            relatedChord.currentLinkAngle + (Number(1) / relatedChord.value)
+                * (relatedChord.endAngle - relatedChord.startAngle);
             var a1 = relatedChord.currentLinkAngle - 1.57079633;
 
             source.x = (r * Math.cos(a));
@@ -496,42 +499,42 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
         var node = nodesSvg.selectAll("g.node")
             .data(fds, function (d, i) {
-                return d.FD_ID;
-            });
+                      return d.FD_ID;
+                  });
 
         var enter = node.enter().append("g")
             .attr("class", "node")
             .attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            });
+                      return "translate(" + d.x + "," + d.y + ")";
+                  });
 
         enter.append("circle")
             .attr("r", function (d) {
-                return d.r;
-            })
+                      return d.r;
+                  })
             .style("fill-opacity", function (d) {
-                return (d.depth < 2) ? 0 : 0.05
-            })
+                       return (d.depth < 2) ? 0 : 0.05
+                   })
             .style("stroke", function (d) {
-                return color;
-            })
+                       return color;
+                   })
             .style("stroke-opacity", function (d) {
-                return (d.depth < 2) ? 0 : 0.2
-            })
+                       return (d.depth < 2) ? 0 : 0.2
+                   })
             .style("fill", function (d) {
-                return color;
-            });
+                       return color;
+                   });
 
         var g = enter.append("g")
             .attr("id", function (d) {
-                return "c_" + d.FD_ID;
-            })
+                      return "c_" + d.FD_ID;
+                  })
             .style("opacity", 0);
 
         g.append("circle")
             .attr("r", function (d) {
-                return d.r + 2;
-            })
+                      return d.r + 2;
+                  })
             .style("fill-opacity", 0)
             .style("stroke", "#FFF")
             .style("stroke-width", 2.5)
@@ -539,18 +542,18 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
         g.append("circle")
             .attr("r", function (d) {
-                return d.r;
-            })
+                      return d.r;
+                  })
             .style("fill-opacity", 0)
             .style("stroke", "#000")
             .style("stroke-width", 1.5)
             .style("stroke-opacity", 1)
             .on("mouseover", function (d) {
-                node_onMouseOver(d, "FD");
-            })
+                    node_onMouseOver(d, "FD");
+                })
             .on("mouseout", function (d) {
-                node_onMouseOut(d, "FD");
-            });
+                    node_onMouseOut(d, "FD");
+                });
 
         node.exit().remove().transition(500).style("opacity", 0);
     }
@@ -558,8 +561,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
     function updateChords() {
         var arcGroup = chordsSvg.selectAll("g.arc")
             .data(chords, function (d) {
-                return d.label;
-            });
+                      return d.label;
+                  });
 
         var enter = arcGroup.enter().append("g").attr("class", "arc");
 
@@ -567,58 +570,59 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .attr("class", "chord")
             .attr("dy", ".35em")
             .attr("text-anchor", function (d) {
-                return d.angle > Math.PI ? "end" : null;
-            })
+                      return d.angle > Math.PI ? "end" : null;
+                  })
             .attr("transform", function (d) {
-                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                    + "translate(" + (innerRadius + 6) + ")"
-                    + (d.angle > Math.PI ? "rotate(180)" : "");
-            })
+                      return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+                                 + "translate(" + (innerRadius + 6) + ")"
+                          + (d.angle > Math.PI ? "rotate(180)" : "");
+                  })
             .text(function (d) {
-                return trimLabel(columnsById[office + "_" + d.label].COLUMN_NAME);
-            })
+                      return trimLabel(columnsById[office + "_" + d.label].COLUMN_NAME);
+                  })
             .on("mouseover", function (d) {
-                node_onMouseOver(d, "PAC");
-            })
+                    node_onMouseOver(d, "PAC");
+                })
             .on("mouseout", function (d) {
-                node_onMouseOut(d, "PAC");
-            });
+                    node_onMouseOut(d, "PAC");
+                });
 
         arcGroup.transition()
             .select("text")
             .attr("id", function (d) {
-                return "t_" + d.label;
-            })
+                      return "t_" + d.label;
+                  })
             .attr("dy", ".35em")
             .attr("text-anchor", function (d) {
-                return d.angle > Math.PI ? "end" : null;
-            })
+                      return d.angle > Math.PI ? "end" : null;
+                  })
             .attr("transform", function (d) {
-                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                    + "translate(" + (innerRadius + 6) + ")"
-                    + (d.angle > Math.PI ? "rotate(180)" : "");
-            })
+                      return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+                                 + "translate(" + (innerRadius + 6) + ")"
+                          + (d.angle > Math.PI ? "rotate(180)" : "");
+                  })
             .style("fill", "#777")
             .text(function (d) {
-                return trimLabel(columnsById[office + "_" + d.label].COLUMN_NAME);
-            });
+                      return trimLabel(columnsById[office + "_" + d.label].COLUMN_NAME);
+                  });
 
         enter.append("path")
             .style("fill-opacity", 0)
             .style("stroke", "#555")
             .style("stroke-opacity", 0.4)
             .attr("d", function (d, i) {
-                var arc = d3.svg.arc(d, i).innerRadius(innerRadius - 20).outerRadius(innerRadius);
-                return arc(d.source, i);
-            });
+                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius
+                                                                 - 20).outerRadius(innerRadius);
+                      return arc(d.source, i);
+                  });
 
         arcGroup.transition()
             .select("path")
             .attr("d", function (d, i) {
-                var arc = d3.svg.arc(d, i).innerRadius(innerRadius - 20).outerRadius(innerRadius);
-                return arc(d.source, i);
-            });
-
+                      var arc = d3.svg.arc(d, i).innerRadius(innerRadius
+                                                                 - 20).outerRadius(innerRadius);
+                      return arc(d.source, i);
+                  });
 
         arcGroup.exit().remove();
     }
@@ -640,7 +644,6 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
 
         return colorByName[country];
     }
-
 
     /*
      BUILD CHORDS
@@ -689,7 +692,9 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                 row = matrix[source];
             if (!row) {
                 row = matrix[source] = [];
-                for (var i = -1; ++i < n;) row[i] = 0;
+                for (var i = -1; ++i < n;) {
+                    row[i] = 0;
+                }
             }
             row[indexByName[d.COLUMN_ID]] = Number(d.Amount);
             totalPacAmount += Number(d.Amount);

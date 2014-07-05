@@ -20,15 +20,16 @@ import java.io.Serializable;
 
 
 /**
- * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type.
- * It is used for frontend input of the configuration value, so generally, a ConfigurationSpecification
- * will be converted to an InputParameter, which is used to get the user's value input, and then converted
- * to the ConfigurationValue handed back to the algorithm.
+ * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. It is
+ * used for frontend input of the configuration value, so generally, a ConfigurationSpecification
+ * will be converted to an InputParameter, which is used to get the user's value input, and then
+ * converted to the ConfigurationValue handed back to the algorithm.
  *
  * @author Claudia
  */
 public abstract class ConfigurationSettingDataSource implements Serializable {
-    private static final long serialVersionUID = 8344875059579539858L;
 
-    public abstract String getValueAsString();
+  private static final long serialVersionUID = 8344875059579539858L;
+
+  public abstract String getValueAsString();
 }

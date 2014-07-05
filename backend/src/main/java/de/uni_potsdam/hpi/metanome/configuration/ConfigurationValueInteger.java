@@ -27,37 +27,40 @@ import java.util.Set;
 
 public class ConfigurationValueInteger implements ConfigurationValue {
 
-	protected final String identifier;
-	protected final int[] values;
+  protected final String identifier;
+  protected final int[] values;
 
-	/**
-	 * Constructs a ConfigurationValueInteger using the specification's identifier and the integer value.
-	 *
-	 * @param identifier the configuration value integer identifier
-	 * @param values     the configuration value integer values
-	 */
-	public ConfigurationValueInteger(String identifier, int... values) {
-		this.identifier = identifier;
-		this.values = values;
-	}
+  /**
+   * Constructs a ConfigurationValueInteger using the specification's identifier and the integer
+   * value.
+   *
+   * @param identifier the configuration value integer identifier
+   * @param values     the configuration value integer values
+   */
+  public ConfigurationValueInteger(String identifier, int... values) {
+    this.identifier = identifier;
+    this.values = values;
+  }
 
-	public ConfigurationValueInteger(ConfigurationSpecificationInteger specification) {
-		this.identifier = specification.getIdentifier();
-		this.values = new int[specification.getSettings().length];
-		int i = 0;
-		for (ConfigurationSettingInteger setting : specification.getSettings()) {
-			this.values[i] = setting.value;
-			i++;
-		}
-	}
+  public ConfigurationValueInteger(ConfigurationSpecificationInteger specification) {
+    this.identifier = specification.getIdentifier();
+    this.values = new int[specification.getSettings().length];
+    int i = 0;
+    for (ConfigurationSettingInteger setting : specification.getSettings()) {
+      this.values[i] = setting.value;
+      i++;
+    }
+  }
 
-	@Override
-	public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces) throws AlgorithmConfigurationException {
-		if (!algorithmInterfaces.contains(IntegerParameterAlgorithm.class)) {
-			throw new AlgorithmConfigurationException("Algorithm does not accept integer configuration values.");
-		}
+  @Override
+  public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
+      throws AlgorithmConfigurationException {
+    if (!algorithmInterfaces.contains(IntegerParameterAlgorithm.class)) {
+      throw new AlgorithmConfigurationException(
+          "Algorithm does not accept integer configuration values.");
+    }
 
-		IntegerParameterAlgorithm integerParameterAlgorithm = (IntegerParameterAlgorithm) algorithm;
-		integerParameterAlgorithm.setIntegerConfigurationValue(identifier, values);
-	}
+    IntegerParameterAlgorithm integerParameterAlgorithm = (IntegerParameterAlgorithm) algorithm;
+    integerParameterAlgorithm.setIntegerConfigurationValue(identifier, values);
+  }
 }

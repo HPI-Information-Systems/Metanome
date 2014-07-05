@@ -27,23 +27,25 @@ import static org.junit.Assert.fail;
 
 public class GwtSerializationTester {
 
-    public static void checkGwtSerializability(Object o) {
-        HostedModeClientOracle hmco = new HostedModeClientOracle();
-        HasValues command = new ReturnCommand();
-        HasValuesCommandSink hvcs = new HasValuesCommandSink(command);
-        CommandServerSerializationStreamWriter out = new CommandServerSerializationStreamWriter(hmco, hvcs);
+  public static void checkGwtSerializability(Object o) {
+    HostedModeClientOracle hmco = new HostedModeClientOracle();
+    HasValues command = new ReturnCommand();
+    HasValuesCommandSink hvcs = new HasValuesCommandSink(command);
+    CommandServerSerializationStreamWriter
+        out =
+        new CommandServerSerializationStreamWriter(hmco, hvcs);
 
-        try {
-            out.writeObject(o);
-        } catch (SerializationException e) {
-            fail("Object not serializable: " + o + " Caused by: " + e.getMessage());
-        }
-
-        try {
-            o.getClass().getDeclaredConstructor();
-        } catch (NoSuchMethodException e) {
-            fail("Object not serializable: " + o + " Caused by: " + e.getMessage());
-        }
+    try {
+      out.writeObject(o);
+    } catch (SerializationException e) {
+      fail("Object not serializable: " + o + " Caused by: " + e.getMessage());
     }
+
+    try {
+      o.getClass().getDeclaredConstructor();
+    } catch (NoSuchMethodException e) {
+      fail("Object not serializable: " + o + " Caused by: " + e.getMessage());
+    }
+  }
 
 }

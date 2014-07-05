@@ -27,77 +27,93 @@ import javax.persistence.Id;
 @Entity
 public class DatabaseConnection {
 
-    protected long id;
-    protected String url;
-    protected String username;
-    protected String password;
+  protected long id;
+  protected String url;
+  protected String username;
+  protected String password;
 
-    /**
-     * Stores a DatabaseConnection in the database.
-     *
-     * @param databaseConnection the DataConnection to store
-     */
-    public static void store(DatabaseConnection databaseConnection) throws EntityStorageException {
-        HibernateUtil.store(databaseConnection);
+  /**
+   * Retrieves a DatabaseConnection from the database.
+   *
+   * @param id the DatabaseConnection's id
+   * @return the databaseConnection
+   */
+  public static DatabaseConnection retrieve(long id) throws EntityStorageException {
+    return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+  }
+
+  /**
+   * Stores the DatabaseConnection in the database.
+   *
+   * @return the DatabaseConnection
+   */
+  public DatabaseConnection store() throws EntityStorageException {
+    HibernateUtil.store(this);
+
+    return this;
+  }
+
+  @Id
+  public long getId() {
+    return id;
+  }
+
+  public DatabaseConnection setId(long id) {
+    this.id = id;
+
+    return this;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public DatabaseConnection setUrl(String url) {
+    this.url = url;
+
+    return this;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public DatabaseConnection setUsername(String username) {
+    this.username = username;
+
+    return this;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public DatabaseConnection setPassword(String password) {
+    this.password = password;
+
+    return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof DatabaseConnection)) {
+      return false;
     }
 
-    /**
-     * Retrieves a DatabaseConnection from the database.
-     *
-     * @param id the DatabaseConnection's id
-     * @return the databaseConnection
-     */
-    public static DatabaseConnection retrieve(long id) throws EntityStorageException {
-        return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+    DatabaseConnection that = (DatabaseConnection) o;
+
+    if (id != that.id) {
+      return false;
     }
 
-    @Id
-    public long getId() {
-        return id;
-    }
+    return true;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DatabaseConnection)) return false;
-
-        DatabaseConnection that = (DatabaseConnection) o;
-
-        if (id != that.id) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
+  @Override
+  public int hashCode() {
+    return (int) (id ^ (id >>> 32));
+  }
 }

@@ -25,19 +25,19 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConfigurationSettingListBoxTest {
 
-	/**
-	 * Test method for {@link ConfigurationSettingListBox#ConfigurationSettingListBox(java.lang.String)}
-	 */
-	@Test
-	public void testConstructor() {
-		// Setup
-		// Expected values
-		String expectedSelectedValue = "second";
+  /**
+   * Test method for {@link ConfigurationSettingListBox#ConfigurationSettingListBox(java.lang.String)}
+   */
+  @Test
+  public void testConstructor() {
+    // Setup
+    // Expected values
+    String expectedSelectedValue = "second";
 
-		// Execute functionality
-		ConfigurationSettingListBox setting = new ConfigurationSettingListBox(expectedSelectedValue);
+    // Execute functionality
+    ConfigurationSettingListBox setting = new ConfigurationSettingListBox(expectedSelectedValue);
 
-		// Check result
-		assertEquals(expectedSelectedValue, setting.selectedValue);
-	}
+    // Check result
+    assertEquals(expectedSelectedValue, setting.selectedValue);
+  }
 }

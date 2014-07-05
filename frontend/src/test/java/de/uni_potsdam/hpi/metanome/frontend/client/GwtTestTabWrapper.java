@@ -28,75 +28,75 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
  */
 public class GwtTestTabWrapper extends GWTTestCase {
 
-    /**
-     * this must contain an algorithm and a data source that are currently available
-     */
-    private String message = "Could not find example_ucc_algorithm.jar";
-    private TabWrapper tabWrapper;
+  /**
+   * this must contain an algorithm and a data source that are currently available
+   */
+  private String message = "Could not find example_ucc_algorithm.jar";
+  private TabWrapper tabWrapper;
 
 
-    /**
-     * Test constructor.
-     */
-    public void testCreate() {
-        TabContent content = new RunConfigurationPage(null);
+  /**
+   * Test constructor.
+   */
+  public void testCreate() {
+    TabContent content = new RunConfigurationPage(null);
 
-        //Execute
-        tabWrapper = new TabWrapper(content);
+    //Execute
+    tabWrapper = new TabWrapper(content);
 
-        //Check
-        assertEquals(content, tabWrapper.contentPanel);
-        assertTrue(content.asWidget().isVisible());
-        assertFalse(tabWrapper.isInError());
-    }
+    //Check
+    assertEquals(content, tabWrapper.contentPanel);
+    assertTrue(content.asWidget().isVisible());
+    assertFalse(tabWrapper.isInError());
+  }
 
-    /**
-     * Test method for {@link TabWrapper#addError(String)}
-     */
-    public void testAddError() {
-        tabWrapper = new TabWrapper(new AlgorithmsPage(null));
+  /**
+   * Test method for {@link TabWrapper#addError(String)}
+   */
+  public void testAddError() {
+    tabWrapper = new TabWrapper(new AlgorithmsPage(null));
 
-        //Execute
-        tabWrapper.addError(message);
+    //Execute
+    tabWrapper.addError(message);
 
-        //Check
-        assertTrue(tabWrapper.errorPanel.getWidgetCount() == 1);
-        assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(0)).getText());
-        assertTrue(tabWrapper.isInError());
+    //Check
+    assertTrue(tabWrapper.errorPanel.getWidgetCount() == 1);
+    assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(0)).getText());
+    assertTrue(tabWrapper.isInError());
 
-        //Execute
-        tabWrapper.addError(message);
+    //Execute
+    tabWrapper.addError(message);
 
-        //Check
-        assertTrue(tabWrapper.errorPanel.getWidgetCount() == 2);
-        assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
-        assertTrue(tabWrapper.isInError());
-        //requiring later added errors to be below earlier ones
-    }
+    //Check
+    assertTrue(tabWrapper.errorPanel.getWidgetCount() == 2);
+    assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
+    assertTrue(tabWrapper.isInError());
+    //requiring later added errors to be below earlier ones
+  }
 
 
-    /**
-     * Test control flow from Algorithms to Run configuration
-     */
-    public void testClearErrors() {
-        // Setup
-        tabWrapper = new TabWrapper(new DataSourcesPage(null));
-        tabWrapper.addError(message + "2");
+  /**
+   * Test control flow from Algorithms to Run configuration
+   */
+  public void testClearErrors() {
+    // Setup
+    tabWrapper = new TabWrapper(new DataSourcesPage(null));
+    tabWrapper.addError(message + "2");
 
-        // Check precondition
-        assertTrue(tabWrapper.isInError());
+    // Check precondition
+    assertTrue(tabWrapper.isInError());
 
-        // Execute
-        tabWrapper.clearErrors();
+    // Execute
+    tabWrapper.clearErrors();
 
-        // Check
-        assertTrue(tabWrapper.errorPanel.getWidgetCount() == 0);
-        assertFalse(tabWrapper.isInError());
-    }
+    // Check
+    assertTrue(tabWrapper.errorPanel.getWidgetCount() == 0);
+    assertFalse(tabWrapper.isInError());
+  }
 
-    @Override
-    public String getModuleName() {
-		return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
-    }
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }
