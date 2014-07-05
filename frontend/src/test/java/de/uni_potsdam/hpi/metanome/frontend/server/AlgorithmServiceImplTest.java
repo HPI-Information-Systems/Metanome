@@ -16,13 +16,17 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
@@ -32,7 +36,7 @@ import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
  * 
  * @author Jakob Zwiener
  */
-public class FinderServiceImplTest {
+public class AlgorithmServiceImplTest {
 
   /**
    * Test method for
@@ -62,6 +66,34 @@ public class FinderServiceImplTest {
     // Check result
     assertThat(actualAlgorithms,
         IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithms(Class)}
+   * <p/>
+   * When no interface is specified all stored algorithms should be retrieved by the service.
+   */
+  @Test
+  public void testAddAlgorithm() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    AlgorithmServiceImpl finderService = new AlgorithmServiceImpl();
+
+    // Execute functionality: add an IND algorithm
+    Algorithm algorithm = new Algorithm("someFileName.jar");
+    algorithm.setInd(true);
+    finderService.addAlgorithm(algorithm);
+
+    // Check result
+    assertTrue(finderService.listAllAlgorithms().contains(algorithm));
+    assertTrue(finderService.listAlgorithms(InclusionDependencyAlgorithm.class).contains(algorithm));
+    assertFalse(finderService.listAlgorithms(FunctionalDependencyAlgorithm.class).contains(
+        algorithm));
 
     // Cleanup
     HibernateUtil.clear();

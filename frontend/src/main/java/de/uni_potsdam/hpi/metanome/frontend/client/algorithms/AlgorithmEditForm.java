@@ -57,7 +57,9 @@ public class AlgorithmEditForm extends FlowPanel {
     this.add(createSubmitButton());
   }
 
-
+  /**
+   * @return a form for adding new algorithms
+   */
   private Grid createGrid() {
     Grid grid = new Grid(5, 2);
 
@@ -85,7 +87,10 @@ public class AlgorithmEditForm extends FlowPanel {
   }
 
   /**
-   * @return
+   * Creates a button, that when clicked saves a new algorithm with the user-input attribute values
+   * instance.
+   * 
+   * @return the submit button
    */
   private Widget createSubmitButton() {
     return new Button("Save", new ClickHandler() {

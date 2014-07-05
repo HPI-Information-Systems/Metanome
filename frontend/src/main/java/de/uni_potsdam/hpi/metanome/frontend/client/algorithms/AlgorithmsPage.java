@@ -81,10 +81,6 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
     this.add(new HTML("<hr>"));
     this.add(new AlgorithmEditForm(this));
-    // Label temporaryAddContent = new Label();
-    // temporaryAddContent
-    // .setText("To add a new algorithm, put its jar in the designated folder and provide details in this form:");
-    // this.add(temporaryAddContent);
   }
 
   /**
