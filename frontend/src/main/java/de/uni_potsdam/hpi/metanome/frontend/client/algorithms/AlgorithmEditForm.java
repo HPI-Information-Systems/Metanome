@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -31,10 +28,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
@@ -112,18 +105,16 @@ public class AlgorithmEditForm extends FlowPanel {
   protected Algorithm retrieveInputValues() {
     // TODO input validation
 
-    Set<Class<?>> algorithmInterfaces = new HashSet<Class<?>>();
-    if (this.indCheckBox.getValue())
-      algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
-    if (this.fdCheckBox.getValue())
-      algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
-    if (this.uccCheckBox.getValue())
-      algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
-    if (this.basicStatsCheckBox.getValue())
-      algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+    Algorithm algorithm = new Algorithm(this.fileNameTextBox.getValue());
+    algorithm.setName(this.nameTextBox.getValue());
+    algorithm.setAuthor(this.authorTextBox.getValue());
+    algorithm.setDescription(this.descriptionTextBox.getValue());
 
-    return new Algorithm(this.fileNameTextBox.getValue(), this.nameTextBox.getValue(),
-        this.authorTextBox.getValue(), this.descriptionTextBox.getValue(), algorithmInterfaces);
+    algorithm.setInd(this.indCheckBox.getValue());
+    algorithm.setFd(this.fdCheckBox.getValue());
+    algorithm.setUcc(this.uccCheckBox.getValue());
+    algorithm.setBasicStat(this.basicStatsCheckBox.getValue());
+
+    return algorithm;
   }
-
 }

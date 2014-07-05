@@ -43,12 +43,13 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
   protected final AlgorithmServiceAsync finderService;
+  protected TabWrapper errorReceiver;
   protected final BasePage basePage;
+
   private final FlexTable uccList;
   private final FlexTable fdList;
   private final FlexTable indList;
   private final FlexTable statsList;
-  protected TabWrapper errorReceiver;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
@@ -171,10 +172,24 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   }
 
   /**
-   * @param retrieveInputValues
+   * Initiates a service call to add the given algorithm to the database.
+   * 
+   * @param algorithm
    */
   public void callAddAlgorithm(Algorithm algorithm) {
-    // TODO Auto-generated method stub
+    finderService.addAlgorithm(algorithm, new AsyncCallback<Void>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+        errorReceiver.addError("Could not add the algorithm: " + caught.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void result) {
+        // TODO Auto-generated method stub
+
+      }
+    });
 
   }
 
