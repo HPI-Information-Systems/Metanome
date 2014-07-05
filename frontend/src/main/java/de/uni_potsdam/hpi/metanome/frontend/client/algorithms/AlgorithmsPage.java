@@ -186,7 +186,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
       @Override
       public void onSuccess(Void result) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub: reload list of algorithms
 
       }
     });

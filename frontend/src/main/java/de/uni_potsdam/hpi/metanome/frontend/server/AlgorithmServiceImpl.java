@@ -92,12 +92,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
    * @see de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)
    */
   @Override
-  public void addAlgorithm(Algorithm algorithm) {
-    try {
-      algorithm.store();
-    } catch (EntityStorageException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException {
+    algorithm.store();
   }
 }

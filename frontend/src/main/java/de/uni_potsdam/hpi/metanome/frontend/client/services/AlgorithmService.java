@@ -23,6 +23,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 @RemoteServiceRelativePath("algorithmService")
 public interface AlgorithmService extends RemoteService {
@@ -37,5 +38,5 @@ public interface AlgorithmService extends RemoteService {
 
   public List<Algorithm> listAllAlgorithms();
 
-  public void addAlgorithm(Algorithm algorithm);
+  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException;
 }
