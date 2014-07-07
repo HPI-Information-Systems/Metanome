@@ -37,7 +37,6 @@ import java.util.TreeSet;
  */
 public class PLIBuilder {
 
-
   protected long numberOfTuples = -1;
   protected List<HashMap<String, LongArrayList>> columns = null;
   protected RelationalInput input;
@@ -76,7 +75,6 @@ public class PLIBuilder {
     return purgePLIEntries();
   }
 
-
   /**
    * Returns the number of tuples in the input after calculating the plis. Can be used after
    * calculateUnpurgedPLI was called.
@@ -89,7 +87,6 @@ public class PLIBuilder {
     } else {
       return this.numberOfTuples;
     }
-
   }
 
   /**
