@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -67,79 +66,62 @@ public class PositionListIndex {
     return calculateIntersection(otherPLI);
   }
 
-  /**
-   * Calculates the condition for a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}.
-   * this is the {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
-   * of the partial unique and PLICondition is the {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
-   * of the columns that may form the condition.
-   *
-   * @param PLICondition a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
-   *                     that forms the condition
-   * @return a list of conditions that hold. Each condition is maximal e.g. there exists no superset
-   * for the condition. Only on of the condition holds at a time (xor).
-   */
-  public List<LongArrayList> calculateConditionUnique(PositionListIndex PLICondition) {
-    ConditionTask firstTask = new ConditionTask(0);
-    LinkedList<ConditionTask> queue = new LinkedList<>();
-    queue.add(firstTask);
-    Long2LongOpenHashMap uniqueHashMap = this.asHashMap();
-    List<LongArrayList> result = new ArrayList<>();
+  public List<LongArrayList> getClusters() {
+    return clusters;
+  }
 
-    discardCurrentTask:
-    while (!queue.isEmpty()) {
-      ConditionTask currentTask = queue.remove();
-      if (currentTask.clusterIndex >= PLICondition.clusters.size()) {
-        //task is finished, add to result
-        result.add(currentTask.containedRows);
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
 
-      } else {
-        ConditionTask
-            nextTask =
-            new ConditionTask(currentTask.clusterIndex + 1, currentTask.containedClusters,
-                              currentTask.containedRows);
-        queue.add(nextTask);
+    List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
 
-        for (long clusterItem : PLICondition.clusters.get(currentTask.clusterIndex)) {
-          if (!uniqueHashMap.containsKey(clusterItem)) {
-            // no cluster exists, way to go
-            continue;
-          }
+    Collections.sort(setCluster, new Comparator<LongSet>() {
 
-          long clusterID = uniqueHashMap.get(clusterItem);
-
-          if (currentTask.containedClusters.contains(clusterID)) {
-            continue discardCurrentTask;
-          } else {
-            currentTask.containedClusters.add(clusterID);
-          }
-        }
-        //still here - added a cluster and spawn an additional task
-        currentTask.containedRows.addAll(PLICondition.clusters.get(currentTask.clusterIndex));
-        ConditionTask
-            nextTask2 =
-            new ConditionTask(currentTask.clusterIndex + 1, currentTask.containedClusters,
-                              currentTask.containedRows);
-        queue.add(nextTask2);
+      @Override
+      public int compare(LongSet o1, LongSet o2) {
+        return o1.hashCode() - o2.hashCode();
       }
-
-    }
-    //clean result
-    Iterator<LongArrayList> iterator = result.iterator();
-    while (iterator.hasNext()) {
-      LongArrayList currentList = iterator.next();
-      boolean isSubset = false;
-      for (LongArrayList list : result) {
-        if (list.containsAll(currentList) && (!list.equals(currentList))) {
-          isSubset = true;
-          break;
-        }
-      }
-      if (isSubset) {
-        iterator.remove();
-      }
-    }
-
+    });
+    result = prime * result + (setCluster.hashCode());
     return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    PositionListIndex other = (PositionListIndex) obj;
+    if (clusters == null) {
+      if (other.clusters != null) {
+        return false;
+      }
+    } else {
+      List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
+      List<LongOpenHashSet> otherSetCluster = convertClustersToSets(other.clusters);
+
+      for (LongOpenHashSet cluster : setCluster) {
+        if (!otherSetCluster.contains(cluster)) {
+          return false;
+        }
+      }
+      for (LongOpenHashSet cluster : otherSetCluster) {
+        if (!setCluster.contains(cluster)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   protected List<LongOpenHashSet> convertClustersToSets(List<LongArrayList> listCluster) {
@@ -263,60 +245,6 @@ public class PositionListIndex {
     }
 
     return sumClusterSize - clusters.size();
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-
-    List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
-
-    Collections.sort(setCluster, new Comparator<LongSet>() {
-
-      @Override
-      public int compare(LongSet o1, LongSet o2) {
-        return o1.hashCode() - o2.hashCode();
-      }
-    });
-    result = prime * result + (setCluster.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    PositionListIndex other = (PositionListIndex) obj;
-    if (clusters == null) {
-      if (other.clusters != null) {
-        return false;
-      }
-    } else {
-      List<LongOpenHashSet> setCluster = convertClustersToSets(clusters);
-      List<LongOpenHashSet> otherSetCluster = convertClustersToSets(other.clusters);
-
-      for (LongOpenHashSet cluster : setCluster) {
-        if (!otherSetCluster.contains(cluster)) {
-          return false;
-        }
-      }
-      for (LongOpenHashSet cluster : otherSetCluster) {
-        if (!setCluster.contains(cluster)) {
-          return false;
-        }
-      }
-    }
-
-    return true;
   }
 
 }
