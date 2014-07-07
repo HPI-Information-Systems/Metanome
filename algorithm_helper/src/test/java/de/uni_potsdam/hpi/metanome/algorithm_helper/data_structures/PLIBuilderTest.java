@@ -91,7 +91,7 @@ public class PLIBuilderTest {
   }
 
   /**
-   * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder::getNumberOfTuples}
+   * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder#getNumberOfTuples} <p/> The total number of tuples should be calculated if the PLIs are calculated
    */
   @Test
   public void testGetNumberOfTuples() throws InputIterationException {
@@ -105,9 +105,10 @@ public class PLIBuilderTest {
     } catch (InputIterationException e) {
       //Intentionally left blank
     }
-
     builder.getPLIList();
-    assertEquals(expectedNumberOfColumns, builder.getNumberOfTuples());
+
     //Check result
+    assertEquals(expectedNumberOfColumns, builder.getNumberOfTuples());
+
   }
 }
