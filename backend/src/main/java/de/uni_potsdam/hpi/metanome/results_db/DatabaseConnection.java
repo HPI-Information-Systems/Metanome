@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -31,6 +33,7 @@ public class DatabaseConnection {
   protected String url;
   protected String username;
   protected String password;
+  protected DbSystem system;
 
   /**
    * Retrieves a DatabaseConnection from the database.
@@ -92,6 +95,14 @@ public class DatabaseConnection {
     this.password = password;
 
     return this;
+  }
+
+  public DbSystem getSystem() {
+    return system;
+  }
+
+  public void setSystem(DbSystem system) {
+    this.system = system;
   }
 
   @Override
