@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * A column with condition for conditional results e.g. [@Link ConditionalUniqueColumnCombination}
+ * A column with condition for conditional results e.g.{@Link ConditionalUniqueColumnCombination}
  *
  * @author Jens Hildebrandt
  */
 public class ColumnCondition implements Comparable<ColumnCondition>, Serializable {
-
   protected ColumnIdentifier column;
   protected TreeSet<String> columnValues;
 
@@ -64,11 +63,7 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
    * @param columnValues where the condition is true
    */
   public ColumnCondition(ColumnIdentifier identifier, List<String> columnValues) {
-    this();
-    this.column = identifier;
-    for (String columnValue : columnValues) {
-      this.columnValues.add(columnValue);
-    }
+    this(identifier, columnValues.toArray(new String[columnValues.size()]));
   }
 
   public TreeSet<String> getColumnValues() {
@@ -106,14 +101,6 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     result = 31 * result + columnValues.hashCode();
     return result;
   }
-
-  /**
-   * @param o other {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
-   * @return an Integer, which indicates the order of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}s:
-   * below than zero: this is before other equal zero: this is equal to other greater than zero:
-   * this is after other Note that the worst case runtime is O(n) with n is the number of the
-   * strings (if both are very similiar or equal)
-   */
 
   @Override
   public int compareTo(ColumnCondition o) {
