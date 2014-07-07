@@ -24,6 +24,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
@@ -34,8 +35,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -91,14 +90,6 @@ public class ConditionalUniqueColumnCombinationTest {
     ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     List<ColumnCondition> conditionList = new LinkedList<>();
-//        ColumnCondition mockColumnCondition1 = mock(ColumnCondition.class);
-//        ColumnCondition mockColumnCondition2 = mock(ColumnCondition.class);
-//        conditionList.add(mockColumnCondition1);
-//        conditionList.add(mockColumnCondition2);
-//        String expectedStringCondition1 = "condition1";
-//        String expectedStringCondition2 = "condition2";
-//        when(mockColumnCondition1.toString()).thenReturn(expectedStringCondition1);
-//        when(mockColumnCondition2.toString()).thenReturn(expectedStringCondition2);
     conditionList.add(new ColumnCondition(new ColumnIdentifier("table1", "column1"), "condition1",
                                           "condition2"));
     conditionList
@@ -151,10 +142,6 @@ public class ConditionalUniqueColumnCombinationTest {
     conditions2.add(new ColumnCondition(column21, "a"));
     conditions2.add(new ColumnCondition(column23, "a"));
 
-//        List<ColumnCondition> conditions3 = new LinkedList<>();
-//        conditions3.add(new ColumnCondition(column21, "a"));
-//        conditions3.add(new ColumnCondition(column23, "a"));
-
     ConditionalUniqueColumnCombination
         expectedColumnCombination1 =
         new ConditionalUniqueColumnCombination(new ColumnCombination(column12, column13, column11),
@@ -184,26 +171,16 @@ public class ConditionalUniqueColumnCombinationTest {
 
     // Execute functionality
     // Check result
-    assertEquals(expectedColumnCombination1, expectedColumnCombination1);
-    assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination1.hashCode());
 
-    assertNotSame(expectedColumnCombination1, expectedColumnCombination2);
-    assertEquals(expectedColumnCombination1, expectedColumnCombination2);
-    assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2.hashCode());
-
-    assertNotSame(expectedColumnCombination1, expectedColumnCombination2Eq);
-    assertEquals(expectedColumnCombination1, expectedColumnCombination2Eq);
-    assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2Eq.hashCode());
-
-    assertNotSame(expectedColumnCombination1, expectedColumnCombinationNotEquals);
-    assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals);
-    assertNotEquals(expectedColumnCombination1.hashCode(),
-                    expectedColumnCombinationNotEquals.hashCode());
-
-    assertNotSame(expectedColumnCombination1, expectedColumnCombinationNotEquals2);
-    assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals2);
-    assertNotEquals(expectedColumnCombination1.hashCode(),
-                    expectedColumnCombinationNotEquals2.hashCode());
+    EqualsAndHashCodeTester<ConditionalUniqueColumnCombination>
+        tester =
+        new EqualsAndHashCodeTester<>();
+    tester
+        .performBasicEqualsAndHashCodeChecks(expectedColumnCombination1, expectedColumnCombination2,
+                                             expectedColumnCombinationNotEquals,
+                                             expectedColumnCombinationNotEquals2);
+    tester.performBasicEqualsAndHashCodeChecks(expectedColumnCombination1,
+                                               expectedColumnCombination2Eq);
   }
 
   /**
