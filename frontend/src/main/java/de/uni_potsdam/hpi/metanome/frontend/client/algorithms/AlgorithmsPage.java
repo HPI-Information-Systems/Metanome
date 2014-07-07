@@ -199,9 +199,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
         }
       }
     });
-
   }
-
 
   /*
    * (non-Javadoc)
