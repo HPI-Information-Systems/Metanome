@@ -54,18 +54,32 @@ public class PLIBuilder {
    * @throws InputIterationException if the input cannot be iterated
    */
   public List<PositionListIndex> getPLIList() throws InputIterationException {
+    List<List<LongArrayList>> rawPLIs = getRawPLIs();
+    List<PositionListIndex> result = new ArrayList<>();
+    for (List<LongArrayList> rawPLI : rawPLIs) {
+      result.add(new PositionListIndex(rawPLI));
+    }
+    return result;
+  }
+
+  /**
+   * Calculates the raw PositionListIndices
+   *
+   * @return list of associated clusters (PLI)
+   * @throws InputIterationException if the input cannot be iterated
+   */
+  protected List<List<LongArrayList>> getRawPLIs() throws InputIterationException {
     if (columns == null) {
       columns = new ArrayList<>();
-      calculateRawPLI();
+      calculateUnpurgedPLI();
     }
-
     return purgePLIEntries();
   }
 
 
   /**
    * Returns the number of tuples in the input after calculating the plis. Can be used after
-   * calculateRawPLI was called.
+   * calculateUnpurgedPLI was called.
    *
    * @return number of tuples in dataset
    */
@@ -87,7 +101,7 @@ public class PLIBuilder {
   public List<TreeSet<String>> getDistinctSortedColumns() throws InputIterationException {
     if (columns == null) {
       columns = new ArrayList<>();
-      calculateRawPLI();
+      calculateUnpurgedPLI();
     }
 
     List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
@@ -99,7 +113,7 @@ public class PLIBuilder {
     return distinctSortedColumns;
   }
 
-  protected void calculateRawPLI() throws InputIterationException {
+  protected void calculateUnpurgedPLI() throws InputIterationException {
     long rowCount = 0;
     this.numberOfTuples = 0;
     while (input.hasNext()) {
@@ -128,8 +142,8 @@ public class PLIBuilder {
     }
   }
 
-  protected List<PositionListIndex> purgePLIEntries() {
-    List<PositionListIndex> pliList = new ArrayList<>();
+  protected List<List<LongArrayList>> purgePLIEntries() {
+    List<List<LongArrayList>> pliList = new ArrayList<>();
     Iterator<HashMap<String, LongArrayList>> columnsIterator = columns.iterator();
     while (columnsIterator.hasNext()) {
       List<LongArrayList> clusters = new ArrayList<>();
@@ -139,7 +153,7 @@ public class PLIBuilder {
         }
         clusters.add(cluster);
       }
-      pliList.add(new PositionListIndex(clusters));
+      pliList.add(clusters);
       // Free value Maps.
       columnsIterator.remove();
     }

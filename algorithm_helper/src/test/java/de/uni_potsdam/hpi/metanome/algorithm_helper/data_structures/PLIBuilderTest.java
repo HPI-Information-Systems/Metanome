@@ -47,8 +47,6 @@ public class PLIBuilderTest {
 
   @After
   public void tearDown() throws Exception {
-    fixture = null;
-    builder = null;
   }
 
   /**
@@ -91,7 +89,8 @@ public class PLIBuilderTest {
   }
 
   /**
-   * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder#getNumberOfTuples} <p/> The total number of tuples should be calculated if the PLIs are calculated
+   * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder#getNumberOfTuples}
+   * <p/> The total number of tuples should be calculated if the PLIs are calculated
    */
   @Test
   public void testGetNumberOfTuples() throws InputIterationException {
