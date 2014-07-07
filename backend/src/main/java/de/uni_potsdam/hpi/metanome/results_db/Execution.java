@@ -119,6 +119,7 @@ public class Execution {
    * Stores the Execution in the database.
    *
    * @return the Execution
+   * @throws EntityStorageException
    */
   public Execution store() throws EntityStorageException {
     HibernateUtil.store(this);
@@ -251,8 +252,8 @@ public class Execution {
   }
 
   /**
-   * Adds an {@link de.uni_potsdam.hpi.metanome.results_db.Input} to the list of {@link
-   * de.uni_potsdam.hpi.metanome.results_db.Input}s.
+   * Adds an {@link de.uni_potsdam.hpi.metanome.results_db.Input} to the list of
+   * {@link de.uni_potsdam.hpi.metanome.results_db.Input}s.
    *
    * @param input the Input to add.
    */
@@ -263,8 +264,7 @@ public class Execution {
   }
 
   /**
-   * Adds a {@link de.uni_potsdam.hpi.metanome.results_db.Result} to the list of {@link
-   * de.uni_potsdam.hpi.metanome.results_db.Result}s and creates a bidirectional association.
+   * Adds a {@link de.uni_potsdam.hpi.metanome.results_db.Result} to the list of {@link de.uni_potsdam.hpi.metanome.results_db.Result}s and creates a bidirectional association.
    *
    * @param result the Result to add
    */
