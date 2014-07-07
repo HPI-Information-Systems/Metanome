@@ -183,4 +183,3 @@ public class CsvFile implements RelationalInput {
     return headerLine;
   }
 }
-
