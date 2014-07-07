@@ -87,7 +87,7 @@ public class ColumnConditionTest {
 
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition::toString()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition#toString()}
    */
   @Test
   public void testToString() {
