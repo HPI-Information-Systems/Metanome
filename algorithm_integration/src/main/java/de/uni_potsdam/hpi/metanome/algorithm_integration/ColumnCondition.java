@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * A column with condition for conditional results e.g.{@Link ConditionalUniqueColumnCombination}
+ * A column with condition for conditional results e.g.{@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
  *
  * @author Jens Hildebrandt
  */
