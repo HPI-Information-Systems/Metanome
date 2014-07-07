@@ -33,9 +33,7 @@ import java.util.TreeSet;
 public class ConditionalUniqueColumnCombination implements Result {
 
   public static final String CUCC_SEPARATOR = " | ";
-
-  //private static final long serialVersionUID = 6746670304066817339L;
-
+  private static final long serialVersionUID = 6946896625820917113L;
   protected ColumnCombination columnCombination;
   protected TreeSet<ColumnCondition> conditionList;
 
@@ -73,11 +71,7 @@ public class ConditionalUniqueColumnCombination implements Result {
    */
   public ConditionalUniqueColumnCombination(ColumnCombination columnCombination,
                                             List<ColumnCondition> columnConditions) {
-    this();
-    this.columnCombination = columnCombination;
-    for (ColumnCondition columnCondition : columnConditions) {
-      this.conditionList.add(columnCondition);
-    }
+    this(columnCombination, columnConditions.toArray(new ColumnCondition[columnConditions.size()]));
   }
 
 
