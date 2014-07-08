@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -62,6 +63,14 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
   @Override
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
     return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+  }
+
+  /**
+   * @return all conditional unique column combination algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
+    return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
   }
 
   /**
