@@ -140,7 +140,7 @@ public class PLIBuilder {
   }
 
   protected List<List<LongArrayList>> purgePLIEntries() {
-    List<List<LongArrayList>> pliList = new ArrayList<>();
+    List<List<LongArrayList>> rawPLIList = new ArrayList<>();
     Iterator<HashMap<String, LongArrayList>> columnsIterator = columns.iterator();
     while (columnsIterator.hasNext()) {
       List<LongArrayList> clusters = new ArrayList<>();
@@ -150,10 +150,10 @@ public class PLIBuilder {
         }
         clusters.add(cluster);
       }
-      pliList.add(clusters);
+      rawPLIList.add(clusters);
       // Free value Maps.
       columnsIterator.remove();
     }
-    return pliList;
+    return rawPLIList;
   }
 }
