@@ -85,6 +85,10 @@ public abstract class ConfigurationSpecification implements Serializable {
   }
 
   //TODO use sth more specific than object
+
+  /**
+   * @return the settings stored in this specification
+   */
   public abstract Object[] getSettings();
 
 }
