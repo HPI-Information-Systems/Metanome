@@ -66,6 +66,7 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
     this.settings = values;
   }
 
+  @Override
   public ConfigurationSettingBoolean[] getSettings() {
     return settings;
   }
