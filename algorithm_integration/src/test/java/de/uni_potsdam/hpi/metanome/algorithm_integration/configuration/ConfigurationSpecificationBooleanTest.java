@@ -18,8 +18,6 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,22 +27,6 @@ import static org.mockito.Mockito.mock;
  * Tests for {@link ConfigurationSpecificationBoolean}
  */
 public class ConfigurationSpecificationBooleanTest {
-
-  /**
-   * @throws Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-
-  }
-
-  /**
-   * @throws Exception
-   */
-  @After
-  public void tearDown() throws Exception {
-
-  }
 
   /**
    * Test method for {@link ConfigurationSpecificationBoolean#ConfigurationSpecificationBoolean(String)}
@@ -57,11 +39,11 @@ public class ConfigurationSpecificationBooleanTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
+
+    // Execute functionality
     ConfigurationSpecificationBoolean
         configSpec =
         new ConfigurationSpecificationBoolean(expectedIdentifier);
-
-    // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -81,11 +63,11 @@ public class ConfigurationSpecificationBooleanTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 2;
+
+    // Execute functionality
     ConfigurationSpecificationBoolean
         configSpec =
         new ConfigurationSpecificationBoolean(expectedIdentifier, expectedNumberOfValues);
-
-    // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -95,6 +77,8 @@ public class ConfigurationSpecificationBooleanTest {
   }
 
   /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean#setValues(ConfigurationSettingBoolean...)}
+   *
    * The values should be correctly settable on the specification.
    */
   @Test
