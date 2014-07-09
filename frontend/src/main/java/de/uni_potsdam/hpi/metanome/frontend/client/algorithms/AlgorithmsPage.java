@@ -47,10 +47,10 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   protected TabWrapper errorReceiver;
   protected final BasePage basePage;
 
-  private final FlexTable uccList;
-  private final FlexTable fdList;
-  private final FlexTable indList;
-  private final FlexTable statsList;
+  protected final FlexTable uccList;
+  protected final FlexTable fdList;
+  protected final FlexTable indList;
+  protected final FlexTable statsList;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
@@ -87,48 +87,28 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * Request a list of available UCC algorithms and display them in the uccList
    */
   private void listAndAddUccAlgorithms() {
-    finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
+    finderService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
   }
 
   /**
    * Request a list of available FD algorithms and display them in the fdList
    */
   private void listFdAlgorithms() {
-    finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
+    finderService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
   }
 
   /**
    * Request a list of available IND algorithms and display them in the indList
    */
   private void listIndAlgorithms() {
-    finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));
+    finderService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
   private void listStatsAlgorithms() {
-    finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
-  }
-
-  /**
-   * Constructs a callback that will add all results to the given table
-   * 
-   * @param list Object that all returned elements will be added to
-   * @return the desired callback instance
-   */
-  protected AsyncCallback<List<Algorithm>> getCallback(final FlexTable list) {
-    return new AsyncCallback<List<Algorithm>>() {
-      public void onFailure(Throwable caught) {
-        errorReceiver.addError(caught.getMessage());
-        caught.printStackTrace();
-      }
-
-      public void onSuccess(List<Algorithm> result) {
-        basePage.addAlgorithmsToRunConfigurations(result);
-        addAlgorithmsToList(result, list);
-      }
-    };
+    finderService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
   }
 
   /**
@@ -137,7 +117,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * @param algorithms the algorithms to be displayed
    * @param list the table to which the algoithms will be added
    */
-  protected void addAlgorithmsToList(List<Algorithm> algorithms, FlexTable list) {
+  protected void addAlgorithms(List<Algorithm> algorithms, FlexTable list) {
     int row = list.getRowCount();
     Collections.sort(algorithms);
     for (Algorithm algorithm : algorithms) {
@@ -160,6 +140,15 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   }
 
   /**
+   * Initiates a service call to add the given algorithm to the database.
+   * 
+   * @param algorithm
+   */
+  public void callAddAlgorithm(final Algorithm algorithm) {
+    finderService.addAlgorithm(algorithm, getAddCallback(algorithm));
+  }
+
+  /**
    * Initiates a redirect to the Run Configuration page, prefilled with the given algorithm
    * 
    * @param algorithmName name of the algorithm that will be configured
@@ -168,13 +157,35 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     basePage.jumpToRunConfiguration(algorithmName, null);
   }
 
+
   /**
-   * Initiates a service call to add the given algorithm to the database.
+   * Constructs a callback that will add all results to the given table
    * 
-   * @param algorithm
+   * @param list Object that all returned elements will be added to
+   * @return the desired callback instance
    */
-  public void callAddAlgorithm(final Algorithm algorithm) {
-    finderService.addAlgorithm(algorithm, new AsyncCallback<Void>() {
+  protected AsyncCallback<List<Algorithm>> getRetrieveCallback(final FlexTable list) {
+    return new AsyncCallback<List<Algorithm>>() {
+      public void onFailure(Throwable caught) {
+        errorReceiver.addError(caught.getMessage());
+        caught.printStackTrace();
+      }
+
+      public void onSuccess(List<Algorithm> result) {
+        basePage.addAlgorithmsToRunConfigurations(result);
+        addAlgorithms(result, list);
+      }
+    };
+  }
+
+  /**
+   * Constructs a callback that will add the given algorithm to all matching tables
+   * 
+   * @param algorithm the algorithm to add to the page
+   * @return the desired callback instance
+   */
+  protected AsyncCallback<Void> getAddCallback(final Algorithm algorithm) {
+    return new AsyncCallback<Void>() {
 
       @Override
       public void onFailure(Throwable caught) {
@@ -185,20 +196,22 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
       public void onSuccess(Void result) {
         ArrayList<Algorithm> list = new ArrayList<Algorithm>();
         list.add(algorithm);
+        basePage.addAlgorithmsToRunConfigurations(list);
+
         if (algorithm.isInd()) {
-          addAlgorithmsToList(list, indList);
+          addAlgorithms(list, indList);
         }
         if (algorithm.isFd()) {
-          addAlgorithmsToList(list, fdList);
+          addAlgorithms(list, fdList);
         }
         if (algorithm.isUcc()) {
-          addAlgorithmsToList(list, uccList);
+          addAlgorithms(list, uccList);
         }
         if (algorithm.isBasicStat()) {
-          addAlgorithmsToList(list, statsList);
+          addAlgorithms(list, statsList);
         }
       }
-    });
+    };
   }
 
   /*

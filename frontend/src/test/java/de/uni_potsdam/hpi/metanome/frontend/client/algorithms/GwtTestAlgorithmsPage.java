@@ -61,18 +61,18 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getCallback(FlexTable)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    * <p/>
    * After failure is called on the constructed callback, the tab should be in error.
    */
   @Test
-  public void testCallbackFailure() {
+  public void testRetrieveCallbackFailure() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
     algorithmsPage.setErrorReceiver(tab);
 
     // Construct and execute failure on the callback
-    AsyncCallback<List<Algorithm>> callback = algorithmsPage.getCallback(new FlexTable());
+    AsyncCallback<List<Algorithm>> callback = algorithmsPage.getRetrieveCallback(new FlexTable());
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
@@ -80,26 +80,66 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getCallback(FlexTable)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    * <p/>
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
   @Test
-  public void testCallbackSuccess() {
+  public void testRetrieveCallbackSuccess() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     FlexTable list = new FlexTable();
 
     // Create a list of algorithms as result
     LinkedList<Algorithm> result = new LinkedList<Algorithm>();
-    // String fileName = "fileName", name = "name", author = "author";
     Algorithm a1 = new Algorithm("fileName");
     result.add(a1);
 
-    AsyncCallback<List<Algorithm>> callback = algorithmsPage.getCallback(list);
+    AsyncCallback<List<Algorithm>> callback = algorithmsPage.getRetrieveCallback(list);
     callback.onSuccess(result);
 
     assertEquals(result.size(), list.getRowCount());
+  }
+
+  /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * <p/>
+   * After failure is called on the constructed callback, the tab should be in error.
+   */
+  @Test
+  public void testAddCallbackFailure() {
+    AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    TabWrapper tab = new TabWrapper();
+    algorithmsPage.setErrorReceiver(tab);
+
+    // Construct and execute failure on the callback
+    AsyncCallback<Void> callback = algorithmsPage.getAddCallback(new Algorithm("fileName"));
+    callback.onFailure(new Throwable());
+
+    assertTrue(tab.isInError());
+  }
+
+  /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * <p/>
+   * After success is called on the constructed callback, the UI element given as argument should
+   * contain all the elements of the result.
+   */
+  @Test
+  public void testAddCallbackSuccess() {
+    AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    int uccCount = algorithmsPage.uccList.getRowCount();
+
+    // Create a list of algorithms as result
+    Algorithm a1 = new Algorithm("fileName");
+    a1.setUcc(true);
+
+    AsyncCallback<Void> callback = algorithmsPage.getAddCallback(a1);
+    callback.onSuccess(null);
+
+    assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
   }
 
   @Override
