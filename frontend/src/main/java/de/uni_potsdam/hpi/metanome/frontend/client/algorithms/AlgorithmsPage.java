@@ -44,7 +44,7 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
   protected final AlgorithmServiceAsync finderService;
-  protected TabWrapper errorReceiver;
+  private TabWrapper errorReceiver;
   protected final BasePage basePage;
 
   protected final FlexTable uccList;
@@ -80,7 +80,8 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     listStatsAlgorithms();
 
     this.add(new HTML("<hr>"));
-    this.add(new AlgorithmEditForm(this));
+    this.add(new HTML("<h3>Add A New Algorithm</h3>"));
+    this.add(new AlgorithmEditForm(this, this.errorReceiver));
   }
 
   /**
