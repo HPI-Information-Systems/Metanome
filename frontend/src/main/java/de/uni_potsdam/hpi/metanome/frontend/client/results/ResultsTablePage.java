@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
@@ -37,11 +40,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-public class ResultsTablePage extends FlowPanel implements
-                                                OmniscientResultReceiver, TabContent {
+public class ResultsTablePage extends FlowPanel implements OmniscientResultReceiver, TabContent {
 
   protected ExecutionServiceAsync executionService;
 
@@ -110,7 +109,7 @@ public class ResultsTablePage extends FlowPanel implements
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
     Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
     this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0))
-                       + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
+        + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
   }
 
   public void cancelTimerOnFail(Throwable caught) {
@@ -155,7 +154,6 @@ public class ResultsTablePage extends FlowPanel implements
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
         this.errorReceiver.addError(e.getMessage());
-        e.printStackTrace();    //TODO remove after testing
       }
     }
   }
@@ -217,8 +215,7 @@ public class ResultsTablePage extends FlowPanel implements
     }
 
     int row = fdTable.getRowCount();
-    fdTable.setText(row, 0, functionalDependency.getDeterminant()
-        .toString());
+    fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
     fdTable.setText(row, 1, "-->");
     fdTable.setText(row, 2, functionalDependency.getDependant().toString());
   }

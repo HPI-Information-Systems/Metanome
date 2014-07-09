@@ -102,7 +102,7 @@ public class AlgorithmEditForm extends Grid {
    */
   protected Algorithm retrieveInputValues() throws InputValidationException {
     String fileName = this.fileNameTextBox.getValue();
-    if (fileName.matches("\\s*")) { // TODO more advanced validation, or replace with dropdown
+    if (fileName.matches("\\s*")) { // TODO #160 more advanced validation, or replace with dropdown
       throw new InputValidationException("You must enter a filename!");
     }
 

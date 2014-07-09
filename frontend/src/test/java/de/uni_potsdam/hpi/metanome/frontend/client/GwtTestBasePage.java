@@ -26,12 +26,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
@@ -140,17 +137,13 @@ public class GwtTestBasePage extends GWTTestCase {
    */
   public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();
-    final InputParameterDataSourceWidget dataSourceWidget =
-        new InputParameterCsvFileWidget(new ConfigurationSpecificationCsvFile("test"));
     ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
     dataSource.setFileName(dataSourceName);
     final ConfigurationSettingCsvFile finalDataSource = dataSource;
-    // dataSourceWidget.setDataSource(dataSource);
 
     AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Throwable caught) {
-        // TODO: Do something with errors.
         caught.printStackTrace();
       }
 
