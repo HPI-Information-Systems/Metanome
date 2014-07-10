@@ -62,7 +62,7 @@ public class SuperSetGraphTest {
 
     // Check result
     // Check existence of column indices in subgraphs by iterating
-    SubSuperSetGraph actualSubGraph = graph.graph;
+    SubSetGraph actualSubGraph = graph.graph;
     for (int setColumnIndex : columnCombination.invert(fixture.getNumberOfColumns()).getSetBits()) {
       assertTrue(actualSubGraph.subGraphs.containsKey(setColumnIndex));
       actualSubGraph = actualSubGraph.subGraphs.get(setColumnIndex);

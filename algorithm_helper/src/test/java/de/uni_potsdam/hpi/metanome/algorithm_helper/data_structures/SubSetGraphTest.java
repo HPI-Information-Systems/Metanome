@@ -26,37 +26,35 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph}
+ * Tests for {@link SubSetGraph}
  *
  * @author Jens Hildebrandt
  * @author Jakob Zwiener
  */
-public class SubSuperSetGraphTest {
+public class SubSetGraphTest {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#add(ColumnCombinationBitset)}
+   * Test method for {@link SubSetGraph#add(ColumnCombinationBitset)}
    * <p/> After inserting a column combination a subgraph for every set bit should exist. Add should
    * return the graph after addition.
    */
   @Test
   public void testAdd() {
     // Setup
-    SubSuperSetGraph graph = new SubSuperSetGraph();
+    SubSetGraph graph = new SubSetGraph();
     ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(2, 4, 7);
 
     // Execute functionality
-    SubSuperSetGraph graphAfterAdd = graph.add(columnCombination);
+    SubSetGraph graphAfterAdd = graph.add(columnCombination);
 
     // Check result
     // Check existence of column indices in subgraphs by iterating
-    SubSuperSetGraph actualSubGraph = graph;
+    SubSetGraph actualSubGraph = graph;
     for (int setColumnIndex : columnCombination.getSetBits()) {
       assertTrue(actualSubGraph.subGraphs.containsKey(setColumnIndex));
       actualSubGraph = actualSubGraph.subGraphs.get(setColumnIndex);
@@ -67,23 +65,23 @@ public class SubSuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#addAll(java.util.Collection)}
+   * Test method for {@link SubSetGraph#addAll(java.util.Collection)}
    * <p/> After inserting all column combinations the graph should be equal to the expected graph
    * from the fixture. AddAll should return the graph after addition.
    */
   @Test
   public void testAddAll() {
     // Setup
-    SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
-    SubSuperSetGraph graph = new SubSuperSetGraph();
+    SubSetGraphFixture fixture = new SubSetGraphFixture();
+    SubSetGraph graph = new SubSetGraph();
     // Expected values
     Collection<ColumnCombinationBitset>
         expectedColumnCombinations =
         fixture.getExpectedIncludedColumnCombinations();
-    SubSuperSetGraph expectedGraph = fixture.getGraph();
+    SubSetGraph expectedGraph = fixture.getGraph();
 
     // Execute functionality
-    SubSuperSetGraph graphAfterAddAll = graph.addAll(expectedColumnCombinations);
+    SubSetGraph graphAfterAddAll = graph.addAll(expectedColumnCombinations);
 
     // Check result
     assertEquals(expectedGraph, graph);
@@ -91,13 +89,13 @@ public class SubSuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#getExistingSubsets(ColumnCombinationBitset)}
+   * Test method for {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}
    */
   @Test
   public void testGetExistingSubsets() {
     // Setup
-    SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
-    SubSuperSetGraph graph = fixture.getGraph();
+    SubSetGraphFixture fixture = new SubSetGraphFixture();
+    SubSetGraph graph = fixture.getGraph();
     ColumnCombinationBitset columnCombinationToQuery = fixture.getColumnCombinationForSubsetQuery();
 
     // Execute functionality
@@ -112,13 +110,13 @@ public class SubSuperSetGraphTest {
   }
 
   /***
-   * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#containsSubset(ColumnCombinationBitset)} )}
+   * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)} )}
    */
   @Test
   public void testContainsSubset() {
     //Setup
-    SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
-    SubSuperSetGraph actualGraph = fixture.getGraph();
+    SubSetGraphFixture fixture = new SubSetGraphFixture();
+    SubSetGraph actualGraph = fixture.getGraph();
 
     //Execute functionality
     assertTrue(actualGraph.containsSubset(fixture.getExpectedIncludedColumnCombinations().get(0)));
@@ -129,13 +127,13 @@ public class SubSuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link SubSuperSetGraph#isEmpty()}
+   * Test method for {@link SubSetGraph#isEmpty()}
    */
   @Test
   public void testIsEmpty() {
     // Setup
-    SubSuperSetGraph emptyGraph = new SubSuperSetGraph();
-    SubSuperSetGraph nonEmptyGraph = new SubSuperSetGraph();
+    SubSetGraph emptyGraph = new SubSetGraph();
+    SubSetGraph nonEmptyGraph = new SubSetGraph();
     nonEmptyGraph.add(new ColumnCombinationBitset(10));
 
     // Execute functionality
@@ -145,14 +143,14 @@ public class SubSuperSetGraphTest {
   }
 
   /**
-   * Test method  {@link SubSuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#hashCode()}
+   * Test method  {@link SubSetGraph#equals(Object)} and {@link SubSetGraph#hashCode()}
    */
   @Test
   public void testEqualsAndHashCode() {
     // Setup
-    SubSuperSetGraph actualGraph = new SubSuperSetGraph();
-    SubSuperSetGraph equalsGraph = new SubSuperSetGraph();
-    SubSuperSetGraph notEqualsGraph = new SubSuperSetGraph();
+    SubSetGraph actualGraph = new SubSetGraph();
+    SubSetGraph equalsGraph = new SubSetGraph();
+    SubSetGraph notEqualsGraph = new SubSetGraph();
 
     actualGraph.add(new ColumnCombinationBitset(2, 5, 10, 20));
     actualGraph.add((new ColumnCombinationBitset(2, 5, 8, 15)));
@@ -165,7 +163,7 @@ public class SubSuperSetGraphTest {
 
     // Execute functionality
     // Check result
-    EqualsAndHashCodeTester<SubSuperSetGraph> tester = new EqualsAndHashCodeTester<>();
+    EqualsAndHashCodeTester<SubSetGraph> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(actualGraph, equalsGraph, notEqualsGraph);
   }
 }

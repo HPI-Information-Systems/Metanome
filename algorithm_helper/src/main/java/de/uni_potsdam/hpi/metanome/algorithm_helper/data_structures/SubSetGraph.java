@@ -31,9 +31,9 @@ import java.util.Queue;
  * @author Jens Hildebrandt
  * @author Jakob Zwiener
  */
-public class SubSuperSetGraph {
+public class SubSetGraph {
 
-  protected Int2ObjectMap<SubSuperSetGraph> subGraphs = new Int2ObjectOpenHashMap<>();
+  protected Int2ObjectMap<SubSetGraph> subGraphs = new Int2ObjectOpenHashMap<>();
   protected boolean subSetEnds = false;
 
   /**
@@ -42,8 +42,8 @@ public class SubSuperSetGraph {
    * @param columnCombination a column combination to add
    * @return the graph
    */
-  public SubSuperSetGraph add(ColumnCombinationBitset columnCombination) {
-    SubSuperSetGraph subGraph = this;
+  public SubSetGraph add(ColumnCombinationBitset columnCombination) {
+    SubSetGraph subGraph = this;
 
     for (int setColumnIndex : columnCombination.getSetBits()) {
       subGraph = subGraph.lazySubGraphGeneration(setColumnIndex);
@@ -59,7 +59,7 @@ public class SubSuperSetGraph {
    *                           to add to the graph
    * @return the graph
    */
-  public SubSuperSetGraph addAll(Collection<ColumnCombinationBitset> columnCombinations) {
+  public SubSetGraph addAll(Collection<ColumnCombinationBitset> columnCombinations) {
     for (ColumnCombinationBitset columnCombination : columnCombinations) {
       add(columnCombination);
     }
@@ -73,11 +73,11 @@ public class SubSuperSetGraph {
    * @param setColumnIndex the column index to perform the lookup on
    * @return the subgraph behind the column index
    */
-  protected SubSuperSetGraph lazySubGraphGeneration(int setColumnIndex) {
-    SubSuperSetGraph subGraph = subGraphs.get(setColumnIndex);
+  protected SubSetGraph lazySubGraphGeneration(int setColumnIndex) {
+    SubSetGraph subGraph = subGraphs.get(setColumnIndex);
 
     if (subGraph == null) {
-      subGraph = new SubSuperSetGraph();
+      subGraph = new SubSetGraph();
       subGraphs.put(setColumnIndex, subGraph);
     }
 
@@ -114,7 +114,7 @@ public class SubSuperSetGraph {
       for (int i = currentTask.numberOfCheckedColumns; i < columnCombinationToQuery.size(); i++) {
         int currentColumnIndex = columnCombinationToQuery.getSetBits().get(i);
         // Get the subgraph behind the current index
-        SubSuperSetGraph subGraph =
+        SubSetGraph subGraph =
             currentTask.subGraph.subGraphs.get(currentColumnIndex);
         // column index is not set on any set --> check next column index
         if (subGraph != null) {
@@ -153,7 +153,7 @@ public class SubSuperSetGraph {
       for (int i = currentTask.numberOfCheckedColumns; i < superset.size(); i++) {
         int currentColumnIndex = superset.getSetBits().get(i);
         // Get the subgraph behind the current index
-        SubSuperSetGraph subGraph =
+        SubSetGraph subGraph =
             currentTask.subGraph.subGraphs.get(currentColumnIndex);
         // column index is not set on any set --> check next column index
         if (subGraph != null) {
@@ -186,7 +186,7 @@ public class SubSuperSetGraph {
       return false;
     }
 
-    SubSuperSetGraph that = (SubSuperSetGraph) o;
+    SubSetGraph that = (SubSetGraph) o;
 
     return !(subGraphs != null ? !subGraphs.equals(that.subGraphs) : that.subGraphs != null);
   }
@@ -202,12 +202,12 @@ public class SubSuperSetGraph {
  */
 class SubSetFindTask {
 
-  public SubSuperSetGraph subGraph;
+  public SubSetGraph subGraph;
   public int numberOfCheckedColumns;
   public ColumnCombinationBitset path;
 
   public SubSetFindTask(
-      SubSuperSetGraph subGraph,
+      SubSetGraph subGraph,
       int numberOfCheckedColumns,
       ColumnCombinationBitset path) {
     this.subGraph = subGraph;

@@ -22,7 +22,7 @@ import java.util.Collection;
 /**
  * A graph that allows for efficient lookup of all supersets in a graph structure for a given {@link
  * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset.
- * This class acts as a wrapper for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph}
+ * This class acts as a wrapper for {@link SubSetGraph}
  * by inverting all input and output {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
  * to find supersets instead of subsets.
  *
@@ -32,7 +32,7 @@ import java.util.Collection;
 public class SuperSetGraph {
 
   protected int numberOfColumns = -1;
-  protected SubSuperSetGraph graph = new SubSuperSetGraph();
+  protected SubSetGraph graph = new SubSetGraph();
 
   public SuperSetGraph(int numberOfColumns) {
     this.numberOfColumns = numberOfColumns;
