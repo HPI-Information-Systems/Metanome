@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A graph that allows for efficient lookup of all supersets in a graph structure for a given {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset.
- * This class acts as a wrapper for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph} by inverting all input and output {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to find supersets instead of subsets.
+ * A graph that allows for efficient lookup of all supersets in a graph structure for a given {@link
+ * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset.
+ * This class acts as a wrapper for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph}
+ * by inverting all input and output {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
+ * to find supersets instead of subsets.
  *
  * @author Jens Hildebrandt
  */
@@ -49,7 +52,8 @@ public class SuperSetGraph {
   }
 
   /**
-   * Adds  all {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} to the graph
+   * Adds  all {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   * to the graph
    *
    * @param columnCombinations to be added to the graph
    * @return the graph
@@ -62,7 +66,9 @@ public class SuperSetGraph {
   }
 
   /**
-   * Returns all supersets of the given {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} that are in the graph
+   * Returns all supersets of the given {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   * that are in the graph
+   *
    * @param subset given subset to search for supersets
    * @return a list containing all found supersets
    */
@@ -79,8 +85,6 @@ public class SuperSetGraph {
   }
 
   /**
-   *
-   * @param subset
    * @return whether at least a single superset is contained in the graph
    */
   public boolean containsSuperset(ColumnCombinationBitset subset) {
@@ -88,7 +92,6 @@ public class SuperSetGraph {
   }
 
   /**
-   *
    * @return whether the graph is empty
    */
   public boolean isEmpty() {

@@ -53,7 +53,6 @@ public class SuperSetGraphTest {
    */
   @Test
   public void testAdd() {
-
     // Setup
     SuperSetGraph graph = new SuperSetGraph(fixture.getNumberOfColumns());
     ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(2, 4, 7);
@@ -64,7 +63,7 @@ public class SuperSetGraphTest {
     // Check result
     // Check existence of column indices in subgraphs by iterating
     SubSuperSetGraph actualSubGraph = graph.graph;
-    for (int setColumnIndex : columnCombination.invert(0).getSetBits()) {
+    for (int setColumnIndex : columnCombination.invert(fixture.getNumberOfColumns()).getSetBits()) {
       assertTrue(actualSubGraph.subGraphs.containsKey(setColumnIndex));
       actualSubGraph = actualSubGraph.subGraphs.get(setColumnIndex);
     }
@@ -133,7 +132,6 @@ public class SuperSetGraphTest {
     assertTrue(actualGraph.containsSuperset(fixture.getColumnCombinationForSupersetQuery()));
     assertFalse(actualGraph.containsSuperset(new ColumnCombinationBitset(1, 2, 3, 5, 8, 9)));
     //Check Result
-
   }
 
   /**

@@ -134,7 +134,6 @@ public class SubSuperSetGraph {
   /**
    * @return whether at least a single subset is contained in the graph
    */
-
   public boolean containsSubset(ColumnCombinationBitset superset) {
     Queue<SubSetFindTask> openTasks = new LinkedList<>();
     openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
