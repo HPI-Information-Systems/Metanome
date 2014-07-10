@@ -37,7 +37,7 @@ public class SubSuperSetGraphFixture {
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 4, 6, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3, 4, 6));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 2, 4, 7));
-    includedColumnCombinations.add(new ColumnCombinationBitset(1,3));
+    includedColumnCombinations.add(new ColumnCombinationBitset(1, 3));
     includedColumnCombinations.add(new ColumnCombinationBitset(2, 3, 4, 7, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(5, 6, 8));
 

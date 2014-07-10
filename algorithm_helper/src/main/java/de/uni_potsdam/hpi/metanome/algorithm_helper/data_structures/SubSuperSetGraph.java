@@ -16,8 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -27,7 +25,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * A graph that allows efficient lookup of all subsets and supersets in the graph for a given
+ * A graph that allows efficient lookup of all subsets in the graph for a given
  * ColumnCombinationBitset.
  *
  * @author Jens Hildebrandt
@@ -132,6 +130,10 @@ public class SubSuperSetGraph {
 
     return subsets;
   }
+
+  /**
+   * @return whether at least a single subset is contained in the graph
+   */
 
   public boolean containsSubset(ColumnCombinationBitset superset) {
     Queue<SubSetFindTask> openTasks = new LinkedList<>();
