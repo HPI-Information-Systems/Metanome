@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
@@ -146,10 +148,7 @@ public class SubSuperSetGraphTest {
 
     // Execute functionality
     // Check result
-    assertNotSame(actualGraph, equalsGraph);
-    assertEquals(actualGraph.hashCode(), equalsGraph.hashCode());
-    assertEquals(actualGraph, equalsGraph);
-    assertNotEquals(actualGraph.hashCode(), notEqualsGraph.hashCode());
-    assertNotEquals(actualGraph, notEqualsGraph);
+    EqualsAndHashCodeTester<SubSuperSetGraph> tester = new EqualsAndHashCodeTester<>();
+    tester.performBasicEqualsAndHashCodeChecks(actualGraph, equalsGraph, notEqualsGraph);
   }
 }

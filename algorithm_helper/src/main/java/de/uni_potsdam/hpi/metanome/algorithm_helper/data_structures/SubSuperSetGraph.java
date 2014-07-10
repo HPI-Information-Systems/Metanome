@@ -34,6 +34,7 @@ import java.util.Queue;
 public class SubSuperSetGraph {
 
   protected Int2ObjectMap<SubSuperSetGraph> subGraphs = new Int2ObjectOpenHashMap<>();
+  protected boolean subSetEnds = false;
 
   /**
    * Adds a column combination to the graph. Returns the graph after adding. DO NOT add subsets of
@@ -48,7 +49,7 @@ public class SubSuperSetGraph {
     for (int setColumnIndex : columnCombination.getSetBits()) {
       subGraph = subGraph.lazySubGraphGeneration(setColumnIndex);
     }
-
+    subGraph.subSetEnds = true;
     return this;
   }
 
@@ -104,6 +105,10 @@ public class SubSuperSetGraph {
       if (currentTask.subGraph.isEmpty()) {
         subsets.add(new ColumnCombinationBitset(currentTask.path));
         continue;
+      }
+
+      if (currentTask.subGraph.subSetEnds) {
+        subsets.add(new ColumnCombinationBitset(currentTask.path));
       }
 
       // Iterate over the remaining column indices
