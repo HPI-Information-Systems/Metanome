@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -26,7 +28,7 @@ import java.util.Queue;
 
 /**
  * A graph that allows efficient lookup of all subsets and supersets in the graph for a given
- * ColumnCombinationBitset. The graph may not contain subsets of sets already in the graph.
+ * ColumnCombinationBitset.
  *
  * @author Jens Hildebrandt
  * @author Jakob Zwiener
@@ -37,8 +39,7 @@ public class SubSuperSetGraph {
   protected boolean subSetEnds = false;
 
   /**
-   * Adds a column combination to the graph. Returns the graph after adding. DO NOT add subsets of
-   * already added column combinations. The graph may not contain any subsets.
+   * Adds a column combination to the graph. Returns the graph after adding.
    *
    * @param columnCombination a column combination to add
    * @return the graph
@@ -130,6 +131,42 @@ public class SubSuperSetGraph {
     }
 
     return subsets;
+  }
+
+  public boolean containsSubset(ColumnCombinationBitset superset) {
+    Queue<SubSetFindTask> openTasks = new LinkedList<>();
+    openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
+
+    while (!openTasks.isEmpty()) {
+      SubSetFindTask currentTask = openTasks.remove();
+      // If the current subgraph is empty a subset has been found
+      if (currentTask.subGraph.isEmpty()) {
+        return true;
+      }
+
+      if (currentTask.subGraph.subSetEnds) {
+        return true;
+      }
+
+      // Iterate over the remaining column indices
+      for (int i = currentTask.numberOfCheckedColumns; i < superset.size(); i++) {
+        int currentColumnIndex = superset.getSetBits().get(i);
+        // Get the subgraph behind the current index
+        SubSuperSetGraph subGraph =
+            currentTask.subGraph.subGraphs.get(currentColumnIndex);
+        // column index is not set on any set --> check next column index
+        if (subGraph != null) {
+          // Add the current column index to the path
+          ColumnCombinationBitset path =
+              new ColumnCombinationBitset(currentTask.path)
+                  .addColumn(currentColumnIndex);
+
+          openTasks.add(new SubSetFindTask(subGraph, i + 1, path));
+        }
+      }
+    }
+
+    return false;
   }
 
   /**

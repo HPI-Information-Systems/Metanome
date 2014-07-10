@@ -111,6 +111,23 @@ public class SubSuperSetGraphTest {
                    .containsInAnyOrder(fixture.getExpectedSubsetsFromQuery()));
   }
 
+  /***
+   * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#containsSubset(ColumnCombinationBitset)} )}
+   */
+  @Test
+  public void testContainsSubset() {
+    //Setup
+    SubSuperSetGraphFixture fixture = new SubSuperSetGraphFixture();
+    SubSuperSetGraph actualGraph = fixture.getGraph();
+
+    //Execute functionality
+    assertTrue(actualGraph.containsSubset(fixture.getExpectedIncludedColumnCombinations().get(0)));
+    assertTrue(actualGraph.containsSubset(fixture.getColumnCombinationForSubsetQuery()));
+    assertFalse(actualGraph.containsSubset(new ColumnCombinationBitset(1)));
+    //Check Result
+
+  }
+
   /**
    * Test method for {@link SubSuperSetGraph#isEmpty()}
    */
