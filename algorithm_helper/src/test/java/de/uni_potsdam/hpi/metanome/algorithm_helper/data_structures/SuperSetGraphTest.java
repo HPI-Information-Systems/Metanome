@@ -31,6 +31,12 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph}
+ *
+ * @author Jens Hildebrandt
+ */
+
 public class SuperSetGraphTest {
 
   SuperSetGraphFixture fixture;
@@ -40,6 +46,11 @@ public class SuperSetGraphTest {
     fixture = new SuperSetGraphFixture();
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#add(ColumnCombinationBitset)}
+   * <p/> After inserting a column combination a subgraph for every set bit should exist. Add should
+   * return the graph after addition.
+   */
   @Test
   public void testAdd() {
 
@@ -63,7 +74,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#addAll(java.util.Collection)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#addAll(java.util.Collection)}
    * <p/> After inserting all column combinations the graph should be equal to the expected graph
    * from the fixture. AddAll should return the graph after addition.
    */
@@ -86,10 +97,10 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#getExistingSubsets(ColumnCombinationBitset)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}
    */
   @Test
-  public void testGetExistingSubsets() {
+  public void testGetExistingSupersets() {
     // Setup
     SuperSetGraph graph = fixture.getGraph();
     ColumnCombinationBitset
@@ -108,7 +119,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#containsSubset(ColumnCombinationBitset)}
+   * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
    * )}
    */
   @Test
@@ -120,13 +131,13 @@ public class SuperSetGraphTest {
     assertTrue(
         actualGraph.containsSuperset(fixture.getExpectedIncludedColumnCombinations().get(0)));
     assertTrue(actualGraph.containsSuperset(fixture.getColumnCombinationForSupersetQuery()));
-    //assertFalse(actualGraph.containsSubset(new ColumnCombinationBitset(1)));
+    assertFalse(actualGraph.containsSuperset(new ColumnCombinationBitset(1, 2, 3, 5, 8, 9)));
     //Check Result
 
   }
 
   /**
-   * Test method for {@link SubSuperSetGraph#isEmpty()}
+   * Test method for {@link SuperSetGraph#isEmpty()}
    */
   @Test
   public void testIsEmpty() {
@@ -142,7 +153,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method  {@link SubSuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSuperSetGraph#hashCode()}
+   * Test method  {@link SuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#hashCode()}
    */
   @Test
   public void testEqualsAndHashCode() {
