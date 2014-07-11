@@ -960,4 +960,17 @@ public class ColumnCombinationBitsetTest {
     assertTrue(actualSubsets.contains(columnCombination));
   }
 
+  /**
+   * Test method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#invert(int)}
+   */
+  @Test
+  public void testInvert() {
+    //Setup
+    ColumnCombinationBitset actualColumnCombination = new ColumnCombinationBitset(1, 3, 5);
+    //Execute functionality
+    ColumnCombinationBitset inverted = actualColumnCombination.invert(7);
+    //Check Result
+    assertEquals(new ColumnCombinationBitset(0, 2, 4, 6), inverted);
+    assertEquals(actualColumnCombination, inverted.invert(7));
+  }
 }

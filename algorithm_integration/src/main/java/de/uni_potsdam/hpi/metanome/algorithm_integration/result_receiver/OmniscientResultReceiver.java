@@ -21,6 +21,7 @@ public interface OmniscientResultReceiver extends
                                           BasicStatisticsResultReceiver,
                                           FunctionalDependencyResultReceiver,
                                           InclusionDependencyResultReceiver,
-                                          UniqueColumnCombinationResultReceiver {
+                                          UniqueColumnCombinationResultReceiver,
+                                          ConditionalUniqueColumnCombinationResultReceiver {
 
 }
