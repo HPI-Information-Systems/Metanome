@@ -118,6 +118,23 @@ public class SuperSetGraphTest {
   }
 
   /**
+   * Test method for {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)} for the special case of an empty graph. An empty list should be returned
+   */
+  @Test
+  public void testGetExistingSupersetsOnEmptyGraph() {
+    // Setup
+    SuperSetGraph graph = new SuperSetGraph(fixture.getNumberOfColumns());
+
+    // Execute functionality
+    List<ColumnCombinationBitset>
+        actualSubsets =
+        graph.getExistingSupersets(new ColumnCombinationBitset(1, 3, 5));
+
+    // Check result
+    assertTrue(actualSubsets.isEmpty());
+  }
+
+  /**
    * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
    * )}
    */
@@ -131,6 +148,20 @@ public class SuperSetGraphTest {
         actualGraph.containsSuperset(fixture.getExpectedIncludedColumnCombinations().get(0)));
     assertTrue(actualGraph.containsSuperset(fixture.getColumnCombinationForSupersetQuery()));
     assertFalse(actualGraph.containsSuperset(new ColumnCombinationBitset(1, 2, 3, 5, 8, 9)));
+    //Check Result
+  }
+
+  /**
+   * Test for the method {@link SuperSetGraph#containsSuperset(ColumnCombinationBitset)} for the
+   * special case of a empty graph )}
+   */
+  @Test
+  public void testContainsSupersetOnEmptyGraph() {
+    //Setup
+    SuperSetGraph actualGraph = new SuperSetGraph(fixture.getNumberOfColumns());
+
+    //Execute functionality
+    assertFalse(actualGraph.containsSuperset(new ColumnCombinationBitset(1, 3)));
     //Check Result
   }
 

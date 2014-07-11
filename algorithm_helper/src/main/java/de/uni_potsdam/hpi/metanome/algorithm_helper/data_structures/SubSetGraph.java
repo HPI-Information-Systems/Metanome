@@ -93,7 +93,9 @@ public class SubSetGraph {
   public ArrayList<ColumnCombinationBitset> getExistingSubsets(
       ColumnCombinationBitset columnCombinationToQuery) {
     ArrayList<ColumnCombinationBitset> subsets = new ArrayList<>();
-
+    if (this.isEmpty()) {
+      return subsets;
+    }
     // Create task queue and initial task.
     Queue<SubSetFindTask> openTasks = new LinkedList<>();
     openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
@@ -137,6 +139,9 @@ public class SubSetGraph {
    * @return whether at least a single subset is contained in the graph
    */
   public boolean containsSubset(ColumnCombinationBitset superset) {
+    if (this.isEmpty()) {
+      return false;
+    }
     Queue<SubSetFindTask> openTasks = new LinkedList<>();
     openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
 
