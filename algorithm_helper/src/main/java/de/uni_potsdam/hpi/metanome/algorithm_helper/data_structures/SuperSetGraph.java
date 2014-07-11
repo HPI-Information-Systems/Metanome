@@ -85,6 +85,8 @@ public class SuperSetGraph {
   }
 
   /**
+   * The method returns when the first superset is found in the graph. This is possibly faster than {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}, because a smaller part of the graph must be traversed.
+   *
    * @return whether at least a single superset is contained in the graph
    */
   public boolean containsSuperset(ColumnCombinationBitset subset) {

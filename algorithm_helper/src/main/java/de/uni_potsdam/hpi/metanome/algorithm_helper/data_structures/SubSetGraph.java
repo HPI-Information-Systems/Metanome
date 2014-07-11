@@ -132,6 +132,8 @@ public class SubSetGraph {
   }
 
   /**
+   * The method returns when the first subset is found in the graph. This is possibly faster than {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}, because a smaller part of the graph must be traversed.
+   *
    * @return whether at least a single subset is contained in the graph
    */
   public boolean containsSubset(ColumnCombinationBitset superset) {
