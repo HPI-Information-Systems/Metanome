@@ -576,11 +576,9 @@ public class ColumnCombinationBitset {
    * @return the inverted {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
    */
   public ColumnCombinationBitset invert(int size) {
-    ColumnCombinationBitset inverted = new ColumnCombinationBitset(this);
-    inverted.bitset.flip(0, size);
-    inverted.size = inverted.bitset.cardinality();
-    return inverted;
-    //return new ColumnCombinationBitset(getClearedBits(size));
+    OpenBitSet invertedBitset = this.bitset.clone();
+    invertedBitset.flip(0, size);
+    return new ColumnCombinationBitset().setColumns(invertedBitset);
   }
 }
 
