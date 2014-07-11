@@ -62,6 +62,16 @@
         <url-pattern>/metanome/inputDataService</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>databaseConnectionServiceImpl</servlet-name>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>databaseConnectionServiceImpl</servlet-name>
+        <url-pattern>/metanome/databaseConnectionService</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer
         </listener-class>

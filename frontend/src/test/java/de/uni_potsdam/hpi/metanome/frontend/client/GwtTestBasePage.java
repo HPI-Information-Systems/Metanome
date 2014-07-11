@@ -26,6 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.configuration.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget;
@@ -58,7 +59,7 @@ public class GwtTestBasePage extends GWTTestCase {
     testPage = new BasePage();
 
     //Check
-    assertEquals(5, testPage.getWidgetCount());
+    assertEquals(6, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
@@ -75,6 +76,10 @@ public class GwtTestBasePage extends GWTTestCase {
     wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+
+    wrapper = testPage.getWidget(Tabs.INPUT_CONFIGURATION.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
   }
 
   public void testAddAlgorithmsToRunConfigurations() {

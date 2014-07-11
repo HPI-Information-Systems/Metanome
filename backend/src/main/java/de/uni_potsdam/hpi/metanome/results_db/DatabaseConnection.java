@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,7 +28,9 @@ import javax.persistence.Id;
  * @author Jakob Zwiener
  */
 @Entity
-public class DatabaseConnection {
+public class DatabaseConnection implements Serializable {
+
+  private static final long serialVersionUID = -5130490613769455974L;
 
   protected long id;
   protected String url;

@@ -18,41 +18,49 @@ package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+
+import org.junit.Test;
+
 
 public class GwtTestTableInputField extends GWTTestCase {
 
-//  /**
-//   * Test method for {@link TableInputField#getValue()}
-//   * <p/>
-//   */
-//  @Test
-//  public void testGetValue() throws InputValidationException, EntityStorageException {
-//    //Setup
-//    HibernateUtil.clear();
-//
-//    DatabaseConnection connection = new DatabaseConnection();
-//    connection.setId(1);
-//    connection.setUrl("url");
-//    connection.setUsername("username");
-//    connection.setPassword("password");
-//    DatabaseConnection.store(connection);
-//
-//    String expectedConnectionIdentifier = "1: url";
-//    String expectedTableName = "tableName";
-//
-//    TableInputField input = new TableInputField();
-//
-//    // Execute
-//    input.setValues(expectedConnectionIdentifier, expectedTableName);
-//    TableInput actualTableInput = input.getValue();
-//
-//    //Check
-//    assertEquals(expectedTableName, actualTableInput.getTableName());
-//    assertEquals(connection, actualTableInput.getDatabaseConnection());
-//
-//    // Cleanup
-//    HibernateUtil.clear();
-//  }
+  @Test
+  public void testGetValue() throws EntityStorageException, InputValidationException {
+    // Setup
+    HibernateUtil.clear();
+
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setId(1);
+    dbConnection.setUrl("url");
+    dbConnection.setPassword("password");
+    dbConnection.setUsername("db");
+
+    dbConnection.store();
+
+    TableInputField field = new TableInputField(new TabWrapper());
+    field.setValues("1: url", "table");
+
+    // Expected values
+    TableInput expectedInput = new TableInput();
+    expectedInput.setDatabaseConnection(dbConnection);
+    expectedInput.setTableName("table");
+
+    // Execute functionality
+    // Finds algorithms of all or no interfaces
+    TableInput actualInput = field.getValue();
+
+    // Check result
+    assertEquals(expectedInput, actualInput);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
   @Override
   public String getModuleName() {

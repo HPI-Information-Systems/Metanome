@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.configuration.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
@@ -68,6 +69,8 @@ public class BasePage extends TabLayoutPanel {
     this.resultsPage = new ResultsPage(this);
     this.resultPageTabWrapper = new TabWrapper(this.resultsPage);
     this.insert(this.resultPageTabWrapper, "Results", Tabs.RESULTS.ordinal());
+
+    this.insert(new TabWrapper(new InputConfigurationPage(this)), "Input Configuration", Tabs.INPUT_CONFIGURATION.ordinal());
 
     this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
   }
@@ -179,6 +182,6 @@ public class BasePage extends TabLayoutPanel {
     this.runConfigurationsPage.addAlgorithms(algorithms);
   }
 
-  public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT}
+  public enum Tabs {DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, INPUT_CONFIGURATION, ABOUT}
 
 }

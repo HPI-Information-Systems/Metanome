@@ -35,6 +35,8 @@
              class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl"/>
     <servlet path="/inputDataService"
              class="de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl"/>
+    <servlet path="/databaseConnectionService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl"/>
 
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
     <add-linker name="xsiframe"/>

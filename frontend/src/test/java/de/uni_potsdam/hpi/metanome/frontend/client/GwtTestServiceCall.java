@@ -23,6 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
@@ -30,6 +32,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +137,32 @@ public class GwtTestServiceCall extends GWTTestCase {
     delayTestFinish(500);
 
     finderService.listInclusionDependencyAlgorithms(callback);
+  }
+
+  /**
+   * tests the call from client to databaseConnectionService
+   */
+  public void testDatabaseConnectionService() {
+    // Setup
+    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        fail();
+      }
+
+      @Override
+      public void onSuccess(List<DatabaseConnection> result) {
+        assertNotNull(result);
+        finishTest();
+      }
+    };
+
+    DatabaseConnectionServiceAsync service = GWT.create(DatabaseConnectionService.class);
+
+    // Set a delay period
+    delayTestFinish(500);
+
+    service.listDatabaseConnections(callback);
   }
 
   @Override

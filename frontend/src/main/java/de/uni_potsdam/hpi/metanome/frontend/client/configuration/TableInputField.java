@@ -16,34 +16,50 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class TableInputField extends HorizontalPanel {
 
-  private ListBoxInput dbConnectionIdentifier;
+  protected final DatabaseConnectionServiceAsync databaseConnectionService;
+  protected final TabWrapper errorReceiver;
+
+  private Map<String, DatabaseConnection> dbMap = new HashMap<>();
+
+  private ListBoxInput dbConnectionListBox;
   private TextBox tableNameTextbox;
   private FlexTable layoutTable;
 
-  public TableInputField() throws EntityStorageException {
+
+  public TableInputField(TabWrapper errorReceiver) {
+    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    this.errorReceiver = errorReceiver;
+
     this.layoutTable = new FlexTable();
     this.add(this.layoutTable);
 
-    this.dbConnectionIdentifier = new ListBoxInput(false);
-    initializeDbConnectionListBox();
-    addRow(this.dbConnectionIdentifier, "Database Connection", 0);
+    this.dbConnectionListBox = new ListBoxInput(false);
+    fillDbConnectionListBox();
+    addRow(this.dbConnectionListBox, "Database Connection", 0);
 
     this.tableNameTextbox = new TextBox();
     addRow(this.tableNameTextbox, "Table Name", 2);
@@ -60,7 +76,7 @@ public class TableInputField extends HorizontalPanel {
    * @param tableName the table name which should be set in the text box
    */
   protected void setValues(String connectionIdentifier, String tableName) {
-    this.dbConnectionIdentifier.setSelectedValue(connectionIdentifier);
+    this.dbConnectionListBox.setSelectedValue(connectionIdentifier);
     this.tableNameTextbox.setValue(tableName);
   }
 
@@ -73,13 +89,14 @@ public class TableInputField extends HorizontalPanel {
   public TableInput getValue() throws InputValidationException, EntityStorageException {
     TableInput tableInput = new TableInput();
 
-    String databaseIdentifier = this.dbConnectionIdentifier.getSelectedValue();
+    String identifier = this.dbConnectionListBox.getSelectedValue();
+    DatabaseConnection connection = this.dbMap.get(identifier);
     String tableName = this.tableNameTextbox.getValue();
 
-    if (tableName.isEmpty() || databaseIdentifier.isEmpty())
-      throw new InputValidationException("The database connection and the table name should be set!");
-
-    DatabaseConnection connection = getDatabaseConnection(databaseIdentifier);
+    if (tableName.isEmpty() || connection != null) {
+      this.errorReceiver.addError("The database connection and the table name should be set!");
+      return null;
+    }
 
     tableInput.setDatabaseConnection(connection);
     tableInput.setTableName(tableName);
@@ -88,29 +105,32 @@ public class TableInputField extends HorizontalPanel {
   }
 
   /**
-   * Get the database connection with the given identifier.
-   * @param identifier contains the id and url of the database connection
-   * @return the database connection with the given identifier
-   * @throws EntityStorageException
-   */
-  private DatabaseConnection getDatabaseConnection(String identifier)
-      throws EntityStorageException {
-    long id = Long.parseLong(identifier.split(":")[0]);
-    return DatabaseConnection.retrieve(id);
-  }
-
-  /**
    * Get all database connection from the database and add them to the list box
-   * @throws EntityStorageException
    */
-  private void initializeDbConnectionListBox() throws EntityStorageException {
-    List<DatabaseConnection> connections = DatabaseConnection.retrieveAll();
+  private void fillDbConnectionListBox() {
+    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
 
-    List<String> identifiers = new ArrayList<>();
-    for (DatabaseConnection connection :connections) {
-      identifiers.add(connection.getId() + ": " + connection.getUrl());
-    }
+      public void onFailure(Throwable caught) {
+        errorReceiver.addError("There are no database connections in the database!");
+      }
 
-    this.dbConnectionIdentifier.setValues(identifiers);
+      public void onSuccess(List<DatabaseConnection> result) {
+        List<String> dbConnectionNames = new ArrayList<String>();
+
+        if (result != null) {
+          for (DatabaseConnection db : result) {
+            String identifier = db.getId() + ": " + db.getUrl();
+            dbConnectionNames.add(identifier);
+            dbMap.put(identifier, db);
+          }
+      } else {
+        errorReceiver.addError("There are no database connections in the database!");
+      }
+
+        dbConnectionListBox.setValues(dbConnectionNames);
+      }
+    };
+
+    databaseConnectionService.listDatabaseConnections(callback);
   }
 }

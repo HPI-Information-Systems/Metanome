@@ -68,5 +68,6 @@
         <include name="TableInput.java"/>
         <include name="FileInput.java"/>
         <include name="Input.java"/>
+        <include name="EntityStorageException.java"/>
     </source>
 </module>
