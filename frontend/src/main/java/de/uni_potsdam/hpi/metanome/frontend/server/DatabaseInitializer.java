@@ -16,13 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -31,16 +24,23 @@ import java.util.Set;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
+import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
+
 /**
  * Is called upon servlet initialization and initializes metanome's results database.
- *
+ * 
  * @author Jakob Zwiener
  */
 public class DatabaseInitializer implements ServletContextListener {
 
   /**
    * TODO docs
-   *
+   * 
    * @param servletContextEvent the servlet context
    */
   @Override
@@ -59,6 +59,9 @@ public class DatabaseInitializer implements ServletContextListener {
 
   /**
    * Prefills the algorithms table in the database with the existing algorithm jars.
+   * 
+   * @throws IOException
+   * @throws ClassNotFoundException
    */
   protected void addAlgorithms() throws IOException, ClassNotFoundException {
     // only prefill algorithms table if it is currently empty
@@ -75,9 +78,9 @@ public class DatabaseInitializer implements ServletContextListener {
     for (String filePath : algorithmFileNames) {
       try {
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-        Algorithm algorithm = new Algorithm(filePath, algorithmInterfaces)
-            .setName(filePath.replaceAll(".jar", ""))
-            .store();
+        Algorithm algorithm =
+            new Algorithm(filePath, algorithmInterfaces).setName(filePath.replaceAll(".jar", ""))
+                .store();
       } catch (EntityStorageException | IOException | ClassNotFoundException e) {
         e.printStackTrace();
       }
@@ -86,6 +89,9 @@ public class DatabaseInitializer implements ServletContextListener {
 
   /**
    * Prefills the inputs table in the database with the existing input files.
+   * 
+   * @throws UnsupportedEncodingException
+   * @throws EntityStorageException
    */
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
     // only prefill input table if currently empty
@@ -108,6 +114,5 @@ public class DatabaseInitializer implements ServletContextListener {
   }
 
   @Override
-  public void contextDestroyed(ServletContextEvent servletContextEvent) {
-  }
+  public void contextDestroyed(ServletContextEvent servletContextEvent) {}
 }

@@ -16,6 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor;
@@ -32,13 +39,6 @@ import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsCache;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsHub;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Service Implementation for service that triggers algorithm execution
  */
@@ -52,9 +52,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
   /**
    * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
-   *
+   * 
    * @param executionIdentifier the identifier associated with this execution
    * @return an {@link AlgorithmExecutor}
+   * @throws FileNotFoundException
+   * @throws UnsupportedEncodingException
    */
   protected AlgorithmExecutor buildExecutor(String executionIdentifier)
       throws FileNotFoundException, UnsupportedEncodingException {
@@ -76,8 +78,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 
   @Override
   public long executeAlgorithm(String algorithmFileName, String executionIdentifier,
-                               List<ConfigurationSpecification> parameters)
-      throws AlgorithmLoadingException, AlgorithmExecutionException {
+      List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException,
+      AlgorithmExecutionException {
     AlgorithmExecutor executor;
 
     try {
