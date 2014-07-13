@@ -101,22 +101,17 @@ public class BasePage extends TabLayoutPanel {
     String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
     // Create new tab with result table
-    // ScrollPanel resultsTab = new ScrollPanel();
     ResultsTablePage resultsTableContent =
         new ResultsTablePage(executionService, executionIdentifier);
     resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
+
+    // Execute algorithm and start fetching results
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
         resultsTableContent.getCancelCallback());
     resultsTableContent.startPolling();
-    // resultsTab.add(resultsTableContent);
 
     // Create new tab with visualizations of result
     ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-
-    // // Add first tab to result tab container
-    // resultTabsContainer.add(resultsTab, "Table");
-    // resultTabsContainer.add(visualizationTab, "Visualization");
-    // resultTabsContainer.selectTab(0);
 
     // remove the content from the result page and set the content to the new fetched result
     this.resultsPage.update(resultsTableContent, visualizationTab);
@@ -133,25 +128,6 @@ public class BasePage extends TabLayoutPanel {
     DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
     return algorithmName + format.format(new Date());
   }
-
-  /**
-   * Generates a string representing all given data sources by concatenating their names. These are
-   * used as titles for the result tabs.
-   * 
-   * @param dataSources the list of InputParameterDataSources to be descirbed
-   * @return a String with the names of all given data source parameters
-   */
-  // private String getDataSourcesString(
-  // List<ConfigurationSpecification> dataSources) {
-  // String dataSourcesString = "";
-  // for (ConfigurationSpecification dataSource : dataSources){
-  // for (Object settingObject : dataSource.getSettings()) {
-  // ConfigurationSettingDataSource setting = (ConfigurationSettingDataSource) settingObject;
-  // dataSourcesString = dataSourcesString + setting.getValueAsString() + " - ";
-  // }
-  // }
-  // return dataSourcesString;
-  // }
 
   /**
    * Hand control from any page to Run Configurations, and pre-configure the latter with the
