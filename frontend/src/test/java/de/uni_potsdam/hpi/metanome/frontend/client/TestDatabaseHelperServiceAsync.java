@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
  * {@link de.uni_potsdam.hpi.metanome.frontend.client.TestDatabaseHelperServiceAsync}
@@ -30,4 +31,6 @@ public interface TestDatabaseHelperServiceAsync {
   void resetDatabase(AsyncCallback<Void> async);
 
   void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
+
+  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Void> async);
 }

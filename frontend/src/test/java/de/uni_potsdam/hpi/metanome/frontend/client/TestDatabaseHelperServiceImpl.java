@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
 
@@ -47,6 +48,20 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
   public void storeAlgorithmInDatabase(Algorithm algorithm) {
     try {
       algorithm.store();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Stores a database connection in the database.
+   *
+   * @param connection the database connection to store
+   */
+  @Override
+  public void storeDatabaseConnection(DatabaseConnection connection) {
+    try {
+      connection.store();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }

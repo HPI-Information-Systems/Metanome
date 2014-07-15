@@ -19,10 +19,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class GwtTestTableInputField extends GWTTestCase {
   @Test
   public void testGetValue() throws EntityStorageException, InputValidationException {
     // Setup
-    HibernateUtil.clear();
+    TestHelper.resetDatabaseSync();
 
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setId(1);
@@ -41,7 +41,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
 
-    dbConnection.store();
+    TestHelper.storeDatabaseConnetionSync(dbConnection);
 
     TableInputField field = new TableInputField(new TabWrapper());
     field.setValues("1: url", "table");
@@ -59,7 +59,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     assertEquals(expectedInput, actualInput);
 
     // Cleanup
-    HibernateUtil.clear();
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

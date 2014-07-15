@@ -21,6 +21,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 
 /**
@@ -70,6 +71,35 @@ public class TestHelper {
   public static void storeAlgorithmSync(Algorithm algorithm) {
     final boolean[] blocked = {true};
     testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        blocked[0] = false;
+      }
+    });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
+  }
+
+  /**
+   * Stores a database connection synchronously.
+   *
+   * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
+   */
+  public static void storeDatabaseConnetionSync(DatabaseConnection connection) {
+    final boolean[] blocked = {true};
+    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
       }

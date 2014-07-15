@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class DatabaseConnection implements Serializable {
    * @param id the DatabaseConnection's id
    * @return the databaseConnection
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static DatabaseConnection retrieve(long id) throws EntityStorageException {
     return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
   }
@@ -52,6 +55,7 @@ public class DatabaseConnection implements Serializable {
    *
    * @return a list of all database connections
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static List<DatabaseConnection> retrieveAll() throws EntityStorageException {
     return HibernateUtil.queryCriteria(DatabaseConnection.class);
   }
@@ -61,6 +65,7 @@ public class DatabaseConnection implements Serializable {
    *
    * @return the DatabaseConnection
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public DatabaseConnection store() throws EntityStorageException {
     HibernateUtil.store(this);
 
