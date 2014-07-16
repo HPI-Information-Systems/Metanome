@@ -110,8 +110,9 @@ public class SubSetGraphTest {
   }
 
   /**
-   * Test method for {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)} for the special
-   * case of an empty graph. An empty list should be returned
+   * Test method for {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}
+   *
+   * Tests a special case with an empty graph. An empty list should be returned.
    */
   @Test
   public void testGetExistingSubsetsOnEmptyGraph() {
@@ -145,8 +146,9 @@ public class SubSetGraphTest {
   }
 
   /**
-   * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)} for the special
-   * case of a empty graph )}
+   * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)}
+   *
+   * Tests a special case with an empty graph. False should be returned if the graph is empty.
    */
   @Test
   public void testContainsSubsetOnEmptyGraph() {

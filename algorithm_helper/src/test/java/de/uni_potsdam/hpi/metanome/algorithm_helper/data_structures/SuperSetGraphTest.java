@@ -118,7 +118,9 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)} for the special case of an empty graph. An empty list should be returned
+   * Test method for {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}
+   *
+   * This tests a special case of an empty graph. An empty list should be returned
    */
   @Test
   public void testGetExistingSupersetsOnEmptyGraph() {
@@ -152,8 +154,9 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test for the method {@link SuperSetGraph#containsSuperset(ColumnCombinationBitset)} for the
-   * special case of a empty graph )}
+   * Test for the method {@link SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
+   *
+   * This test tests a special case of a empty graph. False should be returned.
    */
   @Test
   public void testContainsSupersetOnEmptyGraph() {
