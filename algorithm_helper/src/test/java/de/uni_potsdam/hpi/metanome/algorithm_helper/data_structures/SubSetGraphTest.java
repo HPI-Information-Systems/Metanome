@@ -109,7 +109,26 @@ public class SubSetGraphTest {
                    .containsInAnyOrder(fixture.getExpectedSubsetsFromQuery()));
   }
 
-  /***
+  /**
+   * Test method for {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}
+   *
+   * Tests a special case with an empty graph. An empty list should be returned.
+   */
+  @Test
+  public void testGetExistingSubsetsOnEmptyGraph() {
+    // Setup
+    SubSetGraph graph = new SubSetGraph();
+
+    // Execute functionality
+    List<ColumnCombinationBitset>
+        actualSubsets =
+        graph.getExistingSubsets(new ColumnCombinationBitset(1, 3, 5));
+
+    // Check result
+    assertTrue(actualSubsets.isEmpty());
+  }
+
+  /**
    * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)} )}
    */
   @Test
@@ -124,6 +143,21 @@ public class SubSetGraphTest {
     assertFalse(actualGraph.containsSubset(new ColumnCombinationBitset(1)));
     //Check Result
 
+  }
+
+  /**
+   * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)}
+   *
+   * Tests a special case with an empty graph. False should be returned if the graph is empty.
+   */
+  @Test
+  public void testContainsSubsetOnEmptyGraph() {
+    //Setup
+    SubSetGraph actualGraph = new SubSetGraph();
+
+    //Execute functionality
+    assertFalse(actualGraph.containsSubset(new ColumnCombinationBitset(1, 3)));
+    //Check Result
   }
 
   /**
