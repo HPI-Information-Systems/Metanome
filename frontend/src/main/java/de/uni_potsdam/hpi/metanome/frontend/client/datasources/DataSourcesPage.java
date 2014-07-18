@@ -31,8 +31,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 
 /**
  * Data Sources page is the Tab that lists all previously defined data sources (CSV files, DB
@@ -46,10 +46,10 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
   protected TabWrapper errorReceiver;
 
   private FlexTable csvFilesList;
-  private InputDataServiceAsync inputDataService;
+  private FileInputServiceAsync fileInputService;
 
   public DataSourcesPage(BasePage parent) {
-    this.inputDataService = GWT.create(InputDataService.class);
+    this.fileInputService = GWT.create(FileInputService.class);
 
     this.basePage = parent;
 
@@ -79,7 +79,7 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
   }
 
   private void listCsvFiles() {
-    inputDataService.listCsvInputFiles(new AsyncCallback<String[]>() {
+    fileInputService.listCsvFiles(new AsyncCallback<String[]>() {
 
       @Override
       public void onFailure(Throwable caught) {

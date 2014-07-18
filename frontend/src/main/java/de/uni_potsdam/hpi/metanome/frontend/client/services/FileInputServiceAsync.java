@@ -16,20 +16,20 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.util.List;
 
-@RemoteServiceRelativePath("databaseConnectionService")
-public interface DatabaseConnectionService extends RemoteService {
 
-  public List<DatabaseConnection> listDatabaseConnections();
+public interface FileInputServiceAsync {
 
-  public DatabaseConnection getDatabaseConnection(long id);
+  public void listCsvFiles(AsyncCallback<String[]> callback);
 
-  public void storeDatabaseConnection(DatabaseConnection connection);
+  void getFileInput(long id, AsyncCallback<FileInput> async);
 
+  void storeFileInput(FileInput input, AsyncCallback<Void> async);
+
+  void listFileInputs(AsyncCallback<List<FileInput>> async);
 }

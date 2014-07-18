@@ -60,4 +60,16 @@ public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implemen
     }
     return null;
   }
+
+  /**
+   * @param connection the database connection to store
+   */
+  @Override
+  public void storeDatabaseConnection(DatabaseConnection connection) {
+    try {
+      connection.store();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+  }
 }

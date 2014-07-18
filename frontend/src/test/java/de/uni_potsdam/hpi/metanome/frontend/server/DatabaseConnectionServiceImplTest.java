@@ -27,6 +27,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl}
@@ -58,11 +59,10 @@ public class DatabaseConnectionServiceImplTest {
     DatabaseConnection[] expectedDbConnections = {expectedDb1, expectedDb2};
 
     for (DatabaseConnection db : expectedDbConnections) {
-      db.store();
+      dbService.storeDatabaseConnection(db);
     }
 
     // Execute functionality
-    // Finds algorithms of all or no interfaces
     List<DatabaseConnection> actualDbConnections = dbService.listDatabaseConnections();
 
     // Check result
@@ -91,10 +91,9 @@ public class DatabaseConnectionServiceImplTest {
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
 
-    expectedDbConnection.store();
+    dbService.storeDatabaseConnection(expectedDbConnection);
 
     // Execute functionality
-    // Finds algorithms of all or no interfaces
     DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(id);
 
     // Check result
@@ -115,11 +114,38 @@ public class DatabaseConnectionServiceImplTest {
     DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
 
     // Execute functionality
-    // Finds algorithms of all or no interfaces
     DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(2);
 
     // Check result
     assertEquals(null, actualDbConnection);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for {@link DatabaseConnectionServiceImpl#storeDatabaseConnection(DatabaseConnection)}
+   */
+  @Test
+  public void testStoreDatabaseConnection() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
+
+    // Expected values
+    DatabaseConnection expectedDbConnection = new DatabaseConnection();
+    expectedDbConnection.setId(1);
+    expectedDbConnection.setUrl("url1");
+    expectedDbConnection.setPassword("password1");
+    expectedDbConnection.setUsername("db1");
+
+    // Execute functionality
+    dbService.storeDatabaseConnection(expectedDbConnection);
+    List<DatabaseConnection> connections = dbService.listDatabaseConnections();
+
+    // Check result
+    assertTrue(connections.contains(expectedDbConnection));
 
     // Cleanup
     HibernateUtil.clear();
