@@ -22,7 +22,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helper that performs database interaction synchronously. To be used in tests.
@@ -97,7 +101,7 @@ public class TestHelper {
    *
    * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
    */
-  public static void storeDatabaseConnetionSync(DatabaseConnection connection) {
+  public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
     final boolean[] blocked = {true};
     testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Void>() {
       @Override
@@ -119,5 +123,105 @@ public class TestHelper {
       }
     };
     rpcCheck.schedule(100);
+  }
+
+  /**
+   * Get all database connections synchronously.
+   */
+  public static List<DatabaseConnection> getAllDatabaseConnections() {
+    final boolean[] blocked = {true};
+    final List<DatabaseConnection> connections = new ArrayList<>();
+
+    testDatabaseHelperService.getAllDatabaseConnections(
+        new AsyncCallback<List<DatabaseConnection>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+          }
+
+          @Override
+          public void onSuccess(List<DatabaseConnection> con) {
+            connections.addAll(con);
+            blocked[0] = false;
+          }
+        }
+    );
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
+
+    return connections;
+  }
+
+  /**
+   * Get all file inputs synchronously.
+   */
+  public static List<FileInput> getAllFileInputs() {
+    final boolean[] blocked = {true};
+    final List<FileInput> inputs = new ArrayList<>();
+
+    testDatabaseHelperService.getAllFileInputs(
+        new AsyncCallback<List<FileInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+          }
+
+          @Override
+          public void onSuccess(List<FileInput> i) {
+            inputs.addAll(i);
+            blocked[0] = false;
+          }
+        });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+
+    rpcCheck.schedule(100);
+    return inputs;
+  }
+
+  /**
+   * Get all table inputs synchronously.
+   */
+  public static List<TableInput> getAllTableInputs() {
+    final boolean[] blocked = {true};
+    final List<TableInput> inputs = new ArrayList<>();
+
+    testDatabaseHelperService.getAllTableInputs(
+        new AsyncCallback<List<TableInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+          }
+
+          @Override
+          public void onSuccess(List<TableInput> i) {
+            inputs.addAll(i);
+            blocked[0] = false;
+          }
+        });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+
+    rpcCheck.schedule(100);
+    return inputs;
   }
 }
