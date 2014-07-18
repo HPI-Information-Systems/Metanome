@@ -25,7 +25,6 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -106,10 +105,13 @@ public class TestHelper {
     testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
+        System.out.println("Failed to save Database Connection.");
+        System.out.println(throwable.getMessage());
       }
 
       @Override
       public void onSuccess(Void aVoid) {
+        System.out.println("Database Connection successfully saved.");
         blocked[0] = false;
       }
     });
@@ -128,100 +130,21 @@ public class TestHelper {
   /**
    * Get all database connections synchronously.
    */
-  public static List<DatabaseConnection> getAllDatabaseConnections() {
-    final boolean[] blocked = {true};
-    final List<DatabaseConnection> connections = new ArrayList<>();
-
-    testDatabaseHelperService.getAllDatabaseConnections(
-        new AsyncCallback<List<DatabaseConnection>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-          }
-
-          @Override
-          public void onSuccess(List<DatabaseConnection> con) {
-            connections.addAll(con);
-            blocked[0] = false;
-          }
-        }
-    );
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
-        }
-      }
-    };
-    rpcCheck.schedule(100);
-
-    return connections;
+  public static void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback) {
+    testDatabaseHelperService.getAllDatabaseConnections(callback);
   }
 
   /**
    * Get all file inputs synchronously.
    */
-  public static List<FileInput> getAllFileInputs() {
-    final boolean[] blocked = {true};
-    final List<FileInput> inputs = new ArrayList<>();
-
-    testDatabaseHelperService.getAllFileInputs(
-        new AsyncCallback<List<FileInput>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-          }
-
-          @Override
-          public void onSuccess(List<FileInput> i) {
-            inputs.addAll(i);
-            blocked[0] = false;
-          }
-        });
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
-        }
-      }
-    };
-
-    rpcCheck.schedule(100);
-    return inputs;
+  public static void getAllFileInputs(AsyncCallback<List<FileInput>> callback) {
+    testDatabaseHelperService.getAllFileInputs(callback);
   }
 
   /**
    * Get all table inputs synchronously.
    */
-  public static List<TableInput> getAllTableInputs() {
-    final boolean[] blocked = {true};
-    final List<TableInput> inputs = new ArrayList<>();
-
-    testDatabaseHelperService.getAllTableInputs(
-        new AsyncCallback<List<TableInput>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-          }
-
-          @Override
-          public void onSuccess(List<TableInput> i) {
-            inputs.addAll(i);
-            blocked[0] = false;
-          }
-        });
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
-        }
-      }
-    };
-
-    rpcCheck.schedule(100);
-    return inputs;
+  public static void getAllTableInputs(AsyncCallback<List<TableInput>> callback) {
+    testDatabaseHelperService.getAllTableInputs(callback);
   }
 }

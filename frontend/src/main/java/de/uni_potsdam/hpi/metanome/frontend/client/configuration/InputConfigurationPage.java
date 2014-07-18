@@ -62,7 +62,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
 
     this.dbField = new DatabaseConnectionField();
     this.fileInputField = new FileInputField();
-    this.tableInputField = new TableInputField(this.errorReceiver);
+    this.tableInputField = new TableInputField();
     this.content = new HorizontalPanel();
 
     Button dbButton = new Button("Database Connection");
@@ -103,6 +103,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForFileButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
+        errorReceiver.clearErrors();
+        errorReceiver.clearInfos();
+
         content.clear();
         content.add(fileInputField);
 
@@ -116,6 +119,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForDbButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
+        errorReceiver.clearErrors();
+        errorReceiver.clearInfos();
+
         content.clear();
         content.add(dbField);
 
@@ -129,7 +135,11 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForTableButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
+        errorReceiver.clearErrors();
+        errorReceiver.clearInfos();
+
         content.clear();
+        tableInputField.updateDatabaseConnectionListBox();
         content.add(tableInputField);
 
         dbFieldSelected = false;
@@ -141,6 +151,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
 
   protected void saveObject() {
     this.errorReceiver.clearErrors();
+    this.errorReceiver.clearInfos();
 
     if (dbFieldSelected) {
       DatabaseConnectionField w = (DatabaseConnectionField) content.getWidget(0);
@@ -155,9 +166,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             dbField.reset();
+            errorReceiver.addInfo("Database Connection successfully saved.");
           }
         });
-        System.out.println("DB ID " + w.getValue().getId());
       } catch (InputValidationException e) {
         errorReceiver.addError("Database Connection could not be stored: " + e.getMessage());
       }
@@ -175,9 +186,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             tableInputField.reset();
+            errorReceiver.addInfo("Table Input successfully saved.");
           }
         });
-        System.out.println("TABLE ID " + w.getValue().getId());
       } catch (InputValidationException | EntityStorageException e) {
         errorReceiver.addError("Table Input could not be stored: " + e.getMessage());
       }
@@ -195,9 +206,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             fileInputField.reset();
+            errorReceiver.addInfo("File Input successfully saved.");
           }
         });
-        System.out.println("FILE ID " + w.getValue().getId());
       } catch (InputValidationException e) {
         errorReceiver.addError("File Input could not be stored: " + e.getMessage());
       }
@@ -207,6 +218,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   @Override
   public void setErrorReceiver(TabWrapper tab) {
     this.errorReceiver = tab;
+    this.tableInputField.setErrorReceiver(tab);
   }
 
 }

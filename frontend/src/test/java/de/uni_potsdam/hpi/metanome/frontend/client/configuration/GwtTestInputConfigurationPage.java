@@ -17,6 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -29,20 +31,22 @@ import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import org.junit.Test;
 
+import java.util.List;
 
-public class GwtTestInputConfigurationPage  extends GWTTestCase {
+
+public class GwtTestInputConfigurationPage extends GWTTestCase {
 
   @Test
   public void testStoreTableInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
+    final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
     page.setErrorReceiver(new TabWrapper());
 
     DatabaseConnection dbConnection = new DatabaseConnection();
-    dbConnection.setId(1);
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
@@ -59,10 +63,32 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
     page.saveObject();
 
     // Expected values
-    TableInput expectedInput = page.tableInputField.getValue();
+    final TableInput expectedInput = page.tableInputField.getValue();
 
     // Check result
-    assertTrue(TestHelper.getAllTableInputs().contains(expectedInput));
+    TestHelper.getAllTableInputs(
+        new AsyncCallback<List<TableInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            fail();
+          }
+
+          @Override
+          public void onSuccess(List<TableInput> con) {
+            blocked[0] = false;
+            assertTrue(con.contains(expectedInput));
+          }
+        });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -72,6 +98,7 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
   public void testStoreFileInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
+    final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
@@ -88,10 +115,32 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
     page.saveObject();
 
     // Expected values
-    FileInput expectedInput = page.fileInputField.getValue();
+    final FileInput expectedInput = page.fileInputField.getValue();
 
     // Check result
-    assertTrue(TestHelper.getAllFileInputs().contains(expectedInput));
+    TestHelper.getAllFileInputs(
+        new AsyncCallback<List<FileInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            fail();
+          }
+
+          @Override
+          public void onSuccess(List<FileInput> con) {
+            blocked[0] = false;
+            assertTrue(con.contains(expectedInput));
+          }
+        });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -101,6 +150,7 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
   public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
+    final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
@@ -117,10 +167,32 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
     page.saveObject();
 
     // Expected values
-    DatabaseConnection expectedInput = page.dbField.getValue();
+    final DatabaseConnection expectedInput = page.dbField.getValue();
 
     // Check result
-    assertTrue(TestHelper.getAllDatabaseConnections().contains(expectedInput));
+    TestHelper.getAllDatabaseConnections(
+        new AsyncCallback<List<DatabaseConnection>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            fail();
+          }
+
+          @Override
+          public void onSuccess(List<DatabaseConnection> con) {
+            blocked[0] = false;
+            assertTrue(con.contains(expectedInput));
+          }
+        });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -128,6 +200,6 @@ public class GwtTestInputConfigurationPage  extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 }

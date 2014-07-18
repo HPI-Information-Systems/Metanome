@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TabWrapper extends FlowPanel {
 
   protected VerticalPanel errorPanel;
+  protected VerticalPanel infoPanel;
   protected TabContent contentPanel;
   protected boolean inError = false;
 
@@ -35,8 +36,12 @@ public class TabWrapper extends FlowPanel {
    */
   public TabWrapper() {
     this.errorPanel = new VerticalPanel();
-    this.add(this.errorPanel);
     this.errorPanel.addStyleName("errorMessage");
+    this.add(this.errorPanel);
+
+    this.infoPanel = new VerticalPanel();
+    this.infoPanel.addStyleName("infoMessage");
+    this.add(this.infoPanel);
   }
 
   public TabWrapper(TabContent panel) {
@@ -47,6 +52,14 @@ public class TabWrapper extends FlowPanel {
     this.add(this.contentPanel);
   }
 
+  public void addInfo(String message) {
+    Label label = new Label(message);
+    this.infoPanel.add(label);
+  }
+
+  public void clearInfos() {
+    this.infoPanel.clear();
+  }
 
   public void addError(String message) {
     Label label = new Label(message);

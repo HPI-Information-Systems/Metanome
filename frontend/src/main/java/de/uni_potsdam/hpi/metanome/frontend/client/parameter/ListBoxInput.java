@@ -68,6 +68,13 @@ public class ListBoxInput extends InputField {
   }
 
   /**
+   * Clear all values of the list box.
+   */
+  public void clear() {
+    this.listbox.clear();
+  }
+
+  /**
    * @return the selected value of its listbox
    */
   public String getSelectedValue() {

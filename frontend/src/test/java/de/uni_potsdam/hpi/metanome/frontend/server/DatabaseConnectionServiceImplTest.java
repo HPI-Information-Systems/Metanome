@@ -46,12 +46,10 @@ public class DatabaseConnectionServiceImplTest {
 
     // Expected values
     DatabaseConnection expectedDb1 = new DatabaseConnection();
-    expectedDb1.setId(1);
     expectedDb1.setUrl("url1");
     expectedDb1.setPassword("password1");
     expectedDb1.setUsername("db1");
     DatabaseConnection expectedDb2 = new DatabaseConnection();
-    expectedDb2.setId(2);
     expectedDb2.setUrl("url2");
     expectedDb2.setPassword("password2");
     expectedDb2.setUsername("db2");
@@ -82,19 +80,19 @@ public class DatabaseConnectionServiceImplTest {
     HibernateUtil.clear();
 
     DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
-    long id = 1;
 
     // Expected values
     DatabaseConnection expectedDbConnection = new DatabaseConnection();
-    expectedDbConnection.setId(id);
     expectedDbConnection.setUrl("url1");
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
 
     dbService.storeDatabaseConnection(expectedDbConnection);
 
+    long expectedId = expectedDbConnection.getId();
+
     // Execute functionality
-    DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(id);
+    DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(expectedId);
 
     // Check result
     assertEquals(expectedDbConnection, actualDbConnection);
@@ -135,7 +133,6 @@ public class DatabaseConnectionServiceImplTest {
 
     // Expected values
     DatabaseConnection expectedDbConnection = new DatabaseConnection();
-    expectedDbConnection.setId(1);
     expectedDbConnection.setUrl("url1");
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");

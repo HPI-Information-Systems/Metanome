@@ -34,6 +34,7 @@ public class DatabaseConnectionField extends HorizontalPanel {
   private FlexTable layoutTable;
 
 
+
   public DatabaseConnectionField() {
     this.layoutTable = new FlexTable();
     this.add(this.layoutTable);
@@ -81,9 +82,10 @@ public class DatabaseConnectionField extends HorizontalPanel {
     if (url.isEmpty() || username.isEmpty() || password.isEmpty())
       throw new InputValidationException("The database url, username and password should all be set!");
 
-    connection.setUrl(url);
-    connection.setUsername(username);
-    connection.setPassword(password);
+    connection
+        .setUrl(url)
+        .setUsername(username)
+        .setPassword(password);
 
     return connection;
   }

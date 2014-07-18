@@ -41,7 +41,7 @@ import java.util.Map;
 public class TableInputField extends HorizontalPanel {
 
   protected final DatabaseConnectionServiceAsync databaseConnectionService;
-  protected final TabWrapper errorReceiver;
+  protected TabWrapper errorReceiver;
 
   private Map<String, DatabaseConnection> dbMap = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class TableInputField extends HorizontalPanel {
   private FlexTable layoutTable;
 
 
-  public TableInputField(TabWrapper errorReceiver) {
+  public TableInputField() {
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
     this.errorReceiver = errorReceiver;
 
@@ -58,7 +58,7 @@ public class TableInputField extends HorizontalPanel {
     this.add(this.layoutTable);
 
     this.dbConnectionListBox = new ListBoxInput(false);
-    fillDbConnectionListBox();
+    updateDatabaseConnectionListBox();
     addRow(this.dbConnectionListBox, "Database Connection", 0);
 
     this.tableNameTextbox = new TextBox();
@@ -93,7 +93,7 @@ public class TableInputField extends HorizontalPanel {
     DatabaseConnection connection = this.dbMap.get(identifier);
     String tableName = this.tableNameTextbox.getValue();
 
-    if (tableName.isEmpty() || connection != null) {
+    if (tableName.isEmpty() || connection == null) {
       this.errorReceiver.addError("The database connection and the table name should be set!");
       return null;
     }
@@ -107,7 +107,7 @@ public class TableInputField extends HorizontalPanel {
   /**
    * Get all database connection from the database and add them to the list box
    */
-  private void fillDbConnectionListBox() {
+  public void updateDatabaseConnectionListBox() {
     AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
 
       public void onFailure(Throwable caught) {
@@ -116,6 +116,7 @@ public class TableInputField extends HorizontalPanel {
 
       public void onSuccess(List<DatabaseConnection> result) {
         List<String> dbConnectionNames = new ArrayList<String>();
+        dbConnectionNames.add("-");
 
         if (result != null) {
           for (DatabaseConnection db : result) {
@@ -123,10 +124,11 @@ public class TableInputField extends HorizontalPanel {
             dbConnectionNames.add(identifier);
             dbMap.put(identifier, db);
           }
-      } else {
-        errorReceiver.addError("There are no database connections in the database!");
-      }
+        } else {
+          errorReceiver.addError("There are no database connections in the database!");
+        }
 
+        dbConnectionListBox.clear();
         dbConnectionListBox.setValues(dbConnectionNames);
       }
     };
@@ -135,6 +137,11 @@ public class TableInputField extends HorizontalPanel {
   }
 
   public void reset() {
+    this.dbConnectionListBox.setSelectedValue("-");
     this.tableNameTextbox.setText("");
+  }
+
+  public void setErrorReceiver(TabWrapper tab) {
+    this.errorReceiver = tab;
   }
 }
