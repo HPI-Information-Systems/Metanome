@@ -53,13 +53,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>inputDataServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.InputDataServiceImpl
+        <servlet-name>fileInputServiceImpl</servlet-name>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>inputDataServiceImpl</servlet-name>
-        <url-pattern>/metanome/inputDataService</url-pattern>
+        <servlet-name>fileInputServiceImpl</servlet-name>
+        <url-pattern>/metanome/fileInputService</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -70,6 +70,16 @@
     <servlet-mapping>
         <servlet-name>databaseConnectionServiceImpl</servlet-name>
         <url-pattern>/metanome/databaseConnectionService</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>tableInputServiceImpl</servlet-name>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tableInputServiceImpl</servlet-name>
+        <url-pattern>/metanome/tableInputService</url-pattern>
     </servlet-mapping>
 
     <listener>
