@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -73,6 +74,7 @@ public class DatabaseConnection implements Serializable {
   }
 
   @Id
+  @GeneratedValue
   public long getId() {
     return id;
   }

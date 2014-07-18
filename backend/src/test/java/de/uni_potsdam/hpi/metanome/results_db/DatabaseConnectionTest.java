@@ -103,4 +103,32 @@ public class DatabaseConnectionTest {
     // Cleanup
     HibernateUtil.clear();
   }
+
+  /**
+   * Test method for {@link DatabaseConnection#getId()}
+   */
+  @Test
+  public void testGetId() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+
+    new DatabaseConnection().store();
+    new DatabaseConnection().store();
+
+    // Execute functionality
+    List<DatabaseConnection> actualConnections = DatabaseConnection.retrieveAll();
+
+    long actualId1 = actualConnections.get(0).getId();
+    long actualId2 = actualConnections.get(1).getId();
+
+    // Check result
+    assertEquals(Math.abs(actualId1 - actualId2), 1);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+
 }

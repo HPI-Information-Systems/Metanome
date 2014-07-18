@@ -191,6 +191,8 @@ public class ExecutionTest {
     expectedResult2.store();
     Execution actualExecution = Execution.retrieve(algorithm, begin);
 
+    Input[] expectedInputs = {expectedTableInput, expectedFileInput, expectedFileInput};
+
     Set<Result> actualResults = actualExecution.getResults();
     Collection<Input> actualInputs = actualExecution.getInputs();
 
@@ -203,7 +205,7 @@ public class ExecutionTest {
     // Verify input list
     assertEquals(3, actualInputs.size());
     assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedTableInput, expectedFileInput, expectedFileInput));
+        .containsInAnyOrder(expectedInputs));
 
     // Cleanup
     HibernateUtil.clear();
