@@ -31,7 +31,7 @@ import org.junit.Test;
 public class GwtTestTableInputField extends GWTTestCase {
 
   @Test
-  public void testGetValue() throws EntityStorageException, InputValidationException {
+  public void testStoreValues() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
 
@@ -41,7 +41,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
 
-    TestHelper.storeDatabaseConnetionSync(dbConnection);
+    TestHelper.storeDatabaseConnectionSync(dbConnection);
 
     TableInputField field = new TableInputField(new TabWrapper());
     field.setValues("1: url", "table");

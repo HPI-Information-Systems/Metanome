@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +30,7 @@ public class DatabaseConnectionField extends HorizontalPanel {
 
   private TextBox dbUrlTextbox;
   private TextBox usernameTextbox;
-  private TextBox passwordTextbox;
+  private PasswordTextBox passwordTextbox;
   private FlexTable layoutTable;
 
 
@@ -43,7 +44,7 @@ public class DatabaseConnectionField extends HorizontalPanel {
     this.usernameTextbox = new TextBox();
     addRow(this.usernameTextbox, "User Name", 1);
 
-    this.passwordTextbox = new TextBox();
+    this.passwordTextbox = new PasswordTextBox();
     addRow(this.passwordTextbox, "Password", 2);
 
   }
@@ -85,6 +86,12 @@ public class DatabaseConnectionField extends HorizontalPanel {
     connection.setPassword(password);
 
     return connection;
+  }
+
+  public void reset() {
+    this.dbUrlTextbox.setText("");
+    this.usernameTextbox.setText("");
+    this.passwordTextbox.setText("");
   }
 
 

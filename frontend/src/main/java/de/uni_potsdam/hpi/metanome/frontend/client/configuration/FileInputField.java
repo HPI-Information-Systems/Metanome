@@ -32,8 +32,8 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
@@ -193,8 +193,8 @@ public class FileInputField extends HorizontalPanel {
   private void addAvailableFiles() {
     AsyncCallback<String[]> callback = getCallback(this);
 
-    InputDataServiceAsync service = GWT.create(InputDataService.class);
-    service.listCsvInputFiles(callback);
+    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    service.listCsvFiles(callback);
   }
 
 
@@ -216,8 +216,10 @@ public class FileInputField extends HorizontalPanel {
    * @param files which should be added to the list box
    */
   private void addFilesToListBox(String[] files) {
+
     for (String fileName: files) {
-      this.fileListBox.addItem(fileName);
+      String[] fileParts = fileName.replace("\\", "/").split("/");
+      this.fileListBox.addItem(fileParts[fileParts.length - 1]);
     }
   }
 
@@ -332,4 +334,7 @@ public class FileInputField extends HorizontalPanel {
     this.skipDifferingLinesCheckbox.setValue(skipDifferingLines);
   }
 
+  public void reset() {
+    this.fileListBox.setSelectedIndex(0);
+  }
 }

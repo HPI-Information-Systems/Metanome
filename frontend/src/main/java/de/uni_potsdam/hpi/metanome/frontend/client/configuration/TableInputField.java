@@ -133,4 +133,8 @@ public class TableInputField extends HorizontalPanel {
 
     databaseConnectionService.listDatabaseConnections(callback);
   }
+
+  public void reset() {
+    this.tableNameTextbox.setText("");
+  }
 }
