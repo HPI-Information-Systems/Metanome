@@ -21,7 +21,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -35,14 +38,23 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+
+import java.util.List;
 
 public class InputConfigurationPage extends VerticalPanel implements TabContent {
+
+  private static final String DATABASE_CONNECTION = "Database Connection";
+  private static final String FILE_INPUT = "File Input";
+  private static final String TABLE_INPUT = "Table Input";
 
   private TabWrapper errorReceiver;
   private BasePage basePage;
 
-  protected HorizontalPanel content;
+  protected VerticalPanel content;
   protected DatabaseConnectionField dbField;
   protected FileInputField fileInputField;
   protected TableInputField tableInputField;
@@ -60,18 +72,18 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     this.setWidth("100%");
     this.basePage = basePage;
 
+    // Initialize all input fields
     this.dbField = new DatabaseConnectionField();
     this.fileInputField = new FileInputField();
     this.tableInputField = new TableInputField();
-    this.content = new HorizontalPanel();
 
-    Button dbButton = new Button("Database Connection");
+    // Initialize all buttons
+    Button dbButton = new Button(DATABASE_CONNECTION);
     dbButton.addClickHandler(getClickHandlerForDbButton());
-    Button fileButton = new Button("File Input");
+    Button fileButton = new Button(FILE_INPUT);
     fileButton.addClickHandler(getClickHandlerForFileButton());
-    Button tableButton = new Button("Table Input");
+    Button tableButton = new Button(TABLE_INPUT);
     tableButton.addClickHandler(getClickHandlerForTableButton());
-
     this.saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
@@ -79,25 +91,30 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       }
     });
 
+    // initialize all panels
     VerticalPanel wrapper = new VerticalPanel();
     HorizontalPanel buttonWrapper = new HorizontalPanel();
     SimplePanel contentWrapper = new SimplePanel();
 
+    // add buttons
     buttonWrapper.add(dbButton);
     buttonWrapper.add(tableButton);
     buttonWrapper.add(fileButton);
 
+    // set up content
+    this.content = new VerticalPanel();
     contentWrapper.add(this.content);
-    this.content.add(dbField);
+    fillContent(DATABASE_CONNECTION);
 
+    // add wrapper to page
+    wrapper.add(buttonWrapper);
+    wrapper.add(contentWrapper);
+    this.add(wrapper);
+
+    // set selected field to database connection
     this.dbFieldSelected = true;
     this.tableInputFieldSelected = false;
     this.fileInputFieldSelected = false;
-
-    wrapper.add(buttonWrapper);
-    wrapper.add(contentWrapper);
-    wrapper.add(saveButton);
-    this.add(wrapper);
   }
 
   private ClickHandler getClickHandlerForFileButton() {
@@ -107,7 +124,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         errorReceiver.clearInfos();
 
         content.clear();
-        content.add(fileInputField);
+        fillContent(FILE_INPUT);
 
         dbFieldSelected = false;
         tableInputFieldSelected = false;
@@ -123,7 +140,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         errorReceiver.clearInfos();
 
         content.clear();
-        content.add(dbField);
+        fillContent(DATABASE_CONNECTION);
 
         dbFieldSelected = true;
         tableInputFieldSelected = false;
@@ -140,7 +157,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
 
         content.clear();
         tableInputField.updateDatabaseConnectionListBox();
-        content.add(tableInputField);
+        fillContent(TABLE_INPUT);
 
         dbFieldSelected = false;
         tableInputFieldSelected = true;
@@ -213,6 +230,154 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         errorReceiver.addError("File Input could not be stored: " + e.getMessage());
       }
     }
+  }
+
+  private void fillContent(String type) {
+    switch (type) {
+      case DATABASE_CONNECTION:
+        DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+        databaseConnectionService.listDatabaseConnections(
+          new AsyncCallback<List<DatabaseConnection>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+              content.add(new Label("There are no Database Connections yet."));
+              addEditForm(DATABASE_CONNECTION);
+            }
+
+            @Override
+            public void onSuccess(List<DatabaseConnection> connections) {
+              listDatabaseConnections(connections);
+              addEditForm(DATABASE_CONNECTION);
+            }
+          });
+        break;
+      case TABLE_INPUT:
+        TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
+        tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            content.add(new Label("There are no Table Inputs yet."));
+            addEditForm(TABLE_INPUT);
+          }
+
+          @Override
+          public void onSuccess(List<TableInput> tableInputs) {
+            listTableInputs(tableInputs);
+            addEditForm(TABLE_INPUT);
+          }
+        });
+        break;
+      case FILE_INPUT:
+        FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
+        fileInputService.listFileInputs(
+          new AsyncCallback<List<FileInput>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+              content.add(new Label("There are no File Inputs yet."));
+              addEditForm(FILE_INPUT);
+            }
+
+            @Override
+            public void onSuccess(List<FileInput> fileInputs) {
+              listFileInputs(fileInputs);
+              addEditForm(FILE_INPUT);
+            }
+          });
+        break;
+      default:
+        this.errorReceiver.addError("Type not supported!");
+        break;
+    }
+  }
+
+  private void addEditForm(String type) {
+    switch (type) {
+      case DATABASE_CONNECTION:
+        content.add(new HTML("<hr>"));
+        content.add(new HTML("<h3>Add a new Database Connection</h3>"));
+        content.add(fileInputField);
+        content.add(saveButton);
+        break;
+      case FILE_INPUT:
+        content.add(new HTML("<hr>"));
+        content.add(new HTML("<h3>Add a new File Input</h3>"));
+        content.add(dbField);
+        content.add(saveButton);
+        break;
+      case TABLE_INPUT:
+        content.add(new HTML("<hr>"));
+        content.add(new HTML("<h3>Add a new Table Input</h3>"));
+        content.add(tableInputField);
+        content.add(saveButton);
+        break;
+      default:
+        this.errorReceiver.addError("Type not supported!");
+        break;
+    }
+
+  }
+
+  private void listTableInputs(List<TableInput> inputs) {
+    FlexTable table = new FlexTable();
+    int row = 1;
+
+    table.setHTML(0, 0, "<b>Database Connection</b>");
+    table.setHTML(0, 1, "<b>Table Name</b>");
+
+    for (TableInput input : inputs) {
+      Button deleteButton = new Button("Delete");
+      // TODO: add click handler
+
+      table.setText(row, 0, input.getDatabaseConnection().getUrl());
+      table.setText(row, 1, input.getTableName());
+      table.setWidget(row, 2, deleteButton);
+      row++;
+    }
+
+    this.content.add(new HTML("<h3>List of all Database Connections</h3>"));
+    this.content.add(table);
+  }
+
+  private void listFileInputs(List<FileInput> inputs) {
+    FlexTable table = new FlexTable();
+    int row = 1;
+
+    table.setHTML(0, 0, "<b>File Name</b>");
+
+    for (FileInput input : inputs) {
+      Button deleteButton = new Button("Delete");
+      // TODO: add click handler
+
+      table.setText(row, 0, input.getFileName());
+      table.setWidget(row, 1, deleteButton);
+      row++;
+    }
+
+    this.content.add(new HTML("<h3>List of all File Inputs</h3>"));
+    this.content.add(table);
+  }
+
+  private void listDatabaseConnections(List<DatabaseConnection> inputs) {
+    FlexTable table = new FlexTable();
+    int row = 1;
+
+    table.setHTML(0, 0, "<b>Url</b>");
+    table.setHTML(0, 1, "<b>Username</b>");
+    table.setHTML(0, 2, "<b>Password</b>");
+
+    for (DatabaseConnection input : inputs) {
+      Button deleteButton = new Button("Delete");
+      // TODO: add click handler
+
+      table.setText(row, 0, input.getUrl());
+      table.setText(row, 1, input.getUsername());
+      table.setText(row, 2, input.getPassword());
+      table.setWidget(row, 3, deleteButton);
+      row++;
+    }
+
+    this.content.add(new HTML("<h3>List of all Table Inputs</h3>"));
+    this.content.add(table);
   }
 
   @Override
