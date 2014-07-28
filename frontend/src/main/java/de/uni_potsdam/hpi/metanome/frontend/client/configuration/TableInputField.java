@@ -45,14 +45,13 @@ public class TableInputField extends HorizontalPanel {
 
   private Map<String, DatabaseConnection> dbMap = new HashMap<>();
 
-  private ListBoxInput dbConnectionListBox;
+  protected ListBoxInput dbConnectionListBox;
   private TextBox tableNameTextbox;
   private FlexTable layoutTable;
 
 
   public TableInputField() {
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
-    this.errorReceiver = errorReceiver;
 
     this.layoutTable = new FlexTable();
     this.add(this.layoutTable);

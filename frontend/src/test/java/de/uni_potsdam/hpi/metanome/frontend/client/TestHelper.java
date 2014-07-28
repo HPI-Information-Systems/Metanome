@@ -120,11 +120,12 @@ public class TestHelper {
       @Override
       public void run() {
         if (blocked[0]) {
-          this.schedule(100);
+          this.schedule(1);
         }
       }
     };
-    rpcCheck.schedule(100);
+    rpcCheck.schedule(1);
+
   }
 
   /**

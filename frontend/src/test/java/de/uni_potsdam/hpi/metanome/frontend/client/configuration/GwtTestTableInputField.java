@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
@@ -41,26 +42,38 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setUsername("db");
     TestHelper.storeDatabaseConnectionSync(dbConnection);
 
-    long id = dbConnection.getId();
-
-    TableInputField field = new TableInputField();
+    final TableInputField field = new TableInputField();
     field.setErrorReceiver(new TabWrapper());
-    field.setValues(id + ": url", "table");
 
     // Expected values
-    TableInput expectedInput = new TableInput();
+    final TableInput expectedInput = new TableInput();
     expectedInput.setDatabaseConnection(dbConnection);
     expectedInput.setTableName("table");
 
-    // Execute functionality
-    TableInput actualInput = field.getValue();
+    // Setup an asynchronous event handler.
+    Timer timer = new Timer() {
+      @Override
+      public void run() {
+        // set the expected values in the table input field
+        field.setValues("1: url", "table");
 
-    // Check result
-    //TODO
-    //assertEquals(expectedInput, actualInput);
+        try {
+          if (expectedInput.equals(field.getValue())) {
+            // Cleanup
+            TestHelper.resetDatabaseSync();
+            // Finished test successfully
+            finishTest();
+          }
+        } catch (InputValidationException | EntityStorageException e) {
+            fail();
+        }
+      }
+    };
 
-    // Cleanup
-    TestHelper.resetDatabaseSync();
+    // Wait until asynchronous process are finished
+    delayTestFinish(5000);
+    // Validate, if expected and actual objects are equal
+    timer.schedule(4000);
   }
 
   @Override

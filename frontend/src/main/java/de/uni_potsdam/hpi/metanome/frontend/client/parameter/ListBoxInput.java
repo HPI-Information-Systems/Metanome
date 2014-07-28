@@ -101,4 +101,12 @@ public class ListBoxInput extends InputField {
     }
     return false;
   }
+
+  /**
+   * Checks if the list box contains values
+   * @return false, if no values are set, true otherwise
+   */
+  public boolean containsValues() {
+    return this.listbox.getItemCount() > 0;
+  }
 }
