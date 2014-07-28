@@ -39,9 +39,11 @@ public class StringHelper {
   }
 
   /**
-   * @param value
-   * @return
-   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException
+   * Returns one character from input string.
+   *
+   * @param value input string
+   * @return first character
+   * @throws InputValidationException thrown if no character was extracted from value.
    */
   public static char getValidatedInput(String value) throws InputValidationException {
     char firstChar = getFirstCharFromInput(value);

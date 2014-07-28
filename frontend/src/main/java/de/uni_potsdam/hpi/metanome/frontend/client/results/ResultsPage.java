@@ -56,12 +56,14 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * @param resultsTableContent
-   * @param visualizationTab
+   * Adds the Tabs for results and visualization.
+   *
+   * @param resultsTab the results tab
+   * @param visualizationTab the visualization tab
    */
-  public void update(ResultsTablePage resultsTableContent, ResultsVisualizationPage visualizationTab) {
+  public void update(ResultsTablePage resultsTab, ResultsVisualizationPage visualizationTab) {
     this.clear();
-    this.add(resultsTableContent, "Table");
+    this.add(resultsTab, "Table");
     this.add(visualizationTab, "Visualization");
   }
 }
