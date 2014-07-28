@@ -60,8 +60,8 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     page.tableInputFieldSelected = true;
     page.dbFieldSelected = false;
     page.fileInputFieldSelected = false;
-    page.content.clear();
-    page.content.add(page.tableInputField);
+    page.editForm.clear();
+    page.editForm.add(page.tableInputField);
 
     // Execute
     page.saveObject();
@@ -116,8 +116,8 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     page.tableInputFieldSelected = false;
     page.dbFieldSelected = false;
     page.fileInputFieldSelected = true;
-    page.content.clear();
-    page.content.add(page.fileInputField);
+    page.editForm.clear();
+    page.editForm.add(page.fileInputField);
 
     // Execute
     page.saveObject();
@@ -172,8 +172,8 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     page.tableInputFieldSelected = false;
     page.dbFieldSelected = true;
     page.fileInputFieldSelected = false;
-    page.content.clear();
-    page.content.add(page.dbField);
+    page.editForm.clear();
+    page.editForm.add(page.dbField);
 
     // Execute
     page.saveObject();

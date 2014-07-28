@@ -58,6 +58,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private BasePage basePage;
 
   protected VerticalPanel content;
+  protected VerticalPanel editForm;
   protected DatabaseConnectionField dbField;
   protected FileInputField fileInputField;
   protected TableInputField tableInputField;
@@ -98,6 +99,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     VerticalPanel wrapper = new VerticalPanel();
     HorizontalPanel buttonWrapper = new HorizontalPanel();
     SimplePanel contentWrapper = new SimplePanel();
+    this.editForm = new VerticalPanel();
 
     // add buttons
     buttonWrapper.add(dbButton);
@@ -166,7 +168,6 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         errorReceiver.clearErrors();
         errorReceiver.clearInfos();
 
-        content.clear();
         tableInputField.updateDatabaseConnectionListBox();
         fillContent(TABLE_INPUT);
 
@@ -185,7 +186,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     this.errorReceiver.clearInfos();
 
     if (dbFieldSelected) {
-      DatabaseConnectionField w = (DatabaseConnectionField) content.getWidget(0);
+      DatabaseConnectionField w = (DatabaseConnectionField) editForm.getWidget(0);
       try {
         DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
         databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
@@ -197,6 +198,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             dbField.reset();
+            fillContent(DATABASE_CONNECTION);
             errorReceiver.addInfo("Database Connection successfully saved.");
           }
         });
@@ -205,7 +207,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       }
 
     } else if (tableInputFieldSelected) {
-      TableInputField w = (TableInputField) content.getWidget(0);
+      TableInputField w = (TableInputField) editForm.getWidget(0);
       try {
         TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
         tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
@@ -217,6 +219,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             tableInputField.reset();
+            fillContent(TABLE_INPUT);
             errorReceiver.addInfo("Table Input successfully saved.");
           }
         });
@@ -225,7 +228,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       }
 
     } else if (fileInputFieldSelected) {
-      FileInputField w = (FileInputField) content.getWidget(0);
+      FileInputField w = (FileInputField) editForm.getWidget(0);
       try {
         FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
         fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
@@ -237,6 +240,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           @Override
           public void onSuccess(Void aVoid) {
             fileInputField.reset();
+            fillContent(FILE_INPUT);
             errorReceiver.addInfo("File Input successfully saved.");
           }
         });
@@ -253,6 +257,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
    * @param type the selected input type
    */
   private void fillContent(String type) {
+    this.content.clear();
     switch (type) {
       case DATABASE_CONNECTION:
         DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
@@ -317,22 +322,28 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private void addEditForm(String type) {
     switch (type) {
       case DATABASE_CONNECTION:
-        content.add(new HTML("<hr>"));
-        content.add(new HTML("<h3>Add a new Database Connection</h3>"));
-        content.add(fileInputField);
-        content.add(saveButton);
+        this.content.add(new HTML("<hr>"));
+        this.content.add(new HTML("<h3>Add a new Database Connection</h3>"));
+        this.editForm.clear();
+        this.editForm.add(dbField);
+        this.content.add(this.editForm);
+        this.content.add(saveButton);
         break;
       case FILE_INPUT:
-        content.add(new HTML("<hr>"));
-        content.add(new HTML("<h3>Add a new File Input</h3>"));
-        content.add(dbField);
-        content.add(saveButton);
+        this.content.add(new HTML("<hr>"));
+        this.content.add(new HTML("<h3>Add a new File Input</h3>"));
+        this.editForm.clear();
+        this.editForm.add(fileInputField);
+        this.content.add(this.editForm);
+        this.content.add(saveButton);
         break;
       case TABLE_INPUT:
-        content.add(new HTML("<hr>"));
-        content.add(new HTML("<h3>Add a new Table Input</h3>"));
-        content.add(tableInputField);
-        content.add(saveButton);
+        this.content.add(new HTML("<hr>"));
+        this.content.add(new HTML("<h3>Add a new Table Input</h3>"));
+        this.editForm.clear();
+        this.editForm.add(tableInputField);
+        this.content.add(this.editForm);
+        this.content.add(saveButton);
         break;
       default:
         this.errorReceiver.addError("Type not supported!");
@@ -362,7 +373,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       row++;
     }
 
-    this.content.add(new HTML("<h3>List of all Database Connections</h3>"));
+    this.content.add(new HTML("<h3>List of all Table Inputs</h3>"));
     this.content.add(table);
   }
 
@@ -412,7 +423,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       row++;
     }
 
-    this.content.add(new HTML("<h3>List of all Table Inputs</h3>"));
+    this.content.add(new HTML("<h3>List of all Database Connections</h3>"));
     this.content.add(table);
   }
 
