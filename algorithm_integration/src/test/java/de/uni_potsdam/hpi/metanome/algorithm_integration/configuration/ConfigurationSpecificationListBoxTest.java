@@ -34,8 +34,7 @@ import static org.junit.Assert.assertThat;
 public class ConfigurationSpecificationListBoxTest {
 
   /**
-   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String,
-   * ArrayList<String>)} <p/> The identifier should be set in the constructor and be retrievable
+   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, java.util.ArrayList)} <p/> The identifier should be set in the constructor and be retrievable
    * through getIdentifier. The numberOfValues should be set to 1.
    */
   @Test
@@ -65,9 +64,8 @@ public class ConfigurationSpecificationListBoxTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String,
-   * ArrayList<String>, int)} <p/> The identifier should be set in the constructor and be
-   * retrievable through getIdentifier. The numberOfValues should be set to 2.
+   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String, java.util.ArrayList, int)}
+   * The identifier should be set in the constructor and be retrievable through getIdentifier. The numberOfValues should be set to 2.
    */
   @Test
   public void testConstructorGetTwo() {
