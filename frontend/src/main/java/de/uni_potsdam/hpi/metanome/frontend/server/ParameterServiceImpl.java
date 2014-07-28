@@ -39,7 +39,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
    * 
    * @param algorithmFileName name of the algorithm for which the configuration parameters shall be
    *        retrieved
-   * @return a list of {@link ConfigurationSpecification}s necessary for calling the given algorithm
+   * @return a list of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s necessary for calling the given algorithm
    */
   @Override
   public List<ConfigurationSpecification> retrieveParameters(String algorithmFileName)
