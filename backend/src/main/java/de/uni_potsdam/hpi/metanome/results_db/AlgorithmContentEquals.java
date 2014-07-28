@@ -46,6 +46,7 @@ public class AlgorithmContentEquals {
     if (algo1.getDescription() != null ? !algo1.getDescription().equals(algo2.getDescription())
                                        : algo2.getDescription() != null) {
       return false;
+
     }
     if (!(algo1.isInd() == algo2.isInd())) {
       return false;
@@ -56,6 +57,11 @@ public class AlgorithmContentEquals {
     if (!(algo1.isUcc() == algo2.isUcc())) {
       return false;
     }
+
+    if (!(algo1.isCucc() == algo2.isCucc())) {
+      return false;
+    }
+
     return algo1.isBasicStat() == algo2.isBasicStat();
 
   }

@@ -66,6 +66,10 @@ public class PositionListIndex {
     return calculateIntersection(otherPLI);
   }
 
+  public List<LongArrayList> getClusters() {
+    return clusters;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;

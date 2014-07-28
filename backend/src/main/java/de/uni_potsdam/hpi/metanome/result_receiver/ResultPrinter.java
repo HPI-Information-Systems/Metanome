@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.result_receiver;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -36,6 +37,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   protected PrintStream statStream;
   protected PrintStream fdStream;
   protected PrintStream uccStream;
+  protected PrintStream cuccStream;
   protected PrintStream indStream;
 
   protected String algorithmExecutionIdentifier;
@@ -76,6 +78,12 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     getUccStream().println(uniqueColumnCombination.toString());
   }
 
+  @Override
+  public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
+      throws CouldNotReceiveResultException {
+    getCuccStream().println(conditionalUniqueColumnCombination.toString());
+  }
+
   protected PrintStream getStatStream() throws CouldNotReceiveResultException {
     if (statStream == null) {
       statStream = openStream("_stats");
@@ -108,6 +116,15 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     return uccStream;
   }
 
+  protected PrintStream getCuccStream() throws CouldNotReceiveResultException {
+    if (cuccStream == null) {
+      cuccStream = openStream("_cuccs");
+    }
+
+    return cuccStream;
+
+  }
+
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
     try {
       return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
@@ -133,6 +150,9 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
     if (uccStream != null) {
       uccStream.close();
+    }
+    if (cuccStream != null) {
+      cuccStream.close();
     }
   }
 

@@ -110,5 +110,4 @@ public class PositionListIndexFixture {
   public int getExpectedIntersectedPLIRawKeyError() {
     return 2;
   }
-
 }

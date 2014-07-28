@@ -25,10 +25,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
@@ -52,6 +54,7 @@ public class ResultsTablePage extends FlowPanel implements
   protected TabWrapper errorReceiver;
 
   protected ResultTable uccTable;
+  protected ResultTable cuccTable;
   protected ResultTable indTable;
   protected ResultTable fdTable;
   protected ResultTable basicsTable;
@@ -71,6 +74,7 @@ public class ResultsTablePage extends FlowPanel implements
 
     indTable = new ResultTable("Inclusion Dependencies");
     uccTable = new ResultTable("Unique Column Combinations");
+    cuccTable = new ResultTable("Conditional Unique Column Combinations");
     fdTable = new ResultTable("Functional Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
 
@@ -206,6 +210,25 @@ public class ResultsTablePage extends FlowPanel implements
     for (ColumnIdentifier colId : uniqueColumnCombination.getColumnCombination()
         .getColumnIdentifiers()) {
       uccTable.setText(row, col, colId.toString());
+      col++;
+    }
+  }
+
+  @Override
+  public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
+      throws CouldNotReceiveResultException {
+    if (this.resultsPanel.getWidgetIndex(cuccTable) < 0) {
+      this.resultsPanel.add(cuccTable);
+    }
+
+    int row = cuccTable.getRowCount();
+    cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
+    cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
+    int col = 2;
+    for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
+      cuccTable.setText(row, col,
+                        condition.getColumn().toString() + ": " + condition.getColumnValues()
+                            .toString());
       col++;
     }
   }

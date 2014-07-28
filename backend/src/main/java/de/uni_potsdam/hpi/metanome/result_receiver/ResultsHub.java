@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.result_receiver;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -81,6 +82,14 @@ public class ResultsHub implements CloseableOmniscientResultReceiver {
       throws CouldNotReceiveResultException {
     for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
       resultReceiver.receiveResult(uniqueColumnCombination);
+    }
+  }
+
+  @Override
+  public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
+      throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(conditionalUniqueColumnCombination);
     }
   }
 

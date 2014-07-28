@@ -41,6 +41,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   protected final FinderServiceAsync finderService;
   protected final BasePage basePage;
   private final FlexTable uccList;
+  private final FlexTable cuccList;
   private final FlexTable fdList;
   private final FlexTable indList;
   private final FlexTable statsList;
@@ -57,6 +58,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     this.uccList = new FlexTable();
     this.add(this.uccList);
     listAndAddUccAlgorithms();
+
+    this.add(new HTML("<h3>Conditional Unique Column Combinations</h3>"));
+    this.cuccList = new FlexTable();
+    this.add(this.cuccList);
+    listAndAddCuccAlgorithms();
 
     this.add(new HTML("<h3>Functional Dependencies</h3>"));
     this.fdList = new FlexTable();
@@ -83,6 +89,13 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    */
   private void listAndAddUccAlgorithms() {
     finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
+  }
+
+  /**
+   * Request a list of available CUCC algorithms and display them in the cuccList
+   */
+  private void listAndAddCuccAlgorithms() {
+    finderService.listConditionalUniqueColumnCombinationsAlgorithms(getCallback(this.cuccList));
   }
 
   /**
