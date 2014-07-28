@@ -16,10 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,6 +32,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * UI element that incorporates structure and logic for displaying and adding algorithms.
  * 
@@ -43,26 +43,31 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
  */
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
-  protected final AlgorithmServiceAsync finderService;
-  private TabWrapper errorReceiver;
+  protected final AlgorithmServiceAsync algorithmService;
   protected final BasePage basePage;
-
   protected final FlexTable uccList;
+  protected final FlexTable cuccList;
   protected final FlexTable fdList;
   protected final FlexTable indList;
   protected final FlexTable statsList;
+  protected TabWrapper errorReceiver;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
     this.setSpacing(5);
 
-    this.finderService = GWT.create(AlgorithmService.class);
+    this.algorithmService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
 
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));
     this.uccList = new FlexTable();
     this.add(this.uccList);
     listAndAddUccAlgorithms();
+
+    this.add(new HTML("<h3>Conditional Unique Column Combinations</h3>"));
+    this.cuccList = new FlexTable();
+    this.add(this.cuccList);
+    listAndAddCuccAlgorithms();
 
     this.add(new HTML("<h3>Functional Dependencies</h3>"));
     this.fdList = new FlexTable();
@@ -88,28 +93,36 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * Request a list of available UCC algorithms and display them in the uccList
    */
   private void listAndAddUccAlgorithms() {
-    finderService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
+    algorithmService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
+  }
+
+  /**
+   * Request a list of available CUCC algorithms and display them in the cuccList
+   */
+  private void listAndAddCuccAlgorithms() {
+    algorithmService.listConditionalUniqueColumnCombinationsAlgorithms(
+        getRetrieveCallback(this.cuccList));
   }
 
   /**
    * Request a list of available FD algorithms and display them in the fdList
    */
   private void listFdAlgorithms() {
-    finderService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
+    algorithmService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
   }
 
   /**
    * Request a list of available IND algorithms and display them in the indList
    */
   private void listIndAlgorithms() {
-    finderService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
+    algorithmService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
   private void listStatsAlgorithms() {
-    finderService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
+    algorithmService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
   }
 
   /**
@@ -146,7 +159,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * @param algorithm
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
-    finderService.addAlgorithm(algorithm, getAddCallback(algorithm));
+    algorithmService.addAlgorithm(algorithm, getAddCallback(algorithm));
   }
 
   /**

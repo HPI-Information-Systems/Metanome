@@ -55,7 +55,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     }
     assertTrue(editFormPresent);
 
-    assertNotNull(algorithmPage.finderService);
+    assertNotNull(algorithmPage.algorithmService);
     assertEquals(basePage, algorithmPage.basePage);
   }
 

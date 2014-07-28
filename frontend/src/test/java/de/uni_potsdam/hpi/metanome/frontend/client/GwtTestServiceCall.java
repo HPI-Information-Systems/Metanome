@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,6 +30,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsyn
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tests RPC calls to server
@@ -106,7 +106,7 @@ public class GwtTestServiceCall extends GWTTestCase {
   }
 
   /**
-   * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
+   * tests the call from client to algorithmService.listInclusionDependencyAlgorithmFileNames()
    */
   public void testFinderService() {
     // Setup
@@ -123,12 +123,12 @@ public class GwtTestServiceCall extends GWTTestCase {
       }
     };
 
-    AlgorithmServiceAsync finderService = GWT.create(AlgorithmService.class);
+    AlgorithmServiceAsync algorithmService = GWT.create(AlgorithmService.class);
 
     // Set a delay period
     delayTestFinish(500);
 
-    finderService.listInclusionDependencyAlgorithms(callback);
+    algorithmService.listInclusionDependencyAlgorithms(callback);
   }
 
 

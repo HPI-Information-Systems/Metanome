@@ -17,13 +17,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+
+import java.util.List;
 
 @RemoteServiceRelativePath("algorithmService")
 public interface AlgorithmService extends RemoteService {
@@ -33,6 +33,8 @@ public interface AlgorithmService extends RemoteService {
   public List<Algorithm> listFunctionalDependencyAlgorithms();
 
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms();
+
+  public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms();
 
   public List<Algorithm> listBasicStatisticsAlgorithms();
 

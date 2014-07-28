@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -63,6 +64,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean isInd;
   protected boolean isFd;
   protected boolean isUcc;
+  protected boolean isCucc;
+
   protected boolean isBasicStat;
 
   /**
@@ -95,6 +98,10 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     }
     if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       setUcc(true);
+    }
+
+    if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+      setCucc(true);
     }
     if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
       setBasicStat(true);
@@ -167,9 +174,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
       criteria.add(Restrictions.eq("fd", true));
     }
+
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       criteria.add(Restrictions.eq("ucc", true));
     }
+
+    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+      criteria.add(Restrictions.eq("cucc", true));
+    }
+
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       criteria.add(Restrictions.eq("basicStat", true));
     }
@@ -270,6 +283,16 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     return this;
   }
 
+  public boolean isCucc() {
+    return isCucc;
+  }
+
+  public Algorithm setCucc(boolean isCucc) {
+    this.isCucc = isCucc;
+
+    return this;
+  }
+
   public boolean isBasicStat() {
     return isBasicStat;
   }
@@ -284,6 +307,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   public boolean equals(Object o) {
     if (this == o) {
       return true;
+
     }
     if (!(o instanceof Algorithm)) {
       return false;

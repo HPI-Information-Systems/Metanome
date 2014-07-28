@@ -16,11 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.List;
 
 public interface AlgorithmServiceAsync {
 
@@ -31,6 +31,8 @@ public interface AlgorithmServiceAsync {
   public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
   public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> callback);
+  
+  public void listConditionalUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
   public void listAllAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
