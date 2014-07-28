@@ -26,12 +26,15 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 
 public class GwtTestFileInputField extends GWTTestCase {
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * <p/>
+   */
   @Test
   public void testGetValue() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
@@ -48,6 +51,10 @@ public class GwtTestFileInputField extends GWTTestCase {
     assertEquals(expectedFileName, input.getFileName());
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * <p/>
+   */
   @Test
   public void testGetValueWithInvalidValues() {
     // Set up
@@ -62,6 +69,10 @@ public class GwtTestFileInputField extends GWTTestCase {
     }
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * <p/>
+   */
   @Test
   public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
@@ -105,6 +116,10 @@ public class GwtTestFileInputField extends GWTTestCase {
     assertEquals(skipDifferingLines, input.isSkipDifferingLines());
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * <p/>
+   */
   @Test
   public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up

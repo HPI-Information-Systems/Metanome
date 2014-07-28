@@ -36,6 +36,10 @@ import java.util.List;
 
 public class GwtTestInputConfigurationPage extends GWTTestCase {
 
+  /**
+   * Test method for {@link InputConfigurationPage#saveObject()}
+   * <p/>
+   */
   @Test
   public void testStoreTableInput() throws EntityStorageException, InputValidationException {
     // Setup
@@ -94,6 +98,10 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
+  /**
+   * Test method for {@link InputConfigurationPage#saveObject()}
+   * <p/>
+   */
   @Test
   public void testStoreFileInput() throws EntityStorageException, InputValidationException {
     // Setup
@@ -146,6 +154,10 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
+  /**
+   * Test method for {@link InputConfigurationPage#saveObject()}
+   * <p/>
+   */
   @Test
   public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
     // Setup

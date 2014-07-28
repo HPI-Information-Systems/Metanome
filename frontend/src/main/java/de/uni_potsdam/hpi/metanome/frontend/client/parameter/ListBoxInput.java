@@ -109,4 +109,11 @@ public class ListBoxInput extends InputField {
   public boolean containsValues() {
     return this.listbox.getItemCount() > 0;
   }
+
+  /**
+   * Disables the first entry in the list box. This value can not be selected anymore.
+   */
+  public void disableFirstEntry() {
+    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+  }
 }

@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
+/**
+ * Input field to configure a database connection.
+ */
 public class DatabaseConnectionField extends HorizontalPanel {
 
   private TextBox dbUrlTextbox;
@@ -56,7 +59,7 @@ public class DatabaseConnectionField extends HorizontalPanel {
   }
 
   /**
-   * Set the url, username and password in the according text boxes.
+   * Set the url,username and password in the according text boxes.
    * @param url       the url for the database connection
    * @param username  the username for the database connection
    * @param password  the password for the database connection
@@ -90,6 +93,9 @@ public class DatabaseConnectionField extends HorizontalPanel {
     return connection;
   }
 
+  /**
+   * Reset all values in the url, username and password text boxes.
+   */
   public void reset() {
     this.dbUrlTextbox.setText("");
     this.usernameTextbox.setText("");

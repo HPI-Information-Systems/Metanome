@@ -31,6 +31,10 @@ import org.junit.Test;
 
 public class GwtTestTableInputField extends GWTTestCase {
 
+  /**
+   * Test method for {@link TableInputField#getValue()}
+   * <p/>
+   */
   @Test
   public void testGetValue() throws EntityStorageException, InputValidationException {
     // Setup

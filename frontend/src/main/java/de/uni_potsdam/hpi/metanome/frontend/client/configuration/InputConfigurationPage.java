@@ -45,6 +45,9 @@ import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
 
+/**
+ * Page to configure data inputs.
+ */
 public class InputConfigurationPage extends VerticalPanel implements TabContent {
 
   private static final String DATABASE_CONNECTION = "Database Connection";
@@ -133,6 +136,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     };
   }
 
+  /**
+   * Creates the click handler for the database connection button.
+   * @return the callback
+   */
   private ClickHandler getClickHandlerForDbButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -149,6 +156,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     };
   }
 
+  /**
+   * Creates the click handler for the table input button.
+   * @return the callback
+   */
   private ClickHandler getClickHandlerForTableButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -166,6 +177,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     };
   }
 
+  /**
+   * Gets and stores the current selected input into the database.
+   */
   protected void saveObject() {
     this.errorReceiver.clearErrors();
     this.errorReceiver.clearInfos();
@@ -232,6 +246,12 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     }
   }
 
+  /**
+   * Fills the content widget according to the selected input type.
+   * If there already exists some inputs of the type, the inputs are listed.
+   * Additionally, a form to add a new input of that type is added.
+   * @param type the selected input type
+   */
   private void fillContent(String type) {
     switch (type) {
       case DATABASE_CONNECTION:
@@ -290,6 +310,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     }
   }
 
+  /**
+   * Adds a edit form to add a new input of the given type.
+   * @param type the input type
+   */
   private void addEditForm(String type) {
     switch (type) {
       case DATABASE_CONNECTION:
@@ -317,6 +341,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
 
   }
 
+  /**
+   * Lists all given table inputs in a table and adds the table to the content.
+   * @param inputs the table inputs
+   */
   private void listTableInputs(List<TableInput> inputs) {
     FlexTable table = new FlexTable();
     int row = 1;
@@ -338,6 +366,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     this.content.add(table);
   }
 
+  /**
+   * Lists all given file inputs in a table and adds the table to the content.
+   * @param inputs the file inputs
+   */
   private void listFileInputs(List<FileInput> inputs) {
     FlexTable table = new FlexTable();
     int row = 1;
@@ -357,6 +389,10 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     this.content.add(table);
   }
 
+  /**
+   * Lists all given database connections in a table and adds the table to the content.
+   * @param inputs
+   */
   private void listDatabaseConnections(List<DatabaseConnection> inputs) {
     FlexTable table = new FlexTable();
     int row = 1;

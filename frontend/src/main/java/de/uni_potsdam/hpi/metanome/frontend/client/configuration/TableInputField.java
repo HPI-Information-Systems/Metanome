@@ -37,7 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Input field to configure a table input.
+ */
 public class TableInputField extends HorizontalPanel {
 
   protected final DatabaseConnectionServiceAsync databaseConnectionService;
@@ -64,6 +66,12 @@ public class TableInputField extends HorizontalPanel {
     addRow(this.tableNameTextbox, "Table Name", 2);
   }
 
+  /**
+   * Add another row to the bottom of a table
+   *
+   * @param inputWidget the widget to be used for input
+   * @param name        the name of the input property
+   */
   protected void addRow(Widget inputWidget, String name, int row) {
     this.layoutTable.setText(row, 0, name);
     this.layoutTable.setWidget(row, 1, inputWidget);
@@ -115,7 +123,7 @@ public class TableInputField extends HorizontalPanel {
 
       public void onSuccess(List<DatabaseConnection> result) {
         List<String> dbConnectionNames = new ArrayList<String>();
-        dbConnectionNames.add("-");
+        dbConnectionNames.add("--");
 
         if (result != null) {
           for (DatabaseConnection db : result) {
@@ -129,17 +137,25 @@ public class TableInputField extends HorizontalPanel {
 
         dbConnectionListBox.clear();
         dbConnectionListBox.setValues(dbConnectionNames);
+        dbConnectionListBox.disableFirstEntry();
       }
     };
 
     databaseConnectionService.listDatabaseConnections(callback);
   }
 
+  /**
+   * Resets all values, sets the current database connection to the default value "--" and clears the text of the table name input field.
+   */
   public void reset() {
-    this.dbConnectionListBox.setSelectedValue("-");
+    this.dbConnectionListBox.setSelectedValue("--");
     this.tableNameTextbox.setText("");
   }
 
+  /**
+   * Set the error receiver.
+   * @param tab the error receiver tab
+   */
   public void setErrorReceiver(TabWrapper tab) {
     this.errorReceiver = tab;
   }

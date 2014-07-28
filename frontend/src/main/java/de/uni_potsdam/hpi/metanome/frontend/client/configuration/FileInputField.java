@@ -39,7 +39,9 @@ import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.text.ParseException;
 
-
+/**
+ * Input field to configure a file input.
+ */
 public class FileInputField extends HorizontalPanel {
 
   /**
@@ -198,6 +200,11 @@ public class FileInputField extends HorizontalPanel {
   }
 
 
+  /**
+   * Creates the callback for getting all available csv files. On success the files are added to the according list box.
+   * @param widget the widget, which contains the list box where the files should be added.
+   * @return the callback
+   */
   protected AsyncCallback<String[]> getCallback(final FileInputField widget) {
     return new AsyncCallback<String[]>() {
       public void onFailure(Throwable caught) {
@@ -293,10 +300,6 @@ public class FileInputField extends HorizontalPanel {
     }
   }
 
-  /**
-   * Only for tests
-   * @param fileName
-   */
   protected void setFileName(String fileName) {
     this.fileListBox.addItem(fileName);
     this.fileListBox.setSelectedIndex(1);
@@ -334,6 +337,9 @@ public class FileInputField extends HorizontalPanel {
     this.skipDifferingLinesCheckbox.setValue(skipDifferingLines);
   }
 
+  /**
+   * Reset the file name to the default entry "--" in the list box.
+   */
   public void reset() {
     this.fileListBox.setSelectedIndex(0);
   }
