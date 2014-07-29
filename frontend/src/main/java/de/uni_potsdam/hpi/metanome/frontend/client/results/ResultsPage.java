@@ -24,6 +24,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 /**
+ * Tab that contains widgets displaying execution results, i.e. tables, visualizations etc.
+ * Currently, these widgets are organized in another tab panel.
+ * 
  * @author Claudia Exeler
  */
 public class ResultsPage extends TabLayoutPanel implements TabContent {
@@ -31,6 +34,11 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
   protected final BasePage basePage;
   protected TabWrapper errorReceiver;
 
+  /**
+   * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
+   * 
+   * @param parent the page that this element will be attached to
+   */
   public ResultsPage(BasePage parent) {
     super(1, Unit.CM);
     this.basePage = parent;
@@ -48,13 +56,14 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * @param resultsTableContent
-   * @param visualizationTab
+   * Adds the Tabs for results and visualization.
+   *
+   * @param resultsTab the results tab
+   * @param visualizationTab the visualization tab
    */
-  public void update(ResultsTablePage resultsTableContent,
-                     ResultsVisualizationPage visualizationTab) {
+  public void update(ResultsTablePage resultsTab, ResultsVisualizationPage visualizationTab) {
     this.clear();
-    this.add(resultsTableContent, "Table");
+    this.add(resultsTab, "Table");
     this.add(visualizationTab, "Visualization");
   }
 }

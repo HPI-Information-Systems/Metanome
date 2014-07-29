@@ -83,7 +83,7 @@ public class ExampleAlgorithmTest {
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...) <p/> The
+   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)} <p/> The
    * algorithm should store the path when it is supplied through setConfigurationValue.
    */
   @Test
