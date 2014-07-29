@@ -61,7 +61,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     });
 
     final TableInputField field = new TableInputField();
-    field.setErrorReceiver(new TabWrapper());
+    field.setMessageReceiver(new TabWrapper());
 
     // Expected values
     final TableInput expectedInput = new TableInput();

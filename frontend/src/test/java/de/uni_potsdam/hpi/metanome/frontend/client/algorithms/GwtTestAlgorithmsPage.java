@@ -69,7 +69,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   public void testRetrieveCallbackFailure() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
-    algorithmsPage.setErrorReceiver(tab);
+    algorithmsPage.setMessageReceiver(tab);
 
     // Construct and execute failure on the callback
     AsyncCallback<List<Algorithm>> callback = algorithmsPage.getRetrieveCallback(new FlexTable());
@@ -111,7 +111,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   public void testAddCallbackFailure() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
-    algorithmsPage.setErrorReceiver(tab);
+    algorithmsPage.setMessageReceiver(tab);
 
     // Construct and execute failure on the callback
     AsyncCallback<Void> callback = algorithmsPage.getAddCallback(new Algorithm("fileName"));

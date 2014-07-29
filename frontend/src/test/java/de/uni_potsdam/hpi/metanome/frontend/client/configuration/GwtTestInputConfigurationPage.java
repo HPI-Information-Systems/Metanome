@@ -48,7 +48,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
-    page.setErrorReceiver(new TabWrapper());
+    page.setMessageReceiver(new TabWrapper());
 
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setUrl("url");
@@ -123,7 +123,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
-    page.setErrorReceiver(new TabWrapper());
+    page.setMessageReceiver(new TabWrapper());
 
     page.fileInputField.setFileName("file_name");
     page.tableInputFieldSelected = false;
@@ -179,7 +179,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
 
     BasePage parent = new BasePage();
     InputConfigurationPage page = new InputConfigurationPage(parent);
-    page.setErrorReceiver(new TabWrapper());
+    page.setMessageReceiver(new TabWrapper());
 
     page.dbField.setValues("url", "user", "password");
     page.tableInputFieldSelected = false;

@@ -43,7 +43,7 @@ import java.util.Map;
 public class TableInputField extends HorizontalPanel {
 
   protected final DatabaseConnectionServiceAsync databaseConnectionService;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   private Map<String, DatabaseConnection> dbMap = new HashMap<>();
 
@@ -101,7 +101,7 @@ public class TableInputField extends HorizontalPanel {
     String tableName = this.tableNameTextbox.getValue();
 
     if (tableName.isEmpty() || connection == null) {
-      this.errorReceiver.addError("The database connection and the table name should be set!");
+      this.messageReceiver.addError("The database connection and the table name should be set!");
       return null;
     }
 
@@ -118,7 +118,7 @@ public class TableInputField extends HorizontalPanel {
     AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
 
       public void onFailure(Throwable caught) {
-        errorReceiver.addError("There are no database connections in the database!");
+        messageReceiver.addError("There are no database connections in the database!");
       }
 
       public void onSuccess(List<DatabaseConnection> result) {
@@ -132,7 +132,7 @@ public class TableInputField extends HorizontalPanel {
             dbMap.put(identifier, db);
           }
         } else {
-          errorReceiver.addError("There are no database connections in the database!");
+          messageReceiver.addError("There are no database connections in the database!");
         }
 
         dbConnectionListBox.clear();
@@ -156,7 +156,7 @@ public class TableInputField extends HorizontalPanel {
    * Set the error receiver.
    * @param tab the error receiver tab
    */
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 }

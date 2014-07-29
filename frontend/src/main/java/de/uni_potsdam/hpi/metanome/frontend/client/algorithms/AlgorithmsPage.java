@@ -50,7 +50,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   protected final FlexTable fdList;
   protected final FlexTable indList;
   protected final FlexTable statsList;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
@@ -86,7 +86,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
     this.add(new HTML("<hr>"));
     this.add(new HTML("<h3>Add A New Algorithm</h3>"));
-    this.add(new AlgorithmEditForm(this, this.errorReceiver));
+    this.add(new AlgorithmEditForm(this, this.messageReceiver));
   }
 
   /**
@@ -181,7 +181,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   protected AsyncCallback<List<Algorithm>> getRetrieveCallback(final FlexTable list) {
     return new AsyncCallback<List<Algorithm>>() {
       public void onFailure(Throwable caught) {
-        errorReceiver.addError(caught.getMessage());
+        messageReceiver.addError(caught.getMessage());
         caught.printStackTrace();
       }
 
@@ -203,7 +203,7 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError("Could not add the algorithm: " + caught.getMessage());
+        messageReceiver.addError("Could not add the algorithm: " + caught.getMessage());
       }
 
       @Override
@@ -232,12 +232,12 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
    * (non-Javadoc)
    * 
    * @see
-   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.
    * metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 
 }

@@ -20,7 +20,6 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
 /**
@@ -28,12 +27,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
  */
 public class GwtTestTabWrapper extends GWTTestCase {
 
-  /**
-   * this must contain an algorithm and a data source that are currently available
-   */
-  private String message = "Could not find example_ucc_algorithm.jar";
-  private TabWrapper tabWrapper;
-
+  private String errorMessage = "Could not find example_ucc_algorithm.jar";
+  private String infoMessage = "Input successfully saved.";
 
   /**
    * Test constructor.
@@ -41,47 +36,72 @@ public class GwtTestTabWrapper extends GWTTestCase {
   public void testCreate() {
     TabContent content = new RunConfigurationPage(null);
 
-    //Execute
-    tabWrapper = new TabWrapper(content);
+    // Execute
+    TabWrapper tabWrapper = new TabWrapper(content);
 
-    //Check
+    // Check
     assertEquals(content, tabWrapper.contentPanel);
     assertTrue(content.asWidget().isVisible());
     assertFalse(tabWrapper.isInError());
+    assertFalse(tabWrapper.isInInfo());
   }
 
   /**
    * Test method for {@link TabWrapper#addError(String)}
    */
   public void testAddError() {
-    tabWrapper = new TabWrapper(new AlgorithmsPage(null));
+    TabWrapper tabWrapper = new TabWrapper(new AlgorithmsPage(null));
 
-    //Execute
-    tabWrapper.addError(message);
+    // Execute
+    tabWrapper.addError(errorMessage);
 
-    //Check
+    // Check
     assertTrue(tabWrapper.errorPanel.getWidgetCount() == 1);
-    assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(0)).getText());
+    assertEquals(errorMessage, ((Label) tabWrapper.errorPanel.getWidget(0)).getText());
     assertTrue(tabWrapper.isInError());
 
-    //Execute
-    tabWrapper.addError(message);
+    // Execute
+    tabWrapper.addError(errorMessage);
 
-    //Check
+    // Check
     assertTrue(tabWrapper.errorPanel.getWidgetCount() == 2);
-    assertEquals(message, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
+    assertEquals(errorMessage, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
     assertTrue(tabWrapper.isInError());
-    //requiring later added errors to be below earlier ones
+    // requiring later added errors to be below earlier ones
   }
 
 
   /**
-   * Test control flow from Algorithms to Run configuration
+   * Test method for {@link TabWrapper#addInfo(String)}
+   */
+  public void testAddInfo() {
+    TabWrapper tabWrapper = new TabWrapper(new AlgorithmsPage(null));
+
+    // Execute
+    tabWrapper.addInfo(infoMessage);
+
+    // Check
+    assertTrue(tabWrapper.infoPanel.getWidgetCount() == 1);
+    assertEquals(infoMessage, ((Label) tabWrapper.infoPanel.getWidget(0)).getText());
+    assertTrue(tabWrapper.isInInfo());
+
+    // Execute
+    tabWrapper.addInfo(infoMessage);
+
+    // Check
+    assertTrue(tabWrapper.infoPanel.getWidgetCount() == 2);
+    assertEquals(infoMessage, ((Label) tabWrapper.infoPanel.getWidget(1)).getText());
+    assertTrue(tabWrapper.isInInfo());
+  }
+
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper#clearErrors()}
    */
   public void testClearErrors() {
     // Setup
-    tabWrapper = new TabWrapper(new DataSourcesPage(null));
-    tabWrapper.addError(message + "2");
+    TabWrapper tabWrapper = new TabWrapper(new RunConfigurationPage(null));
+    tabWrapper.addError(errorMessage + "2");
 
     // Check precondition
     assertTrue(tabWrapper.isInError());
@@ -92,6 +112,25 @@ public class GwtTestTabWrapper extends GWTTestCase {
     // Check
     assertTrue(tabWrapper.errorPanel.getWidgetCount() == 0);
     assertFalse(tabWrapper.isInError());
+  }
+
+  /**
+   * Test method for {@link TabWrapper#clearInfos()}
+   */
+  public void testClearInfos() {
+    // Setup
+    TabWrapper tabWrapper = new TabWrapper(new RunConfigurationPage(null));
+    tabWrapper.addInfo(infoMessage + "2");
+
+    // Check precondition
+    assertTrue(tabWrapper.isInInfo());
+
+    // Execute
+    tabWrapper.clearInfos();
+
+    // Check
+    assertTrue(tabWrapper.infoPanel.getWidgetCount() == 0);
+    assertFalse(tabWrapper.isInInfo());
   }
 
   @Override

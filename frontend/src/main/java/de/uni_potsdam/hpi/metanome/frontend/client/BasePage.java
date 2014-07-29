@@ -111,7 +111,7 @@ public class BasePage extends TabLayoutPanel {
     // ScrollPanel resultsTab = new ScrollPanel();
     ResultsTablePage resultsTableContent =
         new ResultsTablePage(executionService, executionIdentifier);
-    resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
+    resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
         resultsTableContent.getCancelCallback());
 

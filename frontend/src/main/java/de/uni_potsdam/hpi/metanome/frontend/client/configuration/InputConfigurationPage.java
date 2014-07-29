@@ -54,7 +54,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private static final String FILE_INPUT = "File Input";
   private static final String TABLE_INPUT = "Table Input";
 
-  private TabWrapper errorReceiver;
+  private TabWrapper messageReceiver;
   private BasePage basePage;
 
   protected VerticalPanel content;
@@ -125,8 +125,8 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForFileButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
-        errorReceiver.clearErrors();
-        errorReceiver.clearInfos();
+        messageReceiver.clearErrors();
+        messageReceiver.clearInfos();
 
         content.clear();
         fillContent(FILE_INPUT);
@@ -145,8 +145,8 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForDbButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
-        errorReceiver.clearErrors();
-        errorReceiver.clearInfos();
+        messageReceiver.clearErrors();
+        messageReceiver.clearInfos();
 
         content.clear();
         fillContent(DATABASE_CONNECTION);
@@ -165,8 +165,8 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private ClickHandler getClickHandlerForTableButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
-        errorReceiver.clearErrors();
-        errorReceiver.clearInfos();
+        messageReceiver.clearErrors();
+        messageReceiver.clearInfos();
 
         tableInputField.updateDatabaseConnectionListBox();
         fillContent(TABLE_INPUT);
@@ -182,8 +182,8 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
    * Gets and stores the current selected input into the database.
    */
   protected void saveObject() {
-    this.errorReceiver.clearErrors();
-    this.errorReceiver.clearInfos();
+    this.messageReceiver.clearErrors();
+    this.messageReceiver.clearInfos();
 
     if (dbFieldSelected) {
       DatabaseConnectionField w = (DatabaseConnectionField) editForm.getWidget(0);
@@ -192,18 +192,18 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
           @Override
           public void onFailure(Throwable throwable) {
-            errorReceiver.addError("Database Connection could not be stored!");
+            messageReceiver.addError("Database Connection could not be stored!");
           }
 
           @Override
           public void onSuccess(Void aVoid) {
             dbField.reset();
             fillContent(DATABASE_CONNECTION);
-            errorReceiver.addInfo("Database Connection successfully saved.");
+            messageReceiver.addInfo("Database Connection successfully saved.");
           }
         });
       } catch (InputValidationException e) {
-        errorReceiver.addError("Database Connection could not be stored: " + e.getMessage());
+        messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
       }
 
     } else if (tableInputFieldSelected) {
@@ -213,18 +213,18 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
           @Override
           public void onFailure(Throwable throwable) {
-            errorReceiver.addError("Database Connection could not be stored!");
+            messageReceiver.addError("Database Connection could not be stored!");
           }
 
           @Override
           public void onSuccess(Void aVoid) {
             tableInputField.reset();
             fillContent(TABLE_INPUT);
-            errorReceiver.addInfo("Table Input successfully saved.");
+            messageReceiver.addInfo("Table Input successfully saved.");
           }
         });
       } catch (InputValidationException | EntityStorageException e) {
-        errorReceiver.addError("Table Input could not be stored: " + e.getMessage());
+        messageReceiver.addError("Table Input could not be stored: " + e.getMessage());
       }
 
     } else if (fileInputFieldSelected) {
@@ -234,18 +234,18 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
           @Override
           public void onFailure(Throwable throwable) {
-            errorReceiver.addError("Database Connection could not be stored!");
+            messageReceiver.addError("Database Connection could not be stored!");
           }
 
           @Override
           public void onSuccess(Void aVoid) {
             fileInputField.reset();
             fillContent(FILE_INPUT);
-            errorReceiver.addInfo("File Input successfully saved.");
+            messageReceiver.addInfo("File Input successfully saved.");
           }
         });
       } catch (InputValidationException e) {
-        errorReceiver.addError("File Input could not be stored: " + e.getMessage());
+        messageReceiver.addError("File Input could not be stored: " + e.getMessage());
       }
     }
   }
@@ -310,7 +310,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
           });
         break;
       default:
-        this.errorReceiver.addError("Type not supported!");
+        this.messageReceiver.addError("Type not supported!");
         break;
     }
   }
@@ -346,7 +346,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
         this.content.add(saveButton);
         break;
       default:
-        this.errorReceiver.addError("Type not supported!");
+        this.messageReceiver.addError("Type not supported!");
         break;
     }
 
@@ -428,9 +428,9 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   }
 
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
-    this.tableInputField.setErrorReceiver(tab);
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+    this.tableInputField.setMessageReceiver(tab);
   }
 
 }

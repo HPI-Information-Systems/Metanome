@@ -43,7 +43,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsyn
 public class DataSourcesPage extends VerticalPanel implements TabContent {
 
   protected final BasePage basePage;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   private FlexTable csvFilesList;
   private FileInputServiceAsync fileInputService;
@@ -83,7 +83,7 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
 
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError(caught.getMessage());
+        messageReceiver.addError(caught.getMessage());
       }
 
       @Override
@@ -140,11 +140,11 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 
 }

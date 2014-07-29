@@ -43,7 +43,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
   public ConfigurationSettingDataSource primaryDataSource;
 
   protected BasePage basePage;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   protected ParameterTable parameterTable;
   protected AlgorithmChooser algorithmChooser;
@@ -79,7 +79,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    */
   public void addParameterTable(List<ConfigurationSpecification> paramList) {
     removeParameterTable();
-    parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
+    parameterTable = new ParameterTable(paramList, primaryDataSource, this.messageReceiver);
     this.add(parameterTable, DockPanel.SOUTH);
   }
 
@@ -156,12 +156,12 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
-    this.algorithmChooser.setErrorReceiver(tab);
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+    this.algorithmChooser.setMessageReceiver(tab);
   }
 
   /**
