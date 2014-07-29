@@ -64,7 +64,7 @@ public class CsvFileInput extends InputField {
   private String preselectedFilename;
 
   /**
-   * @param optional whether this widget is optional
+   * @param optional specifies whether a remove button should be displayed
    */
   public CsvFileInput(boolean optional) {
     super(optional);
