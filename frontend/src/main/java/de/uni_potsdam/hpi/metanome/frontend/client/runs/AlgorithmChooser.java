@@ -36,6 +36,8 @@ import java.util.Map;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
+ *
+ * @author Claudia Exeler
  */
 public class AlgorithmChooser extends HorizontalPanel {
 
@@ -47,10 +49,6 @@ public class AlgorithmChooser extends HorizontalPanel {
   protected ParameterServiceAsync parameterService;
   protected TabWrapper errorReceiver;
 
-
-  /**
-   * Constructor.
-   */
   public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
 
     super();
@@ -154,7 +152,7 @@ public class AlgorithmChooser extends HorizontalPanel {
   }
 
   /**
-   * Add another entry, but only if it is not yet present. (Using algorithm's name as key) <p/>
+   * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
    *
    * @param algorithm The algorithm to be added
    */

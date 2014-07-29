@@ -33,7 +33,6 @@ public class ParameterTable extends FlexTable {
 
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
   private List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
-  private Button executeButton;
   private TabWrapper errorReceiver;
 
   /**
@@ -42,6 +41,8 @@ public class ParameterTable extends FlexTable {
    * algorithm execution.
    *
    * @param paramList the list of parameters asked for by the algorithm.
+   * @param primaryDataSource the primary data source
+   * @param errorReceiver to send errors to
    */
   public ParameterTable(List<ConfigurationSpecification> paramList,
                         ConfigurationSettingDataSource primaryDataSource,
@@ -53,7 +54,7 @@ public class ParameterTable extends FlexTable {
     for (ConfigurationSpecification param : paramList) {
       this.setText(i, 0, param.getIdentifier());
 
-      InputParameterWidget currentWidget = null;
+      InputParameterWidget currentWidget;
       currentWidget = WidgetFactory.buildWidget(param);
       this.setWidget(i, 1, currentWidget);
       if (currentWidget.isDataSource()) {
@@ -75,8 +76,8 @@ public class ParameterTable extends FlexTable {
       i++;
     }
 
-    this.executeButton = new Button("Run");
-    this.executeButton.addClickHandler(new ParameterTableSubmitHandler());
+    Button executeButton = new Button("Run");
+    executeButton.addClickHandler(new ParameterTableSubmitHandler());
 
     this.setWidget(i, 0, executeButton);
   }
@@ -103,6 +104,7 @@ public class ParameterTable extends FlexTable {
    *
    * @return The list of {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget}s
    * of this ParameterTable with their user-set values.
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues()
       throws InputValidationException {
@@ -118,6 +120,7 @@ public class ParameterTable extends FlexTable {
    *
    * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set
    * values.
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues()
       throws InputValidationException {

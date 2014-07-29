@@ -25,13 +25,16 @@ public class StringHelper {
 
   /**
    * TODO docs
+   *
+   * @param input input string
+   * @return the first char of the input string
    */
-  public static char getFirstCharFromInput(String string) {
-    if (string.length() == 1) {
-      return string.charAt(0);
-    } else if (string.equals("\\n")) {
+  public static char getFirstCharFromInput(String input) {
+    if (input.length() == 1) {
+      return input.charAt(0);
+    } else if (input.equals("\\n")) {
       return '\n';
-    } else if (string.equals("\\t")) {
+    } else if (input.equals("\\t")) {
       return '\t';
     } else {
       return 0;
