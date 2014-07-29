@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,10 +32,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
@@ -81,8 +80,7 @@ public class AlgorithmChooser extends HorizontalPanel {
     String selectedValue = getSelectedAlgorithm();
     this.errorReceiver.clearErrors();
 
-    AsyncCallback<List<ConfigurationSpecification>>
-        callback =
+    AsyncCallback<List<ConfigurationSpecification>> callback =
         new AsyncCallback<List<ConfigurationSpecification>>() {
           public void onFailure(Throwable caught) {
             errorReceiver.addError("Error while retrieving configuration requirements.");
@@ -120,7 +118,7 @@ public class AlgorithmChooser extends HorizontalPanel {
 
   /**
    * @return the number of items in the listbox, that is, the number of available algorithms in this
-   * JarChooser
+   *         JarChooser
    */
   public int getListItemCount() {
     return this.listbox.getItemCount();
