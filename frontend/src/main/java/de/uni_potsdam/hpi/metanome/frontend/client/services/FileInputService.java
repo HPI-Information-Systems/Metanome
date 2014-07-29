@@ -14,36 +14,23 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
 
-/**
- * {@link de.uni_potsdam.hpi.metanome.frontend.client.TestDatabaseHelperService}
- *
- * @author Jakob Zwiener
- */
-@RemoteServiceRelativePath("testService")
-public interface TestDatabaseHelperService extends RemoteService {
+@RemoteServiceRelativePath("fileInputService")
+public interface FileInputService extends RemoteService {
 
-  void resetDatabase();
+  public String[] listCsvFiles();
 
-  void storeAlgorithmInDatabase(Algorithm algorithm);
+  public List<FileInput> listFileInputs();
 
-  long storeDatabaseConnection(DatabaseConnection connection);
+  public FileInput getFileInput(long id);
 
-  List<DatabaseConnection> getAllDatabaseConnections();
-
-  List<TableInput> getAllTableInputs();
-
-  List<FileInput> getAllFileInputs();
-
+  public void storeFileInput(FileInput input);
 }

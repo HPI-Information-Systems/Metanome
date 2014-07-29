@@ -19,9 +19,17 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("inputDataService")
-public interface InputDataService extends RemoteService {
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
-  public String[] listCsvInputFiles();
+import java.util.List;
+
+@RemoteServiceRelativePath("databaseConnectionService")
+public interface DatabaseConnectionService extends RemoteService {
+
+  public List<DatabaseConnection> listDatabaseConnections();
+
+  public DatabaseConnection getDatabaseConnection(long id);
+
+  public void storeDatabaseConnection(DatabaseConnection connection);
 
 }

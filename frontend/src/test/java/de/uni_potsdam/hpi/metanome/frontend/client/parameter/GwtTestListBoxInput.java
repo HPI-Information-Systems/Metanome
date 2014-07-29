@@ -16,14 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.junit.client.GWTTestCase;
+
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput}
- *
+ * 
  * @author Jakob Zwiener
  */
 public class GwtTestListBoxInput extends GWTTestCase {
@@ -42,8 +42,9 @@ public class GwtTestListBoxInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#getValues()}
-   * and {@link ListBoxInput#setValues(java.util.List)}
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#getValues()} and
+   * {@link ListBoxInput#setValues(java.util.List)}
    */
   public void testGetSetValues() {
     // Execute functionality
@@ -56,7 +57,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for {@link ListBoxInput#setSelectedValue(String)}
-   *
+   * 
    * When setting the selected value to a value that is not in the list box false should be
    * returned.
    */
@@ -70,7 +71,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for {@link ListBoxInput#getSelectedValue()}
-   *
+   * 
    * On an empty list box the getSelectedValue method should return null.
    */
   public void testGetSelectedValueEmpty() {
@@ -83,7 +84,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for {@link ListBoxInput#getSelectedValue()}
-   *
+   * 
    * On a list box with values but no selected value, the getSelectedValue method should return the
    * first value.
    */
@@ -101,8 +102,8 @@ public class GwtTestListBoxInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ListBoxInput#getSelectedValue()} and {@link
-   * de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#setSelectedValue(String)}
+   * Test method for {@link ListBoxInput#getSelectedValue()} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#setSelectedValue(String)}
    */
   public void testGetSetSelectedValue() {
     // Setup
@@ -121,6 +122,6 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
   }
 }
