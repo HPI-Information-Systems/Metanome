@@ -30,8 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class ConfigurationSettingCsvFileTest {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile#ConfigurationSettingCsvFile(String,
-   * boolean, char, char, char, boolean, boolean, int)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile#ConfigurationSettingCsvFile(String, boolean, char, char, char, boolean, boolean, int, boolean, boolean)}
    */
   @Test
   public void testConstructor() {

@@ -33,18 +33,20 @@ public class ParameterTable extends FlexTable {
 
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
   private List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
-  private Button executeButton;
   private TabWrapper errorReceiver;
 
   /**
    * Creates a ParameterTable for user input for the given parameters. Prompt and type specific
    * input field are created for each parameter, and a button added at the bottom that triggers
    * algorithm execution.
-   * 
+   *
    * @param paramList the list of parameters asked for by the algorithm.
+   * @param primaryDataSource the primary data source
+   * @param errorReceiver to send errors to
    */
   public ParameterTable(List<ConfigurationSpecification> paramList,
-      ConfigurationSettingDataSource primaryDataSource, TabWrapper errorReceiver) {
+                        ConfigurationSettingDataSource primaryDataSource,
+                        TabWrapper errorReceiver) {
     super();
     this.errorReceiver = errorReceiver;
 
@@ -52,7 +54,7 @@ public class ParameterTable extends FlexTable {
     for (ConfigurationSpecification param : paramList) {
       this.setText(i, 0, param.getIdentifier());
 
-      InputParameterWidget currentWidget = null;
+      InputParameterWidget currentWidget;
       currentWidget = WidgetFactory.buildWidget(param);
       this.setWidget(i, 1, currentWidget);
       if (currentWidget.isDataSource()) {
@@ -73,8 +75,8 @@ public class ParameterTable extends FlexTable {
       i++;
     }
 
-    this.executeButton = new Button("Run");
-    this.executeButton.addClickHandler(new ParameterTableSubmitHandler());
+    Button executeButton = new Button("Run");
+    executeButton.addClickHandler(new ParameterTableSubmitHandler());
 
     this.setWidget(i, 0, executeButton);
   }
@@ -97,10 +99,10 @@ public class ParameterTable extends FlexTable {
 
   /**
    * Iterates over the child widgets that represent data sources and retrieves their user input.
-   * 
-   * @return The list of
-   *         {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget}
-   *         s of this ParameterTable with their user-set values.
+   *
+   * @return The list of {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget}s
+   * of this ParameterTable with their user-set values.
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues()
       throws InputValidationException {
@@ -113,9 +115,10 @@ public class ParameterTable extends FlexTable {
 
   /**
    * Iterates over the child widgets and retrieves their user input.
-   * 
+   *
    * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set
-   *         values.
+   * values.
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues()
       throws InputValidationException {
@@ -129,10 +132,10 @@ public class ParameterTable extends FlexTable {
   /**
    * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose
    * underlying {@link ConfigurationSpecification} has the given identifier.
-   * 
+   *
    * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
    * @return This parameter's child widgets that corresponds to the given identifier, or null if
-   *         such a child does not exist.
+   * such a child does not exist.
    */
   public InputParameterWidget getInputParameterWidget(String identifier) {
     for (InputParameterWidget w : this.childWidgets) {
@@ -152,7 +155,7 @@ public class ParameterTable extends FlexTable {
   /**
    * The AlgorithmTabs implement algorithm type specific methods, which can be called via the
    * AlgorithmTab's interface.
-   * 
+   *
    * @return the parent AlgorithmTab
    */
   private RunConfigurationPage getAlgorithmTab() {

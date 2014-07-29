@@ -91,6 +91,10 @@ public class BasePage extends TabLayoutPanel {
   /**
    * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
    * and fetch results at a regular interval.
+   * 
+   * @param executionService the service instance used for executing the algorithm
+   * @param algorithmFileName the file name of the algorithm to execute
+   * @param parameters the specification with set settings used to configure the algorithm
    */
   public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
       String algorithmFileName, List<ConfigurationSpecification> parameters) {
@@ -101,9 +105,12 @@ public class BasePage extends TabLayoutPanel {
     String executionIdentifier = getExecutionIdetifier(algorithmFileName);
 
     // Create new tab with result table
+    // ScrollPanel resultsTab = new ScrollPanel();
     ResultsTablePage resultsTableContent =
         new ResultsTablePage(executionService, executionIdentifier);
     resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
+    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
+        resultsTableContent.getCancelCallback());
 
     // Execute algorithm and start fetching results
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
@@ -130,10 +137,30 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
+   * Generates a string representing all given data sources by concatenating their names. These are
+   * used as titles for the result tabs.
+   * 
+   * @param dataSources the list of InputParameterDataSources to be descirbed
+   * @return a String with the names of all given data source parameters
+   */
+  // private String getDataSourcesString(
+  // List<ConfigurationSpecification> dataSources) {
+  // String dataSourcesString = "";
+  // for (ConfigurationSpecification dataSource : dataSources){
+  // for (Object settingObject : dataSource.getSettings()) {
+  // ConfigurationSettingDataSource setting = (ConfigurationSettingDataSource) settingObject;
+  // dataSourcesString = dataSourcesString + setting.getValueAsString() + " - ";
+  // }
+  // }
+  // return dataSourcesString;
+  // }
+
+  /**
    * Hand control from any page to Run Configurations, and pre-configure the latter with the
    * algorithm and/or data source.
    * 
    * @param algorithmName algorithm that shall be run
+   * @param dataSource data source that shall be profiled
    */
   public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
     this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
@@ -147,6 +174,8 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Forwards any algorithms found by AlgorithmPage to be available in RunConfigurations
+   * 
+   * @param algorithms list of available algorithms
    */
   public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
     this.runConfigurationsPage.addAlgorithms(algorithms);

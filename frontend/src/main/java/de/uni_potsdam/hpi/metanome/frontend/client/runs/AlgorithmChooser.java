@@ -35,6 +35,8 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
+ *
+ * @author Claudia Exeler
  */
 public class AlgorithmChooser extends HorizontalPanel {
 
@@ -46,10 +48,6 @@ public class AlgorithmChooser extends HorizontalPanel {
   protected ParameterServiceAsync parameterService;
   protected TabWrapper errorReceiver;
 
-
-  /**
-   * Constructor.
-   */
   public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
 
     super();
@@ -61,7 +59,7 @@ public class AlgorithmChooser extends HorizontalPanel {
 
     this.listbox = new ListBox();
 
-    // unselectable default entry
+    //unselectable default entry
     this.listbox.addItem("--");
     this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
     this.listbox.setSelectedIndex(0);
@@ -100,18 +98,18 @@ public class AlgorithmChooser extends HorizontalPanel {
   /**
    * Calls the service to retrieve parameters to be specified by the user and display corresponding
    * widget
-   * 
+   *
    * @param selectedValue the name of the selected algorithm
-   * @param callback callback object for RPC
+   * @param callback      callback object for RPC
    */
   public void callParameterService(String selectedValue,
-      AsyncCallback<List<ConfigurationSpecification>> callback) {
+                                   AsyncCallback<List<ConfigurationSpecification>> callback) {
     parameterService.retrieveParameters(selectedValue, callback);
   }
 
   /**
    * Handles the incoming list of parameters by adding a ParameterTable to the corresponding tab.
-   * 
+   *
    * @param paramList list of parameters necessary for the chosen algorithm
    */
   protected void forwardParameters(List<ConfigurationSpecification> paramList) {
@@ -135,7 +133,7 @@ public class AlgorithmChooser extends HorizontalPanel {
 
   /**
    * Select the entry with the given value.
-   * 
+   *
    * @param algorithmName value to select
    * @throws IndexOutOfBoundsException if none of the entries have the given value.
    */
@@ -147,14 +145,13 @@ public class AlgorithmChooser extends HorizontalPanel {
       }
     }
 
-    throw new IndexOutOfBoundsException("The value " + algorithmName
-        + " is not available in this jarChooser.");
+    throw new IndexOutOfBoundsException(
+        "The value " + algorithmName + " is not available in this jarChooser.");
   }
 
   /**
    * Add another entry, but only if it is not yet present. (Using algorithm's name as key)
-   * <p/>
-   * 
+   *
    * @param algorithm The algorithm to be added
    */
   public void addAlgorithm(Algorithm algorithm) {
@@ -172,7 +169,7 @@ public class AlgorithmChooser extends HorizontalPanel {
   /**
    * Inserts a new item in alphabetical ordering, that is, after before the first item that is
    * lexicographically larger than the argument.
-   * 
+   *
    * @param name The value to be inserted.
    */
   private void sortedInsert(String name) {
@@ -190,9 +187,9 @@ public class AlgorithmChooser extends HorizontalPanel {
   /**
    * Filters the list of algorithms so that only those are displayed that would accept the given
    * data source
-   * 
+   *
    * @param dataSource the data source that shall be profiled / for which algorithms should be
-   *        filtered
+   *                   filtered
    */
   public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
     this.listbox.setSelectedIndex(0);

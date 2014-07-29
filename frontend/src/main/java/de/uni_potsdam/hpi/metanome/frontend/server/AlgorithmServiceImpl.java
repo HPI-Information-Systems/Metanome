@@ -31,8 +31,7 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 /**
  * Service Implementation for service that lists available algorithms stored in the database.
- * <p/>
- * 
+ *
  * @author Jakob Zwiener
  */
 public class AlgorithmServiceImpl extends RemoteServiceServlet implements AlgorithmService {
@@ -41,7 +40,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
   /**
    * Lists all algorithms from the database that implement a certain interface, or all if algorithm
    * class is null.
-   * 
+   *
    * @param algorithmClass the implemented algorithm interface.
    * @return the algorithms
    */

@@ -35,9 +35,11 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
   private static final long serialVersionUID = 7343803695093136183L;
 
   /**
+   * Loads an algorithm and its configuration requirements
+   * 
    * @param algorithmFileName name of the algorithm for which the configuration parameters shall be
-   *                          retrieved
-   * @return a list of <link>InputParameter</link>s necessary for calling the given algorithm
+   *        retrieved
+   * @return a list of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s necessary for calling the given algorithm
    */
   @Override
   public List<ConfigurationSpecification> retrieveParameters(String algorithmFileName)
@@ -47,7 +49,6 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
     try {
       algorithm = jarLoader.loadAlgorithm(algorithmFileName);
     } catch (Exception e) {
-      System.out.println("Failed to load algorithm.");
       throw new AlgorithmExecutionException(e.getMessage());
     }
 

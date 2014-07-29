@@ -169,9 +169,6 @@ public class GwtTestParameter extends GWTTestCase {
     assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
   }
 
-  /**
-   * @param widget
-   */
   private void chooseCsvFile(InputParameterCsvFileWidget widget) {
     for (CsvFileInput csvInput : widget.inputWidgets) {
       csvInput.listbox.addItem("some file");
@@ -179,9 +176,6 @@ public class GwtTestParameter extends GWTTestCase {
     }
   }
 
-  /**
-   * @param widget
-   */
   private void enterNumber(InputParameterIntegerWidget widget) {
     for (IntegerInput integerInput : widget.inputWidgets) {
       integerInput.textbox.setValue(7);

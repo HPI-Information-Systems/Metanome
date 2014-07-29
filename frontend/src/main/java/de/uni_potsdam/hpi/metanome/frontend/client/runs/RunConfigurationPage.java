@@ -52,9 +52,10 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 
 
   /**
-   * Constructor. Initializes ExecutoinService and registers given algorithms. However, more
-   * algorithms can be registered whenever they become available, through
-   * <link>addAlgorithm(Algorithm algorithm)</link>
+   * Initializes ExecutoinService and registers given algorithms. However, more
+   * algorithms can be registered whenever they become available, through {@link RunConfigurationPage#addAlgorithms(java.util.List)}
+   *
+   * @param basePage the base page this sub page
    */
   public RunConfigurationPage(BasePage basePage) {
     this.setWidth("100%");
@@ -83,7 +84,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
   }
 
   /**
-   * Method to add more algorithms after construction. <p/>
+   * Method to add more algorithms after construction.
    *
    * @param algorithms a list of algorithms to be added
    */
@@ -113,6 +114,8 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
   /**
    * Sets the data source that should be profiled ("Primary Data Source"), displays its value in a
    * label, and triggers the jarChooser to filter for applicable algorithms.
+   *
+   * @param dataSource the data source to profile
    */
   public void setPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
     this.primaryDataSource = dataSource;
@@ -132,24 +135,16 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
   }
 
   /**
-   *
-   * @return the name of the data source that is currently selected in the
-   * 			first data source field in the configuration interface
-   */
-//	public List<ConfigurationSettingDataSource> getCurrentlySelectedDataSources() {
-//		return this.parameterTable.getInputParameterDataSourcesWithValues();
-//	}
-
-  /**
    * Execute the currently selected algorithm and switch to results page.
    *
    * @param parameters parameters to use for the algorithm execution
+   *                   @param configuration the configuration to start executing with
    */
   public void callExecutionService(List<ConfigurationSpecification> parameters,
-                                   List<ConfigurationSpecification> dataSources) {
+                                   List<ConfigurationSpecification> configuration) {
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final String algorithmFileName = getAlgorithmFileName(algorithmName);
-    parameters.addAll(dataSources);
+    parameters.addAll(configuration);
     basePage.startExecutionAndResultPolling(executionService, algorithmFileName, parameters);
   }
 
