@@ -19,10 +19,10 @@ package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubSuperSetGraphFixture {
+public class SubSetGraphFixture {
 
-  public SubSuperSetGraph getGraph() {
-    SubSuperSetGraph graph = new SubSuperSetGraph();
+  public SubSetGraph getGraph() {
+    SubSetGraph graph = new SubSetGraph();
 
     for (ColumnCombinationBitset columnCombination : getExpectedIncludedColumnCombinations()) {
       graph.add(columnCombination);
@@ -37,6 +37,7 @@ public class SubSuperSetGraphFixture {
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 4, 6, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3, 4, 6));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 2, 4, 7));
+    includedColumnCombinations.add(new ColumnCombinationBitset(1, 3));
     includedColumnCombinations.add(new ColumnCombinationBitset(2, 3, 4, 7, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(5, 6, 8));
 
@@ -51,6 +52,7 @@ public class SubSuperSetGraphFixture {
     return new ColumnCombinationBitset[]{
         getExpectedIncludedColumnCombinations().get(0),
         getExpectedIncludedColumnCombinations().get(1),
-        getExpectedIncludedColumnCombinations().get(4)};
+        getExpectedIncludedColumnCombinations().get(3),
+        getExpectedIncludedColumnCombinations().get(5)};
   }
 }

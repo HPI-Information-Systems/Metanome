@@ -29,6 +29,11 @@ Metanome releases can be found on the download page at:
 
 https://www.hpi.uni-potsdam.de/naumann/sites/metanome/files/
 
+#### Documentation
+The Metanome tool, information for algorithm developers and contributors to the project can be found in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
+
+Javadocs for the project can be found at https://www.hpi.uni-potsdam.de/naumann/sites/metanome/javadoc/.
+
 #### Development
 The Metanome modules are continously deployed to sonatype and can be used by adding the repository:
 ```xml

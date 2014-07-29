@@ -33,6 +33,7 @@ public class Result {
   protected boolean isInd;
   protected boolean isFd;
   protected boolean isUcc;
+  protected boolean isCucc;
   protected boolean isBasicStat;
 
   /**
@@ -125,6 +126,16 @@ public class Result {
 
   public Result setUcc(boolean isUcc) {
     this.isUcc = isUcc;
+
+    return this;
+  }
+
+  public boolean isCucc() {
+    return isCucc;
+  }
+
+  public Result setCucc(boolean isCucc) {
+    this.isCucc = isCucc;
 
     return this;
   }

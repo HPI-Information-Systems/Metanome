@@ -38,9 +38,6 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
    */
   private ConfigurationSpecificationCsvFile specification;
 
-  /**
-   * Constructor.
-   */
   public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec) {
     super(configSpec);
 
@@ -51,6 +48,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
    * Calls the InputDataService to retrieve available CSV files (specified by their file paths) and
    * adds them as entries to the given ListBox. Only the actual file name (not the preceding
    * directories) are displayed.
+   *
+   * @param widgets the csv widgets to add to the list
    */
   private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
     AsyncCallback<String[]> callback = getCallback(widgets);

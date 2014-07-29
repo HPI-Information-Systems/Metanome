@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,20 +26,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterCsvFileWidget;
-import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -54,10 +51,10 @@ public class GwtTestBasePage extends GWTTestCase {
    * Test BasePage constructor.
    */
   public void testNewBasePage() {
-    //Execute
+    // Execute
     testPage = new BasePage();
 
-    //Check
+    // Check
     assertEquals(5, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
@@ -83,10 +80,10 @@ public class GwtTestBasePage extends GWTTestCase {
     algorithms.add(new Algorithm("Algorithm 1"));
     algorithms.add(new Algorithm("Algorithm 2"));
 
-    //Execute
+    // Execute
     page.addAlgorithmsToRunConfigurations(algorithms);
 
-    //Check
+    // Check
     assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
   }
 
@@ -97,9 +94,7 @@ public class GwtTestBasePage extends GWTTestCase {
     // Setup
     final String algorithmName = "some_name";
     final BasePage page = new BasePage();
-    Algorithm a = new Algorithm("file/name")
-        .setAuthor("author")
-        .setName(algorithmName);
+    Algorithm a = new Algorithm("file/name").setAuthor("author").setName(algorithmName);
     algorithms.add(a);
 
     page.addAlgorithmsToRunConfigurations(algorithms);
@@ -115,23 +110,24 @@ public class GwtTestBasePage extends GWTTestCase {
       public void onSuccess(List<Algorithm> result) {
         page.addAlgorithmsToRunConfigurations(result);
 
-        //Execute
+        // Execute
         page.jumpToRunConfiguration(algorithmName, null);
 
-        //Check
+        // Check
         assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-        assertEquals(algorithmName, getRunConfigurationPage(page)
-            .getCurrentlySelectedAlgorithm());
+        assertEquals(algorithmName, getRunConfigurationPage(page).getCurrentlySelectedAlgorithm());
 
-//				TODO Add testing to ensure the parameter table is shown
-//				assertEquals(2, (((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidgetCount()); 
-//				assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1) instanceof ParameterTable); 
+        // TODO Add testing to ensure the parameter table is shown
+        // assertEquals(2, (((AlgorithmTab)
+        // page.getWidget(page.getSelectedIndex()))).getWidgetCount());
+        // assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1)
+        // instanceof ParameterTable);
 
         finishTest();
       }
     };
 
-    ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
     delayTestFinish(5000);
   }
@@ -141,17 +137,13 @@ public class GwtTestBasePage extends GWTTestCase {
    */
   public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();
-    final InputParameterDataSourceWidget dataSourceWidget = new InputParameterCsvFileWidget(
-        new ConfigurationSpecificationCsvFile("test"));
     ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
     dataSource.setFileName(dataSourceName);
     final ConfigurationSettingCsvFile finalDataSource = dataSource;
-//		dataSourceWidget.setDataSource(dataSource);
 
     AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Throwable caught) {
-        // TODO: Do something with errors.
         caught.printStackTrace();
       }
 
@@ -159,30 +151,28 @@ public class GwtTestBasePage extends GWTTestCase {
       public void onSuccess(List<Algorithm> result) {
         page.addAlgorithmsToRunConfigurations(result);
 
-        //Execute
+        // Execute
         page.jumpToRunConfiguration(null, finalDataSource);
 
         RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 
-        //Check
+        // Check
         assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
         assertEquals(finalDataSource.getValueAsString(),
-                     runConfigPage.primaryDataSource.getValueAsString());
-        //TODO assert correct filtering
+            runConfigPage.primaryDataSource.getValueAsString());
+        // TODO assert correct filtering
 
         finishTest();
       }
     };
 
-    ((FinderServiceAsync) GWT.create(FinderService.class)).listAllAlgorithms(callback);
+    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
     delayTestFinish(5000);
   }
 
-  private RunConfigurationPage getRunConfigurationPage(
-      final BasePage page) {
-    return (RunConfigurationPage) ((TabWrapper) page
-        .getWidget(page.getSelectedIndex())).contentPanel;
+  private RunConfigurationPage getRunConfigurationPage(final BasePage page) {
+    return (RunConfigurationPage) ((TabWrapper) page.getWidget(page.getSelectedIndex())).contentPanel;
   }
 
   @Override

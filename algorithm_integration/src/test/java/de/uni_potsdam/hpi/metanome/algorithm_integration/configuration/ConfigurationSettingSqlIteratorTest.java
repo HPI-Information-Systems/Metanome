@@ -59,7 +59,7 @@ public class ConfigurationSettingSqlIteratorTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSettingSqlIterator#getValueAsString()
+   * Test method for {@link ConfigurationSettingSqlIterator#getValueAsString()}
    */
   @Test
   public void testGetValueAsString() {

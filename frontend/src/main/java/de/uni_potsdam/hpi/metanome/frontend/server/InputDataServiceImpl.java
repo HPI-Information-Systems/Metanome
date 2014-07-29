@@ -16,12 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.io.File;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
-
-import java.io.File;
 
 public class InputDataServiceImpl extends RemoteServiceServlet implements InputDataService {
 
@@ -30,7 +30,8 @@ public class InputDataServiceImpl extends RemoteServiceServlet implements InputD
   private InputDataFinder inputDataFinder = new InputDataFinder();
 
   /**
-   * @param algorithmClass the subclass of algorithms to be listed, or null for all algorithms
+   * Lists the name of csv files in the input data folder
+   * 
    * @return a list of filenames (without path)
    */
   public String[] listCsvInputFiles() {
@@ -38,8 +39,7 @@ public class InputDataServiceImpl extends RemoteServiceServlet implements InputD
     try {
       csvInputFiles = inputDataFinder.getAvailableCsvs();
     } catch (Exception e) {
-      //TODO: error handling
-      System.out.println("FAILED to FIND input CSV files");
+      // TODO: error handling
       e.printStackTrace();
     }
 
