@@ -29,7 +29,7 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available algorithms stored in the database. <p/>
+ * Service Implementation for service that lists available algorithms stored in the database.
  *
  * @author Jakob Zwiener
  */

@@ -32,6 +32,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
 
+/**
+ * TODO docs
+ */
 public class CsvFileInput extends InputField {
 
   /**
@@ -61,7 +64,7 @@ public class CsvFileInput extends InputField {
   private String preselectedFilename;
 
   /**
-   * Constructor.
+   * @param optional specifies whether a remove button should be displayed
    */
   public CsvFileInput(boolean optional) {
     super(optional);
@@ -118,6 +121,7 @@ public class CsvFileInput extends InputField {
    * Constructor which presets values.
    *
    * @param csvSetting Setting object from which to copy the values.
+   *                   @param optional whether this widget is optional
    */
   public CsvFileInput(ConfigurationSettingCsvFile csvSetting, boolean optional) {
     this(optional);
@@ -165,6 +169,7 @@ public class CsvFileInput extends InputField {
    * Fills the dropdown list with the given values
    *
    * @param fileNames the values to put into the dropdown
+   *                  @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException when the value cannot be selected
    */
   public void addToListbox(String[] fileNames) throws AlgorithmConfigurationException {
     int index = 1;                            //start at 1 because index 0 has default ("--") entry
@@ -233,6 +238,7 @@ public class CsvFileInput extends InputField {
    * Retrieves the current values from the UI and sets them on the given inputParameter
    *
    * @param configSetting the object on which to set the values
+   *                      @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException the default value is still selected
    * @return the inputParameter with updated values
    */
   protected ConfigurationSettingCsvFile setCurrentValues(ConfigurationSettingCsvFile configSetting)
@@ -312,6 +318,7 @@ public class CsvFileInput extends InputField {
 
   /**
    * @return a new ConfigurationSetting object with the current user input
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException when the empty value cannot be set
    */
   public ConfigurationSettingCsvFile getValuesAsSettings() throws InputValidationException {
     ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
