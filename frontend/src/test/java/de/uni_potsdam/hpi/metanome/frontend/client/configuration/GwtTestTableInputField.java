@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
@@ -44,7 +45,20 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
-    TestHelper.storeDatabaseConnectionSync(dbConnection);
+
+    final long[] connectionId = new long[1];
+    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+        connectionId[0] = id;
+      }
+    });
 
     final TableInputField field = new TableInputField();
     field.setErrorReceiver(new TabWrapper());
@@ -54,30 +68,30 @@ public class GwtTestTableInputField extends GWTTestCase {
     expectedInput.setDatabaseConnection(dbConnection);
     expectedInput.setTableName("table");
 
-    // Setup an asynchronous event handler.
     Timer timer = new Timer() {
       @Override
       public void run() {
         // set the expected values in the table input field
-        field.setValues("1: url", "table");
+        field.setValues(connectionId[0] + ": url", "table");
 
         try {
           if (expectedInput.equals(field.getValue())) {
-            // Cleanup
-            TestHelper.resetDatabaseSync();
             // Finished test successfully
             finishTest();
           }
         } catch (InputValidationException | EntityStorageException e) {
-            fail();
+          fail();
+        } finally {
+          TestHelper.resetDatabaseSync();
         }
       }
     };
 
-    // Wait until asynchronous process are finished
-    delayTestFinish(5000);
+    // Waiting four seconds for asynchronous calls to finish.
     // Validate, if expected and actual objects are equal
     timer.schedule(4000);
+
+    delayTestFinish(5000);
   }
 
   @Override

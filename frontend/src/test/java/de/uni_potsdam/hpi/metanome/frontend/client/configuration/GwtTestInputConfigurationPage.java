@@ -54,9 +54,22 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
-    TestHelper.storeDatabaseConnectionSync(dbConnection);
 
-    page.tableInputField.setValues("1: url", "table");
+    final long[] connectionId = new long[1];
+    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+        connectionId[0] = id;
+      }
+    });
+
+    page.tableInputField.setValues(connectionId[0] + ": url", "table");
     page.tableInputFieldSelected = true;
     page.dbFieldSelected = false;
     page.fileInputFieldSelected = false;

@@ -63,12 +63,13 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
    * @param connection the database connection to store
    */
   @Override
-  public void storeDatabaseConnection(DatabaseConnection connection) {
+  public long storeDatabaseConnection(DatabaseConnection connection) {
     try {
       connection.store();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }
+    return connection.getId();
   }
 
   @Override

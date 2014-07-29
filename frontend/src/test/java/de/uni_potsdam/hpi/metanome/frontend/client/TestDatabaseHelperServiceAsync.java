@@ -36,7 +36,7 @@ public interface TestDatabaseHelperServiceAsync {
 
   void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
 
-  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Void> async);
+  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Long> async);
 
   void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> async);
 

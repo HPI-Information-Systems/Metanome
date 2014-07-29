@@ -96,40 +96,19 @@ public class TestHelper {
   }
 
   /**
-   * Stores a database connection synchronously.
+   * Stores a database connection.
    *
    * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
+   * @param callback the async callback
    */
-  public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
-    final boolean[] blocked = {true};
-    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable throwable) {
-        System.out.println("Failed to save Database Connection.");
-        System.out.println(throwable.getMessage());
-      }
-
-      @Override
-      public void onSuccess(Void aVoid) {
-        System.out.println("Database Connection successfully saved.");
-        blocked[0] = false;
-      }
-    });
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (blocked[0]) {
-          this.schedule(1);
-        }
-      }
-    };
-    rpcCheck.schedule(1);
-
+  public static void storeDatabaseConnection(DatabaseConnection connection,
+                                             AsyncCallback<Long> callback) {
+    testDatabaseHelperService.storeDatabaseConnection(connection, callback);
   }
 
   /**
    * Get all database connections synchronously.
+   * @param callback the async callback
    */
   public static void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback) {
     testDatabaseHelperService.getAllDatabaseConnections(callback);
@@ -137,6 +116,7 @@ public class TestHelper {
 
   /**
    * Get all file inputs synchronously.
+   * @param callback the async callback
    */
   public static void getAllFileInputs(AsyncCallback<List<FileInput>> callback) {
     testDatabaseHelperService.getAllFileInputs(callback);
@@ -144,6 +124,7 @@ public class TestHelper {
 
   /**
    * Get all table inputs synchronously.
+   * @param callback the async callback
    */
   public static void getAllTableInputs(AsyncCallback<List<TableInput>> callback) {
     testDatabaseHelperService.getAllTableInputs(callback);
