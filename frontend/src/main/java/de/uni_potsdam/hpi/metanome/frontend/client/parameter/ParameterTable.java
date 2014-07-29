@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 
@@ -25,9 +28,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class ParameterTable extends FlexTable {
 
@@ -58,15 +58,14 @@ public class ParameterTable extends FlexTable {
       currentWidget = WidgetFactory.buildWidget(param);
       this.setWidget(i, 1, currentWidget);
       if (currentWidget.isDataSource()) {
-        InputParameterDataSourceWidget
-            dataSourceWidget =
+        InputParameterDataSourceWidget dataSourceWidget =
             (InputParameterDataSourceWidget) currentWidget;
         if (dataSourceWidget.accepts(primaryDataSource)) {
           try {
             dataSourceWidget.setDataSource(primaryDataSource);
           } catch (AlgorithmConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.errorReceiver.addError("Could not select " + primaryDataSource.getValueAsString()
+                + "as data source. Please choose one of the available ones below.");
           }
         }
         this.dataSourceChildWidgets.add(dataSourceWidget);
@@ -89,8 +88,7 @@ public class ParameterTable extends FlexTable {
   public void submit() {
     try {
       List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
-      List<ConfigurationSpecification>
-          dataSources =
+      List<ConfigurationSpecification> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
       getAlgorithmTab().callExecutionService(parameters, dataSources);
     } catch (InputValidationException e) {

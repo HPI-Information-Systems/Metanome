@@ -32,8 +32,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.Date;
@@ -42,6 +42,8 @@ import java.util.List;
 /**
  * Overall Application page that has tabs for the various functions (subpages). It also coordinates
  * control between these subpages. Should be added to RootPanel.
+ * 
+ * @author Claudia Exeler
  */
 public class BasePage extends TabLayoutPanel {
 
@@ -49,7 +51,7 @@ public class BasePage extends TabLayoutPanel {
   protected TabWrapper resultPageTabWrapper;
   protected RunConfigurationPage runConfigurationsPage;
 
-  protected FinderServiceAsync finderService;
+  protected AlgorithmServiceAsync finderService;
 
   /**
    * Constructor. Initiates creation of subpages.
@@ -112,16 +114,14 @@ public class BasePage extends TabLayoutPanel {
     resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
         resultsTableContent.getCancelCallback());
+
+    // Execute algorithm and start fetching results
+    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
+        resultsTableContent.getCancelCallback());
     resultsTableContent.startPolling();
-    // resultsTab.add(resultsTableContent);
 
     // Create new tab with visualizations of result
     ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-
-    // // Add first tab to result tab container
-    // resultTabsContainer.add(resultsTab, "Table");
-    // resultTabsContainer.add(visualizationTab, "Visualization");
-    // resultTabsContainer.selectTab(0);
 
     // remove the content from the result page and set the content to the new fetched result
     this.resultsPage.update(resultsTableContent, visualizationTab);

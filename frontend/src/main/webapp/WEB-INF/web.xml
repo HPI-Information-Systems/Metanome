@@ -33,13 +33,13 @@
         <url-pattern>/metanome/parameterService</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>finderServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>finderServiceImpl</servlet-name>
-        <url-pattern>/metanome/finderService</url-pattern>
+    <servlet> 
+    	<servlet-name>algorithmServiceImpl</servlet-name> 
+    	<servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl</servlet-class> 
+    </servlet> 
+    <servlet-mapping> 
+    	<servlet-name>algorithmServiceImpl</servlet-name> 
+    	<url-pattern>/metanome/algorithmService</url-pattern> 
     </servlet-mapping>
 
     <servlet>
