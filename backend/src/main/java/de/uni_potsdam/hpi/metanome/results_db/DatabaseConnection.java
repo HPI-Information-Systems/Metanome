@@ -33,12 +33,14 @@ import javax.persistence.Id;
 @Entity
 public class DatabaseConnection implements Serializable {
 
-  private static final long serialVersionUID = -5130490613769455974L;
-
   protected long id;
   protected String url;
   protected String username;
   protected String password;
+
+  public DatabaseConnection() {
+
+  }
 
   /**
    * Retrieves a DatabaseConnection from the database.

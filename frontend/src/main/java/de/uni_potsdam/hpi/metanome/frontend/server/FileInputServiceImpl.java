@@ -59,6 +59,10 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
     return csvInputFilePaths;
   }
 
+  /**
+   * Lists all file inputs stored in the database
+   * @return a list of all currently stored file inputs
+   */
   @Override
   public List<FileInput> listFileInputs() {
     try {
@@ -73,6 +77,11 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
     return null;
   }
 
+  /**
+   *
+   * @param id the id of the file inputs which should be returned
+   * @return the file input with the given id
+   */
   @Override
   public FileInput getFileInput(long id) {
     try {
@@ -83,6 +92,10 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
     return null;
   }
 
+  /**
+   * Stores a file input into the database
+   * @param input the file input which should be stored
+   */
   @Override
   public void storeFileInput(FileInput input) {
     try {

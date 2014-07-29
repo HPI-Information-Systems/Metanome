@@ -34,6 +34,10 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
 
   private static final long serialVersionUID = -4340796020369247112L;
 
+  /**
+   * Lists all table inputs stored in the database
+   * @return a list of all currently stored table inputs
+   */
   @Override
   public List<TableInput> listTableInputs() {
     try {
@@ -48,6 +52,11 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
     return null;
   }
 
+  /**
+   *
+   * @param id the id of the table inputs which should be returned
+   * @return the table input with the given id
+   */
   @Override
   public TableInput getTableInput(long id) {
     try {
@@ -58,6 +67,10 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
     return null;
   }
 
+  /**
+   * Stores a table input into the database
+   * @param input the table input which should be stored
+   */
   @Override
   public void storeTableInput(TableInput input) {
     try {
