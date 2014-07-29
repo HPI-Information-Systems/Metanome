@@ -43,6 +43,7 @@ public class IntegerInput extends InputField {
    * not contain only numbers or -1 if the textbox is emtpy.
    *
    * @return the value of its text box
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the value cannot be parsed as an int
    */
   public Integer getValue() throws InputValidationException {
     Integer val;

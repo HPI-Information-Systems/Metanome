@@ -23,10 +23,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
@@ -49,10 +49,10 @@ public class GwtTestServiceCall extends GWTTestCase {
     String algorithmFileName = "example_ucc_algorithm.jar";
     TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
     List<ConfigurationSpecification> configs = new ArrayList<>();
-    ConfigurationSpecificationString inputParameter = new ConfigurationSpecificationString(
-        "pathToInputFile");
+    ConfigurationSpecificationString inputParameter =
+        new ConfigurationSpecificationString("pathToInputFile");
     inputParameter.setValues(new ConfigurationSettingString("path/to/file1"),
-                             new ConfigurationSettingString("path/to/file2"));
+        new ConfigurationSettingString("path/to/file2"));
     configs.add(inputParameter);
 
     AsyncCallback<Long> callback = new AsyncCallback<Long>() {
@@ -66,16 +66,13 @@ public class GwtTestServiceCall extends GWTTestCase {
       }
     };
 
-    ExecutionServiceAsync executionService = GWT
-        .create(ExecutionService.class);
+    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
 
     // Set a delay period
     delayTestFinish(500);
 
     // Execute
-    executionService.executeAlgorithm(algorithmFileName,
-                                      "executionIdentifier1",
-                                      configs, callback);
+    executionService.executeAlgorithm(algorithmFileName, "executionIdentifier1", configs, callback);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -86,8 +83,7 @@ public class GwtTestServiceCall extends GWTTestCase {
    */
   public void testParameterService() {
     // Setup
-    AsyncCallback<List<ConfigurationSpecification>>
-        callback =
+    AsyncCallback<List<ConfigurationSpecification>> callback =
         new AsyncCallback<List<ConfigurationSpecification>>() {
           public void onFailure(Throwable caught) {
             fail();
@@ -99,8 +95,7 @@ public class GwtTestServiceCall extends GWTTestCase {
           }
         };
 
-    ParameterServiceAsync parameterService = GWT
-        .create(ParameterService.class);
+    ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
 
     // Set a delay period
     delayTestFinish(500);
@@ -111,7 +106,7 @@ public class GwtTestServiceCall extends GWTTestCase {
   }
 
   /**
-   * tests the call from client to finderService.listInclusionDependencyAlgorithmFileNames()
+   * tests the call from client to algorithmService.listInclusionDependencyAlgorithmFileNames()
    */
   public void testFinderService() {
     // Setup
@@ -128,13 +123,14 @@ public class GwtTestServiceCall extends GWTTestCase {
       }
     };
 
-    FinderServiceAsync finderService = GWT.create(FinderService.class);
+    AlgorithmServiceAsync algorithmService = GWT.create(AlgorithmService.class);
 
     // Set a delay period
     delayTestFinish(500);
 
-    finderService.listInclusionDependencyAlgorithms(callback);
+    algorithmService.listInclusionDependencyAlgorithms(callback);
   }
+
 
   @Override
   public String getModuleName() {

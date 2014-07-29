@@ -16,25 +16,25 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
+import java.util.List;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import java.util.List;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 /**
- * Service Implementation for service that lists available algorithms stored in the database. <p/>
+ * Service Implementation for service that lists available algorithms stored in the database.
  *
  * @author Jakob Zwiener
  */
-public class FinderServiceImpl extends RemoteServiceServlet implements
-                                                            FinderService {
-
+public class AlgorithmServiceImpl extends RemoteServiceServlet implements AlgorithmService {
   private static final long serialVersionUID = 2742248537386173766L;
 
   /**
@@ -65,6 +65,14 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
   }
 
   /**
+   * @return all conditional unique column combination algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
+    return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
+  }
+
+  /**
    * @return all functional dependency algorithms in the database
    */
   @Override
@@ -86,5 +94,13 @@ public class FinderServiceImpl extends RemoteServiceServlet implements
   @Override
   public List<Algorithm> listAllAlgorithms() {
     return listAlgorithms(null);
+  }
+
+  /* (non-Javadoc)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)
+   */
+  @Override
+  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException {
+    algorithm.store();
   }
 }

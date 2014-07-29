@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
+
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 import java.util.List;
 
-@RemoteServiceRelativePath("finderService")
-public interface FinderService extends RemoteService {
+@RemoteServiceRelativePath("algorithmService")
+public interface AlgorithmService extends RemoteService {
 
   public List<Algorithm> listInclusionDependencyAlgorithms();
 
@@ -32,7 +34,11 @@ public interface FinderService extends RemoteService {
 
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms();
 
+  public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms();
+
   public List<Algorithm> listBasicStatisticsAlgorithms();
 
   public List<Algorithm> listAllAlgorithms();
+
+  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException;
 }
