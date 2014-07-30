@@ -77,7 +77,7 @@ public class ConfigurationSpecificationBooleanTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean#setValues(ConfigurationSettingBoolean...)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean#setSettings(ConfigurationSettingBoolean...)}
    *
    * The values should be correctly settable on the specification.
    */
@@ -92,7 +92,7 @@ public class ConfigurationSpecificationBooleanTest {
     ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
 
     // Execute functionality
-    configSpec.setValues(expectedValue0, expectedValue1);
+    configSpec.setSettings(expectedValue0, expectedValue1);
 
     // Check result
     assertEquals(expectedValue0, configSpec.settings[0]);

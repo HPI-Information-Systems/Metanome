@@ -61,7 +61,7 @@ public class ConfigurationSpecificationSqlIterator extends ConfigurationSpecific
     return settings;
   }
 
-  public void setValues(ConfigurationSettingSqlIterator[] values) {
-    this.settings = values;
+  public void setSettings(ConfigurationSettingSqlIterator... settings) {
+    this.settings = settings;
   }
 }

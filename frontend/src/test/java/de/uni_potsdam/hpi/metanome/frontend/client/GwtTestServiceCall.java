@@ -51,8 +51,8 @@ public class GwtTestServiceCall extends GWTTestCase {
     List<ConfigurationSpecification> configs = new ArrayList<>();
     ConfigurationSpecificationString inputParameter =
         new ConfigurationSpecificationString("pathToInputFile");
-    inputParameter.setValues(new ConfigurationSettingString("path/to/file1"),
-        new ConfigurationSettingString("path/to/file2"));
+    inputParameter.setSettings(new ConfigurationSettingString("path/to/file1"),
+                               new ConfigurationSettingString("path/to/file2"));
     configs.add(inputParameter);
 
     AsyncCallback<Long> callback = new AsyncCallback<Long>() {
