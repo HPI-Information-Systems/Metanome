@@ -42,7 +42,7 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   @Override
   public ConfigurationSpecificationString getUpdatedSpecification() {
-    this.specification.setValues(this.getConfigurationSettings());
+    this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
   }
 

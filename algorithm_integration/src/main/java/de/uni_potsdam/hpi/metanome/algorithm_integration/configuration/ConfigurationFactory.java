@@ -16,34 +16,22 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import java.io.Serializable;
-
 /**
- * TODO docs
+ * Converts {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}
+ * into {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingString implements Serializable {
-
-  private static final long serialVersionUID = 1753877522641977576L;
-
-  public String value;
+public abstract class ConfigurationFactory {
 
   /**
-   * Exists for GWT serialization.
+   * Initializes first step in double dispatch to specify type of the incoming {@link
+   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}.
+   *
+   * @param specification the specification to convert
+   * @return the resulting configuration value
    */
-  public ConfigurationSettingString() {
-  }
-
-  public ConfigurationSettingString(String value) {
-    this.value = value;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
+  public ConfigurationValue build(ConfigurationSpecification specification) {
+    return specification.build(this);
   }
 }

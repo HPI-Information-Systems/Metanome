@@ -16,23 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-
-import java.io.Serializable;
-
 /**
  * TODO docs
  *
- * @author Tanja Bergmann
+ * @author Jakob Zwiener
  */
-public class ConfigurationSettingListBox implements Serializable {
-
-  public String selectedValue;
-
-  public ConfigurationSettingListBox() {
-  }
-
-  public ConfigurationSettingListBox(String selectedValue) {
-    this.selectedValue = selectedValue;
-  }
+public class ConfigurationSettingRelationalInput {
 
 }

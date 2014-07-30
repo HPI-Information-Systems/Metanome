@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 

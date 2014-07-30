@@ -59,7 +59,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
       values[i] = inputWidgets.get(i).getValues();
     }
 
-    specification.setValues(values);
+    specification.setSettings(values);
 
     return specification;
   }

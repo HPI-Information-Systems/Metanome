@@ -56,7 +56,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
         values[i] = inputWidgets.get(i).getValues();
     }
 
-    specification.setValues(values);
+    specification.setSettings(values);
 
     return this.specification;
   }
@@ -66,7 +66,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
     if (dataSource instanceof ConfigurationSettingSqlIterator) {
       this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
     } else {
-      ; //TODO throw some exception
+      //TODO throw some exception
     }
   }
 

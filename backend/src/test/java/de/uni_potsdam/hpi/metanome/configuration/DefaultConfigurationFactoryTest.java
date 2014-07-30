@@ -14,25 +14,13 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
-
-
-import java.io.Serializable;
+package de.uni_potsdam.hpi.metanome.configuration;
 
 /**
- * TODO docs
+ * Tests for {@link de.uni_potsdam.hpi.metanome.configuration.DefaultConfigurationFactory}
  *
- * @author Tanja Bergmann
+ * @author Jakob Zwiener
  */
-public class ConfigurationSettingListBox implements Serializable {
-
-  public String selectedValue;
-
-  public ConfigurationSettingListBox() {
-  }
-
-  public ConfigurationSettingListBox(String selectedValue) {
-    this.selectedValue = selectedValue;
-  }
+public class DefaultConfigurationFactoryTest {
 
 }

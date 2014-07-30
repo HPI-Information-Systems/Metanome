@@ -16,23 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-
-import java.io.Serializable;
-
 /**
- * TODO docs
- *
- * @author Tanja Bergmann
+ * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}
  */
-public class ConfigurationSettingListBox implements Serializable {
+public class ConfigurationSpecificationTest {
 
-  public String selectedValue;
-
-  public ConfigurationSettingListBox() {
-  }
-
-  public ConfigurationSettingListBox(String selectedValue) {
-    this.selectedValue = selectedValue;
-  }
+  // TODO add tests for constructors
+  // TODO add tests for getter
 
 }
