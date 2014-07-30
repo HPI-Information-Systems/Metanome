@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
+package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -32,7 +32,7 @@ import org.junit.Test;
 public class GwtTestFileInputField extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
    * <p/>
    */
   @Test
@@ -52,7 +52,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
    * <p/>
    */
   @Test
@@ -70,7 +70,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
    * <p/>
    */
   @Test
@@ -117,7 +117,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.configuration.FileInputField#getValue()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
    * <p/>
    */
   @Test

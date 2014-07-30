@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.configuration;
+package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -153,8 +153,8 @@ public class TableInputField extends HorizontalPanel {
   }
 
   /**
-   * Set the error receiver.
-   * @param tab the error receiver tab
+   * Set the message receiver.
+   * @param tab the message receiver tab wrapper
    */
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;

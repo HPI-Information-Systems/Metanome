@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.configuration.InputConfigurationPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
