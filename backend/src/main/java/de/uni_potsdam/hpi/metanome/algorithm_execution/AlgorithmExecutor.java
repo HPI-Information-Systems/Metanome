@@ -26,11 +26,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Inclusi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationFactory;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
+import de.uni_potsdam.hpi.metanome.configuration.DefaultConfigurationFactory;
 import de.uni_potsdam.hpi.metanome.result_receiver.CloseableOmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.Execution;
@@ -49,9 +50,9 @@ import java.util.Set;
 
 public class AlgorithmExecutor implements Closeable {
 
+  protected ConfigurationFactory configFactory = new DefaultConfigurationFactory();
   protected CloseableOmniscientResultReceiver resultReceiver;
   protected ProgressCache progressCache;
-
   protected FileGenerator fileGenerator;
 
   /**
@@ -73,7 +74,7 @@ public class AlgorithmExecutor implements Closeable {
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
    * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
-   * to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s and all receivers and
+   * to {@link ConfigurationValue}s and all receivers and
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
@@ -88,7 +89,7 @@ public class AlgorithmExecutor implements Closeable {
     List<ConfigurationValue> parameterValues = new LinkedList<>();
 
     for (ConfigurationSpecification specification : parameters) {
-      parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
+      parameterValues.add(configFactory.build(specification));
 
     }
 
