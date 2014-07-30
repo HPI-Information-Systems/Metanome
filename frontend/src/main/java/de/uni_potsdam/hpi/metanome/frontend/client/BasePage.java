@@ -105,7 +105,7 @@ public class BasePage extends TabLayoutPanel {
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
 
-    String executionIdentifier = getExecutionIdetifier(algorithmFileName);
+    String executionIdentifier = getExecutionIdentifier(algorithmFileName);
 
     // Create new tab with result table
     // ScrollPanel resultsTab = new ScrollPanel();
@@ -134,7 +134,7 @@ public class BasePage extends TabLayoutPanel {
    * @param algorithmName the name of the algorithm being executed
    * @return a string consisting of the algorithmName and the current date and time
    */
-  protected String getExecutionIdetifier(String algorithmName) {
+  protected String getExecutionIdentifier(String algorithmName) {
     DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
     return algorithmName + format.format(new Date());
   }

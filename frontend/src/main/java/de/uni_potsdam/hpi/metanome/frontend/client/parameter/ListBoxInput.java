@@ -116,4 +116,11 @@ public class ListBoxInput extends InputField {
   public void disableFirstEntry() {
     this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
   }
+
+  /**
+   * Sets the selected value to the first value in the list.
+   */
+  public void reset() {
+    this.listbox.setSelectedIndex(0);
+  }
 }

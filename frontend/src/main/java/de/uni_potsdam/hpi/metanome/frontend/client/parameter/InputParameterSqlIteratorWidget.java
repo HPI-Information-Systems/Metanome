@@ -20,6 +20,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import java.util.List;
 
@@ -29,15 +30,17 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
    * Corresponding inputParameter, where the value is going to be written
    */
   private ConfigurationSpecificationSqlIterator specification;
-  private List<SqlIteratorInput> inputWidgets;
+  protected List<SqlIteratorInput> inputWidgets;
+  private TabWrapper messageReceiver;
 
-  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config) {
+  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config, TabWrapper messageReceiver) {
     super(config);
+    this.messageReceiver = messageReceiver;
   }
 
   @Override
   protected void addInputField(boolean optional) {
-    SqlIteratorInput widget = new SqlIteratorInput(optional);
+    SqlIteratorInput widget = new SqlIteratorInput(optional, messageReceiver);
     this.inputWidgets.add(widget);
     this.add(widget);
   }
@@ -50,7 +53,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
         new ConfigurationSettingSqlIterator[inputWidgets.size()];
 
     for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValues();
+        values[i] = inputWidgets.get(i).getValues();
     }
 
     specification.setValues(values);

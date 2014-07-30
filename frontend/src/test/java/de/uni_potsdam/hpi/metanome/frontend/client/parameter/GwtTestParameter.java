@@ -17,6 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -33,7 +35,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import org.junit.Test;
 
@@ -108,6 +112,25 @@ public class GwtTestParameter extends GWTTestCase {
   @Test
   public void testRetrieveSimpleParameterValues() throws InputValidationException {
     //Setup
+    TestHelper.resetDatabaseSync();
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setUrl("url");
+    dbConnection.setPassword("password");
+    dbConnection.setUsername("username");
+    // TODO set system
+    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+
+      }
+    });
+
     ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
     ArrayList<String> values = new ArrayList<>();
@@ -115,22 +138,22 @@ public class GwtTestParameter extends GWTTestCase {
     values.add("Column 3");
     values.add("Column 2");
 
-    ConfigurationSpecificationString
+    final ConfigurationSpecificationString
         ConfigurationSpecificationString =
         new ConfigurationSpecificationString("string");
-    ConfigurationSpecificationBoolean
+    final ConfigurationSpecificationBoolean
         ConfigurationSpecificationBoolean =
         new ConfigurationSpecificationBoolean("bool");
-    ConfigurationSpecificationCsvFile
+    final ConfigurationSpecificationCsvFile
         ConfigurationSpecificationCsvFile =
         new ConfigurationSpecificationCsvFile("csv");
-    ConfigurationSpecificationSqlIterator
+    final ConfigurationSpecificationSqlIterator
         ConfigurationSpecificationSQLIterator =
         new ConfigurationSpecificationSqlIterator("sql");
-    ConfigurationSpecificationInteger
+    final ConfigurationSpecificationInteger
         ConfigurationSpecificationInteger =
         new ConfigurationSpecificationInteger("integer");
-    ConfigurationSpecificationListBox
+    final ConfigurationSpecificationListBox
         ConfigurationSpecificationListBox =
         new ConfigurationSpecificationListBox("listBox", values);
 
@@ -141,32 +164,52 @@ public class GwtTestParameter extends GWTTestCase {
     paramList.add(ConfigurationSpecificationInteger);
     paramList.add(ConfigurationSpecificationListBox);
 
-    ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+    final ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
     chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
     enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
 
-    //Execute
-    List<ConfigurationSpecification>
-        retrievedParams =
-        pt.getConfigurationSpecificationsWithValues();
-    List<ConfigurationSpecification>
-        retrievedDataSources =
-        pt.getConfigurationSpecificationDataSourcesWithValues();
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        setDatabaseConnection((InputParameterSqlIteratorWidget) pt.getWidget(3, 1));
 
-    //Check
-    assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
-    assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
-    assertTrue(retrievedParams.contains(ConfigurationSpecificationListBox));
-    assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
-    assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
-    assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+        //Execute
+        List<ConfigurationSpecification> retrievedParams = null;
+        List<ConfigurationSpecification> retrievedDataSources = null;
+        try {
+          retrievedParams = pt.getConfigurationSpecificationsWithValues();
+          retrievedDataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
+        } catch (InputValidationException e) {
+          e.printStackTrace();
+          fail();
+        }
 
-    assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
-    assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
-    assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationInteger));
-    assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
-    assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
-    assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+        //Check
+        assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
+        assertTrue(retrievedParams.contains(ConfigurationSpecificationBoolean));
+        assertTrue(retrievedParams.contains(ConfigurationSpecificationListBox));
+        assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
+        assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
+        assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+
+        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
+        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
+        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationInteger));
+        assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
+        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
+        assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
+
+        finishTest();
+      }
+    };
+
+    delayTestFinish(6000);
+
+    // Waiting for asynchronous calls to finish.
+    executeTimer.schedule(4000);
   }
 
   private void chooseCsvFile(InputParameterCsvFileWidget widget) {
@@ -179,6 +222,12 @@ public class GwtTestParameter extends GWTTestCase {
   private void enterNumber(InputParameterIntegerWidget widget) {
     for (IntegerInput integerInput : widget.inputWidgets) {
       integerInput.textbox.setValue(7);
+    }
+  }
+
+  private void setDatabaseConnection(InputParameterSqlIteratorWidget widget) {
+    for (SqlIteratorInput sqlIteratorInput : widget.inputWidgets) {
+      sqlIteratorInput.listbox.setSelectedValue("1: url");
     }
   }
 
@@ -207,13 +256,15 @@ public class GwtTestParameter extends GWTTestCase {
         listboxParam =
         new ConfigurationSpecificationListBox(identifierListbox, values);
 
+    TabWrapper tabWrapper = new TabWrapper();
+
     //Execute
-    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
-    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
-    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam, tabWrapper);
+    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam, tabWrapper);
+    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam, tabWrapper);
+    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
+    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
+    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -266,13 +317,15 @@ public class GwtTestParameter extends GWTTestCase {
         listboxParam =
         new ConfigurationSpecificationListBox(identifierListbox, values, 2);
 
+    TabWrapper tabWrapper = new TabWrapper();
+
     //Execute
-    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
-    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
-    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam, tabWrapper);
+    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam, tabWrapper);
+    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam, tabWrapper);
+    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
+    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
+    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -379,6 +432,6 @@ public class GwtTestParameter extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 }

@@ -20,6 +20,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
@@ -181,7 +182,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     InputConfigurationPage page = new InputConfigurationPage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-    page.dbField.setValues("url", "user", "password");
+    page.dbField.setValues("url", DbSystem.DB2.name(), "user", "password");
     page.tableInputFieldSelected = false;
     page.dbFieldSelected = true;
     page.fileInputFieldSelected = false;

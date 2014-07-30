@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
@@ -36,15 +37,17 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedUrl = "url";
     String expectedUser = "user";
     String expectedPassword = "password";
+    String expectedSystem = DbSystem.DB2.name();
 
     DatabaseConnectionField input = new DatabaseConnectionField();
 
     // Execute
-    input.setValues(expectedUrl, expectedUser, expectedPassword);
+    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
     DatabaseConnection actualConnection = input.getValue();
 
     //Check
     assertEquals(expectedUrl, actualConnection.getUrl());
+    // TODO assertEquals(expectedSystem, actualConnection.getSystem());
     assertEquals(expectedUser, actualConnection.getUsername());
     assertEquals(expectedPassword, actualConnection.getPassword());
   }
@@ -59,11 +62,12 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedUrl = "url";
     String expectedUser = "";
     String expectedPassword = "";
+    String expectedSystem = DbSystem.DB2.name();
 
     DatabaseConnectionField input = new DatabaseConnectionField();
 
     // Execute
-    input.setValues(expectedUrl, expectedUser, expectedPassword);
+    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
 
     //Check
     try {
@@ -73,9 +77,34 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     }
   }
 
+  /**
+   * Test method for {@link DatabaseConnectionField#reset()}
+   * <p/>
+   */
+  @Test
+  public void testResetValues() {
+    //Setup
+    DatabaseConnectionField input = new DatabaseConnectionField();
+    input.setValues("url", DbSystem.DB2.name(), "user", "password");
+
+    // Execute
+    input.reset();
+
+    String actualUser = input.usernameTextbox.getText();
+    String actualPassword = input.passwordTextbox.getText();
+    String actualSystem = input.systemListBox.getSelectedValue();
+    String actualUrl = input.dbUrlTextbox.getText();
+
+    //Check
+    assertEquals("", actualUser);
+    // TODO assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
+    assertEquals("", actualPassword);
+    assertEquals("", actualUrl);
+  }
+
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 
 }

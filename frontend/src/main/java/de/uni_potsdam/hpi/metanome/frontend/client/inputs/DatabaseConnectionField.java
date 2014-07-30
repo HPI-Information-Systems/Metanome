@@ -23,17 +23,22 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+
+import java.util.Arrays;
 
 /**
  * Input field to configure a database connection.
  */
 public class DatabaseConnectionField extends HorizontalPanel {
 
-  private TextBox dbUrlTextbox;
-  private TextBox usernameTextbox;
-  private PasswordTextBox passwordTextbox;
+  protected TextBox dbUrlTextbox;
+  protected TextBox usernameTextbox;
+  protected PasswordTextBox passwordTextbox;
+  protected ListBoxInput systemListBox;
   private FlexTable layoutTable;
 
   public DatabaseConnectionField() {
@@ -43,11 +48,15 @@ public class DatabaseConnectionField extends HorizontalPanel {
     this.dbUrlTextbox = new TextBox();
     addRow(this.dbUrlTextbox, "Database URL", 0);
 
+    this.systemListBox = new ListBoxInput(false);
+    this.systemListBox.setValues(Arrays.asList(DbSystem.names()));
+    addRow(this.systemListBox, "Db system", 1);
+
     this.usernameTextbox = new TextBox();
-    addRow(this.usernameTextbox, "User Name", 1);
+    addRow(this.usernameTextbox, "User Name", 2);
 
     this.passwordTextbox = new PasswordTextBox();
-    addRow(this.passwordTextbox, "Password", 2);
+    addRow(this.passwordTextbox, "Password", 3);
 
   }
 
@@ -59,13 +68,15 @@ public class DatabaseConnectionField extends HorizontalPanel {
   /**
    * Set the url,username and password in the according text boxes.
    * @param url       the url for the database connection
+   * @param system    the database system for the database connection
    * @param username  the username for the database connection
    * @param password  the password for the database connection
    */
-  public void setValues(String url, String username, String password) {
+  public void setValues(String url, String system, String username, String password) {
     this.dbUrlTextbox.setValue(url);
     this.usernameTextbox.setValue(username);
     this.passwordTextbox.setValue(password);
+    this.systemListBox.setSelectedValue(system);
   }
 
   /**
@@ -79,14 +90,16 @@ public class DatabaseConnectionField extends HorizontalPanel {
     String url = this.dbUrlTextbox.getValue();
     String username = this.usernameTextbox.getValue();
     String password = this.passwordTextbox.getValue();
+    String system = this.systemListBox.getSelectedValue();
 
-    if (url.isEmpty() || username.isEmpty() || password.isEmpty())
+    if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty())
       throw new InputValidationException("The database url, username and password should all be set!");
 
     connection
         .setUrl(url)
         .setUsername(username)
         .setPassword(password);
+    // TODO set system
 
     return connection;
   }
@@ -98,6 +111,7 @@ public class DatabaseConnectionField extends HorizontalPanel {
     this.dbUrlTextbox.setText("");
     this.usernameTextbox.setText("");
     this.passwordTextbox.setText("");
+    this.systemListBox.reset();
   }
 
 

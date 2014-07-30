@@ -32,7 +32,7 @@ import java.util.List;
 public class ParameterTable extends FlexTable {
 
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
-  private List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
+  protected List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
   private TabWrapper messageReceiver;
 
   /**
@@ -55,7 +55,7 @@ public class ParameterTable extends FlexTable {
       this.setText(i, 0, param.getIdentifier());
 
       InputParameterWidget currentWidget;
-      currentWidget = WidgetFactory.buildWidget(param);
+      currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
       this.setWidget(i, 1, currentWidget);
       if (currentWidget.isDataSource()) {
         InputParameterDataSourceWidget dataSourceWidget =
