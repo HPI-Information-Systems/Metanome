@@ -44,4 +44,5 @@ public interface TestDatabaseHelperServiceAsync {
 
   void getAllFileInputs(AsyncCallback<List<FileInput>> async);
 
+  void storeFileInput(FileInput input, AsyncCallback<Long> async);
 }

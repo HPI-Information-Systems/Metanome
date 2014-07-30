@@ -40,6 +40,8 @@ public interface TestDatabaseHelperService extends RemoteService {
 
   long storeDatabaseConnection(DatabaseConnection connection);
 
+  long storeFileInput(FileInput input);
+
   List<DatabaseConnection> getAllDatabaseConnections();
 
   List<TableInput> getAllTableInputs();

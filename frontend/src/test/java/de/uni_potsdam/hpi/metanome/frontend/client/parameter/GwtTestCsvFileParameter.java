@@ -17,37 +17,24 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.FlexTable;
-
-import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.StringHelper;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GwtTestCsvFileParameter extends GWTTestCase {
 
   private String aFileName = "inputA.csv";
   private String[] csvFiles = {"inputB.csv", aFileName};
-
-  private InputParameterCsvFileWidget setUpInputParameterWidget()
-      throws AlgorithmConfigurationException {
-    ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-    InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec);
-    dataSourceWidget.getCallback(dataSourceWidget.inputWidgets).onSuccess(csvFiles);
-    return dataSourceWidget;
-  }
 
   /**
    * Tests the selection of a specific item corresponding to the given ConfigurationSetting.
@@ -55,17 +42,66 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
   @Test
   public void testSelectDataSourceOnFilledDropdown()
       throws AlgorithmConfigurationException, InputValidationException {
-    CsvFileInput widget = new CsvFileInput(false);
-    widget.addToListbox(csvFiles);
-    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final TabWrapper tabWrapper = new TabWrapper();
+
+    FileInput fileInput = new FileInput();
+    fileInput.setFileName(aFileName);
+    final long[] inputId = new long[1];
+    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+        inputId[0] = id;
+      }
+    });
+
+    final CsvFileInput[] widget = new CsvFileInput[1];
+    final ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
     setting.setFileName(aFileName);
 
-    //Execute
-    widget.selectDataSource(setting);
+    Timer setUpTimer = new Timer() {
+      @Override
+      public void run() {
+        widget[0] = new CsvFileInput(false, tabWrapper);
+      }
+    };
 
-    //Check
-    assertEquals(aFileName, widget.listbox.getItemText(widget.listbox.getSelectedIndex()));
-    assertEquals(aFileName, widget.getValuesAsSettings().getFileName());
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        //Execute
+        try {
+          widget[0].selectDataSource(setting);
+        } catch (AlgorithmConfigurationException e) {
+          System.out.println(e.getMessage());
+          fail();
+        }
+
+        //Check
+        assertEquals(inputId[0] + ": " + aFileName, widget[0].listbox.getSelectedValue());
+        assertEquals(aFileName, widget[0].getValues().getFileName());
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
+
+        finishTest();
+      }
+    };
+
+    delayTestFinish(10000);
+
+    // Waiting for asynchronous calls to finish.
+    setUpTimer.schedule(4000);
+    executeTimer.schedule(8000);
+
   }
 
   /**
@@ -74,204 +110,172 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
    */
   @Test
   public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
-    //Setup
-    InputParameterCsvFileWidget dataSourceWidget = setUpInputParameterWidget();
-    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final TabWrapper tabWrapper = new TabWrapper();
+
+    FileInput fileInput = new FileInput();
+    fileInput.setFileName(aFileName);
+    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+      }
+    });
+
+    final ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
     setting.setFileName(aFileName);
 
-    //Execute
-    dataSourceWidget.setDataSource(setting);
+    final InputParameterCsvFileWidget[] dataSourceWidget = new InputParameterCsvFileWidget[1];
+    Timer setUpTimer = new Timer() {
+      @Override
+      public void run() {
+        //Setup
+        ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
+        dataSourceWidget[0] = new InputParameterCsvFileWidget(configSpec, tabWrapper);
+      }
+    };
 
-    //Check
-    assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getItemCount() > 1);
-    ConfigurationSettingDataSource retrievedSetting =
-        (ConfigurationSettingDataSource) dataSourceWidget.getUpdatedSpecification()
-            .getSettings()[0];
-    assertEquals(aFileName, retrievedSetting.getValueAsString());
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        //Execute
+        try {
+          dataSourceWidget[0].setDataSource(setting);
+        } catch (AlgorithmConfigurationException e) {
+          e.printStackTrace();
+          fail();
+        }
+
+        //Check
+        assertTrue(((CsvFileInput) dataSourceWidget[0].getWidget(0)).listbox.getValues().size() > 1);
+
+        ConfigurationSettingDataSource retrievedSetting = null;
+        try {
+          retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget[0]
+              .getUpdatedSpecification()
+              .getSettings()[0];
+        } catch (InputValidationException e) {
+          e.printStackTrace();
+          fail();
+        }
+        assertEquals(aFileName, retrievedSetting.getValueAsString());
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
+
+        finishTest();
+      }
+    };
+
+    delayTestFinish(10000);
+
+    // Waiting for asynchronous calls to finish.
+    setUpTimer.schedule(4000);
+    executeTimer.schedule(8000);
   }
 
   /**
-   * When selecting the "Advanced" checkbox, additional input fields become visible, containing the
-   * default values that will be used if none are specified.
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#CsvFileInput(boolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * <p/>
+   * After calling the constructor the optional parameter should be set correctly and all widgets
+   * should be initialized.
    */
-  @Test
-  public void testAdvancedDefaultEntries() {
-    CsvFileInput widget = new CsvFileInput(false);
-    assertFalse(widget.advancedTable.isVisible());
-    assertFalse(widget.escapeTextbox.isAttached() && widget.escapeTextbox.isVisible());
-    assertFalse(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());
-    assertFalse(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());
-    assertFalse(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());
-    assertFalse(
-        widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
-    assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached()
-                && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
-    assertFalse(widget.headerCheckbox.isAttached() && widget.headerCheckbox.isVisible());
-    assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox
-        .isVisible());
+  public void testConstructor() {
+    // Setup
+    TabWrapper tabWrapper = new TabWrapper();
 
-    // Execute
-    widget.advancedCheckbox.setValue(true, true);
+    // Expected values
+    boolean expectedOptional = true;
 
-    // Check visibility
-    assertTrue(widget.advancedTable.isVisible());
-    assertTrue(widget.escapeTextbox.isVisible());
-    assertTrue(widget.skiplinesIntegerbox.isVisible());
-    assertTrue(widget.separatorTextbox.isVisible());
-    assertTrue(widget.quoteTextbox.isVisible());
-    assertTrue(widget.strictQuotesCheckbox.isVisible());
-    assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
-    assertTrue(widget.headerCheckbox.isVisible());
-    assertTrue(widget.skipDifferingLinesCheckbox.isVisible());
+    // Execute functionality
+    CsvFileInput actualCsvFileInput = new CsvFileInput(expectedOptional, tabWrapper);
 
-    // Check values
-    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER,
-                 StringHelper.getFirstCharFromInput(widget.escapeTextbox.getValue()));
-    assertEquals(CSVParser.DEFAULT_SEPARATOR,
-                 StringHelper.getFirstCharFromInput(widget.separatorTextbox.getValue()));
-    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER,
-                 StringHelper.getFirstCharFromInput(widget.quoteTextbox.getValue()));
-    assertEquals(CSVReader.DEFAULT_SKIP_LINES,
-                 widget.skiplinesIntegerbox.getValue().intValue());
-    assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
-                 widget.ignoreLeadingWhiteSpaceCheckbox.getValue().booleanValue());
-    assertEquals(CSVParser.DEFAULT_STRICT_QUOTES,
-                 widget.strictQuotesCheckbox.getValue().booleanValue());
-    assertEquals(true, widget.headerCheckbox.getValue().booleanValue());
-    assertEquals(false, widget.skipDifferingLinesCheckbox.getValue().booleanValue());
+    // Check result
+    assertEquals(expectedOptional, actualCsvFileInput.isOptional);
+    assertEquals(2, actualCsvFileInput.getWidgetCount());
+    assertNotNull(actualCsvFileInput.listbox);
   }
 
-  @Test
-  public void testRetrieveAdvancedValues()
-      throws InputValidationException, AlgorithmConfigurationException {
-    boolean boolValue = true;
-    String charValue = "t";
-    int intValue = 2;
-    ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("spec_id");
-    InputParameterCsvFileWidget widget = new InputParameterCsvFileWidget(configSpec);
-    CsvFileInput input = widget.inputWidgets.get(0);
-    String filename = "someCSVfile";
-    input.listbox.insertItem(filename, 1);
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#getValues()} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
+   * <p/>
+   * The getValues and setValues methods should set and retrieve settings.
+   */
+  public void testGetSetValues() {
+    // Setup
+    TestHelper.resetDatabaseSync();
 
-    input.listbox.setSelectedIndex(1);
-    input.advancedCheckbox.setValue(true, true);
-    input.escapeTextbox.setValue(charValue);
-    input.skiplinesIntegerbox.setValue(intValue);
-    input.separatorTextbox.setValue(charValue);
-    input.quoteTextbox.setValue(charValue);
-    input.strictQuotesCheckbox.setValue(boolValue);
-    input.ignoreLeadingWhiteSpaceCheckbox.setValue(boolValue);
-    input.headerCheckbox.setValue(boolValue);
-    input.skipDifferingLinesCheckbox.setValue(boolValue);
+    final TabWrapper tabWrapper = new TabWrapper();
 
-    ConfigurationSettingCsvFile setting = widget.getUpdatedSpecification().getSettings()[0];
+    FileInput fileInput = new FileInput();
+    fileInput.setFileName("name");
+    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
 
-    assertEquals(setting.getFileName(), filename);
-    assertEquals(setting.isAdvanced(), true);
-    assertEquals(setting.getEscapeChar(), charValue.charAt(0));
-    assertEquals(setting.getSkipLines(), intValue);
-    assertEquals(setting.getSeparatorChar(), charValue.charAt(0));
-    assertEquals(setting.getQuoteChar(), charValue.charAt(0));
-    assertEquals(setting.isStrictQuotes(), boolValue);
-    assertEquals(setting.isIgnoreLeadingWhiteSpace(), boolValue);
-    assertEquals(setting.hasHeader(), boolValue);
-    assertEquals(setting.isSkipDifferingLines(), boolValue);
-  }
+      @Override
+      public void onSuccess(Long id) {
 
-  @Test
-  public void testValidation() throws InputValidationException {
-    //Setup
-    ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
-    csvSpec.setAdvanced(true);
-    CsvFileInput csvWidget = new CsvFileInput(csvSpec, false);
-    FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
-    String characterString = "X";
-    int line = 5;
-    boolean boolTrue = true;
-    boolean noCharExceptionCaught = false;
-    boolean noFileExceptionCaught = false;
+      }
+    });
 
-    //Execute
-    csvWidget.listbox.addItem("new file");
-    csvWidget.listbox.setSelectedIndex(1);
+    // Expected values
+    final ConfigurationSettingCsvFile expectedSetting =
+        new ConfigurationSettingCsvFile("name");
 
-    csvWidget.escapeTextbox.setValue(characterString);
-    csvWidget.quoteTextbox.setValue(characterString);
-    csvWidget.skiplinesIntegerbox.setValue(line);
-    csvWidget.ignoreLeadingWhiteSpaceCheckbox.setValue(boolTrue);
-    csvWidget.strictQuotesCheckbox.setValue(boolTrue);
+    // Initialize SqlIteratorInput (waiting for fetching all current database connections)
+    final CsvFileInput[] csvFileInputs = new CsvFileInput[1];
+    Timer setupTimer = new Timer() {
+      @Override
+      public void run() {
+        csvFileInputs[0] = new CsvFileInput(false, tabWrapper);
+      }
+    };
 
-    try {
-      csvSpec = csvWidget.getValuesAsSettings();
-    } catch (InputValidationException e) {
-      noCharExceptionCaught = true;
-    }
-    csvWidget.separatorTextbox.setValue(characterString);
-    csvWidget.listbox.setSelectedIndex(0);
-    try {
-      csvSpec = csvWidget.getValuesAsSettings();
-    } catch (InputValidationException e) {
-      noFileExceptionCaught = true;
-    }
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        // Execute functionality
+        try {
+          csvFileInputs[0].setValues(expectedSetting);
+        } catch (AlgorithmConfigurationException e) {
+          fail();
+          e.printStackTrace();
+        }
 
-    csvWidget.listbox.setSelectedIndex(1);
+        ConfigurationSettingCsvFile actualSetting = csvFileInputs[0].getValues();
 
-    csvSpec = csvWidget.getValuesAsSettings();
+        // Check result
+        assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());
 
-    //Check
-    assertTrue(noCharExceptionCaught);
-    assertTrue(noFileExceptionCaught);
-  }
+        // Cleanup
+        TestHelper.resetDatabaseSync();
 
-  @Test
-  public void testAdvancedSettingsThroughParameterTable() throws InputValidationException {
-    //Setup
-    boolean boolValue = true;
-    String charValue = "#";
-    int intValue = 4;
+        finishTest();
+      }
+    };
 
-    List<ConfigurationSpecification> paramList = new ArrayList<ConfigurationSpecification>();
-    ConfigurationSpecificationCsvFile
-        configurationSpecificationCsvFile =
-        new ConfigurationSpecificationCsvFile("inputData");
-    paramList.add(configurationSpecificationCsvFile);
-    ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
+    delayTestFinish(12000);
 
-    //Set Values
-    CsvFileInput
-        csvInput =
-        ((InputParameterCsvFileWidget) pt.getInputParameterWidget("inputData")).inputWidgets.get(0);
-
-    csvInput.listbox.addItem("new file");
-    csvInput.listbox.setSelectedIndex(1);
-
-    csvInput.advancedCheckbox.setValue(true, true);
-    csvInput.escapeTextbox.setValue(charValue);
-    csvInput.headerCheckbox.setValue(boolValue);
-    csvInput.ignoreLeadingWhiteSpaceCheckbox.setValue(boolValue);
-    csvInput.quoteTextbox.setValue(charValue);
-    csvInput.separatorTextbox.setValue(charValue);
-    csvInput.skipDifferingLinesCheckbox.setValue(boolValue);
-    csvInput.skiplinesIntegerbox.setValue(intValue);
-    csvInput.strictQuotesCheckbox.setValue(boolValue);
-
-    //Retrieve
-    List<ConfigurationSpecification>
-        dataSources =
-        pt.getConfigurationSpecificationDataSourcesWithValues();
-
-    //Check
-    assertEquals(1, dataSources.size());
-    assertTrue(dataSources.get(0) instanceof ConfigurationSpecificationCsvFile);
-    assertEquals(1, dataSources.get(0).getSettings().length);
-    ConfigurationSettingCsvFile
-        csvSetting =
-        (ConfigurationSettingCsvFile) dataSources.get(0).getSettings()[0];
-    //TODO test that advanced values are correct when calling ParameterTable.getDataSourcesWithValues
+    // Waiting for asynchronous calls to finish.
+    setupTimer.schedule(4000);
+    executeTimer.schedule(8000);
   }
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 }

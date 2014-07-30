@@ -34,7 +34,7 @@ public class WidgetFactory {
     } else if (config instanceof ConfigurationSpecificationString) {
       widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
     } else if (config instanceof ConfigurationSpecificationCsvFile) {
-      widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
+      widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationSqlIterator) {
       widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationInteger) {

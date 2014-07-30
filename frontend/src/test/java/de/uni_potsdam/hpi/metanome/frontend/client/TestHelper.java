@@ -25,6 +25,7 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -104,6 +105,17 @@ public class TestHelper {
   public static void storeDatabaseConnection(DatabaseConnection connection,
                                              AsyncCallback<Long> callback) {
     testDatabaseHelperService.storeDatabaseConnection(connection, callback);
+  }
+
+  /**
+   * Stores a file input.
+   *
+   * @param fileInput the {@link de.uni_potsdam.hpi.metanome.results_db.FileInput} to store
+   * @param callback the async callback
+   */
+  public static void storeFileInput(FileInput fileInput,
+                                    AsyncCallback<Long> callback) {
+    testDatabaseHelperService.storeFileInput(fileInput, callback);
   }
 
   /**

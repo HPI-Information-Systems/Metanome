@@ -73,6 +73,16 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
   }
 
   @Override
+  public long storeFileInput(FileInput input) {
+    try {
+      input.store();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+    return input.getId();
+  }
+
+  @Override
   public List<DatabaseConnection> getAllDatabaseConnections() {
     try {
       return DatabaseConnection.retrieveAll();
