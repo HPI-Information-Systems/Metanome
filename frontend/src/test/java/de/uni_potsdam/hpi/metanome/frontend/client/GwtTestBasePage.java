@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,11 +26,15 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -54,8 +55,8 @@ public class GwtTestBasePage extends GWTTestCase {
     // Execute
     testPage = new BasePage();
 
-    // Check
-    assertEquals(5, testPage.getWidgetCount());
+    //Check
+    assertEquals(6, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
@@ -72,6 +73,10 @@ public class GwtTestBasePage extends GWTTestCase {
     wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
+
+    wrapper = testPage.getWidget(Tabs.INPUT_CONFIGURATION.ordinal());
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
   }
 
   public void testAddAlgorithmsToRunConfigurations() {

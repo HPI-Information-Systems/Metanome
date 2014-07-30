@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client;
 
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
@@ -29,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
@@ -37,6 +35,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Overall Application page that has tabs for the various functions (subpages). It also coordinates
@@ -71,6 +72,8 @@ public class BasePage extends TabLayoutPanel {
     this.resultPageTabWrapper = new TabWrapper(this.resultsPage);
     this.insert(this.resultPageTabWrapper, "Results", Tabs.RESULTS.ordinal());
 
+    this.insert(new TabWrapper(new InputConfigurationPage(this)), "Input Configuration", Tabs.INPUT_CONFIGURATION.ordinal());
+
     this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
   }
 
@@ -102,13 +105,13 @@ public class BasePage extends TabLayoutPanel {
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
 
-    String executionIdentifier = getExecutionIdetifier(algorithmFileName);
+    String executionIdentifier = getExecutionIdentifier(algorithmFileName);
 
     // Create new tab with result table
     // ScrollPanel resultsTab = new ScrollPanel();
     ResultsTablePage resultsTableContent =
         new ResultsTablePage(executionService, executionIdentifier);
-    resultsTableContent.setErrorReceiver(this.resultPageTabWrapper);
+    resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
         resultsTableContent.getCancelCallback());
 
@@ -131,7 +134,7 @@ public class BasePage extends TabLayoutPanel {
    * @param algorithmName the name of the algorithm being executed
    * @return a string consisting of the algorithmName and the current date and time
    */
-  protected String getExecutionIdetifier(String algorithmName) {
+  protected String getExecutionIdentifier(String algorithmName) {
     DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd'T'HHmmss");
     return algorithmName + format.format(new Date());
   }
@@ -182,7 +185,7 @@ public class BasePage extends TabLayoutPanel {
   }
 
   public enum Tabs {
-    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
+    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, INPUT_CONFIGURATION, ABOUT
   }
 
 }

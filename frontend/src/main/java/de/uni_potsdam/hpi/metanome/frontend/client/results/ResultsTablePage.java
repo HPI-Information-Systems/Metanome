@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
@@ -42,6 +39,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class ResultsTablePage extends FlowPanel implements OmniscientResultReceiver, TabContent {
 
   protected ExecutionServiceAsync executionService;
@@ -50,7 +50,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected String executionIdentifier;
 
   protected HorizontalPanel resultsPanel;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   protected ResultTable uccTable;
   protected ResultTable cuccTable;
@@ -119,7 +119,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   public void cancelTimerOnFail(Throwable caught) {
     this.timer.cancel();
     this.clear();
-    this.errorReceiver.addError("Algorithm did not execute successfully: " + caught.getMessage());
+    this.messageReceiver.addError("Algorithm did not execute successfully: " + caught.getMessage());
   }
 
   protected void fetchNewResults() {
@@ -127,7 +127,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
 
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError("Could not fetch results.");
+        messageReceiver.addError("Could not fetch results.");
       }
 
       @Override
@@ -142,7 +142,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
 
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError("Could not fetch progress.");
+        messageReceiver.addError("Could not fetch progress.");
       }
 
       @Override
@@ -157,7 +157,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
       try {
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
-        this.errorReceiver.addError(e.getMessage());
+        this.messageReceiver.addError(e.getMessage());
       }
     }
   }
@@ -244,10 +244,10 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 }

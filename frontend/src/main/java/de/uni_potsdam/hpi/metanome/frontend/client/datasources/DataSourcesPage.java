@@ -31,8 +31,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 
 /**
  * Data Sources page is the Tab that lists all previously defined data sources (CSV files, DB
@@ -43,13 +43,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsyn
 public class DataSourcesPage extends VerticalPanel implements TabContent {
 
   protected final BasePage basePage;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   private FlexTable csvFilesList;
-  private InputDataServiceAsync inputDataService;
+  private FileInputServiceAsync fileInputService;
 
   public DataSourcesPage(BasePage parent) {
-    this.inputDataService = GWT.create(InputDataService.class);
+    this.fileInputService = GWT.create(FileInputService.class);
 
     this.basePage = parent;
 
@@ -79,11 +79,11 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
   }
 
   private void listCsvFiles() {
-    inputDataService.listCsvInputFiles(new AsyncCallback<String[]>() {
+    fileInputService.listCsvFiles(new AsyncCallback<String[]>() {
 
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError(caught.getMessage());
+        messageReceiver.addError(caught.getMessage());
       }
 
       @Override
@@ -140,11 +140,11 @@ public class DataSourcesPage extends VerticalPanel implements TabContent {
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 
 }

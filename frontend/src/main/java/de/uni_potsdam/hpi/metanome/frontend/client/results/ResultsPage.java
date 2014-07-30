@@ -32,7 +32,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 public class ResultsPage extends TabLayoutPanel implements TabContent {
 
   protected final BasePage basePage;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -47,11 +47,11 @@ public class ResultsPage extends TabLayoutPanel implements TabContent {
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
     tab.addStyleName("fullSize");
   }
 

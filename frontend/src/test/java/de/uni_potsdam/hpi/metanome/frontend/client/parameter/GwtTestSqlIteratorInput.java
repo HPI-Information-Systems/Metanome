@@ -17,60 +17,118 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput}
- *
+ * 
  * @author Jakob Zwiener
  */
 public class GwtTestSqlIteratorInput extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#SqlIteratorInput(boolean)}
-   * <p/> After calling the constructor the optional parameter should be set correctly and all
-   * widgets should be initialized.
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#SqlIteratorInput(boolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * <p/>
+   * After calling the constructor the optional parameter should be set correctly and all widgets
+   * should be initialized.
    */
   public void testConstructor() {
     // Setup
+    TabWrapper tabWrapper = new TabWrapper();
+
     // Expected values
     boolean expectedOptional = true;
 
     // Execute functionality
-    SqlIteratorInput actualSqlIteratorInput = new SqlIteratorInput(expectedOptional);
+    SqlIteratorInput actualSqlIteratorInput = new SqlIteratorInput(expectedOptional, tabWrapper);
 
     // Check result
     assertEquals(expectedOptional, actualSqlIteratorInput.isOptional);
-    assertEquals(4, actualSqlIteratorInput.layoutTable.getRowCount());
-    assertNotNull(actualSqlIteratorInput.dbUrlTextbox);
-    assertNotNull(actualSqlIteratorInput.usernameTextbox);
-    assertNotNull(actualSqlIteratorInput.passwordTextbox);
-    assertNotNull(actualSqlIteratorInput.systemListBox);
+    assertEquals(2, actualSqlIteratorInput.getWidgetCount());
+    assertNotNull(actualSqlIteratorInput.listbox);
   }
 
   /**
-   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
-   * <p/> The getValues and setValues methods should set and retrieve settings.
+   * Test method for {@link SqlIteratorInput#getValues()} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
+   * <p/>
+   * The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
     // Setup
-    SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false);
+    TestHelper.resetDatabaseSync();
+
+    final TabWrapper tabWrapper = new TabWrapper();
+
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setUrl("url");
+    dbConnection.setPassword("password");
+    dbConnection.setUsername("username");
+    // TODO set system
+    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
+        fail();
+      }
+
+      @Override
+      public void onSuccess(Long id) {
+
+      }
+    });
+
     // Expected values
-    ConfigurationSettingSqlIterator expectedSetting =
-        new ConfigurationSettingSqlIterator("some url", "username", "password", DbSystem.HANA);
+    final ConfigurationSettingSqlIterator expectedSetting =
+        new ConfigurationSettingSqlIterator("url", "username", "password", DbSystem.DB2);
 
-    // Execute functionality
-    sqlIteratorInput.setValues(expectedSetting);
-    ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput.getValues();
+    // Initialize SqlIteratorInput (waiting for fetching all current database connections)
+    final SqlIteratorInput[] sqlIteratorInput = new SqlIteratorInput[1];
+    Timer setupTimer = new Timer() {
+      @Override
+      public void run() {
+        sqlIteratorInput[0] = new SqlIteratorInput(false, tabWrapper);
+      }
+    };
 
-    // Check result
-    assertEquals(expectedSetting, actualSetting);
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        // Execute functionality
+        sqlIteratorInput[0].setValues(expectedSetting);
+
+        ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput[0].getValues();
+
+        // Check result
+        assertEquals(expectedSetting.getDbUrl(), actualSetting.getDbUrl());
+        assertEquals(expectedSetting.getPassword(), actualSetting.getPassword());
+        assertEquals(expectedSetting.getUsername(), actualSetting.getUsername());
+        assertEquals(expectedSetting.getSystem(), actualSetting.getSystem());
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
+
+        finishTest();
+      }
+    };
+
+    delayTestFinish(12000);
+
+    // Waiting for asynchronous calls to finish.
+    setupTimer.schedule(4000);
+    executeTimer.schedule(8000);
   }
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 }

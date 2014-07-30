@@ -16,14 +16,20 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An input widget, used to specify settings for a database connection.
@@ -33,36 +39,52 @@ import java.util.Arrays;
  */
 public class SqlIteratorInput extends InputField {
 
-  protected TextBox dbUrlTextbox;
-  protected TextBox usernameTextbox;
-  protected TextBox passwordTextbox;
-  protected ListBoxInput systemListBox;
-  protected FlexTable layoutTable;
+  protected ListBoxInput listbox;
+  protected Map<String, DatabaseConnection> databaseConnections;
+  private TabWrapper messageReceiver;
 
-
-  public SqlIteratorInput(boolean optional) {
+  public SqlIteratorInput(boolean optional, TabWrapper messageReceiver) {
     super(optional);
 
-    this.layoutTable = new FlexTable();
-    this.add(this.layoutTable);
+    this.messageReceiver = messageReceiver;
+    this.databaseConnections = new HashMap<>();
 
-    this.dbUrlTextbox = new TextBox();
-    addRow(this.dbUrlTextbox, "Database URL", 0);
-
-    this.usernameTextbox = new TextBox();
-    addRow(this.usernameTextbox, "User Name", 1);
-
-    this.passwordTextbox = new TextBox();
-    addRow(this.passwordTextbox, "Password", 2);
-
-    this.systemListBox = new ListBoxInput(false);
-    this.systemListBox.setValues(Arrays.asList(DbSystem.names()));
-    addRow(this.systemListBox, "Db system", 3);
+    listbox = new ListBoxInput(false);
+    updateListBox();
+    this.add(listbox);
   }
 
-  protected void addRow(Widget inputWidget, String name, int row) {
-    this.layoutTable.setText(row, 0, name);
-    this.layoutTable.setWidget(row, 1, inputWidget);
+  /**
+   * Get all database connections from the database and put them into the list box.
+   */
+  public void updateListBox() {
+    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
+      public void onFailure(Throwable caught) {
+        messageReceiver.addError("There are no database connections in the database!");
+      }
+
+      public void onSuccess(List<DatabaseConnection> result) {
+        List<String> dbConnectionNames = new ArrayList<String>();
+        dbConnectionNames.add("--");
+
+        if (result != null && result.size() > 0) {
+          for (DatabaseConnection db : result) {
+            String identifier = db.getId() + ": " + db.getUrl(); // TODO add system
+            dbConnectionNames.add(identifier);
+            databaseConnections.put(identifier, db);
+          }
+        } else {
+          messageReceiver.addError("There are no database connections in the database!");
+        }
+
+        listbox.clear();
+        listbox.setValues(dbConnectionNames);
+        listbox.disableFirstEntry();
+      }
+    };
+
+    DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    databaseConnectionService.listDatabaseConnections(callback);
   }
 
   /**
@@ -71,23 +93,30 @@ public class SqlIteratorInput extends InputField {
    * @return the widget's settings
    */
   public ConfigurationSettingSqlIterator getValues() {
-    return new ConfigurationSettingSqlIterator(this.dbUrlTextbox.getValue(),
-                                               this.usernameTextbox.getValue(),
-                                               this.passwordTextbox.getValue(),
-                                               DbSystem
-                                                   .valueOf(this.systemListBox.getSelectedValue()));
+    DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(
+        this.listbox.getSelectedValue());
+
+    return new ConfigurationSettingSqlIterator(currentDatabaseConnection.getUrl(),
+                                               currentDatabaseConnection.getUsername(),
+                                               currentDatabaseConnection.getPassword(),
+                                               DbSystem.DB2);
+    // TODO DbSystem.valueOf(currentDatabaseConnection.getDbSystem()
   }
 
   /**
-   * Takes a setting a sets the values on the widgets.
+   * Takes a setting a sets the selected value of the list box to the given setting.
    *
-   * @param setting the settings to set on the widgets
+   * @param setting the settings to set
    */
   public void setValues(ConfigurationSettingSqlIterator setting) {
-    this.dbUrlTextbox.setValue(setting.getDbUrl());
-    this.usernameTextbox.setValue(setting.getUsername());
-    this.passwordTextbox.setValue(setting.getPassword());
-    this.systemListBox.setSelectedValue(setting.getSystem().name());
+    for (Map.Entry<String, DatabaseConnection> con : this.databaseConnections.entrySet()) {
+      DatabaseConnection current = con.getValue();
+      if (current.getUrl().equals(setting.getDbUrl()) &&
+          current.getPassword().equals(setting.getPassword()) &&
+          current.getUsername().equals(setting.getUsername()))
+        // TODO check system
+        this.listbox.setSelectedValue(con.getKey());
+    }
   }
 
 }

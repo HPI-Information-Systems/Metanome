@@ -21,7 +21,11 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
+import java.util.List;
 
 /**
  * Helper that performs database interaction synchronously. To be used in tests.
@@ -89,5 +93,40 @@ public class TestHelper {
       }
     };
     rpcCheck.schedule(100);
+  }
+
+  /**
+   * Stores a database connection.
+   *
+   * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
+   * @param callback the async callback
+   */
+  public static void storeDatabaseConnection(DatabaseConnection connection,
+                                             AsyncCallback<Long> callback) {
+    testDatabaseHelperService.storeDatabaseConnection(connection, callback);
+  }
+
+  /**
+   * Get all database connections synchronously.
+   * @param callback the async callback
+   */
+  public static void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback) {
+    testDatabaseHelperService.getAllDatabaseConnections(callback);
+  }
+
+  /**
+   * Get all file inputs synchronously.
+   * @param callback the async callback
+   */
+  public static void getAllFileInputs(AsyncCallback<List<FileInput>> callback) {
+    testDatabaseHelperService.getAllFileInputs(callback);
+  }
+
+  /**
+   * Get all table inputs synchronously.
+   * @param callback the async callback
+   */
+  public static void getAllTableInputs(AsyncCallback<List<TableInput>> callback) {
+    testDatabaseHelperService.getAllTableInputs(callback);
   }
 }

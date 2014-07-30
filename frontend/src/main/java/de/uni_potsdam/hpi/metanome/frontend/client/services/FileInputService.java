@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-/**
- * @author Claudia Exeler
- */
-public interface TabContent extends IsWidget {
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-  public void setMessageReceiver(TabWrapper tab);
+import java.util.List;
 
+@RemoteServiceRelativePath("fileInputService")
+public interface FileInputService extends RemoteService {
+
+  public String[] listCsvFiles();
+
+  public List<FileInput> listFileInputs();
+
+  public FileInput getFileInput(long id);
+
+  public void storeFileInput(FileInput input);
 }

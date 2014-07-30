@@ -23,10 +23,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 public class WidgetFactory {
 
-  public static InputParameterWidget buildWidget(ConfigurationSpecification config) {
+  public static InputParameterWidget buildWidget(ConfigurationSpecification config, TabWrapper messageReceiver) {
     InputParameterWidget widget = null;
     if (config instanceof ConfigurationSpecificationBoolean) {
       widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
@@ -35,7 +36,7 @@ public class WidgetFactory {
     } else if (config instanceof ConfigurationSpecificationCsvFile) {
       widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config);
     } else if (config instanceof ConfigurationSpecificationSqlIterator) {
-      widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config);
+      widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationInteger) {
       widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
     } else if (config instanceof ConfigurationSpecificationListBox) {

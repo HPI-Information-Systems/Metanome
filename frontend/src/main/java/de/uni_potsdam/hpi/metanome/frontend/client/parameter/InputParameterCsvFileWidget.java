@@ -25,8 +25,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 
 import java.util.List;
 
@@ -54,8 +54,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   private void addAvailableCsvsToListbox(final List<CsvFileInput> widgets) {
     AsyncCallback<String[]> callback = getCallback(widgets);
 
-    InputDataServiceAsync service = GWT.create(InputDataService.class);
-    service.listCsvInputFiles(callback);
+    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    service.listCsvFiles(callback);
   }
 
 

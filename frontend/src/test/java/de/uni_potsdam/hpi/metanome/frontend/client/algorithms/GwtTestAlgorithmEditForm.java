@@ -16,13 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+
+import org.junit.Test;
 
 public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
@@ -30,7 +30,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmEditForm}
    * <p/>
-   * When a new AlgorithmEditForm is created, the algorithmsPage and errorReceiver should be set
+   * When a new AlgorithmEditForm is created, the algorithmsPage and messageReceiver should be set
    */
   @Test
   public void testSetup() {
@@ -40,7 +40,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
     // Check that parent was set
     assertEquals(parent, form.algorithmsPage);
-    assertEquals(tab, form.errorReceiver);
+    assertEquals(tab, form.messageReceiver);
   }
 
   @Test

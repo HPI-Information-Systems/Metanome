@@ -68,6 +68,13 @@ public class ListBoxInput extends InputField {
   }
 
   /**
+   * Clear all values of the list box.
+   */
+  public void clear() {
+    this.listbox.clear();
+  }
+
+  /**
    * @return the selected value of its listbox
    */
   public String getSelectedValue() {
@@ -93,5 +100,27 @@ public class ListBoxInput extends InputField {
       }
     }
     return false;
+  }
+
+  /**
+   * Checks if the list box contains values
+   * @return false, if no values are set, true otherwise
+   */
+  public boolean containsValues() {
+    return this.listbox.getItemCount() > 0;
+  }
+
+  /**
+   * Disables the first entry in the list box. This value can not be selected anymore.
+   */
+  public void disableFirstEntry() {
+    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+  }
+
+  /**
+   * Sets the selected value to the first value in the list.
+   */
+  public void reset() {
+    this.listbox.setSelectedIndex(0);
   }
 }

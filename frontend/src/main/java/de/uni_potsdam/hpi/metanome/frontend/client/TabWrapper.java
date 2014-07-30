@@ -22,48 +22,100 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
- * @author Claudia Exeler
+ * A wrapper for tabs to show messages at the top of the tab.
+ * The messages can be either error messages or info messages.
  */
 public class TabWrapper extends FlowPanel {
 
   protected VerticalPanel errorPanel;
+  protected VerticalPanel infoPanel;
   protected TabContent contentPanel;
   protected boolean inError = false;
+  protected boolean inInfo = false;
 
-  /**
-   *
-   */
   public TabWrapper() {
     this.errorPanel = new VerticalPanel();
-    this.add(this.errorPanel);
     this.errorPanel.addStyleName("errorMessage");
+    this.add(this.errorPanel);
+
+    this.infoPanel = new VerticalPanel();
+    this.infoPanel.addStyleName("infoMessage");
+    this.add(this.infoPanel);
   }
 
   public TabWrapper(TabContent panel) {
     this();
 
     this.contentPanel = panel;
-    this.contentPanel.setErrorReceiver(this);
+    this.contentPanel.setMessageReceiver(this);
     this.add(this.contentPanel);
   }
 
+  /**
+   * Displays the given info message.
+   * @param message the message, which should be displayed.
+   */
+  public void addInfo(String message) {
+    Label label = new Label(message);
+    this.infoPanel.add(label);
+    this.setInInfo(true);
+  }
 
+  /**
+   * Clears all info messages from the tab.
+   */
+  public void clearInfos() {
+    this.infoPanel.clear();
+    this.setInInfo(false);
+  }
+
+  /**
+   * Displays the given error message.
+   * @param message the message, which should be displayed.
+   */
   public void addError(String message) {
     Label label = new Label(message);
     this.errorPanel.add(label);
     this.setInError(true);
   }
 
+  /**
+   * Clears all error messages from the tab.
+   */
   public void clearErrors() {
     this.errorPanel.clear();
     this.setInError(false);
   }
 
+  /**
+   *
+   * @return true, if a error message is set, false otherwise
+   */
   public boolean isInError() {
     return inError;
   }
 
+  /**
+   *
+   * @return true, if a info message is set, false otherwise
+   */
+  public boolean isInInfo() {
+    return inInfo;
+  }
+
+  /**
+   *
+   * @param inError specifies if an error message is set or not
+   */
   public void setInError(boolean inError) {
     this.inError = inError;
+  }
+
+  /**
+   *
+   * @param inInfo specifies if an info message is set or not
+   */
+  public void setInInfo(boolean inInfo) {
+    this.inInfo = inInfo;
   }
 }

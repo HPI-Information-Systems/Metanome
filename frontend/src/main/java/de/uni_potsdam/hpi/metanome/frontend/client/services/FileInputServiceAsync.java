@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * @author Claudia Exeler
- */
-public interface TabContent extends IsWidget {
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-  public void setMessageReceiver(TabWrapper tab);
+import java.util.List;
 
+
+public interface FileInputServiceAsync {
+
+  public void listCsvFiles(AsyncCallback<String[]> callback);
+
+  void getFileInput(long id, AsyncCallback<FileInput> async);
+
+  void storeFileInput(FileInput input, AsyncCallback<Void> async);
+
+  void listFileInputs(AsyncCallback<List<FileInput>> async);
 }

@@ -19,8 +19,13 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+
+import java.util.List;
 
 /**
  * A service to reset the database in gwt client side tests.
@@ -50,5 +55,50 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Stores a database connection in the database.
+   *
+   * @param connection the database connection to store
+   */
+  @Override
+  public long storeDatabaseConnection(DatabaseConnection connection) {
+    try {
+      connection.store();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+    return connection.getId();
+  }
+
+  @Override
+  public List<DatabaseConnection> getAllDatabaseConnections() {
+    try {
+      return DatabaseConnection.retrieveAll();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
+  public List<TableInput> getAllTableInputs() {
+    try {
+      TableInput.retrieveAll();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
+  public List<FileInput> getAllFileInputs() {
+    try {
+      FileInput.retrieveAll();
+    } catch (EntityStorageException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

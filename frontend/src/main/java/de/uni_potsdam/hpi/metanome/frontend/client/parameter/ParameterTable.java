@@ -16,9 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 
@@ -29,11 +26,14 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ParameterTable extends FlexTable {
 
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
-  private List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
-  private TabWrapper errorReceiver;
+  protected List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
+  private TabWrapper messageReceiver;
 
   /**
    * Creates a ParameterTable for user input for the given parameters. Prompt and type specific
@@ -42,20 +42,20 @@ public class ParameterTable extends FlexTable {
    *
    * @param paramList the list of parameters asked for by the algorithm.
    * @param primaryDataSource the primary data source
-   * @param errorReceiver to send errors to
+   * @param messageReceiver to send errors to
    */
   public ParameterTable(List<ConfigurationSpecification> paramList,
                         ConfigurationSettingDataSource primaryDataSource,
-                        TabWrapper errorReceiver) {
+                        TabWrapper messageReceiver) {
     super();
-    this.errorReceiver = errorReceiver;
+    this.messageReceiver = messageReceiver;
 
     int i = 0;
     for (ConfigurationSpecification param : paramList) {
       this.setText(i, 0, param.getIdentifier());
 
       InputParameterWidget currentWidget;
-      currentWidget = WidgetFactory.buildWidget(param);
+      currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
       this.setWidget(i, 1, currentWidget);
       if (currentWidget.isDataSource()) {
         InputParameterDataSourceWidget dataSourceWidget =
@@ -64,8 +64,8 @@ public class ParameterTable extends FlexTable {
           try {
             dataSourceWidget.setDataSource(primaryDataSource);
           } catch (AlgorithmConfigurationException e) {
-            this.errorReceiver.addError("Could not select " + primaryDataSource.getValueAsString()
-                + "as data source. Please choose one of the available ones below.");
+            this.messageReceiver.addError("Could not select " + primaryDataSource.getValueAsString()
+                                        + "as data source. Please choose one of the available ones below.");
           }
         }
         this.dataSourceChildWidgets.add(dataSourceWidget);
@@ -92,8 +92,8 @@ public class ParameterTable extends FlexTable {
           getConfigurationSpecificationDataSourcesWithValues();
       getAlgorithmTab().callExecutionService(parameters, dataSources);
     } catch (InputValidationException e) {
-      this.errorReceiver.clearErrors();
-      this.errorReceiver.addError(e.getMessage());
+      this.messageReceiver.clearErrors();
+      this.messageReceiver.addError(e.getMessage());
     }
   }
 

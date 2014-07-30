@@ -37,7 +37,7 @@ import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 public class AlgorithmEditForm extends Grid {
 
   protected final AlgorithmsPage algorithmsPage;
-  protected final TabWrapper errorReceiver;
+  protected final TabWrapper messageReceiver;
 
   protected TextBox fileNameTextBox = new TextBox();
   protected TextBox nameTextBox = new TextBox();
@@ -49,11 +49,11 @@ public class AlgorithmEditForm extends Grid {
   protected CheckBox basicStatsCheckBox = new CheckBox("Basic Statistics");
 
 
-  public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper errorReceiver) {
+  public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
     super(6, 3);
 
     this.algorithmsPage = parent;
-    this.errorReceiver = errorReceiver;
+    this.messageReceiver = messageReceiver;
 
     this.setWidget(0, 2, new Label(
         "First, make your JAR file available by putting it in the algorithms folder."));
@@ -93,7 +93,7 @@ public class AlgorithmEditForm extends Grid {
     try {
       algorithmsPage.callAddAlgorithm(retrieveInputValues());
     } catch (InputValidationException e) {
-      errorReceiver.addError(e.getMessage());
+      messageReceiver.addError(e.getMessage());
     }
   }
 

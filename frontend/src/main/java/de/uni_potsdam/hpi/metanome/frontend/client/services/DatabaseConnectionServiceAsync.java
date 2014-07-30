@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client;
+package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * @author Claudia Exeler
- */
-public interface TabContent extends IsWidget {
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
-  public void setMessageReceiver(TabWrapper tab);
+import java.util.List;
 
+public interface DatabaseConnectionServiceAsync {
+
+  public void listDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback);
+
+  public void getDatabaseConnection(long id, AsyncCallback<DatabaseConnection> callback);
+
+  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Void> async);
 }

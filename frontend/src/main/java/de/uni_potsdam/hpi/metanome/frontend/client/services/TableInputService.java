@@ -16,11 +16,20 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-public interface InputDataServiceAsync {
+import java.util.List;
 
-  public void listCsvInputFiles(AsyncCallback<String[]> callback);
+@RemoteServiceRelativePath("tableInputService")
+public interface TableInputService extends RemoteService {
+
+  public List<TableInput> listTableInputs();
+
+  public TableInput getTableInput(long id);
+
+  public void storeTableInput(TableInput input);
 
 }
