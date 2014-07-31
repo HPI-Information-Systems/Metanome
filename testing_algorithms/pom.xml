@@ -41,6 +41,7 @@
         <module>example_fd_algorithm</module>
         <module>example_ind_algorithm</module>
         <module>example_ucc_algorithm</module>
+        <module>example_cucc_algorithm</module>
         <module>example_holistic_algorithm</module>
         <module>example_wrong_bootstrap_algorithm</module>
         <module>example_indirect_interfaces_algorithm</module>

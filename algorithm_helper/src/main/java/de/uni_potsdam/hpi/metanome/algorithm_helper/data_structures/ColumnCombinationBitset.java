@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 
+import org.apache.lucene.util.ArrayUtil;
 import org.apache.lucene.util.OpenBitSet;
 
 import java.util.ArrayList;
@@ -51,6 +52,10 @@ public class ColumnCombinationBitset {
       // If the bit was not yet set, increase the size.
       addColumn(columnIndex);
     }
+  }
+
+  public ColumnCombinationBitset(List<Integer> columnIndeces) {
+    this(ArrayUtil.toIntArray(columnIndeces));
   }
 
   /**
@@ -562,6 +567,18 @@ public class ColumnCombinationBitset {
    */
   public boolean containsColumn(int columnIndex) {
     return bitset.get(columnIndex);
+  }
+
+  /**
+   * Calculates and returns the inverted bitset.
+   *
+   * @param size of inverted 0 bits on the left side
+   * @return the inverted {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   */
+  public ColumnCombinationBitset invert(int size) {
+    OpenBitSet invertedBitset = this.bitset.clone();
+    invertedBitset.flip(0, size);
+    return new ColumnCombinationBitset().setColumns(invertedBitset);
   }
 }
 

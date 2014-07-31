@@ -25,6 +25,7 @@
         <include name="AlgorithmExecutionException.java"/>
         <include name="ColumnCombination.java"/>
         <include name="ColumnIdentifier.java"/>
+        <include name="ColumnCondition.java"/>
     </source>
     <source path="algorithm_integration/configuration">
         <include name="ConfigurationSettingBoolean.java"/>
@@ -46,6 +47,7 @@
     <source path="algorithm_integration/result_receiver">
         <include name="OmniscientResultReceiver.java"/>
         <include name="BasicStatisticsResultReceiver.java"/>
+        <include name="ConditionalUniqueColumnCombinationResultReceiver.java"/>
         <include name="FunctionalDependencyResultReceiver.java"/>
         <include name="InclusionDependencyResultReceiver.java"/>
         <include name="UniqueColumnCombinationResultReceiver.java"/>
@@ -53,6 +55,7 @@
     </source>
     <source path="algorithm_integration/results">
         <include name="Result.java"/>
+        <include name="ConditionalUniqueColumnCombination.java"/>
         <include name="UniqueColumnCombination.java"/>
         <include name="FunctionalDependency.java"/>
         <include name="InclusionDependency.java"/>
@@ -64,5 +67,6 @@
     <source path="results_db">
         <include name="Algorithm.java"/>
         <include name="AlgorithmContentEquals.java"/>
-    </source>
+        <include name="EntityStorageException.java"/>
+	</source>
 </module>

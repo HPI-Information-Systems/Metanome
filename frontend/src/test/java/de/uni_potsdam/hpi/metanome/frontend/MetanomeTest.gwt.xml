@@ -21,6 +21,7 @@
 <module rename-to="metanome">
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="com.google.common.base.Base"/>
     <inherits name="de.uni_potsdam.hpi.metanome.Metanome_Dependencies"/>
 
     <entry-point class="de.uni_potsdam.hpi.metanome.frontend.client.MetanomeEntryPoint"/>
@@ -29,8 +30,8 @@
 
     <servlet path="/parameterService"
              class="de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl"/>
-    <servlet path="/finderService"
-             class="de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl"/>
+    <servlet path="/algorithmService"
+             class="de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl"/>
     <servlet path="/executionService"
              class="de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl"/>
     <servlet path="/inputDataService"
@@ -46,7 +47,7 @@
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
     <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+    
     <!-- <stylesheet src="../Metanome.css"/>  -->
-
+    
 </module>
-

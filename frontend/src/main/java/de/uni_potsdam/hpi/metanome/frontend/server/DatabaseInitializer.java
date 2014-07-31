@@ -33,14 +33,14 @@ import javax.servlet.ServletContextListener;
 
 /**
  * Is called upon servlet initialization and initializes metanome's results database.
- *
+ * 
  * @author Jakob Zwiener
  */
 public class DatabaseInitializer implements ServletContextListener {
 
   /**
-   * TODO docs
-   *
+   * Initializes the database.
+   * 
    * @param servletContextEvent the servlet context
    */
   @Override
@@ -59,6 +59,9 @@ public class DatabaseInitializer implements ServletContextListener {
 
   /**
    * Prefills the algorithms table in the database with the existing algorithm jars.
+   *
+   * @throws IOException when algorithm jars cannot be retrieved
+   * @throws ClassNotFoundException when algorithm bootstrap class cannot be found
    */
   protected void addAlgorithms() throws IOException, ClassNotFoundException {
     // only prefill algorithms table if it is currently empty
@@ -75,7 +78,7 @@ public class DatabaseInitializer implements ServletContextListener {
     for (String filePath : algorithmFileNames) {
       try {
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-        Algorithm algorithm = new Algorithm(filePath, algorithmInterfaces)
+        new Algorithm(filePath, algorithmInterfaces)
             .setName(filePath.replaceAll(".jar", ""))
             .store();
       } catch (EntityStorageException | IOException | ClassNotFoundException e) {
@@ -86,6 +89,9 @@ public class DatabaseInitializer implements ServletContextListener {
 
   /**
    * Prefills the inputs table in the database with the existing input files.
+   *
+   * @throws UnsupportedEncodingException when csv files cannot be found
+   * @throws EntityStorageException when the existing inputs cannot be queried
    */
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
     // only prefill input table if currently empty
@@ -108,6 +114,5 @@ public class DatabaseInitializer implements ServletContextListener {
   }
 
   @Override
-  public void contextDestroyed(ServletContextEvent servletContextEvent) {
-  }
+  public void contextDestroyed(ServletContextEvent servletContextEvent) {}
 }

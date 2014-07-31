@@ -23,40 +23,51 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderService;
-import de.uni_potsdam.hpi.metanome.frontend.client.services.FinderServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * UI element that incorporates structure and logic for displaying and adding algorithms.
+ * 
+ * @author Claudia Exeler
+ */
 public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
-  protected final FinderServiceAsync finderService;
+  protected final AlgorithmServiceAsync algorithmService;
   protected final BasePage basePage;
-  private final FlexTable uccList;
-  private final FlexTable fdList;
-  private final FlexTable indList;
-  private final FlexTable statsList;
+  protected final FlexTable uccList;
+  protected final FlexTable cuccList;
+  protected final FlexTable fdList;
+  protected final FlexTable indList;
+  protected final FlexTable statsList;
   protected TabWrapper errorReceiver;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
     this.setSpacing(5);
 
-    this.finderService = GWT.create(FinderService.class);
+    this.algorithmService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
 
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));
     this.uccList = new FlexTable();
     this.add(this.uccList);
     listAndAddUccAlgorithms();
+
+    this.add(new HTML("<h3>Conditional Unique Column Combinations</h3>"));
+    this.cuccList = new FlexTable();
+    this.add(this.cuccList);
+    listAndAddCuccAlgorithms();
 
     this.add(new HTML("<h3>Functional Dependencies</h3>"));
     this.fdList = new FlexTable();
@@ -73,70 +84,64 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     this.add(this.statsList);
     listStatsAlgorithms();
 
-    Label temporaryAddContent = new Label();
-    temporaryAddContent.setText("To add a new algorithm, put its jar in the designated folder.");
-    this.add(temporaryAddContent);
+    this.add(new HTML("<hr>"));
+    this.add(new HTML("<h3>Add A New Algorithm</h3>"));
+    this.add(new AlgorithmEditForm(this, this.errorReceiver));
   }
 
   /**
    * Request a list of available UCC algorithms and display them in the uccList
    */
   private void listAndAddUccAlgorithms() {
-    finderService.listUniqueColumnCombinationsAlgorithms(getCallback(this.uccList));
+    algorithmService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
+  }
+
+  /**
+   * Request a list of available CUCC algorithms and display them in the cuccList
+   */
+  private void listAndAddCuccAlgorithms() {
+    algorithmService.listConditionalUniqueColumnCombinationsAlgorithms(
+        getRetrieveCallback(this.cuccList));
   }
 
   /**
    * Request a list of available FD algorithms and display them in the fdList
    */
   private void listFdAlgorithms() {
-    finderService.listFunctionalDependencyAlgorithms(getCallback(this.fdList));
+    algorithmService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
   }
 
   /**
-   * Request a list of available IND algorithms and  display them in the indList
+   * Request a list of available IND algorithms and display them in the indList
    */
   private void listIndAlgorithms() {
-    finderService.listInclusionDependencyAlgorithms(getCallback(this.indList));
+    algorithmService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
   private void listStatsAlgorithms() {
-    finderService.listBasicStatisticsAlgorithms(getCallback(this.statsList));
+    algorithmService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
   }
 
   /**
-   * Constructs a callback that will add all results to the given table
-   *
-   * @param list Object that all returned elements will be added to
-   * @return the desired callback instance
+   * Adds each of the algorithms to the given table, including formatting and buttons.
+   * 
+   * @param algorithms the algorithms to be displayed
+   * @param list the table to which the algoithms will be added
    */
-  protected AsyncCallback<List<Algorithm>> getCallback(final FlexTable list) {
-    return new AsyncCallback<List<Algorithm>>() {
-      public void onFailure(Throwable caught) {
-        errorReceiver.addError(caught.getMessage());
-        caught.printStackTrace();
-      }
-
-      public void onSuccess(List<Algorithm> result) {
-        basePage.addAlgorithmsToRunConfigurations(result);
-        addAlgorithmsToList(result, list);
-      }
-    };
-  }
-
-  protected void addAlgorithmsToList(List<Algorithm> algorithms, FlexTable list) {
+  protected void addAlgorithms(List<Algorithm> algorithms, FlexTable list) {
     int row = list.getRowCount();
     Collections.sort(algorithms);
     for (Algorithm algorithm : algorithms) {
-      //Using the HTML title to associate an algorithm with each button.
+      // Using the HTML title to associate an algorithm with each button.
       Button runButton = new Button("Run");
       runButton.setTitle(algorithm.getName());
       runButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          jumpToRunConfiguration(((Button) event.getSource()).getTitle());
+          callRunConfiguration(((Button) event.getSource()).getTitle());
         }
       });
 
@@ -148,15 +153,91 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
     }
   }
 
-  protected void jumpToRunConfiguration(String algorithmName) {
+  /**
+   * Initiates a service call to add the given algorithm to the database.
+   * 
+   * @param algorithm
+   */
+  public void callAddAlgorithm(final Algorithm algorithm) {
+    algorithmService.addAlgorithm(algorithm, getAddCallback(algorithm));
+  }
+
+  /**
+   * Initiates a redirect to the Run Configuration page, prefilled with the given algorithm
+   * 
+   * @param algorithmName name of the algorithm that will be configured
+   */
+  protected void callRunConfiguration(String algorithmName) {
     basePage.jumpToRunConfiguration(algorithmName, null);
   }
 
-  /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+
+  /**
+   * Constructs a callback that will add all results to the given table
+   * 
+   * @param list Object that all returned elements will be added to
+   * @return the desired callback instance
+   */
+  protected AsyncCallback<List<Algorithm>> getRetrieveCallback(final FlexTable list) {
+    return new AsyncCallback<List<Algorithm>>() {
+      public void onFailure(Throwable caught) {
+        errorReceiver.addError(caught.getMessage());
+        caught.printStackTrace();
+      }
+
+      public void onSuccess(List<Algorithm> result) {
+        basePage.addAlgorithmsToRunConfigurations(result);
+        addAlgorithms(result, list);
+      }
+    };
+  }
+
+  /**
+   * Constructs a callback that will add the given algorithm to all matching tables
+   * 
+   * @param algorithm the algorithm to add to the page
+   * @return the desired callback instance
+   */
+  protected AsyncCallback<Void> getAddCallback(final Algorithm algorithm) {
+    return new AsyncCallback<Void>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+        errorReceiver.addError("Could not add the algorithm: " + caught.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void result) {
+        ArrayList<Algorithm> list = new ArrayList<Algorithm>();
+        list.add(algorithm);
+        basePage.addAlgorithmsToRunConfigurations(list);
+
+        if (algorithm.isInd()) {
+          addAlgorithms(list, indList);
+        }
+        if (algorithm.isFd()) {
+          addAlgorithms(list, fdList);
+        }
+        if (algorithm.isUcc()) {
+          addAlgorithms(list, uccList);
+        }
+        if (algorithm.isBasicStat()) {
+          addAlgorithms(list, statsList);
+        }
+      }
+    };
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.
+   * metanome.frontend.client.TabWrapper)
    */
   @Override
   public void setErrorReceiver(TabWrapper tab) {
     this.errorReceiver = tab;
   }
+
 }
