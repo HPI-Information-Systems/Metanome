@@ -45,6 +45,7 @@ import javax.persistence.NamedQuery;
  *
  * @author Jakob Zwiener
  */
+// TODO remove named query
 @NamedQueries(
     @NamedQuery(
         name = "get all",
@@ -53,7 +54,7 @@ import javax.persistence.NamedQuery;
 )
 @Entity
 @GwtCompatible
-public class Algorithm implements Serializable, Comparable<Algorithm> {
+public class Algorithm extends ResultsDbEntity implements Serializable, Comparable<Algorithm> {
 
   private static final long serialVersionUID = -3276487707781514801L;
 
@@ -205,23 +206,12 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
    *
    * @return the Algorithm
    */
+  @Override
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public Algorithm store() throws EntityStorageException {
     HibernateUtil.store(this);
 
     return this;
-  }
-
-  /**
-   * Deletes the Algorithm from the database.
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public void delete() {
-    try {
-      HibernateUtil.delete(this);
-    } catch (EntityStorageException e) {
-      // The exception would only be thrown if the Algorithm did not have the Entity annotation.
-    }
   }
 
   @Id
