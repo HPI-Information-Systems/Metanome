@@ -212,6 +212,18 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     return this;
   }
 
+  /**
+   * Deletes the Algorithm from the database.
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public void delete() {
+    try {
+      HibernateUtil.delete(this);
+    } catch (EntityStorageException e) {
+      // The exception would only be thrown if the Algorithm did not have the Entity annotation.
+    }
+  }
+
   @Id
   public String getFileName() {
     return fileName;

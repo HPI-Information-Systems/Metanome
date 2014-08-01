@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -91,6 +92,35 @@ public class AlgorithmTest {
 
     // Check result
     assertEquals(expectedAlgorithm, actualAlgorithm);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for {@link Algorithm#delete()}
+   *
+   * Algorithms should be deletable. After deletion they should no longer be retrievable.
+   */
+  @Test
+  public void testDelete() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    String expectedFileName = "someFileName";
+    Algorithm expectedAlgorithm = new Algorithm(expectedFileName)
+        .store();
+
+    // Check precondition
+    Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
+    assertEquals(expectedAlgorithm, actualAlgorithm);
+
+    // Execute functionality
+    expectedAlgorithm.delete();
+
+    // Check result
+    assertNull(Algorithm.retrieve(expectedFileName));
 
     // Cleanup
     HibernateUtil.clear();
