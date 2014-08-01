@@ -21,7 +21,6 @@ import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 /**
@@ -51,56 +50,6 @@ public class DatabaseConnectionTest {
 
     // Check result
     assertEquals(expectedDatabaseConnection, actualDatabaseConnection);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link DatabaseConnection#delete()}
-   *
-   * DatabaseConnections should be deletable. After deletion they should no longer be retrievable.
-   */
-  @Test
-  public void testDelete() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    DatabaseConnection expectedDatabaseConnection = new DatabaseConnection()
-        .store();
-    long id = expectedDatabaseConnection.getId();
-
-    // Check precondition
-    DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
-    assertEquals(expectedDatabaseConnection, actualDatabaseConnection);
-
-    // Execute functionality
-    expectedDatabaseConnection.delete();
-
-    // Check result
-    assertNull(DatabaseConnection.retrieve(id));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link DatabaseConnection#delete()}
-   *
-   * Calling delete on an DatabaseConnection that has not yet been stored should be successful with
-   * no result.
-   */
-  @Test
-  public void testDeleteNotStored() {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    DatabaseConnection expectedDatabaseConnection = new DatabaseConnection();
-
-    // Execute functionality
-    expectedDatabaseConnection.delete();
 
     // Cleanup
     HibernateUtil.clear();

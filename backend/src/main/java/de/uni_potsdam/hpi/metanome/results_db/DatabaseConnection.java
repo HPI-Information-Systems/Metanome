@@ -16,7 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,7 +30,8 @@ import javax.persistence.Id;
  * @author Jakob Zwiener
  */
 @Entity
-public class DatabaseConnection {
+@GwtCompatible
+public class DatabaseConnection extends ResultsDbEntity implements Serializable {
 
   protected long id;
   protected String url;
@@ -49,22 +53,12 @@ public class DatabaseConnection {
    *
    * @return the DatabaseConnection
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public DatabaseConnection store() throws EntityStorageException {
     HibernateUtil.store(this);
 
     return this;
-  }
-
-  /**
-   * Deletes the DatabaseConnection from the database.
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public void delete() {
-    try {
-      HibernateUtil.delete(this);
-    } catch (EntityStorageException e) {
-      // The exception would only be thrown if the DatabaseConnection did not have the Entity annotation.
-    }
   }
 
   @Id
