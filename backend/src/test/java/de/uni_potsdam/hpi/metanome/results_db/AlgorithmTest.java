@@ -175,7 +175,7 @@ public class AlgorithmTest {
    * list of algorithms should still be retrievable and empty.
    */
   @Test
-  public void testRetrieveAllTableEmpty() {
+  public void testRetrieveAllTableEmpty() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 

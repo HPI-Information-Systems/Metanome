@@ -45,7 +45,6 @@ import javax.persistence.NamedQuery;
  *
  * @author Jakob Zwiener
  */
-// TODO remove named query
 @NamedQueries(
     @NamedQuery(
         name = "get all",
@@ -151,8 +150,8 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
    * @return a list of all algorithms
    */
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Algorithm> retrieveAll() {
-    return (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
+  public static List<Algorithm> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(Algorithm.class);
   }
 
   /**
