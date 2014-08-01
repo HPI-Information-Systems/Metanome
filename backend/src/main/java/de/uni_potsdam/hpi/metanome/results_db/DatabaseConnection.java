@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -51,6 +53,18 @@ public class DatabaseConnection {
     HibernateUtil.store(this);
 
     return this;
+  }
+
+  /**
+   * Deletes the DatabaseConnection from the database.
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public void delete() {
+    try {
+      HibernateUtil.delete(this);
+    } catch (EntityStorageException e) {
+      // The exception would only be thrown if the DatabaseConnection did not have the Entity annotation.
+    }
   }
 
   @Id
