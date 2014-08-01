@@ -99,7 +99,6 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       setUcc(true);
     }
-
     if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       setCucc(true);
     }
