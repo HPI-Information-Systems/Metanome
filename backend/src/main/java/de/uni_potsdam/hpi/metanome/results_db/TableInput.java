@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -25,6 +28,7 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
+@GwtCompatible
 public class TableInput extends Input {
 
   protected String tableName;
@@ -45,6 +49,8 @@ public class TableInput extends Input {
    *
    * @return the TableInput
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public TableInput store() throws EntityStorageException {
     HibernateUtil.store(this);
 

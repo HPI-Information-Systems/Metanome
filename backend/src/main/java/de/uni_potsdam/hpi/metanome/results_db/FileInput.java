@@ -16,6 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -29,6 +32,7 @@ import javax.persistence.Entity;
  * @author Jakob Zwiener
  */
 @Entity
+@GwtCompatible
 public class FileInput extends Input {
 
   protected String fileName;
@@ -81,6 +85,8 @@ public class FileInput extends Input {
    *
    * @return the FileInput
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public FileInput store() throws EntityStorageException {
     HibernateUtil.store(this);
 
