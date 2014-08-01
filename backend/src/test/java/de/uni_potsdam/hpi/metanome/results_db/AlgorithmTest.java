@@ -127,6 +127,27 @@ public class AlgorithmTest {
   }
 
   /**
+   * Test method for {@link Algorithm#delete()}
+   *
+   * Calling delete on an Algorithm that has not yet been stored should be successful with no result.
+   */
+  @Test
+  public void testDeleteNotStored() {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    String expectedFileName = "someFileName";
+    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+
+    // Execute functionality
+    expectedAlgorithm.delete();
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
    * Test method for {@link Algorithm#retrieveAll()}
    */
   @Test
