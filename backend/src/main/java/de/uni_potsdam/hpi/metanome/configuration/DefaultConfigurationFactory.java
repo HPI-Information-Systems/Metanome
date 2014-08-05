@@ -16,13 +16,24 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationFactory;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
+import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * TODO docs
@@ -43,7 +54,14 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    */
   public ConfigurationValueFileInputGenerator build(
       ConfigurationSpecificationCsvFile specification) {
-    return new ConfigurationValueFileInputGenerator(specification);
+    try {
+      return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
+                                                      createFileInputGenerators(specification));
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+      // TODO handle exception
+    }
+    return null;
   }
 
   /**
@@ -64,16 +82,24 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueRelationalInputGenerator build(
-      ConfigurationSpecificationCsvFile specification) {
-    return new ConfigurationValueRelationalInputGenerator(specification);
+      ConfigurationSpecificationRelationalInput specification) {
+    //return new ConfigurationValueRelationalInputGenerator(specification);
+    return null;
   }
 
   /**
    * TODO docs
    */
-  public ConfigurationValueRelationalInputGenerator build(
+  public ConfigurationValueSqlInputGenerator build(
       ConfigurationSpecificationSqlIterator specification) {
-    return new ConfigurationValueRelationalInputGenerator(specification);
+    try {
+      return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
+                                                     createSqlIteratorGenerators(specification));
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+      //TODO handle exception
+    }
+    return null;
   }
 
   // TODO add ConfigurationValueDatabaseConnection
@@ -83,6 +109,69 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    */
   public ConfigurationValueString build(ConfigurationSpecificationString specification) {
     return new ConfigurationValueString(specification);
+  }
+
+  /**
+   * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator}
+   * to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
+   *
+   * @param specification the sql iterator specification
+   * @return the created sql input generator
+   */
+  private static SqlInputGenerator[] createSqlIteratorGenerators(
+      ConfigurationSpecificationSqlIterator specification) throws AlgorithmConfigurationException {
+
+    SqlIteratorGenerator[]
+        sqlIteratorGenerators =
+        new SqlIteratorGenerator[specification.getSettings().length];
+
+    int i = 0;
+    for (ConfigurationSettingSqlIterator setting : specification.getSettings()) {
+      sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
+                                                          setting.getUsername(),
+                                                          setting.getPassword());
+      i++;
+    }
+    return sqlIteratorGenerators;
+  }
+
+
+  /**
+   * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
+   * to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}.
+   *
+   * @param specification the file input specification
+   * @return the created file input generator
+   */
+  private static FileInputGenerator[] createFileInputGenerators(
+      ConfigurationSpecificationCsvFile specification) throws AlgorithmConfigurationException {
+
+    CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];
+
+    int i = 0;
+    for (ConfigurationSettingCsvFile setting : specification.getSettings()) {
+      try {
+        if (setting.isAdvanced()) {
+          csvFileGenerators[i] =
+              new CsvFileGenerator(new File(setting.getFileName()),
+                                   setting.getSeparatorChar(),
+                                   setting.getQuoteChar(),
+                                   setting.getEscapeChar(),
+                                   setting.getSkipLines(),
+                                   setting.isStrictQuotes(),
+                                   setting.isIgnoreLeadingWhiteSpace(),
+                                   setting.hasHeader(),
+                                   setting.isSkipDifferingLines());
+        } else {
+          csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()));
+        }
+      } catch (FileNotFoundException e) {
+        throw new AlgorithmConfigurationException("Could not find CSV file.");
+      }
+      i++;
+    }
+
+    return csvFileGenerators;
   }
 
 }
