@@ -219,7 +219,7 @@ public class FileInputField extends HorizontalPanel {
   }
 
   /**
-   * Add files  of CSV files
+   * Add files of CSV files
    * @param files which should be added to the list box
    */
   private void addFilesToListBox(String[] files) {

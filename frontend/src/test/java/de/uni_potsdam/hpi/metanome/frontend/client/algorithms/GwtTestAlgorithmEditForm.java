@@ -24,6 +24,9 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
   /**
@@ -48,7 +51,12 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
-    form.fileNameTextBox.setValue("some/file/name.jar");
+    String fileName = "some/file/name.jar";
+    List<String> names = new ArrayList<>();
+    names.add(fileName);
+    form.fileListBox.setValues(names);
+
+    form.fileListBox.setSelectedValue(fileName);
     form.nameTextBox.setValue("some algorithm");
     form.authorTextBox.setValue("--");
     form.indCheckBox.setValue(true);
@@ -66,7 +74,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
-    form.fileNameTextBox.setValue("");
     form.nameTextBox.setValue("some algorithm");
     form.authorTextBox.setValue("--");
     form.indCheckBox.setValue(true);
@@ -85,7 +92,12 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
-    form.fileNameTextBox.setValue("some/file/name.jar");
+    String fileName = "some/file/name.jar";
+    List<String> names = new ArrayList<>();
+    names.add(fileName);
+    form.fileListBox.setValues(names);
+
+    form.fileListBox.setSelectedValue(fileName);
     form.nameTextBox.setValue("some algorithm");
     form.authorTextBox.setValue("--");
 
@@ -99,7 +111,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 
 }

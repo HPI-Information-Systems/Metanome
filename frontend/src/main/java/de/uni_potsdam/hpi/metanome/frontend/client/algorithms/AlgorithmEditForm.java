@@ -16,19 +16,25 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.Arrays;
 
 /**
  * @author Claudia Exeler
@@ -39,7 +45,7 @@ public class AlgorithmEditForm extends Grid {
   protected final AlgorithmsPage algorithmsPage;
   protected final TabWrapper messageReceiver;
 
-  protected TextBox fileNameTextBox = new TextBox();
+  protected ListBoxInput fileListBox = new ListBoxInput(false);
   protected TextBox nameTextBox = new TextBox();
   protected TextBox authorTextBox = new TextBox();
   protected TextBox descriptionTextBox = new TextBox();
@@ -55,10 +61,9 @@ public class AlgorithmEditForm extends Grid {
     this.algorithmsPage = parent;
     this.messageReceiver = messageReceiver;
 
-    this.setWidget(0, 2, new Label(
-        "First, make your JAR file available by putting it in the algorithms folder."));
+    this.createFileListBox();
     this.setText(0, 0, "File Name");
-    this.setWidget(0, 1, this.fileNameTextBox);
+    this.setWidget(0, 1, this.fileListBox);
 
     this.setText(1, 0, "Algorithm Name");
     this.setWidget(1, 1, this.nameTextBox);
@@ -86,6 +91,24 @@ public class AlgorithmEditForm extends Grid {
     }));
   }
 
+  private void createFileListBox() {
+    AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        throwable.printStackTrace();
+        messageReceiver.addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
+      }
+
+      @Override
+      public void onSuccess(String[] strings) {
+        fileListBox.setValues(Arrays.asList(strings));
+      }
+    };
+
+    AlgorithmServiceAsync service = GWT.create(AlgorithmService.class);
+    service.listAvailableAlgorithmFiles(callback);
+  }
+
   /**
    * 
    */
@@ -101,12 +124,7 @@ public class AlgorithmEditForm extends Grid {
    * @return a new Algorithm instance with attribute values according to user input
    */
   protected Algorithm retrieveInputValues() throws InputValidationException {
-    String fileName = this.fileNameTextBox.getValue();
-    if (fileName.matches("\\s*")) { // TODO #160 more advanced validation, or replace with dropdown
-      throw new InputValidationException("You must enter a filename!");
-    }
-
-    Algorithm algorithm = new Algorithm(fileName);
+    Algorithm algorithm = new Algorithm(this.fileListBox.getSelectedValue());
     algorithm.setName(this.nameTextBox.getValue());
     algorithm.setAuthor(this.authorTextBox.getValue());
     algorithm.setDescription(this.descriptionTextBox.getValue());
