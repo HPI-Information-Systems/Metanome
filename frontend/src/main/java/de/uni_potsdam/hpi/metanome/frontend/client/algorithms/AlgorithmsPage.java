@@ -22,8 +22,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
@@ -41,7 +41,7 @@ import java.util.List;
  * 
  * @author Claudia Exeler
  */
-public class AlgorithmsPage extends VerticalPanel implements TabContent {
+public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   protected final AlgorithmServiceAsync algorithmService;
   protected final BasePage basePage;
@@ -51,10 +51,11 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   protected final FlexTable indList;
   protected final FlexTable statsList;
   protected TabWrapper messageReceiver;
+  protected AlgorithmEditForm editForm;
 
   public AlgorithmsPage(BasePage parent) {
     this.setWidth("100%");
-    this.setSpacing(5);
+    //this.setSpacing(5);
 
     this.algorithmService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
@@ -86,7 +87,8 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
 
     this.add(new HTML("<hr>"));
     this.add(new HTML("<h3>Add A New Algorithm</h3>"));
-    this.add(new AlgorithmEditForm(this, this.messageReceiver));
+    this.editForm = new AlgorithmEditForm(this, this.messageReceiver);
+    this.add(this.editForm);
   }
 
   /**
@@ -229,14 +231,15 @@ public class AlgorithmsPage extends VerticalPanel implements TabContent {
   }
 
   /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.
-   * metanome.frontend.client.TabWrapper)
-   */
+     * (non-Javadoc)
+     *
+     * @see
+     * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.
+     * metanome.frontend.client.TabWrapper)
+     */
   @Override
   public void setMessageReceiver(TabWrapper tab) {
+    this.editForm.messageReceiver = tab;
     this.messageReceiver = tab;
   }
 

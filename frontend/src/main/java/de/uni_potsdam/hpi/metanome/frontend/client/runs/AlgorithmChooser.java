@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * @author Claudia Exeler
  */
-public class AlgorithmChooser extends HorizontalPanel {
+public class AlgorithmChooser extends FlowPanel {
 
   protected Label label;
   protected ListBox listbox;
@@ -49,8 +49,8 @@ public class AlgorithmChooser extends HorizontalPanel {
   protected TabWrapper messageReceiver;
 
   public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
-
     super();
+
     this.messageReceiver = tabWrapper;
     this.parameterService = GWT.create(ParameterService.class);
 

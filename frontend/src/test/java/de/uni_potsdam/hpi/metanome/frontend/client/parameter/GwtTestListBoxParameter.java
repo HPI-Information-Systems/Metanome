@@ -16,15 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import java.util.ArrayList;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+
+import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class GwtTestListBoxParameter extends GWTTestCase {
 
@@ -40,7 +41,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
         new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
     // Execute
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
 
     // Check
     assertEquals(noOfValues, widget.inputWidgets.size());
@@ -60,7 +61,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
         new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
     // Execute
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
 
     // Check
     assertEquals(1, widget.inputWidgets.size()); // expecting one default input field
@@ -79,7 +80,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     ConfigurationSpecificationListBox specification =
         new ConfigurationSpecificationListBox("enum", values,
             ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -102,7 +103,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
         new ConfigurationSpecificationListBox("enum", values,
             ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -127,7 +128,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
         new ConfigurationSpecificationListBox("enum", values,
             ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(expectedSpecification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(expectedSpecification, new TabWrapper());
     widget.setSelection(expectedSelectedValue);
 
     // Execute

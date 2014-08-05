@@ -22,9 +22,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -40,7 +40,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsyn
  *
  * @author Claudia Exeler
  */
-public class DataSourcesPage extends VerticalPanel implements TabContent {
+public class DataSourcesPage extends FlowPanel implements TabContent {
 
   protected final BasePage basePage;
   protected TabWrapper messageReceiver;

@@ -18,7 +18,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
@@ -27,18 +26,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class TabWrapper extends FlowPanel {
 
-  protected VerticalPanel errorPanel;
-  protected VerticalPanel infoPanel;
+  protected FlowPanel errorPanel;
+  protected FlowPanel infoPanel;
   protected TabContent contentPanel;
   protected boolean inError = false;
   protected boolean inInfo = false;
 
   public TabWrapper() {
-    this.errorPanel = new VerticalPanel();
+    this.errorPanel = new FlowPanel();
     this.errorPanel.addStyleName("errorMessage");
     this.add(this.errorPanel);
 
-    this.infoPanel = new VerticalPanel();
+    this.infoPanel = new FlowPanel();
     this.infoPanel.addStyleName("infoMessage");
     this.add(this.infoPanel);
   }

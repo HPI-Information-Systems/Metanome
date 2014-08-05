@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import java.util.List;
 
@@ -26,9 +27,10 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
 
   protected ConfigurationSpecificationListBox specification;
   protected List<ListBoxInput> inputWidgets;
+  protected TabWrapper messageReceiver;
 
-  public InputParameterListBoxWidget(ConfigurationSpecificationListBox config) {
-    super(config);
+  public InputParameterListBoxWidget(ConfigurationSpecificationListBox config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   @Override
@@ -84,5 +86,10 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
     for (ListBoxInput input : this.inputWidgets) {
       input.setSelectedValue(value);
     }
+  }
+
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
   }
 }

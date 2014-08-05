@@ -21,7 +21,6 @@ import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
@@ -49,7 +48,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected Timer timer;
   protected String executionIdentifier;
 
-  protected HorizontalPanel resultsPanel;
+  protected FlowPanel resultsPanel;
   protected TabWrapper messageReceiver;
 
   protected ResultTable uccTable;
@@ -68,7 +67,8 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     this.executionIdentifier = executionIdentifier;
 
     this.setHeight("500px");
-    this.resultsPanel = new HorizontalPanel();
+    this.resultsPanel = new FlowPanel();
+    this.resultsPanel.addStyleName("left");
     this.add(resultsPanel);
 
     indTable = new ResultTable("Inclusion Dependencies");

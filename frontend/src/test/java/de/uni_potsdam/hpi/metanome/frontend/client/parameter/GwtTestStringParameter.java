@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import org.junit.Test;
 
@@ -36,7 +37,7 @@ public class GwtTestStringParameter extends GWTTestCase {
         new ConfigurationSpecificationString("string", noOfValues);
 
     //Execute
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification);
+    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
 
     //Check
     assertEquals(noOfValues, widget.inputWidgets.size());
@@ -53,7 +54,7 @@ public class GwtTestStringParameter extends GWTTestCase {
         new ConfigurationSpecificationString("string", noOfValues);
 
     //Execute
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification);
+    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
 
     //Check
     assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
@@ -66,7 +67,7 @@ public class GwtTestStringParameter extends GWTTestCase {
     //Setup
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification);
+    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -83,7 +84,7 @@ public class GwtTestStringParameter extends GWTTestCase {
     //Setup
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification);
+    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -101,7 +102,7 @@ public class GwtTestStringParameter extends GWTTestCase {
     String value = "something";
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification);
+    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
 
     //Execute
     ((StringInput) widget.getWidget(0)).textbox.setValue(value, true);

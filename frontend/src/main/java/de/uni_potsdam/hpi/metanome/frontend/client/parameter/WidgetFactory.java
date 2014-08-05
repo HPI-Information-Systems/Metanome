@@ -30,17 +30,17 @@ public class WidgetFactory {
   public static InputParameterWidget buildWidget(ConfigurationSpecification config, TabWrapper messageReceiver) {
     InputParameterWidget widget = null;
     if (config instanceof ConfigurationSpecificationBoolean) {
-      widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
+      widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationString) {
-      widget = new InputParameterStringWidget((ConfigurationSpecificationString) config);
+      widget = new InputParameterStringWidget((ConfigurationSpecificationString) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationCsvFile) {
       widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationSqlIterator) {
       widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationInteger) {
-      widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
+      widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config, messageReceiver);
     } else if (config instanceof ConfigurationSpecificationListBox) {
-      widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
+      widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config, messageReceiver);
     }
     return widget;
   }

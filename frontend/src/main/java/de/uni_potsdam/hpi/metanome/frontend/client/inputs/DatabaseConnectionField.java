@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
 
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,7 +33,7 @@ import java.util.Arrays;
 /**
  * Input field to configure a database connection.
  */
-public class DatabaseConnectionField extends HorizontalPanel {
+public class DatabaseConnectionField extends FlowPanel {
 
   protected TextBox dbUrlTextbox;
   protected TextBox usernameTextbox;
@@ -42,6 +42,8 @@ public class DatabaseConnectionField extends HorizontalPanel {
   private FlexTable layoutTable;
 
   public DatabaseConnectionField() {
+    this.addStyleName("left");
+
     this.layoutTable = new FlexTable();
     this.add(this.layoutTable);
 

@@ -19,13 +19,13 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
@@ -56,27 +56,26 @@ public class GwtTestBasePage extends GWTTestCase {
     testPage = new BasePage();
 
     //Check
-    assertEquals(6, testPage.getWidgetCount());
+    assertEquals(5, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
 
-    wrapper = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+    ScrollPanel panel = (ScrollPanel) testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+    wrapper = panel.getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
 
-    wrapper = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
+    panel = (ScrollPanel) testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
+    wrapper = panel.getWidget();
     assertTrue(wrapper instanceof TabWrapper);
-    assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcesPage);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
 
     wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
 
-    wrapper = testPage.getWidget(Tabs.INPUT_CONFIGURATION.ordinal());
-    assertTrue(wrapper instanceof TabWrapper);
-    assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
   }
 
   public void testAddAlgorithmsToRunConfigurations() {

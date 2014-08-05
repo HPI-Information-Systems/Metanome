@@ -19,7 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * Input field to configure a table input.
  */
-public class TableInputField extends HorizontalPanel {
+public class TableInputField extends FlowPanel {
 
   protected final DatabaseConnectionServiceAsync databaseConnectionService;
   protected TabWrapper messageReceiver;
@@ -53,6 +53,8 @@ public class TableInputField extends HorizontalPanel {
 
 
   public TableInputField() {
+    this.addStyleName("left");
+
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
 
     this.layoutTable = new FlexTable();

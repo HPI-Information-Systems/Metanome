@@ -19,12 +19,13 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 
 public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
 
-  public InputParameterDataSourceWidget(ConfigurationSpecification config) {
-    super(config);
+  public InputParameterDataSourceWidget(ConfigurationSpecification config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   public abstract boolean accepts(ConfigurationSettingDataSource setting);

@@ -37,8 +37,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   private ConfigurationSpecificationCsvFile specification;
 
   public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec, TabWrapper messageReceiver) {
-    super(configSpec);
-    this.messageReceiver = messageReceiver;
+    super(configSpec, messageReceiver);
   }
 
   @Override
@@ -93,6 +92,11 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   @Override
   public void setSpecification(ConfigurationSpecification config) {
     this.specification = (ConfigurationSpecificationCsvFile) config;
+  }
+
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
   }
 
 }

@@ -17,14 +17,15 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -43,7 +44,7 @@ import java.util.Arrays;
 public class AlgorithmEditForm extends Grid {
 
   protected final AlgorithmsPage algorithmsPage;
-  protected final TabWrapper messageReceiver;
+  protected TabWrapper messageReceiver;
 
   protected ListBoxInput fileListBox = new ListBoxInput(false);
   protected TextBox nameTextBox = new TextBox();
@@ -56,7 +57,7 @@ public class AlgorithmEditForm extends Grid {
 
 
   public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
-    super(6, 3);
+    super(6, 2);
 
     this.algorithmsPage = parent;
     this.messageReceiver = messageReceiver;
@@ -75,7 +76,14 @@ public class AlgorithmEditForm extends Grid {
     this.setWidget(3, 1, this.descriptionTextBox);
 
     this.setText(4, 0, "Features");
-    VerticalPanel p = new VerticalPanel();
+    FlowPanel p = new FlowPanel();
+
+    p.getElement().getStyle().setWidth(300, Style.Unit.PX);
+    this.indCheckBox.addStyleName("left");
+    this.fdCheckBox.addStyleName("left");
+    this.uccCheckBox.addStyleName("left");
+    this.basicStatsCheckBox.addStyleName("left");
+
     p.add(this.indCheckBox);
     p.add(this.fdCheckBox);
     p.add(this.uccCheckBox);

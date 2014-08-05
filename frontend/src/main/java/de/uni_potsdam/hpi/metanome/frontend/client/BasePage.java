@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,7 +28,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcesPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationPage;
@@ -50,6 +50,8 @@ public class BasePage extends TabLayoutPanel {
   protected ResultsPage resultsPage;
   protected TabWrapper resultPageTabWrapper;
   protected RunConfigurationPage runConfigurationsPage;
+  protected InputConfigurationPage dataSourcePage;
+  protected AlgorithmsPage algorithmPage;
 
   protected AlgorithmServiceAsync finderService;
 
@@ -60,20 +62,24 @@ public class BasePage extends TabLayoutPanel {
     super(1, Unit.CM);
     this.addStyleName("basePage");
 
-    this.insert(new TabWrapper(new DataSourcesPage(this)), "Data Sources",
-        Tabs.DATA_SOURCES.ordinal());
-    this.insert(new TabWrapper(new AlgorithmsPage(this)), "Algorithms", Tabs.ALGORITHMS.ordinal());
+    // Add data source tab
+    this.dataSourcePage = new InputConfigurationPage(this);
+    this.insert(new ScrollPanel(new TabWrapper(this.dataSourcePage)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 
+    // Add algorithm tab
+    this.algorithmPage = new AlgorithmsPage(this);
+    this.insert(new ScrollPanel(new TabWrapper(this.algorithmPage)), "Algorithms", Tabs.ALGORITHMS.ordinal());
+
+    // Add run configuration tab
     this.runConfigurationsPage = new RunConfigurationPage(this);
-    this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration",
-        Tabs.RUN_CONFIGURATION.ordinal());
+    this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 
+    // Add result tab
     this.resultsPage = new ResultsPage(this);
     this.resultPageTabWrapper = new TabWrapper(this.resultsPage);
     this.insert(this.resultPageTabWrapper, "Results", Tabs.RESULTS.ordinal());
 
-    this.insert(new TabWrapper(new InputConfigurationPage(this)), "Input Configuration", Tabs.INPUT_CONFIGURATION.ordinal());
-
+    // Add about tab
     this.insert(createAboutPage(), "About", Tabs.ABOUT.ordinal());
   }
 
@@ -185,7 +191,7 @@ public class BasePage extends TabLayoutPanel {
   }
 
   public enum Tabs {
-    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, INPUT_CONFIGURATION, ABOUT
+    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
   }
 
 }

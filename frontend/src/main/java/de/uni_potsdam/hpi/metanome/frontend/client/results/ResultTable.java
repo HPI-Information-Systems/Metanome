@@ -17,10 +17,10 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ResultTable extends VerticalPanel {
+public class ResultTable extends FlowPanel {
 
   private FlexTable table;
 
@@ -33,7 +33,7 @@ public class ResultTable extends VerticalPanel {
     this.table.setStyleName("resultTable");
     this.add(this.table);
 
-    this.setSpacing(5);
+    //this.setSpacing(5);
   }
 
   public void setText(int row, int column, String text) {

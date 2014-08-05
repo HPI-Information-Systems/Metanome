@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import java.util.List;
 
@@ -26,9 +27,10 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   protected ConfigurationSpecificationString specification;
   protected List<StringInput> inputWidgets;
+  protected TabWrapper messageReceiver;
 
-  public InputParameterStringWidget(ConfigurationSpecificationString config) {
-    super(config);
+  public InputParameterStringWidget(ConfigurationSpecificationString config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   @Override
@@ -76,5 +78,10 @@ public class InputParameterStringWidget extends InputParameterWidget {
   @Override
   public void setSpecification(ConfigurationSpecification config) {
     this.specification = (ConfigurationSpecificationString) config;
+  }
+
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
   }
 }

@@ -22,11 +22,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
@@ -48,7 +46,7 @@ import java.util.List;
 /**
  * Page to configure data inputs.
  */
-public class InputConfigurationPage extends VerticalPanel implements TabContent {
+public class InputConfigurationPage extends FlowPanel implements TabContent {
 
   private static final String DATABASE_CONNECTION = "Database Connection";
   private static final String FILE_INPUT = "File Input";
@@ -57,8 +55,8 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   private TabWrapper messageReceiver;
   private BasePage basePage;
 
-  protected VerticalPanel content;
-  protected VerticalPanel editForm;
+  protected FlowPanel content;
+  protected FlowPanel editForm;
   protected DatabaseConnectionField dbField;
   protected FileInputField fileInputField;
   protected TableInputField tableInputField;
@@ -67,7 +65,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
   protected Boolean tableInputFieldSelected;
   protected Boolean fileInputFieldSelected;
 
-  protected Button saveButton;
+  protected FlowPanel saveButtonPanel;
 
   /**
    * Constructor.
@@ -88,18 +86,21 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     fileButton.addClickHandler(getClickHandlerForFileButton());
     Button tableButton = new Button(TABLE_INPUT);
     tableButton.addClickHandler(getClickHandlerForTableButton());
-    this.saveButton = new Button("Save", new ClickHandler() {
+
+    this.saveButtonPanel = new FlowPanel();
+    Button saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
         saveObject();
       }
     });
+    this.saveButtonPanel.add(saveButton);
 
     // initialize all panels
-    VerticalPanel wrapper = new VerticalPanel();
-    HorizontalPanel buttonWrapper = new HorizontalPanel();
-    SimplePanel contentWrapper = new SimplePanel();
-    this.editForm = new VerticalPanel();
+    FlowPanel wrapper = new FlowPanel();
+    FlowPanel buttonWrapper = new FlowPanel();
+    FlowPanel contentWrapper = new FlowPanel();
+    this.editForm = new FlowPanel();
 
     // add buttons
     buttonWrapper.add(dbButton);
@@ -107,7 +108,7 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
     buttonWrapper.add(fileButton);
 
     // set up content
-    this.content = new VerticalPanel();
+    this.content = new FlowPanel();
     contentWrapper.add(this.content);
     fillContent(DATABASE_CONNECTION);
 
@@ -324,26 +325,26 @@ public class InputConfigurationPage extends VerticalPanel implements TabContent 
       case DATABASE_CONNECTION:
         this.content.add(new HTML("<hr>"));
         this.content.add(new HTML("<h3>Add a new Database Connection</h3>"));
+        this.content.add(saveButtonPanel);
         this.editForm.clear();
         this.editForm.add(dbField);
         this.content.add(this.editForm);
-        this.content.add(saveButton);
         break;
       case FILE_INPUT:
         this.content.add(new HTML("<hr>"));
         this.content.add(new HTML("<h3>Add a new File Input</h3>"));
+        this.content.add(saveButtonPanel);
         this.editForm.clear();
         this.editForm.add(fileInputField);
         this.content.add(this.editForm);
-        this.content.add(saveButton);
         break;
       case TABLE_INPUT:
         this.content.add(new HTML("<hr>"));
         this.content.add(new HTML("<h3>Add a new Table Input</h3>"));
+        this.content.add(saveButtonPanel);
         this.editForm.clear();
         this.editForm.add(tableInputField);
         this.content.add(this.editForm);
-        this.content.add(saveButton);
         break;
       default:
         this.messageReceiver.addError("Type not supported!");

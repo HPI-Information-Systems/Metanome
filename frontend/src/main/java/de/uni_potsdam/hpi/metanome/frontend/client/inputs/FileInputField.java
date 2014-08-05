@@ -22,6 +22,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.ListBox;
@@ -42,7 +43,7 @@ import java.text.ParseException;
 /**
  * Input field to configure a file input.
  */
-public class FileInputField extends HorizontalPanel {
+public class FileInputField extends FlowPanel {
 
   /**
    * Dropdown menu for choosing a CSV file
@@ -70,6 +71,8 @@ public class FileInputField extends HorizontalPanel {
    * Constructor. Set up all UI elements.
    */
   public FileInputField() {
+    this.addStyleName("left");
+
     HorizontalPanel standardPanel = new HorizontalPanel();
     this.add(standardPanel);
 

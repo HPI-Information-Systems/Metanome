@@ -17,7 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -38,7 +39,7 @@ import java.util.List;
  * algorithm specific parameters. The page can be referenced (and switched to) by other pages with
  * pre-set values. Executing an algorithm navigates to the corresponding Results page.
  */
-public class RunConfigurationPage extends DockPanel implements TabContent {
+public class RunConfigurationPage extends DockLayoutPanel implements TabContent {
 
   public ConfigurationSettingDataSource primaryDataSource;
 
@@ -58,14 +59,14 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    * @param basePage the base page this sub page
    */
   public RunConfigurationPage(BasePage basePage) {
-    this.setWidth("100%");
+    super(Style.Unit.EM);
     this.basePage = basePage;
 
     this.primaryDataSourceLabel = new Label();
-    this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
+    this.addNorth(this.primaryDataSourceLabel, 2);
 
     this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
-    this.add(this.algorithmChooser, DockPanel.NORTH);
+    this.addNorth(this.algorithmChooser, 4);
 
     this.executionService = GWT.create(ExecutionService.class);
   }
@@ -80,7 +81,7 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
   public void addParameterTable(List<ConfigurationSpecification> paramList) {
     removeParameterTable();
     parameterTable = new ParameterTable(paramList, primaryDataSource, this.messageReceiver);
-    this.add(parameterTable, DockPanel.SOUTH);
+    this.addNorth(parameterTable, 40);
   }
 
   /**

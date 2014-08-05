@@ -17,7 +17,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.DockPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
@@ -88,7 +87,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
       }
     };
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, tabWrapper);
-    page.add(jarChooser, DockPanel.NORTH);
+    page.addNorth(jarChooser, 4);
 
     // Execute functionality
     jarChooser.listbox.setItemSelected(1, true);

@@ -19,21 +19,23 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class InputParameterWidget extends VerticalPanel implements IsWidget {
+public abstract class InputParameterWidget extends FlowPanel implements IsWidget {
 
   protected Button addButton;
 
-  public InputParameterWidget(ConfigurationSpecification config) {
+  public InputParameterWidget(ConfigurationSpecification config, TabWrapper wrapper) {
     super();
+    setMessageReceiver(wrapper);
 
     this.setSpecification(config);
 
@@ -88,4 +90,5 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
 
   public abstract void setSpecification(ConfigurationSpecification config);
 
+  public abstract void setMessageReceiver(TabWrapper messageReceiver);
 }

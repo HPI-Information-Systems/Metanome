@@ -31,11 +31,10 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
    */
   private ConfigurationSpecificationSqlIterator specification;
   protected List<SqlIteratorInput> inputWidgets;
-  private TabWrapper messageReceiver;
+  protected TabWrapper messageReceiver;
 
-  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config, TabWrapper messageReceiver) {
-    super(config);
-    this.messageReceiver = messageReceiver;
+  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   @Override
@@ -95,5 +94,9 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
     this.specification = (ConfigurationSpecificationSqlIterator) config;
   }
 
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
+  }
 
 }
