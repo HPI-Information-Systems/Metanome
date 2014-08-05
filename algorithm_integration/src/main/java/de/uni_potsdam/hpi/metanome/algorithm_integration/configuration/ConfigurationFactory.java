@@ -32,6 +32,6 @@ public abstract class ConfigurationFactory {
    * @return the resulting configuration value
    */
   public ConfigurationValue build(ConfigurationSpecification specification) {
-    return specification.build(this);
+    return null; // specification.build(this);
   }
 }
