@@ -101,6 +101,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * @param algorithmName the value to select
    */
   public void selectAlgorithm(String algorithmName) {
+    this.messageReceiver.clearErrors();
+    this.messageReceiver.clearInfos();
+
     this.algorithmChooser.setSelectedAlgorithm(algorithmName);
     this.algorithmChooser.submit();
   }
@@ -119,6 +122,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * @param dataSource the data source to profile
    */
   public void setPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
+    this.messageReceiver.clearErrors();
+    this.messageReceiver.clearInfos();
+
     this.primaryDataSource = dataSource;
     this.primaryDataSourceLabel.setText(
         "This should filter for algorithms applicable on " + dataSource.getValueAsString());

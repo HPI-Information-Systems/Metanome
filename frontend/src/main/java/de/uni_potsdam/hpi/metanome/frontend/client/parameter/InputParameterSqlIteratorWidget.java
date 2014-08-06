@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
@@ -63,12 +64,9 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   }
 
   @Override
-  public void setDataSource(ConfigurationSettingDataSource dataSource) {
-    if (dataSource instanceof ConfigurationSettingSqlIterator) {
-      this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
-    } else {
-      //TODO throw some exception
-    }
+  public void setDataSource(ConfigurationSettingDataSource dataSource)
+      throws AlgorithmConfigurationException {
+    this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
   }
 
   @Override

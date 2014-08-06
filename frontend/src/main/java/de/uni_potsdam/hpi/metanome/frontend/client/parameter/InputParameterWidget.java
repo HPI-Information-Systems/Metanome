@@ -34,10 +34,16 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
 
   protected Button addButton;
 
+  /**
+   * Creates a widget with the given number of input fields and sets the configuration
+   * specification and the tab wrapper.
+   * @param config  the configuration specification
+   * @param wrapper the tab wrapper
+   */
   public InputParameterWidget(ConfigurationSpecification config, TabWrapper wrapper) {
     super();
-    setMessageReceiver(wrapper);
 
+    this.setMessageReceiver(wrapper);
     this.setSpecification(config);
 
     if (this.getSpecification().getNumberOfValues()
@@ -53,6 +59,11 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
     }
   }
 
+  /**
+   * Removes the given input field
+   * @param w the input field, which should be removed
+   * @return true, if input field could be removed, false otherwise
+   */
   public boolean removeField(InputField w) {
     this.getInputWidgets().remove(w);
     return super.remove(w);
@@ -74,22 +85,52 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
     this.add(this.addButton);
   }
 
+  /**
+   * Adds an input field to the widget.
+   * @param optional specifies, weather a a remove button will be rendered
+   */
   protected abstract void addInputField(boolean optional);
 
+  /**
+   * Gets the configuration specification and updates the current configuration specification.
+   * @return the updated specification of the input
+   * @throws InputValidationException
+   */
   public abstract ConfigurationSpecification getUpdatedSpecification()
       throws InputValidationException;
 
+  /**
+   * @return true, if the input field represents a data source input, false otherwise
+   */
   public boolean isDataSource() {
     return false;
   }
 
+  /**
+   * @return a list of all input widgets
+   */
   public abstract List<? extends InputField> getInputWidgets();
 
+  /**
+   * Sets the list of all input widgets to the given list
+   * @param inputWidgetsList list of input widgets
+   */
   public abstract void setInputWidgets(List<? extends InputField> inputWidgetsList);
 
+  /**
+   * @return the current configuration specification
+   */
   public abstract ConfigurationSpecification getSpecification();
 
+  /**
+   * Sets the configuration specification
+   * @param config the configuration specification, which should be set
+   */
   public abstract void setSpecification(ConfigurationSpecification config);
 
+  /**
+   * Sets the message receiver
+   * @param messageReceiver the tab wrapper, which should be set
+   */
   public abstract void setMessageReceiver(TabWrapper messageReceiver);
 }

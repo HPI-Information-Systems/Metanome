@@ -29,6 +29,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Depending on the currently selected algorithm this widget displays the needed parameters.
+ * The parameters can be configured and the algorithm can be executed.
+ */
 public class ParameterTable extends FlexTable {
 
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
@@ -50,13 +54,13 @@ public class ParameterTable extends FlexTable {
     super();
     this.messageReceiver = messageReceiver;
 
-    int i = 0;
+    int row = 0;
     for (ConfigurationSpecification param : paramList) {
-      this.setText(i, 0, param.getIdentifier());
+      this.setText(row, 0, param.getIdentifier());
 
-      InputParameterWidget currentWidget;
-      currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
-      this.setWidget(i, 1, currentWidget);
+      InputParameterWidget currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
+      this.setWidget(row, 1, currentWidget);
+
       if (currentWidget.isDataSource()) {
         InputParameterDataSourceWidget dataSourceWidget =
             (InputParameterDataSourceWidget) currentWidget;
@@ -72,13 +76,13 @@ public class ParameterTable extends FlexTable {
       } else {
         this.childWidgets.add(currentWidget);
       }
-      i++;
+      row++;
     }
 
     Button executeButton = new Button("Run");
     executeButton.addClickHandler(new ParameterTableSubmitHandler());
 
-    this.setWidget(i, 0, executeButton);
+    this.setWidget(row, 0, executeButton);
   }
 
   /**

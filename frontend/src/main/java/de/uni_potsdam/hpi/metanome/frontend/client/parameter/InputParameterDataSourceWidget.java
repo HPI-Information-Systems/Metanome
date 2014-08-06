@@ -28,6 +28,11 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
     super(config, wrapper);
   }
 
+  /**
+   * Specifies which configuration setting is supported by this input widget
+   * @param setting the configuration setting
+   * @return true, if the configuration setting is supported, false otherwise
+   */
   public abstract boolean accepts(ConfigurationSettingDataSource setting);
 
   @Override
@@ -35,6 +40,11 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
     return true;
   }
 
+  /**
+   * Sets the given data source on the input field.
+   * @param dataSource the data source, which should be set.
+   * @throws AlgorithmConfigurationException
+   */
   public abstract void setDataSource(ConfigurationSettingDataSource dataSource)
       throws AlgorithmConfigurationException;
 

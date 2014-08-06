@@ -27,6 +27,10 @@ import org.junit.Test;
 
 public class GwtTestBooleanParameter extends GWTTestCase {
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   @Test
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
@@ -44,6 +48,10 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     assertFalse(widget.inputWidgets.get(0).isOptional);
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   @Test
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
@@ -61,6 +69,10 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#addInputField(boolean)}
+   * @throws AlgorithmConfigurationException
+   */
   @Test
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
@@ -78,6 +90,10 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     assertEquals(listCount + 1, widget.inputWidgets.size());
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#removeField(de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField)}
+   * @throws AlgorithmConfigurationException
+   */
   @Test
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
@@ -95,9 +111,28 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     assertEquals(listCount - 1, widget.inputWidgets.size());
   }
 
+  /**
+   * Test method for {@link InputParameterBooleanWidget#getUpdatedSpecification()}
+   */
   @Test
-  public void testRetrieveValues() {
-    //TODO
+  public void testGetUpdatedSpecification() {
+    //Setup
+    ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
+                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    InputParameterBooleanWidget
+        widget =
+        new InputParameterBooleanWidget(specification, new TabWrapper());
+
+    assertEquals(widget.getSpecification(), specification);
+
+    // Execute
+    widget.inputWidgets.get(0).setValue(false);
+    ConfigurationSpecificationBoolean
+        updatedSpecification =
+        (ConfigurationSpecificationBoolean) widget.getUpdatedSpecification();
+
+    //Check
+    assertFalse(updatedSpecification.getSettings()[0].value);
   }
 
   @Override

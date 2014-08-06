@@ -37,7 +37,6 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   @Override
   protected void addInputField(boolean optional) {
-
     StringInput field = new StringInput(optional);
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);

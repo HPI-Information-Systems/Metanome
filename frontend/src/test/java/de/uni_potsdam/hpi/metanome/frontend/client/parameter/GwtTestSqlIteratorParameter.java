@@ -16,26 +16,30 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import com.google.common.base.Joiner;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import org.junit.Test;
 
-public class GwtTestCsvFileParameter extends GWTTestCase {
+public class GwtTestSqlIteratorParameter extends GWTTestCase {
 
-  private String aFileName = "inputA.csv";
-  private String[] csvFiles = {"inputB.csv", aFileName};
+  private String aUrl = "url";
+  private String aPassword = "password";
+  private String aUser = "user";
+  private DbSystem aSystem = DbSystem.DB2;
 
   /**
    * Tests the selection of a specific item corresponding to the given ConfigurationSetting.
@@ -48,10 +52,12 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
     final TabWrapper tabWrapper = new TabWrapper();
 
-    FileInput fileInput = new FileInput();
-    fileInput.setFileName(aFileName);
-    final long[] inputId = new long[1];
-    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+    databaseConnection.setUrl(aUrl);
+    databaseConnection.setPassword(aPassword);
+    databaseConnection.setUsername(aUser);
+    final long[] databaseConnectionId = new long[1];
+    TestHelper.storeDatabaseConnection(databaseConnection, new AsyncCallback<Long>() {
       @Override
       public void onFailure(Throwable caught) {
         System.out.println(caught.getMessage());
@@ -60,18 +66,17 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
       @Override
       public void onSuccess(Long id) {
-        inputId[0] = id;
+        databaseConnectionId[0] = id;
       }
     });
 
-    final CsvFileInput[] widget = new CsvFileInput[1];
-    final ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
-    setting.setFileName(aFileName);
+    final SqlIteratorInput[] widget = new SqlIteratorInput[1];
+    final ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
 
     Timer setUpTimer = new Timer() {
       @Override
       public void run() {
-        widget[0] = new CsvFileInput(false, tabWrapper);
+        widget[0] = new SqlIteratorInput(false, tabWrapper);
       }
     };
 
@@ -87,8 +92,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         }
 
         //Check
-        assertEquals(aFileName, widget[0].listbox.getSelectedValue());
-        assertEquals(aFileName, widget[0].getValues().getFileName());
+        assertEquals(databaseConnectionId[0] + ": " + aUrl, widget[0].listbox.getSelectedValue());
+        assertEquals(aUrl, widget[0].getValues().getDbUrl());
+        assertEquals(aPassword, widget[0].getValues().getPassword());
+        assertEquals(aUser, widget[0].getValues().getUsername());
 
         // Cleanup
         TestHelper.resetDatabaseSync();
@@ -116,9 +123,11 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
     final TabWrapper tabWrapper = new TabWrapper();
 
-    FileInput fileInput = new FileInput();
-    fileInput.setFileName(aFileName);
-    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+    databaseConnection.setUrl(aUrl);
+    databaseConnection.setPassword(aPassword);
+    databaseConnection.setUsername(aUser);
+    TestHelper.storeDatabaseConnection(databaseConnection, new AsyncCallback<Long>() {
       @Override
       public void onFailure(Throwable caught) {
         System.out.println(caught.getMessage());
@@ -130,16 +139,15 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
       }
     });
 
-    final ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
-    setting.setFileName(aFileName);
+    final ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
 
-    final InputParameterCsvFileWidget[] dataSourceWidget = new InputParameterCsvFileWidget[1];
+    final InputParameterSqlIteratorWidget[] dataSourceWidget = new InputParameterSqlIteratorWidget[1];
     Timer setUpTimer = new Timer() {
       @Override
       public void run() {
         //Setup
-        ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-        dataSourceWidget[0] = new InputParameterCsvFileWidget(configSpec, tabWrapper);
+        ConfigurationSpecificationSqlIterator configSpec = new ConfigurationSpecificationSqlIterator("test");
+        dataSourceWidget[0] = new InputParameterSqlIteratorWidget(configSpec, tabWrapper);
       }
     };
 
@@ -155,18 +163,14 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
         }
 
         //Check
-        assertTrue(((CsvFileInput) dataSourceWidget[0].getWidget(0)).listbox.getValues().size() > 1);
+        assertTrue(((SqlIteratorInput) dataSourceWidget[0].getWidget(0)).listbox.getValues().size() > 1);
 
         ConfigurationSettingDataSource retrievedSetting = null;
-        try {
           retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget[0]
               .getUpdatedSpecification()
               .getSettings()[0];
-        } catch (InputValidationException e) {
-          e.printStackTrace();
-          fail();
-        }
-        assertEquals(aFileName, retrievedSetting.getValueAsString());
+
+        assertEquals(Joiner.on(';').join(aUrl, aUser, aPassword, aSystem), retrievedSetting.getValueAsString());
 
         // Cleanup
         TestHelper.resetDatabaseSync();
@@ -181,7 +185,6 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     setUpTimer.schedule(4000);
     executeTimer.schedule(8000);
   }
-
 
   @Override
   public String getModuleName() {

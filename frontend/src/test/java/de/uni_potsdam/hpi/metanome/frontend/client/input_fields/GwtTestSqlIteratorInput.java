@@ -20,6 +20,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -103,7 +104,12 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
       @Override
       public void run() {
         // Execute functionality
-        sqlIteratorInput[0].setValues(expectedSetting);
+        try {
+          sqlIteratorInput[0].setValues(expectedSetting);
+        } catch (AlgorithmConfigurationException e) {
+          e.printStackTrace();
+          fail();
+        }
 
         ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput[0].getValues();
 

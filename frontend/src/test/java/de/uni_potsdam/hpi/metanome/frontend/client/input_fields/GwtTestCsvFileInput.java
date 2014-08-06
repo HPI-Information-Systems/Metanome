@@ -17,8 +17,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
@@ -68,59 +66,30 @@ public class GwtTestCsvFileInput extends GWTTestCase {
 
     FileInput fileInput = new FileInput();
     fileInput.setFileName("filename");
-    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
-
-      @Override
-      public void onSuccess(Long id) {
-
-      }
-    });
 
     // Expected values
     final ConfigurationSettingCsvFile expectedSetting =
         new ConfigurationSettingCsvFile("filename");
 
     // Initialize CsvFileInput (waiting for fetching all current file inputs)
-    final CsvFileInput[] csvFileInputs = new CsvFileInput[1];
-    Timer setupTimer = new Timer() {
-      @Override
-      public void run() {
-        csvFileInputs[0] = new CsvFileInput(false, tabWrapper);
-      }
-    };
+    final CsvFileInput csvFileInputs = new CsvFileInput(false, new TabWrapper());
 
-    Timer executeTimer = new Timer() {
-      @Override
-      public void run() {
-        // Execute functionality
-        try {
-          csvFileInputs[0].setValues(expectedSetting);
-        } catch (AlgorithmConfigurationException e) {
-          fail();
-        }
+    csvFileInputs.listbox.addValue("filename");
+    csvFileInputs.fileInputs.put("filename", fileInput);
 
-        ConfigurationSettingCsvFile actualSetting = csvFileInputs[0].getValues();
+    try {
+      csvFileInputs.setValues(expectedSetting);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
 
-        // Check result
-        assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());
+    ConfigurationSettingCsvFile actualSetting = csvFileInputs.getValues();
 
-        // Cleanup
-        TestHelper.resetDatabaseSync();
+    // Check result
+    assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());
 
-        finishTest();
-      }
-    };
-
-    delayTestFinish(12000);
-
-    // Waiting for asynchronous calls to finish.
-    setupTimer.schedule(4000);
-    executeTimer.schedule(8000);
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

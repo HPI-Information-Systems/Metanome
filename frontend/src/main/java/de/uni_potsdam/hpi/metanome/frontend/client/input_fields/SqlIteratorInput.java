@@ -113,6 +113,9 @@ public class SqlIteratorInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedDatabaseConnection = dataSourceSetting.getValueAsString();
 
+    if (!this.listbox.containsValues())
+      return;
+
     if (dataSourceSetting instanceof ConfigurationSettingSqlIterator) {
       ConfigurationSettingSqlIterator setting = (ConfigurationSettingSqlIterator) dataSourceSetting;
       this.setValues(setting);
@@ -142,15 +145,19 @@ public class SqlIteratorInput extends InputField {
    *
    * @param setting the settings to set
    */
-  public void setValues(ConfigurationSettingSqlIterator setting) {
+  public void setValues(ConfigurationSettingSqlIterator setting)
+      throws AlgorithmConfigurationException {
     for (Map.Entry<String, DatabaseConnection> con : this.databaseConnections.entrySet()) {
       DatabaseConnection current = con.getValue();
       if (current.getUrl().equals(setting.getDbUrl()) &&
           current.getPassword().equals(setting.getPassword()) &&
-          current.getUsername().equals(setting.getUsername()))
+          current.getUsername().equals(setting.getUsername())) {
         // TODO check system
         this.listbox.setSelectedValue(con.getKey());
+        return;
+      }
     }
+    throw new AlgorithmConfigurationException("The file inputs are not set yet.");
   }
 
 }

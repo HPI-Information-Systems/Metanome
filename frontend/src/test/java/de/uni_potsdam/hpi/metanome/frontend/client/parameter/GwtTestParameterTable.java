@@ -46,7 +46,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GwtTestParameter extends GWTTestCase {
+public class GwtTestParameterTable extends GWTTestCase {
 
   @Test
   public void testParameterTable() {
@@ -418,7 +418,7 @@ public class GwtTestParameter extends GWTTestCase {
 
       ListBoxInput
           listbox = ((InputParameterCsvFileWidget) pt[0].getWidget(0, 1)).inputWidgets.get(0).listbox;
-      assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue().split(": ")[1]);
+      assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue());
 
       // Cleanup
       TestHelper.resetDatabaseSync();

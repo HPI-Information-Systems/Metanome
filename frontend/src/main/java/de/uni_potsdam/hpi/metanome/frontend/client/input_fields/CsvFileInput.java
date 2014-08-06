@@ -115,6 +115,9 @@ public class CsvFileInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedFilename = dataSourceSetting.getValueAsString();
 
+    if (!this.listbox.containsValues())
+      return;
+
     if (dataSourceSetting instanceof ConfigurationSettingCsvFile) {
       ConfigurationSettingCsvFile setting = (ConfigurationSettingCsvFile) dataSourceSetting;
       this.setValues(setting);

@@ -27,6 +27,12 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 public class WidgetFactory {
 
+  /**
+   * Returns an InputParameterWidget depending on the given ConfigurationSpecification
+   * @param config          the configuration specification
+   * @param messageReceiver the tab wrapper
+   * @return the corresponding widget to the configuration specification
+   */
   public static InputParameterWidget buildWidget(ConfigurationSpecification config, TabWrapper messageReceiver) {
     InputParameterWidget widget = null;
     if (config instanceof ConfigurationSpecificationBoolean) {
