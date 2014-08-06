@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.Label;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 
+import org.junit.Test;
+
 /**
  * Tests related to the overall page.
  */
@@ -33,6 +35,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
   /**
    * Test constructor.
    */
+  @Test
   public void testCreate() {
     TabContent content = new RunConfigurationPage(null);
 
@@ -49,6 +52,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
   /**
    * Test method for {@link TabWrapper#addError(String)}
    */
+  @Test
   public void testAddError() {
     TabWrapper tabWrapper = new TabWrapper(new AlgorithmsPage(null));
 
@@ -67,13 +71,13 @@ public class GwtTestTabWrapper extends GWTTestCase {
     assertTrue(tabWrapper.errorPanel.getWidgetCount() == 2);
     assertEquals(errorMessage, ((Label) tabWrapper.errorPanel.getWidget(1)).getText());
     assertTrue(tabWrapper.isInError());
-    // requiring later added errors to be below earlier ones
   }
 
 
   /**
    * Test method for {@link TabWrapper#addInfo(String)}
    */
+  @Test
   public void testAddInfo() {
     TabWrapper tabWrapper = new TabWrapper(new AlgorithmsPage(null));
 
@@ -98,6 +102,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper#clearErrors()}
    */
+  @Test
   public void testClearErrors() {
     // Setup
     TabWrapper tabWrapper = new TabWrapper(new RunConfigurationPage(null));
@@ -117,6 +122,7 @@ public class GwtTestTabWrapper extends GWTTestCase {
   /**
    * Test method for {@link TabWrapper#clearInfos()}
    */
+  @Test
   public void testClearInfos() {
     // Setup
     TabWrapper tabWrapper = new TabWrapper(new RunConfigurationPage(null));

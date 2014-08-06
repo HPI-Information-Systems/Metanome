@@ -54,9 +54,6 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   protected AlgorithmEditForm editForm;
 
   public AlgorithmsPage(BasePage parent) {
-    this.setWidth("100%");
-    //this.setSpacing(5);
-
     this.algorithmService = GWT.create(AlgorithmService.class);
     this.basePage = parent;
 
@@ -130,12 +127,13 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Adds each of the algorithms to the given table, including formatting and buttons.
    * 
-   * @param algorithms the algorithms to be displayed
-   * @param list the table to which the algoithms will be added
+   * @param algorithms  the algorithms to be displayed
+   * @param table        the table to which the algorithms will be added
    */
-  protected void addAlgorithms(List<Algorithm> algorithms, FlexTable list) {
-    int row = list.getRowCount();
+  protected void addAlgorithmsToTable(List<Algorithm> algorithms, FlexTable table) {
+    int row = table.getRowCount();
     Collections.sort(algorithms);
+
     for (Algorithm algorithm : algorithms) {
       // Using the HTML title to associate an algorithm with each button.
       Button runButton = new Button("Run");
@@ -147,10 +145,20 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         }
       });
 
-      list.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
-      list.setText(row, 1, "Author: " + algorithm.getAuthor());
-      list.setText(row, 2, "File: " + algorithm.getFileName());
-      list.setWidget(row, 3, runButton);
+      Button deleteButton = new Button("Delete");
+      deleteButton.setTitle(algorithm.getName());
+      deleteButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          // TODO delete algorithm
+        }
+      });
+
+      table.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
+      table.setText(row, 1, "Author: " + algorithm.getAuthor());
+      table.setText(row, 2, "File: " + algorithm.getFileName());
+      table.setWidget(row, 3, runButton);
+      table.setWidget(row, 4, deleteButton);
       row++;
     }
   }
@@ -158,7 +166,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Initiates a service call to add the given algorithm to the database.
    * 
-   * @param algorithm
+   * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
     algorithmService.addAlgorithm(algorithm, getAddCallback(algorithm));
@@ -189,7 +197,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
       public void onSuccess(List<Algorithm> result) {
         basePage.addAlgorithmsToRunConfigurations(result);
-        addAlgorithms(result, list);
+        addAlgorithmsToTable(result, list);
       }
     };
   }
@@ -215,28 +223,26 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         basePage.addAlgorithmsToRunConfigurations(list);
 
         if (algorithm.isInd()) {
-          addAlgorithms(list, indList);
+          addAlgorithmsToTable(list, indList);
         }
         if (algorithm.isFd()) {
-          addAlgorithms(list, fdList);
+          addAlgorithmsToTable(list, fdList);
         }
         if (algorithm.isUcc()) {
-          addAlgorithms(list, uccList);
+          addAlgorithmsToTable(list, uccList);
         }
         if (algorithm.isBasicStat()) {
-          addAlgorithms(list, statsList);
+          addAlgorithmsToTable(list, statsList);
         }
       }
     };
   }
 
-  /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.
-     * metanome.frontend.client.TabWrapper)
-     */
+  /**
+   * (non-Javadoc)
+   * @see
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   */
   @Override
   public void setMessageReceiver(TabWrapper tab) {
     this.editForm.messageReceiver = tab;

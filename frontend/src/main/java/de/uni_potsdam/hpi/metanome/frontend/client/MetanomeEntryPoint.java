@@ -25,11 +25,7 @@ public class MetanomeEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-//  MetanomeResources.INSTANCE.metanomeStyle().ensureInjected();
-
     System.out.println(GWT.getModuleBaseURL());
-
-    //RootLayoutPanel.get().setHeight("100%");
 
     LayoutPanel bodyPanel = new LayoutPanel();
     bodyPanel.addStyleName("body");

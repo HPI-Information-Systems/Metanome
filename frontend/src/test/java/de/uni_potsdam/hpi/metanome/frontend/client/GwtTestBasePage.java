@@ -33,6 +33,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import org.junit.Test;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,33 +48,37 @@ public class GwtTestBasePage extends GWTTestCase {
    * this must contain an algorithm and a data source that are currently available
    */
   private String dataSourceName = "inputA.csv";
-  private BasePage testPage;
 
   /**
-   * Test BasePage constructor.
+   * Test method for {@link BasePage#BasePage()}
    */
+  @Test
   public void testNewBasePage() {
     // Execute
-    testPage = new BasePage();
+    BasePage testPage = new BasePage();
 
-    //Check
+    // Check
     assertEquals(5, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
 
-    ScrollPanel panel = (ScrollPanel) testPage.getWidget(Tabs.ALGORITHMS.ordinal());
-    wrapper = panel.getWidget();
+    Widget panel =  testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+    assertTrue(panel instanceof ScrollPanel);
+    wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
 
-    panel = (ScrollPanel) testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
-    wrapper = panel.getWidget();
+    panel =  testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
+    assertTrue(panel instanceof ScrollPanel);
+    wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
 
-    wrapper = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
+    panel =  testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
+    assertTrue(panel instanceof ScrollPanel);
+    wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
 

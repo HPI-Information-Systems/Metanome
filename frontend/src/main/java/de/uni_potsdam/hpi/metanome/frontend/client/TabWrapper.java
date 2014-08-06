@@ -29,6 +29,7 @@ public class TabWrapper extends FlowPanel {
   protected FlowPanel errorPanel;
   protected FlowPanel infoPanel;
   protected TabContent contentPanel;
+
   protected boolean inError = false;
   protected boolean inInfo = false;
 
@@ -87,7 +88,6 @@ public class TabWrapper extends FlowPanel {
   }
 
   /**
-   *
    * @return true, if a error message is set, false otherwise
    */
   public boolean isInError() {
@@ -95,7 +95,6 @@ public class TabWrapper extends FlowPanel {
   }
 
   /**
-   *
    * @return true, if a info message is set, false otherwise
    */
   public boolean isInInfo() {
@@ -103,7 +102,6 @@ public class TabWrapper extends FlowPanel {
   }
 
   /**
-   *
    * @param inError specifies if an error message is set or not
    */
   public void setInError(boolean inError) {
@@ -111,7 +109,6 @@ public class TabWrapper extends FlowPanel {
   }
 
   /**
-   *
    * @param inInfo specifies if an info message is set or not
    */
   public void setInInfo(boolean inInfo) {

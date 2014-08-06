@@ -46,6 +46,9 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     assertEquals(tab, form.messageReceiver);
   }
 
+  /**
+   * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
+   */
   @Test
   public void testValidInput() {
     TabWrapper tab = new TabWrapper();
@@ -69,6 +72,9 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     }
   }
 
+  /**
+   * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
+   */
   @Test
   public void testEmptyFileName() {
     TabWrapper tab = new TabWrapper();
@@ -84,9 +90,11 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
       form.submit();
       assertTrue(tab.isInError());
     }
-
   }
 
+  /**
+   * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
+   */
   @Test
   public void testNoInterfaces() {
     TabWrapper tab = new TabWrapper();

@@ -72,7 +72,7 @@ public class BasePage extends TabLayoutPanel {
 
     // Add run configuration tab
     this.runConfigurationsPage = new RunConfigurationPage(this);
-    this.insert(new TabWrapper(this.runConfigurationsPage), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+    this.insert(new ScrollPanel(new TabWrapper(this.runConfigurationsPage)), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
 
     // Add result tab
     this.resultsPage = new ResultsPage(this);

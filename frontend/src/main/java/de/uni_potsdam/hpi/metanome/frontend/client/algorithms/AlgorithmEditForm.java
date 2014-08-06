@@ -99,12 +99,15 @@ public class AlgorithmEditForm extends Grid {
     }));
   }
 
+  /**
+   * Find all available algorithms files and adds them to the list box.
+   */
   private void createFileListBox() {
     AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
       @Override
       public void onFailure(Throwable throwable) {
-        throwable.printStackTrace();
         messageReceiver.addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
+        throwable.printStackTrace();
       }
 
       @Override
@@ -118,7 +121,7 @@ public class AlgorithmEditForm extends Grid {
   }
 
   /**
-   * 
+   * Add the algorithm to the list of algorithms and store the algorithm in the database.
    */
   protected void submit() {
     try {
@@ -145,6 +148,8 @@ public class AlgorithmEditForm extends Grid {
     if (!algorithm.isInd() && !algorithm.isFd() && !algorithm.isUcc() && !algorithm.isBasicStat()) {
       throw new InputValidationException(
           "Your algorithm must implement at least one algorithm type.");
+    } else if (algorithm.getName().isEmpty()) {
+      throw new InputValidationException("Your algorithm should have a name!");
     }
 
     return algorithm;
