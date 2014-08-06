@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An input widget, used to specify settings for a file inputs.
+ * An input widget, used to specify settings for a file input.
  *
  * @see de.uni_potsdam.hpi.metanome.results_db.FileInput
  */
 public class CsvFileInput extends InputField {
 
-  protected ListBoxInput listbox;
+  public ListBoxInput listbox;
   protected Map<String, FileInput> fileInputs;
   private TabWrapper messageReceiver;
   /**
@@ -76,13 +76,13 @@ public class CsvFileInput extends InputField {
         String preselectedIdentifier = null;
 
         if (result != null && result.size() > 0) {
-          for (FileInput db : result) {
-            String identifier = db.getId() + ": " + db.getFileName();
+          for (FileInput input : result) {
+            String identifier = input.getFileName();
             fileInputNames.add(identifier);
-            fileInputs.put(identifier, db);
+            fileInputs.put(identifier, input);
 
             // set the preselected filename
-            if (db.getFileName().equals(preselectedFilename))
+            if (input.getFileName().equals(preselectedFilename))
               preselectedIdentifier = identifier;
           }
         } else {
@@ -132,7 +132,7 @@ public class CsvFileInput extends InputField {
       throws AlgorithmConfigurationException {
     for (Map.Entry<String, FileInput> input : this.fileInputs.entrySet()) {
       FileInput current = input.getValue();
-      if (current.getFileName().equals(setting.getFileName())) { // TODO file name sufficient?
+      if (current.getFileName().equals(setting.getFileName())) {
         this.listbox.setSelectedValue(input.getKey());
         return;
       }
@@ -174,7 +174,6 @@ public class CsvFileInput extends InputField {
     setting.setSkipDifferingLines(fileInput.isSkipDifferingLines());
     setting.setSkipLines(fileInput.getSkipLines());
     setting.setStrictQuotes(fileInput.isStrictQuotes());
-    setting.setAdvanced(true); // TODO necessary?
 
     return setting;
   }

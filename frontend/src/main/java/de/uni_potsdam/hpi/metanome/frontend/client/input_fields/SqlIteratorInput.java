@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -39,9 +41,13 @@ import java.util.Map;
  */
 public class SqlIteratorInput extends InputField {
 
-  protected ListBoxInput listbox;
+  public ListBoxInput listbox;
   protected Map<String, DatabaseConnection> databaseConnections;
   private TabWrapper messageReceiver;
+  /**
+   * When using the link from Data Sources page, this is where the selected database connection is stored.
+   */
+  private String preselectedDatabaseConnection;
 
   public SqlIteratorInput(boolean optional, TabWrapper messageReceiver) {
     super(optional);
@@ -66,12 +72,17 @@ public class SqlIteratorInput extends InputField {
       public void onSuccess(List<DatabaseConnection> result) {
         List<String> dbConnectionNames = new ArrayList<String>();
         dbConnectionNames.add("--");
+        String preselectedIdentifier = null;
 
         if (result != null && result.size() > 0) {
           for (DatabaseConnection db : result) {
             String identifier = db.getId() + ": " + db.getUrl(); // TODO add system
             dbConnectionNames.add(identifier);
             databaseConnections.put(identifier, db);
+
+            // set the preselected filename
+            if (db.getUrl().equals(preselectedDatabaseConnection))
+              preselectedIdentifier = identifier;
           }
         } else {
           messageReceiver.addError("There are no database connections in the database!");
@@ -80,11 +91,34 @@ public class SqlIteratorInput extends InputField {
         listbox.clear();
         listbox.setValues(dbConnectionNames);
         listbox.disableFirstEntry();
+
+        if (preselectedIdentifier != null)
+          listbox.setSelectedValue(preselectedIdentifier);
       }
     };
 
     DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
     databaseConnectionService.listDatabaseConnections(callback);
+  }
+
+  /**
+   * Selects the given data source in the list box.
+   * If the list box has not yet been filled with the available values,
+   * we save the value and set it when the list box is filled.
+   *
+   * @param dataSourceSetting the data source setting
+   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException If the data source setting is not a sql iterator setting
+   */
+  public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
+      throws AlgorithmConfigurationException {
+    this.preselectedDatabaseConnection = dataSourceSetting.getValueAsString();
+
+    if (dataSourceSetting instanceof ConfigurationSettingSqlIterator) {
+      ConfigurationSettingSqlIterator setting = (ConfigurationSettingSqlIterator) dataSourceSetting;
+      this.setValues(setting);
+    } else {
+      throw new AlgorithmConfigurationException("This is not a sql iterator setting.");
+    }
   }
 
   /**

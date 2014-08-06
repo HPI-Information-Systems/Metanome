@@ -178,7 +178,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param algorithmName name of the algorithm that will be configured
    */
   protected void callRunConfiguration(String algorithmName) {
-    basePage.jumpToRunConfiguration(algorithmName, null);
+    basePage.switchToRunConfiguration(algorithmName, null);
   }
 
 

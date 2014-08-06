@@ -34,6 +34,10 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
@@ -412,7 +416,8 @@ public class GwtTestParameter extends GWTTestCase {
         }
         assertTrue(foundDataSource);
 
-      ListBoxInput listbox = ((InputParameterCsvFileWidget) pt[0].getWidget(0, 1)).inputWidgets.get(0).listbox;
+      ListBoxInput
+          listbox = ((InputParameterCsvFileWidget) pt[0].getWidget(0, 1)).inputWidgets.get(0).listbox;
       assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue().split(": ")[1]);
 
       // Cleanup

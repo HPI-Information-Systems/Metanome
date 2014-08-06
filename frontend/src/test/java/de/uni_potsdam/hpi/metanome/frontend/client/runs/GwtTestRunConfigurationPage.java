@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Tests for the algorithm specific pages (tabs)
  */
-public class GwtTestRunConfigurationTab extends GWTTestCase {
+public class GwtTestRunConfigurationPage extends GWTTestCase {
 
   private BasePage page;
 
@@ -93,7 +93,7 @@ public class GwtTestRunConfigurationTab extends GWTTestCase {
 
 
   @Test
-  public void testForwardParamters() {
+  public void testForwardParameters() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
     List<ConfigurationSpecification> paramList = new ArrayList<>();

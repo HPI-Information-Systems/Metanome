@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput}
+ * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput}
  * 
  * @author Jakob Zwiener
  */
@@ -43,7 +43,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#getValues()} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput#getValues()} and
    * {@link ListBoxInput#setValues(java.util.List)}
    */
   public void testGetSetValues() {
@@ -57,7 +57,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#addValue(String)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput#addValue(String)}
    */
   public void testAddValue() {
     // Expected
@@ -119,7 +119,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   /**
    * Test method for {@link ListBoxInput#getSelectedValue()} and
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#setSelectedValue(String)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput#setSelectedValue(String)}
    */
   public void testGetSetSelectedValue() {
     // Setup

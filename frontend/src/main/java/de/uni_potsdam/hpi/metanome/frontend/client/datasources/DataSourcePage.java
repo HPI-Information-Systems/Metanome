@@ -552,7 +552,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
    * @param dataSource the preselected data source
    */
   private void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
-    this.basePage.jumpToRunConfiguration(null, dataSource);
+    this.basePage.switchToRunConfiguration(null, dataSource);
   }
 
   @Override

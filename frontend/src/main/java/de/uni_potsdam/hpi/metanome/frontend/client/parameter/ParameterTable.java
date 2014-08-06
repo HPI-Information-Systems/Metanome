@@ -65,7 +65,7 @@ public class ParameterTable extends FlexTable {
             dataSourceWidget.setDataSource(primaryDataSource);
           } catch (AlgorithmConfigurationException e) {
             this.messageReceiver.addError("Could not select " + primaryDataSource.getValueAsString()
-                                        + "as data source. Please choose one of the available ones below.");
+                                        + " as data source. Please choose one of the available ones below.");
           }
         }
         this.dataSourceChildWidgets.add(dataSourceWidget);

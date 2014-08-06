@@ -121,7 +121,7 @@ public class GwtTestBasePage extends GWTTestCase {
         page.addAlgorithmsToRunConfigurations(result);
 
         // Execute
-        page.jumpToRunConfiguration(algorithmName, null);
+        page.switchToRunConfiguration(algorithmName, null);
 
         // Check
         assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
@@ -162,7 +162,7 @@ public class GwtTestBasePage extends GWTTestCase {
         page.addAlgorithmsToRunConfigurations(result);
 
         // Execute
-        page.jumpToRunConfiguration(null, finalDataSource);
+        page.switchToRunConfiguration(null, finalDataSource);
 
         RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 

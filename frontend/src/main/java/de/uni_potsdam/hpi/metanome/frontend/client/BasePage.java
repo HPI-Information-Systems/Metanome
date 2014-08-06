@@ -146,32 +146,14 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
-   * Generates a string representing all given data sources by concatenating their names. These are
-   * used as titles for the result tabs.
-   * 
-   * @param dataSources the list of InputParameterDataSources to be descirbed
-   * @return a String with the names of all given data source parameters
-   */
-  // private String getDataSourcesString(
-  // List<ConfigurationSpecification> dataSources) {
-  // String dataSourcesString = "";
-  // for (ConfigurationSpecification dataSource : dataSources){
-  // for (Object settingObject : dataSource.getSettings()) {
-  // ConfigurationSettingDataSource setting = (ConfigurationSettingDataSource) settingObject;
-  // dataSourcesString = dataSourcesString + setting.getValueAsString() + " - ";
-  // }
-  // }
-  // return dataSourcesString;
-  // }
-
-  /**
    * Hand control from any page to Run Configurations, and pre-configure the latter with the
    * algorithm and/or data source.
    * 
    * @param algorithmName algorithm that shall be run
    * @param dataSource    data source that shall be profiled
    */
-  public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
+  public void switchToRunConfiguration(String algorithmName,
+                                       ConfigurationSettingDataSource dataSource) {
     this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());
     if (algorithmName != null) {
       this.runConfigurationsPage.selectAlgorithm(algorithmName);

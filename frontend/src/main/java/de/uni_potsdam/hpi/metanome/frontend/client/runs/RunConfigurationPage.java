@@ -53,7 +53,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
 
 
   /**
-   * Initializes ExecutoinService and registers given algorithms. However, more
+   * Initializes ExecutionService and registers given algorithms. However, more
    * algorithms can be registered whenever they become available, through {@link RunConfigurationPage#addAlgorithms(java.util.List)}
    *
    * @param basePage the base page this sub page

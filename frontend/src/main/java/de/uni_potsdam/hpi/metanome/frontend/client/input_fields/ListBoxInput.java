@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * A wrapper for a list box of strings that can contain a remove button. If the remove button is
  * clicked, the list box is removed from the parent widget.
  *
- * @author Tanja
+ * @author Tanja Bergmann
  */
 public class ListBoxInput extends InputField {
 
@@ -54,7 +54,6 @@ public class ListBoxInput extends InputField {
 
     return list;
   }
-
 
   /**
    * Sets all values of the list of items to the list box.

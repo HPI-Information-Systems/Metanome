@@ -27,6 +27,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import org.junit.Test;
@@ -183,7 +184,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#CsvFileInput(boolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#CsvFileInput(boolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    * <p/>
    * After calling the constructor the optional parameter should be set correctly and all widgets
    * should be initialized.
@@ -205,8 +206,8 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#getValues()} and
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.CsvFileInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#getValues()} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
    * <p/>
    * The getValues and setValues methods should set and retrieve settings.
    */
