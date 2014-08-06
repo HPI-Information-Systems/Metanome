@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 
 import com.google.gwt.user.client.ui.FlexTable;
@@ -33,7 +33,7 @@ import java.util.Arrays;
 /**
  * Input field to configure a database connection.
  */
-public class DatabaseConnectionField extends FlowPanel {
+public class DatabaseConnectionEditForm extends FlowPanel {
 
   protected TextBox dbUrlTextbox;
   protected TextBox usernameTextbox;
@@ -41,7 +41,7 @@ public class DatabaseConnectionField extends FlowPanel {
   protected ListBoxInput systemListBox;
   private FlexTable layoutTable;
 
-  public DatabaseConnectionField() {
+  public DatabaseConnectionEditForm() {
     this.addStyleName("left");
 
     this.layoutTable = new FlexTable();

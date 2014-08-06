@@ -26,7 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
@@ -74,7 +74,7 @@ public class GwtTestBasePage extends GWTTestCase {
     assertTrue(panel instanceof ScrollPanel);
     wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
-    assertTrue(((TabWrapper) wrapper).contentPanel instanceof InputConfigurationPage);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcePage);
 
     panel =  testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
     assertTrue(panel instanceof ScrollPanel);
@@ -182,7 +182,7 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
   private RunConfigurationPage getRunConfigurationPage(final BasePage page) {
-    return (RunConfigurationPage) ((TabWrapper) page.getWidget(page.getSelectedIndex())).contentPanel;
+    return (RunConfigurationPage) ((TabWrapper) ((ScrollPanel) page.getWidget(page.getSelectedIndex())).getWidget()).contentPanel;
   }
 
   @Override

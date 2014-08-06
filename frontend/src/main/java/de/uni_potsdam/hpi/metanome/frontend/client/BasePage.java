@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
-import de.uni_potsdam.hpi.metanome.frontend.client.inputs.InputConfigurationPage;
+import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationPage;
@@ -50,7 +50,7 @@ public class BasePage extends TabLayoutPanel {
   protected ResultsPage resultsPage;
   protected TabWrapper resultPageTabWrapper;
   protected RunConfigurationPage runConfigurationsPage;
-  protected InputConfigurationPage dataSourcePage;
+  protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
 
   protected AlgorithmServiceAsync finderService;
@@ -63,7 +63,7 @@ public class BasePage extends TabLayoutPanel {
     this.addStyleName("basePage");
 
     // Add data source tab
-    this.dataSourcePage = new InputConfigurationPage(this);
+    this.dataSourcePage = new DataSourcePage(this);
     this.insert(new ScrollPanel(new TabWrapper(this.dataSourcePage)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
 
     // Add algorithm tab
@@ -169,7 +169,7 @@ public class BasePage extends TabLayoutPanel {
    * algorithm and/or data source.
    * 
    * @param algorithmName algorithm that shall be run
-   * @param dataSource data source that shall be profiled
+   * @param dataSource    data source that shall be profiled
    */
   public void jumpToRunConfiguration(String algorithmName, ConfigurationSettingDataSource dataSource) {
     this.selectTab(Tabs.RUN_CONFIGURATION.ordinal());

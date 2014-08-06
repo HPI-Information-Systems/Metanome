@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -32,14 +32,13 @@ import org.junit.Test;
 public class GwtTestFileInputField extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
-   * <p/>
+   * Test method for {@link FileInputEditForm#getValue()}
    */
   @Test
   public void testGetValue() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
-    FileInputField field = new FileInputField();
+    FileInputEditForm field = new FileInputEditForm();
 
     String expectedFileName = "file name";
     field.setFileName(expectedFileName);
@@ -52,14 +51,13 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
-   * <p/>
+   * Test method for {@link FileInputEditForm#getValue()}
    */
   @Test
   public void testGetValueWithInvalidValues() {
     // Set up
     // Expected
-    FileInputField field = new FileInputField();
+    FileInputEditForm field = new FileInputEditForm();
     // Execute
     // Check
     try {
@@ -70,14 +68,13 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
-   * <p/>
+   * Test method for {@link FileInputEditForm#getValue()}
    */
   @Test
   public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
-    FileInputField field = new FileInputField();
+    FileInputEditForm field = new FileInputEditForm();
 
     String expectedFileName = "file name";
     char separator = ';';
@@ -117,13 +114,12 @@ public class GwtTestFileInputField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.FileInputField#getValue()}
-   * <p/>
+   * Test method for {@link FileInputEditForm#getValue()}
    */
   @Test
   public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
-    FileInputField field = new FileInputField();
+    FileInputEditForm field = new FileInputEditForm();
     field.advancedCheckbox.setValue(true);
 
     // Expected
@@ -153,7 +149,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   @Test
   public void testVisibilityOfAdvancedSettings() {
     // Set up
-    FileInputField widget = new FileInputField();
+    FileInputEditForm widget = new FileInputEditForm();
 
     // Check default visibility
     assertFalse(widget.advancedTable.isVisible());
@@ -179,6 +175,26 @@ public class GwtTestFileInputField extends GWTTestCase {
     assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
     assertTrue(widget.headerCheckbox.isVisible());
     assertTrue(widget.skipDifferingLinesCheckbox.isVisible());
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.FileInputEditForm#reset()}
+   */
+  @Test
+  public void testResetValues() {
+    //Setup
+    FileInputEditForm input = new FileInputEditForm();
+    input.fileListBox.addValue("file1");
+    input.fileListBox.addValue("file2");
+    input.fileListBox.setSelectedValue("file2");
+
+    // Execute
+    input.reset();
+
+    String actualFile = input.fileListBox.getSelectedValue();
+
+    //Check
+    assertEquals("--", actualFile);
   }
 
   @Override

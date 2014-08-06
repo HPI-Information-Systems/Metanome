@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -28,8 +28,7 @@ import org.junit.Test;
 public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.DatabaseConnectionField#getValue()}
-   * <p/>
+   * Test method for {@link DatabaseConnectionEditForm#getValue()}
    */
   @Test
   public void testGetValue() throws InputValidationException {
@@ -39,7 +38,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedPassword = "password";
     String expectedSystem = DbSystem.DB2.name();
 
-    DatabaseConnectionField input = new DatabaseConnectionField();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
 
     // Execute
     input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
@@ -53,8 +52,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.inputs.DatabaseConnectionField#getValue()}
-   * <p/>
+   * Test method for {@link DatabaseConnectionEditForm#getValue()}
    */
   @Test
   public void testGetValueWithInvalidValues() {
@@ -64,7 +62,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedPassword = "";
     String expectedSystem = DbSystem.DB2.name();
 
-    DatabaseConnectionField input = new DatabaseConnectionField();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
 
     // Execute
     input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
@@ -78,13 +76,12 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link DatabaseConnectionField#reset()}
-   * <p/>
+   * Test method for {@link DatabaseConnectionEditForm#reset()}
    */
   @Test
   public void testResetValues() {
     //Setup
-    DatabaseConnectionField input = new DatabaseConnectionField();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
     input.setValues("url", DbSystem.DB2.name(), "user", "password");
 
     // Execute

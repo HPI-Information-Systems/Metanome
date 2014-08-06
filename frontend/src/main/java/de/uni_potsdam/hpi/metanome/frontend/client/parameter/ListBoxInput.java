@@ -68,6 +68,14 @@ public class ListBoxInput extends InputField {
   }
 
   /**
+   * Adds a item to the list box.
+   * @param item the item to be added
+   */
+  public void addValue(String item) {
+    this.listbox.addItem(item);
+  }
+
+  /**
    * Clear all values of the list box.
    */
   public void clear() {

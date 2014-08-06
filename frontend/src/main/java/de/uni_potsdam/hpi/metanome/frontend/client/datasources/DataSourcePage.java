@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,6 +26,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -46,7 +50,7 @@ import java.util.List;
 /**
  * Page to configure data inputs.
  */
-public class InputConfigurationPage extends FlowPanel implements TabContent {
+public class DataSourcePage extends FlowPanel implements TabContent {
 
   private static final String DATABASE_CONNECTION = "Database Connection";
   private static final String FILE_INPUT = "File Input";
@@ -57,27 +61,26 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
 
   protected FlowPanel content;
   protected FlowPanel editForm;
-  protected DatabaseConnectionField dbField;
-  protected FileInputField fileInputField;
-  protected TableInputField tableInputField;
+  protected DatabaseConnectionEditForm databaseConnectionEditForm;
+  protected FileInputEditForm fileInputEditForm;
+  protected TableInputEditForm tableInputEditForm;
 
-  protected Boolean dbFieldSelected;
-  protected Boolean tableInputFieldSelected;
-  protected Boolean fileInputFieldSelected;
+  protected Boolean databaseConnectionSelected;
+  protected Boolean tableInputSelected;
+  protected Boolean fileInputSelected;
 
   protected FlowPanel saveButtonPanel;
 
   /**
    * Constructor.
    */
-  public InputConfigurationPage(BasePage basePage) {
-    this.setWidth("100%");
+  public DataSourcePage(BasePage basePage) {
     this.basePage = basePage;
 
     // Initialize all input fields
-    this.dbField = new DatabaseConnectionField();
-    this.fileInputField = new FileInputField();
-    this.tableInputField = new TableInputField();
+    this.databaseConnectionEditForm = new DatabaseConnectionEditForm();
+    this.fileInputEditForm = new FileInputEditForm();
+    this.tableInputEditForm = new TableInputEditForm();
 
     // Initialize all buttons
     Button dbButton = new Button(DATABASE_CONNECTION);
@@ -118,11 +121,17 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
     this.add(wrapper);
 
     // set selected field to database connection
-    this.dbFieldSelected = true;
-    this.tableInputFieldSelected = false;
-    this.fileInputFieldSelected = false;
+    this.databaseConnectionSelected = true;
+    this.tableInputSelected = false;
+    this.fileInputSelected = false;
   }
 
+  /**
+   * Creates the click handles for the file input button.
+   * If the button is clicked the content panel should display a list with all file inputs and
+   * a file input edit form.
+   * @return the click handler
+   */
   private ClickHandler getClickHandlerForFileButton() {
     return new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -132,16 +141,18 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         content.clear();
         fillContent(FILE_INPUT);
 
-        dbFieldSelected = false;
-        tableInputFieldSelected = false;
-        fileInputFieldSelected = true;
+        databaseConnectionSelected = false;
+        tableInputSelected = false;
+        fileInputSelected = true;
       }
     };
   }
 
   /**
-   * Creates the click handler for the database connection button.
-   * @return the callback
+   * Creates the click handles for the database connection button.
+   * If the button is clicked the content panel should display a list with all database connections and
+   * a database connection edit form.
+   * @return the click handler
    */
   private ClickHandler getClickHandlerForDbButton() {
     return new ClickHandler() {
@@ -152,16 +163,18 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         content.clear();
         fillContent(DATABASE_CONNECTION);
 
-        dbFieldSelected = true;
-        tableInputFieldSelected = false;
-        fileInputFieldSelected = false;
+        databaseConnectionSelected = true;
+        tableInputSelected = false;
+        fileInputSelected = false;
       }
     };
   }
 
   /**
-   * Creates the click handler for the table input button.
-   * @return the callback
+   * Creates the click handles for the table input button.
+   * If the button is clicked the content panel should display a list with all table inputs and
+   * a table input edit form.
+   * @return the click handler
    */
   private ClickHandler getClickHandlerForTableButton() {
     return new ClickHandler() {
@@ -169,12 +182,12 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         messageReceiver.clearErrors();
         messageReceiver.clearInfos();
 
-        tableInputField.updateDatabaseConnectionListBox();
+        tableInputEditForm.updateDatabaseConnectionListBox();
         fillContent(TABLE_INPUT);
 
-        dbFieldSelected = false;
-        tableInputFieldSelected = true;
-        fileInputFieldSelected = false;
+        databaseConnectionSelected = false;
+        tableInputSelected = true;
+        fileInputSelected = false;
       }
     };
   }
@@ -186,68 +199,87 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
     this.messageReceiver.clearErrors();
     this.messageReceiver.clearInfos();
 
-    if (dbFieldSelected) {
-      DatabaseConnectionField w = (DatabaseConnectionField) editForm.getWidget(0);
-      try {
-        DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
-        databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            messageReceiver.addError("Database Connection could not be stored!");
-          }
+    if (databaseConnectionSelected) {
+      saveDatabaseConnection();
+    } else if (tableInputSelected) {
+      saveTableInput();
+    } else if (fileInputSelected) {
+      saveFileInput();
+    }
+  }
 
-          @Override
-          public void onSuccess(Void aVoid) {
-            dbField.reset();
-            fillContent(DATABASE_CONNECTION);
-            messageReceiver.addInfo("Database Connection successfully saved.");
-          }
-        });
-      } catch (InputValidationException e) {
-        messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
-      }
+  /**
+   * Stores the current database connection in the database.
+   */
+  private void saveDatabaseConnection() {
+    DatabaseConnectionEditForm w = (DatabaseConnectionEditForm) editForm.getWidget(0);
+    try {
+      DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+      databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("Database Connection could not be stored!");
+        }
 
-    } else if (tableInputFieldSelected) {
-      TableInputField w = (TableInputField) editForm.getWidget(0);
-      try {
-        TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
-        tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            messageReceiver.addError("Database Connection could not be stored!");
-          }
+        @Override
+        public void onSuccess(Void aVoid) {
+          databaseConnectionEditForm.reset();
+          fillContent(DATABASE_CONNECTION);
+          messageReceiver.addInfo("Database Connection successfully saved.");
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
+    }
+  }
 
-          @Override
-          public void onSuccess(Void aVoid) {
-            tableInputField.reset();
-            fillContent(TABLE_INPUT);
-            messageReceiver.addInfo("Table Input successfully saved.");
-          }
-        });
-      } catch (InputValidationException | EntityStorageException e) {
-        messageReceiver.addError("Table Input could not be stored: " + e.getMessage());
-      }
+  /**
+   * Stores the current file input in the database.
+   */
+  private void saveFileInput() {
+    FileInputEditForm w = (FileInputEditForm) editForm.getWidget(0);
+    try {
+      FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
+      fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("File Input could not be stored!");
+        }
 
-    } else if (fileInputFieldSelected) {
-      FileInputField w = (FileInputField) editForm.getWidget(0);
-      try {
-        FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
-        fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            messageReceiver.addError("Database Connection could not be stored!");
-          }
+        @Override
+        public void onSuccess(Void aVoid) {
+          fileInputEditForm.reset();
+          fillContent(FILE_INPUT);
+          messageReceiver.addInfo("File Input successfully saved.");
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("File Input could not be stored: " + e.getMessage());
+    }
+  }
 
-          @Override
-          public void onSuccess(Void aVoid) {
-            fileInputField.reset();
-            fillContent(FILE_INPUT);
-            messageReceiver.addInfo("File Input successfully saved.");
-          }
-        });
-      } catch (InputValidationException e) {
-        messageReceiver.addError("File Input could not be stored: " + e.getMessage());
-      }
+  /**
+   * Stores the current table input in the database.
+   */
+  private void saveTableInput() {
+    TableInputEditForm w = (TableInputEditForm) editForm.getWidget(0);
+    try {
+      TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
+      tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("Table Input could not be stored!");
+        }
+
+        @Override
+        public void onSuccess(Void aVoid) {
+          tableInputEditForm.reset();
+          fillContent(TABLE_INPUT);
+          messageReceiver.addInfo("Table Input successfully saved.");
+        }
+      });
+    } catch (InputValidationException | EntityStorageException e) {
+      messageReceiver.addError("Table Input could not be stored: " + e.getMessage());
     }
   }
 
@@ -327,7 +359,7 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         this.content.add(new HTML("<h3>Add a new Database Connection</h3>"));
         this.content.add(saveButtonPanel);
         this.editForm.clear();
-        this.editForm.add(dbField);
+        this.editForm.add(databaseConnectionEditForm);
         this.content.add(this.editForm);
         break;
       case FILE_INPUT:
@@ -335,7 +367,7 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         this.content.add(new HTML("<h3>Add a new File Input</h3>"));
         this.content.add(saveButtonPanel);
         this.editForm.clear();
-        this.editForm.add(fileInputField);
+        this.editForm.add(fileInputEditForm);
         this.content.add(this.editForm);
         break;
       case TABLE_INPUT:
@@ -343,7 +375,7 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
         this.content.add(new HTML("<h3>Add a new Table Input</h3>"));
         this.content.add(saveButtonPanel);
         this.editForm.clear();
-        this.editForm.add(tableInputField);
+        this.editForm.add(tableInputEditForm);
         this.content.add(this.editForm);
         break;
       default:
@@ -358,19 +390,34 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
    * @param inputs the table inputs
    */
   private void listTableInputs(List<TableInput> inputs) {
+    if (inputs.isEmpty()) {
+      content.add(new HTML("<h4>There are no Table Inputs yet.</h4>"));
+      return;
+    }
+
     FlexTable table = new FlexTable();
     int row = 1;
 
     table.setHTML(0, 0, "<b>Database Connection</b>");
     table.setHTML(0, 1, "<b>Table Name</b>");
 
-    for (TableInput input : inputs) {
+    for (final TableInput input : inputs) {
       Button deleteButton = new Button("Delete");
       // TODO: add click handler
 
+      Button runButton = new Button("Run");
+      runButton.setTitle(String.valueOf(input.getId()));
+      runButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          callRunConfiguration(convertTableInputToDataSource(input));
+        }
+      });
+
       table.setText(row, 0, input.getDatabaseConnection().getUrl());
       table.setText(row, 1, input.getTableName());
-      table.setWidget(row, 2, deleteButton);
+      table.setWidget(row, 2, runButton);
+      table.setWidget(row, 3, deleteButton);
       row++;
     }
 
@@ -383,17 +430,32 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
    * @param inputs the file inputs
    */
   private void listFileInputs(List<FileInput> inputs) {
+    if (inputs.isEmpty()) {
+      content.add(new HTML("<h4>There are no File Inputs yet.</h4>"));
+      return;
+    }
+
     FlexTable table = new FlexTable();
     int row = 1;
 
     table.setHTML(0, 0, "<b>File Name</b>");
 
-    for (FileInput input : inputs) {
+    for (final FileInput input : inputs) {
       Button deleteButton = new Button("Delete");
       // TODO: add click handler
 
+      Button runButton = new Button("Run");
+      runButton.setTitle(String.valueOf(input.getId()));
+      runButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          callRunConfiguration(convertFileInputToDataSource(input));
+        }
+      });
+
       table.setText(row, 0, input.getFileName());
-      table.setWidget(row, 1, deleteButton);
+      table.setWidget(row, 1, runButton);
+      table.setWidget(row, 2, deleteButton);
       row++;
     }
 
@@ -406,6 +468,11 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
    * @param inputs
    */
   private void listDatabaseConnections(List<DatabaseConnection> inputs) {
+    if (inputs.isEmpty()) {
+      content.add(new HTML("<h4>There are no Database Connections yet.</h4>"));
+      return;
+    }
+
     FlexTable table = new FlexTable();
     int row = 1;
 
@@ -413,14 +480,24 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
     table.setHTML(0, 1, "<b>Username</b>");
     table.setHTML(0, 2, "<b>Password</b>");
 
-    for (DatabaseConnection input : inputs) {
+    for (final DatabaseConnection input : inputs) {
       Button deleteButton = new Button("Delete");
       // TODO: add click handler
+
+      Button runButton = new Button("Run");
+      runButton.setTitle(String.valueOf(input.getId()));
+      runButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          callRunConfiguration(convertDatabaseConnectionToDataSource(input));
+        }
+      });
 
       table.setText(row, 0, input.getUrl());
       table.setText(row, 1, input.getUsername());
       table.setText(row, 2, input.getPassword());
-      table.setWidget(row, 3, deleteButton);
+      table.setWidget(row, 3, runButton);
+      table.setWidget(row, 4, deleteButton);
       row++;
     }
 
@@ -428,10 +505,60 @@ public class InputConfigurationPage extends FlowPanel implements TabContent {
     this.content.add(table);
   }
 
+  /**
+   * Converts a table input into a ConfigurationSettingDataSource
+   * @param input the table input
+   * @return      the ConfigurationSettingDataSource from the given table input
+   */
+  private ConfigurationSettingDataSource convertTableInputToDataSource(TableInput input) {
+    // TODO configuration setting is missing
+    return null;
+  }
+
+  /**
+   * Converts a file input into a ConfigurationSettingDataSource
+   * @param input the file input
+   * @return      the ConfigurationSettingDataSource from the given file input
+   */
+  private ConfigurationSettingDataSource convertFileInputToDataSource(FileInput input) {
+    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+
+    setting.setFileName(input.getFileName());
+    setting.setEscapeChar(input.getEscapechar());
+    setting.setHeader(input.isHasHeader());
+    setting.setIgnoreLeadingWhiteSpace(input.isIgnoreLeadingWhiteSpace());
+    setting.setQuoteChar(input.getQuotechar());
+    setting.setSeparatorChar(input.getSeparator());
+    setting.setSkipDifferingLines(input.isSkipDifferingLines());
+    setting.setSkipLines(input.getSkipLines());
+    setting.setStrictQuotes(input.isStrictQuotes());
+
+    return setting;
+  }
+
+  /**
+   * Converts a database connection into a ConfigurationSettingDataSource
+   * @param input the database connection
+   * @return      the ConfigurationSettingDataSource from the given database connection
+   */
+  private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(DatabaseConnection input) {
+    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(), input.getPassword(),
+                                               DbSystem.DB2);
+  }
+
+  /**
+   * Switch to the run configuration page.
+   * The selected data source should be preselected.
+   * @param dataSource the preselected data source
+   */
+  private void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
+    this.basePage.jumpToRunConfiguration(null, dataSource);
+  }
+
   @Override
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
-    this.tableInputField.setMessageReceiver(tab);
+    this.tableInputEditForm.setMessageReceiver(tab);
   }
 
 }

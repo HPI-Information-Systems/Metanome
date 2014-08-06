@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
@@ -35,11 +35,31 @@ import org.junit.Test;
 import java.util.List;
 
 
-public class GwtTestInputConfigurationPage extends GWTTestCase {
+public class GwtTestDataSourcePage extends GWTTestCase {
 
   /**
-   * Test method for {@link InputConfigurationPage#saveObject()}
-   * <p/>
+   * Test method for {@link DataSourcePage#DataSourcePage(de.uni_potsdam.hpi.metanome.frontend.client.BasePage)}
+   */
+  @Test
+  public void testSetUp() {
+    // Set up
+    BasePage basePage = new BasePage();
+
+    // Execute
+    DataSourcePage dataSourcePage = new DataSourcePage(basePage);
+
+    // Check
+    assertTrue(dataSourcePage.databaseConnectionEditForm != null);
+    assertTrue(dataSourcePage.tableInputEditForm != null);
+    assertTrue(dataSourcePage.fileInputEditForm != null);
+
+    assertTrue(dataSourcePage.databaseConnectionSelected);
+    assertFalse(dataSourcePage.tableInputSelected);
+    assertFalse(dataSourcePage.fileInputSelected);
+  }
+
+  /**
+   * Test method for {@link DataSourcePage#saveObject()}
    */
   @Test
   public void testStoreTableInput() throws EntityStorageException, InputValidationException {
@@ -48,7 +68,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
-    InputConfigurationPage page = new InputConfigurationPage(parent);
+    DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 
     DatabaseConnection dbConnection = new DatabaseConnection();
@@ -70,18 +90,18 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
       }
     });
 
-    page.tableInputField.setValues(connectionId[0] + ": url", "table");
-    page.tableInputFieldSelected = true;
-    page.dbFieldSelected = false;
-    page.fileInputFieldSelected = false;
+    page.tableInputEditForm.setValues(connectionId[0] + ": url", "table");
+    page.tableInputSelected = true;
+    page.databaseConnectionSelected = false;
+    page.fileInputSelected = false;
     page.editForm.clear();
-    page.editForm.add(page.tableInputField);
+    page.editForm.add(page.tableInputEditForm);
 
     // Execute
     page.saveObject();
 
     // Expected values
-    final TableInput expectedInput = page.tableInputField.getValue();
+    final TableInput expectedInput = page.tableInputEditForm.getValue();
 
     // Check result
     TestHelper.getAllTableInputs(
@@ -113,8 +133,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link InputConfigurationPage#saveObject()}
-   * <p/>
+   * Test method for {@link DataSourcePage#saveObject()}
    */
   @Test
   public void testStoreFileInput() throws EntityStorageException, InputValidationException {
@@ -123,21 +142,21 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
-    InputConfigurationPage page = new InputConfigurationPage(parent);
+    DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-    page.fileInputField.setFileName("file_name");
-    page.tableInputFieldSelected = false;
-    page.dbFieldSelected = false;
-    page.fileInputFieldSelected = true;
+    page.fileInputEditForm.setFileName("file_name");
+    page.tableInputSelected = false;
+    page.databaseConnectionSelected = false;
+    page.fileInputSelected = true;
     page.editForm.clear();
-    page.editForm.add(page.fileInputField);
+    page.editForm.add(page.fileInputEditForm);
 
     // Execute
     page.saveObject();
 
     // Expected values
-    final FileInput expectedInput = page.fileInputField.getValue();
+    final FileInput expectedInput = page.fileInputEditForm.getValue();
 
     // Check result
     TestHelper.getAllFileInputs(
@@ -169,8 +188,7 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link InputConfigurationPage#saveObject()}
-   * <p/>
+   * Test method for {@link DataSourcePage#saveObject()}
    */
   @Test
   public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
@@ -179,21 +197,21 @@ public class GwtTestInputConfigurationPage extends GWTTestCase {
     final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
-    InputConfigurationPage page = new InputConfigurationPage(parent);
+    DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-    page.dbField.setValues("url", DbSystem.DB2.name(), "user", "password");
-    page.tableInputFieldSelected = false;
-    page.dbFieldSelected = true;
-    page.fileInputFieldSelected = false;
+    page.databaseConnectionEditForm.setValues("url", DbSystem.DB2.name(), "user", "password");
+    page.tableInputSelected = false;
+    page.databaseConnectionSelected = true;
+    page.fileInputSelected = false;
     page.editForm.clear();
-    page.editForm.add(page.dbField);
+    page.editForm.add(page.databaseConnectionEditForm);
 
     // Execute
     page.saveObject();
 
     // Expected values
-    final DatabaseConnection expectedInput = page.dbField.getValue();
+    final DatabaseConnection expectedInput = page.databaseConnectionEditForm.getValue();
 
     // Check result
     TestHelper.getAllDatabaseConnections(

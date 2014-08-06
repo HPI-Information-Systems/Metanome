@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -23,9 +23,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,22 +31,25 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Input field to configure a file input.
  */
-public class FileInputField extends FlowPanel {
+public class FileInputEditForm extends FlowPanel {
 
   /**
    * Dropdown menu for choosing a CSV file
    */
-  private ListBox fileListBox;
+  protected ListBoxInput fileListBox;
   /**
    * Triggers whether advanced options are displayed and evaluated.
    */
@@ -70,10 +71,10 @@ public class FileInputField extends FlowPanel {
   /**
    * Constructor. Set up all UI elements.
    */
-  public FileInputField() {
+  public FileInputEditForm() {
     this.addStyleName("left");
 
-    HorizontalPanel standardPanel = new HorizontalPanel();
+    FlowPanel standardPanel = new FlowPanel();
     this.add(standardPanel);
 
     fileListBox = createListbox();
@@ -87,19 +88,24 @@ public class FileInputField extends FlowPanel {
     this.add(advancedTable);
 
     separatorTextbox = getNewOneCharTextbox();
+    separatorTextbox.setName("Separator Character");
     addRow(advancedTable, separatorTextbox, "Separator Character");
 
     quoteTextbox = getNewOneCharTextbox();
+    quoteTextbox.setName("Quote Character");
     addRow(advancedTable, quoteTextbox, "Quote Character");
 
     escapeTextbox = getNewOneCharTextbox();
+    escapeTextbox.setName("Escape Character");
     addRow(advancedTable, escapeTextbox, "Escape Character");
 
     skiplinesIntegerbox = new IntegerBox();
     skiplinesIntegerbox.setWidth("5em");
+    skiplinesIntegerbox.setName("Line");
     addRow(advancedTable, skiplinesIntegerbox, "Line");
 
     strictQuotesCheckbox = new CheckBox();
+    strictQuotesCheckbox.setName("Strict Quotes");
     addRow(advancedTable, strictQuotesCheckbox, "Strict Quotes");
 
     ignoreLeadingWhiteSpaceCheckbox = new CheckBox();
@@ -115,7 +121,7 @@ public class FileInputField extends FlowPanel {
   }
 
   /**
-   * Set the default values of the advanced settings
+   * Sets the default values of the advanced settings
    */
   private void setDefaultAdvancedSettings() {
     setSeparator(CSVParser.DEFAULT_SEPARATOR);
@@ -148,7 +154,7 @@ public class FileInputField extends FlowPanel {
    */
   private TextBox getNewOneCharTextbox() {
     TextBox textbox = new TextBox();
-    textbox.setMaxLength(2);
+    textbox.setMaxLength(1);
     textbox.setWidth("2em");
     return textbox;
   }
@@ -179,36 +185,25 @@ public class FileInputField extends FlowPanel {
    *
    * @return a GWT ListBox containing all currently available CSV files
    */
-  private ListBox createListbox() {
-    ListBox listbox = new ListBox();
+  private ListBoxInput createListbox() {
+    ListBoxInput listbox = new ListBoxInput(false);
+    listbox.addValue("--");
+    listbox.disableFirstEntry();
 
-    //unselectable default entry
-    listbox.addItem("--");
-    listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-    //other entries
-    addAvailableFiles();
+    // Add available CSV files
+    AsyncCallback<String[]> callback = getCallback(listbox);
+    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    service.listCsvFiles(callback);
+
     return listbox;
   }
 
   /**
-   * Calls the InputDataService to retrieve available CSV files (specified by their
-   * file paths) and adds them as entries to the given ListBox. Only the actual file
-   * name (not the preceding directories) are displayed.
-   */
-  private void addAvailableFiles() {
-    AsyncCallback<String[]> callback = getCallback(this);
-
-    FileInputServiceAsync service = GWT.create(FileInputService.class);
-    service.listCsvFiles(callback);
-  }
-
-
-  /**
    * Creates the callback for getting all available csv files. On success the files are added to the according list box.
-   * @param widget the widget, which contains the list box where the files should be added.
+   * @param listbox the listbox where the files should be added.
    * @return the callback
    */
-  protected AsyncCallback<String[]> getCallback(final FileInputField widget) {
+  protected AsyncCallback<String[]> getCallback(final ListBoxInput listbox) {
     return new AsyncCallback<String[]>() {
       public void onFailure(Throwable caught) {
         // TODO: Do something with errors.
@@ -216,21 +211,16 @@ public class FileInputField extends FlowPanel {
       }
 
       public void onSuccess(String[] result) {
-        widget.addFilesToListBox(result);
+        List<String> fileNames = new ArrayList<>();
+
+        for (String name : result) {
+          String[] fileParts = name.replace("\\", "/").split("/");
+          fileNames.add(fileParts[fileParts.length - 1]);
+        }
+
+        listbox.setValues(fileNames);
       }
     };
-  }
-
-  /**
-   * Add files of CSV files
-   * @param files which should be added to the list box
-   */
-  private void addFilesToListBox(String[] files) {
-
-    for (String fileName: files) {
-      String[] fileParts = fileName.replace("\\", "/").split("/");
-      this.fileListBox.addItem(fileParts[fileParts.length - 1]);
-    }
   }
 
   /**
@@ -239,8 +229,7 @@ public class FileInputField extends FlowPanel {
   public FileInput getValue() throws InputValidationException {
     FileInput fileInput = new FileInput();
 
-    Integer index = this.fileListBox.getSelectedIndex();
-    String fileName = this.fileListBox.getValue(index);
+    String fileName = this.fileListBox.getSelectedValue();
 
     if (fileName.isEmpty())
       throw new InputValidationException("The file name is invalid.");
@@ -299,13 +288,13 @@ public class FileInputField extends FlowPanel {
     try {
       return integerBox.getValueOrThrow();
     } catch (ParseException e) {
-      throw new InputValidationException(integerBox.getName() + " should only contain number!");
+      throw new InputValidationException(integerBox.getName() + " should only contain numbers!");
     }
   }
 
   protected void setFileName(String fileName) {
-    this.fileListBox.addItem(fileName);
-    this.fileListBox.setSelectedIndex(1);
+    this.fileListBox.addValue(fileName);
+    this.fileListBox.setSelectedValue(fileName);
   }
 
   protected void setSeparator(char separator) {
@@ -344,6 +333,7 @@ public class FileInputField extends FlowPanel {
    * Reset the file name to the default entry "--" in the list box.
    */
   public void reset() {
-    this.fileListBox.setSelectedIndex(0);
+    this.fileListBox.reset();
+    this.setDefaultAdvancedSettings();
   }
 }

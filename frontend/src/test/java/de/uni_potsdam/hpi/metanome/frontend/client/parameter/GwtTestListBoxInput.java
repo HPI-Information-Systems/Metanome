@@ -16,10 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
+import com.google.gwt.junit.client.GWTTestCase;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gwt.junit.client.GWTTestCase;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput}
@@ -53,6 +53,22 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
     // Check result
     assertEquals(expectedValues, actualValues);
+  }
+
+  /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ListBoxInput#addValue(String)}
+   */
+  public void testAddValue() {
+    // Expected
+    String item = "item";
+
+    // Execute functionality
+    listBox.addValue(item);
+
+    // Check result
+    assertTrue(listBox.getValues().contains(item));
+    assertEquals(listBox.getValues().size(), 1);
   }
 
   /**

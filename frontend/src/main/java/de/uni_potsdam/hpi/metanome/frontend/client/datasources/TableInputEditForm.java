@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.inputs;
+package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -40,19 +40,19 @@ import java.util.Map;
 /**
  * Input field to configure a table input.
  */
-public class TableInputField extends FlowPanel {
+public class TableInputEditForm extends FlowPanel {
 
-  protected final DatabaseConnectionServiceAsync databaseConnectionService;
-  protected TabWrapper messageReceiver;
+  private final DatabaseConnectionServiceAsync databaseConnectionService;
+  private TabWrapper messageReceiver;
 
-  private Map<String, DatabaseConnection> dbMap = new HashMap<>();
+  protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
 
   protected ListBoxInput dbConnectionListBox;
-  private TextBox tableNameTextbox;
+  protected TextBox tableNameTextbox;
   private FlexTable layoutTable;
 
 
-  public TableInputField() {
+  public TableInputEditForm() {
     this.addStyleName("left");
 
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
@@ -147,10 +147,11 @@ public class TableInputField extends FlowPanel {
   }
 
   /**
-   * Resets all values, sets the current database connection to the default value "--" and clears the text of the table name input field.
+   * Resets all values, sets the current database connection to the default value "--" and
+   * clears the text of the table name input field.
    */
   public void reset() {
-    this.dbConnectionListBox.setSelectedValue("--");
+    this.dbConnectionListBox.reset();
     this.tableNameTextbox.setText("");
   }
 
