@@ -46,7 +46,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   protected BasePage basePage;
   protected TabWrapper messageReceiver;
 
-  protected ParameterTable parameterTable;
+  public ParameterTable parameterTable;
   protected AlgorithmChooser algorithmChooser;
   protected Label primaryDataSourceLabel;
   protected ExecutionServiceAsync executionService;
@@ -145,14 +145,14 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * Execute the currently selected algorithm and switch to results page.
    *
    * @param parameters parameters to use for the algorithm execution
-   *                   @param configuration the configuration to start executing with
+   * @param configuration the configuration to start executing with
    */
-  public void callExecutionService(List<ConfigurationSpecification> parameters,
-                                   List<ConfigurationSpecification> configuration) {
+  public void startExecution(List<ConfigurationSpecification> parameters,
+                             List<ConfigurationSpecification> configuration) {
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final String algorithmFileName = getAlgorithmFileName(algorithmName);
     parameters.addAll(configuration);
-    basePage.startExecutionAndResultPolling(executionService, algorithmFileName, parameters);
+    basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
   }
 
   // Getters & Setters

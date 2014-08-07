@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -84,6 +85,10 @@ public class GwtTestBasePage extends GWTTestCase {
 
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#addAlgorithmsToRunConfigurations(java.util.List)}
+   */
+  @Test
   public void testAddAlgorithmsToRunConfigurations() {
     BasePage page = new BasePage();
     int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
@@ -98,13 +103,15 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
   /**
-   * Test control flow from Algorithms to Run configuration
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   * </p> Test control flow from Algorithms to Run configuration
    */
-  public void testJumpToRunConfigurationFromAlgorithm() {
+  @Test
+  public void testSwitchToRunConfigurationFromAlgorithm() {
     // Setup
     final String algorithmName = "some_name";
     final BasePage page = new BasePage();
-    Algorithm a = new Algorithm("file/name").setAuthor("author").setName(algorithmName);
+    Algorithm a = new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
     algorithms.add(a);
 
     page.addAlgorithmsToRunConfigurations(algorithms);
@@ -122,30 +129,37 @@ public class GwtTestBasePage extends GWTTestCase {
 
         // Execute
         page.switchToRunConfiguration(algorithmName, null);
-
-        // Check
-        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-        assertEquals(algorithmName, getRunConfigurationPage(page).getCurrentlySelectedAlgorithm());
-
-        // TODO Add testing to ensure the parameter table is shown
-        // assertEquals(2, (((AlgorithmTab)
-        // page.getWidget(page.getSelectedIndex()))).getWidgetCount());
-        // assertTrue((((AlgorithmTab) page.getWidget(page.getSelectedIndex()))).getWidget(1)
-        // instanceof ParameterTable);
-
-        finishTest();
       }
     };
 
     ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
-    delayTestFinish(5000);
+    Timer timer = new Timer() {
+      @Override
+      public void run() {
+        RunConfigurationPage runPage = getRunConfigurationPage(page);
+
+        // Check
+        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+        assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
+        assertNotNull(runPage.parameterTable);
+        assertEquals(3, runPage.getWidgetCount());
+
+        finishTest();
+      }
+    };
+
+    delayTestFinish(6000);
+
+    timer.schedule(5000);
   }
 
   /**
-   * Test control flow from Data source to Run configuration
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   * </p> Test control flow from Data sources to Run configuration
    */
-  public void testJumpToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
+  @Test
+  public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();
     ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
     dataSource.setFileName(dataSourceName);

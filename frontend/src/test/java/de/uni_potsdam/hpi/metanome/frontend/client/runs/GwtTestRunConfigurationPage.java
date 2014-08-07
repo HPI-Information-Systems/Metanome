@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import org.junit.Test;
@@ -82,6 +83,7 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
   public void testSelectAlgorithm() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+    runConfigPage.setMessageReceiver(new TabWrapper());
     String algoName = setUpJarChooser(runConfigPage);
 
     //Execute

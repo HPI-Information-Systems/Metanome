@@ -221,10 +221,10 @@ public class GwtTestParameterTable extends GWTTestCase {
       }
     };
 
-    delayTestFinish(8000);
+    delayTestFinish(10000);
 
     // Waiting for asynchronous calls to finish.
-    executeTimer.schedule(6000);
+    executeTimer.schedule(8000);
   }
 
   private void setCsvFile(InputParameterCsvFileWidget widget) {

@@ -63,6 +63,8 @@ h3 {
 .resultTable-caption {
     font-weight: bold;
     font-family: arial,serif;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .fullSize {
@@ -80,6 +82,9 @@ h3 {
     font-weight: bold;
 }
 
+.gwt-TabLayoutPanel {
+    height: 100%;
+}
 
 .gwt-TabLayoutPanelContent {
     background: white;

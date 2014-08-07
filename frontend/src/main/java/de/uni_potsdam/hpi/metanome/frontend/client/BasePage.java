@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -98,40 +99,67 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
-   * Hand control from the Run Configuration to displaying Results. Start executing the algorithm
-   * and fetch results at a regular interval.
+   * Hand control from the Run Configuration to displaying Results.
+   * Start algorithm execution.
    * 
    * @param executionService the service instance used for executing the algorithm
    * @param algorithmFileName the file name of the algorithm to execute
    * @param parameters the specification with set settings used to configure the algorithm
    */
-  public void startExecutionAndResultPolling(ExecutionServiceAsync executionService,
-      String algorithmFileName, List<ConfigurationSpecification> parameters) {
+  public void startAlgorithmExecution(ExecutionServiceAsync executionService,
+                                      String algorithmFileName,
+                                      List<ConfigurationSpecification> parameters) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
 
     String executionIdentifier = getExecutionIdentifier(algorithmFileName);
 
-    // Create new tab with result table
-    // ScrollPanel resultsTab = new ScrollPanel();
-    ResultsTablePage resultsTableContent =
-        new ResultsTablePage(executionService, executionIdentifier);
-    resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
+    // Execute algorithm
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
-        resultsTableContent.getCancelCallback());
+                                      this.getExecutionCallback(executionService, executionIdentifier));
+    // During execution the progress is shown on the result page
+    this.resultsPage.setExecutionParameter(executionService, executionIdentifier, algorithmFileName);
+    this.resultsPage.startPolling();
 
-    // Execute algorithm and start fetching results
-    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
-        resultsTableContent.getCancelCallback());
-    resultsTableContent.startPolling();
+    this.selectTab(Tabs.RESULTS.ordinal());
+  }
+
+  /**
+   * If the algorithm execution is successful, the results will be shown. otherwise the reason of
+   * failure will be displayed.
+   * @param executionService    the service instance used for executing the algorithm
+   * @param executionIdentifier the execution identifier
+   * @return the callback
+   */
+  private AsyncCallback<Long> getExecutionCallback(final ExecutionServiceAsync executionService, final String executionIdentifier) {
+    return new AsyncCallback<Long>() {
+      public void onFailure(Throwable caught) {
+        resultsPage.updateOnError(caught.getMessage());
+      }
+      public void onSuccess(Long executionTime) {
+        handleSuccessfulExecution(executionService, executionIdentifier, executionTime);
+      }
+    };
+  }
+
+  /**
+   * Creates the results table and visualization page.
+   * @param executionService    the service instance used for executing the algorithm
+   * @param executionIdentifier the execution identifier
+   * @param executionTime       the time, which was needed for execution
+   */
+  private void handleSuccessfulExecution(ExecutionServiceAsync executionService, String executionIdentifier, Long executionTime) {
+    // Create new tab with result table
+    ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
+    resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
 
     // Create new tab with visualizations of result
     ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
+    visualizationTab.setMessageReceiver(this.resultPageTabWrapper);
 
     // remove the content from the result page and set the content to the new fetched result
-    this.resultsPage.update(resultsTableContent, visualizationTab);
-    this.selectTab(Tabs.RESULTS.ordinal());
+    this.resultsPage.updateOnSuccess(resultsTableContent, visualizationTab, executionTime);
   }
 
   /**

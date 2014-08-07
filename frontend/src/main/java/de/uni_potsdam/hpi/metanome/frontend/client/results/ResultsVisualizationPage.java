@@ -19,18 +19,27 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+
 
 /**
  * @author Tanja Bergmann
  */
-public class ResultsVisualizationPage extends FlowPanel {
+public class ResultsVisualizationPage extends FlowPanel implements TabContent {
+
+  private TabWrapper messageReceiver;
 
   public ResultsVisualizationPage() {
     this.add(new Label("Here comes some visualization..."));
   }
+
+  @Override
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+  }
+
 }
-
-
 
 //    super(Style.Unit.EM);
 //    this.setSize("1800px", "650px");
