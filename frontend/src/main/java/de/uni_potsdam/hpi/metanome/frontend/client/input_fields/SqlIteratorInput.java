@@ -42,7 +42,7 @@ import java.util.Map;
 public class SqlIteratorInput extends InputField {
 
   public ListBoxInput listbox;
-  protected Map<String, DatabaseConnection> databaseConnections;
+  public Map<String, DatabaseConnection> databaseConnections;
   private TabWrapper messageReceiver;
   /**
    * When using the link from Data Sources page, this is where the selected database connection is stored.

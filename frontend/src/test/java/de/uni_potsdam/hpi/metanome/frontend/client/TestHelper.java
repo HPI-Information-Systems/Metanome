@@ -25,7 +25,6 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -36,6 +35,11 @@ import java.util.List;
  */
 public class TestHelper {
 
+  static boolean[] reset_blocked = {true};
+  static boolean[] database_connection_blocked = {true};
+  static boolean[] file_input_blocked = {true};
+  static boolean[] algorithm_blocked = {true};
+
   protected static TestDatabaseHelperServiceAsync
       testDatabaseHelperService =
       GWT.create(TestDatabaseHelperService.class);
@@ -44,22 +48,20 @@ public class TestHelper {
    * Resets the database synchronously.
    */
   public static void resetDatabaseSync() {
-    final boolean[] blocked = {true};
     testDatabaseHelperService.resetDatabase(new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
       }
-
       @Override
       public void onSuccess(Void aVoid) {
-        blocked[0] = false;
+        reset_blocked[0] = false;
       }
     });
 
     Timer rpcCheck = new Timer() {
       @Override
       public void run() {
-        if (blocked[0]) {
+        if (reset_blocked[0]) {
           this.schedule(100);
         }
       }
@@ -73,22 +75,22 @@ public class TestHelper {
    * @param algorithm the {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm} to store
    */
   public static void storeAlgorithmSync(Algorithm algorithm) {
-    final boolean[] blocked = {true};
     testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
       @Override
-      public void onFailure(Throwable throwable) {
+      public void onFailure(Throwable caught) {
+
       }
 
       @Override
       public void onSuccess(Void aVoid) {
-        blocked[0] = false;
+        algorithm_blocked[0] = false;
       }
     });
 
     Timer rpcCheck = new Timer() {
       @Override
       public void run() {
-        if (blocked[0]) {
+        if (algorithm_blocked[0]) {
           this.schedule(100);
         }
       }
@@ -100,22 +102,58 @@ public class TestHelper {
    * Stores a database connection.
    *
    * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
-   * @param callback the async callback
    */
-  public static void storeDatabaseConnection(DatabaseConnection connection,
-                                             AsyncCallback<Long> callback) {
-    testDatabaseHelperService.storeDatabaseConnection(connection, callback);
+  public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
+    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+
+      }
+
+      @Override
+      public void onSuccess(Long result) {
+        database_connection_blocked[0] = false;
+      }
+    });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (database_connection_blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
   }
 
   /**
    * Stores a file input.
    *
    * @param fileInput the {@link de.uni_potsdam.hpi.metanome.results_db.FileInput} to store
-   * @param callback the async callback
    */
-  public static void storeFileInput(FileInput fileInput,
-                                    AsyncCallback<Long> callback) {
-    testDatabaseHelperService.storeFileInput(fileInput, callback);
+  public static void storeFileInputSync(FileInput fileInput) {
+    testDatabaseHelperService.storeFileInput(fileInput, new AsyncCallback<Long>() {
+      @Override
+      public void onFailure(Throwable caught) {
+
+      }
+
+      @Override
+      public void onSuccess(Long result) {
+        file_input_blocked[0] = false;
+      }
+    });
+
+    Timer rpcCheck = new Timer() {
+      @Override
+      public void run() {
+        if (file_input_blocked[0]) {
+          this.schedule(100);
+        }
+      }
+    };
+    rpcCheck.schedule(100);
   }
 
   /**

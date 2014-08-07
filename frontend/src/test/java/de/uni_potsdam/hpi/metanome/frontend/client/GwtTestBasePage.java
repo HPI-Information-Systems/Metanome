@@ -140,9 +140,9 @@ public class GwtTestBasePage extends GWTTestCase {
       }
     };
 
-    delayTestFinish(6000);
+    timer.schedule(1000);
 
-    timer.schedule(5000);
+    delayTestFinish(2000);
   }
 
   /**
@@ -184,7 +184,7 @@ public class GwtTestBasePage extends GWTTestCase {
 
     ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
 
-    delayTestFinish(5000);
+    delayTestFinish(1000);
   }
 
   private RunConfigurationPage getRunConfigurationPage(final BasePage page) {

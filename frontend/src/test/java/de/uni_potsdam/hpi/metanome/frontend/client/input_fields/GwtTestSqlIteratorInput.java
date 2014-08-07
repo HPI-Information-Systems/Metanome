@@ -17,14 +17,11 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
@@ -63,74 +60,37 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
    * <p/>
    * The getValues and setValues methods should set and retrieve settings.
    */
-  public void testGetSetValues() {
+  public void testGetSetValues() throws AlgorithmConfigurationException {
     // Setup
-    TestHelper.resetDatabaseSync();
-
-    final TabWrapper tabWrapper = new TabWrapper();
+    TabWrapper tabWrapper = new TabWrapper();
 
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("username");
     // TODO set system
-    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
-
-      @Override
-      public void onSuccess(Long id) {
-
-      }
-    });
 
     // Expected values
-    final ConfigurationSettingSqlIterator expectedSetting =
+    ConfigurationSettingSqlIterator expectedSetting =
         new ConfigurationSettingSqlIterator("url", "username", "password", DbSystem.DB2);
 
     // Initialize SqlIteratorInput (waiting for fetching all current database connections)
-    final SqlIteratorInput[] sqlIteratorInput = new SqlIteratorInput[1];
-    Timer setupTimer = new Timer() {
-      @Override
-      public void run() {
-        sqlIteratorInput[0] = new SqlIteratorInput(false, tabWrapper);
-      }
-    };
+    SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false, tabWrapper);
 
-    Timer executeTimer = new Timer() {
-      @Override
-      public void run() {
-        // Execute functionality
-        try {
-          sqlIteratorInput[0].setValues(expectedSetting);
-        } catch (AlgorithmConfigurationException e) {
-          e.printStackTrace();
-          fail();
-        }
+    sqlIteratorInput.databaseConnections.put("url", dbConnection);
+    sqlIteratorInput.listbox.addValue("--");
+    sqlIteratorInput.listbox.addValue("url");
 
-        ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput[0].getValues();
+    // Execute functionality
+    sqlIteratorInput.setValues(expectedSetting);
 
-        // Check result
-        assertEquals(expectedSetting.getDbUrl(), actualSetting.getDbUrl());
-        assertEquals(expectedSetting.getPassword(), actualSetting.getPassword());
-        assertEquals(expectedSetting.getUsername(), actualSetting.getUsername());
-        assertEquals(expectedSetting.getSystem(), actualSetting.getSystem());
+    ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput.getValues();
 
-        // Cleanup
-        TestHelper.resetDatabaseSync();
-
-        finishTest();
-      }
-    };
-
-    delayTestFinish(12000);
-
-    // Waiting for asynchronous calls to finish.
-    setupTimer.schedule(4000);
-    executeTimer.schedule(8000);
+    // Check result
+    assertEquals(expectedSetting.getDbUrl(), actualSetting.getDbUrl());
+    assertEquals(expectedSetting.getPassword(), actualSetting.getPassword());
+    assertEquals(expectedSetting.getUsername(), actualSetting.getUsername());
+    assertEquals(expectedSetting.getSystem(), actualSetting.getSystem());
   }
 
   @Override

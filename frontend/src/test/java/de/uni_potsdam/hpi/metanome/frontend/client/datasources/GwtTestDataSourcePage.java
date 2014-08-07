@@ -32,7 +32,6 @@ import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
 
-
 public class GwtTestDataSourcePage extends GWTTestCase {
 
   /**
@@ -46,9 +45,9 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     DataSourcePage dataSourcePage = new DataSourcePage(basePage);
 
     // Check
-    assertTrue(dataSourcePage.databaseConnectionEditForm != null);
-    assertTrue(dataSourcePage.tableInputEditForm != null);
-    assertTrue(dataSourcePage.fileInputEditForm != null);
+    assertNotNull(dataSourcePage.databaseConnectionEditForm);
+    assertNotNull(dataSourcePage.tableInputEditForm);
+    assertNotNull(dataSourcePage.fileInputEditForm);
 
     assertTrue(dataSourcePage.databaseConnectionSelected);
     assertFalse(dataSourcePage.tableInputSelected);
@@ -61,71 +60,72 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   public void testStoreTableInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
-    final boolean[] blocked = {true};
-
-    BasePage parent = new BasePage();
-    DataSourcePage page = new DataSourcePage(parent);
-    page.setMessageReceiver(new TabWrapper());
 
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
+    TestHelper.storeDatabaseConnectionSync(dbConnection);
 
-    final long[] connectionId = new long[1];
-    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
+    BasePage parent = new BasePage();
+    final DataSourcePage page = new DataSourcePage(parent);
+    page.setMessageReceiver(new TabWrapper());
 
-      @Override
-      public void onSuccess(Long id) {
-        connectionId[0] = id;
-      }
-    });
-
-    page.tableInputEditForm.setValues(connectionId[0] + ": url", "table");
-    page.tableInputSelected = true;
-    page.databaseConnectionSelected = false;
-    page.fileInputSelected = false;
-    page.editForm.clear();
-    page.editForm.add(page.tableInputEditForm);
-
-    // Execute
-    page.saveObject();
-
-    // Expected values
-    final TableInput expectedInput = page.tableInputEditForm.getValue();
-
-    // Check result
-    TestHelper.getAllTableInputs(
-        new AsyncCallback<List<TableInput>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            fail();
-          }
-
-          @Override
-          public void onSuccess(List<TableInput> con) {
-            blocked[0] = false;
-            assertTrue(con.contains(expectedInput));
-          }
-        });
-
-    Timer rpcCheck = new Timer() {
+    final TableInput[] expectedInput = new TableInput[1];
+    // Timer waiting for DataSourcePage to initialize the TableInputEditForm
+    Timer executeTimer = new Timer() {
       @Override
       public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
+        page.tableInputSelected = true;
+        page.databaseConnectionSelected = false;
+        page.fileInputSelected = false;
+        page.editForm.clear();
+        page.editForm.add(page.tableInputEditForm);
+
+        page.tableInputEditForm.setValues("url", "table");
+
+        // Expected values
+        try {
+          expectedInput[0] = page.tableInputEditForm.getValue();
+        } catch (InputValidationException | EntityStorageException e) {
+          e.printStackTrace();
+          fail();
         }
+
+        // Execute
+        page.saveObject();
       }
     };
-    rpcCheck.schedule(100);
 
-    // Cleanup
-    TestHelper.resetDatabaseSync();
+    // Timer waiting for saving object
+    Timer checkTimer = new Timer() {
+      @Override
+      public void run() {
+        // Check result
+        TestHelper.getAllTableInputs(
+          new AsyncCallback<List<TableInput>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+              fail();
+              // Cleanup
+              TestHelper.resetDatabaseSync();
+            }
+
+            @Override
+            public void onSuccess(List<TableInput> con) {
+              assertTrue(con.contains(expectedInput[0]));
+              // Cleanup
+              TestHelper.resetDatabaseSync();
+              finishTest();
+            }
+          });
+      }
+    };
+
+    executeTimer.schedule(1000);
+    checkTimer.schedule(2000);
+
+    delayTestFinish(3000);
   }
 
   /**
@@ -134,7 +134,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   public void testStoreFileInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
-    final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
     DataSourcePage page = new DataSourcePage(parent);
@@ -147,39 +146,42 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     page.editForm.clear();
     page.editForm.add(page.fileInputEditForm);
 
-    // Execute
-    page.saveObject();
-
     // Expected values
     final FileInput expectedInput = page.fileInputEditForm.getValue();
 
+    // Execute
+    page.saveObject();
+
     // Check result
-    TestHelper.getAllFileInputs(
-        new AsyncCallback<List<FileInput>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            fail();
-          }
-
-          @Override
-          public void onSuccess(List<FileInput> con) {
-            blocked[0] = false;
-            assertTrue(con.contains(expectedInput));
-          }
-        });
-
-    Timer rpcCheck = new Timer() {
+    // Timer waiting for saving object
+    Timer timer = new Timer() {
       @Override
       public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
-        }
+        TestHelper.getAllFileInputs(
+            new AsyncCallback<List<FileInput>>() {
+              @Override
+              public void onFailure(Throwable throwable) {
+                fail();
+                // Cleanup
+                TestHelper.resetDatabaseSync();
+              }
+
+              @Override
+              public void onSuccess(List<FileInput> con) {
+                FileInput input = con.get(0);
+
+                assertEquals(expectedInput.getFileName(), input.getFileName());
+
+                // Cleanup
+                TestHelper.resetDatabaseSync();
+                finishTest();
+              }
+            });
       }
     };
-    rpcCheck.schedule(100);
+    timer.schedule(1000);
 
-    // Cleanup
-    TestHelper.resetDatabaseSync();
+    delayTestFinish(2000);
   }
 
   /**
@@ -188,7 +190,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
-    final boolean[] blocked = {true};
 
     BasePage parent = new BasePage();
     DataSourcePage page = new DataSourcePage(parent);
@@ -201,39 +202,44 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     page.editForm.clear();
     page.editForm.add(page.databaseConnectionEditForm);
 
-    // Execute
-    page.saveObject();
-
     // Expected values
     final DatabaseConnection expectedInput = page.databaseConnectionEditForm.getValue();
 
+    // Execute
+    page.saveObject();
+
     // Check result
-    TestHelper.getAllDatabaseConnections(
-        new AsyncCallback<List<DatabaseConnection>>() {
-          @Override
-          public void onFailure(Throwable throwable) {
-            fail();
-          }
-
-          @Override
-          public void onSuccess(List<DatabaseConnection> con) {
-            blocked[0] = false;
-            assertTrue(con.contains(expectedInput));
-          }
-        });
-
-    Timer rpcCheck = new Timer() {
+    // Timer waiting for saving object
+    Timer timer = new Timer() {
       @Override
       public void run() {
-        if (blocked[0]) {
-          this.schedule(100);
-        }
+        TestHelper.getAllDatabaseConnections(
+            new AsyncCallback<List<DatabaseConnection>>() {
+              @Override
+              public void onFailure(Throwable throwable) {
+                fail();
+                // Cleanup
+                TestHelper.resetDatabaseSync();
+              }
+
+              @Override
+              public void onSuccess(List<DatabaseConnection> con) {
+                DatabaseConnection connection = con.get(0);
+
+                assertEquals(expectedInput.getPassword(), connection.getPassword());
+                assertEquals(expectedInput.getUrl(), connection.getUrl());
+                assertEquals(expectedInput.getUsername(), connection.getUsername());
+
+                // Cleanup
+                TestHelper.resetDatabaseSync();
+                finishTest();
+              }
+            });
       }
     };
-    rpcCheck.schedule(100);
+    timer.schedule(1000);
 
-    // Cleanup
-    TestHelper.resetDatabaseSync();
+    delayTestFinish(2000);
   }
 
   @Override

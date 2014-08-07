@@ -18,7 +18,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -119,36 +118,16 @@ public class GwtTestParameterTable extends GWTTestCase {
   public void testRetrieveSimpleParameterValues() throws InputValidationException {
     //Setup
     TestHelper.resetDatabaseSync();
+
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("username");
     // TODO set system
-    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
+    TestHelper.storeDatabaseConnectionSync(dbConnection);
 
-      @Override
-      public void onSuccess(Long id) {
-
-      }
-    });
     FileInput fileInput = new FileInput("name");
-    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
-
-      @Override
-      public void onSuccess(Long result) {
-
-      }
-    });
+    TestHelper.storeFileInputSync(fileInput);
 
     ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
@@ -225,10 +204,10 @@ public class GwtTestParameterTable extends GWTTestCase {
       }
     };
 
-    delayTestFinish(10000);
-
     // Waiting for asynchronous calls to finish.
-    executeTimer.schedule(8000);
+    executeTimer.schedule(2000);
+
+    delayTestFinish(3000);
   }
 
   private void setCsvFile(InputParameterCsvFileWidget widget) {
@@ -380,19 +359,7 @@ public class GwtTestParameterTable extends GWTTestCase {
 
     FileInput fileInput = new FileInput();
     fileInput.setFileName("/inputA.csv");
-    final long[] inputId = new long[1];
-    TestHelper.storeFileInput(fileInput, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
-
-      @Override
-      public void onSuccess(Long id) {
-        inputId[0] = id;
-      }
-    });
+    TestHelper.storeFileInputSync(fileInput);
 
     final ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
     primaryDataSource.setFileName("/inputA.csv");
@@ -401,49 +368,42 @@ public class GwtTestParameterTable extends GWTTestCase {
     ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
     paramList.add(ConfigurationSpecificationCsvFile);
 
-    final ParameterTable[] pt = new ParameterTable[1];
-    Timer setUpTimer = new Timer() {
-      @Override
-      public void run() {
-      pt[0] = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
-      }
-    };
+    final ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
 
     Timer executeTimer = new Timer() {
       @Override
       public void run() {
-      //Check
-      boolean foundDataSource = false;
-        try {
-          for (ConfigurationSpecification dataSource : pt[0].getConfigurationSpecificationDataSourcesWithValues()){
-            for (Object setting : dataSource.getSettings()) {
-              System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString() + " vs " + primaryDataSource.getValueAsString());
-              if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
-                foundDataSource = true;
+        //Check
+        boolean foundDataSource = false;
+          try {
+            for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
+              for (Object setting : dataSource.getSettings()) {
+                System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString() + " vs " + primaryDataSource.getValueAsString());
+                if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
+                  foundDataSource = true;
+              }
             }
+          } catch (InputValidationException e) {
+            TestHelper.resetDatabaseSync();
+            e.printStackTrace();
+            fail();
           }
-        } catch (InputValidationException e) {
-          e.printStackTrace();
-          fail();
-        }
-        assertTrue(foundDataSource);
+          assertTrue(foundDataSource);
 
-      ListBoxInput
-          listbox = ((InputParameterCsvFileWidget) pt[0].getWidget(0, 1)).inputWidgets.get(0).listbox;
-      assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue());
+        ListBoxInput
+            listbox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listbox;
+        assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue());
 
-      // Cleanup
-      TestHelper.resetDatabaseSync();
+        // Cleanup
+        TestHelper.resetDatabaseSync();
 
-      finishTest();
+        finishTest();
       }
     };
-
-    delayTestFinish(10000);
-
     // Waiting for asynchronous calls to finish.
-    setUpTimer.schedule(4000);
-    executeTimer.schedule(8000);
+    executeTimer.schedule(1000);
+
+    delayTestFinish(2000);
   }
 
 

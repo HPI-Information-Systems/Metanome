@@ -18,8 +18,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
@@ -43,20 +43,11 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
 
-    TestHelper.storeDatabaseConnection(dbConnection, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        System.out.println(caught.getMessage());
-        fail();
-      }
-
-      @Override
-      public void onSuccess(Long id) {
-      }
-    });
+    TestHelper.storeDatabaseConnectionSync(dbConnection);
 
     // Execute
     final TableInputEditForm field = new TableInputEditForm();
+    field.setMessageReceiver(new TabWrapper());
 
     // Check
     Timer timer = new Timer() {
@@ -64,16 +55,19 @@ public class GwtTestTableInputField extends GWTTestCase {
       public void run() {
         if (field.dbConnectionListBox.getValues().size() > 0 &&
             field.dbMap.size() > 0 &&
-            field.tableNameTextbox != null)
+            field.tableNameTextbox != null) {
+          TestHelper.resetDatabaseSync();
           finishTest();
+        }
+        TestHelper.resetDatabaseSync();
       }
     };
 
     // Waiting four seconds for asynchronous calls to finish.
     // Validate, if expected and actual objects are equal
-    timer.schedule(4000);
+    timer.schedule(1000);
 
-    delayTestFinish(5000);
+    delayTestFinish(2000);
   }
 
   /**

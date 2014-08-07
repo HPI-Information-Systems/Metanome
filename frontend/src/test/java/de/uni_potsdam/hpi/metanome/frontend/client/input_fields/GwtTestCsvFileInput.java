@@ -21,7 +21,6 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 /**
@@ -59,11 +58,7 @@ public class GwtTestCsvFileInput extends GWTTestCase {
    * The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
-    // Setup
-    TestHelper.resetDatabaseSync();
-
-    final TabWrapper tabWrapper = new TabWrapper();
-
+    // Set up
     FileInput fileInput = new FileInput();
     fileInput.setFileName("filename");
 
@@ -87,9 +82,6 @@ public class GwtTestCsvFileInput extends GWTTestCase {
 
     // Check result
     assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());
-
-    // Cleanup
-    TestHelper.resetDatabaseSync();
   }
 
   @Override

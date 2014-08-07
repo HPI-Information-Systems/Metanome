@@ -40,7 +40,7 @@ import java.util.Map;
 public class CsvFileInput extends InputField {
 
   public ListBoxInput listbox;
-  protected Map<String, FileInput> fileInputs;
+  public Map<String, FileInput> fileInputs;
   private TabWrapper messageReceiver;
   /**
    * When using the link from Data Sources page, this is where the selected file is stored.
