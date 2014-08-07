@@ -16,12 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -31,6 +25,10 @@ import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class GwtTestAlgorithmsPage extends GWTTestCase {
 
   /**
@@ -39,7 +37,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * When a new AlgorithmsPage is created, an edit form should be present, and service as well as
    * parent set.
    */
-  @Test
   public void testSetup() {
     boolean editFormPresent = false;
     BasePage basePage = new BasePage();
@@ -65,7 +62,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * <p/>
    * After failure is called on the constructed callback, the tab should be in error.
    */
-  @Test
   public void testRetrieveCallbackFailure() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
@@ -85,7 +81,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
-  @Test
   public void testRetrieveCallbackSuccess() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     FlexTable list = new FlexTable();
@@ -107,7 +102,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * <p/>
    * After failure is called on the constructed callback, the tab should be in error.
    */
-  @Test
   public void testAddCallbackFailure() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
@@ -127,7 +121,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
-  @Test
   public void testAddCallbackSuccess() {
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     int uccCount = algorithmsPage.uccList.getRowCount();

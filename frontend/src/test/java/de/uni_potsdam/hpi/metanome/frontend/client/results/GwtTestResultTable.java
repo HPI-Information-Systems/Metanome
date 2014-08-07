@@ -19,8 +19,6 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import org.junit.Test;
-
 public class GwtTestResultTable extends GWTTestCase {
 
   /**
@@ -28,7 +26,6 @@ public class GwtTestResultTable extends GWTTestCase {
    * and for
    * {@link ResultTable#getRowCount()}
    */
-  @Test
   public void testResultTable() {
     // Set up
     ResultTable table = new ResultTable("test table");

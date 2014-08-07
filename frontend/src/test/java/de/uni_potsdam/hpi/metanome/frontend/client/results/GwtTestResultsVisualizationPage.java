@@ -19,14 +19,11 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Label;
 
-import org.junit.Test;
-
 public class GwtTestResultsVisualizationPage extends GWTTestCase {
 
   /**
    * Test method for {@link ResultsVisualizationPage#ResultsVisualizationPage()}
    */
-  @Test
   public void testResultsVisualizationPage() {
     // Set up
     // Expected Values

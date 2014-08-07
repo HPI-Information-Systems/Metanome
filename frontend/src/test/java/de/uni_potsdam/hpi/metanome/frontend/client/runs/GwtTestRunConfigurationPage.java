@@ -25,8 +25,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,17 +36,21 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
 
   private BasePage page;
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#RunConfigurationPage(de.uni_potsdam.hpi.metanome.frontend.client.BasePage)}
+   */
   public void testConstruction() {
     //Execute
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
 
     //Check - should contain the jarChooser and a Label for pre-selected data source (possibly empty)
     assertEquals(2, runConfigPage.getWidgetCount());
-    assertTrue(runConfigPage.getJarChooser() instanceof AlgorithmChooser);
+    assertNotNull(runConfigPage.getJarChooser());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#addParameterTable(java.util.List)}
+   */
   public void testAddParameterTable() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
@@ -62,7 +64,9 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     assertEquals(widgetCount + 1, runConfigPage.getWidgetCount());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#addAlgorithms(java.util.List)}
+   */
   public void testAddAlgorithms() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
@@ -79,7 +83,9 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
                  runConfigPage.getJarChooser().getListItemCount());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#selectAlgorithm(String)}
+   */
   public void testSelectAlgorithm() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
@@ -93,8 +99,9 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     assertEquals(algoName, runConfigPage.getCurrentlySelectedAlgorithm());
   }
 
-
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser#forwardParameters(java.util.List)}
+   */
   public void testForwardParameters() {
     //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);

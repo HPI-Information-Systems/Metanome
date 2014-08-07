@@ -18,11 +18,13 @@ package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.junit.Test;
 
 public class GwtTestBooleanInput extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link BooleanInput#getValue()}
+   * and for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.BooleanInput#setValue(boolean)}
+   */
   public void testGetSetValues() {
     BooleanInput input = new BooleanInput(false);
 

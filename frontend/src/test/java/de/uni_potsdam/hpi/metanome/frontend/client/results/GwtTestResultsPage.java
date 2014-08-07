@@ -28,14 +28,11 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
-import org.junit.Test;
-
 public class GwtTestResultsPage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage#ResultsPage(de.uni_potsdam.hpi.metanome.frontend.client.BasePage)}
    */
-  @Test
   public void testResultTable() {
     // Set up
     BasePage parent = new BasePage();
@@ -52,7 +49,6 @@ public class GwtTestResultsPage extends GWTTestCase {
   /**
    * Test method for {@link ResultsPage#startPolling()}
    */
-  @Test
   public void testStartPolling() {
     // Set up
     BasePage parent = new BasePage();
@@ -75,7 +71,6 @@ public class GwtTestResultsPage extends GWTTestCase {
   /**
    * Test method for {@link ResultsPage#updateOnError(String)}
    */
-  @Test
   public void testUpdateOnError() {
     // Set up
     BasePage parent = new BasePage();
@@ -100,7 +95,6 @@ public class GwtTestResultsPage extends GWTTestCase {
   /**
    * Test method for {@link ResultsPage#updateOnSuccess(ResultsTablePage, ResultsVisualizationPage, Long)}
    */
-  @Test
   public void testUpdateOnSuccess() {
     // Set up
     BasePage parent = new BasePage();

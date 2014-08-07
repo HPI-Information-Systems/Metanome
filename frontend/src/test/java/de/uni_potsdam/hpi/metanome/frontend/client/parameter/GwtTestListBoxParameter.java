@@ -23,13 +23,14 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 
 public class GwtTestListBoxParameter extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     // Setup
     ArrayList<String> values = new ArrayList<>();
@@ -49,7 +50,10 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertFalse(widget.inputWidgets.get(0).isOptional);
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     // Setup
     ArrayList<String> values = new ArrayList<>();
@@ -69,7 +73,10 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertTrue(widget.inputWidgets.get(0).isOptional); // input field must be optional
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testAddInput() throws AlgorithmConfigurationException {
     // Setup
     ArrayList<String> values = new ArrayList<>();
@@ -92,7 +99,10 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertEquals(listCount + 1, widget.inputWidgets.size());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#removeField(de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testRemoveInput() throws AlgorithmConfigurationException {
     // Setup
     ArrayList<String> values = new ArrayList<>();
@@ -115,7 +125,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertEquals(listCount - 1, widget.inputWidgets.size());
   }
 
-  @Test
+  /**
+   * Test method for {@link InputParameterListBoxWidget#getUpdatedSpecification()}
+   */
   public void testRetrieveValues() {
     // Setup
     ArrayList<String> values = new ArrayList<>();

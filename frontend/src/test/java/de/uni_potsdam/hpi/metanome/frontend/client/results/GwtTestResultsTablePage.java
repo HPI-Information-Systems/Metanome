@@ -29,14 +29,11 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCom
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
-import org.junit.Test;
-
 public class GwtTestResultsTablePage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage#ResultsTablePage(de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync, String)}
    */
-  @Test
   public void testResultsTablePage() {
     // Setup
     // Execute functionality
@@ -58,7 +55,6 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    * Test method for {@link ResultsTablePage#receiveResult(BasicStatistic)} <p/> After receiving a
    * {@link BasicStatistic} the appropriate results table should be updated.
    */
-  @Test
   public void testReceiveResultBasicStatistic() {
     // Setup
     ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
@@ -76,7 +72,6 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    * Test method for {@link ResultsTablePage#receiveResult(UniqueColumnCombination)} <p/> After
    * receiving a {@link UniqueColumnCombination} the appropriate results table should be updated.
    */
-  @Test
   public void testReceiveResultUniqueColumnCombinations() throws CouldNotReceiveResultException {
     // Setup
     ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
@@ -94,7 +89,6 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    * Test method for {@link ResultsTablePage#receiveResult(InclusionDependency)} <p/> After
    * receiving a {@link InclusionDependency} the appropriate results table should be updated.
    */
-  @Test
   public void testReceiveResultInclusionDependency() {
     // Setup
     ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
@@ -116,7 +110,6 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    * Test method for {@link ResultsTablePage#receiveResult(FunctionalDependency)} <p/> After
    * receiving a {@link FunctionalDependency} the appropriate results table should be updated.
    */
-  @Test
   public void testReceiveResultFunctionalDependency() {
     // Setup
     ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);

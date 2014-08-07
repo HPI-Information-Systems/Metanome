@@ -26,8 +26,6 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-import org.junit.Test;
-
 
 public class GwtTestTableInputField extends GWTTestCase {
 
@@ -36,7 +34,6 @@ public class GwtTestTableInputField extends GWTTestCase {
    * <p/>
    * After initializing the list box of database connection should be filled and the table name text box should be present.
    */
-  @Test
   public void testSetUp() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
@@ -82,7 +79,6 @@ public class GwtTestTableInputField extends GWTTestCase {
   /**
    * Test method for {@link TableInputEditForm#getValue()}
    */
-  @Test
   public void testGetValue() throws EntityStorageException, InputValidationException {
     // Setup
     DatabaseConnection dbConnection = new DatabaseConnection();
@@ -108,7 +104,6 @@ public class GwtTestTableInputField extends GWTTestCase {
   /**
    * Test method for {@link TableInputEditForm#reset()}
    */
-  @Test
   public void testResetValues() {
     //Setup
     TableInputEditForm input = new TableInputEditForm();

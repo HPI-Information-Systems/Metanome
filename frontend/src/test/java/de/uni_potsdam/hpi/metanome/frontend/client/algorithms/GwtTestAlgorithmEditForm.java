@@ -22,8 +22,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
    * <p/>
    * When a new AlgorithmEditForm is created, the algorithmsPage and messageReceiver should be set
    */
-  @Test
   public void testSetup() {
     AlgorithmsPage parent = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
@@ -49,7 +46,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
-  @Test
   public void testValidInput() {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
@@ -75,7 +71,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
-  @Test
   public void testEmptyFileName() {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
@@ -95,7 +90,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
-  @Test
   public void testNoInterfaces() {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);

@@ -34,8 +34,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
-import org.junit.Test;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,15 +43,10 @@ import java.util.List;
 public class GwtTestBasePage extends GWTTestCase {
 
   LinkedList<Algorithm> algorithms = new LinkedList<>();
-  /**
-   * this must contain an algorithm and a data source that are currently available
-   */
-  private String dataSourceName = "inputA.csv";
 
   /**
    * Test method for {@link BasePage#BasePage()}
    */
-  @Test
   public void testNewBasePage() {
     // Execute
     BasePage testPage = new BasePage();
@@ -88,7 +81,6 @@ public class GwtTestBasePage extends GWTTestCase {
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#addAlgorithmsToRunConfigurations(java.util.List)}
    */
-  @Test
   public void testAddAlgorithmsToRunConfigurations() {
     BasePage page = new BasePage();
     int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
@@ -106,7 +98,6 @@ public class GwtTestBasePage extends GWTTestCase {
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
    * </p> Test control flow from Algorithms to Run configuration
    */
-  @Test
   public void testSwitchToRunConfigurationFromAlgorithm() {
     // Setup
     final String algorithmName = "some_name";
@@ -158,10 +149,11 @@ public class GwtTestBasePage extends GWTTestCase {
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
    * </p> Test control flow from Data sources to Run configuration
    */
-  @Test
   public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();
     ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
+
+    String dataSourceName = "inputA.csv";
     dataSource.setFileName(dataSourceName);
     final ConfigurationSettingCsvFile finalDataSource = dataSource;
 

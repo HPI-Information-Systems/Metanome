@@ -117,7 +117,7 @@ public class GwtTestServiceCall extends GWTTestCase {
   /**
    * tests the call from client to algorithmService.listInclusionDependencyAlgorithmFileNames()
    */
-  public void testFinderService() {
+  public void testAlgorithmService() {
     // Setup
     AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
       @Override

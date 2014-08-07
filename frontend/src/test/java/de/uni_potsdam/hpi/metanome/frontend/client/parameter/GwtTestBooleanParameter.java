@@ -23,15 +23,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
-import org.junit.Test;
-
 public class GwtTestBooleanParameter extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    * @throws AlgorithmConfigurationException
    */
-  @Test
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
     int noOfValues = 3;
@@ -52,7 +49,6 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    * @throws AlgorithmConfigurationException
    */
-  @Test
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
     int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
@@ -73,7 +69,6 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#addInputField(boolean)}
    * @throws AlgorithmConfigurationException
    */
-  @Test
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
@@ -94,7 +89,6 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#removeField(de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField)}
    * @throws AlgorithmConfigurationException
    */
-  @Test
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
@@ -114,7 +108,6 @@ public class GwtTestBooleanParameter extends GWTTestCase {
   /**
    * Test method for {@link InputParameterBooleanWidget#getUpdatedSpecification()}
    */
-  @Test
   public void testGetUpdatedSpecification() {
     //Setup
     ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",

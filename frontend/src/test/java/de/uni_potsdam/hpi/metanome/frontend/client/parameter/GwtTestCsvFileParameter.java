@@ -30,17 +30,13 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-import org.junit.Test;
-
 public class GwtTestCsvFileParameter extends GWTTestCase {
 
   private String aFileName = "inputA.csv";
-  private String[] csvFiles = {"inputB.csv", aFileName};
 
   /**
    * Tests the selection of a specific item corresponding to the given ConfigurationSetting.
    */
-  @Test
   public void testSelectDataSourceOnFilledDropdown()
       throws AlgorithmConfigurationException, InputValidationException {
     // Setup
@@ -109,7 +105,6 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
    * When setting a data source on the parent widget (InputParameter), it should be set in the first
    * child widget.
    */
-  @Test
   public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();

@@ -17,12 +17,16 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
+
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import org.junit.Test;
 
 public class GwtTestIntegerInput extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link IntegerInput#getValue()} and for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
+   * @throws InputValidationException
+   */
   public void testGetSetValues() throws InputValidationException {
     IntegerInput input = new IntegerInput(false);
 

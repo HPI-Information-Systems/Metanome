@@ -41,14 +41,14 @@ import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class GwtTestParameterTable extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable#ParameterTable(java.util.List, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   */
   public void testParameterTable() {
     //Setup
     List<ConfigurationSpecification> paramList = new ArrayList<>();
@@ -111,7 +111,11 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(Button.class, pt.getWidget(5, 0).getClass());
   }
 
-  @Test
+  /**
+   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
+   * and for {@link ParameterTable#getConfigurationSpecificationsWithValues()}
+   * @throws InputValidationException
+   */
   public void testRetrieveSimpleParameterValues() throws InputValidationException {
     //Setup
     TestHelper.resetDatabaseSync();
@@ -245,7 +249,10 @@ public class GwtTestParameterTable extends GWTTestCase {
     }
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws InputValidationException
+   */
   public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
     //Setup
     ArrayList<String> values = new ArrayList<>();
@@ -300,7 +307,10 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(identifierInteger, integerWidget.getSpecification().getIdentifier());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws InputValidationException
+   */
   public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
     //Setup
     ArrayList<String> values = new ArrayList<>();
@@ -361,7 +371,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());
   }
 
-  //@Test
+  /**
+   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
+   */
   public void testSetPrimaryDataSource() {
     // Setup
     TestHelper.resetDatabaseSync();

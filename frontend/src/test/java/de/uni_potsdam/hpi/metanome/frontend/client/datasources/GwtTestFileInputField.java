@@ -26,15 +26,12 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
-import org.junit.Test;
-
 
 public class GwtTestFileInputField extends GWTTestCase {
 
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  @Test
   public void testGetValue() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
@@ -53,7 +50,6 @@ public class GwtTestFileInputField extends GWTTestCase {
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  @Test
   public void testGetValueWithInvalidValues() {
     // Set up
     // Expected
@@ -70,7 +66,6 @@ public class GwtTestFileInputField extends GWTTestCase {
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  @Test
   public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
@@ -116,7 +111,6 @@ public class GwtTestFileInputField extends GWTTestCase {
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  @Test
   public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     FileInputEditForm field = new FileInputEditForm();
@@ -146,7 +140,6 @@ public class GwtTestFileInputField extends GWTTestCase {
    * When selecting the "Advanced" checkbox, additional input fields become visible, containing the
    * default values that will be used if none are specified.
    */
-  @Test
   public void testVisibilityOfAdvancedSettings() {
     // Set up
     FileInputEditForm widget = new FileInputEditForm();
@@ -180,7 +173,6 @@ public class GwtTestFileInputField extends GWTTestCase {
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.FileInputEditForm#reset()}
    */
-  @Test
   public void testResetValues() {
     //Setup
     FileInputEditForm input = new FileInputEditForm();

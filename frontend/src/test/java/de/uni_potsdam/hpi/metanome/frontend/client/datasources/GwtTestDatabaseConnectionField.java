@@ -22,15 +22,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
-import org.junit.Test;
-
 
 public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
   /**
    * Test method for {@link DatabaseConnectionEditForm#getValue()}
    */
-  @Test
   public void testGetValue() throws InputValidationException {
     //Setup
     String expectedUrl = "url";
@@ -54,7 +51,6 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
   /**
    * Test method for {@link DatabaseConnectionEditForm#getValue()}
    */
-  @Test
   public void testGetValueWithInvalidValues() {
     //Setup
     String expectedUrl = "url";
@@ -78,7 +74,6 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
   /**
    * Test method for {@link DatabaseConnectionEditForm#reset()}
    */
-  @Test
   public void testResetValues() {
     //Setup
     DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();

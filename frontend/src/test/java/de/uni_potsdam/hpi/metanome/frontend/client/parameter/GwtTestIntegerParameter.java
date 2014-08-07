@@ -98,7 +98,10 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     assertEquals(listCount - 1, widget.inputWidgets.size());
   }
 
-  @Test
+  /**
+   * Test method for {@link InputParameterIntegerWidget#getUpdatedSpecification()}
+   * @throws AlgorithmConfigurationException
+   */
   public void testRetrieveValues() throws AlgorithmConfigurationException {
     //Setup
     int value1 = 7;

@@ -30,8 +30,6 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-import org.junit.Test;
-
 import java.util.List;
 
 
@@ -40,7 +38,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   /**
    * Test method for {@link DataSourcePage#DataSourcePage(de.uni_potsdam.hpi.metanome.frontend.client.BasePage)}
    */
-  @Test
   public void testSetUp() {
     // Set up
     BasePage basePage = new BasePage();
@@ -61,7 +58,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   /**
    * Test method for {@link DataSourcePage#saveObject()}
    */
-  @Test
   public void testStoreTableInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
@@ -135,7 +131,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   /**
    * Test method for {@link DataSourcePage#saveObject()}
    */
-  @Test
   public void testStoreFileInput() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
@@ -190,7 +185,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   /**
    * Test method for {@link DataSourcePage#saveObject()}
    */
-  @Test
   public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
