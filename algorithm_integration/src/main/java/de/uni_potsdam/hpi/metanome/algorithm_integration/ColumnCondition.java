@@ -66,6 +66,19 @@ public class ColumnCondition implements Comparable<ColumnCondition>, Serializabl
     this(identifier, columnValues.toArray(new String[columnValues.size()]));
   }
 
+  /**
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} from a
+   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and a {@link
+   * java.util.TreeSet} of {@link java.lang.String}s.
+   *
+   * @param identifier   column of the condition
+   * @param columnValues where the condition is true
+   */
+  public ColumnCondition(ColumnIdentifier identifier, TreeSet<String> columnValues) {
+    this.column = identifier;
+    this.columnValues = new TreeSet<>(columnValues);
+  }
+
   public TreeSet<String> getColumnValues() {
     return columnValues;
   }
