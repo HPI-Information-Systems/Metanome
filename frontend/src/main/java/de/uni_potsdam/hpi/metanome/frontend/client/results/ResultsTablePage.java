@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionAnd;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -222,13 +223,14 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = cuccTable.getRowCount();
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-    int col = 2;
-    for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
-      cuccTable.setText(row, col,
-                        condition.getColumn().toString() + ": " + condition.getColumnValues()
-                            .toString());
-      col++;
-    }
+    //int col = 2;
+//    for (ColumnCondition condition : conditionalUniqueColumnCombination.getCondition()) {
+//      cuccTable.setText(row, col, condition.toString());
+//                      /*  condition.getColumn().toString() + ": " + condition.getColumnValues()
+//                            .toString());*/
+//      col++;
+//    }
+    cuccTable.setText(row, 2, conditionalUniqueColumnCombination.getCondition().toString());
   }
 
   @Override
