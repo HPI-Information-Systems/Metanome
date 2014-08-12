@@ -16,17 +16,25 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.helpers;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-
-
+/**
+ * TODO docs
+ *
+ * @author Claudia Exeler
+ */
 public class StringHelper {
 
-  public static char getFirstCharFromInput(String string) {
-    if (string.length() == 1) {
-      return string.charAt(0);
-    } else if (string.equals("\\n")) {
+  /**
+   * TODO docs
+   *
+   * @param input input string
+   * @return the first char of the input string
+   */
+  public static char getFirstCharFromInput(String input) {
+    if (input.length() == 1) {
+      return input.charAt(0);
+    } else if (input.equals("\\n")) {
       return '\n';
-    } else if (string.equals("\\t")) {
+    } else if (input.equals("\\t")) {
       return '\t';
     } else {
       return 0;
@@ -34,9 +42,11 @@ public class StringHelper {
   }
 
   /**
-   * @param value
-   * @return
-   * @throws AlgorithmConfigurationException
+   * Returns one character from input string.
+   *
+   * @param value input string
+   * @return first character
+   * @throws InputValidationException thrown if no character was extracted from value.
    */
   public static char getValidatedInput(String value) throws InputValidationException {
     char firstChar = getFirstCharFromInput(value);

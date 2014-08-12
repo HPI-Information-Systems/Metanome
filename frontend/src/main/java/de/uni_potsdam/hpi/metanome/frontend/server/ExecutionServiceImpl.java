@@ -52,9 +52,11 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
   /**
    * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
-   *
+   * 
    * @param executionIdentifier the identifier associated with this execution
    * @return an {@link AlgorithmExecutor}
+   * @throws FileNotFoundException when the result files cannot be opened
+   * @throws UnsupportedEncodingException when the temp files cannot be opened
    */
   protected AlgorithmExecutor buildExecutor(String executionIdentifier)
       throws FileNotFoundException, UnsupportedEncodingException {
@@ -76,8 +78,8 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 
   @Override
   public long executeAlgorithm(String algorithmFileName, String executionIdentifier,
-                               List<ConfigurationSpecification> parameters)
-      throws AlgorithmLoadingException, AlgorithmExecutionException {
+      List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException,
+      AlgorithmExecutionException {
     AlgorithmExecutor executor;
 
     try {
