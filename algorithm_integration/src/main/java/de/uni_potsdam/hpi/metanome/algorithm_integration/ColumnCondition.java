@@ -13,5 +13,6 @@ public interface ColumnCondition extends Serializable, Comparable<ColumnConditio
   public static final String NOT = "\u00AC";
 
   public String toString();
-  public void add(ColumnCondition value);
+
+  public ColumnCondition add(ColumnCondition value);
 }

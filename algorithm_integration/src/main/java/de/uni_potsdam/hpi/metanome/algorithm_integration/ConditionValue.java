@@ -1,8 +1,5 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import java.io.Serializable;
-import java.util.TreeSet;
-
 /**
  * @author Jens Hildebrandt
  */
@@ -63,8 +60,8 @@ public class ConditionValue implements ColumnCondition {
   }
 
   @Override
-  public void add(ColumnCondition value) {
-    //Intentionally left blank
+  public ColumnCondition add(ColumnCondition value) {
+    return this;
   }
 
   @Override

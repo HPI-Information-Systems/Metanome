@@ -34,9 +34,18 @@ public class ColumnConditionOr implements ColumnCondition {
       this.columnValues.add(condition);
     }
   }
+
+  public ColumnConditionOr(ColumnIdentifier identifier, String... values) {
+    this();
+    for (String value : values) {
+      columnValues.add(new ConditionValue(identifier, value));
+    }
+  }
+
   @Override
-  public void add(ColumnCondition condition) {
+  public ColumnCondition add(ColumnCondition condition) {
     this.columnValues.add(condition);
+    return this;
   }
 
   public TreeSet<ColumnCondition> getColumnValues() {

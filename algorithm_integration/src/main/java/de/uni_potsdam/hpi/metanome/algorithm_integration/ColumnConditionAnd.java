@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
@@ -56,8 +55,9 @@ columnValues.add(new ConditionValue(column, conditionMap.get(column)));
   }
 
   @Override
-  public void add(ColumnCondition condition) {
+  public ColumnCondition add(ColumnCondition condition) {
     this.columnValues.add(condition);
+    return this;
   }
 
   public TreeSet<ColumnCondition> getColumnValues() {
