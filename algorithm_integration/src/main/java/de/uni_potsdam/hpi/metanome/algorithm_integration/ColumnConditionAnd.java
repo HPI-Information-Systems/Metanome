@@ -26,6 +26,7 @@ import java.util.TreeSet;
  * @author Jens Hildebrandt
  */
 public class ColumnConditionAnd implements ColumnCondition {
+
   protected TreeSet<ColumnCondition> columnValues;
 
   /**
@@ -39,9 +40,10 @@ public class ColumnConditionAnd implements ColumnCondition {
     this();
     for (ColumnIdentifier column : conditionMap.keySet()) {
 
-columnValues.add(new ConditionValue(column, conditionMap.get(column)));
+      columnValues.add(new ColumnConditionValue(column, conditionMap.get(column)));
     }
   }
+
   public ColumnConditionAnd(TreeSet<ColumnCondition> treeSet) {
     this.columnValues = new TreeSet<>(treeSet);
   }
@@ -63,7 +65,6 @@ columnValues.add(new ConditionValue(column, conditionMap.get(column)));
   public TreeSet<ColumnCondition> getColumnValues() {
     return columnValues;
   }
-
 
 
   @Override
@@ -103,6 +104,7 @@ columnValues.add(new ConditionValue(column, conditionMap.get(column)));
       builder.append(value.toString());
       builder.append(delimiter);
     }
-    return builder.substring(0, builder.length() - delimiter.length()).concat(ColumnCondition.CLOSE_BRACKET);
+    return builder.substring(0, builder.length() - delimiter.length())
+        .concat(ColumnCondition.CLOSE_BRACKET);
   }
 }

@@ -18,10 +18,8 @@ package de.uni_potsdam.hpi.metanome.example_cucc_algorithm;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionAnd;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ConditionValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
@@ -69,7 +67,7 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
       try {
         resultReceiver.receiveResult(new ConditionalUniqueColumnCombination(
             new ColumnCombination(new ColumnIdentifier("table1", "column1")),
-            new ConditionValue(new ColumnIdentifier("table2", "column2"), "hello world")));
+            new ColumnConditionValue(new ColumnIdentifier("table2", "column2"), "hello world")));
 
       } catch (CouldNotReceiveResultException e) {
         // TODO Auto-generated catch block

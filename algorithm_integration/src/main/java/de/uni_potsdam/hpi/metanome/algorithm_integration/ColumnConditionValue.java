@@ -1,9 +1,11 @@
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 /**
+ * This is the leaf node class for the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} using the compsite pattern.
+ *
  * @author Jens Hildebrandt
  */
-public class ConditionValue implements ColumnCondition {
+public class ColumnConditionValue implements ColumnCondition {
   protected ColumnIdentifier columnIdentifier;
   protected String columnValue;
   protected boolean isNegated;
@@ -11,27 +13,41 @@ public class ConditionValue implements ColumnCondition {
   /**
    * Exists for Gwt serialization
    */
-  protected ConditionValue()  {
+  protected ColumnConditionValue() {
     this.columnIdentifier = new ColumnIdentifier();
     this.columnValue = new String();
     this.isNegated = false;
   }
 
-  public ConditionValue(ColumnIdentifier columnIdentifier, String columnValue) {
+  /**
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue}
+   * using a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier} and a {@link
+   * java.lang.String }. By default the condition is not negated.
+   */
+  public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue) {
     this.columnIdentifier = columnIdentifier;
     this.columnValue = columnValue;
     this.isNegated = false;
   }
 
-  public ConditionValue(ColumnIdentifier columnIdentifier, String columnValue, boolean isNegated) {
+  /**
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue} using a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}, a {@link java.lang.String
+   * }, and a boolean which indicates the negation of the condition.
+   *
+   * @param columnIdentifier
+   * @param columnValue
+   * @param isNegated
+   */
+  public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue,
+                              boolean isNegated) {
     this(columnIdentifier, columnValue);
     this.isNegated = isNegated;
   }
 
   @Override
   public int compareTo(ColumnCondition o) {
-    if (o instanceof ConditionValue) {
-      ConditionValue other = (ConditionValue) o;
+    if (o instanceof ColumnConditionValue) {
+      ColumnConditionValue other = (ColumnConditionValue) o;
       if (other.isNegated == this.isNegated) {
         int columnComparison = this.columnIdentifier.compareTo(other.columnIdentifier);
         if (columnComparison != 0) {
@@ -73,7 +89,7 @@ public class ConditionValue implements ColumnCondition {
       return false;
     }
 
-    ConditionValue that = (ConditionValue) o;
+    ColumnConditionValue that = (ColumnConditionValue) o;
 
     if (isNegated != that.isNegated) {
       return false;

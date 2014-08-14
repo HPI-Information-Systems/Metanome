@@ -8,6 +8,7 @@ import java.util.TreeSet;
  * @author Jens Hildebrandt
  */
 public class ColumnConditionOr implements ColumnCondition {
+
   TreeSet<ColumnCondition> columnValues;
 
   /**
@@ -21,9 +22,10 @@ public class ColumnConditionOr implements ColumnCondition {
     this();
     for (ColumnIdentifier column : conditionMap.keySet()) {
 
-      columnValues.add(new ConditionValue(column, conditionMap.get(column)));
+      columnValues.add(new ColumnConditionValue(column, conditionMap.get(column)));
     }
   }
+
   public ColumnConditionOr(TreeSet<ColumnCondition> treeSet) {
     this.columnValues = new TreeSet<>(treeSet);
   }
@@ -38,7 +40,7 @@ public class ColumnConditionOr implements ColumnCondition {
   public ColumnConditionOr(ColumnIdentifier identifier, String... values) {
     this();
     for (String value : values) {
-      columnValues.add(new ConditionValue(identifier, value));
+      columnValues.add(new ColumnConditionValue(identifier, value));
     }
   }
 
@@ -51,6 +53,7 @@ public class ColumnConditionOr implements ColumnCondition {
   public TreeSet<ColumnCondition> getColumnValues() {
     return columnValues;
   }
+
   @Override
   public int compareTo(ColumnCondition o) {
     if (o instanceof ColumnConditionOr) {
@@ -75,7 +78,7 @@ public class ColumnConditionOr implements ColumnCondition {
       }
     } else {
       //or between "simple" and "and"
-      if (o instanceof ConditionValue) {
+      if (o instanceof ColumnConditionValue) {
         return 1;
       } else {
         return -1;
@@ -92,7 +95,8 @@ public class ColumnConditionOr implements ColumnCondition {
       builder.append(value.toString());
       builder.append(delimiter);
     }
-    return builder.substring(0, builder.length() - delimiter.length()).concat(ColumnCondition.CLOSE_BRACKET);
+    return builder.substring(0, builder.length() - delimiter.length())
+        .concat(ColumnCondition.CLOSE_BRACKET);
   }
 
   @Override
