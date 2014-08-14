@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
- * A column with condition for conditional results e.g.{@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
+ * Logical "and" used in the composite pattern to represent column condition. Contains subcondition that are concatenated by "and".
  *
  * @author Jens Hildebrandt
  */

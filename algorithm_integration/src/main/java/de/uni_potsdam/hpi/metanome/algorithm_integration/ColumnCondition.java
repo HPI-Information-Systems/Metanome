@@ -3,6 +3,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
 import java.io.Serializable;
 
 /**
+ * Abstract super class for the composite pattern used for column conditions.
+ *
  * @author Jens Hildebrandt
  */
 public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
+ * Logical "or" used in the composite pattern to represent column condition. Contains subcondition that are concatenated by "or".
+ *
  * @author Jens Hildebrandt
  */
 public class ColumnConditionOr implements ColumnCondition {
