@@ -1,11 +1,29 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 /**
- * This is the leaf node class for the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition} using the compsite pattern.
+ * This is the leaf node class for the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
+ * using the compsite pattern.
  *
  * @author Jens Hildebrandt
  */
 public class ColumnConditionValue implements ColumnCondition {
+
   protected ColumnIdentifier columnIdentifier;
   protected String columnValue;
   protected boolean isNegated;
@@ -31,12 +49,9 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   /**
-   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue} using a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}, a {@link java.lang.String
-   * }, and a boolean which indicates the negation of the condition.
-   *
-   * @param columnIdentifier
-   * @param columnValue
-   * @param isNegated
+   * Constructs a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue}
+   * using a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier}, a {@link
+   * java.lang.String }, and a boolean which indicates the negation of the condition.
    */
   public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue,
                               boolean isNegated) {
@@ -63,7 +78,7 @@ public class ColumnConditionValue implements ColumnCondition {
         }
       }
     }
-  return -1;
+    return -1;
   }
 
   @Override
@@ -88,7 +103,6 @@ public class ColumnConditionValue implements ColumnCondition {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     ColumnConditionValue that = (ColumnConditionValue) o;
 
     if (isNegated != that.isNegated) {
@@ -100,7 +114,6 @@ public class ColumnConditionValue implements ColumnCondition {
     if (!columnValue.equals(that.columnValue)) {
       return false;
     }
-
     return true;
   }
 

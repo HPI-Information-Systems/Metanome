@@ -1,3 +1,19 @@
+/*
+ * Copyright 2014 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
 import java.util.Iterator;
@@ -5,7 +21,8 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
- * Logical "or" used in the composite pattern to represent column condition. Contains subcondition that are concatenated by "or".
+ * Logical "or" used in the composite pattern to represent column condition. Contains subcondition
+ * that are concatenated by "or".
  *
  * @author Jens Hildebrandt
  */
@@ -23,7 +40,6 @@ public class ColumnConditionOr implements ColumnCondition {
   public ColumnConditionOr(Map<ColumnIdentifier, String> conditionMap) {
     this();
     for (ColumnIdentifier column : conditionMap.keySet()) {
-
       columnValues.add(new ColumnConditionValue(column, conditionMap.get(column)));
     }
   }
@@ -116,7 +132,6 @@ public class ColumnConditionOr implements ColumnCondition {
                              : that.columnValues != null) {
       return false;
     }
-
     return true;
   }
 

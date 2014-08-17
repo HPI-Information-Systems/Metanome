@@ -21,7 +21,8 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
- * Logical "and" used in the composite pattern to represent column condition. Contains subcondition that are concatenated by "and".
+ * Logical "and" used in the composite pattern to represent column condition. Contains subcondition
+ * that are concatenated by "and".
  *
  * @author Jens Hildebrandt
  */
