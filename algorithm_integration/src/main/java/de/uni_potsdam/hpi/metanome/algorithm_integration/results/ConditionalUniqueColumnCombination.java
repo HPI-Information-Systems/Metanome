@@ -18,13 +18,10 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionAnd;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionValue;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Represents a conditional unique column combination
@@ -44,7 +41,7 @@ public class ConditionalUniqueColumnCombination implements Result {
    */
   protected ConditionalUniqueColumnCombination() {
     this.columnCombination = new ColumnCombination();
-    this.condition = null;
+    this.condition = new ColumnConditionValue(new ColumnIdentifier("", ""), "");
   }
 
   /**

@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,4 +48,18 @@ public class ColumnConditionTest {
     //check result
     assertEquals("[table2.column1: A | [table1.column1: A & table1.column2: B]]", OrCondition.toString());
   }
+
+  /**
+   * Tests that the instances of {@link ColumnIdentifier} are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A"));
+    GwtSerializationTester.checkGwtSerializability(new ColumnConditionAnd(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A")));
+    GwtSerializationTester.checkGwtSerializability(new ColumnConditionOr(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A")));
+  }
+
 }
