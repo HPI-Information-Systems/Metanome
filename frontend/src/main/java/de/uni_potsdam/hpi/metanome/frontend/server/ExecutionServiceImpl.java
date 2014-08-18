@@ -27,6 +27,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
+import de.uni_potsdam.hpi.metanome.frontend.client.DummyColumnConditon;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultPrinter;
 import de.uni_potsdam.hpi.metanome.result_receiver.ResultsCache;
@@ -52,10 +53,10 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
   /**
    * Builds an {@link AlgorithmExecutor} with stacked {@link OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
-   * 
+   *
    * @param executionIdentifier the identifier associated with this execution
    * @return an {@link AlgorithmExecutor}
-   * @throws FileNotFoundException when the result files cannot be opened
+   * @throws FileNotFoundException        when the result files cannot be opened
    * @throws UnsupportedEncodingException when the temp files cannot be opened
    */
   protected AlgorithmExecutor buildExecutor(String executionIdentifier)
@@ -78,8 +79,9 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 
   @Override
   public long executeAlgorithm(String algorithmFileName, String executionIdentifier,
-      List<ConfigurationSpecification> parameters) throws AlgorithmLoadingException,
-      AlgorithmExecutionException {
+                               List<ConfigurationSpecification> parameters)
+      throws AlgorithmLoadingException,
+             AlgorithmExecutionException {
     AlgorithmExecutor executor;
 
     try {
@@ -109,5 +111,10 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
   public float fetchProgress(String executionIdentifier) {
     // FIXME return exception when algorithm name is not in map
     return currentProgressCaches.get(executionIdentifier).getProgress();
+  }
+
+  @Override
+  public DummyColumnConditon dummy(DummyColumnConditon d) {
+    return d;
   }
 }

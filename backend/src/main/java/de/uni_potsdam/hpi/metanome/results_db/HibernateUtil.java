@@ -24,7 +24,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
+import org.hsqldb.HsqlException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -67,14 +69,21 @@ public class HibernateUtil {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Entity to store is missing the Entity annotation.");
     }
+    try {
 
-    Session session = openNewSession();
+      Session session = openNewSession();
 
-    session.beginTransaction();
-    session.save(entity);
-    session.getTransaction().commit();
+      session.beginTransaction();
+      session.save(entity);
+      session.getTransaction().commit();
 
-    session.close();
+      session.close();
+
+    } catch (ConstraintViolationException e) {
+      System.out.println("Catched constraint violation exception");
+    } catch (HsqlException e) {
+      System.out.println("Catched generic exception");
+    }
   }
 
   /**

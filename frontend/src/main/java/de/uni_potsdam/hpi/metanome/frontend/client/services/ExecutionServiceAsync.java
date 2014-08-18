@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
+import de.uni_potsdam.hpi.metanome.frontend.client.DummyColumnConditon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,4 +35,6 @@ public interface ExecutionServiceAsync {
   public void fetchNewResults(String algorithmName, AsyncCallback<ArrayList<Result>> callback);
 
   public void fetchProgress(String executionIdentifier, AsyncCallback<Float> callback);
+
+  public void dummy(DummyColumnConditon d, AsyncCallback<DummyColumnConditon> callback);
 }
