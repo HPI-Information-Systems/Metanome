@@ -11,7 +11,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniq
 /**
  * @author Jens Ehrlich
  *
- * This class is a dummy class which serves the sole purpose of whitelisting it's member classes for GWT serialization.
+ * This class is a dummy class which serves the sole purpose of whitelisting it's member classes for GWT serialization. These classes are not whitelisted due to inheritance.
  * Corresponding methods that use this class are required in {@link de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService}, {@link de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync}, and {@link de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl}.
  */
 public class DummyColumnConditon implements IsSerializable {
