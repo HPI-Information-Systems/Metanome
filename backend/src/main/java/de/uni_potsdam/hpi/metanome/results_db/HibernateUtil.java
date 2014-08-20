@@ -70,7 +70,6 @@ public class HibernateUtil {
       throw new EntityStorageException("Entity to store is missing the Entity annotation.");
     }
     try {
-
       Session session = openNewSession();
 
       session.beginTransaction();
@@ -79,10 +78,11 @@ public class HibernateUtil {
 
       session.close();
 
+      //FIXME An exception which indicates a broken uniqueness constrain (an item is added twice). This exception comes when executing an algorithm. However, the algorithm is executed successfully when the exception is coughed, but the exception should not be thrown in the first place.
     } catch (ConstraintViolationException e) {
-      System.out.println("Catched constraint violation exception");
+      System.out.println("Coughed constraint violation exception");
     } catch (HsqlException e) {
-      System.out.println("Catched generic exception");
+      System.out.println("Coughed generic exception");
     }
   }
 
