@@ -207,12 +207,12 @@ public class GwtTestParameterTable extends GWTTestCase {
     // Waiting for asynchronous calls to finish.
     executeTimer.schedule(2000);
 
-    delayTestFinish(3000);
+    delayTestFinish(4000);
   }
 
   private void setCsvFile(InputParameterCsvFileWidget widget) {
     for (CsvFileInput csvFileInput : widget.inputWidgets) {
-      csvFileInput.listbox.setSelectedValue("1: name");
+      csvFileInput.listbox.setSelectedValue("name");
     }
   }
 
@@ -224,7 +224,7 @@ public class GwtTestParameterTable extends GWTTestCase {
 
   private void setDatabaseConnection(InputParameterSqlIteratorWidget widget) {
     for (SqlIteratorInput sqlIteratorInput : widget.inputWidgets) {
-      sqlIteratorInput.listbox.setSelectedValue("1: url");
+      sqlIteratorInput.listbox.setSelectedValue("url");
     }
   }
 
@@ -378,7 +378,6 @@ public class GwtTestParameterTable extends GWTTestCase {
           try {
             for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
               for (Object setting : dataSource.getSettings()) {
-                System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString() + " vs " + primaryDataSource.getValueAsString());
                 if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
                   foundDataSource = true;
               }
@@ -401,9 +400,9 @@ public class GwtTestParameterTable extends GWTTestCase {
       }
     };
     // Waiting for asynchronous calls to finish.
-    executeTimer.schedule(1000);
+    executeTimer.schedule(2000);
 
-    delayTestFinish(2000);
+    delayTestFinish(4000);
   }
 
 

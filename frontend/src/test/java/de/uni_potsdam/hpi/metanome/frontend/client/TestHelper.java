@@ -23,7 +23,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
 
 import java.util.List;
 
@@ -113,6 +113,7 @@ public class TestHelper {
       @Override
       public void onSuccess(Long result) {
         database_connection_blocked[0] = false;
+        System.out.println("Database Connection saved!");
       }
     });
 
@@ -142,6 +143,7 @@ public class TestHelper {
       @Override
       public void onSuccess(Long result) {
         file_input_blocked[0] = false;
+        System.out.println("File Input saved!");
       }
     });
 
@@ -168,7 +170,7 @@ public class TestHelper {
    * Get all file inputs synchronously.
    * @param callback the async callback
    */
-  public static void getAllFileInputs(AsyncCallback<List<FileInput>> callback) {
+  public static void getAllFileInputs(AsyncCallback<List<Input>> callback) {
     testDatabaseHelperService.getAllFileInputs(callback);
   }
 
@@ -176,7 +178,7 @@ public class TestHelper {
    * Get all table inputs synchronously.
    * @param callback the async callback
    */
-  public static void getAllTableInputs(AsyncCallback<List<TableInput>> callback) {
+  public static void getAllTableInputs(AsyncCallback<List<Input>> callback) {
     testDatabaseHelperService.getAllTableInputs(callback);
   }
 }

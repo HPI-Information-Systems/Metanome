@@ -65,9 +65,9 @@ public class GwtTestTableInputField extends GWTTestCase {
 
     // Waiting four seconds for asynchronous calls to finish.
     // Validate, if expected and actual objects are equal
-    timer.schedule(1000);
+    timer.schedule(2000);
 
-    delayTestFinish(2000);
+    delayTestFinish(4000);
   }
 
   /**

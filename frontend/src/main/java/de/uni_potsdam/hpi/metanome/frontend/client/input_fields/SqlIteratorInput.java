@@ -76,7 +76,7 @@ public class SqlIteratorInput extends InputField {
 
         if (result != null && result.size() > 0) {
           for (DatabaseConnection db : result) {
-            String identifier = db.getId() + ": " + db.getUrl(); // TODO add system
+            String identifier = db.getUrl(); // TODO add system
             dbConnectionNames.add(identifier);
             databaseConnections.put(identifier, db);
 

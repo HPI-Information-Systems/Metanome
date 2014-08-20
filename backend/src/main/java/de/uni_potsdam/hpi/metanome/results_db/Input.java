@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -33,8 +34,9 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Input {
+public class Input implements Serializable {
 
+  private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
 
   /**

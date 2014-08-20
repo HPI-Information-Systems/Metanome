@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
 
 import java.util.List;
 
@@ -40,9 +40,9 @@ public interface TestDatabaseHelperServiceAsync {
 
   void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> async);
 
-  void getAllTableInputs(AsyncCallback<List<TableInput>> async);
+  void getAllTableInputs(AsyncCallback<List<Input>> async);
 
-  void getAllFileInputs(AsyncCallback<List<FileInput>> async);
+  void getAllFileInputs(AsyncCallback<List<Input>> async);
 
   void storeFileInput(FileInput input, AsyncCallback<Long> async);
 }

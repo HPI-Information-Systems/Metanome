@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
@@ -93,9 +94,9 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
   }
 
   @Override
-  public List<TableInput> getAllTableInputs() {
+  public List<Input> getAllTableInputs() {
     try {
-      TableInput.retrieveAll();
+      return TableInput.retrieveAll();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }
@@ -103,9 +104,9 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
   }
 
   @Override
-  public List<FileInput> getAllFileInputs() {
+  public List<Input> getAllFileInputs() {
     try {
-      FileInput.retrieveAll();
+      return FileInput.retrieveAll();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }

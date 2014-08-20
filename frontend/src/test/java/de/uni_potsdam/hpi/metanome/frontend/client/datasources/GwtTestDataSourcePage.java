@@ -28,6 +28,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
@@ -103,7 +104,7 @@ public class GwtTestDataSourcePage extends GWTTestCase {
       public void run() {
         // Check result
         TestHelper.getAllTableInputs(
-          new AsyncCallback<List<TableInput>>() {
+          new AsyncCallback<List<Input>>() {
             @Override
             public void onFailure(Throwable throwable) {
               fail();
@@ -112,8 +113,11 @@ public class GwtTestDataSourcePage extends GWTTestCase {
             }
 
             @Override
-            public void onSuccess(List<TableInput> con) {
-              assertTrue(con.contains(expectedInput[0]));
+            public void onSuccess(List<Input> con) {
+              TableInput actualInput = (TableInput) con.get(0);
+              assertEquals(expectedInput[0].getDatabaseConnection(), actualInput.getDatabaseConnection());
+              assertEquals(expectedInput[0].getTableName(), actualInput.getTableName());
+
               // Cleanup
               TestHelper.resetDatabaseSync();
               finishTest();
@@ -122,10 +126,10 @@ public class GwtTestDataSourcePage extends GWTTestCase {
       }
     };
 
-    executeTimer.schedule(1000);
-    checkTimer.schedule(2000);
+    executeTimer.schedule(2000);
+    checkTimer.schedule(4000);
 
-    delayTestFinish(3000);
+    delayTestFinish(6000);
   }
 
   /**
@@ -158,7 +162,7 @@ public class GwtTestDataSourcePage extends GWTTestCase {
       @Override
       public void run() {
         TestHelper.getAllFileInputs(
-            new AsyncCallback<List<FileInput>>() {
+            new AsyncCallback<List<Input>>() {
               @Override
               public void onFailure(Throwable throwable) {
                 fail();
@@ -167,9 +171,8 @@ public class GwtTestDataSourcePage extends GWTTestCase {
               }
 
               @Override
-              public void onSuccess(List<FileInput> con) {
-                FileInput input = con.get(0);
-
+              public void onSuccess(List<Input> con) {
+                FileInput input = (FileInput) con.get(0);
                 assertEquals(expectedInput.getFileName(), input.getFileName());
 
                 // Cleanup

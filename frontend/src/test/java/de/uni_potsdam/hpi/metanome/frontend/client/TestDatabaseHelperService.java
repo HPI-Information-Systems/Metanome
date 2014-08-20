@@ -22,7 +22,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
 
 import java.util.List;
 
@@ -44,8 +44,8 @@ public interface TestDatabaseHelperService extends RemoteService {
 
   List<DatabaseConnection> getAllDatabaseConnections();
 
-  List<TableInput> getAllTableInputs();
+  List<Input> getAllTableInputs();
 
-  List<FileInput> getAllFileInputs();
+  List<Input> getAllFileInputs();
 
 }
