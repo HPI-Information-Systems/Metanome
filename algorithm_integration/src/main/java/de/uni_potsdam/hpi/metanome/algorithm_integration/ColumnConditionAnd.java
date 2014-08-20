@@ -49,7 +49,6 @@ public class ColumnConditionAnd implements ColumnCondition {
     this.columnValues = new TreeSet<>(treeSet);
   }
 
-
   public ColumnConditionAnd(ColumnCondition... conditions) {
     this();
     for (ColumnCondition condition : conditions) {
@@ -66,7 +65,6 @@ public class ColumnConditionAnd implements ColumnCondition {
   public TreeSet<ColumnCondition> getColumnValues() {
     return columnValues;
   }
-
 
   @Override
   public int compareTo(ColumnCondition o) {
