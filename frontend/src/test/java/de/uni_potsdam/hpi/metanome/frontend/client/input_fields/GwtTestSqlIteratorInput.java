@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
@@ -76,7 +77,7 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("username");
-    // TODO set system
+    dbConnection.setSystem(DbSystem.DB2);
 
     // Expected values
     ConfigurationSettingSqlIterator expectedSetting =
@@ -92,7 +93,12 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     // Execute functionality
     sqlIteratorInput.setValues(expectedSetting);
 
-    ConfigurationSettingSqlIterator actualSetting = sqlIteratorInput.getValues();
+    ConfigurationSettingSqlIterator actualSetting = null;
+    try {
+      actualSetting = sqlIteratorInput.getValues();
+    } catch (InputValidationException e) {
+      fail();
+    }
 
     // Check result
     assertEquals(expectedSetting.getDbUrl(), actualSetting.getDbUrl());

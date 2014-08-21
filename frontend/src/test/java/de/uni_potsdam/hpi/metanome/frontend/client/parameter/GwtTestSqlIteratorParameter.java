@@ -51,6 +51,7 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setUrl(aUrl);
     databaseConnection.setPassword(aPassword);
     databaseConnection.setUsername(aUser);
+    databaseConnection.setSystem(aSystem);
 
     SqlIteratorInput widget = new SqlIteratorInput(false, tabWrapper);
     ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
@@ -67,6 +68,7 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     assertEquals(aUrl, widget.getValues().getDbUrl());
     assertEquals(aPassword, widget.getValues().getPassword());
     assertEquals(aUser, widget.getValues().getUsername());
+    assertEquals(aSystem, widget.getValues().getSystem());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -86,6 +88,7 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setUrl(aUrl);
     databaseConnection.setPassword(aPassword);
     databaseConnection.setUsername(aUser);
+    databaseConnection.setSystem(aSystem);
 
     ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
 

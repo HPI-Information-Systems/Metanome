@@ -52,11 +52,9 @@ public class TestHelper {
       @Override
       public void onFailure(Throwable caught) {
         reset_blocked[0] = false;
-        System.out.println("Database could not be reset!");
         System.out.println(caught.getMessage());}
       @Override
       public void onSuccess(Void aVoid) {
-        System.out.println("Database successfully reset!");
         reset_blocked[0] = false;
       }
     });

@@ -111,9 +111,11 @@ public class ParameterTable extends FlexTable {
   public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues()
       throws InputValidationException {
     LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
+
     for (InputParameterDataSourceWidget childWidget : this.dataSourceChildWidgets) {
       parameterList.add(childWidget.getUpdatedSpecification());
     }
+
     return parameterList;
   }
 
@@ -127,9 +129,11 @@ public class ParameterTable extends FlexTable {
   public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues()
       throws InputValidationException {
     LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
+
     for (InputParameterWidget childWidget : this.childWidgets) {
       parameterList.add(childWidget.getUpdatedSpecification());
     }
+
     return parameterList;
   }
 

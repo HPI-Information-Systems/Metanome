@@ -67,7 +67,6 @@ public class FileInputEditForm extends FlowPanel {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
 
-
   /**
    * Constructor. Set up all UI elements.
    */
@@ -265,7 +264,7 @@ public class FileInputEditForm extends FlowPanel {
   /**
    * Checks, if the given text box contains only a character.
    * If yes, the character is returned. Otherwise an exception is thrown.
-   * @param textBox
+   * @param textBox the textbox
    * @return the character of the text box
    * @throws InputValidationException
    */
@@ -281,7 +280,7 @@ public class FileInputEditForm extends FlowPanel {
   /**
    * Checks, if the value of the integer box is an integer.
    * If yes, the integer is returned. Otherwise an exception is thrown.
-   * @param integerBox
+   * @param integerBox the integer box
    * @return the integer of the integer box
    * @throws InputValidationException
    */

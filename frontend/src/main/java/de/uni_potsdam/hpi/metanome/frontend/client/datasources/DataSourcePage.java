@@ -477,8 +477,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
     int row = 1;
 
     table.setHTML(0, 0, "<b>Url</b>");
-    table.setHTML(0, 1, "<b>Username</b>");
-    table.setHTML(0, 2, "<b>Password</b>");
+    table.setHTML(0, 1, "<b>System</b>");
+    table.setHTML(0, 2, "<b>Username</b>");
+    //table.setHTML(0, 3, "<b>Password</b>");
 
     for (final DatabaseConnection input : inputs) {
       Button deleteButton = new Button("Delete");
@@ -494,8 +495,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
       });
 
       table.setText(row, 0, input.getUrl());
-      table.setText(row, 1, input.getUsername());
-      table.setText(row, 2, input.getPassword());
+      table.setText(row, 1, input.getSystem().name());
+      table.setText(row, 2, input.getUsername());
+      //table.setText(row, 3, input.getPassword());
       table.setWidget(row, 3, runButton);
       table.setWidget(row, 4, deleteButton);
       row++;

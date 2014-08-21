@@ -128,7 +128,7 @@ public class TableInputEditForm extends FlowPanel {
 
         if (result != null || result.size() > 0) {
           for (DatabaseConnection db : result) {
-            String identifier = db.getUrl();
+            String identifier = db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
             dbConnectionNames.add(identifier);
             dbMap.put(identifier, db);
           }

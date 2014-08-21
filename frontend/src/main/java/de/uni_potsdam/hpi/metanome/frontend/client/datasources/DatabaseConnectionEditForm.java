@@ -100,8 +100,8 @@ public class DatabaseConnectionEditForm extends FlowPanel {
     connection
         .setUrl(url)
         .setUsername(username)
-        .setPassword(password);
-    // TODO set system
+        .setPassword(password)
+        .setSystem(DbSystem.valueOf(system));
 
     return connection;
   }

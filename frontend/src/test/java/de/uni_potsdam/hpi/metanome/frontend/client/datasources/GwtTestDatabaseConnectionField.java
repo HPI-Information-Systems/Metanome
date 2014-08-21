@@ -22,6 +22,8 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
+import java.util.Arrays;
+
 
 public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
@@ -43,7 +45,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
     //Check
     assertEquals(expectedUrl, actualConnection.getUrl());
-    // TODO assertEquals(expectedSystem, actualConnection.getSystem());
+    assertEquals(expectedSystem, actualConnection.getSystem().name());
     assertEquals(expectedUser, actualConnection.getUsername());
     assertEquals(expectedPassword, actualConnection.getPassword());
   }
@@ -89,7 +91,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
     //Check
     assertEquals("", actualUser);
-    // TODO assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
+    assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
     assertEquals("", actualPassword);
     assertEquals("", actualUrl);
   }
