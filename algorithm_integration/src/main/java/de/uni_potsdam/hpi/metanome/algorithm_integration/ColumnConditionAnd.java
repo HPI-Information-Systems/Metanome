@@ -28,6 +28,7 @@ import java.util.TreeSet;
  */
 public class ColumnConditionAnd implements ColumnCondition {
 
+  protected boolean isNegated = false;
   protected TreeSet<ColumnCondition> columnValues;
 
   /**
@@ -54,6 +55,10 @@ public class ColumnConditionAnd implements ColumnCondition {
     for (ColumnCondition condition : conditions) {
       this.columnValues.add(condition);
     }
+  }
+
+  public void setIsNegated(boolean isNegated) {
+    this.isNegated = isNegated;
   }
 
   @Override
@@ -98,6 +103,9 @@ public class ColumnConditionAnd implements ColumnCondition {
   public String toString() {
     String delimiter = " " + ColumnCondition.AND + " ";
     StringBuilder builder = new StringBuilder();
+    if (isNegated) {
+      builder.append(ColumnCondition.NOT);
+    }
     builder.append(ColumnCondition.OPEN_BRACKET);
     for (ColumnCondition value : this.columnValues) {
       builder.append(value.toString());

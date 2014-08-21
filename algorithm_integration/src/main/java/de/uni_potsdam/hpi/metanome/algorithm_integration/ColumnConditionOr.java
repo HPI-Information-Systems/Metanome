@@ -28,7 +28,8 @@ import java.util.TreeSet;
  */
 public class ColumnConditionOr implements ColumnCondition {
 
-  TreeSet<ColumnCondition> columnValues;
+  protected boolean isNegated = false;
+  protected TreeSet<ColumnCondition> columnValues;
 
   /**
    * Exists for Gwt serialization
@@ -60,6 +61,10 @@ public class ColumnConditionOr implements ColumnCondition {
     for (String value : values) {
       columnValues.add(new ColumnConditionValue(identifier, value));
     }
+  }
+
+  public void setIsNegated(boolean isNegated) {
+    this.isNegated = isNegated;
   }
 
   @Override
@@ -108,6 +113,9 @@ public class ColumnConditionOr implements ColumnCondition {
   public String toString() {
     String delimiter = " " + ColumnCondition.OR + " ";
     StringBuilder builder = new StringBuilder();
+    if (isNegated) {
+      builder.append(ColumnCondition.NOT);
+    }
     builder.append(ColumnCondition.OPEN_BRACKET);
     for (ColumnCondition value : this.columnValues) {
       builder.append(value.toString());
