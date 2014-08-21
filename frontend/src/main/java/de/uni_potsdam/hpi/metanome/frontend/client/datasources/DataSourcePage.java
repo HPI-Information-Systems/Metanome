@@ -41,7 +41,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsyn
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
@@ -279,7 +278,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           messageReceiver.addInfo("Table Input successfully saved.");
         }
       });
-    } catch (InputValidationException | EntityStorageException e) {
+    } catch (InputValidationException e) {
       messageReceiver.addError("Table Input could not be stored: " + e.getMessage());
     }
   }

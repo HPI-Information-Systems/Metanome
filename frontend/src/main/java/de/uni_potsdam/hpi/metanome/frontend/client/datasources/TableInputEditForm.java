@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
@@ -91,8 +92,9 @@ public class TableInputEditForm extends FlowPanel {
   /**
    * Creates a table input with the selected database connection and the given table name
    * @return a table input
+   * @throws InputValidationException if the input is invalid.
    */
-  public TableInput getValue() {
+  public TableInput getValue() throws InputValidationException {
     TableInput tableInput = new TableInput();
 
     String identifier = this.dbConnectionListBox.getSelectedValue();
@@ -101,7 +103,7 @@ public class TableInputEditForm extends FlowPanel {
 
     if (tableName.isEmpty() || connection == null) {
       this.messageReceiver.addError("The database connection and the table name should be set!");
-      return null;
+      throw new InputValidationException("Invalid input!");
     }
 
     tableInput.setDatabaseConnection(connection);
