@@ -67,6 +67,10 @@
     <source path="results_db">
         <include name="Algorithm.java"/>
         <include name="AlgorithmContentEquals.java"/>
+        <include name="DatabaseConnection.java"/>
+        <include name="TableInput.java"/>
+        <include name="FileInput.java"/>
+        <include name="Input.java"/>
         <include name="EntityStorageException.java"/>
-	</source>
+    </source>
 </module>

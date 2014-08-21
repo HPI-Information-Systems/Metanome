@@ -26,6 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
@@ -36,13 +37,13 @@ import java.io.FileNotFoundException;
 
 /**
  * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
- * to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s.
+ * to {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  */
 public class ConfigurationValueFactory {
 
   /**
    * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
-   * to {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValue}s.
+   * to {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s.
    *
    * @param specification the specification to convert
    * @return the created configuration value

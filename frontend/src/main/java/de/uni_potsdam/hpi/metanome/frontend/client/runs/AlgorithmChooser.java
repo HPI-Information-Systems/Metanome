@@ -16,13 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -33,12 +29,16 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * A UI Widget that allows to choose a JAR containing the algorithm to use
  *
  * @author Claudia Exeler
  */
-public class AlgorithmChooser extends HorizontalPanel {
+public class AlgorithmChooser extends FlowPanel {
 
   protected Label label;
   protected ListBox listbox;
@@ -46,12 +46,12 @@ public class AlgorithmChooser extends HorizontalPanel {
   protected Map<String, Algorithm> algorithms = new HashMap<String, Algorithm>();
 
   protected ParameterServiceAsync parameterService;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
   public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
-
     super();
-    this.errorReceiver = tabWrapper;
+
+    this.messageReceiver = tabWrapper;
     this.parameterService = GWT.create(ParameterService.class);
 
     this.label = new Label("Choose your algorithm:");
@@ -78,12 +78,12 @@ public class AlgorithmChooser extends HorizontalPanel {
    */
   public void submit() {
     String selectedValue = getSelectedAlgorithm();
-    this.errorReceiver.clearErrors();
+    this.messageReceiver.clearErrors();
 
     AsyncCallback<List<ConfigurationSpecification>> callback =
         new AsyncCallback<List<ConfigurationSpecification>>() {
           public void onFailure(Throwable caught) {
-            errorReceiver.addError("Error while retrieving configuration requirements.");
+            messageReceiver.addError("Error while retrieving configuration requirements.");
           }
 
           public void onSuccess(List<ConfigurationSpecification> result) {
@@ -198,8 +198,8 @@ public class AlgorithmChooser extends HorizontalPanel {
 
   }
 
-  public void setErrorReceiver(TabWrapper receiver) {
-    this.errorReceiver = receiver;
+  public void setMessageReceiver(TabWrapper receiver) {
+    this.messageReceiver = receiver;
   }
 
 

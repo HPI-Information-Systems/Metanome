@@ -16,20 +16,20 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.Test;
-
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl}
@@ -39,8 +39,25 @@ import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
 public class AlgorithmServiceImplTest {
 
   /**
+   * Test method for {@link AlgorithmServiceImpl#listAvailableAlgorithmFiles()}
+   */
+  @Test
+  public void testListAvailableAlgorithmFiles() {
+    // Setup
+    AlgorithmServiceImpl service = new AlgorithmServiceImpl();
+
+    // Expected values
+    // Execute functionality
+    String[] algos = service.listAvailableAlgorithmFiles();
+
+    // Check result
+    assertTrue(algos.length > 0);
+
+  }
+
+  /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithms(Class)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
    * <p/>
    * When no interface is specified all stored algorithms should be retrieved by the service.
    */
@@ -73,7 +90,7 @@ public class AlgorithmServiceImplTest {
 
   /**
    * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.server.FinderServiceImpl#listAlgorithms(Class)}
+   * {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
    * <p/>
    * When no interface is specified all stored algorithms should be retrieved by the service.
    */
@@ -100,10 +117,10 @@ public class AlgorithmServiceImplTest {
   }
 
   /**
-   * Test method for {@link FinderServiceImpl#listUniqueColumnCombinationsAlgorithms()},
-   * {@link FinderServiceImpl#listInclusionDependencyAlgorithms()},
-   * {@link FinderServiceImpl#listFunctionalDependencyAlgorithms()} and
-   * {@link FinderServiceImpl#listBasicStatisticsAlgorithms()}
+   * Test method for {@link AlgorithmServiceImpl#listUniqueColumnCombinationsAlgorithms()},
+   * {@link AlgorithmServiceImpl#listInclusionDependencyAlgorithms()},
+   * {@link AlgorithmServiceImpl#listFunctionalDependencyAlgorithms()} and
+   * {@link AlgorithmServiceImpl#listBasicStatisticsAlgorithms()}
    * <p/>
    * Stored algorithms that implement certain interfaces should be retrievable by the service.
    */

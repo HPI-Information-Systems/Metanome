@@ -19,22 +19,31 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class InputParameterWidget extends VerticalPanel implements IsWidget {
+public abstract class InputParameterWidget extends FlowPanel implements IsWidget {
 
   protected Button addButton;
 
-  public InputParameterWidget(ConfigurationSpecification config) {
+  /**
+   * Creates a widget with the given number of input fields and sets the configuration
+   * specification and the tab wrapper.
+   * @param config  the configuration specification
+   * @param wrapper the tab wrapper
+   */
+  public InputParameterWidget(ConfigurationSpecification config, TabWrapper wrapper) {
     super();
 
+    this.setMessageReceiver(wrapper);
     this.setSpecification(config);
 
     if (this.getSpecification().getNumberOfValues()
@@ -50,6 +59,11 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
     }
   }
 
+  /**
+   * Removes the given input field
+   * @param w the input field, which should be removed
+   * @return true, if input field could be removed, false otherwise
+   */
   public boolean removeField(InputField w) {
     this.getInputWidgets().remove(w);
     return super.remove(w);
@@ -71,21 +85,52 @@ public abstract class InputParameterWidget extends VerticalPanel implements IsWi
     this.add(this.addButton);
   }
 
+  /**
+   * Adds an input field to the widget.
+   * @param optional specifies, weather a a remove button will be rendered
+   */
   protected abstract void addInputField(boolean optional);
 
+  /**
+   * Gets the configuration specification and updates the current configuration specification.
+   * @return the updated specification of the input
+   * @throws InputValidationException if the specification is invalid
+   */
   public abstract ConfigurationSpecification getUpdatedSpecification()
       throws InputValidationException;
 
+  /**
+   * @return true, if the input field represents a data source input, false otherwise
+   */
   public boolean isDataSource() {
     return false;
   }
 
+  /**
+   * @return a list of all input widgets
+   */
   public abstract List<? extends InputField> getInputWidgets();
 
+  /**
+   * Sets the list of all input widgets to the given list
+   * @param inputWidgetsList list of input widgets
+   */
   public abstract void setInputWidgets(List<? extends InputField> inputWidgetsList);
 
+  /**
+   * @return the current configuration specification
+   */
   public abstract ConfigurationSpecification getSpecification();
 
+  /**
+   * Sets the configuration specification
+   * @param config the configuration specification, which should be set
+   */
   public abstract void setSpecification(ConfigurationSpecification config);
 
+  /**
+   * Sets the message receiver
+   * @param messageReceiver the tab wrapper, which should be set
+   */
+  public abstract void setMessageReceiver(TabWrapper messageReceiver);
 }

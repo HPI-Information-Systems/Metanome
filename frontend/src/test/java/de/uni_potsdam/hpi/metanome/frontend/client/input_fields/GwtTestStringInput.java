@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.services;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.junit.client.GWTTestCase;
 
 
-public interface InputDataServiceAsync {
+public class GwtTestStringInput extends GWTTestCase {
 
-  public void listCsvInputFiles(AsyncCallback<String[]> callback);
+  /**
+   * Test method for {@link StringInput#getValue()} and for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput#setValue(String)}
+   */
+  public void testGetSetValues() {
+    StringInput input = new StringInput(false);
+
+    input.setValue("test");
+    assertEquals("test", input.getValue());
+  }
+
+  @Override
+  public String getModuleName() {
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }

@@ -14,35 +14,43 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * A wrapper for a checkbox that can contain a remove button. If the remove button is clicked, the
+ * A wrapper for a text box that can contain a remove button. If the remove button is clicked, the
  * checkbox is removed from the parent widget.
  *
- * @author Claudia
+ * @author Claudia Exeler
  */
-public class BooleanInput extends InputField {
+public class StringInput extends InputField {
 
-  protected CheckBox checkbox;
+  public TextBox textbox;
 
   /**
    * @param optional If true, a remove button will be rendered, to remove this widget from its
    *                 parent.
    */
-  public BooleanInput(boolean optional) {
+  public StringInput(boolean optional) {
     super(optional);
 
-    this.checkbox = new CheckBox();
-    this.add(this.checkbox);
+    this.textbox = new TextBox();
+    this.add(this.textbox);
   }
 
   /**
-   * @return the value of its checkbox
+   * @return the value of its text box
    */
-  public boolean getValue() {
-    return this.checkbox.getValue();
+  public String getValue() {
+    return this.textbox.getValue();
+  }
+
+  /**
+   * Sets the value of the text box
+   * @param value the value which should be set
+   */
+  public void setValue(String value) {
+    this.textbox.setText(value);
   }
 }

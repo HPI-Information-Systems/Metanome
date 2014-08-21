@@ -19,6 +19,11 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import com.google.common.base.Joiner;
 
+/**
+ * TODO docs
+ *
+ * @author Claudia Exeler
+ */
 public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSource {
 
   private static final long serialVersionUID = 3242593091096735218L;

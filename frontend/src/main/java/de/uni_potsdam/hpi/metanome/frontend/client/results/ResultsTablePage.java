@@ -16,17 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.TimeZone;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
@@ -42,15 +33,19 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
+import java.util.ArrayList;
+
+/**
+ * UI element that displays the results of an algorithm execution in a table.
+ */
 public class ResultsTablePage extends FlowPanel implements OmniscientResultReceiver, TabContent {
 
   protected ExecutionServiceAsync executionService;
 
-  protected Timer timer;
   protected String executionIdentifier;
 
-  protected HorizontalPanel resultsPanel;
-  protected TabWrapper errorReceiver;
+  protected FlowPanel resultsPanel;
+  protected TabWrapper messageReceiver;
 
   protected ResultTable uccTable;
   protected ResultTable cuccTable;
@@ -58,17 +53,12 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected ResultTable fdTable;
   protected ResultTable basicsTable;
 
-  protected Image runningIndicator;
-
-  protected ProgressBar progressBar = null;
-
-
   public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
     this.executionService = executionService;
     this.executionIdentifier = executionIdentifier;
 
-    this.setHeight("500px");
-    this.resultsPanel = new HorizontalPanel();
+    this.resultsPanel = new FlowPanel();
+    this.resultsPanel.addStyleName("left");
     this.add(resultsPanel);
 
     indTable = new ResultTable("Inclusion Dependencies");
@@ -77,59 +67,18 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable = new ResultTable("Functional Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
 
-    runningIndicator = new Image("ajax-loader.gif");
-    this.add(runningIndicator);
+    fetchResults();
   }
 
-  public void startPolling() {
-    this.timer = new Timer() {
-      public void run() {
-        fetchNewResults();
-        updateStatus();
-      }
-    };
-
-    this.timer.scheduleRepeating(10000);
-  }
-
-  public AsyncCallback<Long> getCancelCallback() {
-    AsyncCallback<Long> callback = new AsyncCallback<Long>() {
-      public void onFailure(Throwable caught) {
-        cancelTimerOnFail(caught);
-      }
-
-      public void onSuccess(Long executionTime) {
-        cancelTimerOnSuccess(executionTime);
-      }
-    };
-    return callback;
-  }
-
-  public void cancelTimerOnSuccess(Long executionTimeNanoSecs) {
-    this.timer.cancel();
-    this.remove(runningIndicator);
-    fetchNewResults();
-    updateStatus();
-    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
-    this.add(new Label("Algorithm executed in " + format.format(date, TimeZone.createTimeZone(0))
-        + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
-  }
-
-  public void cancelTimerOnFail(Throwable caught) {
-    this.timer.cancel();
-    this.clear();
-    this.errorReceiver.addError("Algorithm did not execute successfully: " + caught.getMessage());
-  }
-
-  protected void fetchNewResults() {
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void fetchResults() {
     executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
-
       @Override
       public void onFailure(Throwable caught) {
-        errorReceiver.addError("Could not fetch results.");
+        messageReceiver.addError("Could not fetch results: " + caught.getMessage());
       }
-
       @Override
       public void onSuccess(ArrayList<Result> result) {
         displayResults(result);
@@ -137,39 +86,17 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     });
   }
 
-  protected void updateStatus() {
-    executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
-
-      @Override
-      public void onFailure(Throwable caught) {
-        errorReceiver.addError("Could not fetch progress.");
-      }
-
-      @Override
-      public void onSuccess(Float progress) {
-        updateProgress(progress);
-      }
-    });
-  }
-
+  /**
+   * Displays the incoming results.
+   * @param results the results of algorithm execution
+   */
   protected void displayResults(ArrayList<Result> results) {
     for (Result r : results) {
       try {
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
-        this.errorReceiver.addError(e.getMessage());
+        this.messageReceiver.addError("Could not display results: " + e.getMessage());
       }
-    }
-  }
-
-  protected void updateProgress(Float progress) {
-    if (progress > 0) {
-      if (progressBar == null) {
-        this.remove(runningIndicator);
-        progressBar = new ProgressBar(0, 1);
-        this.add(progressBar);
-      }
-      progressBar.setProgress(progress);
     }
   }
 
@@ -244,10 +171,10 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 }
