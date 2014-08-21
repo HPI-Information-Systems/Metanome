@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for {@link ColumnCondition}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ColumnConditionTest {
   /**

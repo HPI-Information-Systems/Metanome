@@ -21,7 +21,7 @@ import java.io.Serializable;
 /**
  * Abstract super class for the composite pattern used for column conditions.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {
 

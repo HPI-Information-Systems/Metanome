@@ -21,27 +21,21 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.results;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnConditionAnd;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
  * Test for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ConditionalUniqueColumnCombinationTest {
 
