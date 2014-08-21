@@ -28,6 +28,8 @@ import java.util.List;
 @RemoteServiceRelativePath("algorithmService")
 public interface AlgorithmService extends RemoteService {
 
+  public String[] listAvailableAlgorithmFiles();
+
   public List<Algorithm> listInclusionDependencyAlgorithms();
 
   public List<Algorithm> listFunctionalDependencyAlgorithms();

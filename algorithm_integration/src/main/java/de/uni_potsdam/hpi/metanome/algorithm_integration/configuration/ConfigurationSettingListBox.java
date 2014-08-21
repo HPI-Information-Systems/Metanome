@@ -19,6 +19,11 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import java.io.Serializable;
 
+/**
+ * TODO docs
+ *
+ * @author Tanja Bergmann
+ */
 public class ConfigurationSettingListBox implements Serializable {
 
   public String selectedValue;

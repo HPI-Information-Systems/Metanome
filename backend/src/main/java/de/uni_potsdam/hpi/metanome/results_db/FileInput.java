@@ -16,10 +16,15 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -29,7 +34,9 @@ import javax.persistence.Entity;
  * @author Jakob Zwiener
  */
 @Entity
-public class FileInput extends Input {
+public class FileInput extends Input implements Serializable {
+
+  private static final long serialVersionUID = 2320081610461965426L;
 
   protected String fileName;
   protected char separator;
@@ -72,6 +79,7 @@ public class FileInput extends Input {
    * @param id the FileInput's id
    * @return the fileInput
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static FileInput retrieve(long id) throws EntityStorageException {
     return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
   }
@@ -81,10 +89,21 @@ public class FileInput extends Input {
    *
    * @return the FileInput
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public FileInput store() throws EntityStorageException {
     HibernateUtil.store(this);
 
     return this;
+  }
+
+  /**
+   * Retrieves all file inputs stored in the database.
+   *
+   * @return a list of all file inputs
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public static List<Input> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(FileInput.class);
   }
 
   public String getFileName() {

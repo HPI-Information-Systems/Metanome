@@ -25,11 +25,20 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +60,8 @@ public class GwtTestServiceCall extends GWTTestCase {
     List<ConfigurationSpecification> configs = new ArrayList<>();
     ConfigurationSpecificationString inputParameter =
         new ConfigurationSpecificationString("pathToInputFile");
-    inputParameter.setValues(new ConfigurationSettingString("path/to/file1"),
-        new ConfigurationSettingString("path/to/file2"));
+    inputParameter.setSettings(new ConfigurationSettingString("path/to/file1"),
+                               new ConfigurationSettingString("path/to/file2"));
     configs.add(inputParameter);
 
     AsyncCallback<Long> callback = new AsyncCallback<Long>() {
@@ -108,7 +117,7 @@ public class GwtTestServiceCall extends GWTTestCase {
   /**
    * tests the call from client to algorithmService.listInclusionDependencyAlgorithmFileNames()
    */
-  public void testFinderService() {
+  public void testAlgorithmService() {
     // Setup
     AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
       @Override
@@ -129,6 +138,84 @@ public class GwtTestServiceCall extends GWTTestCase {
     delayTestFinish(500);
 
     algorithmService.listInclusionDependencyAlgorithms(callback);
+  }
+
+  /**
+   * tests the call from client to databaseConnectionService
+   */
+  public void testDatabaseConnectionService() {
+    // Setup
+    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        fail();
+      }
+
+      @Override
+      public void onSuccess(List<DatabaseConnection> result) {
+        assertNotNull(result);
+        finishTest();
+      }
+    };
+
+    DatabaseConnectionServiceAsync service = GWT.create(DatabaseConnectionService.class);
+
+    // Set a delay period
+    delayTestFinish(500);
+
+    service.listDatabaseConnections(callback);
+  }
+
+  /**
+   * tests the call from client to tableInputService
+   */
+  public void testTableInputService() {
+    // Setup
+    AsyncCallback<List<TableInput>> callback = new AsyncCallback<List<TableInput>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        fail();
+      }
+
+      @Override
+      public void onSuccess(List<TableInput> result) {
+        assertNotNull(result);
+        finishTest();
+      }
+    };
+
+    TableInputServiceAsync service = GWT.create(TableInputService.class);
+
+    // Set a delay period
+    delayTestFinish(500);
+
+    service.listTableInputs(callback);
+  }
+
+  /**
+   * tests the call from client to tableInputService
+   */
+  public void testFileInputService() {
+    // Setup
+    AsyncCallback<List<FileInput>> callback = new AsyncCallback<List<FileInput>>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        fail();
+      }
+
+      @Override
+      public void onSuccess(List<FileInput> result) {
+        assertNotNull(result);
+        finishTest();
+      }
+    };
+
+    FileInputServiceAsync service = GWT.create(FileInputService.class);
+
+    // Set a delay period
+    delayTestFinish(500);
+
+    service.listFileInputs(callback);
   }
 
 

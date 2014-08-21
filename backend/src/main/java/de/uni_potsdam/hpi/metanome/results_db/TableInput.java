@@ -16,6 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -25,7 +30,9 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
-public class TableInput extends Input {
+public class TableInput extends Input implements Serializable {
+
+  private static final long serialVersionUID = 506811774527044153L;
 
   protected String tableName;
   protected DatabaseConnection databaseConnection;
@@ -36,6 +43,7 @@ public class TableInput extends Input {
    * @param id the TableInput's id
    * @return the tableInput
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static TableInput retrieve(long id) throws EntityStorageException {
     return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
   }
@@ -45,10 +53,21 @@ public class TableInput extends Input {
    *
    * @return the TableInput
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public TableInput store() throws EntityStorageException {
     HibernateUtil.store(this);
 
     return this;
+  }
+
+  /**
+   * Retrieves all table inputs stored in the database.
+   *
+   * @return a list of all table inputs
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public static List<Input> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(TableInput.class);
   }
 
   public String getTableName() {

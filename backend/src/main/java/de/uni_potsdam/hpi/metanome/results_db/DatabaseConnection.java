@@ -16,9 +16,15 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -27,7 +33,7 @@ import javax.persistence.Id;
  * @author Jakob Zwiener
  */
 @Entity
-public class DatabaseConnection {
+public class DatabaseConnection implements Serializable {
 
   protected long id;
   protected String url;
@@ -41,8 +47,19 @@ public class DatabaseConnection {
    * @param id the DatabaseConnection's id
    * @return the databaseConnection
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static DatabaseConnection retrieve(long id) throws EntityStorageException {
     return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+  }
+
+  /**
+   * Retrieves all database connections stored in the database.
+   *
+   * @return a list of all database connections
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public static List<DatabaseConnection> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(DatabaseConnection.class);
   }
 
   /**
@@ -50,6 +67,7 @@ public class DatabaseConnection {
    *
    * @return the DatabaseConnection
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public DatabaseConnection store() throws EntityStorageException {
     HibernateUtil.store(this);
 
@@ -57,6 +75,7 @@ public class DatabaseConnection {
   }
 
   @Id
+  @GeneratedValue
   public long getId() {
     return id;
   }
