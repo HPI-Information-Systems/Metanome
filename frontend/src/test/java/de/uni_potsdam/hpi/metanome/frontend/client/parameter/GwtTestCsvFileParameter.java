@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
@@ -36,7 +37,9 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
    */
   public void testSelectDataSourceOnFilledDropdown()
       throws AlgorithmConfigurationException, InputValidationException {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     FileInput fileInput = new FileInput();
@@ -56,6 +59,9 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     //Check
     assertEquals(aFileName, widget.listbox.getSelectedValue());
     assertEquals(aFileName, widget.getValues().getFileName());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -63,7 +69,9 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
    * child widget.
    */
   public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     FileInput fileInput = new FileInput();
@@ -81,7 +89,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     // Execute
     dataSourceWidget.setDataSource(setting);
 
-    //Check
+    // Check
     assertTrue(((CsvFileInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
@@ -90,10 +98,14 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
           .getUpdatedSpecification()
           .getSettings()[0];
     } catch (InputValidationException e) {
+      TestHelper.resetDatabaseSync();
       e.printStackTrace();
       fail();
     }
     assertEquals(aFileName, retrievedSetting.getValueAsString());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
 

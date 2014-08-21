@@ -25,6 +25,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
@@ -41,7 +42,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
    */
   public void testSelectDataSourceOnFilledDropdown()
       throws AlgorithmConfigurationException, InputValidationException {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -59,11 +62,14 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     // Execute
     widget.selectDataSource(setting);
 
-    //Check
+    // Check
     assertEquals(aUrl, widget.listbox.getSelectedValue());
     assertEquals(aUrl, widget.getValues().getDbUrl());
     assertEquals(aPassword, widget.getValues().getPassword());
     assertEquals(aUser, widget.getValues().getUsername());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -71,7 +77,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
    * child widget.
    */
   public void testSetDataSource() throws AlgorithmConfigurationException, InputValidationException {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -98,6 +106,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
           .getSettings()[0];
 
     assertEquals(Joiner.on(';').join(aUrl, aUser, aPassword, aSystem), retrievedSetting.getValueAsString());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

@@ -20,6 +20,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
    * When a new AlgorithmEditForm is created, the algorithmsPage and messageReceiver should be set
    */
   public void testSetup() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage parent = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(parent, tab);
@@ -41,12 +45,18 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     // Check that parent was set
     assertEquals(parent, form.algorithmsPage);
     assertEquals(tab, form.messageReceiver);
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
   public void testValidInput() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
@@ -66,12 +76,18 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     } catch (InputValidationException e) {
       fail();
     }
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
   public void testEmptyFileName() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
@@ -85,12 +101,18 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
       form.submit();
       assertTrue(tab.isInError());
     }
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for {@link AlgorithmEditForm#retrieveInputValues()}
    */
   public void testNoInterfaces() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
@@ -109,6 +131,9 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
       form.submit();
       assertTrue(tab.isInError());
     }
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

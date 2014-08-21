@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
@@ -39,7 +40,9 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
    * should be initialized.
    */
   public void testConstructor() {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     // Expected values
@@ -52,6 +55,9 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     assertEquals(expectedOptional, actualSqlIteratorInput.isOptional);
     assertEquals(2, actualSqlIteratorInput.getWidgetCount());
     assertNotNull(actualSqlIteratorInput.listbox);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -61,7 +67,9 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
    * The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     TabWrapper tabWrapper = new TabWrapper();
 
     DatabaseConnection dbConnection = new DatabaseConnection();
@@ -91,6 +99,9 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     assertEquals(expectedSetting.getPassword(), actualSetting.getPassword());
     assertEquals(expectedSetting.getUsername(), actualSetting.getUsername());
     assertEquals(expectedSetting.getSystem(), actualSetting.getSystem());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

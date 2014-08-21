@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.Iterator;
@@ -38,6 +39,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * parent set.
    */
   public void testSetup() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     boolean editFormPresent = false;
     BasePage basePage = new BasePage();
 
@@ -54,6 +58,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
     assertNotNull(algorithmPage.algorithmService);
     assertEquals(basePage, algorithmPage.basePage);
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -63,6 +70,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * After failure is called on the constructed callback, the tab should be in error.
    */
   public void testRetrieveCallbackFailure() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
     algorithmsPage.setMessageReceiver(tab);
@@ -72,6 +82,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -82,6 +95,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * contain all the elements of the result.
    */
   public void testRetrieveCallbackSuccess() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     FlexTable list = new FlexTable();
 
@@ -94,6 +110,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onSuccess(result);
 
     assertEquals(result.size(), list.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -103,6 +122,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * After failure is called on the constructed callback, the tab should be in error.
    */
   public void testAddCallbackFailure() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
     algorithmsPage.setMessageReceiver(tab);
@@ -112,6 +134,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -122,6 +147,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
    * contain all the elements of the result.
    */
   public void testAddCallbackSuccess() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     int uccCount = algorithmsPage.uccList.getRowCount();
 
@@ -133,6 +161,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onSuccess(null);
 
     assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

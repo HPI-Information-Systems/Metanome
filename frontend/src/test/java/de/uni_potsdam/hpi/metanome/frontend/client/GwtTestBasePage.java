@@ -48,6 +48,9 @@ public class GwtTestBasePage extends GWTTestCase {
    * Test method for {@link BasePage#BasePage()}
    */
   public void testNewBasePage() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     // Execute
     BasePage testPage = new BasePage();
 
@@ -76,12 +79,17 @@ public class GwtTestBasePage extends GWTTestCase {
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof RunConfigurationPage);
 
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#addAlgorithmsToRunConfigurations(java.util.List)}
    */
   public void testAddAlgorithmsToRunConfigurations() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     BasePage page = new BasePage();
     int itemCount = page.runConfigurationsPage.getJarChooser().getListItemCount();
     algorithms.add(new Algorithm("Algorithm 1"));
@@ -92,6 +100,9 @@ public class GwtTestBasePage extends GWTTestCase {
 
     // Check
     assertEquals(itemCount + 2, page.runConfigurationsPage.getJarChooser().getListItemCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -99,7 +110,9 @@ public class GwtTestBasePage extends GWTTestCase {
    * </p> Test control flow from Algorithms to Run configuration
    */
   public void testSwitchToRunConfigurationFromAlgorithm() {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     final String algorithmName = "some_name";
     final BasePage page = new BasePage();
     Algorithm a = new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
@@ -135,6 +148,9 @@ public class GwtTestBasePage extends GWTTestCase {
         assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
         assertNotNull(runPage.parameterTable);
         assertEquals(3, runPage.getWidgetCount());
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
 
         finishTest();
       }

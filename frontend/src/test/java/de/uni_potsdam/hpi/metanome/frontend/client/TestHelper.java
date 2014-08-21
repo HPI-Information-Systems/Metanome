@@ -50,10 +50,13 @@ public class TestHelper {
   public static void resetDatabaseSync() {
     testDatabaseHelperService.resetDatabase(new AsyncCallback<Void>() {
       @Override
-      public void onFailure(Throwable throwable) {
-      }
+      public void onFailure(Throwable caught) {
+        reset_blocked[0] = false;
+        System.out.println("Database could not be reset!");
+        System.out.println(caught.getMessage());}
       @Override
       public void onSuccess(Void aVoid) {
+        System.out.println("Database successfully reset!");
         reset_blocked[0] = false;
       }
     });
@@ -78,7 +81,9 @@ public class TestHelper {
     testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable caught) {
-
+        algorithm_blocked[0] = false;
+        System.out.println("Algorithm could not be saved!");
+        System.out.println(caught.getMessage());
       }
 
       @Override
@@ -107,7 +112,9 @@ public class TestHelper {
     testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
       @Override
       public void onFailure(Throwable caught) {
-
+        database_connection_blocked[0] = false;
+        System.out.println("Database Connection could not be saved!");
+        System.out.println(caught.getMessage());
       }
 
       @Override
@@ -137,7 +144,9 @@ public class TestHelper {
     testDatabaseHelperService.storeFileInput(fileInput, new AsyncCallback<Long>() {
       @Override
       public void onFailure(Throwable caught) {
-
+        file_input_blocked[0] = false;
+        System.out.println("File Input could not be saved!");
+        System.out.println(caught.getMessage());
       }
 
       @Override

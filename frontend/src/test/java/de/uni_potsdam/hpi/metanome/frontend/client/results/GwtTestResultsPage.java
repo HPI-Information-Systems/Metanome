@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
@@ -35,6 +36,8 @@ public class GwtTestResultsPage extends GWTTestCase {
    */
   public void testResultTable() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     BasePage parent = new BasePage();
 
     // Expected Values
@@ -44,6 +47,9 @@ public class GwtTestResultsPage extends GWTTestCase {
     // Check
     assertNotNull(page.basePage);
     assertTrue(page.getWidget(0) instanceof Label);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -51,6 +57,8 @@ public class GwtTestResultsPage extends GWTTestCase {
    */
   public void testStartPolling() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
@@ -65,6 +73,9 @@ public class GwtTestResultsPage extends GWTTestCase {
     assertEquals(3, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
 
@@ -73,6 +84,8 @@ public class GwtTestResultsPage extends GWTTestCase {
    */
   public void testUpdateOnError() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
@@ -90,6 +103,9 @@ public class GwtTestResultsPage extends GWTTestCase {
     // Check
     assertEquals(1, page.getWidgetCount());
     assertTrue(page.getWidget(0) instanceof Label);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -97,6 +113,8 @@ public class GwtTestResultsPage extends GWTTestCase {
    */
   public void testUpdateOnSuccess() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.timer = new Timer() {
@@ -120,6 +138,9 @@ public class GwtTestResultsPage extends GWTTestCase {
     assertEquals(2, page.getWidgetCount());
     assertTrue(page.getWidget(1) instanceof TabLayoutPanel);
     assertEquals(2, ((TabLayoutPanel) page.getWidget(1)).getWidgetCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
 

@@ -21,6 +21,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 /**
@@ -36,6 +37,9 @@ public class GwtTestCsvFileInput extends GWTTestCase {
    * should be initialized.
    */
   public void testConstructor() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     // Setup
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -49,6 +53,9 @@ public class GwtTestCsvFileInput extends GWTTestCase {
     assertEquals(expectedOptional, actualCsvFileInput.isOptional);
     assertEquals(2, actualCsvFileInput.getWidgetCount());
     assertNotNull(actualCsvFileInput.listbox);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -59,6 +66,8 @@ public class GwtTestCsvFileInput extends GWTTestCase {
    */
   public void testGetSetValues() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     FileInput fileInput = new FileInput();
     fileInput.setFileName("filename");
 
@@ -82,6 +91,9 @@ public class GwtTestCsvFileInput extends GWTTestCase {
 
     // Check result
     assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override
