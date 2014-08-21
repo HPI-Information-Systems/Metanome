@@ -36,7 +36,7 @@ public class FilePathHelper {
    * @param path the complete file path with file name
    * @return the path without file name
    */
-  public static String getDirectory(String path) {
+  public static String getFilePath(String path) {
     String[] fileParts = path.replace("\\", "/").split("/");
     return path.replace(fileParts[fileParts.length - 1], "");
   }

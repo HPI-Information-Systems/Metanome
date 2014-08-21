@@ -560,6 +560,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
     this.tableInputEditForm.setMessageReceiver(tab);
+    this.fileInputEditForm.setMessageReceiver(tab);
   }
 
 }
