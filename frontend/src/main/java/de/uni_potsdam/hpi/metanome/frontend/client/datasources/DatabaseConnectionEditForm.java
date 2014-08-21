@@ -84,7 +84,7 @@ public class DatabaseConnectionEditForm extends FlowPanel {
   /**
    * Create a database connection with the specified values.
    * @return a database connection
-   * @throws InputValidationException
+   * @throws InputValidationException if one of the fields is empty
    */
   public DatabaseConnection getValue() throws InputValidationException {
     DatabaseConnection connection = new DatabaseConnection();

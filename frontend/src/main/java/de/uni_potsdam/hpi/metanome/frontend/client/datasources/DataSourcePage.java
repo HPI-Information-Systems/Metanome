@@ -72,7 +72,8 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   protected FlowPanel saveButtonPanel;
 
   /**
-   * Constructor.
+   * Constructor
+   * @param basePage the parent page
    */
   public DataSourcePage(BasePage basePage) {
     this.basePage = basePage;

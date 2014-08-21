@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available table inputs stored in the database. <p/>
+ * Service Implementation for service that lists available table inputs stored in the database.
  */
 public class TableInputServiceImpl extends RemoteServiceServlet implements
                                                                 TableInputService {

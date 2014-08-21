@@ -133,6 +133,7 @@ public class AlgorithmEditForm extends Grid {
 
   /**
    * @return a new Algorithm instance with attribute values according to user input
+   * @throws InputValidationException if the algorithm does not implement an algorithm type or the algorithm name is not set
    */
   protected Algorithm retrieveInputValues() throws InputValidationException {
     Algorithm algorithm = new Algorithm(this.fileListBox.getSelectedValue());

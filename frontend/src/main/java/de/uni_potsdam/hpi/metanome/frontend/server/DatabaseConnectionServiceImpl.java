@@ -25,7 +25,7 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available database connections stored in the database. <p/>
+ * Service Implementation for service that lists available database connections stored in the database.
  */
 public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implements
                                                                         DatabaseConnectionService {

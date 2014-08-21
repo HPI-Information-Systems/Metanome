@@ -43,7 +43,7 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
   /**
    * Sets the given data source on the input field.
    * @param dataSource the data source, which should be set.
-   * @throws AlgorithmConfigurationException
+   * @throws AlgorithmConfigurationException if the configuration of the algorithm is incorrect
    */
   public abstract void setDataSource(ConfigurationSettingDataSource dataSource)
       throws AlgorithmConfigurationException;

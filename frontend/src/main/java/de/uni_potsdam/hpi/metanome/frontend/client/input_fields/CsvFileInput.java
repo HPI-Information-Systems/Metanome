@@ -49,6 +49,7 @@ public class CsvFileInput extends InputField {
 
   /**
    * @param optional specifies whether a remove button should be displayed
+   * @param messageReceiver the message receiver
    */
   public CsvFileInput(boolean optional, TabWrapper messageReceiver) {
     super(optional);
@@ -130,6 +131,7 @@ public class CsvFileInput extends InputField {
    * Takes a setting a sets the selected value of the list box to the given setting.
    *
    * @param setting the settings to set
+   * @throws AlgorithmConfigurationException if no file inputs are set
    */
   public void setValues(ConfigurationSettingCsvFile setting)
       throws AlgorithmConfigurationException {

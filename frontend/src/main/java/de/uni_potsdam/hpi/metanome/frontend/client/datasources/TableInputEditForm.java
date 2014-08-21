@@ -24,12 +24,10 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.ArrayList;
@@ -73,6 +71,7 @@ public class TableInputEditForm extends FlowPanel {
    *
    * @param inputWidget the widget to be used for input
    * @param name        the name of the input property
+   * @param row         the row where the widget should be inserted
    */
   protected void addRow(Widget inputWidget, String name, int row) {
     this.layoutTable.setText(row, 0, name);
@@ -92,10 +91,8 @@ public class TableInputEditForm extends FlowPanel {
   /**
    * Creates a table input with the selected database connection and the given table name
    * @return a table input
-   * @throws InputValidationException
-   * @throws EntityStorageException
    */
-  public TableInput getValue() throws InputValidationException, EntityStorageException {
+  public TableInput getValue() {
     TableInput tableInput = new TableInput();
 
     String identifier = this.dbConnectionListBox.getSelectedValue();

@@ -68,6 +68,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    *
    * @param resultsTab the results tab
    * @param visualizationTab the visualization tab
+   * @param executionTimeNanoSecs the execution time in nanoseconds
    */
   public void updateOnSuccess(ResultsTablePage resultsTab, ResultsVisualizationPage visualizationTab, Long executionTimeNanoSecs) {
     this.timer.cancel();

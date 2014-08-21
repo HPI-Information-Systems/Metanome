@@ -225,6 +225,7 @@ public class FileInputEditForm extends FlowPanel {
 
   /**
    * @return a FileInput with the selected File and the advanced settings, if selected
+   * @throws InputValidationException if the file name is invalid
    */
   public FileInput getValue() throws InputValidationException {
     FileInput fileInput = new FileInput();

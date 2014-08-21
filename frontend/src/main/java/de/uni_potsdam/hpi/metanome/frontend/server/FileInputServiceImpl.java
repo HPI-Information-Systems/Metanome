@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available file inputs stored in the database or on the file system. <p/>
+ * Service Implementation for service that lists available file inputs stored in the database or on the file system.
  */
 public class FileInputServiceImpl extends RemoteServiceServlet implements FileInputService {
 

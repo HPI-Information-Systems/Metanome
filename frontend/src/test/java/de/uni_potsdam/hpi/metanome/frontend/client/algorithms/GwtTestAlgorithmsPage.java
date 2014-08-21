@@ -34,7 +34,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage}
-   * <p/>
+   *
    * When a new AlgorithmsPage is created, an edit form should be present, and service as well as
    * parent set.
    */
@@ -66,7 +66,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After failure is called on the constructed callback, the tab should be in error.
    */
   public void testRetrieveCallbackFailure() {
@@ -90,7 +90,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
@@ -118,7 +118,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After failure is called on the constructed callback, the tab should be in error.
    */
   public void testAddCallbackFailure() {
@@ -142,7 +142,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */

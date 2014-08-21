@@ -94,7 +94,7 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
   /**
    * Gets the configuration specification and updates the current configuration specification.
    * @return the updated specification of the input
-   * @throws InputValidationException
+   * @throws InputValidationException if the specification is invalid
    */
   public abstract ConfigurationSpecification getUpdatedSpecification()
       throws InputValidationException;

@@ -107,7 +107,7 @@ public class SqlIteratorInput extends InputField {
    * we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException If the data source setting is not a sql iterator setting
+   * @throws AlgorithmConfigurationException If the data source setting is not a sql iterator setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
       throws AlgorithmConfigurationException {
@@ -144,6 +144,7 @@ public class SqlIteratorInput extends InputField {
    * Takes a setting a sets the selected value of the list box to the given setting.
    *
    * @param setting the settings to set
+   * @throws AlgorithmConfigurationException if no database connections are set
    */
   public void setValues(ConfigurationSettingSqlIterator setting)
       throws AlgorithmConfigurationException {
@@ -157,7 +158,7 @@ public class SqlIteratorInput extends InputField {
         return;
       }
     }
-    throw new AlgorithmConfigurationException("The file inputs are not set yet.");
+    throw new AlgorithmConfigurationException("The database connections are not set yet.");
   }
 
 }
