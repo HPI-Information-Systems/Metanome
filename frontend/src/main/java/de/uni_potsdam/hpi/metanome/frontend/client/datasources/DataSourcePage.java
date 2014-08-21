@@ -33,6 +33,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
@@ -453,7 +454,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         }
       });
 
-      table.setText(row, 0, input.getFileName());
+      table.setText(row, 0, FilePathHelper.getFileName(input.getFileName()));
       table.setWidget(row, 1, runButton);
       table.setWidget(row, 2, deleteButton);
       row++;

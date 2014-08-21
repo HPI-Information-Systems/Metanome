@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
@@ -67,6 +68,7 @@ public class FileInputEditForm extends FlowPanel {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
 
+  private String path;
 
   /**
    * Constructor. Set up all UI elements.
@@ -213,9 +215,15 @@ public class FileInputEditForm extends FlowPanel {
       public void onSuccess(String[] result) {
         List<String> fileNames = new ArrayList<>();
 
-        for (String name : result) {
-          String[] fileParts = name.replace("\\", "/").split("/");
-          fileNames.add(fileParts[fileParts.length - 1]);
+        if (result.length == 0) {
+          // TODO; So something with errors
+          return;
+        }
+
+        path = FilePathHelper.getDirectory(result[0]);
+
+        for (String path : result) {
+          fileNames.add(FilePathHelper.getFileName(path));
         }
 
         listbox.setValues(fileNames);
@@ -235,7 +243,7 @@ public class FileInputEditForm extends FlowPanel {
     if (fileName.isEmpty())
       throw new InputValidationException("The file name is invalid.");
 
-    fileInput.setFileName(fileName);
+    fileInput.setFileName(this.path + fileName);
 
     if (this.advancedCheckbox.getValue()){
       return setAdvancedSettings(fileInput);

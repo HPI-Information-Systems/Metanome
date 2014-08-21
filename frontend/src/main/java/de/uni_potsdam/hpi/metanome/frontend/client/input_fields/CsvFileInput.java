@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
@@ -78,7 +79,7 @@ public class CsvFileInput extends InputField {
 
         if (result != null && result.size() > 0) {
           for (FileInput input : result) {
-            String identifier = input.getFileName();
+            String identifier = FilePathHelper.getFileName(input.getFileName());
             fileInputNames.add(identifier);
             fileInputs.put(identifier, input);
 
