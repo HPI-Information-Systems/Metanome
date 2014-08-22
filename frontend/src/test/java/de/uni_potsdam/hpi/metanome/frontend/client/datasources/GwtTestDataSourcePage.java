@@ -19,6 +19,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -252,6 +253,42 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     delayTestFinish(2000);
   }
 */
+
+  /**
+   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable, int, String)}
+   */
+  public void testDeleteCallback() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    BasePage parent = new BasePage();
+    DataSourcePage page = new DataSourcePage(parent);
+    page.setMessageReceiver(new TabWrapper());
+
+    page.fileInputTable.setWidget(0, 0, new HTML("File 1"));
+    page.fileInputTable.setWidget(1, 0, new HTML("File 2"));
+    page.fileInputTable.setWidget(2, 0, new HTML("File 3"));
+
+    int rowCount = page.fileInputTable.getRowCount();
+
+    // Execute (delete File 2)
+    AsyncCallback<Void> callback = page.getDeleteCallback(page.fileInputTable, 1, "File Input");
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 1, page.fileInputTable.getRowCount());
+    assertEquals("File 3", ((HTML) page.fileInputTable.getWidget(1, 0)).getText());
+
+    // Execute (delete File 1)
+    callback = page.getDeleteCallback(page.fileInputTable, 0, "File Input");
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 2, page.fileInputTable.getRowCount());
+    assertEquals("File 3", ((HTML) page.fileInputTable.getWidget(0, 0)).getText());
+
+  }
+
 
   @Override
   public String getModuleName() {
