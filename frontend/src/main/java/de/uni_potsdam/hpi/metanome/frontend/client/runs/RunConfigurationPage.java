@@ -17,7 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -38,34 +39,34 @@ import java.util.List;
  * algorithm specific parameters. The page can be referenced (and switched to) by other pages with
  * pre-set values. Executing an algorithm navigates to the corresponding Results page.
  */
-public class RunConfigurationPage extends DockPanel implements TabContent {
+public class RunConfigurationPage extends DockLayoutPanel implements TabContent {
 
   public ConfigurationSettingDataSource primaryDataSource;
 
   protected BasePage basePage;
-  protected TabWrapper errorReceiver;
+  protected TabWrapper messageReceiver;
 
-  protected ParameterTable parameterTable;
+  public ParameterTable parameterTable;
   protected AlgorithmChooser algorithmChooser;
   protected Label primaryDataSourceLabel;
   protected ExecutionServiceAsync executionService;
 
 
   /**
-   * Initializes ExecutoinService and registers given algorithms. However, more
+   * Initializes ExecutionService and registers given algorithms. However, more
    * algorithms can be registered whenever they become available, through {@link RunConfigurationPage#addAlgorithms(java.util.List)}
    *
    * @param basePage the base page this sub page
    */
   public RunConfigurationPage(BasePage basePage) {
-    this.setWidth("100%");
+    super(Style.Unit.EM);
     this.basePage = basePage;
 
     this.primaryDataSourceLabel = new Label();
-    this.add(this.primaryDataSourceLabel, DockPanel.NORTH);
+    this.addNorth(this.primaryDataSourceLabel, 2);
 
     this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
-    this.add(this.algorithmChooser, DockPanel.NORTH);
+    this.addNorth(this.algorithmChooser, 4);
 
     this.executionService = GWT.create(ExecutionService.class);
   }
@@ -79,8 +80,8 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    */
   public void addParameterTable(List<ConfigurationSpecification> paramList) {
     removeParameterTable();
-    parameterTable = new ParameterTable(paramList, primaryDataSource, this.errorReceiver);
-    this.add(parameterTable, DockPanel.SOUTH);
+    parameterTable = new ParameterTable(paramList, primaryDataSource, this.messageReceiver);
+    this.addNorth(parameterTable, 40);
   }
 
   /**
@@ -100,6 +101,9 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    * @param algorithmName the value to select
    */
   public void selectAlgorithm(String algorithmName) {
+    this.messageReceiver.clearErrors();
+    this.messageReceiver.clearInfos();
+
     this.algorithmChooser.setSelectedAlgorithm(algorithmName);
     this.algorithmChooser.submit();
   }
@@ -118,6 +122,9 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    * @param dataSource the data source to profile
    */
   public void setPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
+    this.messageReceiver.clearErrors();
+    this.messageReceiver.clearInfos();
+
     this.primaryDataSource = dataSource;
     this.primaryDataSourceLabel.setText(
         "This should filter for algorithms applicable on " + dataSource.getValueAsString());
@@ -138,14 +145,14 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
    * Execute the currently selected algorithm and switch to results page.
    *
    * @param parameters parameters to use for the algorithm execution
-   *                   @param configuration the configuration to start executing with
+   * @param configuration the configuration to start executing with
    */
-  public void callExecutionService(List<ConfigurationSpecification> parameters,
-                                   List<ConfigurationSpecification> configuration) {
+  public void startExecution(List<ConfigurationSpecification> parameters,
+                             List<ConfigurationSpecification> configuration) {
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final String algorithmFileName = getAlgorithmFileName(algorithmName);
     parameters.addAll(configuration);
-    basePage.startExecutionAndResultPolling(executionService, algorithmFileName, parameters);
+    basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
   }
 
   // Getters & Setters
@@ -156,12 +163,12 @@ public class RunConfigurationPage extends DockPanel implements TabContent {
 
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setErrorReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
-  public void setErrorReceiver(TabWrapper tab) {
-    this.errorReceiver = tab;
-    this.algorithmChooser.setErrorReceiver(tab);
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+    this.algorithmChooser.setMessageReceiver(tab);
   }
 
   /**

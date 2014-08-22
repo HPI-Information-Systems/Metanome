@@ -38,6 +38,7 @@ import javax.persistence.InheritanceType;
 @GwtCompatible
 public class Input extends ResultsDbEntity implements Serializable {
 
+  private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
 
   /**
@@ -46,6 +47,7 @@ public class Input extends ResultsDbEntity implements Serializable {
    * @param id the Input's id
    * @return the input
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static Input retrieve(long id) throws EntityStorageException {
     return (Input) HibernateUtil.retrieve(Input.class, id);
   }
@@ -55,6 +57,7 @@ public class Input extends ResultsDbEntity implements Serializable {
    *
    * @return a list of all inputs
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static List<Input> retrieveAll() throws EntityStorageException {
     return HibernateUtil.queryCriteria(Input.class);
   }

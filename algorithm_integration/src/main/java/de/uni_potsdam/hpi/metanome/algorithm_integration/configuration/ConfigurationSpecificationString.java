@@ -55,13 +55,13 @@ public class ConfigurationSpecificationString extends ConfigurationSpecification
     super(identifier, numberOfValues);
   }
 
-  public void setValues(ConfigurationSettingString... configurationSettings) {
-    this.settings = configurationSettings;
-  }
-
   @Override
   public ConfigurationSettingString[] getSettings() {
     return this.settings;
+  }
+
+  public void setSettings(ConfigurationSettingString... configurationSettings) {
+    this.settings = configurationSettings;
   }
 
 }

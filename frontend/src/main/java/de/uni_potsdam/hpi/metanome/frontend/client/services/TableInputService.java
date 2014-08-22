@@ -19,9 +19,17 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("inputDataService")
-public interface InputDataService extends RemoteService {
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
-  public String[] listCsvInputFiles();
+import java.util.List;
+
+@RemoteServiceRelativePath("tableInputService")
+public interface TableInputService extends RemoteService {
+
+  public List<TableInput> listTableInputs();
+
+  public TableInput getTableInput(long id);
+
+  public void storeTableInput(TableInput input);
 
 }

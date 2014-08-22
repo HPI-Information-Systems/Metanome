@@ -19,6 +19,8 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 import java.io.Serializable;
 
 /**
+ * TODO docs
+ *
  * @author Jakob Zwiener
  */
 public class ConfigurationSettingBoolean implements Serializable {

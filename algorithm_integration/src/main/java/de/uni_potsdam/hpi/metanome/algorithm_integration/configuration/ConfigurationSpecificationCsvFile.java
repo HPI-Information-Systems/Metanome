@@ -55,17 +55,12 @@ public class ConfigurationSpecificationCsvFile extends ConfigurationSpecificatio
     super(identifier, numberOfValues);
   }
 
-  public String getFileNameValue() {
-    // TODO return current value to select correct index?!
-    return null;
-  }
-
   @Override
   public ConfigurationSettingCsvFile[] getSettings() {
     return this.settings;
   }
 
-  public void setValues(ConfigurationSettingCsvFile[] configurationSettings) {
+  public void setSettings(ConfigurationSettingCsvFile... configurationSettings) {
     this.settings = configurationSettings;
   }
 }

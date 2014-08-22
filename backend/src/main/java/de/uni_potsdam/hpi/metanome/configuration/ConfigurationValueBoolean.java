@@ -21,6 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
@@ -44,11 +45,11 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
    * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean
    * values.
    */
-  public ConfigurationValueBoolean(ConfigurationSpecificationBoolean spec) {
-    this.identifier = spec.getIdentifier();
-    this.values = new boolean[spec.getSettings().length];
+  public ConfigurationValueBoolean(ConfigurationSpecificationBoolean specification) {
+    this.identifier = specification.getIdentifier();
+    this.values = new boolean[specification.getSettings().length];
     int i = 0;
-    for (ConfigurationSettingBoolean setting : spec.getSettings()) {
+    for (ConfigurationSettingBoolean setting : specification.getSettings()) {
       this.values[i] = setting.value;
       i++;
     }

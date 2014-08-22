@@ -18,13 +18,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.TextBox;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
@@ -33,18 +28,26 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-
-import org.junit.Test;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GwtTestParameter extends GWTTestCase {
+public class GwtTestParameterTable extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable#ParameterTable(java.util.List, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   */
   public void testParameterTable() {
-    //Setup
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     List<ConfigurationSpecification> paramList = new ArrayList<>();
 
     ArrayList<String> values = new ArrayList<>();
@@ -103,11 +106,20 @@ public class GwtTestParameter extends GWTTestCase {
     // - Submit button row
     assertEquals(1, pt.getCellCount(5));
     assertEquals(Button.class, pt.getWidget(5, 0).getClass());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
+  /**
+   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
+   * and for {@link ParameterTable#getConfigurationSpecificationsWithValues()}
+   * @throws InputValidationException
+   */
   public void testRetrieveSimpleParameterValues() throws InputValidationException {
     //Setup
+    TestHelper.resetDatabaseSync();
+
     ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
 
     ArrayList<String> values = new ArrayList<>();
@@ -115,22 +127,22 @@ public class GwtTestParameter extends GWTTestCase {
     values.add("Column 3");
     values.add("Column 2");
 
-    ConfigurationSpecificationString
+    final ConfigurationSpecificationString
         ConfigurationSpecificationString =
         new ConfigurationSpecificationString("string");
-    ConfigurationSpecificationBoolean
+    final ConfigurationSpecificationBoolean
         ConfigurationSpecificationBoolean =
         new ConfigurationSpecificationBoolean("bool");
-    ConfigurationSpecificationCsvFile
+    final ConfigurationSpecificationCsvFile
         ConfigurationSpecificationCsvFile =
         new ConfigurationSpecificationCsvFile("csv");
-    ConfigurationSpecificationSqlIterator
+    final ConfigurationSpecificationSqlIterator
         ConfigurationSpecificationSQLIterator =
         new ConfigurationSpecificationSqlIterator("sql");
-    ConfigurationSpecificationInteger
+    final ConfigurationSpecificationInteger
         ConfigurationSpecificationInteger =
         new ConfigurationSpecificationInteger("integer");
-    ConfigurationSpecificationListBox
+    final ConfigurationSpecificationListBox
         ConfigurationSpecificationListBox =
         new ConfigurationSpecificationListBox("listBox", values);
 
@@ -141,17 +153,21 @@ public class GwtTestParameter extends GWTTestCase {
     paramList.add(ConfigurationSpecificationInteger);
     paramList.add(ConfigurationSpecificationListBox);
 
-    ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
-    chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
+    final ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
     enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
+    setDatabaseConnection((InputParameterSqlIteratorWidget) pt.getWidget(3, 1));
+    setCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
 
     //Execute
-    List<ConfigurationSpecification>
-        retrievedParams =
-        pt.getConfigurationSpecificationsWithValues();
-    List<ConfigurationSpecification>
-        retrievedDataSources =
-        pt.getConfigurationSpecificationDataSourcesWithValues();
+    List<ConfigurationSpecification> retrievedParams = null;
+    List<ConfigurationSpecification> retrievedDataSources = null;
+    try {
+      retrievedParams = pt.getConfigurationSpecificationsWithValues();
+      retrievedDataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
+    } catch (InputValidationException e) {
+      e.printStackTrace();
+      fail();
+    }
 
     //Check
     assertTrue(retrievedParams.contains(ConfigurationSpecificationString));
@@ -167,12 +183,18 @@ public class GwtTestParameter extends GWTTestCase {
     assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
     assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
     assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  private void chooseCsvFile(InputParameterCsvFileWidget widget) {
-    for (CsvFileInput csvInput : widget.inputWidgets) {
-      csvInput.listbox.addItem("some file");
-      csvInput.listbox.setSelectedIndex(1);
+  private void setCsvFile(InputParameterCsvFileWidget widget) {
+    FileInput fileInput = new FileInput("name");
+
+    for (CsvFileInput csvFileInput : widget.inputWidgets) {
+      csvFileInput.listbox.addValue("name");
+      csvFileInput.fileInputs.put("name", fileInput);
+      csvFileInput.listbox.setSelectedValue("name");
     }
   }
 
@@ -182,9 +204,28 @@ public class GwtTestParameter extends GWTTestCase {
     }
   }
 
-  @Test
+  private void setDatabaseConnection(InputParameterSqlIteratorWidget widget) {
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setUrl("url");
+    dbConnection.setPassword("password");
+    dbConnection.setUsername("username");
+    // TODO set system
+
+    for (SqlIteratorInput sqlIteratorInput : widget.inputWidgets) {
+      sqlIteratorInput.listbox.addValue("url");
+      sqlIteratorInput.databaseConnections.put("url", dbConnection);
+      sqlIteratorInput.listbox.setSelectedValue("url");
+    }
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws InputValidationException
+   */
   public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
-    //Setup
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -207,13 +248,15 @@ public class GwtTestParameter extends GWTTestCase {
         listboxParam =
         new ConfigurationSpecificationListBox(identifierListbox, values);
 
+    TabWrapper tabWrapper = new TabWrapper();
+
     //Execute
-    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
-    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
-    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam, tabWrapper);
+    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam, tabWrapper);
+    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam, tabWrapper);
+    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
+    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
+    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -233,11 +276,19 @@ public class GwtTestParameter extends GWTTestCase {
 
     assertTrue(integerWidget instanceof InputParameterIntegerWidget);
     assertEquals(identifierInteger, integerWidget.getSpecification().getIdentifier());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws InputValidationException
+   */
   public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
-    //Setup
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -266,13 +317,15 @@ public class GwtTestParameter extends GWTTestCase {
         listboxParam =
         new ConfigurationSpecificationListBox(identifierListbox, values, 2);
 
+    TabWrapper tabWrapper = new TabWrapper();
+
     //Execute
-    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
-    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam);
-    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam);
-    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
-    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
-    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+    InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam, tabWrapper);
+    InputParameterWidget boolWidget = WidgetFactory.buildWidget(boolParam, tabWrapper);
+    InputParameterWidget csvWidget = WidgetFactory.buildWidget(csvParam, tabWrapper);
+    InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
+    InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
+    InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -292,93 +345,72 @@ public class GwtTestParameter extends GWTTestCase {
 
     assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
     assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
-  public void testCsvFileWidget() throws InputValidationException {
-    //Setup
-    ConfigurationSettingCsvFile csvSpec = new ConfigurationSettingCsvFile();
-    csvSpec.setAdvanced(true);
-    CsvFileInput csvWidget = new CsvFileInput(csvSpec, false);
-    FlexTable advancedPanel = (FlexTable) csvWidget.getWidget(1);
-    String characterString = "X";
-    int line = 5;
-    boolean boolTrue = true;
-    boolean noCharExceptionCaught = false;
-    boolean noFileExceptionCaught = false;
-
-    //Execute
-    csvWidget.listbox.addItem("new file");
-    csvWidget.listbox.setSelectedIndex(1);
-
-    ((TextBox) advancedPanel.getWidget(0, 1)).setValue(characterString);
-    ((TextBox) advancedPanel.getWidget(1, 1)).setValue(characterString);
-    ((IntegerBox) advancedPanel.getWidget(3, 1)).setValue(line);
-    ((CheckBox) advancedPanel.getWidget(4, 1)).setValue(boolTrue);
-    ((CheckBox) advancedPanel.getWidget(5, 1)).setValue(boolTrue);
-    try {
-      csvSpec = csvWidget.getValuesAsSettings();
-    } catch (InputValidationException e) {
-      noCharExceptionCaught = true;
-    }
-    ((TextBox) advancedPanel.getWidget(2, 1)).setValue(characterString);
-    csvWidget.listbox.setSelectedIndex(0);
-    try {
-      csvSpec = csvWidget.getValuesAsSettings();
-    } catch (InputValidationException e) {
-      noFileExceptionCaught = true;
-    }
-
-    csvWidget.listbox.setSelectedIndex(1);
-
-    csvSpec = csvWidget.getValuesAsSettings();
-
-    //Check
-    assertTrue(noCharExceptionCaught);
-    assertTrue(noFileExceptionCaught);
-
-    assertEquals(characterString.charAt(0), csvSpec.getSeparatorChar());
-    assertEquals(characterString.charAt(0), csvSpec.getQuoteChar());
-    assertEquals(characterString.charAt(0), csvSpec.getEscapeChar());
-    assertEquals(line, csvSpec.getSkipLines());
-    assertEquals(boolTrue, csvSpec.isStrictQuotes());
-    assertEquals(boolTrue, csvSpec.isIgnoreLeadingWhiteSpace());
-  }
-
-  //@Test
+  /**
+   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
+   * TODO fix FieldSerializer bug
+   */
+/*
   public void testSetPrimaryDataSource() {
-    //Setup
-    ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    FileInput fileInput = new FileInput();
+    fileInput.setFileName("/inputA.csv");
+    TestHelper.storeFileInputSync(fileInput);
+
+    final ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
     primaryDataSource.setFileName("/inputA.csv");
 
-    ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
-    ConfigurationSpecificationCsvFile
-        ConfigurationSpecificationCsvFile =
-        new ConfigurationSpecificationCsvFile("csv");
+    final ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
+    ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
     paramList.add(ConfigurationSpecificationCsvFile);
 
-    //Execute
-    ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
+    final ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
 
-    //Check
-//		boolean foundDataSource = false;
-//		for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
-//			for (Object setting : dataSource.getSettings()) {
-//				System.out.println(((ConfigurationSettingDataSource) setting).getValueAsString() + " vs " + primaryDataSource.getValueAsString());
-//				if(((ConfigurationSettingDataSource) setting).getValueAsString() ==
-//						primaryDataSource.getValueAsString())
-//					foundDataSource = true;
-//			}
-//		}
-//		assertTrue(foundDataSource); FIXME why aren't resources found for tests?
-//		 
-//		ListBox listbox = ((InputParameterCsvFileWidget) pt.getWidget(0,1)).widgets.get(0).listbox;
-//		assertEquals(primaryDataSource.getValueAsString(), listbox.getValue(listbox.getSelectedIndex()));
+    Timer executeTimer = new Timer() {
+      @Override
+      public void run() {
+        //Check
+        boolean foundDataSource = false;
+          try {
+            for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
+              for (Object setting : dataSource.getSettings()) {
+                if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
+                  foundDataSource = true;
+              }
+            }
+          } catch (InputValidationException e) {
+            TestHelper.resetDatabaseSync();
+            e.printStackTrace();
+            fail();
+          }
+          assertTrue(foundDataSource);
+
+        ListBoxInput
+            listbox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listbox;
+        assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue());
+
+        // Cleanup
+        TestHelper.resetDatabaseSync();
+
+        finishTest();
+      }
+    };
+    // Waiting for asynchronous calls to finish.
+    executeTimer.schedule(2000);
+
+    delayTestFinish(4000);
   }
+*/
 
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
   }
 }

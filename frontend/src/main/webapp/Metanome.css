@@ -15,22 +15,20 @@
  */
 
 body {
-    font-family: arial;
+    font-family: arial,serif;
     overflow: hidden;
 }
 
 .body {
     height: 100%;
-    left: 0px;
-    right: 0px;
-    background-color: grey;
+    background-color: #CCCCCC;
+    top: 57px !important;
 }
 
 h3 {
     color: #92c1f0;
     font-family: monospace;
     font-size: large;
-    margin-bottom: 0px;
     margin-top: 15px;
 }
 
@@ -38,6 +36,10 @@ h3 {
     width: 97%;
     height: 90%;
     left: 10px !important;
+}
+
+.left {
+    float: left;
 }
 
 .resultTable {
@@ -60,7 +62,9 @@ h3 {
 
 .resultTable-caption {
     font-weight: bold;
-    font-family: arial;
+    font-family: arial,serif;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .fullSize {
@@ -68,18 +72,28 @@ h3 {
     height: 100%;
 }
 
-.gwt-TabLayoutPanel div {
-    overflow-x: hidden;
-    overflow-y: scroll !important;
+.errorMessage {
+    color: darkred;
+    font-weight: bold;
+}
+
+.infoMessage {
+    color: green;
+    font-weight: bold;
+}
+
+.gwt-TabLayoutPanel {
+    height: 100%;
 }
 
 .gwt-TabLayoutPanelContent {
     background: white;
     border: none !important;
+    width: 100%;
+    height: 100%;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
-    margin-left: 0px;
     margin-right: 2px;
     padding: 6px 8px 6px 8px;
     color: gray;
@@ -95,15 +109,10 @@ h3 {
     color: black;
 }
 
-.errorMessage {
-    color: darkred;
-    font-weight: bold;
-}
-
 .gwt-Button {
-    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
-    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -moz-box-shadow: inset 0 1px 0 0 #ffffff;
+    -webkit-box-shadow: inset 0 1px 0 0 #ffffff;
+    box-shadow: inset 0 1px 0 0 #ffffff;
     background-color: #ededed;
     -webkit-border-top-left-radius: 6px;
     -moz-border-radius-topleft: 6px;

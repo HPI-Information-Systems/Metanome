@@ -18,13 +18,15 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import java.io.Serializable;
+
 /**
  * All Entities in the results db should extend ResultsDbEntity. The entities should be storeable
  * and deleteable.
  *
  * @author Jakob Zwiener
  */
-public abstract class ResultsDbEntity {
+public abstract class ResultsDbEntity implements Serializable {
 
   /**
    * Stores a ResultsDbEntity in the database.

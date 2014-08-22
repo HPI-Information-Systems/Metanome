@@ -20,8 +20,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -38,14 +40,29 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
   protected String username;
   protected String password;
 
+  public DatabaseConnection() {
+
+  }
+
   /**
    * Retrieves a DatabaseConnection from the database.
    *
    * @param id the DatabaseConnection's id
    * @return the databaseConnection
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static DatabaseConnection retrieve(long id) throws EntityStorageException {
     return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+  }
+
+  /**
+   * Retrieves all database connections stored in the database.
+   *
+   * @return a list of all database connections
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public static List<DatabaseConnection> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(DatabaseConnection.class);
   }
 
   /**
@@ -62,6 +79,7 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
   }
 
   @Id
+  @GeneratedValue
   public long getId() {
     return id;
   }

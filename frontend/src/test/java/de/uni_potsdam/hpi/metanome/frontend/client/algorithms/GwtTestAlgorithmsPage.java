@@ -16,12 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -29,18 +23,25 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GwtTestAlgorithmsPage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage}
-   * <p/>
+   *
    * When a new AlgorithmsPage is created, an edit form should be present, and service as well as
    * parent set.
    */
-  @Test
   public void testSetup() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     boolean editFormPresent = false;
     BasePage basePage = new BasePage();
 
@@ -57,36 +58,46 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
     assertNotNull(algorithmPage.algorithmService);
     assertEquals(basePage, algorithmPage.basePage);
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After failure is called on the constructed callback, the tab should be in error.
    */
-  @Test
   public void testRetrieveCallbackFailure() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
-    algorithmsPage.setErrorReceiver(tab);
+    algorithmsPage.setMessageReceiver(tab);
 
     // Construct and execute failure on the callback
     AsyncCallback<List<Algorithm>> callback = algorithmsPage.getRetrieveCallback(new FlexTable());
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
-  @Test
   public void testRetrieveCallbackSuccess() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     FlexTable list = new FlexTable();
 
@@ -99,36 +110,46 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onSuccess(result);
 
     assertEquals(result.size(), list.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After failure is called on the constructed callback, the tab should be in error.
    */
-  @Test
   public void testAddCallbackFailure() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     TabWrapper tab = new TabWrapper();
-    algorithmsPage.setErrorReceiver(tab);
+    algorithmsPage.setMessageReceiver(tab);
 
     // Construct and execute failure on the callback
     AsyncCallback<Void> callback = algorithmsPage.getAddCallback(new Algorithm("fileName"));
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   /**
    * Test method for
    * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
-   * <p/>
+   *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
    */
-  @Test
   public void testAddCallbackSuccess() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
     AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
     int uccCount = algorithmsPage.uccList.getRowCount();
 
@@ -140,6 +161,9 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onSuccess(null);
 
     assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

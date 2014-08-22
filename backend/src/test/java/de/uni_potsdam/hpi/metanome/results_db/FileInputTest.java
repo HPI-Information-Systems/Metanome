@@ -22,10 +22,14 @@ import au.com.bytecode.opencsv.CSVReader;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -124,5 +128,29 @@ public class FileInputTest {
     // Check result
     new EqualsAndHashCodeTester<FileInput>()
         .performBasicEqualsAndHashCodeChecks(fileInput, equalFileInput, notEqualFileInput);
+  }
+
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.FileInput#retrieveAll()}
+   */
+  @Test
+  public void testRetrieveAll() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Input expectedInput = new FileInput()
+        .store();
+
+    // Execute functionality
+    List<Input> actualInputs = FileInput.retrieveAll();
+
+    // Check result
+    assertThat(actualInputs, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedInput));
+
+    // Cleanup
+    HibernateUtil.clear();
   }
 }

@@ -19,7 +19,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput;
 
 import java.util.List;
 
@@ -27,9 +30,10 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
 
   protected ConfigurationSpecificationInteger specification;
   protected List<IntegerInput> inputWidgets;
+  protected TabWrapper messageReceiver;
 
-  public InputParameterIntegerWidget(ConfigurationSpecificationInteger config) {
-    super(config);
+  public InputParameterIntegerWidget(ConfigurationSpecificationInteger config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   @Override
@@ -72,7 +76,6 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
     this.inputWidgets = (List<IntegerInput>) inputWidgetsList;
   }
 
-
   @Override
   public ConfigurationSpecification getSpecification() {
     return this.specification;
@@ -82,4 +85,10 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   public void setSpecification(ConfigurationSpecification config) {
     this.specification = (ConfigurationSpecificationInteger) config;
   }
+
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
+  }
+
 }
