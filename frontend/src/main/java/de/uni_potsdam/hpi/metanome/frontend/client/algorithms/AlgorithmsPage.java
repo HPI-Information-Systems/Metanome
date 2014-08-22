@@ -60,27 +60,27 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));
     this.uccList = new FlexTable();
     this.add(this.uccList);
-    listAndAddUccAlgorithms();
+    updateUccAlgorithms();
 
     this.add(new HTML("<h3>Conditional Unique Column Combinations</h3>"));
     this.cuccList = new FlexTable();
     this.add(this.cuccList);
-    listAndAddCuccAlgorithms();
+    updateCuccAlgorithms();
 
     this.add(new HTML("<h3>Functional Dependencies</h3>"));
     this.fdList = new FlexTable();
     this.add(this.fdList);
-    listFdAlgorithms();
+    updateFdAlgorithms();
 
     this.add(new HTML("<h3>Inclusion Dependencies<//h3>"));
     this.indList = new FlexTable();
     this.add(this.indList);
-    listIndAlgorithms();
+    updateIndAlgorithms();
 
     this.add(new HTML("<h3>Basic Statistics</h3>"));
     this.statsList = new FlexTable();
     this.add(this.statsList);
-    listStatsAlgorithms();
+    updateStatsAlgorithms();
 
     this.add(new HTML("<hr>"));
     this.add(new HTML("<h3>Add A New Algorithm</h3>"));
@@ -91,14 +91,14 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Request a list of available UCC algorithms and display them in the uccList
    */
-  private void listAndAddUccAlgorithms() {
+  private void updateUccAlgorithms() {
     algorithmService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
   }
 
   /**
    * Request a list of available CUCC algorithms and display them in the cuccList
    */
-  private void listAndAddCuccAlgorithms() {
+  private void updateCuccAlgorithms() {
     algorithmService.listConditionalUniqueColumnCombinationsAlgorithms(
         getRetrieveCallback(this.cuccList));
   }
@@ -106,21 +106,21 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Request a list of available FD algorithms and display them in the fdList
    */
-  private void listFdAlgorithms() {
+  private void updateFdAlgorithms() {
     algorithmService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
   }
 
   /**
    * Request a list of available IND algorithms and display them in the indList
    */
-  private void listIndAlgorithms() {
+  private void updateIndAlgorithms() {
     algorithmService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
-  private void listStatsAlgorithms() {
+  private void updateStatsAlgorithms() {
     algorithmService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
   }
 
@@ -134,7 +134,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     int row = table.getRowCount();
     Collections.sort(algorithms);
 
-    for (Algorithm algorithm : algorithms) {
+    for (final Algorithm algorithm : algorithms) {
       // Using the HTML title to associate an algorithm with each button.
       Button runButton = new Button("Run");
       runButton.setTitle(algorithm.getName());
@@ -150,17 +150,53 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
       deleteButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          // TODO delete algorithm
+          deleteAlgorithm(algorithm);
         }
       });
 
-      table.setHTML(row, 0, "<b>" + algorithm.getName() + "</b>");
+      table.setWidget(row, 0, new HTML("<b>" + algorithm.getName() + "</b>"));
       table.setText(row, 1, "Author: " + algorithm.getAuthor());
       table.setText(row, 2, "File: " + algorithm.getFileName());
       table.setWidget(row, 3, runButton);
       table.setWidget(row, 4, deleteButton);
       row++;
     }
+  }
+
+  protected void deleteAlgorithm(Algorithm algorithm) {
+    final boolean cucc = algorithm.isCucc();
+    final boolean fd = algorithm.isFd();
+    final boolean ind = algorithm.isInd();
+    final boolean basicStat = algorithm.isBasicStat();
+    final boolean ucc = algorithm.isUcc();
+    final String algorithmName = algorithm.getName();
+
+    this.algorithmService.deleteAlgorithm(algorithm, new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        messageReceiver.addError("Could not delete algorithm: " +  throwable.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        basePage.removeAlgorithmFromRunConfigurations(algorithmName);
+        if (cucc) {
+          removeRow(cuccList, algorithmName);
+        }
+        if (fd) {
+          removeRow(fdList, algorithmName);
+        }
+        if (ind) {
+          removeRow(indList, algorithmName);
+        }
+        if (basicStat) {
+          removeRow(statsList, algorithmName);
+        }
+        if (ucc) {
+          removeRow(uccList, algorithmName);
+        }
+      }
+    });
   }
 
   /**
@@ -236,6 +272,23 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         }
       }
     };
+  }
+
+  /**
+   * Removes the row, which contains the given algorithm Name, from the given table
+   * @param table the table
+   * @param algorithmName the algorithm name
+   */
+  protected void removeRow(FlexTable table, String algorithmName) {
+    int row = 0;
+    while (row < table.getRowCount()) {
+      // Check if the file name cell contains the given algorithm name
+      if (((HTML) table.getWidget(row, 0)).getText().equals(algorithmName)) {
+        table.removeRow(row);
+        return;
+      }
+      row++;
+    }
   }
 
   /**

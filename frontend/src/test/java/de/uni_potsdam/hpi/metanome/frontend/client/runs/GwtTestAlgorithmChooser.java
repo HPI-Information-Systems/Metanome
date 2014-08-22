@@ -149,6 +149,28 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertTrue(jarChooser.listbox.getItemText(2).compareTo(jarChooser.listbox.getItemText(3)) < 0);
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser#removeAlgorithm(String)}
+   * @return
+   */
+  public void testRemoveAlgorithm() {
+    // Setup
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(3, jarChooser.listbox.getItemCount());
+
+    // Execute
+    jarChooser.removeAlgorithm("Algorithm 2");
+
+    assertEquals(2, jarChooser.listbox.getItemCount());
+    assertEquals("--", jarChooser.listbox.getItemText(0));
+    assertEquals("Algorithm 1", jarChooser.listbox.getItemText(1));
+  }
+
   @Override
   public String getModuleName() {
     return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";

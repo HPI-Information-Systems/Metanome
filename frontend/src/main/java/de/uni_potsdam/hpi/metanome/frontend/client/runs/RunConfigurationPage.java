@@ -96,6 +96,14 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   }
 
   /**
+   * Removes a algorithm from the algorithm chooser.
+   * @param algorithmName the algorithm name, which should be removed
+   */
+  public void removeAlgorithm(String algorithmName) {
+    this.algorithmChooser.removeAlgorithm(algorithmName);
+  }
+
+  /**
    * Select the given algorithm on the underlying JarChooser.
    *
    * @param algorithmName the value to select

@@ -200,6 +200,15 @@ public class BasePage extends TabLayoutPanel {
     this.runConfigurationsPage.addAlgorithms(algorithms);
   }
 
+  /**
+   * Forwards an algorithm, which should be removed, from the AlgorithmPage to the RunConfigurations
+   *
+   * @param algorithmName the name of the algorithm, which should be removed
+   */
+  public void removeAlgorithmFromRunConfigurations(String algorithmName) {
+    this.runConfigurationsPage.removeAlgorithm(algorithmName);
+  }
+
   public enum Tabs {
     DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
   }
