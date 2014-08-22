@@ -19,12 +19,14 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.Input;
@@ -287,8 +289,43 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     assertEquals(rowCount - 2, page.fileInputTable.getRowCount());
     assertEquals("File 3", ((HTML) page.fileInputTable.getWidget(0, 0)).getText());
 
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
+  /**
+   * Test method for {@link DataSourcePage#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection, boolean)}
+   */
+  public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    BasePage parent = new BasePage();
+    DataSourcePage page = new DataSourcePage(parent);
+    page.setMessageReceiver(new TabWrapper());
+
+    DatabaseConnection connection = new DatabaseConnection();
+    connection.setUrl("url");
+
+    page.databaseConnectionTable.setWidget(0, 0, new HTML("url"));
+    page.databaseConnectionTable.setText(0, 1, "user");
+    page.databaseConnectionTable.setText(0, 2, "password");
+    page.databaseConnectionTable.setWidget(0, 3, new Button("Run"));
+    page.databaseConnectionTable.setWidget(0, 4, new Button("Delete"));
+
+    Button actualButton = (Button) page.databaseConnectionTable.getWidget(0, 4);
+
+    assertTrue(actualButton.isEnabled());
+
+    // Execute
+    page.setEnableOfDeleteButton(connection, false);
+
+    // Check
+    assertFalse(actualButton.isEnabled());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
 
   @Override
   public String getModuleName() {

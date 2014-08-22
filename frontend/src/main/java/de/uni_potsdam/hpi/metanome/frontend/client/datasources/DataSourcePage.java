@@ -230,7 +230,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveDatabaseConnection() {
     DatabaseConnectionEditForm w = (DatabaseConnectionEditForm) editForm.getWidget(0);
     try {
-      DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
       databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
@@ -255,7 +254,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveFileInput() {
     FileInputEditForm w = (FileInputEditForm) editForm.getWidget(0);
     try {
-      FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
       fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
@@ -280,8 +278,8 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveTableInput() {
     TableInputEditForm w = (TableInputEditForm) editForm.getWidget(0);
     try {
-      TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
-      tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
+      final TableInput input = w.getValue();
+      tableInputService.storeTableInput(input, new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
           messageReceiver.addError("Table Input could not be stored!");
@@ -323,6 +321,17 @@ public class DataSourcePage extends FlowPanel implements TabContent {
               addEditForm(DATABASE_CONNECTION);
             }
           });
+        // disable all delete button of database connection which are referenced by a table input
+        tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) { }
+          @Override
+          public void onSuccess(List<TableInput> tableInputs) {
+            for (TableInput input : tableInputs)
+              setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+          }
+        });
+
         break;
       case TABLE_INPUT:
         tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
@@ -529,7 +538,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         }
       });
 
-      databaseConnectionTable.setText(row, 0, input.getUrl());
+      databaseConnectionTable.setWidget(row, 0, new HTML(input.getUrl()));
       databaseConnectionTable.setText(row, 1, input.getUsername());
       databaseConnectionTable.setText(row, 2, input.getPassword());
       databaseConnectionTable.setWidget(row, 3, runButton);
@@ -610,6 +619,27 @@ public class DataSourcePage extends FlowPanel implements TabContent {
    */
   private void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
     this.basePage.switchToRunConfiguration(null, dataSource);
+  }
+
+  /**
+   * If a table input has a reference to a database connection, the delete button of the database
+   * connection should be disabled.
+   * To delete the database connection, first the related table input has to be deleted.
+   * If the table input is deleted, the button should be enabled again.
+   * @param connection the database connection, which delete button should be enabled/disabled
+   * @param enabled true, if the button should be enabled, false otherwise
+   */
+  protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
+    int row = 0;
+    while (row < this.databaseConnectionTable.getRowCount()) {
+      HTML textWidget = (HTML) this.databaseConnectionTable.getWidget(row, 0);
+      if (textWidget != null && connection.getUrl().equals(textWidget.getText())) {
+        Button deleteButton = (Button) this.databaseConnectionTable.getWidget(row, 4);
+        deleteButton.setEnabled(enabled);
+        return;
+      }
+      row++;
+    }
   }
 
   @Override
