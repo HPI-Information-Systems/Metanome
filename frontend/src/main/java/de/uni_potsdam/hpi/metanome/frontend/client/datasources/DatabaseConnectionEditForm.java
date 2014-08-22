@@ -17,15 +17,21 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import java.util.Arrays;
@@ -33,38 +39,46 @@ import java.util.Arrays;
 /**
  * Input field to configure a database connection.
  */
-public class DatabaseConnectionEditForm extends FlowPanel {
+public class DatabaseConnectionEditForm extends Grid {
+
+  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private DatabaseConnectionTab parent;
+  private TabWrapper messageReceiver;
 
   protected TextBox dbUrlTextbox;
   protected TextBox usernameTextbox;
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
-  private FlexTable layoutTable;
 
-  public DatabaseConnectionEditForm() {
-    this.addStyleName("left");
+  public DatabaseConnectionEditForm(DatabaseConnectionTab parent) {
+    super(5, 2);
 
-    this.layoutTable = new FlexTable();
-    this.add(this.layoutTable);
+    this.parent = parent;
+    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
 
     this.dbUrlTextbox = new TextBox();
-    addRow(this.dbUrlTextbox, "Database URL", 0);
+    this.setText(0, 0, "Database URL");
+    this.setWidget(0, 1, this.dbUrlTextbox);
 
     this.systemListBox = new ListBoxInput(false);
     this.systemListBox.setValues(Arrays.asList(DbSystem.names()));
-    addRow(this.systemListBox, "Db system", 1);
+    this.setText(1, 0, "Database System");
+    this.setWidget(1, 1, this.systemListBox);
 
     this.usernameTextbox = new TextBox();
-    addRow(this.usernameTextbox, "User Name", 2);
+    this.setText(2, 0, "User Name");
+    this.setWidget(2, 1, this.usernameTextbox);
 
     this.passwordTextbox = new PasswordTextBox();
-    addRow(this.passwordTextbox, "Password", 3);
+    this.setText(3, 0, "Password");
+    this.setWidget(3, 1, this.passwordTextbox);
 
-  }
-
-  protected void addRow(Widget inputWidget, String name, int row) {
-    this.layoutTable.setText(row, 0, name);
-    this.layoutTable.setWidget(row, 1, inputWidget);
+    this.setWidget(4, 1, new Button("Save", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        saveDatabaseConnection();
+      }
+    }));
   }
 
   /**
@@ -107,6 +121,31 @@ public class DatabaseConnectionEditForm extends FlowPanel {
   }
 
   /**
+   * Stores the current database connection in the database.
+   */
+  private void saveDatabaseConnection() {
+    try {
+      final DatabaseConnection currentConnection = this.getValue();
+
+      this.databaseConnectionService.storeDatabaseConnection(currentConnection, new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("Database Connection could not be stored:" + throwable.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Void aVoid) {
+          reset();
+          parent.addDatabaseConnectionToTable(currentConnection);
+          parent.updateTableInputTab(currentConnection);
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
+    }
+  }
+
+  /**
    * Reset all values in the url, username and password text boxes.
    */
   public void reset() {
@@ -116,5 +155,12 @@ public class DatabaseConnectionEditForm extends FlowPanel {
     this.systemListBox.reset();
   }
 
+  /**
+   * Set the message receiver.
+   * @param tab the message receiver tab wrapper
+   */
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+  }
 
 }

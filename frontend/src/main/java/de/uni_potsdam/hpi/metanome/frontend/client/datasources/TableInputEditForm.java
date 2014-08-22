@@ -17,17 +17,20 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
@@ -39,44 +42,40 @@ import java.util.Map;
 /**
  * Input field to configure a table input.
  */
-public class TableInputEditForm extends FlowPanel {
+public class TableInputEditForm extends Grid {
 
   private final DatabaseConnectionServiceAsync databaseConnectionService;
+  private TableInputServiceAsync tableInputService;
   private TabWrapper messageReceiver;
+  private TableInputTab parent;
 
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
-
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
-  private FlexTable layoutTable;
 
+  public TableInputEditForm(TableInputTab parent) {
+    super(3, 2);
 
-  public TableInputEditForm() {
-    this.addStyleName("left");
+    this.parent = parent;
 
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
-
-    this.layoutTable = new FlexTable();
-    this.add(this.layoutTable);
+    this.tableInputService = GWT.create(TableInputService.class);
 
     this.dbConnectionListBox = new ListBoxInput(false);
     updateDatabaseConnectionListBox();
-    addRow(this.dbConnectionListBox, "Database Connection", 0);
+    this.setText(0, 0, "Database Connection");
+    this.setWidget(0, 1, this.dbConnectionListBox);
 
     this.tableNameTextbox = new TextBox();
-    addRow(this.tableNameTextbox, "Table Name", 2);
-  }
+    this.setText(1, 0, "Table Name");
+    this.setWidget(1, 1, this.tableNameTextbox);
 
-  /**
-   * Add another row to the bottom of a table
-   *
-   * @param inputWidget the widget to be used for input
-   * @param name        the name of the input property
-   * @param row         the row where the widget should be inserted
-   */
-  protected void addRow(Widget inputWidget, String name, int row) {
-    this.layoutTable.setText(row, 0, name);
-    this.layoutTable.setWidget(row, 1, inputWidget);
+    this.setWidget(2, 1, new Button("Save", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        saveTableInput();
+      }
+    }));
   }
 
   /**
@@ -152,6 +151,35 @@ public class TableInputEditForm extends FlowPanel {
   public void reset() {
     this.dbConnectionListBox.reset();
     this.tableNameTextbox.setText("");
+  }
+
+  /**
+   * Stores the table input in the database.
+   */
+  private void saveTableInput() {
+    try {
+      final TableInput currentInput = this.getValue();
+
+      this.tableInputService.storeTableInput(currentInput, new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("Table Input could not be stored: " + throwable.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Void aVoid) {
+          reset();
+          parent.addTableInputToTable(currentInput);
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
+  }
+
+  public void addDatabaseConnection(DatabaseConnection connection) {
+    this.dbConnectionListBox.addValue(connection.getUrl());
+    this.dbMap.put(connection.getUrl(), connection);
   }
 
   /**

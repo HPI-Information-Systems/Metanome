@@ -17,12 +17,16 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
@@ -44,7 +49,11 @@ import java.util.List;
 /**
  * Input field to configure a file input.
  */
-public class FileInputEditForm extends FlowPanel {
+public class FileInputEditForm extends Grid {
+
+  private FileInputServiceAsync fileInputService;
+  private TabWrapper messageReceiver;
+  private FileInputTab parent;
 
   /**
    * Dropdown menu for choosing a CSV file
@@ -71,11 +80,14 @@ public class FileInputEditForm extends FlowPanel {
   /**
    * Constructor. Set up all UI elements.
    */
-  public FileInputEditForm() {
-    this.addStyleName("left");
+  public FileInputEditForm(FileInputTab parent) {
+    super(3, 2);
+
+    this.parent = parent;
+    this.fileInputService =  GWT.create(FileInputService.class);
 
     FlowPanel standardPanel = new FlowPanel();
-    this.add(standardPanel);
+    this.setWidget(0, 0, standardPanel);
 
     fileListBox = createListbox();
     standardPanel.add(fileListBox);
@@ -85,7 +97,7 @@ public class FileInputEditForm extends FlowPanel {
 
     advancedTable = new FlexTable();
     advancedTable.setVisible(false);
-    this.add(advancedTable);
+    this.setWidget(1, 0, advancedTable);
 
     separatorTextbox = getNewOneCharTextbox();
     separatorTextbox.setName("Separator Character");
@@ -118,6 +130,37 @@ public class FileInputEditForm extends FlowPanel {
     addRow(advancedTable, skipDifferingLinesCheckbox, "Skip Lines With Differing Length");
 
     setDefaultAdvancedSettings();
+
+    this.setWidget(2, 0, new Button("Save", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        saveFileInput();
+      }
+    }));
+  }
+
+  /**
+   * Stores the current file input in the database.
+   */
+  private void saveFileInput() {
+    try {
+      final FileInput input = this.getValue();
+
+      this.fileInputService.storeFileInput(input, new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("File Input could not be stored: " + throwable.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Void aVoid) {
+          reset();
+          parent.addFileInputToTable(input);
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
   }
 
   /**
@@ -336,5 +379,13 @@ public class FileInputEditForm extends FlowPanel {
   public void reset() {
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
+  }
+
+  /**
+   * Set the message receiver.
+   * @param tab the message receiver tab wrapper
+   */
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
   }
 }

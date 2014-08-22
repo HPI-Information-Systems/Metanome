@@ -22,6 +22,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
@@ -35,7 +36,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   public void testGetValue() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
-    FileInputEditForm field = new FileInputEditForm();
+    FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
 
     String expectedFileName = "file name";
     field.setFileName(expectedFileName);
@@ -53,7 +54,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   public void testGetValueWithInvalidValues() {
     // Set up
     // Expected
-    FileInputEditForm field = new FileInputEditForm();
+    FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
     // Execute
     // Check
     try {
@@ -69,7 +70,7 @@ public class GwtTestFileInputField extends GWTTestCase {
   public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
-    FileInputEditForm field = new FileInputEditForm();
+    FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
 
     String expectedFileName = "file name";
     char separator = ';';
@@ -113,7 +114,7 @@ public class GwtTestFileInputField extends GWTTestCase {
    */
   public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
     // Set up
-    FileInputEditForm field = new FileInputEditForm();
+    FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
     field.advancedCheckbox.setValue(true);
 
     // Expected
@@ -142,7 +143,7 @@ public class GwtTestFileInputField extends GWTTestCase {
    */
   public void testVisibilityOfAdvancedSettings() {
     // Set up
-    FileInputEditForm widget = new FileInputEditForm();
+    FileInputEditForm widget = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
 
     // Check default visibility
     assertFalse(widget.advancedTable.isVisible());
@@ -175,7 +176,7 @@ public class GwtTestFileInputField extends GWTTestCase {
    */
   public void testResetValues() {
     //Setup
-    FileInputEditForm input = new FileInputEditForm();
+    FileInputEditForm input = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
     input.fileListBox.addValue("file1");
     input.fileListBox.addValue("file2");
     input.fileListBox.setSelectedValue("file2");
