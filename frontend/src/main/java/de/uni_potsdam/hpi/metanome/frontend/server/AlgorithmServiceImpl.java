@@ -108,6 +108,11 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
     algorithm.store();
   }
 
+  @Override
+  public void deleteAlgorithm(Algorithm algorithm) {
+    algorithm.delete();
+  }
+
   /**
    * Lists all algorithm file names located in the algorithm folder.
    * @return list of algorithm file names

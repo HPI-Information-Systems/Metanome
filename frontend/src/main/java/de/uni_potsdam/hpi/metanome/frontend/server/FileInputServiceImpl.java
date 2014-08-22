@@ -105,4 +105,9 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
     }
   }
 
+  @Override
+  public void deleteFileInput(FileInput input) {
+    input.delete();
+  }
+
 }

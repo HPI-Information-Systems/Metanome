@@ -29,4 +29,6 @@ public interface TableInputServiceAsync {
   void getTableInput(long id, AsyncCallback<TableInput> async);
 
   void storeTableInput(TableInput input, AsyncCallback<Void> async);
+
+  void deleteTableInput(TableInput input, AsyncCallback<Void> async);
 }

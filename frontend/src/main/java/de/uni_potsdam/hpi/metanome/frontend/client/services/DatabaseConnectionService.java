@@ -32,4 +32,6 @@ public interface DatabaseConnectionService extends RemoteService {
 
   public void storeDatabaseConnection(DatabaseConnection connection);
 
+  public void deleteDatabaseConnection(DatabaseConnection connection);
+
 }

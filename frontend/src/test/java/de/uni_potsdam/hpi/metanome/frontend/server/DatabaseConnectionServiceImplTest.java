@@ -26,6 +26,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -66,6 +67,38 @@ public class DatabaseConnectionServiceImplTest {
     // Check result
     assertThat(actualDbConnections,
                IsIterableContainingInAnyOrder.containsInAnyOrder(expectedDbConnections));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl#deleteDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   */
+  @Test
+  public void testDeleteDatabaseConnection() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    DatabaseConnectionServiceImpl service = new DatabaseConnectionServiceImpl();
+
+    DatabaseConnection expectedDbConnection = new DatabaseConnection();
+    expectedDbConnection.setUrl("url1");
+    expectedDbConnection.setPassword("password1");
+    expectedDbConnection.setUsername("db1");
+    expectedDbConnection.store();
+
+    long id = expectedDbConnection.getId();
+
+    // Check precondition
+    DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
+    assertEquals(expectedDbConnection, actualDatabaseConnection);
+
+    // Execute functionality
+    service.deleteDatabaseConnection(expectedDbConnection);
+
+    // Check result
+    assertNull(DatabaseConnection.retrieve(id));
 
     // Cleanup
     HibernateUtil.clear();

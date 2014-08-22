@@ -27,6 +27,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -174,4 +175,42 @@ public class TableInputServiceImplTest {
     // Cleanup
     HibernateUtil.clear();
   }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl#deleteTableInput(de.uni_potsdam.hpi.metanome.results_db.TableInput)}
+   */
+  @Test
+  public void testDeleteTableInput() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    TableInputServiceImpl service = new TableInputServiceImpl();
+
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setUrl("url1");
+    dbConnection.setPassword("password1");
+    dbConnection.setUsername("db1");
+    dbConnection.store();
+
+    TableInput expectedTableInput = new TableInput();
+    expectedTableInput.setDatabaseConnection(dbConnection);
+    expectedTableInput.setTableName("table1");
+    expectedTableInput.store();
+
+    long id = expectedTableInput.getId();
+
+    // Check precondition
+    TableInput actualTableInput = TableInput.retrieve(id);
+    assertEquals(expectedTableInput, actualTableInput);
+
+    // Execute functionality
+    service.deleteTableInput(expectedTableInput);
+
+    // Check result
+    assertNull(TableInput.retrieve(id));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }
