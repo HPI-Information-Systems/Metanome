@@ -241,6 +241,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           databaseConnectionEditForm.reset();
           fillContent(DATABASE_CONNECTION);
           messageReceiver.addInfo("Database Connection successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {
@@ -265,6 +266,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           fileInputEditForm.reset();
           fillContent(FILE_INPUT);
           messageReceiver.addInfo("File Input successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {
@@ -290,6 +292,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           tableInputEditForm.reset();
           fillContent(TABLE_INPUT);
           messageReceiver.addInfo("Table Input successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {

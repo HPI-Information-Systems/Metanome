@@ -163,11 +163,18 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
   }
 
-  // Getters & Setters
+  /**
+   * Forwards the update call to the parameter table.
+   */
+  public void updateDataSources() {
+    this.parameterTable.updateDataSources();
+  }
 
+  // Getters & Setters
   public AlgorithmChooser getJarChooser() {
     return algorithmChooser;
   }
+
 
 
   /* (non-Javadoc)

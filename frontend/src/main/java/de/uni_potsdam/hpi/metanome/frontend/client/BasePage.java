@@ -201,6 +201,13 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
+   * Forwards the update call to the run configuration page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.runConfigurationsPage.updateDataSources();
+  }
+
+  /**
    * Forwards an algorithm, which should be removed, from the AlgorithmPage to the RunConfigurations
    *
    * @param algorithmName the name of the algorithm, which should be removed
