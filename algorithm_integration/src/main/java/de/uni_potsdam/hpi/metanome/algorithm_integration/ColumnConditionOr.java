@@ -136,15 +136,21 @@ public class ColumnConditionOr implements ColumnCondition {
 
     ColumnConditionOr that = (ColumnConditionOr) o;
 
+    if (isNegated != that.isNegated) {
+      return false;
+    }
     if (columnValues != null ? !columnValues.equals(that.columnValues)
                              : that.columnValues != null) {
       return false;
     }
+
     return true;
   }
 
   @Override
   public int hashCode() {
-    return columnValues != null ? columnValues.hashCode() : 0;
+    int result = (isNegated ? 1 : 0);
+    result = 31 * result + (columnValues != null ? columnValues.hashCode() : 0);
+    return result;
   }
 }

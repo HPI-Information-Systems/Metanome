@@ -114,4 +114,33 @@ public class ColumnConditionAnd implements ColumnCondition {
     return builder.substring(0, builder.length() - delimiter.length())
         .concat(ColumnCondition.CLOSE_BRACKET);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ColumnConditionAnd that = (ColumnConditionAnd) o;
+
+    if (isNegated != that.isNegated) {
+      return false;
+    }
+    if (columnValues != null ? !columnValues.equals(that.columnValues)
+                             : that.columnValues != null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (isNegated ? 1 : 0);
+    result = 31 * result + (columnValues != null ? columnValues.hashCode() : 0);
+    return result;
+  }
 }
