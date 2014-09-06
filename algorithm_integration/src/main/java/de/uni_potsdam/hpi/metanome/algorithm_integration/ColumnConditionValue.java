@@ -27,6 +27,7 @@ public class ColumnConditionValue implements ColumnCondition {
   protected ColumnIdentifier columnIdentifier;
   protected String columnValue;
   protected boolean isNegated;
+  protected float coverage = 0;
 
   /**
    * Exists for Gwt serialization
@@ -82,12 +83,24 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   @Override
+  public float getCoverage() {
+    return coverage;
+  }
+
+  @Override
   public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(this.columnIdentifier.toString());
+    builder.append(": ");
     if (this.isNegated) {
-      return this.columnIdentifier.toString() + ": " + ColumnCondition.NOT + this.columnValue;
-    } else {
-      return this.columnIdentifier.toString() + ": " + this.columnValue;
+      builder.append(ColumnCondition.NOT);
     }
+    builder.append(this.columnValue);
+    if (this.coverage > 0) {
+      builder.append(" Cov: ");
+      builder.append(this.coverage);
+    }
+    return builder.toString();
   }
 
   @Override

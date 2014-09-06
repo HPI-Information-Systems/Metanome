@@ -32,6 +32,7 @@ public interface ColumnCondition extends Serializable, Comparable<ColumnConditio
   public static final String NOT = "\u00AC";
 
   public String toString();
-
   public ColumnCondition add(ColumnCondition value);
+
+  public float getCoverage();
 }

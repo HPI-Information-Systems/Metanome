@@ -68,6 +68,15 @@ public class ColumnConditionOr implements ColumnCondition {
   }
 
   @Override
+  public float getCoverage() {
+    float coverage = 0;
+    for (ColumnCondition subCondition : this.columnValues) {
+      coverage += subCondition.getCoverage();
+    }
+    return coverage;
+  }
+
+  @Override
   public ColumnCondition add(ColumnCondition condition) {
     this.columnValues.add(condition);
     return this;
