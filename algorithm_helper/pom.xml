@@ -19,14 +19,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+    <groupId>de.metanome</groupId>
     <artifactId>algorithm_helper</artifactId>
     <packaging>jar</packaging>
 
     <name>algorithm_helper</name>
 
     <parent>
-        <groupId>de.uni-potsdam.hpi</groupId>
+        <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
