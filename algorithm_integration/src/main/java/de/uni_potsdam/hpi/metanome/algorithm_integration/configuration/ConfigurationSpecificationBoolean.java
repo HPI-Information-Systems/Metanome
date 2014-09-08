@@ -52,21 +52,16 @@ public class ConfigurationSpecificationBoolean extends ConfigurationSpecificatio
    */
   public ConfigurationSpecificationBoolean(String identifier,
                                            int numberOfValues) {
-
     super(identifier, numberOfValues);
   }
 
-  /**
-   * Sets the actual values on the specification.
-   *
-   * @param values the values
-   */
-  public void setValues(ConfigurationSettingBoolean... values) {
-    // TODO check number
-    this.settings = values;
-  }
-
+  @Override
   public ConfigurationSettingBoolean[] getSettings() {
     return settings;
+  }
+
+  public void setSettings(ConfigurationSettingBoolean... settings) {
+    // TODO check number
+    this.settings = settings;
   }
 }

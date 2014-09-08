@@ -28,6 +28,8 @@ import java.util.List;
 @RemoteServiceRelativePath("algorithmService")
 public interface AlgorithmService extends RemoteService {
 
+  public String[] listAvailableAlgorithmFiles();
+
   public List<Algorithm> listInclusionDependencyAlgorithms();
 
   public List<Algorithm> listFunctionalDependencyAlgorithms();
@@ -41,4 +43,6 @@ public interface AlgorithmService extends RemoteService {
   public List<Algorithm> listAllAlgorithms();
 
   public void addAlgorithm(Algorithm algorithm) throws EntityStorageException;
+
+  public void deleteAlgorithm(Algorithm algorithm);
 }

@@ -17,11 +17,11 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.DockPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
 
@@ -71,7 +71,9 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
    * called.
    */
   public void testSubmit() {
-    // Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     LinkedList<Algorithm> algorithms = new LinkedList<>();
     Algorithm expectedAlgorithm1 = new Algorithm("example_ucc_algorithm.jar");
     expectedAlgorithm1.setName("name 1");
@@ -88,7 +90,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
       }
     };
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, tabWrapper);
-    page.add(jarChooser, DockPanel.NORTH);
+    page.addNorth(jarChooser, 4);
 
     // Execute functionality
     jarChooser.listbox.setItemSelected(1, true);
@@ -96,6 +98,9 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
     // Set a delay period
     delayTestFinish(500);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -142,6 +147,28 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     // Check
     assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
     assertTrue(jarChooser.listbox.getItemText(2).compareTo(jarChooser.listbox.getItemText(3)) < 0);
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser#removeAlgorithm(String)}
+   * @return
+   */
+  public void testRemoveAlgorithm() {
+    // Setup
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(3, jarChooser.listbox.getItemCount());
+
+    // Execute
+    jarChooser.removeAlgorithm("Algorithm 2");
+
+    assertEquals(2, jarChooser.listbox.getItemCount());
+    assertEquals("--", jarChooser.listbox.getItemText(0));
+    assertEquals("Algorithm 1", jarChooser.listbox.getItemText(1));
   }
 
   @Override

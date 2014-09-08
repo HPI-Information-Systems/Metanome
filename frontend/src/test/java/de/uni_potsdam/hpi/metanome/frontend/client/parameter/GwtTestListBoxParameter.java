@@ -21,16 +21,18 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
-
-import org.junit.Test;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import java.util.ArrayList;
 
 public class GwtTestListBoxParameter extends GWTTestCase {
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
-    //Setup
+    // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -39,18 +41,21 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     ConfigurationSpecificationListBox specification =
         new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
-    //Execute
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    // Execute
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
 
-    //Check
+    // Check
     assertEquals(noOfValues, widget.inputWidgets.size());
     assertEquals(noOfValues, widget.getWidgetCount());
     assertFalse(widget.inputWidgets.get(0).isOptional);
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
-    //Setup
+    // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -59,18 +64,21 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     ConfigurationSpecificationListBox specification =
         new ConfigurationSpecificationListBox("enum", values, noOfValues);
 
-    //Execute
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    // Execute
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
 
-    //Check
-    assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
-    assertEquals(widget.getWidgetCount(), 2);            //default input field + add button
-    assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
+    // Check
+    assertEquals(1, widget.inputWidgets.size()); // expecting one default input field
+    assertEquals(widget.getWidgetCount(), 2); // default input field + add button
+    assertTrue(widget.inputWidgets.get(0).isOptional); // input field must be optional
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testAddInput() throws AlgorithmConfigurationException {
-    //Setup
+    // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -78,45 +86,50 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 
     ConfigurationSpecificationListBox specification =
         new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
-    //Execute
+    // Execute
     widget.addInputField(true);
 
-    //Check
+    // Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#removeField(de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField)}
+   * @throws AlgorithmConfigurationException
+   */
   public void testRemoveInput() throws AlgorithmConfigurationException {
-    //Setup
+    // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
     ConfigurationSpecificationListBox specification =
         new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
-    //Execute
+    // Execute
     widget.inputWidgets.get(0).removeSelf();
 
-    //Check
+    // Check
     assertEquals(previousCount - 1, widget.getWidgetCount());
     assertEquals(listCount - 1, widget.inputWidgets.size());
   }
 
-  @Test
+  /**
+   * Test method for {@link InputParameterListBoxWidget#getUpdatedSpecification()}
+   */
   public void testRetrieveValues() {
-    //Setup
+    // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
@@ -125,17 +138,16 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 
     ConfigurationSpecificationListBox expectedSpecification =
         new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
 
-    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(expectedSpecification);
+    InputParameterListBoxWidget widget = new InputParameterListBoxWidget(expectedSpecification, new TabWrapper());
     widget.setSelection(expectedSelectedValue);
 
-    //Execute
+    // Execute
     ConfigurationSpecificationListBox specification = widget.getUpdatedSpecification();
 
-    //Check
-    assertEquals(expectedSpecification.getSettings().length,
-                 specification.getSettings().length);
+    // Check
+    assertEquals(expectedSpecification.getSettings().length, specification.getSettings().length);
     assertEquals(values.size(), specification.getValues().size());
     assertEquals(expectedSelectedValue, specification.getSettings()[0].selectedValue);
     assertEquals(values, specification.getValues());
@@ -143,6 +155,6 @@ public class GwtTestListBoxParameter extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.Metanome";
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
   }
 }

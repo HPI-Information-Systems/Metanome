@@ -16,8 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import java.util.List;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
@@ -25,9 +23,12 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.Conditi
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
+
+import java.util.List;
 
 /**
  * Service Implementation for service that lists available algorithms stored in the database.
@@ -36,6 +37,9 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
  */
 public class AlgorithmServiceImpl extends RemoteServiceServlet implements AlgorithmService {
   private static final long serialVersionUID = 2742248537386173766L;
+
+  private AlgorithmFinder algorithmFinder = new AlgorithmFinder();
+
 
   /**
    * Lists all algorithms from the database that implement a certain interface, or all if algorithm
@@ -102,5 +106,29 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
   @Override
   public void addAlgorithm(Algorithm algorithm) throws EntityStorageException {
     algorithm.store();
+  }
+
+  @Override
+  public void deleteAlgorithm(Algorithm algorithm) {
+    algorithm.delete();
+  }
+
+  /**
+   * Lists all algorithm file names located in the algorithm folder.
+   * @return list of algorithm file names
+   */
+  @Override
+  public String[] listAvailableAlgorithmFiles() {
+    String[] fileNames = null;
+
+    try {
+      fileNames = algorithmFinder.getAvailableAlgorithmFileNames(null);
+    } catch (Exception e) {
+      //TODO: error handling
+      System.out.println("FAILED to FIND algorithm files.");
+      e.printStackTrace();
+    }
+
+    return fileNames;
   }
 }

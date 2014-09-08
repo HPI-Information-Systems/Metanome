@@ -18,10 +18,14 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput}
@@ -79,5 +83,28 @@ public class TableInputTest {
     // Check result
     new EqualsAndHashCodeTester<TableInput>()
         .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.TableInput#retrieveAll()}
+   */
+  @Test
+  public void testRetrieveAll() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Input expectedInput = new TableInput()
+        .store();
+
+    // Execute functionality
+    List<Input> actualInputs = TableInput.retrieveAll();
+
+    // Check result
+    assertThat(actualInputs, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedInput));
+
+    // Cleanup
+    HibernateUtil.clear();
   }
 }

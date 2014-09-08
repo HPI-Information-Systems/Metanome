@@ -16,6 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -31,8 +35,10 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Input {
+@GwtCompatible
+public class Input extends ResultsDbEntity implements Serializable {
 
+  private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
 
   /**
@@ -41,6 +47,7 @@ public class Input {
    * @param id the Input's id
    * @return the input
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static Input retrieve(long id) throws EntityStorageException {
     return (Input) HibernateUtil.retrieve(Input.class, id);
   }
@@ -50,6 +57,7 @@ public class Input {
    *
    * @return a list of all inputs
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static List<Input> retrieveAll() throws EntityStorageException {
     return HibernateUtil.queryCriteria(Input.class);
   }
@@ -59,6 +67,8 @@ public class Input {
    *
    * @return the Input
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public Input store() throws EntityStorageException {
     HibernateUtil.store(this);
 

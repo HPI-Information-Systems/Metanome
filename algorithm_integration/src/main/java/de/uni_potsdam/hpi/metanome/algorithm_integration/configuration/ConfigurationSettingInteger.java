@@ -18,6 +18,9 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
 import java.io.Serializable;
 
+/**
+ * TODO docs
+ */
 public class ConfigurationSettingInteger implements Serializable {
 
   public int value;

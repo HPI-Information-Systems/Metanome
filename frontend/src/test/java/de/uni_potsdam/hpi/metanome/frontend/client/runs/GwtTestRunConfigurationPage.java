@@ -22,9 +22,9 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -33,78 +33,139 @@ import java.util.List;
 /**
  * Tests for the algorithm specific pages (tabs)
  */
-public class GwtTestRunConfigurationTab extends GWTTestCase {
+public class GwtTestRunConfigurationPage extends GWTTestCase {
 
   private BasePage page;
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#RunConfigurationPage(de.uni_potsdam.hpi.metanome.frontend.client.BasePage)}
+   */
   public void testConstruction() {
-    //Execute
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    // Execute
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
 
-    //Check - should contain the jarChooser and a Label for pre-selected data source (possibly empty)
+    // Check - should contain the jarChooser and a Label for pre-selected data source (possibly empty)
     assertEquals(2, runConfigPage.getWidgetCount());
-    assertTrue(runConfigPage.getJarChooser() instanceof AlgorithmChooser);
+    assertNotNull(runConfigPage.getJarChooser());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#addParameterTable(java.util.List)}
+   */
   public void testAddParameterTable() {
-    //Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
     List<ConfigurationSpecification> paramList = new ArrayList<>();
     int widgetCount = runConfigPage.getWidgetCount();
 
-    //Execute
+    // Execute
     runConfigPage.addParameterTable(paramList);
 
-    //Check
+    // Check
     assertEquals(widgetCount + 1, runConfigPage.getWidgetCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#addAlgorithms(java.util.List)}
+   */
   public void testAddAlgorithms() {
-    //Setup
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
     int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
     LinkedList<Algorithm> algorithms = new LinkedList<>();
     algorithms.add(new Algorithm("Algorithm 1"));
     algorithms.add(new Algorithm("Algorithm 2"));
 
-    //Execute
+    // Execute
     runConfigPage.addAlgorithms(algorithms);
 
-    //Check
+    // Check
     assertEquals(noOfAlgorithms + algorithms.size(),
                  runConfigPage.getJarChooser().getListItemCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  @Test
-  public void testSelectAlgorithm() {
-    //Setup
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#removeAlgorithm(String)}
+   */
+  public void testRemoveAlgorithm() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+    int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+    runConfigPage.addAlgorithms(algorithms);
+
+    // Execute
+    runConfigPage.removeAlgorithm("Algorithm 1");
+
+    // Check
+    assertEquals(noOfAlgorithms + algorithms.size() - 1,
+                 runConfigPage.getJarChooser().getListItemCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#selectAlgorithm(String)}
+   */
+  public void testSelectAlgorithm() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+    runConfigPage.setMessageReceiver(new TabWrapper());
     String algoName = setUpJarChooser(runConfigPage);
 
-    //Execute
+    // Execute
     runConfigPage.selectAlgorithm(algoName);
 
-    //Check
+    // Check
     assertEquals(algoName, runConfigPage.getCurrentlySelectedAlgorithm());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser#forwardParameters(java.util.List)}
+   */
+  public void testForwardParameters() {
+    // Set up
+    TestHelper.resetDatabaseSync();
 
-  @Test
-  public void testForwardParamters() {
-    //Setup
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
     List<ConfigurationSpecification> paramList = new ArrayList<>();
     paramList.add(new ConfigurationSpecificationString("someString"));
     paramList.add(new ConfigurationSpecificationCsvFile("theDataSource"));
 
-    //Execute
+    // Execute
     runConfigPage.algorithmChooser.forwardParameters(paramList);
 
-    //Check
+    // Check
     assertNotNull(runConfigPage.parameterTable);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   protected String setUpJarChooser(RunConfigurationPage runConfigPage) {

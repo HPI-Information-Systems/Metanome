@@ -19,14 +19,20 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 
 public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
 
-  public InputParameterDataSourceWidget(ConfigurationSpecification config) {
-    super(config);
+  public InputParameterDataSourceWidget(ConfigurationSpecification config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
+  /**
+   * Specifies which configuration setting is supported by this input widget
+   * @param setting the configuration setting
+   * @return true, if the configuration setting is supported, false otherwise
+   */
   public abstract boolean accepts(ConfigurationSettingDataSource setting);
 
   @Override
@@ -34,7 +40,17 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
     return true;
   }
 
+  /**
+   * Sets the given data source on the input field.
+   * @param dataSource the data source, which should be set.
+   * @throws AlgorithmConfigurationException if the configuration of the algorithm is incorrect
+   */
   public abstract void setDataSource(ConfigurationSettingDataSource dataSource)
       throws AlgorithmConfigurationException;
+
+  /**
+   * Updates the list box of data sources.
+   */
+  public abstract void update();
 
 }

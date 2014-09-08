@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.services;
+package de.uni_potsdam.hpi.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
-@RemoteServiceRelativePath("inputDataService")
-public interface InputDataService extends RemoteService {
-
-  public String[] listCsvInputFiles();
+/**
+ * TODO docs
+ *
+ * @author Jakob Zwiener
+ */
+public class ConfigurationSettingRelationalInput {
 
 }

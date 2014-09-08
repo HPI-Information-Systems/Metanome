@@ -25,7 +25,7 @@ import java.io.Serializable;
  * will be converted to an InputParameter, which is used to get the user's value input, and then
  * converted to the ConfigurationValue handed back to the algorithm.
  *
- * @author Claudia
+ * @author Claudia Exeler
  */
 public abstract class ConfigurationSettingDataSource implements Serializable {
 

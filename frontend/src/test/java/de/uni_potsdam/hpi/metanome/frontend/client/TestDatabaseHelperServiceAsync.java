@@ -19,6 +19,11 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
+import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.FileInput;
+import de.uni_potsdam.hpi.metanome.results_db.Input;
+
+import java.util.List;
 
 /**
  * {@link de.uni_potsdam.hpi.metanome.frontend.client.TestDatabaseHelperServiceAsync}
@@ -30,4 +35,14 @@ public interface TestDatabaseHelperServiceAsync {
   void resetDatabase(AsyncCallback<Void> async);
 
   void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
+
+  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Long> async);
+
+  void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> async);
+
+  void getAllTableInputs(AsyncCallback<List<Input>> async);
+
+  void getAllFileInputs(AsyncCallback<List<Input>> async);
+
+  void storeFileInput(FileInput input, AsyncCallback<Long> async);
 }

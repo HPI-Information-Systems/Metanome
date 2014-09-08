@@ -47,7 +47,7 @@ public class DatabaseInitializer implements ServletContextListener {
   public void contextInitialized(ServletContextEvent servletContextEvent) {
     try {
       addAlgorithms();
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException | EntityStorageException e) {
       e.printStackTrace();
     }
     try {
@@ -63,7 +63,8 @@ public class DatabaseInitializer implements ServletContextListener {
    * @throws IOException when algorithm jars cannot be retrieved
    * @throws ClassNotFoundException when algorithm bootstrap class cannot be found
    */
-  protected void addAlgorithms() throws IOException, ClassNotFoundException {
+  protected void addAlgorithms() throws IOException, ClassNotFoundException,
+                                        EntityStorageException {
     // only prefill algorithms table if it is currently empty
     if (!Algorithm.retrieveAll().isEmpty()) {
       return;

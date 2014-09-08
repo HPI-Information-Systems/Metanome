@@ -78,6 +78,25 @@ public class HibernateUtil {
   }
 
   /**
+   * Deletes an entity from the database.
+   *
+   * @param entity the entity to delete
+   */
+  public static void delete(Object entity) throws EntityStorageException {
+    if (!entity.getClass().isAnnotationPresent(Entity.class)) {
+      throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
+    }
+
+    Session session = openNewSession();
+
+    session.beginTransaction();
+    session.delete(entity);
+    session.getTransaction().commit();
+
+    session.close();
+  }
+
+  /**
    * Retrieves an entity of the given class and with the given id from the database.
    *
    * @param clazz the class of the entity to retrieve

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
+package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.user.client.ui.IntegerBox;
 
@@ -23,9 +23,12 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import java.text.ParseException;
 
 
+/**
+ * A wrapper for a integer input field.
+ */
 public class IntegerInput extends InputField {
 
-  protected IntegerBox textbox;
+  public IntegerBox textbox;
 
   /**
    * @param optional If true, a remove button will be rendered, to remove this widget from its
@@ -56,5 +59,13 @@ public class IntegerInput extends InputField {
       throw new InputValidationException("You have to enter a number!");
     }
     return val;
+  }
+
+  /**
+   * Sets the value of the integer box
+   * @param value the value which should be set
+   */
+  public void setValue(Integer value) {
+    this.textbox.setValue(value);
   }
 }

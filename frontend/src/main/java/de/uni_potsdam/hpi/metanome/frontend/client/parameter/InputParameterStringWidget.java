@@ -19,6 +19,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField;
+import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput;
 
 import java.util.List;
 
@@ -26,14 +29,14 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   protected ConfigurationSpecificationString specification;
   protected List<StringInput> inputWidgets;
+  protected TabWrapper messageReceiver;
 
-  public InputParameterStringWidget(ConfigurationSpecificationString config) {
-    super(config);
+  public InputParameterStringWidget(ConfigurationSpecificationString config, TabWrapper wrapper) {
+    super(config, wrapper);
   }
 
   @Override
   protected void addInputField(boolean optional) {
-
     StringInput field = new StringInput(optional);
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
@@ -42,7 +45,7 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   @Override
   public ConfigurationSpecificationString getUpdatedSpecification() {
-    this.specification.setValues(this.getConfigurationSettings());
+    this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
   }
 
@@ -76,5 +79,10 @@ public class InputParameterStringWidget extends InputParameterWidget {
   @Override
   public void setSpecification(ConfigurationSpecification config) {
     this.specification = (ConfigurationSpecificationString) config;
+  }
+
+  @Override
+  public void setMessageReceiver(TabWrapper messageReceiver) {
+    this.messageReceiver = messageReceiver;
   }
 }

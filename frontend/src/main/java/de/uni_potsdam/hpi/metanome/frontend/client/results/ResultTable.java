@@ -17,12 +17,15 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ResultTable extends VerticalPanel {
+/**
+ * Table to display the results of an algorithm execution
+ */
+public class ResultTable extends FlowPanel {
 
-  private FlexTable table;
+  protected FlexTable table;
 
   public ResultTable(String title) {
     Label label = new Label(title);
@@ -32,14 +35,21 @@ public class ResultTable extends VerticalPanel {
     this.table = new FlexTable();
     this.table.setStyleName("resultTable");
     this.add(this.table);
-
-    this.setSpacing(5);
   }
 
+  /**
+   * Sets the text of a specific row and column
+   * @param row the row
+   * @param column the column
+   * @param text the text, which should be set
+   */
   public void setText(int row, int column, String text) {
     this.table.setText(row, column, text);
   }
 
+  /**
+   * @return the number of rows
+   */
   public int getRowCount() {
     return this.table.getRowCount();
   }
