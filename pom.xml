@@ -19,7 +19,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.uni-potsdam.hpi</groupId>
+    <groupId>de.metanome</groupId>
     <artifactId>metanome</artifactId>
     <packaging>pom</packaging>
     <name>metanome</name>
@@ -85,7 +85,7 @@
                         </formats>
                         <aggregate>true</aggregate>
                         <instrumentation>
-                            <exclude>de/uni_potsdam/hpi/metanome/test_helper/**/*.class</exclude>
+                            <exclude>de/metanome/test_helper/**/*.class</exclude>
                         </instrumentation>
                     </configuration>
                 </plugin>
