@@ -31,7 +31,7 @@ public class GwtTestIntegerInput extends GWTTestCase {
     IntegerInput input = new IntegerInput(false);
 
     input.setValue(4);
-    assertTrue(input.getValue() == 4);
+    assertEquals(4, input.getValue());
   }
 
   @Override

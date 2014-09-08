@@ -161,7 +161,7 @@
                         <compileSourcesArtifact>de.uni-potsdam.hpi.metanome:backend
                         </compileSourcesArtifact>
                     </compileSourcesArtifacts>
-                    <extraJvmArgs>-Xmx1G</extraJvmArgs>
+                    <extraJvmArgs>-Xmx1g</extraJvmArgs>
                 </configuration>
             </plugin>
 
