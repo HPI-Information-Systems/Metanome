@@ -26,7 +26,7 @@ import java.util.Collection;
  * by inverting all input and output {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
  * to find supersets instead of subsets.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 
 public class SuperSetGraph {

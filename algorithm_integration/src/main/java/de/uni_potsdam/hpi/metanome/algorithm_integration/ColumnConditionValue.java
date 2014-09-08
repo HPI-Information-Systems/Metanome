@@ -20,7 +20,7 @@ package de.uni_potsdam.hpi.metanome.algorithm_integration;
  * This is the leaf node class for the {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
  * using the compsite pattern.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ColumnConditionValue implements ColumnCondition {
 

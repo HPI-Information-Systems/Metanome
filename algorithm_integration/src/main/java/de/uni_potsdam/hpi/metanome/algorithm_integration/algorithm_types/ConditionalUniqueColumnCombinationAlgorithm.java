@@ -23,7 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Conditi
  * An {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm} that discovers conditional
  * unique {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination}s.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public interface ConditionalUniqueColumnCombinationAlgorithm extends Algorithm {
 

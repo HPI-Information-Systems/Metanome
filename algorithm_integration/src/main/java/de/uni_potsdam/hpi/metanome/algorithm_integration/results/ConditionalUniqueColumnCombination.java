@@ -26,7 +26,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.Omnisci
 /**
  * Represents a conditional unique column combination
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ConditionalUniqueColumnCombination implements Result {
 

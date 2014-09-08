@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for {@link SubSetGraph}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  * @author Jakob Zwiener
  */
 public class SubSetGraphTest {

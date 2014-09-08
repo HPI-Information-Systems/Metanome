@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 
 public class SuperSetGraphTest {

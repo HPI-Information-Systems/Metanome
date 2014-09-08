@@ -21,7 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniq
 /**
  * Receives the results of a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm}.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public interface ConditionalUniqueColumnCombinationResultReceiver {
 

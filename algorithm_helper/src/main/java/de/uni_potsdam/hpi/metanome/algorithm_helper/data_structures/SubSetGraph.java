@@ -28,7 +28,7 @@ import java.util.Queue;
  * A graph that allows efficient lookup of all subsets in the graph for a given
  * ColumnCombinationBitset.
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  * @author Jakob Zwiener
  */
 public class SubSetGraph {
@@ -134,7 +134,9 @@ public class SubSetGraph {
   }
 
   /**
-   * The method returns when the first subset is found in the graph. This is possibly faster than {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}, because a smaller part of the graph must be traversed.
+   * The method returns when the first subset is found in the graph. This is possibly faster than
+   * {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSetGraph#getExistingSubsets(ColumnCombinationBitset)},
+   * because a smaller part of the graph must be traversed.
    *
    * @return whether at least a single subset is contained in the graph
    */

@@ -24,7 +24,7 @@ import java.util.TreeSet;
  * Logical "and" used in the composite pattern to represent column condition. Contains subcondition
  * that are concatenated by "and".
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ColumnConditionAnd implements ColumnCondition {
 

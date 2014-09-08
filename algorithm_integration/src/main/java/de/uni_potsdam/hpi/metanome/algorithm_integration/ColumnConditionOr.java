@@ -24,7 +24,7 @@ import java.util.TreeSet;
  * Logical "or" used in the composite pattern to represent column condition. Contains subcondition
  * that are concatenated by "or".
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ColumnConditionOr implements ColumnCondition {
 
