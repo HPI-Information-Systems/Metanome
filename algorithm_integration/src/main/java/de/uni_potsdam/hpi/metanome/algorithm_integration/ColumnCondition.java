@@ -16,14 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * Abstract super class for the composite pattern used for column conditions.
  *
  * @author Jens Ehrlich
  */
-public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {
+public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondition> {
 
   public static final String OPEN_BRACKET = "[";
   public static final String CLOSE_BRACKET = "]";

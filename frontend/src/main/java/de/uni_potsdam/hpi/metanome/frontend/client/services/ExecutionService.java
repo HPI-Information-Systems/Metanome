@@ -24,7 +24,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionExcep
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
-import de.uni_potsdam.hpi.metanome.frontend.client.DummyColumnConditon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,4 @@ public interface ExecutionService extends RemoteService {
   public ArrayList<Result> fetchNewResults(String algorithmName);
 
   public float fetchProgress(String executionIdentifier);
-
-
-  public DummyColumnConditon dummy(DummyColumnConditon d);
 }
