@@ -114,8 +114,8 @@ public class DatabaseConnectionEditForm extends Grid {
     connection
         .setUrl(url)
         .setUsername(username)
-        .setPassword(password);
-    // TODO set system
+        .setPassword(password)
+        .setSystem(DbSystem.valueOf(system));
 
     return connection;
   }

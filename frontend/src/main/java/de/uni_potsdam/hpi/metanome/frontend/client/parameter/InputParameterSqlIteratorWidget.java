@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
 
@@ -48,7 +49,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   }
 
   @Override
-  public ConfigurationSpecification getUpdatedSpecification() {
+  public ConfigurationSpecification getUpdatedSpecification() throws InputValidationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingSqlIterator[]
         values =

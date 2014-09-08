@@ -22,6 +22,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 /**
@@ -87,7 +88,12 @@ public class GwtTestCsvFileInput extends GWTTestCase {
       fail();
     }
 
-    ConfigurationSettingCsvFile actualSetting = csvFileInputs.getValues();
+    ConfigurationSettingCsvFile actualSetting = null;
+    try {
+      actualSetting = csvFileInputs.getValues();
+    } catch (InputValidationException e) {
+      fail();
+    }
 
     // Check result
     assertEquals(expectedSetting.getFileName(), actualSetting.getFileName());

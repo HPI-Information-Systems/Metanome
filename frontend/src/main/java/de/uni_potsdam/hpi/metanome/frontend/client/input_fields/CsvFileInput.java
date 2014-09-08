@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
@@ -150,14 +151,14 @@ public class CsvFileInput extends InputField {
    *
    * @return the widget's settings
    */
-  public ConfigurationSettingCsvFile getValues() {
-    if (this.listbox.getSelectedValue().equals("--")) {
-      this.messageReceiver.addError("You must choose a CSV file!");
-      return null;
+  public ConfigurationSettingCsvFile getValues() throws InputValidationException {
+    String selectedValue = this.listbox.getSelectedValue();
+
+    if (selectedValue.equals("--")) {
+      throw new InputValidationException("You must choose a CSV file!");
     }
 
-    FileInput currentFileInput = this.fileInputs.get(
-        this.listbox.getSelectedValue());
+    FileInput currentFileInput = this.fileInputs.get(selectedValue);
 
     return getCurrentSetting(currentFileInput);
   }

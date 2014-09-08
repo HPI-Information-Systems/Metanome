@@ -27,6 +27,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.Configura
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -209,7 +210,7 @@ public class GwtTestParameterTable extends GWTTestCase {
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("username");
-    // TODO set system
+    dbConnection.setSystem(DbSystem.DB2);
 
     for (SqlIteratorInput sqlIteratorInput : widget.inputWidgets) {
       sqlIteratorInput.listbox.addValue("url");

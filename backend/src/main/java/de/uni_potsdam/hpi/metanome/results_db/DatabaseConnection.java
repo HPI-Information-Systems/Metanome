@@ -18,6 +18,8 @@ package de.uni_potsdam.hpi.metanome.results_db;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,10 +39,7 @@ public class DatabaseConnection implements Serializable {
   protected String url;
   protected String username;
   protected String password;
-
-  public DatabaseConnection() {
-
-  }
+  protected DbSystem system;
 
   /**
    * Retrieves a DatabaseConnection from the database.
@@ -115,6 +114,14 @@ public class DatabaseConnection implements Serializable {
     this.password = password;
 
     return this;
+  }
+
+  public DbSystem getSystem() {
+    return system;
+  }
+
+  public void setSystem(DbSystem system) {
+    this.system = system;
   }
 
   @Override

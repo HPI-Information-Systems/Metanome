@@ -22,8 +22,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
@@ -76,7 +76,7 @@ public class SqlIteratorInput extends InputField {
 
         if (result != null && result.size() > 0) {
           for (DatabaseConnection db : result) {
-            String identifier = db.getUrl(); // TODO add system
+            String identifier = db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
             dbConnectionNames.add(identifier);
             databaseConnections.put(identifier, db);
 
@@ -129,15 +129,19 @@ public class SqlIteratorInput extends InputField {
    *
    * @return the widget's settings
    */
-  public ConfigurationSettingSqlIterator getValues() {
-    DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(
-        this.listbox.getSelectedValue());
+  public ConfigurationSettingSqlIterator getValues() throws InputValidationException {
+    String selectedValue = this.listbox.getSelectedValue();
+
+    if (selectedValue.equals("--")) {
+      throw new InputValidationException("You must choose a database connection!");
+    }
+
+    DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(selectedValue);
 
     return new ConfigurationSettingSqlIterator(currentDatabaseConnection.getUrl(),
                                                currentDatabaseConnection.getUsername(),
                                                currentDatabaseConnection.getPassword(),
-                                               DbSystem.DB2);
-    // TODO DbSystem.valueOf(currentDatabaseConnection.getDbSystem()
+                                               currentDatabaseConnection.getSystem());
   }
 
   /**
@@ -152,8 +156,8 @@ public class SqlIteratorInput extends InputField {
       DatabaseConnection current = con.getValue();
       if (current.getUrl().equals(setting.getDbUrl()) &&
           current.getPassword().equals(setting.getPassword()) &&
-          current.getUsername().equals(setting.getUsername())) {
-        // TODO check system
+          current.getUsername().equals(setting.getUsername()) &&
+          current.getSystem().equals(setting.getSystem())) {
         this.listbox.setSelectedValue(con.getKey());
         return;
       }
