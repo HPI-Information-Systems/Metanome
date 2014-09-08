@@ -51,7 +51,7 @@ public class IntegerInput extends InputField {
    *                                                                                      parsed as
    *                                                                                      an int
    */
-  public Integer getValue() throws InputValidationException {
+  public int getValue() throws InputValidationException {
     Integer val;
     try {
       val = this.textbox.getValueOrThrow();

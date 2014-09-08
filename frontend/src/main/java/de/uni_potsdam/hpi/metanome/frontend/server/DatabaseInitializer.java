@@ -105,7 +105,7 @@ public class DatabaseInitializer implements ServletContextListener {
     File[] inputs = inputDataFinder.getAvailableCsvs();
 
     for (File input : inputs) {
-      FileInput fileInput = new FileInput(input.getName());
+      FileInput fileInput = new FileInput(input.getPath());
       try {
         fileInput.store();
       } catch (EntityStorageException e) {
