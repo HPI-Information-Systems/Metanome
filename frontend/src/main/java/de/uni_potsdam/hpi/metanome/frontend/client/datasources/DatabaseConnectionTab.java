@@ -92,7 +92,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * Lists all given database connections in a table.
    * @param inputs the database connections
    */
-  private void listDatabaseConnections(List<DatabaseConnection> inputs) {
+  protected void listDatabaseConnections(List<DatabaseConnection> inputs) {
     if (inputs.isEmpty()) {
       this.add(new HTML("<h4>There are no Database Connections yet.</h4>"));
       return;

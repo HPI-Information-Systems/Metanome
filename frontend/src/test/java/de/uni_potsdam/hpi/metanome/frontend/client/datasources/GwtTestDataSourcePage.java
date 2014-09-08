@@ -188,66 +188,7 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     delayTestFinish(2000);
   }*/
 
-  /**
-   * Test method for {@link DataSourcePage#saveObject()}
-   * TODO fix FieldSerializer bug
-   */
-/*
-  public void testStoreDatabaseConnection() throws EntityStorageException, InputValidationException {
-    // Setup
-    TestHelper.resetDatabaseSync();
 
-    BasePage parent = new BasePage();
-    DataSourcePage page = new DataSourcePage(parent);
-    page.setMessageReceiver(new TabWrapper());
-
-    page.databaseConnectionEditForm.setValues("url", DbSystem.DB2.name(), "user", "password");
-    page.tableInputSelected = false;
-    page.databaseConnectionSelected = true;
-    page.fileInputSelected = false;
-    page.editForm.clear();
-    page.editForm.add(page.databaseConnectionEditForm);
-
-    // Expected values
-    final DatabaseConnection expectedInput = page.databaseConnectionEditForm.getValue();
-
-    // Execute
-    page.saveObject();
-
-    // Check result
-    // Timer waiting for saving object
-    Timer timer = new Timer() {
-      @Override
-      public void run() {
-        TestHelper.getAllDatabaseConnections(
-            new AsyncCallback<List<DatabaseConnection>>() {
-              @Override
-              public void onFailure(Throwable throwable) {
-                fail();
-                // Cleanup
-                TestHelper.resetDatabaseSync();
-              }
-
-              @Override
-              public void onSuccess(List<DatabaseConnection> con) {
-                DatabaseConnection connection = con.get(0);
-
-                assertEquals(expectedInput.getPassword(), connection.getPassword());
-                assertEquals(expectedInput.getUrl(), connection.getUrl());
-                assertEquals(expectedInput.getUsername(), connection.getUsername());
-
-                // Cleanup
-                TestHelper.resetDatabaseSync();
-                finishTest();
-              }
-            });
-      }
-    };
-    timer.schedule(1000);
-
-    delayTestFinish(2000);
-  }
-*/
 
   @Override
   public String getModuleName() {

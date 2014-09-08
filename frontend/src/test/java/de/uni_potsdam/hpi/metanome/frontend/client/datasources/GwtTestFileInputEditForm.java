@@ -28,7 +28,7 @@ import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 
-public class GwtTestFileInputField extends GWTTestCase {
+public class GwtTestFileInputEditForm extends GWTTestCase {
 
   /**
    * Test method for {@link FileInputEditForm#getValue()}

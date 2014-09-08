@@ -94,7 +94,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * Lists all given table inputs in a table.
    * @param inputs the table inputs
    */
-  private void listTableInputs(List<TableInput> inputs) {
+  protected void listTableInputs(List<TableInput> inputs) {
     if (inputs.isEmpty()) {
       this.add(new HTML("<h4>There are no Table Inputs yet.</h4>"));
       return;

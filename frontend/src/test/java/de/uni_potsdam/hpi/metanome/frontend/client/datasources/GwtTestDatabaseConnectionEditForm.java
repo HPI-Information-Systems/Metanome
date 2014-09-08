@@ -24,7 +24,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 
-public class GwtTestDatabaseConnectionField extends GWTTestCase {
+public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
 
   /**
    * Test method for {@link DatabaseConnectionEditForm#getValue()}
@@ -94,6 +94,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     assertEquals("", actualPassword);
     assertEquals("", actualUrl);
   }
+
 
   @Override
   public String getModuleName() {

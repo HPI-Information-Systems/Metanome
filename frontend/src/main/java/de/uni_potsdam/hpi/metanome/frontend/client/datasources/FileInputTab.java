@@ -91,7 +91,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * Lists all given file inputs in a table.
    * @param inputs the file inputs
    */
-  private void listFileInputs(List<FileInput> inputs) {
+  protected void listFileInputs(List<FileInput> inputs) {
     if (inputs.isEmpty()) {
       this.add(new HTML("<h4>There are no File Inputs yet.</h4>"));
       return;
