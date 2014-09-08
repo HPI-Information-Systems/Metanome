@@ -16,10 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class SqlProfilingAlgorithmTest {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setSqlInputConfigurationValue(String,
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator...)}
+   * de.metanome.algorithm_integration.input.SqlInputGenerator...)}
    */
   @Test
   public void testSetSqlInputConfigurationValue() throws AlgorithmConfigurationException {

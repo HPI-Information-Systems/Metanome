@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.input.sql;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputGenerationException;
 
 import org.junit.Test;
 

@@ -18,8 +18,8 @@ package de.metanome.algorithm_helper.data_structures;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;

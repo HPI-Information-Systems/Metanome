@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
 
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
 public class ConfigurationValueIntegerTest {
 
   /**
-   * Test method for {@link ConfigurationValueInteger#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link ConfigurationValueInteger#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * java.util.Set)} <p/> Parameters should be set on the algorithm through triggerSetValue. This is
    * the last call in a double dispatch call to determine the parameters type.
    */

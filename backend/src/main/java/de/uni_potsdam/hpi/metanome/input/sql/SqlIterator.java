@@ -18,8 +18,8 @@ package de.uni_potsdam.hpi.metanome.input.sql;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

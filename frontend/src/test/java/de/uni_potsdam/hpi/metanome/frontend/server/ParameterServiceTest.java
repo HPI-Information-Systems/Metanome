@@ -16,8 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 
 import junit.framework.TestCase;
 

@@ -21,8 +21,8 @@ import com.google.common.collect.ImmutableList;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.io.IOException;
 import java.io.Reader;

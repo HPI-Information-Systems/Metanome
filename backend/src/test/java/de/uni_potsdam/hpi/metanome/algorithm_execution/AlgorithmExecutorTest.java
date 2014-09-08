@@ -16,18 +16,18 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_execution;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFileInputGenerator;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueInteger;
@@ -212,8 +212,8 @@ public class AlgorithmExecutorTest {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> When executing an {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm}
-   * an {@link de.uni_potsdam.hpi.metanome.results_db.Execution} should be saved in the results
+   * java.util.List)} <p/> When executing an {@link de.metanome.algorithm_integration.Algorithm} an
+   * {@link de.uni_potsdam.hpi.metanome.results_db.Execution} should be saved in the results
    * database.
    */
   @Test
@@ -255,7 +255,7 @@ public class AlgorithmExecutorTest {
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
    * java.util.List)} <p/> Tests the execution of a basic statistics algorithm that requires several
-   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s to run.
+   * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
    */
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()

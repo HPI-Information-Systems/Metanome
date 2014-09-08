@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -60,7 +60,7 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
+   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {

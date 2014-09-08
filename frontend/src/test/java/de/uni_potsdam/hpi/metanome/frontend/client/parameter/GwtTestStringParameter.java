@@ -18,17 +18,17 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput;
 
 public class GwtTestStringParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
@@ -50,7 +50,7 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {

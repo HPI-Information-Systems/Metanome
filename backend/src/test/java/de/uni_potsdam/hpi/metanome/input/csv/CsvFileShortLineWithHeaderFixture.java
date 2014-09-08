@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.input.csv;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 

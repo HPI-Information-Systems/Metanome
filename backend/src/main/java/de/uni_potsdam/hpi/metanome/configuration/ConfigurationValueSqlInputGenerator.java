@@ -16,11 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.util.Set;
 

@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -35,13 +35,11 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   private static final String DATABASE_CONNECTION = "Database Connection";
   private static final String FILE_INPUT = "File Input";
   private static final String TABLE_INPUT = "Table Input";
-
-  private TabWrapper messageReceiver;
-  private BasePage basePage;
-
   protected TableInputTab tableInputTab;
   protected FileInputTab fileInputTab;
   protected DatabaseConnectionTab databaseConnectionTab;
+  private TabWrapper messageReceiver;
+  private BasePage basePage;
 
   /**
    * Constructor
@@ -63,8 +61,8 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * Switch to the run configuration page.
-   * The selected data source should be preselected.
+   * Switch to the run configuration page. The selected data source should be preselected.
+   *
    * @param dataSource the preselected data source
    */
   public void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
@@ -72,8 +70,9 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * Updates the table input tab. Adds a new database connection to the list of available
-   * database connections.
+   * Updates the table input tab. Adds a new database connection to the list of available database
+   * connections.
+   *
    * @param connection the connection which is new and should be added
    */
   public void removeDatabaseConnectionFromTableInputTab(DatabaseConnection connection) {
@@ -81,8 +80,9 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * Updates the table input tab. Adds a new database connection to the list of available
-   * database connections.
+   * Updates the table input tab. Adds a new database connection to the list of available database
+   * connections.
+   *
    * @param connection the connection which is new and should be added
    */
   public void addDatabaseConnectionToTableInputTab(DatabaseConnection connection) {
@@ -90,7 +90,8 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
-   * Forwards the command to update the data sources on the run configuration page to the base page.
+   * Forwards the command to update the data sources on the run configuration page to the base
+   * page.
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.basePage.updateDataSourcesOnRunConfiguration();

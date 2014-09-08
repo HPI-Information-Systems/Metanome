@@ -16,18 +16,18 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_execution;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
 import de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueFactory;
@@ -72,10 +72,10 @@ public class AlgorithmExecutor implements Closeable {
 
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
-   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
-   * to {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s
-   * and all receivers and generators are set before execution. The elapsed time while executing the
-   * algorithm in nano seconds is returned as long.
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link
+   * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
+   * generators are set before execution. The elapsed time while executing the algorithm in nano
+   * seconds is returned as long.
    *
    * @param algorithmFileName the algorithm's file name
    * @param parameters        list of configuration specifications

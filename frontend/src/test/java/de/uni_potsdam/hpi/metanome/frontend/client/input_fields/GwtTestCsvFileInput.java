@@ -18,8 +18,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -59,7 +59,7 @@ public class GwtTestCsvFileInput extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#getValues()}
-   * and {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
+   * and {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {

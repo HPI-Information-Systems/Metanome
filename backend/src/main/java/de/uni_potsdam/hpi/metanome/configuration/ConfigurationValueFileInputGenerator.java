@@ -16,16 +16,16 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 
 import java.util.Set;
 
 /**
- * Represents a file input configuration value for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm}s.
+ * Represents a file input configuration value for {@link de.metanome.algorithm_integration.Algorithm}s.
  *
  * @author Jakob Zwiener
  */
@@ -36,7 +36,7 @@ public class ConfigurationValueFileInputGenerator implements ConfigurationValue 
 
   /**
    * Constructs a ConfigurationValueFileInputGenerator using the specification's identifier and the
-   * {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} values.
+   * {@link de.metanome.algorithm_integration.input.FileInputGenerator} values.
    *
    * @param identifier the configuration value's identifier
    * @param values     the values to set

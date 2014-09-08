@@ -19,8 +19,8 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 

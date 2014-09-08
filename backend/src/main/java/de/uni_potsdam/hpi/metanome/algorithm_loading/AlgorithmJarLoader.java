@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.Algorithm;
 
 import java.io.File;
 import java.io.IOException;

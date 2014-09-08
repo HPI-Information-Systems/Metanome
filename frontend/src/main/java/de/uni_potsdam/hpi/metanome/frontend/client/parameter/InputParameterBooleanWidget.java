@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.BooleanInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField;

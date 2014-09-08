@@ -20,7 +20,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -87,7 +87,8 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection, boolean)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection,
+   * boolean)}
    */
   public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
     // Setup

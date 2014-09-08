@@ -16,11 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.example_indirect_interfaces_algorithm;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import org.junit.Test;
 

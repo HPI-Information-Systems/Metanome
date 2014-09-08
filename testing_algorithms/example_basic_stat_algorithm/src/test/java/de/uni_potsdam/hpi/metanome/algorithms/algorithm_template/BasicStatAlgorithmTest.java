@@ -16,13 +16,13 @@
 
 package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
+import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
 
 import org.junit.After;
@@ -73,8 +73,8 @@ public class BasicStatAlgorithmTest {
 
   /**
    * Test method for {@link BasicStatAlgorithm#execute()} <p/> Execution should fail if no {@link
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver}
-   * has been set on the algorithm.
+   * de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver} has been set
+   * on the algorithm.
    */
   @Test
   public void testExecuteNoResultReceiver() throws AlgorithmConfigurationException {
@@ -97,8 +97,7 @@ public class BasicStatAlgorithmTest {
 
   /**
    * Test method for {@link BasicStatAlgorithm#execute()} <p/> Execution should fail if no {@link
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator} has been set on the
-   * algorithm.
+   * de.metanome.algorithm_integration.input.FileInputGenerator} has been set on the algorithm.
    */
   @Test
   public void testExecuteNoInputs() throws AlgorithmConfigurationException {
@@ -145,8 +144,8 @@ public class BasicStatAlgorithmTest {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> No input
-   * should be settable with the wrong identifier.
+   * de.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> No input should be
+   * settable with the wrong identifier.
    */
   @Test
   public void testSetConfigurationValueFileInputGeneratorWrongIdentifier() {
@@ -163,9 +162,8 @@ public class BasicStatAlgorithmTest {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> 5 {@link
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s should be set on
-   * the algorithm.
+   * de.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> 5 {@link
+   * de.metanome.algorithm_integration.input.FileInputGenerator}s should be set on the algorithm.
    */
   @Test
   public void testSetConfigurationValueFileInputGeneratorWrongNumber() {

@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
@@ -41,15 +41,12 @@ import java.util.List;
 
 public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
+  protected FlexTable connectionInputList;
+  protected DatabaseConnectionEditForm editForm;
   private DatabaseConnectionServiceAsync databaseConnectionService;
   private TableInputServiceAsync tableInputService;
   private DataSourcePage parent;
-
-  protected FlexTable connectionInputList;
-
   private TabWrapper messageReceiver;
-
-  protected DatabaseConnectionEditForm editForm;
 
   /**
    * @param parent the parent page
@@ -73,38 +70,43 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Gets all Database Connections available in the database and adds them to the table.
+   *
    * @param panel the parent widget of the table
    */
   private void addDatabaseConnectionsToList(final FlowPanel panel) {
     this.databaseConnectionService.listDatabaseConnections(
-      new AsyncCallback<List<DatabaseConnection>>() {
-        @Override
-        public void onFailure(Throwable throwable) {
-          panel.add(new Label("There are no Database Connections yet."));
-          addEditForm();
-        }
+        new AsyncCallback<List<DatabaseConnection>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            panel.add(new Label("There are no Database Connections yet."));
+            addEditForm();
+          }
 
-        @Override
-        public void onSuccess(List<DatabaseConnection> connections) {
-          listDatabaseConnections(connections);
-          addEditForm();
-        }
-      });
+          @Override
+          public void onSuccess(List<DatabaseConnection> connections) {
+            listDatabaseConnections(connections);
+            addEditForm();
+          }
+        });
 
     // disable all delete button of database connection which are referenced by a table input
     tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
       @Override
-      public void onFailure(Throwable throwable) { }
+      public void onFailure(Throwable throwable) {
+      }
+
       @Override
       public void onSuccess(List<TableInput> tableInputs) {
-        for (TableInput input : tableInputs)
+        for (TableInput input : tableInputs) {
           setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+        }
       }
     });
   }
 
   /**
    * Lists all given database connections in a table.
+   *
    * @param inputs the database connections
    */
   protected void listDatabaseConnections(List<DatabaseConnection> inputs) {
@@ -127,6 +129,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Adds the given database connection to the table.
+   *
    * @param input the database connection, which should be added.
    */
   public void addDatabaseConnectionToTable(final DatabaseConnection input) {
@@ -164,16 +167,20 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Converts a database connection into a ConfigurationSettingDataSource
+   *
    * @param input the database connection
-   * @return      the ConfigurationSettingDataSource from the given database connection
+   * @return the ConfigurationSettingDataSource from the given database connection
    */
-  private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(DatabaseConnection input) {
-    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(), input.getPassword(),
+  private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(
+      DatabaseConnection input) {
+    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(),
+                                               input.getPassword(),
                                                input.getSystem());
   }
 
   /**
    * Forwards the update-table-input-tab-command to its parent.
+   *
    * @param connection the new database connection
    */
   public void updateTableInputTab(DatabaseConnection connection) {
@@ -181,7 +188,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   }
 
   /**
-   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   * Forwards the command to update the data sources on the run configuration page to the data
+   * source page.
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.parent.updateDataSourcesOnRunConfiguration();
@@ -189,11 +197,11 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * If a table input has a reference to a database connection, the delete button of the database
-   * connection should be disabled.
-   * To delete the database connection, first the related table input has to be deleted.
-   * If the table input is deleted, the button should be enabled again.
+   * connection should be disabled. To delete the database connection, first the related table input
+   * has to be deleted. If the table input is deleted, the button should be enabled again.
+   *
    * @param connection the database connection, which delete button should be enabled/disabled
-   * @param enabled true, if the button should be enabled, false otherwise
+   * @param enabled    true, if the button should be enabled, false otherwise
    */
   protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
     int row = 0;

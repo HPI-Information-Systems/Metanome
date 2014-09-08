@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 public class ConfigurationValueListBoxTest {
 
   /**
-   * Test method for {@link ConfigurationValueListBox#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link ConfigurationValueListBox#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * java.util.Set)} <p/> Parameters should be set on the algorithm through triggerSetValue. This is
    * the last call in a double dispatch call to determine the parameters type.
    */

@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_execution;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 
 /**
  * Stores received progress estimations.

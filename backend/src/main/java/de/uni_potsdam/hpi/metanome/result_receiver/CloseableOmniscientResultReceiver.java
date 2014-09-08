@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import java.io.Closeable;
 

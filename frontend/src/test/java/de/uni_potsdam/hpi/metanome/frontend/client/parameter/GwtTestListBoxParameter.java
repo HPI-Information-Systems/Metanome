@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class GwtTestListBoxParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
@@ -53,7 +53,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {

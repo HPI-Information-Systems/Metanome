@@ -19,18 +19,18 @@ package de.uni_potsdam.hpi.metanome.input.csv;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 /**
- * Generator for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}s
- * based on csv files.
+ * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on csv
+ * files.
  *
  * @author Jakob Zwiener
  */

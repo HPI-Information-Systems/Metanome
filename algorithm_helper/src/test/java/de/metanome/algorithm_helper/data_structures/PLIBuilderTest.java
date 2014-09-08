@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.After;

@@ -16,12 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.util.LinkedList;
 import java.util.List;

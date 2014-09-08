@@ -16,10 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class ConfigurationValueBooleanTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueBoolean#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueBoolean#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * java.util.Set)} <p/> When the correct algorithm interface is missing an exception should be
    * thrown.
    */

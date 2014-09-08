@@ -16,11 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import org.junit.Test;
 
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
 public class ConfigurationValueRelationalInputGeneratorTest {
 
   /**
-   * Test method for {@link ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link ConfigurationValueRelationalInputGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * Set)} <p/> Parameters should be set on the algorithm through triggerSetValue. This is the last
    * call in a double dispatch call to determine the parameters type.
    */
@@ -69,7 +69,7 @@ public class ConfigurationValueRelationalInputGeneratorTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator#triggerSetValue(de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.configuration.ConfigurationValueRelationalInputGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * java.util.Set)} <p/> When the correct algorithm interface is missing an exception should be
    * thrown.
    */

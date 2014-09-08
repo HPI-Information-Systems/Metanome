@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
@@ -39,14 +39,11 @@ import java.util.List;
 
 public class FileInputTab extends FlowPanel implements TabContent {
 
+  protected FlexTable fileInputList;
+  protected FileInputEditForm editForm;
   private FileInputServiceAsync fileInputService;
   private DataSourcePage parent;
-
-  protected FlexTable fileInputList;
-
   private TabWrapper messageReceiver;
-
-  protected FileInputEditForm editForm;
 
   /**
    * @param parent the parent page
@@ -69,27 +66,29 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   /**
    * Gets all File Inputs available in the database and adds them to the table.
+   *
    * @param panel the parent widget of the table
    */
   public void addFileInputsToTable(final FlowPanel panel) {
     fileInputService.listFileInputs(
-      new AsyncCallback<List<FileInput>>() {
-        @Override
-        public void onFailure(Throwable throwable) {
-          panel.add(new Label("There are no File Inputs yet."));
-          addEditForm();
-        }
+        new AsyncCallback<List<FileInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+            panel.add(new Label("There are no File Inputs yet."));
+            addEditForm();
+          }
 
-        @Override
-        public void onSuccess(List<FileInput> fileInputs) {
-          listFileInputs(fileInputs);
-          addEditForm();
-        }
-      });
+          @Override
+          public void onSuccess(List<FileInput> fileInputs) {
+            listFileInputs(fileInputs);
+            addEditForm();
+          }
+        });
   }
 
   /**
    * Lists all given file inputs in a table.
+   *
    * @param inputs the file inputs
    */
   protected void listFileInputs(List<FileInput> inputs) {
@@ -110,6 +109,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   /**
    * Adds the given file input to the table.
+   *
    * @param input the file input, which should be added.
    */
   public void addFileInputToTable(final FileInput input) {
@@ -122,8 +122,8 @@ public class FileInputTab extends FlowPanel implements TabContent {
       public void onClick(ClickEvent clickEvent) {
         fileInputService.deleteFileInput(input,
                                          parent.getDeleteCallback(fileInputList,
-                                           finalRow,
-                                           "File Input"));
+                                                                  finalRow,
+                                                                  "File Input"));
       }
     });
 
@@ -143,8 +143,9 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   /**
    * Converts a file input into a ConfigurationSettingDataSource
+   *
    * @param input the file input
-   * @return      the ConfigurationSettingDataSource from the given file input
+   * @return the ConfigurationSettingDataSource from the given file input
    */
   private ConfigurationSettingDataSource convertFileInputToDataSource(FileInput input) {
     ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
@@ -163,7 +164,8 @@ public class FileInputTab extends FlowPanel implements TabContent {
   }
 
   /**
-   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   * Forwards the command to update the data sources on the run configuration page to the data
+   * source page.
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.parent.updateDataSourcesOnRunConfiguration();

@@ -18,8 +18,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.results.Result;
 
 import java.util.ArrayList;
 import java.util.List;

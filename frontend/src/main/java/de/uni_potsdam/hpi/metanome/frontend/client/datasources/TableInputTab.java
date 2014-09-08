@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
@@ -38,17 +38,13 @@ import java.util.List;
 
 public class TableInputTab extends FlowPanel implements TabContent {
 
+  protected FlexTable tableInputList;
+  protected TableInputEditForm editForm;
   private TableInputServiceAsync tableInputService;
   private DataSourcePage parent;
-
-  protected FlexTable tableInputList;
-
   private TabWrapper messageReceiver;
 
-  protected TableInputEditForm editForm;
-
   /**
-   *
    * @param parent the parent page
    */
   public TableInputTab(DataSourcePage parent) {
@@ -72,6 +68,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Gets all Table Inputs available in the database and adds them to the table.
+   *
    * @param panel the parent widget of the table
    */
   private void addTableInputsToList(final FlowPanel panel) {
@@ -92,6 +89,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Lists all given table inputs in a table.
+   *
    * @param inputs the table inputs
    */
   protected void listTableInputs(List<TableInput> inputs) {
@@ -113,6 +111,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Adds the given table input to the table.
+   *
    * @param input the table input, which should be added.
    */
   public void addTableInputToTable(final TableInput input) {
@@ -124,7 +123,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
       @Override
       public void onClick(ClickEvent clickEvent) {
         tableInputService.deleteTableInput(input,
-                                           getDeleteCallback(finalRow, input.getDatabaseConnection()));
+                                           getDeleteCallback(finalRow,
+                                                             input.getDatabaseConnection()));
       }
     });
 
@@ -133,13 +133,15 @@ public class TableInputTab extends FlowPanel implements TabContent {
     runButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-      parent.callRunConfiguration(convertTableInputToDataSource(input));
+        parent.callRunConfiguration(convertTableInputToDataSource(input));
       }
     });
 
     DatabaseConnection connection = input.getDatabaseConnection();
 
-    this.tableInputList.setText(row, 0, connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername());
+    this.tableInputList.setText(row, 0,
+                                connection.getSystem().name() + "; " + connection.getUrl() + "; "
+                                + connection.getUsername());
     this.tableInputList.setText(row, 1, input.getTableName());
     this.tableInputList.setWidget(row, 2, runButton);
     this.tableInputList.setWidget(row, 3, deleteButton);
@@ -147,8 +149,9 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Converts a table input into a ConfigurationSettingDataSource
+   *
    * @param input the table input
-   * @return      the ConfigurationSettingDataSource from the given table input
+   * @return the ConfigurationSettingDataSource from the given table input
    */
   private ConfigurationSettingDataSource convertTableInputToDataSource(TableInput input) {
     // TODO configuration setting is missing
@@ -157,6 +160,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Forwards the add-database-connection-command to the edit form.
+   *
    * @param connection the new database connection
    */
   public void addDatabaseConnection(DatabaseConnection connection) {
@@ -165,6 +169,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Forwards the remove-database-connection-command to the edit form.
+   *
    * @param connection the database connection
    */
   public void removeDatabaseConnection(DatabaseConnection connection) {
@@ -172,7 +177,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
   }
 
   /**
-   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   * Forwards the command to update the data sources on the run configuration page to the data
+   * source page.
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.parent.updateDataSourcesOnRunConfiguration();
@@ -180,10 +186,12 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Creates the callback for the delete call.
+   *
    * @param row The row, which contains the input.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final int row, final DatabaseConnection connection) {
+  protected AsyncCallback<Void> getDeleteCallback(final int row,
+                                                  final DatabaseConnection connection) {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {

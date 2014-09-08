@@ -16,7 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_loading;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
 import org.junit.Test;
 

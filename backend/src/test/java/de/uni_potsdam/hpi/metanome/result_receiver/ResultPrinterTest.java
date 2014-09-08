@@ -19,13 +19,13 @@ package de.uni_potsdam.hpi.metanome.result_receiver;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;

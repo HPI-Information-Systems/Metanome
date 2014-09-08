@@ -19,12 +19,12 @@ package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
@@ -132,6 +132,23 @@ public class CsvFileInput extends InputField {
   }
 
   /**
+   * Returns the current widget's settings as a setting
+   *
+   * @return the widget's settings
+   */
+  public ConfigurationSettingCsvFile getValues() throws InputValidationException {
+    String selectedValue = this.listbox.getSelectedValue();
+
+    if (selectedValue.equals("--")) {
+      throw new InputValidationException("You must choose a CSV file!");
+    }
+
+    FileInput currentFileInput = this.fileInputs.get(selectedValue);
+
+    return getCurrentSetting(currentFileInput);
+  }
+
+  /**
    * Takes a setting a sets the selected value of the list box to the given setting.
    *
    * @param setting the settings to set
@@ -147,23 +164,6 @@ public class CsvFileInput extends InputField {
       }
     }
     throw new AlgorithmConfigurationException("The file inputs are not set yet.");
-  }
-
-  /**
-   * Returns the current widget's settings as a setting
-   *
-   * @return the widget's settings
-   */
-  public ConfigurationSettingCsvFile getValues() throws InputValidationException {
-    String selectedValue = this.listbox.getSelectedValue();
-
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a CSV file!");
-    }
-
-    FileInput currentFileInput = this.fileInputs.get(selectedValue);
-
-    return getCurrentSetting(currentFileInput);
   }
 
   /**

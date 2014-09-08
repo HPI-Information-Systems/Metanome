@@ -16,19 +16,19 @@
 
 package de.uni_potsdam.hpi.metanome.configuration;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.SqlInputGenerator;
 import de.uni_potsdam.hpi.metanome.input.csv.CsvFileGenerator;
 import de.uni_potsdam.hpi.metanome.input.sql.SqlIteratorGenerator;
 
@@ -36,14 +36,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
- * to {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s.
+ * Converts the incoming {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
+ * to {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  */
 public class ConfigurationValueFactory {
 
   /**
-   * Converts the incoming {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
-   * to {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationValue}s.
+   * Converts the incoming {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
+   * to {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
    *
    * @param specification the specification to convert
    * @return the created configuration value
@@ -73,8 +73,8 @@ public class ConfigurationValueFactory {
   }
 
   /**
-   * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator}
-   * to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator}
+   * to a {@link de.metanome.algorithm_integration.input.SqlInputGenerator}.
    *
    * @param specification the sql iterator specification
    * @return the created sql input generator
@@ -97,8 +97,8 @@ public class ConfigurationValueFactory {
   }
 
   /**
-   * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
-   * to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}.
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
+   * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
    *
    * @param specification the file input specification
    * @return the created file input generator

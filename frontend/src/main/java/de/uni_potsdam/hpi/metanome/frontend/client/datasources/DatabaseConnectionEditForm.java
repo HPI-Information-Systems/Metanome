@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
@@ -41,14 +41,13 @@ import java.util.Arrays;
  */
 public class DatabaseConnectionEditForm extends Grid {
 
-  private DatabaseConnectionServiceAsync databaseConnectionService;
-  private DatabaseConnectionTab parent;
-  private TabWrapper messageReceiver;
-
   protected TextBox dbUrlTextbox;
   protected TextBox usernameTextbox;
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
+  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private DatabaseConnectionTab parent;
+  private TabWrapper messageReceiver;
 
   public DatabaseConnectionEditForm(DatabaseConnectionTab parent) {
     super(5, 2);
@@ -132,20 +131,22 @@ public class DatabaseConnectionEditForm extends Grid {
     try {
       final DatabaseConnection currentConnection = this.getValue();
 
-      this.databaseConnectionService.storeDatabaseConnection(currentConnection, new AsyncCallback<Void>() {
-        @Override
-        public void onFailure(Throwable throwable) {
-          messageReceiver.addError("Database Connection could not be stored:" + throwable.getMessage());
-        }
+      this.databaseConnectionService
+          .storeDatabaseConnection(currentConnection, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+              messageReceiver
+                  .addError("Database Connection could not be stored:" + throwable.getMessage());
+            }
 
-        @Override
-        public void onSuccess(Void aVoid) {
-          reset();
-          parent.addDatabaseConnectionToTable(currentConnection);
-          parent.updateTableInputTab(currentConnection);
-          parent.updateDataSourcesOnRunConfiguration();
-        }
-      });
+            @Override
+            public void onSuccess(Void aVoid) {
+              reset();
+              parent.addDatabaseConnectionToTable(currentConnection);
+              parent.updateTableInputTab(currentConnection);
+              parent.updateDataSourcesOnRunConfiguration();
+            }
+          });
     } catch (InputValidationException e) {
       messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
     }
@@ -163,6 +164,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
   /**
    * Set the message receiver.
+   *
    * @param tab the message receiver tab wrapper
    */
   public void setMessageReceiver(TabWrapper tab) {

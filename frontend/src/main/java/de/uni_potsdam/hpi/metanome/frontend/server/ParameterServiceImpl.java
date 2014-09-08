@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.Algorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 
@@ -36,10 +36,11 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
 
   /**
    * Loads an algorithm and its configuration requirements
-   * 
+   *
    * @param algorithmFileName name of the algorithm for which the configuration parameters shall be
-   *        retrieved
-   * @return a list of {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification}s necessary for calling the given algorithm
+   *                          retrieved
+   * @return a list of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
+   * necessary for calling the given algorithm
    */
   @Override
   public List<ConfigurationSpecification> retrieveParameters(String algorithmFileName)

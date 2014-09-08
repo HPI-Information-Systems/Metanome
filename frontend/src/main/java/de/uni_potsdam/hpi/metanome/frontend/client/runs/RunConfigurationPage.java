@@ -21,8 +21,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
@@ -166,8 +166,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * Forwards the update call to the parameter table.
    */
   public void updateDataSources() {
-    if (this.parameterTable != null)
+    if (this.parameterTable != null) {
       this.parameterTable.updateDataSources();
+    }
   }
 
   // Getters & Setters

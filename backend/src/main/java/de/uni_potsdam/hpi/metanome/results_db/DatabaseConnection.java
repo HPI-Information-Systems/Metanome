@@ -19,7 +19,7 @@ package de.uni_potsdam.hpi.metanome.results_db;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 
 import java.io.Serializable;
 import java.util.List;

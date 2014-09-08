@@ -16,12 +16,12 @@
 
 package de.uni_potsdam.hpi.metanome.result_receiver;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.io.IOException;
 import java.util.HashSet;

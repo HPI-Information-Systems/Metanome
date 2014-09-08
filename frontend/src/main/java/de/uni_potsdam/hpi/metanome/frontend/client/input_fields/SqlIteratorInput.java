@@ -19,9 +19,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.input_fields;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
@@ -77,11 +77,13 @@ public class SqlIteratorInput extends InputField {
             dbConnectionNames.add("--");
             String preselectedIdentifier = null;
 
-        if (result != null && result.size() > 0) {
-          for (DatabaseConnection db : result) {
-            String identifier = db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
-            dbConnectionNames.add(identifier);
-            databaseConnections.put(identifier, db);
+            if (result != null && result.size() > 0) {
+              for (DatabaseConnection db : result) {
+                String
+                    identifier =
+                    db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
+                dbConnectionNames.add(identifier);
+                databaseConnections.put(identifier, db);
 
                 // set the preselected filename
                 if (db.getUrl().equals(preselectedDatabaseConnection)) {

@@ -16,8 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.input.csv;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputGenerationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -109,8 +109,7 @@ public class CsvFileTest {
   /**
    * Test method for {@link CsvFile#next()} <p/> The first line in the csv should determine the line
    * length (it could be the header). Every next line should have this length or an {@link
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException} should be
-   * thrown.
+   * de.metanome.algorithm_integration.input.InputIterationException} should be thrown.
    */
   @Test
   public void testShortWithHeader() throws InputIterationException {

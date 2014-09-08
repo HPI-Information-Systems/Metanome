@@ -23,8 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcePage;
@@ -107,8 +107,8 @@ public class GwtTestBasePage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
-   * </p> Test control flow from Algorithms to Run configuration
+   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
+   * control flow from Algorithms to Run configuration
    */
   public void testSwitchToRunConfigurationFromAlgorithm() {
     // Set up
@@ -166,8 +166,8 @@ public class GwtTestBasePage extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
-   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
-   * </p> Test control flow from Data sources to Run configuration
+   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
+   * control flow from Data sources to Run configuration
    */
   public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();

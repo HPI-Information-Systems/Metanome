@@ -16,24 +16,24 @@
 
 package de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
+import de.metanome.algorithm_integration.results.BasicStatistic;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * An example algorithm for testing that expects 5 {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.FileInputGenerator}s
- * and sends a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic} to
- * the result receiver.
+ * An example algorithm for testing that expects 5 {@link de.metanome.algorithm_integration.input.FileInputGenerator}s
+ * and sends a {@link de.metanome.algorithm_integration.results.BasicStatistic} to the result
+ * receiver.
  *
  * @author Jakob Zwiener
  */

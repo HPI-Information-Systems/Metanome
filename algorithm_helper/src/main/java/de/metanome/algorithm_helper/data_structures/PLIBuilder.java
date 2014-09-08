@@ -18,8 +18,8 @@ package de.metanome.algorithm_helper.data_structures;
 
 import com.google.common.collect.ImmutableList;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.algorithm_integration.input.RelationalInput;
 
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 
@@ -32,8 +32,8 @@ import java.util.TreeSet;
 
 /**
  * Constructs a list of {@link PositionListIndex}es from the given {@link
- * de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}. A list of all columns'
- * sorted distinct values can be constructed as a byproduct.
+ * de.metanome.algorithm_integration.input.RelationalInput}. A list of all columns' sorted distinct
+ * values can be constructed as a byproduct.
  */
 public class PLIBuilder {
 

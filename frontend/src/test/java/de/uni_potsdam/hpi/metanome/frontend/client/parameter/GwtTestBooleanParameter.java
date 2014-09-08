@@ -18,15 +18,15 @@ package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 
 public class GwtTestBooleanParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
@@ -48,7 +48,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
    * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {

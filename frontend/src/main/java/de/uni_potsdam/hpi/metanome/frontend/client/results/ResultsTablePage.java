@@ -20,15 +20,15 @@ package de.uni_potsdam.hpi.metanome.frontend.client.results;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.BasicStatistic;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.FunctionalDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.InclusionDependency;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.Result;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.Result;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -80,6 +80,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
       public void onFailure(Throwable caught) {
         messageReceiver.addError("Could not fetch results: " + caught.getMessage());
       }
+
       @Override
       public void onSuccess(ArrayList<Result> result) {
         displayResults(result);
