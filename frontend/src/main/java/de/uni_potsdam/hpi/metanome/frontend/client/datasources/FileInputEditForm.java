@@ -226,9 +226,9 @@ public class FileInputEditForm extends Grid {
   }
 
   /**
-   * Finds all available CSV files and adds them to a drop-down menu with an empty
-   * entry ("--"), which is selected by default but cannot be selected (it is disabled
-   * because it does not represent a valid input file).
+   * Finds all available CSV files and adds them to a drop-down menu with an empty entry ("--"),
+   * which is selected by default but cannot be selected (it is disabled because it does not
+   * represent a valid input file).
    *
    * @return a GWT ListBox containing all currently available CSV files
    */
@@ -246,7 +246,9 @@ public class FileInputEditForm extends Grid {
   }
 
   /**
-   * Creates the callback for getting all available csv files. On success the files are added to the according list box.
+   * Creates the callback for getting all available csv files. On success the files are added to the
+   * according list box.
+   *
    * @param listbox the listbox where the files should be added.
    * @return the callback
    */
@@ -260,7 +262,8 @@ public class FileInputEditForm extends Grid {
         List<String> fileNames = new ArrayList<>();
 
         if (result.length == 0) {
-          messageReceiver.addError("Could not find CSV files! Please add them to the input folder.");
+          messageReceiver
+              .addError("Could not find CSV files! Please add them to the input folder.");
           return;
         }
 
@@ -284,12 +287,13 @@ public class FileInputEditForm extends Grid {
 
     String fileName = this.fileListBox.getSelectedValue();
 
-    if (fileName.isEmpty() || fileName.equals("--"))
+    if (fileName.isEmpty() || fileName.equals("--")) {
       throw new InputValidationException("The file name is invalid.");
+    }
 
     fileInput.setFileName(this.path + fileName);
 
-    if (this.advancedCheckbox.getValue()){
+    if (this.advancedCheckbox.getValue()) {
       return setAdvancedSettings(fileInput);
     }
 
@@ -298,6 +302,7 @@ public class FileInputEditForm extends Grid {
 
   /**
    * Setting the advanced settings at the given file input.
+   *
    * @param fileInput the file input at which the advanced settings should be set
    * @return the file input with set advanced settings
    */
@@ -317,7 +322,7 @@ public class FileInputEditForm extends Grid {
   /**
    * Checks, if the given text box contains only a character.
    * If yes, the character is returned. Otherwise an exception is thrown.
-   * @param textBox the textbox
+   * @param textBox
    * @return the character of the text box
    * @throws InputValidationException
    */
@@ -333,7 +338,7 @@ public class FileInputEditForm extends Grid {
   /**
    * Checks, if the value of the integer box is an integer.
    * If yes, the integer is returned. Otherwise an exception is thrown.
-   * @param integerBox the integer box
+   * @param integerBox
    * @return the integer of the integer box
    * @throws InputValidationException
    */
@@ -390,8 +395,10 @@ public class FileInputEditForm extends Grid {
     this.setDefaultAdvancedSettings();
   }
 
+
   /**
    * Set the message receiver.
+   *
    * @param tab the message receiver tab wrapper
    */
   public void setMessageReceiver(TabWrapper tab) {

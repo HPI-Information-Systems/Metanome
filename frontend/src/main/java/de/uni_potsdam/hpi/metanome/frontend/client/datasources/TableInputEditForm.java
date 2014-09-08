@@ -50,6 +50,7 @@ public class TableInputEditForm extends Grid {
   private TableInputTab parent;
 
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
+
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
 
@@ -90,6 +91,7 @@ public class TableInputEditForm extends Grid {
 
   /**
    * Creates a table input with the selected database connection and the given table name
+   *
    * @return a table input
    * @throws InputValidationException if the input is invalid.
    */
@@ -114,15 +116,17 @@ public class TableInputEditForm extends Grid {
    * Get all database connection from the database and add them to the list box
    */
   public void updateDatabaseConnectionListBox() {
-    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
+    AsyncCallback<List<DatabaseConnection>>
+        callback =
+        new AsyncCallback<List<DatabaseConnection>>() {
 
-      public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no database connections in the database!");
-      }
+          public void onFailure(Throwable caught) {
+            messageReceiver.addError("There are no database connections in the database!");
+          }
 
-      public void onSuccess(List<DatabaseConnection> result) {
-        List<String> dbConnectionNames = new ArrayList<String>();
-        dbConnectionNames.add("--");
+          public void onSuccess(List<DatabaseConnection> result) {
+            List<String> dbConnectionNames = new ArrayList<String>();
+            dbConnectionNames.add("--");
 
         if (result != null || result.size() > 0) {
           for (DatabaseConnection db : result) {
@@ -193,6 +197,7 @@ public class TableInputEditForm extends Grid {
 
   /**
    * Set the message receiver.
+   *
    * @param tab the message receiver tab wrapper
    */
   public void setMessageReceiver(TabWrapper tab) {

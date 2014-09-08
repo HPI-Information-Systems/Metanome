@@ -48,6 +48,7 @@ public class BooleanInput extends InputField {
 
   /**
    * Sets the value of the checkbox
+   *
    * @param value the value to set the checkbox to
    */
   public void setValue(boolean value) {

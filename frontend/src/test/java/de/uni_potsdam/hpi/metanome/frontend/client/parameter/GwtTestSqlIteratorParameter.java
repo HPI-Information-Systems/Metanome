@@ -54,7 +54,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setSystem(aSystem);
 
     SqlIteratorInput widget = new SqlIteratorInput(false, tabWrapper);
-    ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
+    ConfigurationSettingSqlIterator
+        setting =
+        new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
 
     widget.databaseConnections.put(aUrl, databaseConnection);
     widget.listbox.addValue("--");
@@ -90,10 +92,16 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    ConfigurationSettingSqlIterator setting = new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
+    ConfigurationSettingSqlIterator
+        setting =
+        new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
 
-    ConfigurationSpecificationSqlIterator configSpec = new ConfigurationSpecificationSqlIterator("test");
-    InputParameterSqlIteratorWidget dataSourceWidget = new InputParameterSqlIteratorWidget(configSpec, tabWrapper);
+    ConfigurationSpecificationSqlIterator
+        configSpec =
+        new ConfigurationSpecificationSqlIterator("test");
+    InputParameterSqlIteratorWidget
+        dataSourceWidget =
+        new InputParameterSqlIteratorWidget(configSpec, tabWrapper);
 
     dataSourceWidget.inputWidgets.get(0).listbox.addValue(aUrl);
     dataSourceWidget.inputWidgets.get(0).databaseConnections.put(aUrl, databaseConnection);
@@ -104,11 +112,12 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     assertTrue(((SqlIteratorInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
-      retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget
-          .getUpdatedSpecification()
-          .getSettings()[0];
+    retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget
+        .getUpdatedSpecification()
+        .getSettings()[0];
 
-    assertEquals(Joiner.on(';').join(aUrl, aUser, aPassword, aSystem), retrievedSetting.getValueAsString());
+    assertEquals(Joiner.on(';').join(aUrl, aUser, aPassword, aSystem),
+                 retrievedSetting.getValueAsString());
 
     // Cleanup
     TestHelper.resetDatabaseSync();

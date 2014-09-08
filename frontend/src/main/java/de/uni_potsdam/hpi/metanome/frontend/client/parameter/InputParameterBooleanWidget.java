@@ -32,7 +32,8 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
   protected TabWrapper messageReceiver;
 
 
-  public InputParameterBooleanWidget(ConfigurationSpecificationBoolean specification, TabWrapper wrapper) {
+  public InputParameterBooleanWidget(ConfigurationSpecificationBoolean specification,
+                                     TabWrapper wrapper) {
     super(specification, wrapper);
   }
 

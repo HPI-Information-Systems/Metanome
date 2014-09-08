@@ -29,24 +29,38 @@ public class WidgetFactory {
 
   /**
    * Returns an InputParameterWidget depending on the given ConfigurationSpecification
+   *
    * @param config          the configuration specification
    * @param messageReceiver the tab wrapper
    * @return the corresponding widget to the configuration specification
    */
-  public static InputParameterWidget buildWidget(ConfigurationSpecification config, TabWrapper messageReceiver) {
+  public static InputParameterWidget buildWidget(ConfigurationSpecification config,
+                                                 TabWrapper messageReceiver) {
     InputParameterWidget widget = null;
     if (config instanceof ConfigurationSpecificationBoolean) {
-      widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config, messageReceiver);
+      widget =
+          new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config,
+                                          messageReceiver);
     } else if (config instanceof ConfigurationSpecificationString) {
-      widget = new InputParameterStringWidget((ConfigurationSpecificationString) config, messageReceiver);
+      widget =
+          new InputParameterStringWidget((ConfigurationSpecificationString) config,
+                                         messageReceiver);
     } else if (config instanceof ConfigurationSpecificationCsvFile) {
-      widget = new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config, messageReceiver);
+      widget =
+          new InputParameterCsvFileWidget((ConfigurationSpecificationCsvFile) config,
+                                          messageReceiver);
     } else if (config instanceof ConfigurationSpecificationSqlIterator) {
-      widget = new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config, messageReceiver);
+      widget =
+          new InputParameterSqlIteratorWidget((ConfigurationSpecificationSqlIterator) config,
+                                              messageReceiver);
     } else if (config instanceof ConfigurationSpecificationInteger) {
-      widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config, messageReceiver);
+      widget =
+          new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config,
+                                          messageReceiver);
     } else if (config instanceof ConfigurationSpecificationListBox) {
-      widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config, messageReceiver);
+      widget =
+          new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config,
+                                          messageReceiver);
     }
     return widget;
   }

@@ -81,7 +81,9 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     setting.setFileName(aFileName);
 
     ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
-    InputParameterCsvFileWidget dataSourceWidget = new InputParameterCsvFileWidget(configSpec, tabWrapper);
+    InputParameterCsvFileWidget
+        dataSourceWidget =
+        new InputParameterCsvFileWidget(configSpec, tabWrapper);
 
     dataSourceWidget.inputWidgets.get(0).listbox.addValue(aFileName);
     dataSourceWidget.inputWidgets.get(0).fileInputs.put(aFileName, fileInput);

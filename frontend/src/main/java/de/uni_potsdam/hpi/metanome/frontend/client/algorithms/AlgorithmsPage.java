@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * UI element that incorporates structure and logic for displaying and adding algorithms.
- * 
+ *
  * @author Claudia Exeler
  */
 public class AlgorithmsPage extends FlowPanel implements TabContent {
@@ -126,9 +126,9 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Adds each of the algorithms to the given table, including formatting and buttons.
-   * 
-   * @param algorithms  the algorithms to be displayed
-   * @param table        the table to which the algorithms will be added
+   *
+   * @param algorithms the algorithms to be displayed
+   * @param table      the table to which the algorithms will be added
    */
   protected void addAlgorithmsToTable(List<Algorithm> algorithms, FlexTable table) {
     int row = table.getRowCount();
@@ -174,7 +174,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.algorithmService.deleteAlgorithm(algorithm, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
-        messageReceiver.addError("Could not delete algorithm: " +  throwable.getMessage());
+        messageReceiver.addError("Could not delete algorithm: " + throwable.getMessage());
       }
 
       @Override
@@ -201,7 +201,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Initiates a service call to add the given algorithm to the database.
-   * 
+   *
    * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
@@ -210,7 +210,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Initiates a redirect to the Run Configuration page, prefilled with the given algorithm
-   * 
+   *
    * @param algorithmName name of the algorithm that will be configured
    */
   protected void callRunConfiguration(String algorithmName) {
@@ -220,7 +220,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Constructs a callback that will add all results to the given table
-   * 
+   *
    * @param list Object that all returned elements will be added to
    * @return the desired callback instance
    */
@@ -240,7 +240,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Constructs a callback that will add the given algorithm to all matching tables
-   * 
+   *
    * @param algorithm the algorithm to add to the page
    * @return the desired callback instance
    */
@@ -276,7 +276,8 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Removes the row, which contains the given algorithm Name, from the given table
-   * @param table the table
+   *
+   * @param table         the table
    * @param algorithmName the algorithm name
    */
   protected void removeRow(FlexTable table, String algorithmName) {
@@ -293,8 +294,8 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * (non-Javadoc)
-   * @see
-   * de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+   *
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
    */
   @Override
   public void setMessageReceiver(TabWrapper tab) {

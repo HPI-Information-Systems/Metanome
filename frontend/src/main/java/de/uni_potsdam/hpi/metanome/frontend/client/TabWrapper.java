@@ -21,8 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 
 
 /**
- * A wrapper for tabs to show messages at the top of the tab.
- * The messages can be either error messages or info messages.
+ * A wrapper for tabs to show messages at the top of the tab. The messages can be either error
+ * messages or info messages.
  */
 public class TabWrapper extends FlowPanel {
 
@@ -53,6 +53,7 @@ public class TabWrapper extends FlowPanel {
 
   /**
    * Displays the given info message.
+   *
    * @param message the message, which should be displayed.
    */
   public void addInfo(String message) {
@@ -71,6 +72,7 @@ public class TabWrapper extends FlowPanel {
 
   /**
    * Displays the given error message.
+   *
    * @param message the message, which should be displayed.
    */
   public void addError(String message) {
@@ -95,17 +97,17 @@ public class TabWrapper extends FlowPanel {
   }
 
   /**
-   * @return true, if a info message is set, false otherwise
-   */
-  public boolean isInInfo() {
-    return inInfo;
-  }
-
-  /**
    * @param inError specifies if an error message is set or not
    */
   public void setInError(boolean inError) {
     this.inError = inError;
+  }
+
+  /**
+   * @return true, if a info message is set, false otherwise
+   */
+  public boolean isInInfo() {
+    return inInfo;
   }
 
   /**

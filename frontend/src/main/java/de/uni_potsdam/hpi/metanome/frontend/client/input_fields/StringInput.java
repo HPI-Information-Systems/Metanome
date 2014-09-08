@@ -48,6 +48,7 @@ public class StringInput extends InputField {
 
   /**
    * Sets the value of the text box
+   *
    * @param value the value which should be set
    */
   public void setValue(String value) {

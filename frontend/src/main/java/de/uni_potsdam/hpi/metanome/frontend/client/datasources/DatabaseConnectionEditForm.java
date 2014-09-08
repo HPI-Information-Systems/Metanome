@@ -83,10 +83,11 @@ public class DatabaseConnectionEditForm extends Grid {
 
   /**
    * Set the url,username and password in the according text boxes.
-   * @param url       the url for the database connection
-   * @param system    the database system for the database connection
-   * @param username  the username for the database connection
-   * @param password  the password for the database connection
+   *
+   * @param url      the url for the database connection
+   * @param system   the database system for the database connection
+   * @param username the username for the database connection
+   * @param password the password for the database connection
    */
   public void setValues(String url, String system, String username, String password) {
     this.dbUrlTextbox.setValue(url);
@@ -97,6 +98,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
   /**
    * Create a database connection with the specified values.
+   *
    * @return a database connection
    * @throws InputValidationException if one of the fields is empty
    */
@@ -108,8 +110,10 @@ public class DatabaseConnectionEditForm extends Grid {
     String password = this.passwordTextbox.getValue();
     String system = this.systemListBox.getSelectedValue();
 
-    if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty())
-      throw new InputValidationException("The database url, username and password should all be set!");
+    if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty()) {
+      throw new InputValidationException(
+          "The database url, username and password should all be set!");
+    }
 
     connection
         .setUrl(url)

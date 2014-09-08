@@ -42,19 +42,17 @@ import java.util.List;
 public class RunConfigurationPage extends DockLayoutPanel implements TabContent {
 
   public ConfigurationSettingDataSource primaryDataSource;
-
+  public ParameterTable parameterTable;
   protected BasePage basePage;
   protected TabWrapper messageReceiver;
-
-  public ParameterTable parameterTable;
   protected AlgorithmChooser algorithmChooser;
   protected Label primaryDataSourceLabel;
   protected ExecutionServiceAsync executionService;
 
 
   /**
-   * Initializes ExecutionService and registers given algorithms. However, more
-   * algorithms can be registered whenever they become available, through {@link RunConfigurationPage#addAlgorithms(java.util.List)}
+   * Initializes ExecutionService and registers given algorithms. However, more algorithms can be
+   * registered whenever they become available, through {@link RunConfigurationPage#addAlgorithms(java.util.List)}
    *
    * @param basePage the base page this sub page
    */
@@ -97,6 +95,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
 
   /**
    * Removes a algorithm from the algorithm chooser.
+   *
    * @param algorithmName the algorithm name, which should be removed
    */
   public void removeAlgorithm(String algorithmName) {
@@ -152,7 +151,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   /**
    * Execute the currently selected algorithm and switch to results page.
    *
-   * @param parameters parameters to use for the algorithm execution
+   * @param parameters    parameters to use for the algorithm execution
    * @param configuration the configuration to start executing with
    */
   public void startExecution(List<ConfigurationSpecification> parameters,
@@ -175,7 +174,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   public AlgorithmChooser getJarChooser() {
     return algorithmChooser;
   }
-
 
 
   /* (non-Javadoc)

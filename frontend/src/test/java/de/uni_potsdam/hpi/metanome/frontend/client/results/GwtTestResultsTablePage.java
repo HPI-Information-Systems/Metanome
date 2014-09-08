@@ -32,7 +32,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsyn
 public class GwtTestResultsTablePage extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage#ResultsTablePage(de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync, String)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsTablePage#ResultsTablePage(de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync,
+   * String)}
    */
   public void testResultsTablePage() {
     // Setup

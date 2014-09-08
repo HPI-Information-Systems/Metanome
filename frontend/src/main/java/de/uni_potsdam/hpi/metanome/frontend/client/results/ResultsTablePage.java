@@ -16,10 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnIdentifier;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -34,6 +34,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
 import java.util.ArrayList;
+
 
 /**
  * UI element that displays the results of an algorithm execution in a table.
@@ -88,6 +89,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
 
   /**
    * Displays the incoming results.
+   *
    * @param results the results of algorithm execution
    */
   protected void displayResults(ArrayList<Result> results) {
@@ -149,13 +151,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = cuccTable.getRowCount();
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-    int col = 2;
-    for (ColumnCondition condition : conditionalUniqueColumnCombination.getConditions()) {
-      cuccTable.setText(row, col,
-                        condition.getColumn().toString() + ": " + condition.getColumnValues()
-                            .toString());
-      col++;
-    }
+    cuccTable.setText(row, 2, conditionalUniqueColumnCombination.getCondition().toString());
   }
 
   @Override

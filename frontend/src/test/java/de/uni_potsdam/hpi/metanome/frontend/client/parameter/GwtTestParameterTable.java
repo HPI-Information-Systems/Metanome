@@ -43,7 +43,9 @@ import java.util.List;
 public class GwtTestParameterTable extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable#ParameterTable(java.util.List, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.ParameterTable#ParameterTable(java.util.List,
+   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testParameterTable() {
     // Setup
@@ -113,9 +115,8 @@ public class GwtTestParameterTable extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
-   * and for {@link ParameterTable#getConfigurationSpecificationsWithValues()}
-   * @throws InputValidationException
+   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()} and
+   * for {@link ParameterTable#getConfigurationSpecificationsWithValues()}
    */
   public void testRetrieveSimpleParameterValues() throws InputValidationException {
     //Setup
@@ -220,8 +221,8 @@ public class GwtTestParameterTable extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
-   * @throws InputValidationException
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
     // Setup
@@ -283,8 +284,8 @@ public class GwtTestParameterTable extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
-   * @throws InputValidationException
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
     // Setup
@@ -408,8 +409,6 @@ public class GwtTestParameterTable extends GWTTestCase {
     delayTestFinish(4000);
   }
 */
-
-
   @Override
   public String getModuleName() {
     return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";

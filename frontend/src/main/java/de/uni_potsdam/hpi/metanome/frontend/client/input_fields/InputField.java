@@ -25,8 +25,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterWidge
 
 public abstract class InputField extends FlowPanel {
 
-  protected Button removeButton;
   public boolean isOptional;
+  protected Button removeButton;
 
   public InputField(boolean optional) {
     super();

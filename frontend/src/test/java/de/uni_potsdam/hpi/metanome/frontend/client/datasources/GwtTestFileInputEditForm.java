@@ -67,7 +67,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  public void testGetValueWithCustomAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
+  public void testGetValueWithCustomAdvancedSettings()
+      throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     // Expected
     FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
@@ -112,7 +113,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
   /**
    * Test method for {@link FileInputEditForm#getValue()}
    */
-  public void testGetValueWithDefaultAdvancedSettings() throws InputValidationException, AlgorithmConfigurationException {
+  public void testGetValueWithDefaultAdvancedSettings()
+      throws InputValidationException, AlgorithmConfigurationException {
     // Set up
     FileInputEditForm field = new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
     field.advancedCheckbox.setValue(true);
@@ -151,10 +153,13 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     assertFalse(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());
     assertFalse(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());
     assertFalse(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());
-    assertFalse(widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
-    assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached() && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
+    assertFalse(
+        widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
+    assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached()
+                && widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
     assertFalse(widget.headerCheckbox.isAttached() && widget.headerCheckbox.isVisible());
-    assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox.isVisible());
+    assertFalse(widget.skipDifferingLinesCheckbox.isAttached() && widget.skipDifferingLinesCheckbox
+        .isVisible());
 
     // Execute
     widget.advancedCheckbox.setValue(true, true);

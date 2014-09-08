@@ -45,6 +45,7 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
 
   /**
    * Constructor
+   *
    * @param basePage the parent page
    */
   public DataSourcePage(BasePage basePage) {
@@ -97,12 +98,14 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
 
   /**
    * Creates the callback for the delete call.
+   *
    * @param table The table from which the input should be removed.
-   * @param row The row, which contains the input.
-   * @param type The type of the input.
+   * @param row   The row, which contains the input.
+   * @param type  The type of the input.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row, final String type) {
+  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row,
+                                                  final String type) {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {

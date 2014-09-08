@@ -118,7 +118,7 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * @return the number of items in the listbox, that is, the number of available algorithms in this
-   *         JarChooser
+   * JarChooser
    */
   public int getListItemCount() {
     return this.listbox.getItemCount();
@@ -168,6 +168,7 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * Removes the given name from the algorithm chooser.
+   *
    * @param algorithmName the algorithm's name, which should be removed
    */
   public void removeAlgorithm(String algorithmName) {

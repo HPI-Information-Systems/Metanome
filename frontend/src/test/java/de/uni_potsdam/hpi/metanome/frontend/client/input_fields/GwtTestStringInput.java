@@ -22,8 +22,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 public class GwtTestStringInput extends GWTTestCase {
 
   /**
-   * Test method for {@link StringInput#getValue()} and for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput#setValue(String)}
+   * Test method for {@link StringInput#getValue()} and for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput#setValue(String)}
    */
   public void testGetSetValues() {
     StringInput input = new StringInput(false);

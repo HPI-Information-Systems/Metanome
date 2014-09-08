@@ -33,13 +33,14 @@
         <url-pattern>/metanome/parameterService</url-pattern>
     </servlet-mapping>
 
-    <servlet> 
-    	<servlet-name>algorithmServiceImpl</servlet-name> 
-    	<servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl</servlet-class> 
-    </servlet> 
-    <servlet-mapping> 
-    	<servlet-name>algorithmServiceImpl</servlet-name> 
-    	<url-pattern>/metanome/algorithmService</url-pattern> 
+    <servlet>
+        <servlet-name>algorithmServiceImpl</servlet-name>
+        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>algorithmServiceImpl</servlet-name>
+        <url-pattern>/metanome/algorithmService</url-pattern>
     </servlet-mapping>
 
     <servlet>

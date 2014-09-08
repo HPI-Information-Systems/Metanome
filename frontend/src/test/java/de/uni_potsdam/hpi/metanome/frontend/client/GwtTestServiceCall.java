@@ -145,18 +145,20 @@ public class GwtTestServiceCall extends GWTTestCase {
    */
   public void testDatabaseConnectionService() {
     // Setup
-    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        fail();
-      }
+    AsyncCallback<List<DatabaseConnection>>
+        callback =
+        new AsyncCallback<List<DatabaseConnection>>() {
+          @Override
+          public void onFailure(Throwable caught) {
+            fail();
+          }
 
-      @Override
-      public void onSuccess(List<DatabaseConnection> result) {
-        assertNotNull(result);
-        finishTest();
-      }
-    };
+          @Override
+          public void onSuccess(List<DatabaseConnection> result) {
+            assertNotNull(result);
+            finishTest();
+          }
+        };
 
     DatabaseConnectionServiceAsync service = GWT.create(DatabaseConnectionService.class);
 

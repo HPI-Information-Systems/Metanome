@@ -40,7 +40,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Test for {@link ExampleAlgorithm}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ExampleAlgorithmTest {
 

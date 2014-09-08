@@ -30,14 +30,15 @@ import java.util.List;
 
 public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
 
+  protected List<SqlIteratorInput> inputWidgets;
+  protected TabWrapper messageReceiver;
   /**
    * Corresponding inputParameter, where the value is going to be written
    */
   private ConfigurationSpecificationSqlIterator specification;
-  protected List<SqlIteratorInput> inputWidgets;
-  protected TabWrapper messageReceiver;
 
-  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config, TabWrapper wrapper) {
+  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config,
+                                         TabWrapper wrapper) {
     super(config, wrapper);
   }
 
@@ -56,7 +57,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
         new ConfigurationSettingSqlIterator[inputWidgets.size()];
 
     for (int i = 0; i < inputWidgets.size(); i++) {
-        values[i] = inputWidgets.get(i).getValues();
+      values[i] = inputWidgets.get(i).getValues();
     }
 
     specification.setSettings(values);

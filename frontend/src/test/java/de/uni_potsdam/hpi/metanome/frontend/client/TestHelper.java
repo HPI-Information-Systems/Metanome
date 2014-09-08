@@ -35,14 +35,14 @@ import java.util.List;
  */
 public class TestHelper {
 
+  protected static TestDatabaseHelperServiceAsync
+      testDatabaseHelperService =
+      GWT.create(TestDatabaseHelperService.class);
+  
   static boolean[] reset_blocked = {true};
   static boolean[] database_connection_blocked = {true};
   static boolean[] file_input_blocked = {true};
   static boolean[] algorithm_blocked = {true};
-
-  protected static TestDatabaseHelperServiceAsync
-      testDatabaseHelperService =
-      GWT.create(TestDatabaseHelperService.class);
 
   /**
    * Resets the database synchronously.
@@ -104,7 +104,8 @@ public class TestHelper {
   /**
    * Stores a database connection.
    *
-   * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to store
+   * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to
+   *                   store
    */
   public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
     testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
@@ -167,6 +168,7 @@ public class TestHelper {
 
   /**
    * Get all database connections synchronously.
+   *
    * @param callback the async callback
    */
   public static void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback) {
@@ -175,6 +177,7 @@ public class TestHelper {
 
   /**
    * Get all file inputs synchronously.
+   *
    * @param callback the async callback
    */
   public static void getAllFileInputs(AsyncCallback<List<Input>> callback) {
@@ -183,6 +186,7 @@ public class TestHelper {
 
   /**
    * Get all table inputs synchronously.
+   *
    * @param callback the async callback
    */
   public static void getAllTableInputs(AsyncCallback<List<Input>> callback) {

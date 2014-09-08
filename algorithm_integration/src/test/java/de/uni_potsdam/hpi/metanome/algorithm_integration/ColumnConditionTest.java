@@ -16,86 +16,50 @@
 
 package de.uni_potsdam.hpi.metanome.algorithm_integration;
 
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
+ * Tests for {@link ColumnCondition}
  *
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  */
 public class ColumnConditionTest {
-
-
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition#equals(Object)}
-   * and {@link ColumnCondition#hashCode()} <p/> {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition}
-   * containing the same condition values for the same column should be equal
-   */
-  @Test
-  public void testEqualsHashCode() {
-    //Setup
-    ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
-    ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
-
-    ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
-
-    List<String> conditionValues1 = new LinkedList<>();
-    conditionValues1.add("a");
-    conditionValues1.add("b");
-
-    List<String> conditionValues2 = new LinkedList<>();
-    conditionValues2.add("b");
-    conditionValues2.add("a");
-
-    List<String> conditionValues3 = new LinkedList<>();
-    conditionValues3.add("a");
-    conditionValues3.add("b");
-    conditionValues3.add("c");
-
-    ColumnCondition
-        columnCondition1 =
-        new ColumnCondition(column11, conditionValues1);
-    ColumnCondition
-        columnConditionEq =
-        new ColumnCondition(column21, conditionValues1);
-    ColumnCondition
-        columnConditionEq2 =
-        new ColumnCondition(column11, conditionValues2);
-
-    ColumnCondition
-        columnConditionNotEq =
-        new ColumnCondition(column12, conditionValues1);
-    ColumnCondition
-        columnConditionNotEq2 =
-        new ColumnCondition(column11, conditionValues3);
-
-    EqualsAndHashCodeTester<ColumnCondition> tester = new EqualsAndHashCodeTester<>();
-
-    //Execute functionality
-    //Check Result
-    tester.performBasicEqualsAndHashCodeChecks(columnCondition1, columnConditionEq,
-                                               columnConditionNotEq, columnConditionNotEq2);
-    tester.performBasicEqualsAndHashCodeChecks(columnCondition1, columnConditionEq2);
-  }
-
-
-  /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_integration.ColumnCondition#toString()}
+   * Test method for {@link ColumnCondition#toString()}
    */
   @Test
   public void testToString() {
     //Setup
-    ColumnCondition actualColumnCondition = new ColumnCondition(
-        new ColumnIdentifier("hello", "world"),
-        "foo");
+    ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
+    ColumnIdentifier column12 = new ColumnIdentifier("table1", "column2");
+    ColumnIdentifier column21 = new ColumnIdentifier("table2", "column1");
+
+    ColumnCondition
+        andCondition =
+        new ColumnConditionAnd(new ColumnConditionValue(column11, "A"),
+                               new ColumnConditionValue(column12, "B"));
+    ColumnCondition
+        OrCondition =
+        new ColumnConditionOr(andCondition, new ColumnConditionValue(column21, "A"));
     //check result
-    assertEquals("hello.world: [foo]", actualColumnCondition.toString());
+    assertEquals("[table2.column1: A | [table1.column1: A & table1.column2: B]]", OrCondition.toString());
   }
+
+  /**
+   * Tests that the instances of {@link ColumnIdentifier} are serializable in GWT.
+   */
+  @Test
+  public void testGwtSerialization() {
+    GwtSerializationTester.checkGwtSerializability(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A"));
+    GwtSerializationTester.checkGwtSerializability(new ColumnConditionAnd(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A")));
+    GwtSerializationTester.checkGwtSerializability(new ColumnConditionOr(
+        new ColumnConditionValue(new ColumnIdentifier("table1", "column1"), "A")));
+  }
+
 }

@@ -36,6 +36,7 @@ import java.util.List;
  * @author Jakob Zwiener
  */
 public class AlgorithmServiceImpl extends RemoteServiceServlet implements AlgorithmService {
+
   private static final long serialVersionUID = 2742248537386173766L;
 
   private AlgorithmFinder algorithmFinder = new AlgorithmFinder();
@@ -115,6 +116,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
 
   /**
    * Lists all algorithm file names located in the algorithm folder.
+   *
    * @return list of algorithm file names
    */
   @Override
