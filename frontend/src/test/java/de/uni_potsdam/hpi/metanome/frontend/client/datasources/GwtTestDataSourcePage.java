@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
@@ -31,6 +32,7 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.results_db.Input;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GwtTestDataSourcePage extends GWTTestCase {
@@ -148,6 +150,7 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
 
     BasePage parent = new BasePage();
+    parent.runConfigurationsPage.addParameterTable(new ArrayList<ConfigurationSpecification>());
     DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 

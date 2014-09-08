@@ -50,7 +50,7 @@ public class BasePage extends TabLayoutPanel {
 
   protected ResultsPage resultsPage;
   protected TabWrapper resultPageTabWrapper;
-  protected RunConfigurationPage runConfigurationsPage;
+  public RunConfigurationPage runConfigurationsPage;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
 
