@@ -39,17 +39,10 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
 
   /**
    * @return a list of filenames (with path)
+   * @throws Exception if no csv files could be found
    */
-  public String[] listCsvFiles() {
-    File[] csvFiles = null;
-
-    try {
-      csvFiles = inputDataFinder.getAvailableCsvs();
-    } catch (Exception e) {
-      //TODO: error handling
-      System.out.println("FAILED to FIND input CSV files");
-      e.printStackTrace();
-    }
+  public String[] listCsvFiles() throws Exception {
+    File[] csvFiles = inputDataFinder.getAvailableCsvs();
 
     String[] csvInputFilePaths = new String[csvFiles.length];
     for (int i = 0; i < csvFiles.length; i++) {
