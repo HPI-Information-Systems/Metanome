@@ -33,7 +33,6 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
-import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
@@ -55,32 +54,27 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private static final String DATABASE_CONNECTION = "Database Connection";
   private static final String FILE_INPUT = "File Input";
   private static final String TABLE_INPUT = "Table Input";
-
-  private DatabaseConnectionServiceAsync databaseConnectionService;
-  private TableInputServiceAsync tableInputService;
-  private FileInputServiceAsync fileInputService;
-
-  private TabWrapper messageReceiver;
-  private BasePage basePage;
-
   protected FlowPanel content;
   protected FlowPanel editForm;
   protected DatabaseConnectionEditForm databaseConnectionEditForm;
   protected FileInputEditForm fileInputEditForm;
   protected TableInputEditForm tableInputEditForm;
-
   protected Boolean databaseConnectionSelected;
   protected Boolean tableInputSelected;
   protected Boolean fileInputSelected;
-
   protected FlowPanel saveButtonPanel;
-
   protected FlexTable databaseConnectionTable;
   protected FlexTable fileInputTable;
   protected FlexTable tableInputTable;
+  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private TableInputServiceAsync tableInputService;
+  private FileInputServiceAsync fileInputService;
+  private TabWrapper messageReceiver;
+  private BasePage basePage;
 
   /**
    * Constructor
+   *
    * @param basePage the parent page
    */
   public DataSourcePage(BasePage basePage) {
@@ -144,9 +138,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Creates the click handles for the file input button.
-   * If the button is clicked the content panel should display a list with all file inputs and
-   * a file input edit form.
+   * Creates the click handles for the file input button. If the button is clicked the content panel
+   * should display a list with all file inputs and a file input edit form.
+   *
    * @return the click handler
    */
   private ClickHandler getClickHandlerForFileButton() {
@@ -166,9 +160,10 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Creates the click handles for the database connection button.
-   * If the button is clicked the content panel should display a list with all database connections and
-   * a database connection edit form.
+   * Creates the click handles for the database connection button. If the button is clicked the
+   * content panel should display a list with all database connections and a database connection
+   * edit form.
+   *
    * @return the click handler
    */
   private ClickHandler getClickHandlerForDbButton() {
@@ -188,9 +183,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Creates the click handles for the table input button.
-   * If the button is clicked the content panel should display a list with all table inputs and
-   * a table input edit form.
+   * Creates the click handles for the table input button. If the button is clicked the content
+   * panel should display a list with all table inputs and a table input edit form.
+   *
    * @return the click handler
    */
   private ClickHandler getClickHandlerForTableButton() {
@@ -302,9 +297,10 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Fills the content widget according to the selected input type.
-   * If there already exists some inputs of the type, the inputs are listed.
-   * Additionally, a form to add a new input of that type is added.
+   * Fills the content widget according to the selected input type. If there already exists some
+   * inputs of the type, the inputs are listed. Additionally, a form to add a new input of that type
+   * is added.
+   *
    * @param type the selected input type
    */
   private void fillContent(String type) {
@@ -312,27 +308,30 @@ public class DataSourcePage extends FlowPanel implements TabContent {
     switch (type) {
       case DATABASE_CONNECTION:
         databaseConnectionService.listDatabaseConnections(
-          new AsyncCallback<List<DatabaseConnection>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-              content.add(new Label("There are no Database Connections yet."));
-              addEditForm(DATABASE_CONNECTION);
-            }
+            new AsyncCallback<List<DatabaseConnection>>() {
+              @Override
+              public void onFailure(Throwable throwable) {
+                content.add(new Label("There are no Database Connections yet."));
+                addEditForm(DATABASE_CONNECTION);
+              }
 
-            @Override
-            public void onSuccess(List<DatabaseConnection> connections) {
-              listDatabaseConnections(connections);
-              addEditForm(DATABASE_CONNECTION);
-            }
-          });
+              @Override
+              public void onSuccess(List<DatabaseConnection> connections) {
+                listDatabaseConnections(connections);
+                addEditForm(DATABASE_CONNECTION);
+              }
+            });
         // disable all delete button of database connection which are referenced by a table input
         tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
           @Override
-          public void onFailure(Throwable throwable) { }
+          public void onFailure(Throwable throwable) {
+          }
+
           @Override
           public void onSuccess(List<TableInput> tableInputs) {
-            for (TableInput input : tableInputs)
+            for (TableInput input : tableInputs) {
               setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+            }
           }
         });
 
@@ -354,19 +353,19 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         break;
       case FILE_INPUT:
         fileInputService.listFileInputs(
-          new AsyncCallback<List<FileInput>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-              content.add(new Label("There are no File Inputs yet."));
-              addEditForm(FILE_INPUT);
-            }
+            new AsyncCallback<List<FileInput>>() {
+              @Override
+              public void onFailure(Throwable throwable) {
+                content.add(new Label("There are no File Inputs yet."));
+                addEditForm(FILE_INPUT);
+              }
 
-            @Override
-            public void onSuccess(List<FileInput> fileInputs) {
-              listFileInputs(fileInputs);
-              addEditForm(FILE_INPUT);
-            }
-          });
+              @Override
+              public void onSuccess(List<FileInput> fileInputs) {
+                listFileInputs(fileInputs);
+                addEditForm(FILE_INPUT);
+              }
+            });
         break;
       default:
         this.messageReceiver.addError("Type not supported!");
@@ -376,6 +375,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Adds a edit form to add a new input of the given type.
+   *
    * @param type the input type
    */
   private void addEditForm(String type) {
@@ -413,6 +413,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Lists all given table inputs in a table and adds the table to the content.
+   *
    * @param inputs the table inputs
    */
   private void listTableInputs(List<TableInput> inputs) {
@@ -461,6 +462,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Lists all given file inputs in a table and adds the table to the content.
+   *
    * @param inputs the file inputs
    */
   private void listFileInputs(List<FileInput> inputs) {
@@ -506,6 +508,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Lists all given database connections in a table and adds the table to the content.
+   *
    * @param inputs a list of database connection which should be added to a table
    */
   private void listDatabaseConnections(List<DatabaseConnection> inputs) {
@@ -527,9 +530,10 @@ public class DataSourcePage extends FlowPanel implements TabContent {
       deleteButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent clickEvent) {
-          databaseConnectionService.deleteDatabaseConnection(input, getDeleteCallback(databaseConnectionTable,
-                                                                                      finalRow,
-                                                                                      DATABASE_CONNECTION));
+          databaseConnectionService
+              .deleteDatabaseConnection(input, getDeleteCallback(databaseConnectionTable,
+                                                                 finalRow,
+                                                                 DATABASE_CONNECTION));
         }
       });
 
@@ -556,12 +560,14 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Creates the callback for the delete call.
+   *
    * @param table The table from which the input should be removed.
-   * @param row The row, which contains the input.
-   * @param type The type of the input.
+   * @param row   The row, which contains the input.
+   * @param type  The type of the input.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row, final String type) {
+  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row,
+                                                  final String type) {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
@@ -577,8 +583,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Converts a table input into a ConfigurationSettingDataSource
+   *
    * @param input the table input
-   * @return      the ConfigurationSettingDataSource from the given table input
+   * @return the ConfigurationSettingDataSource from the given table input
    */
   private ConfigurationSettingDataSource convertTableInputToDataSource(TableInput input) {
     // TODO configuration setting is missing
@@ -587,8 +594,9 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Converts a file input into a ConfigurationSettingDataSource
+   *
    * @param input the file input
-   * @return      the ConfigurationSettingDataSource from the given file input
+   * @return the ConfigurationSettingDataSource from the given file input
    */
   private ConfigurationSettingDataSource convertFileInputToDataSource(FileInput input) {
     ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
@@ -608,17 +616,20 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * Converts a database connection into a ConfigurationSettingDataSource
+   *
    * @param input the database connection
-   * @return      the ConfigurationSettingDataSource from the given database connection
+   * @return the ConfigurationSettingDataSource from the given database connection
    */
-  private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(DatabaseConnection input) {
-    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(), input.getPassword(),
+  private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(
+      DatabaseConnection input) {
+    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(),
+                                               input.getPassword(),
                                                DbSystem.DB2);
   }
 
   /**
-   * Switch to the run configuration page.
-   * The selected data source should be preselected.
+   * Switch to the run configuration page. The selected data source should be preselected.
+   *
    * @param dataSource the preselected data source
    */
   private void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
@@ -627,11 +638,11 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   /**
    * If a table input has a reference to a database connection, the delete button of the database
-   * connection should be disabled.
-   * To delete the database connection, first the related table input has to be deleted.
-   * If the table input is deleted, the button should be enabled again.
+   * connection should be disabled. To delete the database connection, first the related table input
+   * has to be deleted. If the table input is deleted, the button should be enabled again.
+   *
    * @param connection the database connection, which delete button should be enabled/disabled
-   * @param enabled true, if the button should be enabled, false otherwise
+   * @param enabled    true, if the button should be enabled, false otherwise
    */
   protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
     int row = 0;

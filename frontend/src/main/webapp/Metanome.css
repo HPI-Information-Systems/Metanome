@@ -15,7 +15,7 @@
  */
 
 body {
-    font-family: arial,serif;
+    font-family: arial, serif;
     overflow: hidden;
 }
 
@@ -62,7 +62,7 @@ h3 {
 
 .resultTable-caption {
     font-weight: bold;
-    font-family: arial,serif;
+    font-family: arial, serif;
     margin-bottom: 5px;
     margin-top: 5px;
 }

@@ -87,6 +87,16 @@ public class FileInput extends Input implements Serializable {
   }
 
   /**
+   * Retrieves all file inputs stored in the database.
+   *
+   * @return a list of all file inputs
+   */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
+  public static List<Input> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(FileInput.class);
+  }
+
+  /**
    * Stores the FileInput in the database.
    *
    * @return the FileInput
@@ -97,16 +107,6 @@ public class FileInput extends Input implements Serializable {
     HibernateUtil.store(this);
 
     return this;
-  }
-
-  /**
-   * Retrieves all file inputs stored in the database.
-   *
-   * @return a list of all file inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(FileInput.class);
   }
 
   public String getFileName() {

@@ -36,7 +36,7 @@ import java.util.Set;
  * org.apache.lucene.util.OpenBitSet}s.
  *
  * @author Jakob Zwiener
- * @author Jens Hildebrandt
+ * @author Jens Ehrlich
  * @author Lukas Schulze
  * @author Mandy Roick
  */

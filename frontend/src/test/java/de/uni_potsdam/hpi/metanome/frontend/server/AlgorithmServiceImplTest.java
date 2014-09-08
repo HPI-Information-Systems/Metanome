@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl}
- * 
+ *
  * @author Jakob Zwiener
  */
 public class AlgorithmServiceImplTest {
@@ -87,10 +87,8 @@ public class AlgorithmServiceImplTest {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
-   * <p/>
-   * When no interface is specified all stored algorithms should be retrieved by the service.
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
+   * <p/> When no interface is specified all stored algorithms should be retrieved by the service.
    */
   @Test
   public void testListAlgorithms() throws EntityStorageException {
@@ -102,7 +100,7 @@ public class AlgorithmServiceImplTest {
     // Expected values
     Algorithm[] expectedAlgorithms =
         {new Algorithm("some file name 1"), new Algorithm("some file name 2"),
-            new Algorithm("some file name 3")};
+         new Algorithm("some file name 3")};
     for (Algorithm algorithm : expectedAlgorithms) {
       algorithm.store();
     }
@@ -113,17 +111,15 @@ public class AlgorithmServiceImplTest {
 
     // Check result
     assertThat(actualAlgorithms,
-        IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
 
     // Cleanup
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
-   * <p/>
-   * When no interface is specified all stored algorithms should be retrieved by the service.
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl#listAlgorithms(Class)}
+   * <p/> When no interface is specified all stored algorithms should be retrieved by the service.
    */
   @Test
   public void testAddAlgorithm() throws EntityStorageException {
@@ -139,7 +135,8 @@ public class AlgorithmServiceImplTest {
 
     // Check result
     assertTrue(finderService.listAllAlgorithms().contains(algorithm));
-    assertTrue(finderService.listAlgorithms(InclusionDependencyAlgorithm.class).contains(algorithm));
+    assertTrue(
+        finderService.listAlgorithms(InclusionDependencyAlgorithm.class).contains(algorithm));
     assertFalse(finderService.listAlgorithms(FunctionalDependencyAlgorithm.class).contains(
         algorithm));
 
@@ -148,12 +145,11 @@ public class AlgorithmServiceImplTest {
   }
 
   /**
-   * Test method for {@link AlgorithmServiceImpl#listUniqueColumnCombinationsAlgorithms()},
-   * {@link AlgorithmServiceImpl#listInclusionDependencyAlgorithms()},
-   * {@link AlgorithmServiceImpl#listFunctionalDependencyAlgorithms()} and
-   * {@link AlgorithmServiceImpl#listBasicStatisticsAlgorithms()}
-   * <p/>
-   * Stored algorithms that implement certain interfaces should be retrievable by the service.
+   * Test method for {@link AlgorithmServiceImpl#listUniqueColumnCombinationsAlgorithms()}, {@link
+   * AlgorithmServiceImpl#listInclusionDependencyAlgorithms()}, {@link
+   * AlgorithmServiceImpl#listFunctionalDependencyAlgorithms()} and {@link
+   * AlgorithmServiceImpl#listBasicStatisticsAlgorithms()} <p/> Stored algorithms that implement
+   * certain interfaces should be retrievable by the service.
    */
   @Test
   public void testListAlgorithmFileNamesInterface() throws EntityStorageException {
@@ -183,13 +179,13 @@ public class AlgorithmServiceImplTest {
 
     // Check result
     assertThat(actualIndAlgorithms,
-        IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
     assertThat(actualUccAlgorithms,
-        IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm));
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedUccAlgorithm));
     assertThat(actualFdAlgorithms,
-        IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm));
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFdAlgorithm));
     assertThat(actualBasicStatAlgorithms,
-        IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
     assertThat(actualAllAlgorithms, IsIterableContainingInAnyOrder.containsInAnyOrder(
         expectedIndAlgorithm, expectedUccAlgorithm, expectedFdAlgorithm,
         expectedBasicStatAlgorithm, otherAlgorithm));

@@ -151,7 +151,6 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.AlgorithmChooser#removeAlgorithm(String)}
-   * @return
    */
   public void testRemoveAlgorithm() {
     // Setup

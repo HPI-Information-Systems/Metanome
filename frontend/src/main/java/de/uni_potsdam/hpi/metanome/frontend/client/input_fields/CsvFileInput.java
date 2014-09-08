@@ -49,7 +49,7 @@ public class CsvFileInput extends InputField {
   private String preselectedFilename;
 
   /**
-   * @param optional specifies whether a remove button should be displayed
+   * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
   public CsvFileInput(boolean optional, TabWrapper messageReceiver) {
@@ -84,8 +84,9 @@ public class CsvFileInput extends InputField {
             fileInputs.put(identifier, input);
 
             // set the preselected filename
-            if (input.getFileName().equals(preselectedFilename))
+            if (input.getFileName().equals(preselectedFilename)) {
               preselectedIdentifier = identifier;
+            }
           }
         } else {
           messageReceiver.addError("There are no file inputs in the database!");
@@ -95,8 +96,9 @@ public class CsvFileInput extends InputField {
         listbox.setValues(fileInputNames);
         listbox.disableFirstEntry();
 
-        if (preselectedIdentifier != null)
+        if (preselectedIdentifier != null) {
           listbox.setSelectedValue(preselectedIdentifier);
+        }
       }
     };
 
@@ -106,9 +108,8 @@ public class CsvFileInput extends InputField {
   }
 
   /**
-   * Selects the given data source in the list box.
-   * If the list box has not yet been filled with the available values,
-   * we save the value and set it when the list box is filled.
+   * Selects the given data source in the list box. If the list box has not yet been filled with the
+   * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
    * @throws AlgorithmConfigurationException If the data source setting is not a csv file setting
@@ -117,8 +118,9 @@ public class CsvFileInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedFilename = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues())
+    if (!this.listbox.containsValues()) {
       return;
+    }
 
     if (dataSourceSetting instanceof ConfigurationSettingCsvFile) {
       ConfigurationSettingCsvFile setting = (ConfigurationSettingCsvFile) dataSourceSetting;
@@ -126,6 +128,23 @@ public class CsvFileInput extends InputField {
     } else {
       throw new AlgorithmConfigurationException("This is not a csv file setting.");
     }
+  }
+
+  /**
+   * Returns the current widget's settings as a setting
+   *
+   * @return the widget's settings
+   */
+  public ConfigurationSettingCsvFile getValues() {
+    if (this.listbox.getSelectedValue().equals("--")) {
+      this.messageReceiver.addError("You must choose a CSV file!");
+      return null;
+    }
+
+    FileInput currentFileInput = this.fileInputs.get(
+        this.listbox.getSelectedValue());
+
+    return getCurrentSetting(currentFileInput);
   }
 
   /**
@@ -147,24 +166,8 @@ public class CsvFileInput extends InputField {
   }
 
   /**
-   * Returns the current widget's settings as a setting
-   *
-   * @return the widget's settings
-   */
-  public ConfigurationSettingCsvFile getValues() {
-    if (this.listbox.getSelectedValue().equals("--")) {
-      this.messageReceiver.addError("You must choose a CSV file!");
-      return null;
-    }
-
-    FileInput currentFileInput = this.fileInputs.get(
-        this.listbox.getSelectedValue());
-
-    return getCurrentSetting(currentFileInput);
-  }
-
-  /**
    * Creates a ConfigurationSettingCsvFile from the given FileInput
+   *
    * @param fileInput the file input
    * @return the setting generated from the file input
    */

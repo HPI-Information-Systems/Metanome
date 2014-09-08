@@ -30,13 +30,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Depending on the currently selected algorithm this widget displays the needed parameters.
- * The parameters can be configured and the algorithm can be executed.
+ * Depending on the currently selected algorithm this widget displays the needed parameters. The
+ * parameters can be configured and the algorithm can be executed.
  */
 public class ParameterTable extends FlexTable {
 
-  private List<InputParameterWidget> childWidgets = new LinkedList<>();
   protected List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
+  private List<InputParameterWidget> childWidgets = new LinkedList<>();
   private TabWrapper messageReceiver;
 
   /**
@@ -44,9 +44,9 @@ public class ParameterTable extends FlexTable {
    * input field are created for each parameter, and a button added at the bottom that triggers
    * algorithm execution.
    *
-   * @param paramList the list of parameters asked for by the algorithm.
+   * @param paramList         the list of parameters asked for by the algorithm.
    * @param primaryDataSource the primary data source
-   * @param messageReceiver to send errors to
+   * @param messageReceiver   to send errors to
    */
   public ParameterTable(List<ConfigurationSpecification> paramList,
                         ConfigurationSettingDataSource primaryDataSource,
@@ -69,7 +69,7 @@ public class ParameterTable extends FlexTable {
             dataSourceWidget.setDataSource(primaryDataSource);
           } catch (AlgorithmConfigurationException e) {
             this.messageReceiver.addError("Could not select " + primaryDataSource.getValueAsString()
-                                        + " as data source. Please choose one of the available ones below.");
+                                          + " as data source. Please choose one of the available ones below.");
           }
         }
         this.dataSourceChildWidgets.add(dataSourceWidget);
@@ -106,7 +106,10 @@ public class ParameterTable extends FlexTable {
    *
    * @return The list of {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterDataSourceWidget}s
    * of this ParameterTable with their user-set values.
-   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child
+   *                                                                                      widgets
+   *                                                                                      cannot validate
+   *                                                                                      their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues()
       throws InputValidationException {
@@ -122,7 +125,10 @@ public class ParameterTable extends FlexTable {
    *
    * @return The list of ConfigurationSpecifications of this ParameterTable with their user-set
    * values.
-   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child widgets cannot validate their input
+   * @throws de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException if the child
+   *                                                                                      widgets
+   *                                                                                      cannot validate
+   *                                                                                      their input
    */
   public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues()
       throws InputValidationException {

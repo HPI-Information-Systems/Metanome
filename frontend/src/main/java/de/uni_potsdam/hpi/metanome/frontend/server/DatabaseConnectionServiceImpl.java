@@ -25,7 +25,8 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available database connections stored in the database.
+ * Service Implementation for service that lists available database connections stored in the
+ * database.
  */
 public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implements
                                                                         DatabaseConnectionService {
@@ -33,7 +34,6 @@ public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implemen
   private static final long serialVersionUID = -993802777300283362L;
 
   /**
-   *
    * @return a list of all database connections in the database or null, if there are none
    */
   @Override
@@ -47,7 +47,6 @@ public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implemen
   }
 
   /**
-   *
    * @param id of the database connection, which should be returned
    * @return the database connection or null, if no database connection with the id was found
    */

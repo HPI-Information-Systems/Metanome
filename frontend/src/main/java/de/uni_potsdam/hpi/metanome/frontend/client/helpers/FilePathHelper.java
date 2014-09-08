@@ -23,6 +23,7 @@ public class FilePathHelper {
 
   /**
    * Extracts the file name from the file path and returns it.
+   *
    * @param path the complete file path
    * @return the file name
    */
@@ -32,7 +33,6 @@ public class FilePathHelper {
   }
 
   /**
-   *
    * @param path the complete file path with file name
    * @return the path without file name
    */

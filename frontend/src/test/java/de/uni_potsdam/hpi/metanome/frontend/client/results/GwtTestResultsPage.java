@@ -109,7 +109,8 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#updateOnSuccess(ResultsTablePage, ResultsVisualizationPage, Long)}
+   * Test method for {@link ResultsPage#updateOnSuccess(ResultsTablePage, ResultsVisualizationPage,
+   * Long)}
    */
   public void testUpdateOnSuccess() {
     // Set up

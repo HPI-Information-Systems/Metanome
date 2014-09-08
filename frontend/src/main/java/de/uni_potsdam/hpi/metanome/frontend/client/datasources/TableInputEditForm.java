@@ -42,12 +42,10 @@ import java.util.Map;
 public class TableInputEditForm extends FlowPanel {
 
   private final DatabaseConnectionServiceAsync databaseConnectionService;
-  private TabWrapper messageReceiver;
-
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
-
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
+  private TabWrapper messageReceiver;
   private FlexTable layoutTable;
 
 
@@ -81,8 +79,10 @@ public class TableInputEditForm extends FlowPanel {
 
   /**
    * Sets the selected database connection and the table name
-   * @param connectionIdentifier the identifier of the database connection which should be selected in the list box
-   * @param tableName the table name which should be set in the text box
+   *
+   * @param connectionIdentifier the identifier of the database connection which should be selected
+   *                             in the list box
+   * @param tableName            the table name which should be set in the text box
    */
   protected void setValues(String connectionIdentifier, String tableName) {
     this.dbConnectionListBox.setSelectedValue(connectionIdentifier);
@@ -91,6 +91,7 @@ public class TableInputEditForm extends FlowPanel {
 
   /**
    * Creates a table input with the selected database connection and the given table name
+   *
    * @return a table input
    * @throws InputValidationException if the input is invalid.
    */
@@ -116,38 +117,40 @@ public class TableInputEditForm extends FlowPanel {
    * Get all database connection from the database and add them to the list box
    */
   public void updateDatabaseConnectionListBox() {
-    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
+    AsyncCallback<List<DatabaseConnection>>
+        callback =
+        new AsyncCallback<List<DatabaseConnection>>() {
 
-      public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no database connections in the database!");
-      }
-
-      public void onSuccess(List<DatabaseConnection> result) {
-        List<String> dbConnectionNames = new ArrayList<String>();
-        dbConnectionNames.add("--");
-
-        if (result != null || result.size() > 0) {
-          for (DatabaseConnection db : result) {
-            String identifier = db.getUrl();
-            dbConnectionNames.add(identifier);
-            dbMap.put(identifier, db);
+          public void onFailure(Throwable caught) {
+            messageReceiver.addError("There are no database connections in the database!");
           }
-        } else {
-          messageReceiver.addError("There are no database connections in the database!");
-        }
 
-        dbConnectionListBox.clear();
-        dbConnectionListBox.setValues(dbConnectionNames);
-        dbConnectionListBox.disableFirstEntry();
-      }
-    };
+          public void onSuccess(List<DatabaseConnection> result) {
+            List<String> dbConnectionNames = new ArrayList<String>();
+            dbConnectionNames.add("--");
+
+            if (result != null || result.size() > 0) {
+              for (DatabaseConnection db : result) {
+                String identifier = db.getUrl();
+                dbConnectionNames.add(identifier);
+                dbMap.put(identifier, db);
+              }
+            } else {
+              messageReceiver.addError("There are no database connections in the database!");
+            }
+
+            dbConnectionListBox.clear();
+            dbConnectionListBox.setValues(dbConnectionNames);
+            dbConnectionListBox.disableFirstEntry();
+          }
+        };
 
     databaseConnectionService.listDatabaseConnections(callback);
   }
 
   /**
-   * Resets all values, sets the current database connection to the default value "--" and
-   * clears the text of the table name input field.
+   * Resets all values, sets the current database connection to the default value "--" and clears
+   * the text of the table name input field.
    */
   public void reset() {
     this.dbConnectionListBox.reset();
@@ -156,6 +159,7 @@ public class TableInputEditForm extends FlowPanel {
 
   /**
    * Set the message receiver.
+   *
    * @param tab the message receiver tab wrapper
    */
   public void setMessageReceiver(TabWrapper tab) {

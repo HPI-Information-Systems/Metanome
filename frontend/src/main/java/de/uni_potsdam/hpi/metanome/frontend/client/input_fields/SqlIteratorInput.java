@@ -45,7 +45,8 @@ public class SqlIteratorInput extends InputField {
   public Map<String, DatabaseConnection> databaseConnections;
   private TabWrapper messageReceiver;
   /**
-   * When using the link from Data Sources page, this is where the selected database connection is stored.
+   * When using the link from Data Sources page, this is where the selected database connection is
+   * stored.
    */
   private String preselectedDatabaseConnection;
 
@@ -64,57 +65,64 @@ public class SqlIteratorInput extends InputField {
    * Get all database connections from the database and put them into the list box.
    */
   public void updateListBox() {
-    AsyncCallback<List<DatabaseConnection>> callback = new AsyncCallback<List<DatabaseConnection>>() {
-      public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no database connections in the database!");
-      }
-
-      public void onSuccess(List<DatabaseConnection> result) {
-        List<String> dbConnectionNames = new ArrayList<String>();
-        dbConnectionNames.add("--");
-        String preselectedIdentifier = null;
-
-        if (result != null && result.size() > 0) {
-          for (DatabaseConnection db : result) {
-            String identifier = db.getUrl(); // TODO add system
-            dbConnectionNames.add(identifier);
-            databaseConnections.put(identifier, db);
-
-            // set the preselected filename
-            if (db.getUrl().equals(preselectedDatabaseConnection))
-              preselectedIdentifier = identifier;
+    AsyncCallback<List<DatabaseConnection>>
+        callback =
+        new AsyncCallback<List<DatabaseConnection>>() {
+          public void onFailure(Throwable caught) {
+            messageReceiver.addError("There are no database connections in the database!");
           }
-        } else {
-          messageReceiver.addError("There are no database connections in the database!");
-        }
 
-        listbox.clear();
-        listbox.setValues(dbConnectionNames);
-        listbox.disableFirstEntry();
+          public void onSuccess(List<DatabaseConnection> result) {
+            List<String> dbConnectionNames = new ArrayList<String>();
+            dbConnectionNames.add("--");
+            String preselectedIdentifier = null;
 
-        if (preselectedIdentifier != null)
-          listbox.setSelectedValue(preselectedIdentifier);
-      }
-    };
+            if (result != null && result.size() > 0) {
+              for (DatabaseConnection db : result) {
+                String identifier = db.getUrl(); // TODO add system
+                dbConnectionNames.add(identifier);
+                databaseConnections.put(identifier, db);
 
-    DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+                // set the preselected filename
+                if (db.getUrl().equals(preselectedDatabaseConnection)) {
+                  preselectedIdentifier = identifier;
+                }
+              }
+            } else {
+              messageReceiver.addError("There are no database connections in the database!");
+            }
+
+            listbox.clear();
+            listbox.setValues(dbConnectionNames);
+            listbox.disableFirstEntry();
+
+            if (preselectedIdentifier != null) {
+              listbox.setSelectedValue(preselectedIdentifier);
+            }
+          }
+        };
+
+    DatabaseConnectionServiceAsync
+        databaseConnectionService =
+        GWT.create(DatabaseConnectionService.class);
     databaseConnectionService.listDatabaseConnections(callback);
   }
 
   /**
-   * Selects the given data source in the list box.
-   * If the list box has not yet been filled with the available values,
-   * we save the value and set it when the list box is filled.
+   * Selects the given data source in the list box. If the list box has not yet been filled with the
+   * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws AlgorithmConfigurationException If the data source setting is not a sql iterator setting
+   * @throws AlgorithmConfigurationException If the data source setting is not a sql iterator
+   *                                         setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
       throws AlgorithmConfigurationException {
     this.preselectedDatabaseConnection = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues())
+    if (!this.listbox.containsValues()) {
       return;
+    }
 
     if (dataSourceSetting instanceof ConfigurationSettingSqlIterator) {
       ConfigurationSettingSqlIterator setting = (ConfigurationSettingSqlIterator) dataSourceSetting;

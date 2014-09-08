@@ -38,7 +38,8 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
    */
   private ConfigurationSpecificationCsvFile specification;
 
-  public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec, TabWrapper messageReceiver) {
+  public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec,
+                                     TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
 

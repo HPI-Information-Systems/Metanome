@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service Implementation for service that lists available file inputs stored in the database or on the file system.
+ * Service Implementation for service that lists available file inputs stored in the database or on
+ * the file system.
  */
 public class FileInputServiceImpl extends RemoteServiceServlet implements FileInputService {
 
@@ -54,13 +55,14 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
 
   /**
    * Lists all file inputs stored in the database
+   *
    * @return a list of all currently stored file inputs
    */
   @Override
   public List<FileInput> listFileInputs() {
     try {
       List<FileInput> inputs = new ArrayList<>();
-      for (Input input: FileInput.retrieveAll()) {
+      for (Input input : FileInput.retrieveAll()) {
         inputs.add((FileInput) input);
       }
       return inputs;
@@ -71,7 +73,6 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
   }
 
   /**
-   *
    * @param id the id of the file inputs which should be returned
    * @return the file input with the given id
    */
@@ -87,6 +88,7 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
 
   /**
    * Stores a file input into the database
+   *
    * @param input the file input which should be stored
    */
   @Override

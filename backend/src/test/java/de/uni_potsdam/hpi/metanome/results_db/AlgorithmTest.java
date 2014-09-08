@@ -76,7 +76,8 @@ public class AlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#Algorithm(String, String, String, String, java.util.Set)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#Algorithm(String,
+   * String, String, String, java.util.Set)}
    *
    * The algorithm should have the appropriate algorithm types and other values set.
    */

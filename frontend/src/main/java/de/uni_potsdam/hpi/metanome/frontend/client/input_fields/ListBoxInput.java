@@ -68,6 +68,7 @@ public class ListBoxInput extends InputField {
 
   /**
    * Adds a item to the list box.
+   *
    * @param item the item to be added
    */
   public void addValue(String item) {
@@ -111,6 +112,7 @@ public class ListBoxInput extends InputField {
 
   /**
    * Checks if the list box contains values
+   *
    * @return false, if no values are set, true otherwise
    */
   public boolean containsValues() {

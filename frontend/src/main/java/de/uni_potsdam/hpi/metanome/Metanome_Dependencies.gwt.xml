@@ -26,6 +26,9 @@
         <include name="ColumnCombination.java"/>
         <include name="ColumnIdentifier.java"/>
         <include name="ColumnCondition.java"/>
+        <include name="ColumnConditionAnd.java"/>
+        <include name="ColumnConditionOr.java"/>
+        <include name="ColumnConditionValue.java"/>
     </source>
     <source path="algorithm_integration/configuration">
         <include name="ConfigurationSettingBoolean.java"/>
