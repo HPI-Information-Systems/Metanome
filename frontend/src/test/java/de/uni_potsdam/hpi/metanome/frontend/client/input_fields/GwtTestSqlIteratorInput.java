@@ -27,17 +27,15 @@ import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput}
- * 
+ *
  * @author Jakob Zwiener
  */
 public class GwtTestSqlIteratorInput extends GWTTestCase {
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#SqlIteratorInput(boolean, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
-   * <p/>
-   * After calling the constructor the optional parameter should be set correctly and all widgets
-   * should be initialized.
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#SqlIteratorInput(boolean,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the
+   * optional parameter should be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
     // Set up
@@ -61,10 +59,8 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link SqlIteratorInput#getValues()} and
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
-   * <p/>
-   * The getValues and setValues methods should set and retrieve settings.
+   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
+   * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {
     // Set up

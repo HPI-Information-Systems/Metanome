@@ -43,75 +43,6 @@ import java.io.FileNotFoundException;
 public class DefaultConfigurationFactory extends ConfigurationFactory {
 
   /**
-   * TODO docs
-   */
-  public ConfigurationValueBoolean build(ConfigurationSpecificationBoolean specification) {
-    return new ConfigurationValueBoolean(specification);
-  }
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueFileInputGenerator build(
-      ConfigurationSpecificationCsvFile specification) {
-    try {
-      return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
-                                                      createFileInputGenerators(specification));
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
-      // TODO handle exception
-    }
-    return null;
-  }
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueInteger build(ConfigurationSpecificationInteger specification) {
-    return new ConfigurationValueInteger(specification);
-  }
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueListBox build(ConfigurationSpecificationListBox specification) {
-    return new ConfigurationValueListBox(specification);
-  }
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueRelationalInputGenerator build(
-      ConfigurationSpecificationRelationalInput specification) {
-    //return new ConfigurationValueRelationalInputGenerator(specification);
-    return null;
-  }
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueSqlInputGenerator build(
-      ConfigurationSpecificationSqlIterator specification) {
-    try {
-      return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
-                                                     createSqlIteratorGenerators(specification));
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
-      //TODO handle exception
-    }
-    return null;
-  }
-
-  // TODO add ConfigurationValueDatabaseConnection
-
-  /**
-   * TODO docs
-   */
-  public ConfigurationValueString build(ConfigurationSpecificationString specification) {
-    return new ConfigurationValueString(specification);
-  }
-
-  /**
    * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator}
    * to a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.SqlInputGenerator}.
    *
@@ -134,7 +65,6 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
     }
     return sqlIteratorGenerators;
   }
-
 
   /**
    * Converts a {@link de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
@@ -172,6 +102,75 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
     }
 
     return csvFileGenerators;
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueBoolean build(ConfigurationSpecificationBoolean specification) {
+    return new ConfigurationValueBoolean(specification);
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueFileInputGenerator build(
+      ConfigurationSpecificationCsvFile specification) {
+    try {
+      return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
+                                                      createFileInputGenerators(specification));
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+      // TODO handle exception
+    }
+    return null;
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueInteger build(ConfigurationSpecificationInteger specification) {
+    return new ConfigurationValueInteger(specification);
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueListBox build(ConfigurationSpecificationListBox specification) {
+    return new ConfigurationValueListBox(specification);
+  }
+
+  // TODO add ConfigurationValueDatabaseConnection
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueRelationalInputGenerator build(
+      ConfigurationSpecificationRelationalInput specification) {
+    //return new ConfigurationValueRelationalInputGenerator(specification);
+    return null;
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueSqlInputGenerator build(
+      ConfigurationSpecificationSqlIterator specification) {
+    try {
+      return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
+                                                     createSqlIteratorGenerators(specification));
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+      //TODO handle exception
+    }
+    return null;
+  }
+
+  /**
+   * TODO docs
+   */
+  public ConfigurationValueString build(ConfigurationSpecificationString specification) {
+    return new ConfigurationValueString(specification);
   }
 
 }

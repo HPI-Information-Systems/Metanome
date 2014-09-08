@@ -36,13 +36,14 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
 
   /**
    * Lists all table inputs stored in the database
+   *
    * @return a list of all currently stored table inputs
    */
   @Override
   public List<TableInput> listTableInputs() {
     try {
       List<TableInput> inputs = new ArrayList<>();
-      for (Input input: TableInput.retrieveAll()) {
+      for (Input input : TableInput.retrieveAll()) {
         inputs.add((TableInput) input);
       }
       return inputs;
@@ -53,7 +54,6 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
   }
 
   /**
-   *
    * @param id the id of the table inputs which should be returned
    * @return the table input with the given id
    */
@@ -69,6 +69,7 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
 
   /**
    * Stores a table input into the database
+   *
    * @param input the table input which should be stored
    */
   @Override

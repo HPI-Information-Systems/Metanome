@@ -39,9 +39,10 @@ public class ResultTable extends FlowPanel {
 
   /**
    * Sets the text of a specific row and column
-   * @param row the row
+   *
+   * @param row    the row
    * @param column the column
-   * @param text the text, which should be set
+   * @param text   the text, which should be set
    */
   public void setText(int row, int column, String text) {
     this.table.setText(row, column, text);

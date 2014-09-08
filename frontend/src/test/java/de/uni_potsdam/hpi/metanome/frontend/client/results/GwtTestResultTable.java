@@ -22,9 +22,8 @@ import com.google.gwt.junit.client.GWTTestCase;
 public class GwtTestResultTable extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultTable#setText(int, int, String)}
-   * and for
-   * {@link ResultTable#getRowCount()}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.results.ResultTable#setText(int,
+   * int, String)} and for {@link ResultTable#getRowCount()}
    */
   public void testResultTable() {
     // Set up

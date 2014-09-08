@@ -17,9 +17,6 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.results;
 
 
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.TimeZone;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -37,8 +34,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
 
 import java.util.ArrayList;
-
-import java.util.Date;
 
 
 /**
@@ -94,6 +89,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
 
   /**
    * Displays the incoming results.
+   *
    * @param results the results of algorithm execution
    */
   protected void displayResults(ArrayList<Result> results) {

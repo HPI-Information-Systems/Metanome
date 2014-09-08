@@ -43,14 +43,14 @@ import java.util.List;
 /**
  * Overall Application page that has tabs for the various functions (subpages). It also coordinates
  * control between these subpages. Should be added to RootPanel.
- * 
+ *
  * @author Claudia Exeler
  */
 public class BasePage extends TabLayoutPanel {
 
+  public RunConfigurationPage runConfigurationsPage;
   protected ResultsPage resultsPage;
   protected TabWrapper resultPageTabWrapper;
-  public RunConfigurationPage runConfigurationsPage;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
 
@@ -65,15 +65,18 @@ public class BasePage extends TabLayoutPanel {
 
     // Add data source tab
     this.dataSourcePage = new DataSourcePage(this);
-    this.insert(new ScrollPanel(new TabWrapper(this.dataSourcePage)), "Data Sources", Tabs.DATA_SOURCES.ordinal());
+    this.insert(new ScrollPanel(new TabWrapper(this.dataSourcePage)), "Data Sources",
+                Tabs.DATA_SOURCES.ordinal());
 
     // Add algorithm tab
     this.algorithmPage = new AlgorithmsPage(this);
-    this.insert(new ScrollPanel(new TabWrapper(this.algorithmPage)), "Algorithms", Tabs.ALGORITHMS.ordinal());
+    this.insert(new ScrollPanel(new TabWrapper(this.algorithmPage)), "Algorithms",
+                Tabs.ALGORITHMS.ordinal());
 
     // Add run configuration tab
     this.runConfigurationsPage = new RunConfigurationPage(this);
-    this.insert(new ScrollPanel(new TabWrapper(this.runConfigurationsPage)), "Run Configuration", Tabs.RUN_CONFIGURATION.ordinal());
+    this.insert(new ScrollPanel(new TabWrapper(this.runConfigurationsPage)), "Run Configuration",
+                Tabs.RUN_CONFIGURATION.ordinal());
 
     // Add result tab
     this.resultsPage = new ResultsPage(this);
@@ -86,7 +89,7 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Create the "About" Page, which should include information about the project.
-   * 
+   *
    * @return Widget with contents to be placed on the page.
    */
   private Widget createAboutPage() {
@@ -99,12 +102,11 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
-   * Hand control from the Run Configuration to displaying Results.
-   * Start algorithm execution.
-   * 
-   * @param executionService the service instance used for executing the algorithm
+   * Hand control from the Run Configuration to displaying Results. Start algorithm execution.
+   *
+   * @param executionService  the service instance used for executing the algorithm
    * @param algorithmFileName the file name of the algorithm to execute
-   * @param parameters the specification with set settings used to configure the algorithm
+   * @param parameters        the specification with set settings used to configure the algorithm
    */
   public void startAlgorithmExecution(ExecutionServiceAsync executionService,
                                       String algorithmFileName,
@@ -117,9 +119,11 @@ public class BasePage extends TabLayoutPanel {
 
     // Execute algorithm
     executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
-                                      this.getExecutionCallback(executionService, executionIdentifier));
+                                      this.getExecutionCallback(executionService,
+                                                                executionIdentifier));
     // During execution the progress is shown on the result page
-    this.resultsPage.setExecutionParameter(executionService, executionIdentifier, algorithmFileName);
+    this.resultsPage
+        .setExecutionParameter(executionService, executionIdentifier, algorithmFileName);
     this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
@@ -128,15 +132,18 @@ public class BasePage extends TabLayoutPanel {
   /**
    * If the algorithm execution is successful, the results will be shown. otherwise the reason of
    * failure will be displayed.
+   *
    * @param executionService    the service instance used for executing the algorithm
    * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private AsyncCallback<Long> getExecutionCallback(final ExecutionServiceAsync executionService, final String executionIdentifier) {
+  private AsyncCallback<Long> getExecutionCallback(final ExecutionServiceAsync executionService,
+                                                   final String executionIdentifier) {
     return new AsyncCallback<Long>() {
       public void onFailure(Throwable caught) {
         resultsPage.updateOnError(caught.getMessage());
       }
+
       public void onSuccess(Long executionTime) {
         handleSuccessfulExecution(executionService, executionIdentifier, executionTime);
       }
@@ -145,13 +152,17 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Creates the results table and visualization page.
+   *
    * @param executionService    the service instance used for executing the algorithm
    * @param executionIdentifier the execution identifier
    * @param executionTime       the time, which was needed for execution
    */
-  private void handleSuccessfulExecution(ExecutionServiceAsync executionService, String executionIdentifier, Long executionTime) {
+  private void handleSuccessfulExecution(ExecutionServiceAsync executionService,
+                                         String executionIdentifier, Long executionTime) {
     // Create new tab with result table
-    ResultsTablePage resultsTableContent = new ResultsTablePage(executionService, executionIdentifier);
+    ResultsTablePage
+        resultsTableContent =
+        new ResultsTablePage(executionService, executionIdentifier);
     resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
 
     // Create new tab with visualizations of result
@@ -164,7 +175,7 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Generates a string that uniquely identifies an algorithm execution.
-   * 
+   *
    * @param algorithmName the name of the algorithm being executed
    * @return a string consisting of the algorithmName and the current date and time
    */
@@ -176,7 +187,7 @@ public class BasePage extends TabLayoutPanel {
   /**
    * Hand control from any page to Run Configurations, and pre-configure the latter with the
    * algorithm and/or data source.
-   * 
+   *
    * @param algorithmName algorithm that shall be run
    * @param dataSource    data source that shall be profiled
    */
@@ -193,7 +204,7 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Forwards any algorithms found by AlgorithmPage to be available in RunConfigurations
-   * 
+   *
    * @param algorithms list of available algorithms
    */
   public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
@@ -208,7 +219,8 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
-   * Forwards an algorithm, which should be removed, from the AlgorithmPage to the RunConfigurations
+   * Forwards an algorithm, which should be removed, from the AlgorithmPage to the
+   * RunConfigurations
    *
    * @param algorithmName the name of the algorithm, which should be removed
    */

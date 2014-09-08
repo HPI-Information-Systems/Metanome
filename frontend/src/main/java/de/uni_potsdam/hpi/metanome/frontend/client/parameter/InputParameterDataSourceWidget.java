@@ -30,6 +30,7 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
 
   /**
    * Specifies which configuration setting is supported by this input widget
+   *
    * @param setting the configuration setting
    * @return true, if the configuration setting is supported, false otherwise
    */
@@ -42,6 +43,7 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
 
   /**
    * Sets the given data source on the input field.
+   *
    * @param dataSource the data source, which should be set.
    * @throws AlgorithmConfigurationException if the configuration of the algorithm is incorrect
    */

@@ -260,7 +260,8 @@ public class GwtTestDataSourcePage extends GWTTestCase {
 */
 
   /**
-   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable, int, String)}
+   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable,
+   * int, String)}
    */
   public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
@@ -297,7 +298,8 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link DataSourcePage#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection, boolean)}
+   * Test method for {@link DataSourcePage#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection,
+   * boolean)}
    */
   public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
     // Setup

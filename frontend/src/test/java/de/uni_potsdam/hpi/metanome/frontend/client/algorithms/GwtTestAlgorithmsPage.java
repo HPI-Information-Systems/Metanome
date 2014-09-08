@@ -50,7 +50,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     AlgorithmsPage algorithmPage = new AlgorithmsPage(basePage);
 
     // Check for edit form
-    for (Iterator<Widget> i = algorithmPage.iterator(); i.hasNext();) {
+    for (Iterator<Widget> i = algorithmPage.iterator(); i.hasNext(); ) {
       if (i.next() instanceof AlgorithmEditForm) {
         editFormPresent = true;
       }
@@ -65,8 +65,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    *
    * After failure is called on the constructed callback, the tab should be in error.
    */
@@ -89,8 +88,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
@@ -117,8 +115,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    *
    * After failure is called on the constructed callback, the tab should be in error.
    */
@@ -141,8 +138,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
    *
    * After success is called on the constructed callback, the UI element given as argument should
    * contain all the elements of the result.
@@ -168,8 +164,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
    */
   public void testDeleteAlgorithm() {
     // Setup
@@ -179,7 +174,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     final int[] uccCount = new int[1];
     final int[] fdCount = new int[1];
 
-    Timer setUpTimer = new Timer(){
+    Timer setUpTimer = new Timer() {
       @Override
       public void run() {
         uccCount[0] = algorithmsPage.uccList.getRowCount();
@@ -210,7 +205,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
       }
     };
 
-    Timer checkTimer = new Timer(){
+    Timer checkTimer = new Timer() {
       @Override
       public void run() {
         // Check

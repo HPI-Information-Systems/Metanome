@@ -36,7 +36,7 @@ import java.util.Date;
 /**
  * Tab that contains widgets displaying execution results, i.e. tables, visualizations etc.
  * Currently, these widgets are organized in another tab panel.
- * 
+ *
  * @author Claudia Exeler
  */
 public class ResultsPage extends FlowPanel implements TabContent {
@@ -54,7 +54,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
-   * 
+   *
    * @param parent the page that this element will be attached to
    */
   public ResultsPage(BasePage parent) {
@@ -66,18 +66,21 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param resultsTab the results tab
-   * @param visualizationTab the visualization tab
+   * @param resultsTab            the results tab
+   * @param visualizationTab      the visualization tab
    * @param executionTimeNanoSecs the execution time in nanoseconds
    */
-  public void updateOnSuccess(ResultsTablePage resultsTab, ResultsVisualizationPage visualizationTab, Long executionTimeNanoSecs) {
+  public void updateOnSuccess(ResultsTablePage resultsTab,
+                              ResultsVisualizationPage visualizationTab,
+                              Long executionTimeNanoSecs) {
     this.timer.cancel();
     this.clear();
 
     // Add a label for the execution time
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
     Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
-    this.add(new Label("Algorithm " + this.algorithmFileName + " executed in " + format.format(date, TimeZone.createTimeZone(0))
+    this.add(new Label("Algorithm " + this.algorithmFileName + " executed in " + format
+        .format(date, TimeZone.createTimeZone(0))
                        + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
 
     // Add the result table and the visualization tab
@@ -89,6 +92,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   /**
    * If there was an problem with the algorithm execution, display the given error.
+   *
    * @param message the error message
    */
   public void updateOnError(String message) {
@@ -133,6 +137,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
       public void onFailure(Throwable caught) {
         messageReceiver.addError("Could not fetch progress.");
       }
+
       @Override
       public void onSuccess(Float progress) {
         updateProgress(progress);
@@ -142,20 +147,24 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   /**
    * Updates the progress of the progress bar.
+   *
    * @param progress the current progress
    */
   protected void updateProgress(Float progress) {
-    if (progress > 0)
+    if (progress > 0) {
       progressBar.setProgress(progress);
+    }
   }
 
   /**
    * Sets the parameter needed for execution
-   * @param executionService the execution service
+   *
+   * @param executionService    the execution service
    * @param executionIdentifier the execution identifier
-   * @param algorithmFileName the algorithm file name
+   * @param algorithmFileName   the algorithm file name
    */
-  public void setExecutionParameter(ExecutionServiceAsync executionService, String executionIdentifier, String algorithmFileName) {
+  public void setExecutionParameter(ExecutionServiceAsync executionService,
+                                    String executionIdentifier, String algorithmFileName) {
     this.executionService = executionService;
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;

@@ -61,19 +61,19 @@ public class GwtTestBasePage extends GWTTestCase {
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof ResultsPage);
 
-    Widget panel =  testPage.getWidget(Tabs.ALGORITHMS.ordinal());
+    Widget panel = testPage.getWidget(Tabs.ALGORITHMS.ordinal());
     assertTrue(panel instanceof ScrollPanel);
     wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
 
-    panel =  testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
+    panel = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
     assertTrue(panel instanceof ScrollPanel);
     wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof DataSourcePage);
 
-    panel =  testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
+    panel = testPage.getWidget(Tabs.RUN_CONFIGURATION.ordinal());
     assertTrue(panel instanceof ScrollPanel);
     wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
@@ -106,7 +106,8 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
+   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
    * </p> Test control flow from Algorithms to Run configuration
    */
   public void testSwitchToRunConfigurationFromAlgorithm() {
@@ -115,7 +116,9 @@ public class GwtTestBasePage extends GWTTestCase {
 
     final String algorithmName = "some_name";
     final BasePage page = new BasePage();
-    Algorithm a = new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
+    Algorithm
+        a =
+        new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
     algorithms.add(a);
 
     page.addAlgorithmsToRunConfigurations(algorithms);
@@ -162,7 +165,8 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String, de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
+   * de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
    * </p> Test control flow from Data sources to Run configuration
    */
   public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
@@ -191,7 +195,7 @@ public class GwtTestBasePage extends GWTTestCase {
         // Check
         assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
         assertEquals(finalDataSource.getValueAsString(),
-            runConfigPage.primaryDataSource.getValueAsString());
+                     runConfigPage.primaryDataSource.getValueAsString());
         // TODO assert correct filtering
 
         finishTest();
@@ -204,7 +208,8 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
   private RunConfigurationPage getRunConfigurationPage(final BasePage page) {
-    return (RunConfigurationPage) ((TabWrapper) ((ScrollPanel) page.getWidget(page.getSelectedIndex())).getWidget()).contentPanel;
+    return (RunConfigurationPage) ((TabWrapper) ((ScrollPanel) page
+        .getWidget(page.getSelectedIndex())).getWidget()).contentPanel;
   }
 
   @Override

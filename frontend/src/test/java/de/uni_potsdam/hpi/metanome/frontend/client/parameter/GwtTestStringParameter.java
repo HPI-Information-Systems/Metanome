@@ -28,8 +28,8 @@ import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.StringInput;
 public class GwtTestStringParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
-   * @throws AlgorithmConfigurationException
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
@@ -39,7 +39,9 @@ public class GwtTestStringParameter extends GWTTestCase {
         new ConfigurationSpecificationString("string", noOfValues);
 
     //Execute
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
 
     //Check
     assertEquals(noOfValues, widget.inputWidgets.size());
@@ -48,8 +50,8 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString, de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
-   * @throws AlgorithmConfigurationException
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
@@ -59,7 +61,9 @@ public class GwtTestStringParameter extends GWTTestCase {
         new ConfigurationSpecificationString("string", noOfValues);
 
     //Execute
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
 
     //Check
     assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
@@ -69,13 +73,14 @@ public class GwtTestStringParameter extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean)}
-   * @throws AlgorithmConfigurationException
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -89,13 +94,14 @@ public class GwtTestStringParameter extends GWTTestCase {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.parameter.InputParameterStringWidget#removeField(de.uni_potsdam.hpi.metanome.frontend.client.input_fields.InputField)}
-   * @throws AlgorithmConfigurationException
    */
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
     int previousCount = widget.getWidgetCount();
     int listCount = widget.inputWidgets.size();
 
@@ -109,14 +115,15 @@ public class GwtTestStringParameter extends GWTTestCase {
 
   /**
    * Test method for {@link InputParameterStringWidget#getUpdatedSpecification()}
-   * @throws AlgorithmConfigurationException
    */
   public void testRetrieveValues() throws AlgorithmConfigurationException {
     //Setup
     String value = "something";
     ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
                                                                                           ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
-    InputParameterStringWidget widget = new InputParameterStringWidget(specification, new TabWrapper());
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
 
     //Execute
     ((StringInput) widget.getWidget(0)).textbox.setValue(value, true);

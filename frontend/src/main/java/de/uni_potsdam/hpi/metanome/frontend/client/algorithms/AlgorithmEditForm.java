@@ -39,7 +39,6 @@ import java.util.Arrays;
 
 /**
  * @author Claudia Exeler
- * 
  */
 public class AlgorithmEditForm extends Grid {
 
@@ -106,7 +105,8 @@ public class AlgorithmEditForm extends Grid {
     AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
       @Override
       public void onFailure(Throwable throwable) {
-        messageReceiver.addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
+        messageReceiver.addError(
+            "Could not find any algorithms. Please add your algorithms to the algorithm folder.");
         throwable.printStackTrace();
       }
 
@@ -133,7 +133,8 @@ public class AlgorithmEditForm extends Grid {
 
   /**
    * @return a new Algorithm instance with attribute values according to user input
-   * @throws InputValidationException if the algorithm does not implement an algorithm type or the algorithm name is not set
+   * @throws InputValidationException if the algorithm does not implement an algorithm type or the
+   *                                  algorithm name is not set
    */
   protected Algorithm retrieveInputValues() throws InputValidationException {
     Algorithm algorithm = new Algorithm(this.fileListBox.getSelectedValue());

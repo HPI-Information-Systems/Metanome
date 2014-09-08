@@ -23,9 +23,7 @@ import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationExcept
 public class GwtTestIntegerInput extends GWTTestCase {
 
   /**
-   * Test method for {@link IntegerInput#getValue()} and for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
-   * @throws InputValidationException
+   * Test method for {@link IntegerInput#getValue()} and for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
    */
   public void testGetSetValues() throws InputValidationException {
     IntegerInput input = new IntegerInput(false);
@@ -36,7 +34,7 @@ public class GwtTestIntegerInput extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-      return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
-    }
+    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+  }
 
 }

@@ -29,8 +29,7 @@ import java.util.List;
 public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
   /**
-   * Test method for
-   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmEditForm}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmEditForm}
    *
    * When a new AlgorithmEditForm is created, the algorithmsPage and messageReceiver should be set
    */
