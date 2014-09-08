@@ -101,8 +101,7 @@ public class TableInputEditForm extends Grid {
     String tableName = this.tableNameTextbox.getValue();
 
     if (tableName.isEmpty() || connection == null) {
-      this.messageReceiver.addError("The database connection and the table name should be set!");
-      throw new InputValidationException("Invalid input!");
+      throw new InputValidationException("The database connection and the table name should be set!");
     }
 
     tableInput.setDatabaseConnection(connection);
@@ -157,6 +156,7 @@ public class TableInputEditForm extends Grid {
    * Stores the table input in the database.
    */
   private void saveTableInput() {
+    messageReceiver.clearErrors();
     try {
       final TableInput currentInput = this.getValue();
 

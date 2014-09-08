@@ -143,6 +143,7 @@ public class FileInputEditForm extends Grid {
    * Stores the current file input in the database.
    */
   private void saveFileInput() {
+    messageReceiver.clearErrors();
     try {
       final FileInput input = this.getValue();
 
@@ -275,7 +276,7 @@ public class FileInputEditForm extends Grid {
 
     String fileName = this.fileListBox.getSelectedValue();
 
-    if (fileName.isEmpty())
+    if (fileName.isEmpty() || fileName.equals("--"))
       throw new InputValidationException("The file name is invalid.");
 
     fileInput.setFileName(fileName);

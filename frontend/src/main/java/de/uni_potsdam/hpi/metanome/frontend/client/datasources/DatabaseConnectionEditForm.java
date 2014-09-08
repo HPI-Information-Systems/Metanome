@@ -124,6 +124,7 @@ public class DatabaseConnectionEditForm extends Grid {
    * Stores the current database connection in the database.
    */
   private void saveDatabaseConnection() {
+    messageReceiver.clearErrors();
     try {
       final DatabaseConnection currentConnection = this.getValue();
 

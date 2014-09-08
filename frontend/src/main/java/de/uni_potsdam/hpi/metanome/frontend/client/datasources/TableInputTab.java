@@ -61,6 +61,9 @@ public class TableInputTab extends FlowPanel implements TabContent {
     this.addTableInputsToList(this);
   }
 
+  /**
+   * Adds the edit form to the content.
+   */
   private void addEditForm() {
     this.add(new HTML("<hr>"));
     this.add(new HTML("<h3>Add a new Table Input</h3>"));
@@ -143,6 +146,10 @@ public class TableInputTab extends FlowPanel implements TabContent {
     return null;
   }
 
+  /**
+   * Forwards the add-database-connection-command to the edit form.
+   * @param connection the new database connection
+   */
   public void addDatabaseConnection(DatabaseConnection connection) {
     this.editForm.addDatabaseConnection(connection);
   }

@@ -58,7 +58,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     this.connectionInputList = new FlexTable();
     this.editForm = new DatabaseConnectionEditForm(this);
 
-    this.addTableInputsToList(this);
+    this.addDatabaseConnectionsToList(this);
   }
 
   private void addEditForm() {
@@ -71,7 +71,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * Gets all Database Connections available in the database and adds them to the table.
    * @param panel the parent widget of the table
    */
-  private void addTableInputsToList(final FlowPanel panel) {
+  private void addDatabaseConnectionsToList(final FlowPanel panel) {
     this.databaseConnectionService.listDatabaseConnections(
       new AsyncCallback<List<DatabaseConnection>>() {
         @Override
@@ -146,6 +146,10 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
                                                DbSystem.DB2);
   }
 
+  /**
+   * Forwards the update-table-input-tab-command to its parent.
+   * @param connection the new database connection
+   */
   public void updateTableInputTab(DatabaseConnection connection) {
     parent.updateTableInputTab(connection);
   }

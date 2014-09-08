@@ -16,7 +16,6 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -63,7 +62,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   private void addEditForm() {
     this.add(new HTML("<hr>"));
-    this.add(new HTML("<h3>Add a new Table Input</h3>"));
+    this.add(new HTML("<h3>Add a new File Input</h3>"));
     this.add(this.editForm);
   }
 
@@ -72,7 +71,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @param panel the parent widget of the table
    */
   public void addFileInputsToTable(final FlowPanel panel) {
-    FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
     fileInputService.listFileInputs(
       new AsyncCallback<List<FileInput>>() {
         @Override
