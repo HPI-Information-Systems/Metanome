@@ -573,7 +573,7 @@ public class ColumnCombinationBitset {
    * Calculates and returns the inverted bitset.
    *
    * @param size of inverted 0 bits on the left side
-   * @return the inverted {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   * @return the inverted {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
    */
   public ColumnCombinationBitset invert(int size) {
     OpenBitSet invertedBitset = this.bitset.clone();
