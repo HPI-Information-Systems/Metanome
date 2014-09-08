@@ -38,6 +38,7 @@ public class TestHelper {
   protected static TestDatabaseHelperServiceAsync
       testDatabaseHelperService =
       GWT.create(TestDatabaseHelperService.class);
+  
   static boolean[] reset_blocked = {true};
   static boolean[] database_connection_blocked = {true};
   static boolean[] file_input_blocked = {true};
@@ -51,13 +52,9 @@ public class TestHelper {
       @Override
       public void onFailure(Throwable caught) {
         reset_blocked[0] = false;
-        System.out.println("Database could not be reset!");
-        System.out.println(caught.getMessage());
-      }
-
+        System.out.println(caught.getMessage());}
       @Override
       public void onSuccess(Void aVoid) {
-        System.out.println("Database successfully reset!");
         reset_blocked[0] = false;
       }
     });

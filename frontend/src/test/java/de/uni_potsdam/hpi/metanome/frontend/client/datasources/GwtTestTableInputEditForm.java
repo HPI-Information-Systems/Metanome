@@ -18,6 +18,8 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
@@ -25,49 +27,7 @@ import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 
-public class GwtTestTableInputField extends GWTTestCase {
-
-  /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.TableInputEditForm#TableInputEditForm()}
-   * <p/>
-   * After initializing the list box of database connection should be filled and the table name text box should be present.
-   * TODO fix FieldSerializer Bug
-   */
-/*  public void testSetUp() throws EntityStorageException, InputValidationException {
-    // Setup
-    TestHelper.resetDatabaseSync();
-
-    DatabaseConnection dbConnection = new DatabaseConnection();
-    dbConnection.setUrl("url");
-    dbConnection.setPassword("password");
-    dbConnection.setUsername("db");
-    TestHelper.storeDatabaseConnectionSync(dbConnection);
-
-    // Execute
-    final TableInputEditForm field = new TableInputEditForm();
-    field.setMessageReceiver(new TabWrapper());
-
-    // Check
-    Timer timer = new Timer() {
-      @Override
-      public void run() {
-        if (field.dbConnectionListBox.getValues().size() > 0 &&
-            field.dbMap.size() > 0 &&
-            field.tableNameTextbox != null) {
-          TestHelper.resetDatabaseSync();
-          finishTest();
-        }
-        TestHelper.resetDatabaseSync();
-      }
-    };
-
-    // Waiting four seconds for asynchronous calls to finish.
-    // Validate, if expected and actual objects are equal
-    timer.schedule(1000);
-
-    delayTestFinish(2000);
-  }
-*/
+public class GwtTestTableInputEditForm extends GWTTestCase {
 
   /**
    * Test method for {@link TableInputEditForm#getValue()}
@@ -81,7 +41,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     dbConnection.setPassword("password");
     dbConnection.setUsername("db");
 
-    TableInputEditForm editForm = new TableInputEditForm();
+    TableInputEditForm editForm = new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
     editForm.dbConnectionListBox.addValue("1: url");
     editForm.dbMap.put("1: url", dbConnection);
 
@@ -106,7 +66,7 @@ public class GwtTestTableInputField extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    TableInputEditForm input = new TableInputEditForm();
+    TableInputEditForm input = new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
     input.dbConnectionListBox.addValue("--");
     input.dbConnectionListBox.addValue("1: db2");
     input.tableNameTextbox.setText("table name");
@@ -123,6 +83,33 @@ public class GwtTestTableInputField extends GWTTestCase {
 
     // Cleanup
     TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link TableInputEditForm#addDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.TableInputEditForm#removeDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   */
+  public void testAddAndRemoveDatabaseConnection() {
+    // Set up
+    DatabaseConnection connection = new DatabaseConnection();
+    connection.setPassword("password");
+    connection.setSystem(DbSystem.DB2);
+    connection.setUrl("url");
+    connection.setUsername("user");
+
+    TableInputEditForm input = new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
+
+    // Execute
+    input.addDatabaseConnection(connection);
+
+    // Check
+    assertTrue(input.dbConnectionListBox.containsValues());
+
+    // Execute
+    input.removeDatabaseConnection(connection);
+
+    // Check
+    assertFalse(input.dbConnectionListBox.containsValues());
   }
 
   @Override

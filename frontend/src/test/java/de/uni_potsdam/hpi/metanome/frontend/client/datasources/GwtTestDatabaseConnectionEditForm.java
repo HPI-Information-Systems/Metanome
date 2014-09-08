@@ -19,11 +19,14 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
+import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
+import java.util.Arrays;
 
-public class GwtTestDatabaseConnectionField extends GWTTestCase {
+
+public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
 
   /**
    * Test method for {@link DatabaseConnectionEditForm#getValue()}
@@ -35,7 +38,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedPassword = "password";
     String expectedSystem = DbSystem.DB2.name();
 
-    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm(new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
 
     // Execute
     input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
@@ -43,7 +46,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
     //Check
     assertEquals(expectedUrl, actualConnection.getUrl());
-    // TODO assertEquals(expectedSystem, actualConnection.getSystem());
+    assertEquals(expectedSystem, actualConnection.getSystem().name());
     assertEquals(expectedUser, actualConnection.getUsername());
     assertEquals(expectedPassword, actualConnection.getPassword());
   }
@@ -58,7 +61,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
     String expectedPassword = "";
     String expectedSystem = DbSystem.DB2.name();
 
-    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm(new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
 
     // Execute
     input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
@@ -76,7 +79,7 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
    */
   public void testResetValues() {
     //Setup
-    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm();
+    DatabaseConnectionEditForm input = new DatabaseConnectionEditForm(new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
     input.setValues("url", DbSystem.DB2.name(), "user", "password");
 
     // Execute
@@ -89,10 +92,11 @@ public class GwtTestDatabaseConnectionField extends GWTTestCase {
 
     //Check
     assertEquals("", actualUser);
-    // TODO assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
+    assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
     assertEquals("", actualPassword);
     assertEquals("", actualUrl);
   }
+
 
   @Override
   public String getModuleName() {

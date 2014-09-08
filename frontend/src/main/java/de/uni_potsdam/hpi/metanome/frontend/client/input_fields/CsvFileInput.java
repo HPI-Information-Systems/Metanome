@@ -23,6 +23,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationE
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
@@ -131,23 +132,6 @@ public class CsvFileInput extends InputField {
   }
 
   /**
-   * Returns the current widget's settings as a setting
-   *
-   * @return the widget's settings
-   */
-  public ConfigurationSettingCsvFile getValues() {
-    if (this.listbox.getSelectedValue().equals("--")) {
-      this.messageReceiver.addError("You must choose a CSV file!");
-      return null;
-    }
-
-    FileInput currentFileInput = this.fileInputs.get(
-        this.listbox.getSelectedValue());
-
-    return getCurrentSetting(currentFileInput);
-  }
-
-  /**
    * Takes a setting a sets the selected value of the list box to the given setting.
    *
    * @param setting the settings to set
@@ -163,6 +147,23 @@ public class CsvFileInput extends InputField {
       }
     }
     throw new AlgorithmConfigurationException("The file inputs are not set yet.");
+  }
+
+  /**
+   * Returns the current widget's settings as a setting
+   *
+   * @return the widget's settings
+   */
+  public ConfigurationSettingCsvFile getValues() throws InputValidationException {
+    String selectedValue = this.listbox.getSelectedValue();
+
+    if (selectedValue.equals("--")) {
+      throw new InputValidationException("You must choose a CSV file!");
+    }
+
+    FileInput currentFileInput = this.fileInputs.get(selectedValue);
+
+    return getCurrentSetting(currentFileInput);
   }
 
   /**

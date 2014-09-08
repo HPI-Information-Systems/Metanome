@@ -17,12 +17,16 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,7 +50,10 @@ import java.util.List;
 /**
  * Input field to configure a file input.
  */
-public class FileInputEditForm extends FlowPanel {
+public class FileInputEditForm extends Grid {
+
+  private FileInputServiceAsync fileInputService;
+  private FileInputTab parent;
 
   /**
    * Dropdown menu for choosing a CSV file
@@ -75,11 +82,14 @@ public class FileInputEditForm extends FlowPanel {
   /**
    * Constructor. Set up all UI elements.
    */
-  public FileInputEditForm() {
-    this.addStyleName("left");
+  public FileInputEditForm(FileInputTab parent) {
+    super(3, 2);
+
+    this.parent = parent;
+    this.fileInputService =  GWT.create(FileInputService.class);
 
     FlowPanel standardPanel = new FlowPanel();
-    this.add(standardPanel);
+    this.setWidget(0, 0, standardPanel);
 
     fileListBox = createListbox();
     standardPanel.add(fileListBox);
@@ -89,7 +99,7 @@ public class FileInputEditForm extends FlowPanel {
 
     advancedTable = new FlexTable();
     advancedTable.setVisible(false);
-    this.add(advancedTable);
+    this.setWidget(1, 0, advancedTable);
 
     separatorTextbox = getNewOneCharTextbox();
     separatorTextbox.setName("Separator Character");
@@ -122,6 +132,39 @@ public class FileInputEditForm extends FlowPanel {
     addRow(advancedTable, skipDifferingLinesCheckbox, "Skip Lines With Differing Length");
 
     setDefaultAdvancedSettings();
+
+    this.setWidget(2, 0, new Button("Save", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        saveFileInput();
+      }
+    }));
+  }
+
+  /**
+   * Stores the current file input in the database.
+   */
+  private void saveFileInput() {
+    messageReceiver.clearErrors();
+    try {
+      final FileInput input = this.getValue();
+
+      this.fileInputService.storeFileInput(input, new AsyncCallback<Void>() {
+        @Override
+        public void onFailure(Throwable throwable) {
+          messageReceiver.addError("File Input could not be stored: " + throwable.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Void aVoid) {
+          reset();
+          parent.addFileInputToTable(input);
+          parent.updateDataSourcesOnRunConfiguration();
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
   }
 
   /**
@@ -244,7 +287,7 @@ public class FileInputEditForm extends FlowPanel {
 
     String fileName = this.fileListBox.getSelectedValue();
 
-    if (fileName.isEmpty()) {
+    if (fileName.isEmpty() || fileName.equals("--")) {
       throw new InputValidationException("The file name is invalid.");
     }
 
@@ -277,26 +320,27 @@ public class FileInputEditForm extends FlowPanel {
   }
 
   /**
-   * Checks, if the given text box contains only a character. If yes, the character is returned.
-   * Otherwise an exception is thrown.
-   *
+   * Checks, if the given text box contains only a character.
+   * If yes, the character is returned. Otherwise an exception is thrown.
+   * @param textBox
    * @return the character of the text box
+   * @throws InputValidationException
    */
   private char getChar(TextBox textBox) throws InputValidationException {
     String value = textBox.getValue();
 
-    if (value.length() != 1) {
+    if (value.length() != 1)
       throw new InputValidationException(textBox.getName() + " should only contain one character!");
-    }
 
     return value.charAt(0);
   }
 
   /**
-   * Checks, if the value of the integer box is an integer. If yes, the integer is returned.
-   * Otherwise an exception is thrown.
-   *
+   * Checks, if the value of the integer box is an integer.
+   * If yes, the integer is returned. Otherwise an exception is thrown.
+   * @param integerBox
    * @return the integer of the integer box
+   * @throws InputValidationException
    */
   private int getInteger(IntegerBox integerBox) throws InputValidationException {
     try {
