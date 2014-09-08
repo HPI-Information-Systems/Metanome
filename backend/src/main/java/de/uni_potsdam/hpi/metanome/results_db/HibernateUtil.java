@@ -24,9 +24,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
-import org.hsqldb.HsqlException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -69,21 +67,14 @@ public class HibernateUtil {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Entity to store is missing the Entity annotation.");
     }
-    try {
-      Session session = openNewSession();
 
-      session.beginTransaction();
-      session.save(entity);
-      session.getTransaction().commit();
+    Session session = openNewSession();
 
-      session.close();
+    session.beginTransaction();
+    session.save(entity);
+    session.getTransaction().commit();
 
-      //FIXME An exception which indicates a broken uniqueness constrain (an item is added twice). This exception comes when executing an algorithm. However, the algorithm is executed successfully when the exception is coughed, but the exception should not be thrown in the first place.
-    } catch (ConstraintViolationException e) {
-      System.out.println("Coughed constraint violation exception");
-    } catch (HsqlException e) {
-      System.out.println("Coughed generic exception");
-    }
+    session.close();
   }
 
   /**
