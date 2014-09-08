@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.PositionListIndex}
  */
 public class PositionListIndexTest {
 
@@ -48,8 +48,9 @@ public class PositionListIndexTest {
   }
 
   /**
-   * Test method for {@link PositionListIndex#PositionListIndex()} <p/> {@link PositionListIndex}
-   * should be empty after construction.
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.PositionListIndex#PositionListIndex()}
+   * <p/> {@link de.metanome.algorithm_helper.data_structures.PositionListIndex} should be empty
+   * after construction.
    */
   @Test
   public void testConstructor() {
@@ -62,7 +63,7 @@ public class PositionListIndexTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex#intersect(PositionListIndex)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.PositionListIndex#intersect(PositionListIndex)}
    *
    * Two {@link PositionListIndex} should be correctly intersected.
    */
@@ -99,7 +100,7 @@ public class PositionListIndexTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex#equals(Object)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.PositionListIndex#equals(Object)}
    */
   @Test
   public void testEquals() {

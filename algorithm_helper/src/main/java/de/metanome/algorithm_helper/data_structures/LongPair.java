@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 /**
  * A pair of long values.

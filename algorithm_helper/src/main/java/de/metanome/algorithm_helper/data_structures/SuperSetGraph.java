@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +22,9 @@ import java.util.Collection;
 /**
  * A graph that allows for efficient lookup of all supersets in a graph structure for a given {@link
  * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset.
- * This class acts as a wrapper for {@link SubSetGraph}
- * by inverting all input and output {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
- * to find supersets instead of subsets.
+ * This class acts as a wrapper for {@link SubSetGraph} by inverting all input and output {@link
+ * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to find
+ * supersets instead of subsets.
  *
  * @author Jens Ehrlich
  */
@@ -85,7 +85,9 @@ public class SuperSetGraph {
   }
 
   /**
-   * The method returns when the first superset is found in the graph. This is possibly faster than {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}, because a smaller part of the graph must be traversed.
+   * The method returns when the first superset is found in the graph. This is possibly faster than
+   * {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}, because a smaller part of
+   * the graph must be traversed.
    *
    * @return whether at least a single superset is contained in the graph
    */

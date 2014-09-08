@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubSetGraphFixture {
+/**
+ * @author Jens Ehrlich
+ */
+public class SuperSetGraphFixture {
 
-  public SubSetGraph getGraph() {
-    SubSetGraph graph = new SubSetGraph();
-
-    for (ColumnCombinationBitset columnCombination : getExpectedIncludedColumnCombinations()) {
+  public SuperSetGraph getGraph() {
+    SuperSetGraph graph = new SuperSetGraph(getNumberOfColumns());
+    for (ColumnCombinationBitset columnCombination : this.getExpectedIncludedColumnCombinations()) {
       graph.add(columnCombination);
     }
-
     return graph;
   }
 
@@ -38,21 +39,26 @@ public class SubSetGraphFixture {
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3, 4, 6));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 2, 4, 7));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3));
-    includedColumnCombinations.add(new ColumnCombinationBitset(2, 3, 4, 7, 8));
+    includedColumnCombinations.add(new ColumnCombinationBitset(1, 2, 3, 4, 7, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(5, 6, 8));
 
     return includedColumnCombinations;
   }
 
-  public ColumnCombinationBitset getColumnCombinationForSubsetQuery() {
-    return new ColumnCombinationBitset(1, 2, 3, 4, 5, 6, 8);
+  public int getNumberOfColumns() {
+    return 10;
   }
 
-  public ColumnCombinationBitset[] getExpectedSubsetsFromQuery() {
+  public ColumnCombinationBitset getColumnCombinationForSupersetQuery() {
+    return new ColumnCombinationBitset(1, 3);
+  }
+
+  public ColumnCombinationBitset[] getExpectedSupersetsFromQuery() {
     return new ColumnCombinationBitset[]{
-        getExpectedIncludedColumnCombinations().get(0),
         getExpectedIncludedColumnCombinations().get(1),
         getExpectedIncludedColumnCombinations().get(3),
-        getExpectedIncludedColumnCombinations().get(5)};
+        getExpectedIncludedColumnCombinations().get(4)
+    };
   }
+
 }

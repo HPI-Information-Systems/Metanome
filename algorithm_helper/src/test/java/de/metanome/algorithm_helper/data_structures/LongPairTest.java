@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import de.uni_potsdam.hpi.metanome.test_helper.CompareToTester;
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
@@ -24,15 +24,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.LongPair}
  *
  * @author Jakob Zwiener
  */
 public class LongPairTest {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#equals(Object)}
-   * and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#hashCode()}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.LongPair#equals(Object)}
+   * and {@link de.metanome.algorithm_helper.data_structures.LongPair#hashCode()}
    */
   @Test
   public void testEqualsHashCode() {
@@ -51,7 +51,7 @@ public class LongPairTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#compareTo(LongPair)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.LongPair#compareTo(LongPair)}
    */
   @Test
   public void testCompareTo() {
@@ -85,8 +85,8 @@ public class LongPairTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#getSecond()}
-   * and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.LongPair#setSecond(long)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.LongPair#getSecond()} and
+   * {@link de.metanome.algorithm_helper.data_structures.LongPair#setSecond(long)}
    */
   @Test
   public void testGetSetSecond() {

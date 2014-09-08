@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph}
  *
  * @author Jens Ehrlich
  */
@@ -47,7 +47,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#add(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph#add(ColumnCombinationBitset)}
    * <p/> After inserting a column combination a subgraph for every set bit should exist. Add should
    * return the graph after addition.
    */
@@ -73,7 +73,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#addAll(java.util.Collection)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph#addAll(java.util.Collection)}
    * <p/> After inserting all column combinations the graph should be equal to the expected graph
    * from the fixture. AddAll should return the graph after addition.
    */
@@ -96,7 +96,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}
    */
   @Test
   public void testGetExistingSupersets() {
@@ -137,7 +137,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test for the method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
+   * Test for the method {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
    * )}
    */
   @Test
@@ -185,7 +185,7 @@ public class SuperSetGraphTest {
   }
 
   /**
-   * Test method  {@link SuperSetGraph#equals(Object)} and {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SuperSetGraph#hashCode()}
+   * Test method  {@link SuperSetGraph#equals(Object)} and {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph#hashCode()}
    */
   @Test
   public void testEqualsAndHashCode() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
@@ -57,9 +57,9 @@ public class PositionListIndex {
    * PositionListIndex. For the intersection the smaller PositionListIndex is converted into a
    * HashMap.
    *
-   * @param otherPLI the other {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+   * @param otherPLI the other {@link PositionListIndex}
    *                 to intersect
-   * @return the intersected {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+   * @return the intersected {@link PositionListIndex}
    */
   public PositionListIndex intersect(PositionListIndex otherPLI) {
     //TODO Optimize Smaller PLI as Hashmap?
@@ -137,9 +137,9 @@ public class PositionListIndex {
    * Intersects the two given {@link PositionListIndex} and returns the outcome as new
    * PositionListIndex.
    *
-   * @param otherPLI the other {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+   * @param otherPLI the other {@link PositionListIndex}
    *                 to intersect
-   * @return the intersected {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
+   * @return the intersected {@link PositionListIndex}
    */
   protected PositionListIndex calculateIntersection(PositionListIndex otherPLI) {
     Long2LongOpenHashMap hashedPLI = this.asHashMap();

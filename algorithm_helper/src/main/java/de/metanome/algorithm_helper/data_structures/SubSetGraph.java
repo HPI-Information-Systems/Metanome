@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -135,8 +135,8 @@ public class SubSetGraph {
 
   /**
    * The method returns when the first subset is found in the graph. This is possibly faster than
-   * {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.SubSetGraph#getExistingSubsets(ColumnCombinationBitset)},
-   * because a smaller part of the graph must be traversed.
+   * {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}, because a smaller part of the
+   * graph must be traversed.
    *
    * @return whether at least a single subset is contained in the graph
    */

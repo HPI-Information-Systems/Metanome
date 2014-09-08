@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
 
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link SubSetGraph}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.SubSetGraph}
  *
  * @author Jens Ehrlich
  * @author Jakob Zwiener
@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
 public class SubSetGraphTest {
 
   /**
-   * Test method for {@link SubSetGraph#add(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.SubSetGraph#add(ColumnCombinationBitset)}
    * <p/> After inserting a column combination a subgraph for every set bit should exist. Add should
    * return the graph after addition.
    */
@@ -65,9 +65,9 @@ public class SubSetGraphTest {
   }
 
   /**
-   * Test method for {@link SubSetGraph#addAll(java.util.Collection)}
-   * <p/> After inserting all column combinations the graph should be equal to the expected graph
-   * from the fixture. AddAll should return the graph after addition.
+   * Test method for {@link SubSetGraph#addAll(java.util.Collection)} <p/> After inserting all
+   * column combinations the graph should be equal to the expected graph from the fixture. AddAll
+   * should return the graph after addition.
    */
   @Test
   public void testAddAll() {

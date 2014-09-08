@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import com.google.common.collect.ImmutableList;
 
@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * Constructs a list of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}es
- * from the given {@link de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}. A
- * list of all columns' sorted distinct values can be constructed as a byproduct.
+ * Constructs a list of {@link PositionListIndex}es from the given {@link
+ * de.uni_potsdam.hpi.metanome.algorithm_integration.input.RelationalInput}. A list of all columns'
+ * sorted distinct values can be constructed as a byproduct.
  */
 public class PLIBuilder {
 
@@ -46,8 +46,7 @@ public class PLIBuilder {
   }
 
   /**
-   * Builds a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PositionListIndex}
-   * for every column in the input.
+   * Builds a {@link PositionListIndex} for every column in the input.
    *
    * @return list of plis for all columns
    * @throws InputIterationException if the input cannot be iterated

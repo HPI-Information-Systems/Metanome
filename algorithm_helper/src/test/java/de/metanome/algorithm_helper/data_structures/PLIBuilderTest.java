@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures;
+package de.metanome.algorithm_helper.data_structures;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.input.InputIterationException;
 
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for {@link PLIBuilder}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.PLIBuilder}
  */
 public class PLIBuilderTest {
 
@@ -49,8 +49,8 @@ public class PLIBuilderTest {
   }
 
   /**
-   * Test method for {@link PLIBuilder#getPLIList()} <p/> Tests that {@link PositionListIndex}es are
-   * build correclty.
+   * Test method for {@link PLIBuilder#getPLIList()} <p/> Tests that {@link
+   * de.metanome.algorithm_helper.data_structures.PositionListIndex}es are build correclty.
    */
   @Test
   public void testCalculatePLI() throws InputIterationException {
@@ -88,7 +88,7 @@ public class PLIBuilderTest {
   }
 
   /**
-   * Test methode for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.PLIBuilder#getNumberOfTuples}
+   * Test methode for {@link de.metanome.algorithm_helper.data_structures.PLIBuilder#getNumberOfTuples}
    * <p/> The total number of tuples should be calculated if the PLIs are calculated
    */
   @Test
