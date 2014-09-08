@@ -72,4 +72,9 @@ public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implemen
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void deleteDatabaseConnection(DatabaseConnection connection) {
+    connection.delete();
+  }
 }

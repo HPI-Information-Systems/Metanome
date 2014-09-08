@@ -101,6 +101,31 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
   }
 
   /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#removeAlgorithm(String)}
+   */
+  public void testRemoveAlgorithm() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
+    int noOfAlgorithms = runConfigPage.getJarChooser().getListItemCount();
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+    runConfigPage.addAlgorithms(algorithms);
+
+    // Execute
+    runConfigPage.removeAlgorithm("Algorithm 1");
+
+    // Check
+    assertEquals(noOfAlgorithms + algorithms.size() - 1,
+                 runConfigPage.getJarChooser().getListItemCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage#selectAlgorithm(String)}
    */
   public void testSelectAlgorithm() {

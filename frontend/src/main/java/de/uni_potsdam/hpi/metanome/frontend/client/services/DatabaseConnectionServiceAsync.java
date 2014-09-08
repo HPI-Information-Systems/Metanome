@@ -29,4 +29,6 @@ public interface DatabaseConnectionServiceAsync {
   public void getDatabaseConnection(long id, AsyncCallback<DatabaseConnection> callback);
 
   void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Void> async);
+
+  void deleteDatabaseConnection(DatabaseConnection connection, AsyncCallback<Void> async);
 }

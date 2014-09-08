@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
@@ -31,7 +32,8 @@ import javax.persistence.Id;
  * @author Jakob Zwiener
  */
 @Entity
-public class DatabaseConnection implements Serializable {
+@GwtCompatible
+public class DatabaseConnection extends ResultsDbEntity implements Serializable {
 
   protected long id;
   protected String url;
@@ -68,6 +70,7 @@ public class DatabaseConnection implements Serializable {
    *
    * @return the DatabaseConnection
    */
+  @Override
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public DatabaseConnection store() throws EntityStorageException {
     HibernateUtil.store(this);

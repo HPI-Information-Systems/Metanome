@@ -96,6 +96,14 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   }
 
   /**
+   * Removes a algorithm from the algorithm chooser.
+   * @param algorithmName the algorithm name, which should be removed
+   */
+  public void removeAlgorithm(String algorithmName) {
+    this.algorithmChooser.removeAlgorithm(algorithmName);
+  }
+
+  /**
    * Select the given algorithm on the underlying JarChooser.
    *
    * @param algorithmName the value to select
@@ -155,11 +163,18 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
   }
 
-  // Getters & Setters
+  /**
+   * Forwards the update call to the parameter table.
+   */
+  public void updateDataSources() {
+    this.parameterTable.updateDataSources();
+  }
 
+  // Getters & Setters
   public AlgorithmChooser getJarChooser() {
     return algorithmChooser;
   }
+
 
 
   /* (non-Javadoc)

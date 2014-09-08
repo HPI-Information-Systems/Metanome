@@ -50,7 +50,7 @@ public class BasePage extends TabLayoutPanel {
 
   protected ResultsPage resultsPage;
   protected TabWrapper resultPageTabWrapper;
-  protected RunConfigurationPage runConfigurationsPage;
+  public RunConfigurationPage runConfigurationsPage;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
 
@@ -198,6 +198,22 @@ public class BasePage extends TabLayoutPanel {
    */
   public void addAlgorithmsToRunConfigurations(List<Algorithm> algorithms) {
     this.runConfigurationsPage.addAlgorithms(algorithms);
+  }
+
+  /**
+   * Forwards the update call to the run configuration page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.runConfigurationsPage.updateDataSources();
+  }
+
+  /**
+   * Forwards an algorithm, which should be removed, from the AlgorithmPage to the RunConfigurations
+   *
+   * @param algorithmName the name of the algorithm, which should be removed
+   */
+  public void removeAlgorithmFromRunConfigurations(String algorithmName) {
+    this.runConfigurationsPage.removeAlgorithm(algorithmName);
   }
 
   public enum Tabs {

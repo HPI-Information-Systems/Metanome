@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import au.com.bytecode.opencsv.CSVParser;
@@ -34,6 +35,7 @@ import javax.persistence.Entity;
  * @author Jakob Zwiener
  */
 @Entity
+@GwtCompatible
 public class FileInput extends Input implements Serializable {
 
   private static final long serialVersionUID = 2320081610461965426L;
@@ -89,6 +91,7 @@ public class FileInput extends Input implements Serializable {
    *
    * @return the FileInput
    */
+  @Override
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public FileInput store() throws EntityStorageException {
     HibernateUtil.store(this);

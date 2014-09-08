@@ -16,11 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +49,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @IdClass(ExecutionId.class)
-public class Execution {
+public class Execution extends ResultsDbEntity implements Serializable {
 
   // TODO cascading save to children
 
@@ -120,6 +123,8 @@ public class Execution {
    *
    * @return the Execution
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public Execution store() throws EntityStorageException {
     HibernateUtil.store(this);
 

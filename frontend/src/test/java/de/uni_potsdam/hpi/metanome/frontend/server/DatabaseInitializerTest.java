@@ -54,7 +54,8 @@ public class DatabaseInitializerTest {
    * names as key. Algorithms should have the correct types assigned.
    */
   @Test
-  public void testContextInitializedAlgorithms() throws IOException, ClassNotFoundException {
+  public void testContextInitializedAlgorithms()
+      throws IOException, ClassNotFoundException, EntityStorageException {
     // Setup
     HibernateUtil.clear();
 

@@ -167,6 +167,22 @@ public class AlgorithmChooser extends FlowPanel {
   }
 
   /**
+   * Removes the given name from the algorithm chooser.
+   * @param algorithmName the algorithm's name, which should be removed
+   */
+  public void removeAlgorithm(String algorithmName) {
+    this.algorithms.remove(algorithmName);
+    int index = 0;
+    while (index < this.listbox.getItemCount()) {
+      if (this.listbox.getItemText(index).equals(algorithmName)) {
+        this.listbox.removeItem(index);
+        return;
+      }
+      index++;
+    }
+  }
+
+  /**
    * Inserts a new item in alphabetical ordering, that is, after before the first item that is
    * lexicographically larger than the argument.
    *

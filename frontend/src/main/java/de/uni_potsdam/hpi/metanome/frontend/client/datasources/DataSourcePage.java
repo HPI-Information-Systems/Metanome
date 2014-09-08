@@ -56,6 +56,10 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private static final String FILE_INPUT = "File Input";
   private static final String TABLE_INPUT = "Table Input";
 
+  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private TableInputServiceAsync tableInputService;
+  private FileInputServiceAsync fileInputService;
+
   private TabWrapper messageReceiver;
   private BasePage basePage;
 
@@ -71,12 +75,24 @@ public class DataSourcePage extends FlowPanel implements TabContent {
 
   protected FlowPanel saveButtonPanel;
 
+  protected FlexTable databaseConnectionTable;
+  protected FlexTable fileInputTable;
+  protected FlexTable tableInputTable;
+
   /**
    * Constructor
    * @param basePage the parent page
    */
   public DataSourcePage(BasePage basePage) {
     this.basePage = basePage;
+
+    databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    tableInputService = GWT.create(TableInputService.class);
+    fileInputService = GWT.create(FileInputService.class);
+
+    databaseConnectionTable = new FlexTable();
+    fileInputTable = new FlexTable();
+    tableInputTable = new FlexTable();
 
     // Initialize all input fields
     this.databaseConnectionEditForm = new DatabaseConnectionEditForm();
@@ -215,7 +231,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveDatabaseConnection() {
     DatabaseConnectionEditForm w = (DatabaseConnectionEditForm) editForm.getWidget(0);
     try {
-      DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
       databaseConnectionService.storeDatabaseConnection(w.getValue(), new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
@@ -227,6 +242,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           databaseConnectionEditForm.reset();
           fillContent(DATABASE_CONNECTION);
           messageReceiver.addInfo("Database Connection successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {
@@ -240,7 +256,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveFileInput() {
     FileInputEditForm w = (FileInputEditForm) editForm.getWidget(0);
     try {
-      FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
       fileInputService.storeFileInput(w.getValue(), new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
@@ -252,6 +267,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           fileInputEditForm.reset();
           fillContent(FILE_INPUT);
           messageReceiver.addInfo("File Input successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {
@@ -265,8 +281,8 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   private void saveTableInput() {
     TableInputEditForm w = (TableInputEditForm) editForm.getWidget(0);
     try {
-      TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
-      tableInputService.storeTableInput(w.getValue(), new AsyncCallback<Void>() {
+      final TableInput input = w.getValue();
+      tableInputService.storeTableInput(input, new AsyncCallback<Void>() {
         @Override
         public void onFailure(Throwable throwable) {
           messageReceiver.addError("Table Input could not be stored!");
@@ -277,6 +293,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
           tableInputEditForm.reset();
           fillContent(TABLE_INPUT);
           messageReceiver.addInfo("Table Input successfully saved.");
+          basePage.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {
@@ -294,7 +311,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
     this.content.clear();
     switch (type) {
       case DATABASE_CONNECTION:
-        DatabaseConnectionServiceAsync databaseConnectionService = GWT.create(DatabaseConnectionService.class);
         databaseConnectionService.listDatabaseConnections(
           new AsyncCallback<List<DatabaseConnection>>() {
             @Override
@@ -309,9 +325,19 @@ public class DataSourcePage extends FlowPanel implements TabContent {
               addEditForm(DATABASE_CONNECTION);
             }
           });
+        // disable all delete button of database connection which are referenced by a table input
+        tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+          @Override
+          public void onFailure(Throwable throwable) { }
+          @Override
+          public void onSuccess(List<TableInput> tableInputs) {
+            for (TableInput input : tableInputs)
+              setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+          }
+        });
+
         break;
       case TABLE_INPUT:
-        TableInputServiceAsync tableInputService = GWT.create(TableInputService.class);
         tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
           @Override
           public void onFailure(Throwable throwable) {
@@ -327,7 +353,6 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         });
         break;
       case FILE_INPUT:
-        FileInputServiceAsync fileInputService = GWT.create(FileInputService.class);
         fileInputService.listFileInputs(
           new AsyncCallback<List<FileInput>>() {
             @Override
@@ -396,15 +421,23 @@ public class DataSourcePage extends FlowPanel implements TabContent {
       return;
     }
 
-    FlexTable table = new FlexTable();
+    tableInputTable.clear();
     int row = 1;
 
-    table.setHTML(0, 0, "<b>Database Connection</b>");
-    table.setHTML(0, 1, "<b>Table Name</b>");
+    tableInputTable.setHTML(0, 0, "<b>Database Connection</b>");
+    tableInputTable.setHTML(0, 1, "<b>Table Name</b>");
 
     for (final TableInput input : inputs) {
       Button deleteButton = new Button("Delete");
-      // TODO: add click handler
+      final int finalRow = row;
+      deleteButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent clickEvent) {
+          tableInputService.deleteTableInput(input, getDeleteCallback(tableInputTable,
+                                                                      finalRow,
+                                                                      TABLE_INPUT));
+        }
+      });
 
       Button runButton = new Button("Run");
       runButton.setTitle(String.valueOf(input.getId()));
@@ -415,15 +448,15 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         }
       });
 
-      table.setText(row, 0, input.getDatabaseConnection().getUrl());
-      table.setText(row, 1, input.getTableName());
-      table.setWidget(row, 2, runButton);
-      table.setWidget(row, 3, deleteButton);
+      tableInputTable.setText(row, 0, input.getDatabaseConnection().getUrl());
+      tableInputTable.setText(row, 1, input.getTableName());
+      tableInputTable.setWidget(row, 2, runButton);
+      tableInputTable.setWidget(row, 3, deleteButton);
       row++;
     }
 
     this.content.add(new HTML("<h3>List of all Table Inputs</h3>"));
-    this.content.add(table);
+    this.content.add(tableInputTable);
   }
 
   /**
@@ -436,14 +469,21 @@ public class DataSourcePage extends FlowPanel implements TabContent {
       return;
     }
 
-    FlexTable table = new FlexTable();
+    fileInputTable.clear();
     int row = 1;
 
-    table.setHTML(0, 0, "<b>File Name</b>");
+    fileInputTable.setHTML(0, 0, "<b>File Name</b>");
 
     for (final FileInput input : inputs) {
       Button deleteButton = new Button("Delete");
-      // TODO: add click handler
+      final int finalRow = row;
+      deleteButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent clickEvent) {
+          fileInputService.deleteFileInput(input, getDeleteCallback(fileInputTable,
+                                                                    finalRow, FILE_INPUT));
+        }
+      });
 
       Button runButton = new Button("Run");
       runButton.setTitle(String.valueOf(input.getId()));
@@ -454,19 +494,19 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         }
       });
 
-      table.setText(row, 0, FilePathHelper.getFileName(input.getFileName()));
-      table.setWidget(row, 1, runButton);
-      table.setWidget(row, 2, deleteButton);
+      fileInputTable.setText(row, 0, input.getFileName());
+      fileInputTable.setWidget(row, 1, runButton);
+      fileInputTable.setWidget(row, 2, deleteButton);
       row++;
     }
 
     this.content.add(new HTML("<h3>List of all File Inputs</h3>"));
-    this.content.add(table);
+    this.content.add(fileInputTable);
   }
 
   /**
    * Lists all given database connections in a table and adds the table to the content.
-   * @param inputs
+   * @param inputs a list of database connection which should be added to a table
    */
   private void listDatabaseConnections(List<DatabaseConnection> inputs) {
     if (inputs.isEmpty()) {
@@ -474,16 +514,24 @@ public class DataSourcePage extends FlowPanel implements TabContent {
       return;
     }
 
-    FlexTable table = new FlexTable();
+    databaseConnectionTable.clear();
     int row = 1;
 
-    table.setHTML(0, 0, "<b>Url</b>");
-    table.setHTML(0, 1, "<b>Username</b>");
-    table.setHTML(0, 2, "<b>Password</b>");
+    databaseConnectionTable.setHTML(0, 0, "<b>Url</b>");
+    databaseConnectionTable.setHTML(0, 1, "<b>Username</b>");
+    databaseConnectionTable.setHTML(0, 2, "<b>Password</b>");
 
     for (final DatabaseConnection input : inputs) {
-      Button deleteButton = new Button("Delete");
-      // TODO: add click handler
+      final Button deleteButton = new Button("Delete");
+      final int finalRow = row;
+      deleteButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent clickEvent) {
+          databaseConnectionService.deleteDatabaseConnection(input, getDeleteCallback(databaseConnectionTable,
+                                                                                      finalRow,
+                                                                                      DATABASE_CONNECTION));
+        }
+      });
 
       Button runButton = new Button("Run");
       runButton.setTitle(String.valueOf(input.getId()));
@@ -494,16 +542,37 @@ public class DataSourcePage extends FlowPanel implements TabContent {
         }
       });
 
-      table.setText(row, 0, input.getUrl());
-      table.setText(row, 1, input.getUsername());
-      table.setText(row, 2, input.getPassword());
-      table.setWidget(row, 3, runButton);
-      table.setWidget(row, 4, deleteButton);
+      databaseConnectionTable.setWidget(row, 0, new HTML(input.getUrl()));
+      databaseConnectionTable.setText(row, 1, input.getUsername());
+      databaseConnectionTable.setText(row, 2, input.getPassword());
+      databaseConnectionTable.setWidget(row, 3, runButton);
+      databaseConnectionTable.setWidget(row, 4, deleteButton);
       row++;
     }
 
     this.content.add(new HTML("<h3>List of all Database Connections</h3>"));
-    this.content.add(table);
+    this.content.add(databaseConnectionTable);
+  }
+
+  /**
+   * Creates the callback for the delete call.
+   * @param table The table from which the input should be removed.
+   * @param row The row, which contains the input.
+   * @param type The type of the input.
+   * @return The callback
+   */
+  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row, final String type) {
+    return new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        messageReceiver.addError("Could not delete the " + type + ": " + throwable.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        table.removeRow(row);
+      }
+    };
   }
 
   /**
@@ -554,6 +623,27 @@ public class DataSourcePage extends FlowPanel implements TabContent {
    */
   private void callRunConfiguration(ConfigurationSettingDataSource dataSource) {
     this.basePage.switchToRunConfiguration(null, dataSource);
+  }
+
+  /**
+   * If a table input has a reference to a database connection, the delete button of the database
+   * connection should be disabled.
+   * To delete the database connection, first the related table input has to be deleted.
+   * If the table input is deleted, the button should be enabled again.
+   * @param connection the database connection, which delete button should be enabled/disabled
+   * @param enabled true, if the button should be enabled, false otherwise
+   */
+  protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
+    int row = 0;
+    while (row < this.databaseConnectionTable.getRowCount()) {
+      HTML textWidget = (HTML) this.databaseConnectionTable.getWidget(row, 0);
+      if (textWidget != null && connection.getUrl().equals(textWidget.getText())) {
+        Button deleteButton = (Button) this.databaseConnectionTable.getWidget(row, 4);
+        deleteButton.setEnabled(enabled);
+        return;
+      }
+      row++;
+    }
   }
 
   @Override

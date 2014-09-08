@@ -16,6 +16,7 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
@@ -30,6 +31,7 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
+@GwtCompatible
 public class TableInput extends Input implements Serializable {
 
   private static final long serialVersionUID = 506811774527044153L;
@@ -53,6 +55,7 @@ public class TableInput extends Input implements Serializable {
    *
    * @return the TableInput
    */
+  @Override
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public TableInput store() throws EntityStorageException {
     HibernateUtil.store(this);

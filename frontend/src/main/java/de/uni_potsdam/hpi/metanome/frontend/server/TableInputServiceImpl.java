@@ -80,4 +80,9 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
     }
   }
 
+  @Override
+  public void deleteTableInput(TableInput input) {
+    input.delete();
+  }
+
 }
