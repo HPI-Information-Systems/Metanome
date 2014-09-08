@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
@@ -82,6 +83,33 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
 
     // Cleanup
     TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link TableInputEditForm#addDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)} and
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.TableInputEditForm#removeDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   */
+  public void testAddAndRemoveDatabaseConnection() {
+    // Set up
+    DatabaseConnection connection = new DatabaseConnection();
+    connection.setPassword("password");
+    connection.setSystem(DbSystem.DB2);
+    connection.setUrl("url");
+    connection.setUsername("user");
+
+    TableInputEditForm input = new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
+
+    // Execute
+    input.addDatabaseConnection(connection);
+
+    // Check
+    assertTrue(input.dbConnectionListBox.containsValues());
+
+    // Execute
+    input.removeDatabaseConnection(connection);
+
+    // Check
+    assertFalse(input.dbConnectionListBox.containsValues());
   }
 
   @Override

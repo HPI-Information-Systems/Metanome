@@ -170,6 +170,7 @@ public class TableInputEditForm extends Grid {
         public void onSuccess(Void aVoid) {
           reset();
           parent.addTableInputToTable(currentInput);
+          parent.setEnableOfDeleteButton(currentInput.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
         }
       });
@@ -182,6 +183,12 @@ public class TableInputEditForm extends Grid {
     String identifier = connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername();
     this.dbConnectionListBox.addValue(identifier);
     this.dbMap.put(identifier, connection);
+  }
+
+  public void removeDatabaseConnection(DatabaseConnection connection) {
+    String identifier = connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername();
+    this.dbConnectionListBox.removeValue(identifier);
+    this.dbMap.remove(connection);
   }
 
   /**

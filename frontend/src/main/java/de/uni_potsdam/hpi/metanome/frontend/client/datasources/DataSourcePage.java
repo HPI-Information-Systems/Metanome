@@ -75,7 +75,16 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
    * database connections.
    * @param connection the connection which is new and should be added
    */
-  public void updateTableInputTab(DatabaseConnection connection) {
+  public void removeDatabaseConnectionFromTableInputTab(DatabaseConnection connection) {
+    this.tableInputTab.removeDatabaseConnection(connection);
+  }
+
+  /**
+   * Updates the table input tab. Adds a new database connection to the list of available
+   * database connections.
+   * @param connection the connection which is new and should be added
+   */
+  public void addDatabaseConnectionToTableInputTab(DatabaseConnection connection) {
     this.tableInputTab.addDatabaseConnection(connection);
   }
 
@@ -105,6 +114,10 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
         table.removeRow(row);
       }
     };
+  }
+
+  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.databaseConnectionTab.setEnableOfDeleteButton(databaseConnection, enabled);
   }
 
   @Override

@@ -72,6 +72,22 @@ public class GwtTestListBoxInput extends GWTTestCase {
   }
 
   /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput#removeValue(String)}
+   */
+  public void testRemoveValue() {
+    // Expected
+    String item = "item";
+    listBox.addValue(item);
+
+    // Execute functionality
+    listBox.removeValue("item");
+
+    // Check result
+    assertEquals(listBox.getValues().size(), 0);
+  }
+
+  /**
    * Test method for {@link ListBoxInput#setSelectedValue(String)}
    * 
    * When setting the selected value to a value that is not in the list box false should be

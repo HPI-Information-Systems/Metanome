@@ -137,6 +137,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
+        parent.removeDatabaseConnectionFromTableInputTab(input);
         databaseConnectionService.deleteDatabaseConnection(input,
                                                            parent.getDeleteCallback(
                                                                connectionInputList,
@@ -154,7 +155,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
       }
     });
 
-    this.connectionInputList.setText(row, 0, input.getUrl());
+    this.connectionInputList.setWidget(row, 0, new HTML(input.getUrl()));
     this.connectionInputList.setText(row, 1, input.getUsername());
     this.connectionInputList.setText(row, 2, input.getSystem().name());
     this.connectionInputList.setWidget(row, 3, runButton);
@@ -176,7 +177,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param connection the new database connection
    */
   public void updateTableInputTab(DatabaseConnection connection) {
-    this.parent.updateTableInputTab(connection);
+    this.parent.addDatabaseConnectionToTableInputTab(connection);
   }
 
   /**

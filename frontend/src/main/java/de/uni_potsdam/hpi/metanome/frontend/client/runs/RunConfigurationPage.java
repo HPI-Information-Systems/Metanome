@@ -167,7 +167,8 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * Forwards the update call to the parameter table.
    */
   public void updateDataSources() {
-    this.parameterTable.updateDataSources();
+    if (this.parameterTable != null)
+      this.parameterTable.updateDataSources();
   }
 
   // Getters & Setters

@@ -124,9 +124,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
       @Override
       public void onClick(ClickEvent clickEvent) {
         tableInputService.deleteTableInput(input,
-                                           parent.getDeleteCallback(tableInputList,
-                                             finalRow,
-                                             "Table Input"));
+                                           getDeleteCallback(finalRow, input.getDatabaseConnection()));
       }
     });
 
@@ -166,10 +164,42 @@ public class TableInputTab extends FlowPanel implements TabContent {
   }
 
   /**
+   * Forwards the remove-database-connection-command to the edit form.
+   * @param connection the database connection
+   */
+  public void removeDatabaseConnection(DatabaseConnection connection) {
+    this.editForm.removeDatabaseConnection(connection);
+  }
+
+  /**
    * Forwards the command to update the data sources on the run configuration page to the data source page.
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.parent.updateDataSourcesOnRunConfiguration();
+  }
+
+  /**
+   * Creates the callback for the delete call.
+   * @param row The row, which contains the input.
+   * @return The callback
+   */
+  protected AsyncCallback<Void> getDeleteCallback(final int row, final DatabaseConnection connection) {
+    return new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        messageReceiver.addError("Could not delete the Table Input: " + throwable.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        tableInputList.removeRow(row);
+        setEnableOfDeleteButton(connection, true);
+      }
+    };
+  }
+
+  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.parent.setEnableOfDeleteButton(databaseConnection, enabled);
   }
 
   @Override
