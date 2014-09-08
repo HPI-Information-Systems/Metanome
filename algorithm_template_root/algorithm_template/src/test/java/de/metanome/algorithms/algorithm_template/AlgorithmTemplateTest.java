@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
+package de.metanome.algorithms.algorithm_template;
 
 import org.junit.After;
 import org.junit.Before;
