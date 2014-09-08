@@ -26,7 +26,7 @@ import java.util.List;
 @RemoteServiceRelativePath("fileInputService")
 public interface FileInputService extends RemoteService {
 
-  public String[] listCsvFiles();
+  public String[] listCsvFiles() throws Exception;
 
   public List<FileInput> listFileInputs();
 

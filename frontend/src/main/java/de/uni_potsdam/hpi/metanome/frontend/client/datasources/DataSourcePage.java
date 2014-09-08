@@ -33,6 +33,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
@@ -649,6 +650,7 @@ public class DataSourcePage extends FlowPanel implements TabContent {
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
     this.tableInputEditForm.setMessageReceiver(tab);
+    this.fileInputEditForm.setMessageReceiver(tab);
   }
 
 }
