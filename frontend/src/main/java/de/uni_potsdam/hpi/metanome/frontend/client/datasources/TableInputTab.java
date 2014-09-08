@@ -130,7 +130,9 @@ public class TableInputTab extends FlowPanel implements TabContent {
       }
     });
 
-    this.tableInputList.setText(row, 0, input.getDatabaseConnection().getUrl());
+    DatabaseConnection connection = input.getDatabaseConnection();
+
+    this.tableInputList.setText(row, 0, connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername());
     this.tableInputList.setText(row, 1, input.getTableName());
     this.tableInputList.setWidget(row, 2, runButton);
     this.tableInputList.setWidget(row, 3, deleteButton);

@@ -178,8 +178,9 @@ public class TableInputEditForm extends Grid {
   }
 
   public void addDatabaseConnection(DatabaseConnection connection) {
-    this.dbConnectionListBox.addValue(connection.getUrl());
-    this.dbMap.put(connection.getUrl(), connection);
+    String identifier = connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername();
+    this.dbConnectionListBox.addValue(identifier);
+    this.dbMap.put(identifier, connection);
   }
 
   /**

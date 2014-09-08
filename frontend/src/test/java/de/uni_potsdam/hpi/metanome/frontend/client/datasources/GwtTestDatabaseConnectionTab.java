@@ -18,6 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
@@ -35,6 +36,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     databaseConnection.setUrl("url");
     databaseConnection.setPassword("password");
     databaseConnection.setUsername("user");
+    databaseConnection.setSystem(DbSystem.DB2);
 
     DatabaseConnectionTab input = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
     int rowCount = input.connectionInputList.getRowCount();
@@ -55,11 +57,13 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     databaseConnection1.setUrl("url");
     databaseConnection1.setPassword("password");
     databaseConnection1.setUsername("user");
+    databaseConnection1.setSystem(DbSystem.DB2);
 
     DatabaseConnection databaseConnection2 = new DatabaseConnection();
     databaseConnection2.setUrl("url");
     databaseConnection2.setPassword("password");
     databaseConnection2.setUsername("user");
+    databaseConnection2.setSystem(DbSystem.DB2);
 
     ArrayList<DatabaseConnection> connections = new ArrayList<DatabaseConnection>();
     connections.add(databaseConnection1);

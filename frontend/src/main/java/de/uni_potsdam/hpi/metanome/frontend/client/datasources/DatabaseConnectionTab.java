@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
@@ -100,7 +99,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
     this.connectionInputList.setHTML(0, 0, "<b>Url</b>");
     this.connectionInputList.setHTML(0, 1, "<b>Username</b>");
-    this.connectionInputList.setHTML(0, 2, "<b>Password</b>");
+    this.connectionInputList.setHTML(0, 2, "<b>System</b>");
 
     for (final DatabaseConnection input : inputs) {
       this.addDatabaseConnectionToTable(input);
@@ -131,7 +130,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
     this.connectionInputList.setText(row, 0, input.getUrl());
     this.connectionInputList.setText(row, 1, input.getUsername());
-    this.connectionInputList.setText(row, 2, input.getPassword());
+    this.connectionInputList.setText(row, 2, input.getSystem().name());
     this.connectionInputList.setWidget(row, 3, runButton);
     this.connectionInputList.setWidget(row, 4, deleteButton);
   }
@@ -143,7 +142,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(DatabaseConnection input) {
     return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(), input.getPassword(),
-                                               DbSystem.DB2);
+                                               input.getSystem());
   }
 
   /**
