@@ -53,7 +53,7 @@ import javax.persistence.NamedQuery;
 )
 @Entity
 @GwtCompatible
-public class Algorithm implements Serializable, Comparable<Algorithm> {
+public class Algorithm extends ResultsDbEntity implements Serializable, Comparable<Algorithm> {
 
   private static final long serialVersionUID = -3276487707781514801L;
 
@@ -99,7 +99,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       setUcc(true);
     }
-
     if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       setCucc(true);
     }
@@ -150,8 +149,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
    * @return a list of all algorithms
    */
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Algorithm> retrieveAll() {
-    return (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
+  public static List<Algorithm> retrieveAll() throws EntityStorageException {
+    return HibernateUtil.queryCriteria(Algorithm.class);
   }
 
   /**
@@ -205,6 +204,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
    *
    * @return the Algorithm
    */
+  @Override
   @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public Algorithm store() throws EntityStorageException {
     HibernateUtil.store(this);

@@ -17,6 +17,8 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -75,6 +77,34 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
    */
   public void updateTableInputTab(DatabaseConnection connection) {
     this.tableInputTab.addDatabaseConnection(connection);
+  }
+
+  /**
+   * Forwards the command to update the data sources on the run configuration page to the base page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.basePage.updateDataSourcesOnRunConfiguration();
+  }
+
+  /**
+   * Creates the callback for the delete call.
+   * @param table The table from which the input should be removed.
+   * @param row The row, which contains the input.
+   * @param type The type of the input.
+   * @return The callback
+   */
+  protected AsyncCallback<Void> getDeleteCallback(final FlexTable table, final int row, final String type) {
+    return new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        messageReceiver.addError("Could not delete the " + type + ": " + throwable.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        table.removeRow(row);
+      }
+    };
   }
 
   @Override

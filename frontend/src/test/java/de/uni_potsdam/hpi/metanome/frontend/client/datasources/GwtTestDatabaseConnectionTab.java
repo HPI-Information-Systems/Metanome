@@ -17,10 +17,15 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.DbSystem;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
+import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
+import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 import java.util.ArrayList;
 
@@ -78,6 +83,39 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     //Check
     assertEquals(rowCount + 3, input.connectionInputList.getRowCount());
+  }
+
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection, boolean)}
+   */
+  public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnectionTab page = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+
+    DatabaseConnection connection = new DatabaseConnection();
+    connection.setUrl("url");
+
+    page.connectionInputList.setWidget(0, 0, new HTML("url"));
+    page.connectionInputList.setText(0, 1, "user");
+    page.connectionInputList.setText(0, 2, "system");
+    page.connectionInputList.setWidget(0, 3, new Button("Run"));
+    page.connectionInputList.setWidget(0, 4, new Button("Delete"));
+
+    Button actualButton = (Button) page.connectionInputList.getWidget(0, 4);
+
+    assertTrue(actualButton.isEnabled());
+
+    // Execute
+    page.setEnableOfDeleteButton(connection, false);
+
+    // Check
+    assertFalse(actualButton.isEnabled());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

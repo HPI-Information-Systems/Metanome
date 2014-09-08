@@ -139,6 +139,7 @@ public class DatabaseConnectionEditForm extends Grid {
           reset();
           parent.addDatabaseConnectionToTable(currentConnection);
           parent.updateTableInputTab(currentConnection);
+          parent.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {

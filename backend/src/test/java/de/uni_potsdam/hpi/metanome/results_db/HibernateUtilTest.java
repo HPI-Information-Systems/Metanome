@@ -90,7 +90,7 @@ public class HibernateUtilTest {
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#retrieve(Class,
-   * java.io.Serializable)} <p/> When trying to retrive entites of a class that is misiing the
+   * java.io.Serializable)} <p/> When trying to retrieve entities of a class that is missing the
    * {@link javax.persistence.Entity} annotation an {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException}
    * will be thrown.
    */
@@ -128,10 +128,89 @@ public class HibernateUtilTest {
 
     // Execute functionality
     HibernateUtil.store(expectedAlgorithm);
-    Algorithm actualAlgorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, "testFileName");
+    Algorithm
+        actualAlgorithm =
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
 
     // Check result
     assertEquals(expectedAlgorithm, actualAlgorithm);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for  {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#delete(Object)}
+   *
+   * Entities should be deletable from the database.
+   */
+  @Test
+  public void testDelete() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    String expectedFileName = "testFileName";
+    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    HibernateUtil.store(expectedAlgorithm);
+
+    // Check precondition
+    Algorithm actualAlgorithm =
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
+    assertEquals(expectedAlgorithm, actualAlgorithm);
+
+    // Execute functionality
+    HibernateUtil.delete(expectedAlgorithm);
+
+    // Check result
+    assertNull(HibernateUtil.retrieve(Algorithm.class, expectedFileName));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for  {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#delete(Object)}
+   *
+   * When trying to delete entities of a class that is missing the {@link javax.persistence.Entity}
+   * annotation an {@link de.uni_potsdam.hpi.metanome.results_db.EntityStorageException} should be
+   * thrown.
+   */
+  @Test
+  public void testDeleteNonEntity() {
+    // Setup
+    HibernateUtil.clear();
+
+    // Execute functionality
+    // Check result
+    try {
+      HibernateUtil.delete("some string");
+      fail("Exception was not thrown.");
+    } catch (EntityStorageException e) {
+      // Intentionally left blank
+    }
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for  {@link de.uni_potsdam.hpi.metanome.results_db.HibernateUtil#delete(Object)}
+   *
+   * Deleting entities that have not been stored yet should just be transparent (no exception,
+   * nothing deleted).
+   */
+  @Test
+  public void testDeleteNotStored() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    String expectedFileName = "testFileName";
+    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+
+    // Execute functionality
+    HibernateUtil.delete(expectedAlgorithm);
 
     // Cleanup
     HibernateUtil.clear();

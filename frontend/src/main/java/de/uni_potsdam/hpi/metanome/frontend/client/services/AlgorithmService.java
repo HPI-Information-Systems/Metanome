@@ -43,4 +43,6 @@ public interface AlgorithmService extends RemoteService {
   public List<Algorithm> listAllAlgorithms();
 
   public void addAlgorithm(Algorithm algorithm) throws EntityStorageException;
+
+  public void deleteAlgorithm(Algorithm algorithm);
 }

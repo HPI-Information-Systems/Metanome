@@ -16,6 +16,11 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -26,7 +31,8 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
-public class Result {
+@GwtCompatible
+public class Result extends ResultsDbEntity implements Serializable {
 
   protected String fileName;
   protected Execution execution;
@@ -65,6 +71,8 @@ public class Result {
    *
    * @return the Result
    */
+  @Override
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public Result store() throws EntityStorageException {
     HibernateUtil.store(this);
 

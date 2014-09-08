@@ -26,6 +26,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -142,4 +143,36 @@ public class FileInputServiceImplTest {
     // Cleanup
     HibernateUtil.clear();
   }
+
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl#deleteFileInput(de.uni_potsdam.hpi.metanome.results_db.FileInput)}
+   */
+  @Test
+  public void testDeleteFileInput() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    FileInputServiceImpl service = new FileInputServiceImpl();
+
+    FileInput expectedFileInput = new FileInput();
+    expectedFileInput.setFileName("file1");
+    expectedFileInput.store();
+
+    long id = expectedFileInput.getId();
+
+    // Check precondition
+    FileInput actualFileInput = FileInput.retrieve(id);
+    assertEquals(expectedFileInput, actualFileInput);
+
+    // Execute functionality
+    service.deleteFileInput(expectedFileInput);
+
+    // Check result
+    assertNull(FileInput.retrieve(id));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

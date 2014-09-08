@@ -17,18 +17,14 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
-
-import java.util.List;
 
 public class GwtTestDataSourcePage extends GWTTestCase {
 
@@ -54,89 +50,9 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link DataSourcePage#saveObject()}
-   * TODO fix FieldSerializer bug
+   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable, int, String)}
    */
-/*
-  public void testStoreTableInput() throws EntityStorageException, InputValidationException {
-    // Setup
-    TestHelper.resetDatabaseSync();
-
-    DatabaseConnection dbConnection = new DatabaseConnection();
-    dbConnection.setUrl("url");
-    dbConnection.setPassword("password");
-    dbConnection.setUsername("db");
-    TestHelper.storeDatabaseConnectionSync(dbConnection);
-
-    BasePage parent = new BasePage();
-    final DataSourcePage page = new DataSourcePage(parent);
-    page.setMessageReceiver(new TabWrapper());
-
-    final TableInput[] expectedInput = new TableInput[1];
-    // Timer waiting for DataSourcePage to initialize the TableInputEditForm
-    Timer executeTimer = new Timer() {
-      @Override
-      public void run() {
-        page.tableInputSelected = true;
-        page.databaseConnectionSelected = false;
-        page.fileInputSelected = false;
-        page.editForm.clear();
-        page.editForm.add(page.tableInputEditForm);
-
-        page.tableInputEditForm.setValues("url", "table");
-
-        // Expected values
-        try {
-          expectedInput[0] = page.tableInputEditForm.getValue();
-        } catch (InputValidationException | EntityStorageException e) {
-          e.printStackTrace();
-          fail();
-        }
-
-        // Execute
-        page.saveObject();
-      }
-    };
-
-    // Timer waiting for saving object
-    Timer checkTimer = new Timer() {
-      @Override
-      public void run() {
-        // Check result
-        TestHelper.getAllTableInputs(
-          new AsyncCallback<List<Input>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-              fail();
-              // Cleanup
-              TestHelper.resetDatabaseSync();
-            }
-
-            @Override
-            public void onSuccess(List<Input> con) {
-              TableInput actualInput = (TableInput) con.get(0);
-              assertEquals(expectedInput[0].getDatabaseConnection(), actualInput.getDatabaseConnection());
-              assertEquals(expectedInput[0].getTableName(), actualInput.getTableName());
-
-              // Cleanup
-              TestHelper.resetDatabaseSync();
-              finishTest();
-            }
-          });
-      }
-    };
-
-    executeTimer.schedule(2000);
-    checkTimer.schedule(4000);
-
-    delayTestFinish(6000);
-  }
-*/
-
-  /**
-   * Test method for {@link DataSourcePage#saveObject()}
-   */
- /* public void testStoreFileInput() throws EntityStorageException, InputValidationException {
+  public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
 
@@ -144,51 +60,32 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-    page.fileInputEditForm.setFileName("file_name");
-    page.tableInputSelected = false;
-    page.databaseConnectionSelected = false;
-    page.fileInputSelected = true;
-    page.editForm.clear();
-    page.editForm.add(page.fileInputEditForm);
 
-    // Expected values
-    final FileInput expectedInput = page.fileInputEditForm.getValue();
+    page.fileInputTab.fileInputList.setWidget(0, 0, new HTML("File 1"));
+    page.fileInputTab.fileInputList.setWidget(1, 0, new HTML("File 2"));
+    page.fileInputTab.fileInputList.setWidget(2, 0, new HTML("File 3"));
 
-    // Execute
-    page.saveObject();
+    int rowCount = page.fileInputTab.fileInputList.getRowCount();
 
-    // Check result
-    // Timer waiting for saving object
-    Timer timer = new Timer() {
-      @Override
-      public void run() {
-        TestHelper.getAllFileInputs(
-            new AsyncCallback<List<Input>>() {
-              @Override
-              public void onFailure(Throwable throwable) {
-                fail();
-                // Cleanup
-                TestHelper.resetDatabaseSync();
-              }
+    // Execute (delete File 2)
+    AsyncCallback<Void> callback = page.getDeleteCallback(page.fileInputTab.fileInputList, 1, "File Input");
+    callback.onSuccess(null);
 
-              @Override
-              public void onSuccess(List<Input> con) {
-                FileInput input = (FileInput) con.get(0);
-                assertEquals(expectedInput.getFileName(), input.getFileName());
+    // Check
+    assertEquals(rowCount - 1, page.fileInputTab.fileInputList.getRowCount());
+    assertEquals("File 3", ((HTML) page.fileInputTab.fileInputList.getWidget(1, 0)).getText());
 
-                // Cleanup
-                TestHelper.resetDatabaseSync();
-                finishTest();
-              }
-            });
-      }
-    };
-    timer.schedule(1000);
+    // Execute (delete File 1)
+    callback = page.getDeleteCallback(page.fileInputTab.fileInputList, 0, "File Input");
+    callback.onSuccess(null);
 
-    delayTestFinish(2000);
-  }*/
+    // Check
+    assertEquals(rowCount - 2, page.fileInputTab.fileInputList.getRowCount());
+    assertEquals("File 3", ((HTML) page.fileInputTab.fileInputList.getWidget(0, 0)).getText());
 
-
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
 
   @Override
   public String getModuleName() {

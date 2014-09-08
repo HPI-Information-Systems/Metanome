@@ -170,6 +170,7 @@ public class TableInputEditForm extends Grid {
         public void onSuccess(Void aVoid) {
           reset();
           parent.addTableInputToTable(currentInput);
+          parent.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {

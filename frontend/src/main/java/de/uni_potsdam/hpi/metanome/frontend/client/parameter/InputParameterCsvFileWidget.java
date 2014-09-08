@@ -72,6 +72,13 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   }
 
   @Override
+  public void update() {
+    for (int i = 0; i < inputWidgets.size(); i++) {
+      inputWidgets.get(i).updateListBox();
+    }
+  }
+
+  @Override
   public boolean accepts(ConfigurationSettingDataSource setting) {
     return setting instanceof ConfigurationSettingCsvFile;
   }

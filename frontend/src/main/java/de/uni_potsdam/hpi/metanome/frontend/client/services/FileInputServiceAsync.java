@@ -32,4 +32,6 @@ public interface FileInputServiceAsync {
   void storeFileInput(FileInput input, AsyncCallback<Void> async);
 
   void listFileInputs(AsyncCallback<List<FileInput>> async);
+
+  void deleteFileInput(FileInput input, AsyncCallback<Void> async);
 }

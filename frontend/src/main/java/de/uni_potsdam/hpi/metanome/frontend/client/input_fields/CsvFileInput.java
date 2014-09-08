@@ -67,7 +67,7 @@ public class CsvFileInput extends InputField {
   /**
    * Get all file inputs from the database and put them into the list box.
    */
-  private void updateListBox() {
+  public void updateListBox() {
     AsyncCallback<List<FileInput>> callback = new AsyncCallback<List<FileInput>>() {
       public void onFailure(Throwable caught) {
         messageReceiver.addError("There are no file inputs in the database!");

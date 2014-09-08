@@ -116,7 +116,16 @@ public class FileInputTab extends FlowPanel implements TabContent {
     int row = this.fileInputList.getRowCount();
 
     Button deleteButton = new Button("Delete");
-    // TODO: add click handler
+    final int finalRow = row;
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        fileInputService.deleteFileInput(input,
+                                         parent.getDeleteCallback(fileInputList,
+                                           finalRow,
+                                           "File Input"));
+      }
+    });
 
     Button runButton = new Button("Run");
     runButton.setTitle(String.valueOf(input.getId()));
@@ -151,6 +160,13 @@ public class FileInputTab extends FlowPanel implements TabContent {
     setting.setStrictQuotes(input.isStrictQuotes());
 
     return setting;
+  }
+
+  /**
+   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.parent.updateDataSourcesOnRunConfiguration();
   }
 
   @Override

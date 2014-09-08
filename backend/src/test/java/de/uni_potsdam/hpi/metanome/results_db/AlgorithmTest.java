@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.results_db;
 
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
+import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -53,6 +55,7 @@ public class AlgorithmTest {
     // Setup
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
     algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+    algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
     algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
     algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
@@ -68,7 +71,42 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isInd());
     assertTrue(actualAlgorithm.isFd());
     assertTrue(actualAlgorithm.isUcc());
+    assertTrue(actualAlgorithm.isCucc());
     assertTrue(actualAlgorithm.isBasicStat());
+  }
+
+  /**
+   * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#Algorithm(String, String, String, String, java.util.Set)}
+   *
+   * The algorithm should have the appropriate algorithm types and other values set.
+   */
+  @Test
+  public void testConstructorFull() {
+    // Setup
+    Set<Class<?>> algorithmInterfaces = new HashSet<>();
+    algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+    // Expected values
+    String expectedFileName = "some file name";
+    String expectedName = "some name";
+    String expectedAuthor = "some author";
+    String expectedDescription = "some description";
+
+    // Execute functionality
+    Algorithm
+        actualAlgorithm =
+        new Algorithm(expectedFileName, expectedName, expectedAuthor, expectedDescription,
+                      algorithmInterfaces);
+
+    // Check result
+    assertEquals(expectedFileName, actualAlgorithm.getFileName());
+    assertFalse(actualAlgorithm.isInd());
+    assertFalse(actualAlgorithm.isFd());
+    assertTrue(actualAlgorithm.isUcc());
+    assertFalse(actualAlgorithm.isCucc());
+    assertFalse(actualAlgorithm.isBasicStat());
+    assertEquals(expectedName, actualAlgorithm.getName());
+    assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
+    assertEquals(expectedDescription, actualAlgorithm.getDescription());
   }
 
   /**
@@ -124,7 +162,7 @@ public class AlgorithmTest {
    * list of algorithms should still be retrievable and empty.
    */
   @Test
-  public void testRetrieveAllTableEmpty() {
+  public void testRetrieveAllTableEmpty() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
@@ -161,6 +199,10 @@ public class AlgorithmTest {
         .setUcc(true)
         .store();
 
+    Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path")
+        .setCucc(true)
+        .store();
+
     Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path")
         .setBasicStat(true)
         .store();
@@ -179,6 +221,8 @@ public class AlgorithmTest {
     List<Algorithm>
         actualUccAlgorithms =
         Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
+    List<Algorithm> actualCuccAlgorithms = Algorithm.retrieveAll(
+        ConditionalUniqueColumnCombinationAlgorithm.class);
     List<Algorithm>
         actualBasicStatAlgorithms =
         Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
@@ -195,6 +239,8 @@ public class AlgorithmTest {
         .containsInAnyOrder(expectedFdAlgorithm, expectedHolisticAlgorithm));
     assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
+    assertThat(actualCuccAlgorithms,
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
     assertThat(actualBasicStatAlgorithms,
                IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
     assertThat(actualHolisticAlgorithms,
@@ -203,7 +249,6 @@ public class AlgorithmTest {
     // Cleanup
     HibernateUtil.clear();
   }
-
 
   /**
    * Test method for {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm#equals(Object)} and

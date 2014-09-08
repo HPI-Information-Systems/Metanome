@@ -159,6 +159,7 @@ public class FileInputEditForm extends Grid {
         public void onSuccess(Void aVoid) {
           reset();
           parent.addFileInputToTable(input);
+          parent.updateDataSourcesOnRunConfiguration();
         }
       });
     } catch (InputValidationException e) {

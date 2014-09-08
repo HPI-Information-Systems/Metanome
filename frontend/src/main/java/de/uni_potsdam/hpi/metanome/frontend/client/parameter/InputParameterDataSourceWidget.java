@@ -48,4 +48,9 @@ public abstract class InputParameterDataSourceWidget extends InputParameterWidge
   public abstract void setDataSource(ConfigurationSettingDataSource dataSource)
       throws AlgorithmConfigurationException;
 
+  /**
+   * Updates the list box of data sources.
+   */
+  public abstract void update();
+
 }

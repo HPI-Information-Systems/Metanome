@@ -27,7 +27,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -52,7 +54,36 @@ public class AlgorithmServiceImplTest {
 
     // Check result
     assertTrue(algos.length > 0);
+  }
 
+  /**
+   * Test method for {@link AlgorithmServiceImpl#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
+   */
+  @Test
+  public void testDeleteAlgorithm() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    AlgorithmServiceImpl service = new AlgorithmServiceImpl();
+
+    String fileName = "someFileName.jar";
+
+    Algorithm expectedAlgorithm = new Algorithm(fileName);
+    expectedAlgorithm.setInd(true);
+    expectedAlgorithm.store();
+
+    // Check precondition
+    Algorithm actualAlgorithm = Algorithm.retrieve(fileName);
+    assertEquals(expectedAlgorithm, actualAlgorithm);
+
+    // Execute functionality
+    service.deleteAlgorithm(expectedAlgorithm);
+
+    // Check result
+    assertNull(Algorithm.retrieve(fileName));
+
+    // Cleanup
+    HibernateUtil.clear();
   }
 
   /**

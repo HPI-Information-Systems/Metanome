@@ -119,7 +119,16 @@ public class TableInputTab extends FlowPanel implements TabContent {
     int row = this.tableInputList.getRowCount();
 
     Button deleteButton = new Button("Delete");
-    // TODO: add click handler
+    final int finalRow = row;
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        tableInputService.deleteTableInput(input,
+                                           parent.getDeleteCallback(tableInputList,
+                                             finalRow,
+                                             "Table Input"));
+      }
+    });
 
     Button runButton = new Button("Run");
     runButton.setTitle(String.valueOf(input.getId()));
@@ -154,6 +163,13 @@ public class TableInputTab extends FlowPanel implements TabContent {
    */
   public void addDatabaseConnection(DatabaseConnection connection) {
     this.editForm.addDatabaseConnection(connection);
+  }
+
+  /**
+   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.parent.updateDataSourcesOnRunConfiguration();
   }
 
   @Override

@@ -159,6 +159,14 @@ public class ParameterTable extends FlexTable {
     return null;
   }
 
+  /**
+   * Forwards the update call to the data source widgets.
+   */
+  public void updateDataSources() {
+    for (InputParameterDataSourceWidget w : this.dataSourceChildWidgets) {
+      w.update();
+    }
+  }
 
   /**
    * The AlgorithmTabs implement algorithm type specific methods, which can be called via the

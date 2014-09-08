@@ -16,6 +16,8 @@
 
 package de.uni_potsdam.hpi.metanome.results_db;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -25,6 +27,7 @@ import java.sql.Timestamp;
  *
  * @author Jakob Zwiener
  */
+@GwtCompatible
 public class ExecutionId implements Serializable {
 
   protected Algorithm algorithm;

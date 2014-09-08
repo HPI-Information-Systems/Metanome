@@ -17,6 +17,7 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.algorithms;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
@@ -161,6 +162,69 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     callback.onSuccess(null);
 
     assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for
+   * {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
+   */
+  public void testDeleteAlgorithm() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    final int[] uccCount = new int[1];
+    final int[] fdCount = new int[1];
+
+    Timer setUpTimer = new Timer(){
+      @Override
+      public void run() {
+        uccCount[0] = algorithmsPage.uccList.getRowCount();
+        fdCount[0] = algorithmsPage.fdList.getRowCount();
+
+        // Create a list of algorithms as result
+        LinkedList<Algorithm> uccAlgorithms = new LinkedList<Algorithm>();
+        LinkedList<Algorithm> fdAlgorithms = new LinkedList<Algorithm>();
+        Algorithm a1 = new Algorithm("fileName1");
+        a1.setName("algorithm1");
+        a1.setUcc(true);
+        a1.setFd(true);
+        uccAlgorithms.add(a1);
+        fdAlgorithms.add(a1);
+        Algorithm a2 = new Algorithm("fileName2");
+        a2.setName("algorithm2");
+        a2.setUcc(true);
+        uccAlgorithms.add(a2);
+
+        algorithmsPage.addAlgorithmsToTable(uccAlgorithms, algorithmsPage.uccList);
+        algorithmsPage.addAlgorithmsToTable(fdAlgorithms, algorithmsPage.fdList);
+
+        assertEquals(uccCount[0] + 2, algorithmsPage.uccList.getRowCount());
+        assertEquals(fdCount[0] + 1, algorithmsPage.fdList.getRowCount());
+
+        // Execute
+        algorithmsPage.deleteAlgorithm(a1);
+      }
+    };
+
+    Timer checkTimer = new Timer(){
+      @Override
+      public void run() {
+        // Check
+        assertEquals(uccCount[0] + 1, algorithmsPage.uccList.getRowCount());
+        assertEquals(fdCount[0], algorithmsPage.fdList.getRowCount());
+
+        finishTest();
+      }
+    };
+
+    checkTimer.schedule(3000);
+    setUpTimer.schedule(1000);
+
+    delayTestFinish(8000);
 
     // Clean up
     TestHelper.resetDatabaseSync();

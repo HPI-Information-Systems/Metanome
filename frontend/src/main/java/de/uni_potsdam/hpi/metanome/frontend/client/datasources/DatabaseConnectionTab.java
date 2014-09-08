@@ -32,13 +32,17 @@ import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
 import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
+import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
 
 public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   private DatabaseConnectionServiceAsync databaseConnectionService;
+  private TableInputServiceAsync tableInputService;
   private DataSourcePage parent;
 
   protected FlexTable connectionInputList;
@@ -52,6 +56,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    this.tableInputService = GWT.create(TableInputService.class);
     this.parent = parent;
 
     this.connectionInputList = new FlexTable();
@@ -85,6 +90,17 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
           addEditForm();
         }
       });
+
+    // disable all delete button of database connection which are referenced by a table input
+    tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+      @Override
+      public void onFailure(Throwable throwable) { }
+      @Override
+      public void onSuccess(List<TableInput> tableInputs) {
+        for (TableInput input : tableInputs)
+          setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+      }
+    });
   }
 
   /**
@@ -117,7 +133,17 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     int row = this.connectionInputList.getRowCount();
 
     Button deleteButton = new Button("Delete");
-    // TODO: add click handler
+    final int finalRow = row;
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        databaseConnectionService.deleteDatabaseConnection(input,
+                                                           parent.getDeleteCallback(
+                                                               connectionInputList,
+                                                               finalRow,
+                                                               "Database Connection"));
+      }
+    });
 
     Button runButton = new Button("Run");
     runButton.setTitle(String.valueOf(input.getId()));
@@ -150,7 +176,35 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param connection the new database connection
    */
   public void updateTableInputTab(DatabaseConnection connection) {
-    parent.updateTableInputTab(connection);
+    this.parent.updateTableInputTab(connection);
+  }
+
+  /**
+   * Forwards the command to update the data sources on the run configuration page to the data source page.
+   */
+  public void updateDataSourcesOnRunConfiguration() {
+    this.parent.updateDataSourcesOnRunConfiguration();
+  }
+
+  /**
+   * If a table input has a reference to a database connection, the delete button of the database
+   * connection should be disabled.
+   * To delete the database connection, first the related table input has to be deleted.
+   * If the table input is deleted, the button should be enabled again.
+   * @param connection the database connection, which delete button should be enabled/disabled
+   * @param enabled true, if the button should be enabled, false otherwise
+   */
+  protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
+    int row = 0;
+    while (row < this.connectionInputList.getRowCount()) {
+      HTML textWidget = (HTML) this.connectionInputList.getWidget(row, 0);
+      if (textWidget != null && connection.getUrl().equals(textWidget.getText())) {
+        Button deleteButton = (Button) this.connectionInputList.getWidget(row, 4);
+        deleteButton.setEnabled(enabled);
+        return;
+      }
+      row++;
+    }
   }
 
   @Override
