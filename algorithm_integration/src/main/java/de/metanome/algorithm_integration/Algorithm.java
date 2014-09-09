@@ -37,9 +37,7 @@ public interface Algorithm {
   /**
    * Starts the execution of the algorithm.
    *
-   * @throws AlgorithmExecutionException if the algorithm's
-   *                                                                                       execution
-   *                                                                                       fails
+   * @throws AlgorithmExecutionException if the algorithm's execution fails
    */
   void execute() throws AlgorithmExecutionException;
 

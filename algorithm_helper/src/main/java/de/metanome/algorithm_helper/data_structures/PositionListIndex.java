@@ -57,8 +57,7 @@ public class PositionListIndex {
    * PositionListIndex. For the intersection the smaller PositionListIndex is converted into a
    * HashMap.
    *
-   * @param otherPLI the other {@link PositionListIndex}
-   *                 to intersect
+   * @param otherPLI the other {@link PositionListIndex} to intersect
    * @return the intersected {@link PositionListIndex}
    */
   public PositionListIndex intersect(PositionListIndex otherPLI) {
@@ -137,8 +136,7 @@ public class PositionListIndex {
    * Intersects the two given {@link PositionListIndex} and returns the outcome as new
    * PositionListIndex.
    *
-   * @param otherPLI the other {@link PositionListIndex}
-   *                 to intersect
+   * @param otherPLI the other {@link PositionListIndex} to intersect
    * @return the intersected {@link PositionListIndex}
    */
   protected PositionListIndex calculateIntersection(PositionListIndex otherPLI) {
