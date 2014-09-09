@@ -19,12 +19,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+    <groupId>de.metanome</groupId>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>deployment</artifactId>
 
     <parent>
-        <groupId>de.uni-potsdam.hpi</groupId>
+        <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -78,7 +78,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms</groupId>
                                     <artifactId>depminer_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -87,7 +87,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms</groupId>
                                     <artifactId>fastfds_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -96,7 +96,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms</groupId>
                                     <artifactId>fdep_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -105,7 +105,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.uni-potsdam.hpi.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms</groupId>
                                     <artifactId>tane_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -126,7 +126,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>de.uni-potsdam.hpi.metanome</groupId>
+                                    <groupId>de.metanome</groupId>
                                     <artifactId>frontend</artifactId>
                                     <version>${project.version}</version>
                                     <type>war</type>
