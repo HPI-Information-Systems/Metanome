@@ -171,7 +171,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
   }
 
   /* (non-Javadoc)
- * @see de.uni_potsdam.hpi.metanome.frontend.client.TabContent#setMessageReceiver(de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper)
+ * @see de.metanome.frontend.client.TabContent#setMessageReceiver(de.metanome.frontend.client.TabWrapper)
  */
   @Override
   public void setMessageReceiver(TabWrapper tab) {

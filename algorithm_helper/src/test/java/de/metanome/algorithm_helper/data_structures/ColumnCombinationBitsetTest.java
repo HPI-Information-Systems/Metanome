@@ -39,7 +39,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+ * Tests for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
  */
 public class ColumnCombinationBitsetTest {
 
@@ -82,7 +82,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#ColumnCombinationBitset(int...)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#ColumnCombinationBitset(int...)}
    * <p/> After creating a column combination with bit indices to set, the bits at the indices
    * should be set.
    */
@@ -145,7 +145,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
    * <p/> The method should neither write the superset, nor the potential subset.
    */
   @Test
@@ -167,7 +167,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsSubset(ColumnCombinationBitset)}
    * <p/> Returns true if the parameter is a subset of the column combination (not necessarily
    * proper subset).
    */
@@ -185,7 +185,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsProperSubset(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsProperSubset(ColumnCombinationBitset)}
    * <p/> Returns true if the parameter is a proper subset of the column combination.
    */
   @Test
@@ -202,7 +202,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isSubsetOf(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isSubsetOf(ColumnCombinationBitset)}
    * <p/> Returns true if the column combination is a subset of the parameter (not necessarily
    * proper subset).
    */
@@ -220,7 +220,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isProperSubsetOf(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#isProperSubsetOf(ColumnCombinationBitset)}
    * <p/> Returns true if the column combination is a proper subset of the parameter.
    */
   @Test
@@ -340,7 +340,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinations(int)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinations(int)}
    * <p/> Returns all subsets of size n.
    */
   @Test
@@ -389,7 +389,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset,
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getNSubsetColumnCombinationsSupersetOf(ColumnCombinationBitset,
    * int)}
    */
   @Test
@@ -456,7 +456,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#minus(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#minus(ColumnCombinationBitset)}
    * <p/> Returns a column combination with only the columns set, that are set in the current column
    * combination but not in the parameter.
    */
@@ -751,7 +751,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
    * <p/> Returns all subsets that are exaclty one column smaller and superset of the subset.
    */
   @Test
@@ -771,7 +771,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#getDirectSubsetsSupersetOf(ColumnCombinationBitset)}
    * <p/> Returns all subsets that are exaclty one column smaller and superset of the subset. If the
    * subset is not a subset an empty collection is returned
    */
@@ -961,7 +961,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#invert(int)}
+   * Test method {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#invert(int)}
    */
   @Test
   public void testInvert() {

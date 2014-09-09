@@ -34,7 +34,7 @@ public class GwtTestStringInput extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.MetanomeTest";
+    return "de.metanome.frontend.MetanomeTest";
   }
 
 }

@@ -19,7 +19,7 @@
         "http://google-web-toolkit.googlecode.com/svn/tags/2.4.0/distro-source/core/src/gwt-module.dtd">
 
 <module rename-to="metanome">
-    <inherits name="de.uni_potsdam.hpi.metanome.frontend.Metanome"/>
+    <inherits name="de.metanome.frontend.Metanome"/>
 
     <servlet path="/testService"
              class="de.metanome.frontend.client.TestDatabaseHelperServiceImpl"/>

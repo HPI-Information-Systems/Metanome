@@ -95,7 +95,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "de.uni_potsdam.hpi.metanome.frontend.client.MetanomeTest";
+    return "de.metanome.frontend.client.MetanomeTest";
   }
 
 }

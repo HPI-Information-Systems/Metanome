@@ -21,10 +21,10 @@ import java.util.Collection;
 
 /**
  * A graph that allows for efficient lookup of all supersets in a graph structure for a given {@link
- * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset.
- * This class acts as a wrapper for {@link SubSetGraph} by inverting all input and output {@link
- * de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to find
- * supersets instead of subsets.
+ * de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} subset. This class acts as
+ * a wrapper for {@link SubSetGraph} by inverting all input and output {@link
+ * de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s to find supersets instead
+ * of subsets.
  *
  * @author Jens Ehrlich
  */
@@ -39,10 +39,10 @@ public class SuperSetGraph {
   }
 
   /**
-   * Adds a {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
-   * to the graph.
+   * Adds a {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} to the
+   * graph.
    *
-   * @param columnCombination the {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   * @param columnCombination the {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
    *                          to add
    * @return the graph
    */
@@ -52,8 +52,8 @@ public class SuperSetGraph {
   }
 
   /**
-   * Adds  all {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
-   * to the graph
+   * Adds  all {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset} to the
+   * graph
    *
    * @param columnCombinations to be added to the graph
    * @return the graph
@@ -66,7 +66,7 @@ public class SuperSetGraph {
   }
 
   /**
-   * Returns all supersets of the given {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
+   * Returns all supersets of the given {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
    * that are in the graph
    *
    * @param subset given subset to search for supersets

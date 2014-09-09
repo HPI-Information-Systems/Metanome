@@ -55,7 +55,7 @@ public class SubSetGraph {
   /**
    * Adds all columnCombinations in the {@link java.util.Collection} to the graph.
    *
-   * @param columnCombinations a {@link java.util.Collection} of {@link de.uni_potsdam.hpi.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
+   * @param columnCombinations a {@link java.util.Collection} of {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}s
    *                           to add to the graph
    * @return the graph
    */
