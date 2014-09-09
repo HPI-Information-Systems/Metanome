@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm;
+package de.metanome.algorithms.testing.example_sql_profiling_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm.SqlProfilingAlgorithm}
+ * Tests for {@link de.metanome.algorithms.testing.example_sql_profiling_algorithm.SqlProfilingAlgorithm}
  *
  * @author Jakob Zwiener
  */
@@ -61,7 +61,7 @@ public class SqlProfilingAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setSqlInputConfigurationValue(String,
+   * Test method for {@link de.metanome.algorithms.testing.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setSqlInputConfigurationValue(String,
    * de.metanome.algorithm_integration.input.SqlInputGenerator...)}
    */
   @Test
