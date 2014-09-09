@@ -64,10 +64,10 @@
         <include name="InclusionDependency.java"/>
         <include name="BasicStatistic.java"/>
     </source>
-    <source path="algorithm_loading">
+    <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>
     </source>
-    <source path="results_db">
+    <source path="backend/results_db">
         <include name="Algorithm.java"/>
         <include name="AlgorithmContentEquals.java"/>
         <include name="DatabaseConnection.java"/>
