@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
+import de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueInteger;
@@ -41,7 +42,6 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
-import de.uni_potsdam.hpi.metanome.example_ind_algorithm.ExampleAlgorithm;
 
 import org.junit.Before;
 import org.junit.Test;
