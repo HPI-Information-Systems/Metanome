@@ -19,14 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.uni-potsdam.hpi.metanome</groupId>
     <artifactId>test_helper</artifactId>
     <packaging>jar</packaging>
 
     <name>test_helper</name>
 
     <parent>
-        <groupId>de.uni-potsdam.hpi</groupId>
+        <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -46,7 +45,7 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
-            <version>2.5.1</version>
+            <version>${gwtVersion}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
