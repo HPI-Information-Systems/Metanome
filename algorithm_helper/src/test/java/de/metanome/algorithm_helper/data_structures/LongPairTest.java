@@ -16,8 +16,8 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
-import de.uni_potsdam.hpi.metanome.test_helper.CompareToTester;
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import de.metanome.test_helper.CompareToTester;
+import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
 

@@ -19,7 +19,7 @@
  */
 package de.metanome.algorithm_integration.algorithm_execution;
 
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
 import org.junit.Before;

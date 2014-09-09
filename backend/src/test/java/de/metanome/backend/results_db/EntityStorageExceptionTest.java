@@ -16,7 +16,7 @@
 
 package de.metanome.backend.results_db;
 
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.test_helper;
+package de.metanome.test_helper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

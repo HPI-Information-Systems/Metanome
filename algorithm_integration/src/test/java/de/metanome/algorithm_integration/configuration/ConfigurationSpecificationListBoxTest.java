@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;

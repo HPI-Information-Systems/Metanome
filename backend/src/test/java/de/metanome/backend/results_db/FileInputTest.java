@@ -20,7 +20,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.CsvFile;
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
+import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;

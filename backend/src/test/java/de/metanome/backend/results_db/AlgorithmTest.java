@@ -22,8 +22,8 @@ import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlg
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.EqualsAndHashCodeTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;

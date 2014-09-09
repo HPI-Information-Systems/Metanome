@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
 import org.junit.Before;

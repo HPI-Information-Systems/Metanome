@@ -18,8 +18,8 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.base.Joiner;
 
-import de.uni_potsdam.hpi.metanome.test_helper.EqualsAndHashCodeTester;
-import de.uni_potsdam.hpi.metanome.test_helper.GwtSerializationTester;
+import de.metanome.test_helper.EqualsAndHashCodeTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
