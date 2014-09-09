@@ -25,7 +25,7 @@
     <!-- Servlets -->
     <servlet>
         <servlet-name>parameterServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ParameterServiceImpl
+        <servlet-class>de.metanome.frontend.server.ParameterServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -35,7 +35,7 @@
 
     <servlet>
         <servlet-name>algorithmServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.AlgorithmServiceImpl
+        <servlet-class>de.metanome.frontend.server.AlgorithmServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -45,7 +45,7 @@
 
     <servlet>
         <servlet-name>executionServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.ExecutionServiceImpl
+        <servlet-class>de.metanome.frontend.server.ExecutionServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -55,7 +55,7 @@
 
     <servlet>
         <servlet-name>fileInputServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl
+        <servlet-class>de.metanome.frontend.server.FileInputServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -65,7 +65,7 @@
 
     <servlet>
         <servlet-name>databaseConnectionServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl
+        <servlet-class>de.metanome.frontend.server.DatabaseConnectionServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -75,7 +75,7 @@
 
     <servlet>
         <servlet-name>tableInputServiceImpl</servlet-name>
-        <servlet-class>de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl
+        <servlet-class>de.metanome.frontend.server.TableInputServiceImpl
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -84,7 +84,7 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>de.uni_potsdam.hpi.metanome.frontend.server.DatabaseInitializer
+        <listener-class>de.metanome.frontend.server.DatabaseInitializer
         </listener-class>
     </listener>
 
