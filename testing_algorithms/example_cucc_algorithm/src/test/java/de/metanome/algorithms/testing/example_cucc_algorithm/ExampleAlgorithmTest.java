@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.example_cucc_algorithm;
+package de.metanome.algorithms.testing.example_cucc_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Test for {@link ExampleAlgorithm}
+ * Test for {@link de.metanome.algorithms.testing.example_cucc_algorithm.ExampleAlgorithm}
  *
  * @author Jens Ehrlich
  */
