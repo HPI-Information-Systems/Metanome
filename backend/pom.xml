@@ -198,7 +198,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>de.hpi.metanome</groupId>
+            <groupId>de.metanome</groupId>
             <artifactId>example_fd_algorithm</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>test</scope>
