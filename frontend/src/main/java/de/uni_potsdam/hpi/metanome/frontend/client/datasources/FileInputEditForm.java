@@ -34,14 +34,14 @@ import com.google.gwt.user.client.ui.Widget;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -51,9 +51,6 @@ import java.util.List;
  * Input field to configure a file input.
  */
 public class FileInputEditForm extends Grid {
-
-  private FileInputServiceAsync fileInputService;
-  private FileInputTab parent;
 
   /**
    * Dropdown menu for choosing a CSV file
@@ -75,7 +72,8 @@ public class FileInputEditForm extends Grid {
   protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
-
+  private FileInputServiceAsync fileInputService;
+  private FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
 
@@ -86,7 +84,7 @@ public class FileInputEditForm extends Grid {
     super(3, 2);
 
     this.parent = parent;
-    this.fileInputService =  GWT.create(FileInputService.class);
+    this.fileInputService = GWT.create(FileInputService.class);
 
     FlowPanel standardPanel = new FlowPanel();
     this.setWidget(0, 0, standardPanel);
@@ -320,27 +318,26 @@ public class FileInputEditForm extends Grid {
   }
 
   /**
-   * Checks, if the given text box contains only a character.
-   * If yes, the character is returned. Otherwise an exception is thrown.
-   * @param textBox
+   * Checks, if the given text box contains only a character. If yes, the character is returned.
+   * Otherwise an exception is thrown.
+   *
    * @return the character of the text box
-   * @throws InputValidationException
    */
   private char getChar(TextBox textBox) throws InputValidationException {
     String value = textBox.getValue();
 
-    if (value.length() != 1)
+    if (value.length() != 1) {
       throw new InputValidationException(textBox.getName() + " should only contain one character!");
+    }
 
     return value.charAt(0);
   }
 
   /**
-   * Checks, if the value of the integer box is an integer.
-   * If yes, the integer is returned. Otherwise an exception is thrown.
-   * @param integerBox
+   * Checks, if the value of the integer box is an integer. If yes, the integer is returned.
+   * Otherwise an exception is thrown.
+   *
    * @return the integer of the integer box
-   * @throws InputValidationException
    */
   private int getInteger(IntegerBox integerBox) throws InputValidationException {
     try {

@@ -21,10 +21,10 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 /**
  * Tests for {@link de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput}

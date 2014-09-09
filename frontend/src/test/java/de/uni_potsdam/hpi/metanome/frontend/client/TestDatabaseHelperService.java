@@ -19,10 +19,10 @@ package de.uni_potsdam.hpi.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.Input;
 
 import java.util.List;
 

@@ -27,12 +27,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.TableInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.List;
 

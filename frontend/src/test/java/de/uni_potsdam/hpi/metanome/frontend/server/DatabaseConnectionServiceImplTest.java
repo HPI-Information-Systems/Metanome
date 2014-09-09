@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.HibernateUtil;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -73,7 +73,7 @@ public class DatabaseConnectionServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl#deleteDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.DatabaseConnectionServiceImpl#deleteDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
    */
   @Test
   public void testDeleteDatabaseConnection() throws EntityStorageException {

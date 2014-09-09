@@ -23,10 +23,10 @@ import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumn
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 import java.util.List;
 
@@ -102,7 +102,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
   }
 
   /* (non-Javadoc)
-   * @see de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)
+   * @see de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.metanome.backend.results_db.Algorithm)
    */
   @Override
   public void addAlgorithm(Algorithm algorithm) throws EntityStorageException {

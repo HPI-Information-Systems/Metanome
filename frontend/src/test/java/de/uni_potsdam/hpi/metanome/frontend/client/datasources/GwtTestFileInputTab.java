@@ -18,15 +18,15 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.metanome.backend.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.util.ArrayList;
 
 public class GwtTestFileInputTab extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.FileInputTab#addFileInputToTable(de.uni_potsdam.hpi.metanome.results_db.FileInput)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.FileInputTab#addFileInputToTable(de.metanome.backend.results_db.FileInput)}
    */
   public void testAddFileInputToTable() {
     //Setup

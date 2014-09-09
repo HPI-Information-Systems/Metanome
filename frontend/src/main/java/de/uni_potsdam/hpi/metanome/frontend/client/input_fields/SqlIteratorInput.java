@@ -22,11 +22,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.backend.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import java.util.Map;
  * An input widget, used to specify settings for a database connection.
  *
  * @author Claudia Exeler
- * @see de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection
+ * @see de.metanome.backend.results_db.DatabaseConnection
  */
 public class SqlIteratorInput extends InputField {
 

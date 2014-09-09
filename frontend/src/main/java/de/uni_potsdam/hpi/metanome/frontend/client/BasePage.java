@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.backend.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
@@ -35,7 +36,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsVisualizationP
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ExecutionServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.Date;
 import java.util.List;

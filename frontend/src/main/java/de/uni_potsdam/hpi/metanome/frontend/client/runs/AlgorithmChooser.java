@@ -24,10 +24,10 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.backend.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.HashMap;
 import java.util.List;

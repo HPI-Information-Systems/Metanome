@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.backend.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage.Tabs;
 import de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.datasources.DataSourcePage;
@@ -32,7 +33,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.results.ResultsPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.runs.RunConfigurationPage;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.LinkedList;
 import java.util.List;

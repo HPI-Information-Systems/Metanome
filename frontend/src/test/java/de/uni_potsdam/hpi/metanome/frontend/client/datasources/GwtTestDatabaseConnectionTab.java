@@ -21,11 +21,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#addDatabaseConnectionToTable(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#addDatabaseConnectionToTable(de.metanome.backend.results_db.DatabaseConnection)}
    */
   public void testAddDatabaseConnectionToTable() {
     //Setup
@@ -87,7 +87,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection,
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.metanome.backend.results_db.DatabaseConnection,
    * boolean)}
    */
   public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {

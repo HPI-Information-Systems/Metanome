@@ -25,12 +25,12 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
+import de.metanome.backend.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabContent;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.AlgorithmServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;

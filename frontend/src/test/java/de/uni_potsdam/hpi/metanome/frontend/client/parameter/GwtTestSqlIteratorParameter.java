@@ -24,11 +24,11 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataS
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 public class GwtTestSqlIteratorParameter extends GWTTestCase {
 

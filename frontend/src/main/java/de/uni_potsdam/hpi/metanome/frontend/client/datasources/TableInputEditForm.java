@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextBox;
 
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.TableInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.ListBoxInput;
@@ -31,8 +33,6 @@ import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionSe
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +45,12 @@ import java.util.Map;
 public class TableInputEditForm extends Grid {
 
   private final DatabaseConnectionServiceAsync databaseConnectionService;
+  protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
+  protected ListBoxInput dbConnectionListBox;
+  protected TextBox tableNameTextbox;
   private TableInputServiceAsync tableInputService;
   private TabWrapper messageReceiver;
   private TableInputTab parent;
-
-  protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
-
-  protected ListBoxInput dbConnectionListBox;
-  protected TextBox tableNameTextbox;
 
   public TableInputEditForm(TableInputTab parent) {
     super(3, 2);
@@ -81,8 +79,10 @@ public class TableInputEditForm extends Grid {
 
   /**
    * Sets the selected database connection and the table name
-   * @param connectionIdentifier the identifier of the database connection which should be selected in the list box
-   * @param tableName the table name which should be set in the text box
+   *
+   * @param connectionIdentifier the identifier of the database connection which should be selected
+   *                             in the list box
+   * @param tableName            the table name which should be set in the text box
    */
   protected void setValues(String connectionIdentifier, String tableName) {
     this.dbConnectionListBox.setSelectedValue(connectionIdentifier);
@@ -103,7 +103,8 @@ public class TableInputEditForm extends Grid {
     String tableName = this.tableNameTextbox.getValue();
 
     if (tableName.isEmpty() || connection == null) {
-      throw new InputValidationException("The database connection and the table name should be set!");
+      throw new InputValidationException(
+          "The database connection and the table name should be set!");
     }
 
     tableInput.setDatabaseConnection(connection);
@@ -128,28 +129,30 @@ public class TableInputEditForm extends Grid {
             List<String> dbConnectionNames = new ArrayList<String>();
             dbConnectionNames.add("--");
 
-        if (result != null || result.size() > 0) {
-          for (DatabaseConnection db : result) {
-            String identifier = db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
-            dbConnectionNames.add(identifier);
-            dbMap.put(identifier, db);
-          }
-        } else {
-          messageReceiver.addError("There are no database connections in the database!");
-        }
+            if (result != null || result.size() > 0) {
+              for (DatabaseConnection db : result) {
+                String
+                    identifier =
+                    db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
+                dbConnectionNames.add(identifier);
+                dbMap.put(identifier, db);
+              }
+            } else {
+              messageReceiver.addError("There are no database connections in the database!");
+            }
 
-        dbConnectionListBox.clear();
-        dbConnectionListBox.setValues(dbConnectionNames);
-        dbConnectionListBox.disableFirstEntry();
-      }
-    };
+            dbConnectionListBox.clear();
+            dbConnectionListBox.setValues(dbConnectionNames);
+            dbConnectionListBox.disableFirstEntry();
+          }
+        };
 
     databaseConnectionService.listDatabaseConnections(callback);
   }
 
   /**
-   * Resets all values, sets the current database connection to the default value "--" and
-   * clears the text of the table name input field.
+   * Resets all values, sets the current database connection to the default value "--" and clears
+   * the text of the table name input field.
    */
   public void reset() {
     this.dbConnectionListBox.reset();
@@ -184,13 +187,19 @@ public class TableInputEditForm extends Grid {
   }
 
   public void addDatabaseConnection(DatabaseConnection connection) {
-    String identifier = connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername();
+    String
+        identifier =
+        connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection
+            .getUsername();
     this.dbConnectionListBox.addValue(identifier);
     this.dbMap.put(identifier, connection);
   }
 
   public void removeDatabaseConnection(DatabaseConnection connection) {
-    String identifier = connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection.getUsername();
+    String
+        identifier =
+        connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection
+            .getUsername();
     this.dbConnectionListBox.removeValue(identifier);
     this.dbMap.remove(connection);
   }

@@ -22,12 +22,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.backend.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.FilePathHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputService;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.FileInputServiceAsync;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * An input widget, used to specify settings for a file input.
  *
- * @see de.uni_potsdam.hpi.metanome.results_db.FileInput
+ * @see de.metanome.backend.results_db.FileInput
  */
 public class CsvFileInput extends InputField {
 

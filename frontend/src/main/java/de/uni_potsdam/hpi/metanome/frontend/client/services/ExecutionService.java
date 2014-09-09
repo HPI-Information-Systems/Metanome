@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.metanome.algorithm_integration.results.Result;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 
 import java.util.ArrayList;
 import java.util.List;

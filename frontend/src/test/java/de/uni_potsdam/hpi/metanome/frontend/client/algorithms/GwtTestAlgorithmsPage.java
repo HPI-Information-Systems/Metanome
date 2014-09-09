@@ -22,10 +22,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.metanome.backend.results_db.Algorithm;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -164,7 +164,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.metanome.backend.results_db.Algorithm)}
    */
   public void testDeleteAlgorithm() {
     // Setup

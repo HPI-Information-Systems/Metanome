@@ -19,9 +19,9 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
 
 import java.util.Arrays;
 

@@ -16,9 +16,9 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.HibernateUtil;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -118,7 +118,7 @@ public class FileInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl#storeFileInput(de.uni_potsdam.hpi.metanome.results_db.FileInput)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl#storeFileInput(de.metanome.backend.results_db.FileInput)}
    */
   @Test
   public void testStoreFileInput() throws EntityStorageException {
@@ -146,7 +146,7 @@ public class FileInputServiceImplTest {
 
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl#deleteFileInput(de.uni_potsdam.hpi.metanome.results_db.FileInput)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.FileInputServiceImpl#deleteFileInput(de.metanome.backend.results_db.FileInput)}
    */
   @Test
   public void testDeleteFileInput() throws EntityStorageException {

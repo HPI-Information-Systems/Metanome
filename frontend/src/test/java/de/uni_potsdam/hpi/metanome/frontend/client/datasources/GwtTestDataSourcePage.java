@@ -20,11 +20,11 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 
+import de.metanome.backend.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 public class GwtTestDataSourcePage extends GWTTestCase {
 
@@ -50,7 +50,8 @@ public class GwtTestDataSourcePage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable, int, String)}
+   * Test method for {@link DataSourcePage#getDeleteCallback(com.google.gwt.user.client.ui.FlexTable,
+   * int, String)}
    */
   public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
@@ -60,7 +61,6 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     DataSourcePage page = new DataSourcePage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-
     page.fileInputTab.fileInputList.setWidget(0, 0, new HTML("File 1"));
     page.fileInputTab.fileInputList.setWidget(1, 0, new HTML("File 2"));
     page.fileInputTab.fileInputList.setWidget(2, 0, new HTML("File 3"));
@@ -68,7 +68,9 @@ public class GwtTestDataSourcePage extends GWTTestCase {
     int rowCount = page.fileInputTab.fileInputList.getRowCount();
 
     // Execute (delete File 2)
-    AsyncCallback<Void> callback = page.getDeleteCallback(page.fileInputTab.fileInputList, 1, "File Input");
+    AsyncCallback<Void>
+        callback =
+        page.getDeleteCallback(page.fileInputTab.fileInputList, 1, "File Input");
     callback.onSuccess(null);
 
     // Check

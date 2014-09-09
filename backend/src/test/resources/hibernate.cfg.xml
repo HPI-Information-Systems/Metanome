@@ -45,13 +45,13 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Algorithm"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Execution"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.FileInput"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Input"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.Result"/>
-        <mapping class="de.uni_potsdam.hpi.metanome.results_db.TableInput"/>
+        <mapping class="de.metanome.backend.results_db.Algorithm"/>
+        <mapping class="de.metanome.backend.results_db.DatabaseConnection"/>
+        <mapping class="de.metanome.backend.results_db.Execution"/>
+        <mapping class="de.metanome.backend.results_db.FileInput"/>
+        <mapping class="de.metanome.backend.results_db.Input"/>
+        <mapping class="de.metanome.backend.results_db.Result"/>
+        <mapping class="de.metanome.backend.results_db.TableInput"/>
 
     </session-factory>
 

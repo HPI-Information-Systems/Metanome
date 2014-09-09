@@ -18,7 +18,7 @@ package de.uni_potsdam.hpi.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+import de.metanome.backend.results_db.TableInput;
 
 import java.util.List;
 

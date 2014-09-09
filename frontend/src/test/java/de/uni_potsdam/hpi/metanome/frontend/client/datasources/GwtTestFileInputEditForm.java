@@ -22,10 +22,10 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.input.csv.CsvFile;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 
 public class GwtTestFileInputEditForm extends GWTTestCase {

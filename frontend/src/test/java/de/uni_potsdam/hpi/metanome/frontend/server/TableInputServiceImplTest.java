@@ -16,10 +16,10 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.TableInput;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -142,7 +142,7 @@ public class TableInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl#storeTableInput(de.uni_potsdam.hpi.metanome.results_db.TableInput)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl#storeTableInput(de.metanome.backend.results_db.TableInput)}
    */
   @Test
   public void testStoreTableInput() throws EntityStorageException {
@@ -177,7 +177,7 @@ public class TableInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl#deleteTableInput(de.uni_potsdam.hpi.metanome.results_db.TableInput)}
+   * Test method for {@link de.uni_potsdam.hpi.metanome.frontend.server.TableInputServiceImpl#deleteTableInput(de.metanome.backend.results_db.TableInput)}
    */
   @Test
   public void testDeleteTableInput() throws EntityStorageException {

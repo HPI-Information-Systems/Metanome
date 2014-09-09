@@ -16,14 +16,14 @@
 
 package de.uni_potsdam.hpi.metanome.frontend.server;
 
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmFinder;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.InputDataFinder;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
+import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmContentEquals;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Input;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;

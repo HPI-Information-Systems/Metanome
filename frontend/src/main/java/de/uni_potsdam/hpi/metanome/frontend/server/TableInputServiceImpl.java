@@ -18,10 +18,10 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.TableInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.TableInputService;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 import java.util.ArrayList;
 import java.util.List;

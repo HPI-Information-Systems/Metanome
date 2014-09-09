@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.DatabaseConnectionService;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
 
 import java.util.List;
 

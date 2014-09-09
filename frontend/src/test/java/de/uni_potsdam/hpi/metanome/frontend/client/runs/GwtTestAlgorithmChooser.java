@@ -19,11 +19,11 @@ package de.uni_potsdam.hpi.metanome.frontend.client.runs;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.AlgorithmContentEquals;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -28,14 +28,14 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSpecificatio
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.FileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.TabWrapper;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.CsvFileInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.IntegerInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.input_fields.SqlIteratorInput;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
 
 import java.util.ArrayList;
 import java.util.List;

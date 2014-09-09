@@ -19,12 +19,12 @@ package de.uni_potsdam.hpi.metanome.frontend.client.datasources;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.TableInput;
 import de.uni_potsdam.hpi.metanome.frontend.client.BasePage;
 import de.uni_potsdam.hpi.metanome.frontend.client.TestHelper;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.TableInput;
 
 
 public class GwtTestTableInputEditForm extends GWTTestCase {
@@ -90,8 +90,8 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link TableInputEditForm#addDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
-   * and {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.TableInputEditForm#removeDatabaseConnection(de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection)}
+   * Test method for {@link TableInputEditForm#addDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
+   * and {@link de.uni_potsdam.hpi.metanome.frontend.client.datasources.TableInputEditForm#removeDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
    */
   public void testAddAndRemoveDatabaseConnection() {
     // Set up

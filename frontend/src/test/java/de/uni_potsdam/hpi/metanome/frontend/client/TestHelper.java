@@ -20,10 +20,10 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection;
-import de.uni_potsdam.hpi.metanome.results_db.FileInput;
-import de.uni_potsdam.hpi.metanome.results_db.Input;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.Input;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class TestHelper {
   protected static TestDatabaseHelperServiceAsync
       testDatabaseHelperService =
       GWT.create(TestDatabaseHelperService.class);
-  
+
   static boolean[] reset_blocked = {true};
   static boolean[] database_connection_blocked = {true};
   static boolean[] file_input_blocked = {true};
@@ -52,7 +52,9 @@ public class TestHelper {
       @Override
       public void onFailure(Throwable caught) {
         reset_blocked[0] = false;
-        System.out.println(caught.getMessage());}
+        System.out.println(caught.getMessage());
+      }
+
       @Override
       public void onSuccess(Void aVoid) {
         reset_blocked[0] = false;
@@ -73,7 +75,7 @@ public class TestHelper {
   /**
    * Stores an algorithm synchronously.
    *
-   * @param algorithm the {@link de.uni_potsdam.hpi.metanome.results_db.Algorithm} to store
+   * @param algorithm the {@link de.metanome.backend.results_db.Algorithm} to store
    */
   public static void storeAlgorithmSync(Algorithm algorithm) {
     testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
@@ -104,8 +106,7 @@ public class TestHelper {
   /**
    * Stores a database connection.
    *
-   * @param connection the {@link de.uni_potsdam.hpi.metanome.results_db.DatabaseConnection} to
-   *                   store
+   * @param connection the {@link de.metanome.backend.results_db.DatabaseConnection} to store
    */
   public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
     testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
@@ -137,7 +138,7 @@ public class TestHelper {
   /**
    * Stores a file input.
    *
-   * @param fileInput the {@link de.uni_potsdam.hpi.metanome.results_db.FileInput} to store
+   * @param fileInput the {@link de.metanome.backend.results_db.FileInput} to store
    */
   public static void storeFileInputSync(FileInput fileInput) {
     testDatabaseHelperService.storeFileInput(fileInput, new AsyncCallback<Long>() {

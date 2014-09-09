@@ -18,9 +18,9 @@ package de.uni_potsdam.hpi.metanome.frontend.server;
 
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.uni_potsdam.hpi.metanome.results_db.Algorithm;
-import de.uni_potsdam.hpi.metanome.results_db.EntityStorageException;
-import de.uni_potsdam.hpi.metanome.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.HibernateUtil;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class AlgorithmServiceImplTest {
   }
 
   /**
-   * Test method for {@link AlgorithmServiceImpl#deleteAlgorithm(de.uni_potsdam.hpi.metanome.results_db.Algorithm)}
+   * Test method for {@link AlgorithmServiceImpl#deleteAlgorithm(de.metanome.backend.results_db.Algorithm)}
    */
   @Test
   public void testDeleteAlgorithm() throws EntityStorageException {

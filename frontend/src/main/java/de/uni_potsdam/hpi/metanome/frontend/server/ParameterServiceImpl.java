@@ -21,7 +21,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.uni_potsdam.hpi.metanome.algorithm_loading.AlgorithmJarLoader;
+import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 import de.uni_potsdam.hpi.metanome.frontend.client.services.ParameterService;
 
 import java.util.List;
