@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.example_indirect_interfaces_algorithm;
+package de.metanome.algorithms.testing.example_indirect_interfaces_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
@@ -31,13 +31,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.example_indirect_interfaces_algorithm.IndirectInterfacesAlgorithm}
+ * Tests for {@link de.metanome.algorithms.testing.example_indirect_interfaces_algorithm.IndirectInterfacesAlgorithm}
  */
 public class IndirectInterfacesAlgorithmTest {
 
   /**
-   * Test method for {@link IndirectInterfacesAlgorithm#execute()} <p/> The algorithm should only
-   * return a result if the result receiver, the progress receiver and the input are set.
+   * Test method for {@link de.metanome.algorithms.testing.example_indirect_interfaces_algorithm.IndirectInterfacesAlgorithm#execute()}
+   * <p/> The algorithm should only return a result if the result receiver, the progress receiver
+   * and the input are set.
    */
   @Test
   public void testExecute() throws AlgorithmExecutionException {

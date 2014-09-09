@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.example_indirect_interfaces_algorithm;/*
+package de.metanome.algorithms.testing.example_indirect_interfaces_algorithm;/*
  * Copyright 2014 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
