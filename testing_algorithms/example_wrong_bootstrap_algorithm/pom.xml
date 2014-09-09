@@ -19,14 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.uni-potsdam.hpi.metanome</groupId>
     <artifactId>example_wrong_bootstrap_algorithm</artifactId>
     <packaging>jar</packaging>
 
     <name>example_wrong_bootstrap_algorithm</name>
 
     <parent>
-        <groupId>de.uni-potsdam.hpi</groupId>
+        <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
@@ -44,7 +43,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>de.uni-potsdam.hpi.metanome</groupId>
+            <groupId>de.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>0.0.2-SNAPSHOT</version>
         </dependency>
@@ -72,7 +71,7 @@
                     <archive>
                         <manifestEntries>
                             <Algorithm-Bootstrap-Class>
-                                de.uni_potsdam.hpi.metanome.example_wrong_bootstrap_algorithm.ExampleAlgorithmX
+                                de.metanome.algorithms.testing.example_wrong_bootstrap_algorithm.ExampleAlgorithmX
                             </Algorithm-Bootstrap-Class>
                         </manifestEntries>
                     </archive>
