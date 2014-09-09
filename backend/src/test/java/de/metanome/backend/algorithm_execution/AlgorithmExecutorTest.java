@@ -28,6 +28,7 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueInteger;
@@ -40,7 +41,6 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
-import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.uni_potsdam.hpi.metanome.example_ind_algorithm.ExampleAlgorithm;
 
 import org.junit.Before;
@@ -213,8 +213,7 @@ public class AlgorithmExecutorTest {
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
    * java.util.List)} <p/> When executing an {@link de.metanome.algorithm_integration.Algorithm} an
-   * {@link de.metanome.backend.results_db.Execution} should be saved in the results
-   * database.
+   * {@link de.metanome.backend.results_db.Execution} should be saved in the results database.
    */
   @Test
   public void testExecutionStoredInDatabase()
@@ -307,8 +306,8 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#close()}
-   * <p/> When closing the executor all attached result receiver should be closed.
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#close()} <p/>
+   * When closing the executor all attached result receiver should be closed.
    */
   @Test
   public void testClose() throws IOException {

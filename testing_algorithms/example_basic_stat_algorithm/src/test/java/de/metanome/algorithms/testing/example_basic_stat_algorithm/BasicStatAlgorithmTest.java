@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.uni_potsdam.hpi.metanome.algorithms.algorithm_template;
+package de.metanome.algorithms.testing.example_basic_stat_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -23,7 +23,6 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSpecificatio
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,7 +40,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm}
+ * Tests for {@link de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm}
  *
  * @author Jakob Zwiener
  */
@@ -143,7 +142,7 @@ public class BasicStatAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
+   * Test method for {@link de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
    * de.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> No input should be
    * settable with the wrong identifier.
    */
@@ -161,7 +160,7 @@ public class BasicStatAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.uni_potsdam.hpi.metanome.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
+   * Test method for {@link de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm#setFileInputConfigurationValue(String,
    * de.metanome.algorithm_integration.input.FileInputGenerator...)} <p/> 5 {@link
    * de.metanome.algorithm_integration.input.FileInputGenerator}s should be set on the algorithm.
    */

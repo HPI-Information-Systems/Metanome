@@ -78,7 +78,7 @@
                     <archive>
                         <manifestEntries>
                             <Algorithm-Bootstrap-Class>
-                                de.metanome.example_basic_stat_algorithm.BasicStatAlgorithm
+                                de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm
                             </Algorithm-Bootstrap-Class>
                         </manifestEntries>
                     </archive>
