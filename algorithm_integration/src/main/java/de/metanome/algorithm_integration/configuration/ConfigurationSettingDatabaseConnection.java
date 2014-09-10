@@ -24,7 +24,7 @@ import com.google.common.base.Joiner;
  *
  * @author Claudia Exeler
  */
-public class ConfigurationSettingDatabaseConnection extends ConfigurationSettingDataSource {
+public class ConfigurationSettingDatabaseConnection implements ConfigurationSettingDataSource {
 
   private static final long serialVersionUID = 3242593091096735218L;
 

@@ -18,11 +18,10 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -31,7 +30,6 @@ import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
@@ -122,9 +120,6 @@ public class AlgorithmExecutorTest {
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
     configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
-    configs.add(new ConfigurationValueFileInputGenerator(
-        ExampleAlgorithm.CSV_FILE_IDENTIFIER,
-        mock(FileInputGenerator.class)));
     String algorithmFileName = "example_ind_algorithm.jar";
     new Algorithm(algorithmFileName)
         .store();

@@ -53,10 +53,6 @@ public class ConfigurationValueFactory {
 
     if (specification instanceof ConfigurationRequirementBoolean) {
       return new ConfigurationValueBoolean((ConfigurationRequirementBoolean) specification);
-    } else if (specification instanceof ConfigurationRequirementFileInput) {
-      return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
-                                                      createFileInputGenerators(
-                                                          (ConfigurationRequirementFileInput) specification));
     } else if (specification instanceof ConfigurationRequirementDatabaseConnection) {
       return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
                                                      createSqlIteratorGenerators(
