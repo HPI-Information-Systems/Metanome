@@ -75,10 +75,6 @@ public class ColumnConditionValue implements ColumnCondition {
       builder.append(NOT);
     }
     builder.append(this.columnValue);
-    if (this.coverage > 0) {
-      builder.append(" Cov: ");
-      builder.append(this.coverage);
-    }
     return builder.toString();
   }
 

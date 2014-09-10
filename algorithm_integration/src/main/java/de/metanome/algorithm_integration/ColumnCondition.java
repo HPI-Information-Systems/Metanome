@@ -27,8 +27,8 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
 
   public static final String OPEN_BRACKET = "[";
   public static final String CLOSE_BRACKET = "]";
-  public static final String AND = "&";
-  public static final String OR = "|";
+  public static final String AND = "^";
+  public static final String OR = "v";
   public static final String NOT = "\u00AC";
 
   public String toString();
