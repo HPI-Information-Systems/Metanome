@@ -73,7 +73,7 @@ public class ConfigurationSettingSqlIteratorTest {
         new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
     String expectedValuesString = Joiner.on(';')
-        .join(expectedUrl, expectedUsername, expectedPassword, DbSystem.PostgreSQL.name());
+        .join(expectedUrl, expectedUsername, DbSystem.PostgreSQL.name());
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();

@@ -117,6 +117,6 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
 
   @Override
   public String getValueAsString() {
-    return Joiner.on(';').join(this.dbUrl, this.username, this.password, this.system);
+    return Joiner.on(';').join(this.dbUrl, this.username, this.system);
   }
 }
