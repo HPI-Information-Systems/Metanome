@@ -18,7 +18,7 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class ConfigurationValueIntegerTest {
 
     // Execute functionality
     ConfigurationValueInteger configValue = new ConfigurationValueInteger(
-        new ConfigurationSpecificationInteger(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementInteger(expectedIdentifier).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 

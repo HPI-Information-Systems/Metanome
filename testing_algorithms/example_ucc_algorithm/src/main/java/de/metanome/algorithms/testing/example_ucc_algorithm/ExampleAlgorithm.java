@@ -23,9 +23,9 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -43,15 +43,15 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   protected ProgressReceiver progressReceiver;
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
-    List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
+    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationSpecification.add(new ConfigurationSpecificationString(
+    configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));
-    configurationSpecification.add(new ConfigurationSpecificationCsvFile(
+    configurationRequirement.add(new ConfigurationRequirementCsvFile(
         "input file", 2));
 
-    return configurationSpecification;
+    return configurationRequirement;
   }
 
   @Override

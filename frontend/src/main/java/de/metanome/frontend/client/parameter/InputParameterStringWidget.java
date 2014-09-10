@@ -17,8 +17,8 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.StringInput;
@@ -27,11 +27,11 @@ import java.util.List;
 
 public class InputParameterStringWidget extends InputParameterWidget {
 
-  protected ConfigurationSpecificationString specification;
+  protected ConfigurationRequirementString specification;
   protected List<StringInput> inputWidgets;
   protected TabWrapper messageReceiver;
 
-  public InputParameterStringWidget(ConfigurationSpecificationString config, TabWrapper wrapper) {
+  public InputParameterStringWidget(ConfigurationRequirementString config, TabWrapper wrapper) {
     super(config, wrapper);
   }
 
@@ -44,7 +44,7 @@ public class InputParameterStringWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecificationString getUpdatedSpecification() {
+  public ConfigurationRequirementString getUpdatedSpecification() {
     this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
   }
@@ -72,13 +72,13 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationString) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementString) config;
   }
 
   @Override

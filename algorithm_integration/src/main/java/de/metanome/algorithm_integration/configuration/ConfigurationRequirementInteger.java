@@ -16,52 +16,51 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+
 /**
- * Concrete {@link ConfigurationSpecification} for strings.
+ * Concrete {@link ConfigurationRequirement} for integers.
  *
- * @author Jakob Zwiener
- * @see ConfigurationSpecification
+ * @author Tanja Bergmann
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationString extends ConfigurationSpecification {
+public class ConfigurationRequirementInteger extends ConfigurationRequirement {
 
-  private static final long serialVersionUID = 7041289462720572215L;
-
-  private ConfigurationSettingString[] settings;
+  private ConfigurationSettingInteger[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationString() {
+  public ConfigurationRequirementInteger() {
   }
 
   /**
-   * Construct a ConfigurationSepcificationString, requesting 1 value.
+   * Construct a ConfigurationSpecificationInteger, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecificationString(String identifier) {
+  public ConfigurationRequirementInteger(String identifier) {
     super(identifier);
   }
 
+
   /**
-   * Constructs a {@link ConfigurationSpecificationString}, potentially requesting several values.
+   * Constructs a {@link ConfigurationRequirementInteger}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationString(String identifier,
-                                          int numberOfValues) {
+  public ConfigurationRequirementInteger(String identifier,
+                                         int numberOfValues) {
 
     super(identifier, numberOfValues);
   }
 
   @Override
-  public ConfigurationSettingString[] getSettings() {
+  public ConfigurationSettingInteger[] getSettings() {
     return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingString... configurationSettings) {
-    this.settings = configurationSettings;
+  public void setSettings(ConfigurationSettingInteger... settings) {
+    this.settings = settings;
   }
-
 }

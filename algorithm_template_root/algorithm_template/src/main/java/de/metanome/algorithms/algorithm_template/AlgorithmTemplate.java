@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlg
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
@@ -34,7 +34,7 @@ public class AlgorithmTemplate
                StringParameterAlgorithm {
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
     // TODO Auto-generated method stub
     return null;
   }

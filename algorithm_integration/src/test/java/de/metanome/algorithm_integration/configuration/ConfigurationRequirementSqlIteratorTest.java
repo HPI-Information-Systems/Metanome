@@ -25,9 +25,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link ConfigurationSpecificationString}
+ * Tests for {@link ConfigurationRequirementSqlIterator}
  */
-public class ConfigurationSpecificationStringTest {
+public class ConfigurationRequirementSqlIteratorTest {
 
   /**
    * @throws Exception
@@ -46,7 +46,7 @@ public class ConfigurationSpecificationStringTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationString#ConfigurationSpecificationString(String)}
+   * Test method for {@link ConfigurationRequirementSqlIterator#ConfigurationRequirementSqlIterator(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -56,9 +56,9 @@ public class ConfigurationSpecificationStringTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
-    ConfigurationSpecificationString
+    ConfigurationRequirementSqlIterator
         configSpec =
-        new ConfigurationSpecificationString(expectedIdentifier);
+        new ConfigurationRequirementSqlIterator(expectedIdentifier);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -70,9 +70,9 @@ public class ConfigurationSpecificationStringTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationString#ConfigurationSpecificationString(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
+   * Test method for {@link ConfigurationRequirementSqlIterator#ConfigurationRequirementSqlIterator(String)}
+   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
+   * The numberOfValues should be set to 2.
    */
   @Test
   public void testConstructorGetTwo() {
@@ -80,9 +80,9 @@ public class ConfigurationSpecificationStringTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 2;
-    ConfigurationSpecificationString
+    ConfigurationRequirementSqlIterator
         configSpec =
-        new ConfigurationSpecificationString(expectedIdentifier, expectedNumberOfValues);
+        new ConfigurationRequirementSqlIterator(expectedIdentifier, expectedNumberOfValues);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -94,12 +94,12 @@ public class ConfigurationSpecificationStringTest {
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString}
+   * Tests that the instances of {@link ConfigurationRequirementSqlIterator}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationSpecificationString("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementSqlIterator("some identifier", 3));
   }
 }

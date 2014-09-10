@@ -17,7 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Tests for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}
+ * Tests for {@link ConfigurationRequirement}
  */
 public class ConfigurationSpecificationTest {
 

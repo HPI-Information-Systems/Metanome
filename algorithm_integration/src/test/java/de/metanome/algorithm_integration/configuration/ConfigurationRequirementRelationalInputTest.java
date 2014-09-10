@@ -31,14 +31,14 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput}
+ * Tests for {@link ConfigurationRequirementRelationalInput}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSpecificationRelationalInputTest {
+public class ConfigurationRequirementRelationalInputTest {
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput#ConfigurationSpecificationRelationalInput(String)}
+   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String)}
    *
    * The identifier should be set in the constructor and be retrievable through getIdentifier. The
    * numberOfValues should be set to 1.
@@ -51,9 +51,9 @@ public class ConfigurationSpecificationRelationalInputTest {
     int expectedNumberOfValues = 1;
 
     // Execute functionality
-    ConfigurationSpecificationRelationalInput
+    ConfigurationRequirementRelationalInput
         configSpec =
-        new ConfigurationSpecificationRelationalInput(expectedIdentifier);
+        new ConfigurationRequirementRelationalInput(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -63,7 +63,7 @@ public class ConfigurationSpecificationRelationalInputTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput#ConfigurationSpecificationRelationalInput(String,
+   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String,
    * int)}
    *
    * The identifier should be set in the constructor and be retrievable through getIdentifier. The
@@ -77,9 +77,9 @@ public class ConfigurationSpecificationRelationalInputTest {
     int expectedNumberOfValues = 2;
 
     // Execute functionality
-    ConfigurationSpecificationRelationalInput
+    ConfigurationRequirementRelationalInput
         configSpec =
-        new ConfigurationSpecificationRelationalInput(expectedIdentifier, expectedNumberOfValues);
+        new ConfigurationRequirementRelationalInput(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -89,15 +89,15 @@ public class ConfigurationSpecificationRelationalInputTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationRelationalInput#getSettings()} and {@link
-   * ConfigurationSpecificationRelationalInput#setSettings(ConfigurationSettingRelationalInput...)
+   * Test method for {@link ConfigurationRequirementRelationalInput#getSettings()} and {@link
+   * ConfigurationRequirementRelationalInput#setSettings(ConfigurationSettingRelationalInput...)
    */
   @Test
   public void testGetSetValues() {
     // Setup
-    ConfigurationSpecificationRelationalInput
+    ConfigurationRequirementRelationalInput
         configSpec =
-        new ConfigurationSpecificationRelationalInput("parameter1", 2);
+        new ConfigurationRequirementRelationalInput("parameter1", 2);
     // Expected values
     ConfigurationSettingRelationalInput
         expectedSetting0 =
@@ -118,16 +118,16 @@ public class ConfigurationSpecificationRelationalInputTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationRelationalInput#setSettings(ConfigurationSettingRelationalInput...)}
+   * Test method for {@link ConfigurationRequirementRelationalInput#setSettings(ConfigurationSettingRelationalInput...)}
    *
    * When setting the wrong number of settings, false is returned.
    */
   @Test
   public void testSetValuesWrongNumberOfValues() {
     // Setup
-    ConfigurationSpecificationRelationalInput
+    ConfigurationRequirementRelationalInput
         configSpec =
-        new ConfigurationSpecificationRelationalInput("parameter1", 2);
+        new ConfigurationRequirementRelationalInput("parameter1", 2);
     // Expected values
     ConfigurationSettingRelationalInput
         expectedSetting0 =
@@ -148,13 +148,13 @@ public class ConfigurationSpecificationRelationalInputTest {
 
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput}
+   * Tests that the instances of {@link ConfigurationRequirementRelationalInput}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
         .checkGwtSerializability(
-            new ConfigurationSpecificationRelationalInput("some identifier", 3));
+            new ConfigurationRequirementRelationalInput("some identifier", 3));
   }
 }

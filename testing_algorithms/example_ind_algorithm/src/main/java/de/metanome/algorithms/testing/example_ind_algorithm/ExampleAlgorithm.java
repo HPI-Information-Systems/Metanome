@@ -26,10 +26,10 @@ import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgo
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.InclusionDependency;
@@ -57,14 +57,14 @@ public class ExampleAlgorithm
   protected boolean fileInputSet = false;
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
-    List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
+    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSV_FILE_IDENTIFIER));
-    configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
-    configurationSpecification.add(new ConfigurationSpecificationInteger(INTEGER_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementCsvFile(CSV_FILE_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementInteger(INTEGER_IDENTIFIER));
 
-    return configurationSpecification;
+    return configurationRequirement;
   }
 
   @Override

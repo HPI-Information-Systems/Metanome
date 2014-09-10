@@ -21,8 +21,8 @@ import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
@@ -50,10 +50,10 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
   protected FileInputGenerator[] inputs = null;
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
-    List<ConfigurationSpecification> configuration = new LinkedList<>();
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
+    List<ConfigurationRequirement> configuration = new LinkedList<>();
 
-    configuration.add(new ConfigurationSpecificationCsvFile(INPUT_FILE_IDENTIFIER,
+    configuration.add(new ConfigurationRequirementCsvFile(INPUT_FILE_IDENTIFIER,
                                                             NUMBER_OF_INPUT_FILES));
 
     return configuration;

@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
@@ -43,7 +43,7 @@ public class ConfigurationValueInteger implements ConfigurationValue {
     this.values = values;
   }
 
-  public ConfigurationValueInteger(ConfigurationSpecificationInteger specification) {
+  public ConfigurationValueInteger(ConfigurationRequirementInteger specification) {
     this.identifier = specification.getIdentifier();
     this.values = new int[specification.getSettings().length];
     int i = 0;

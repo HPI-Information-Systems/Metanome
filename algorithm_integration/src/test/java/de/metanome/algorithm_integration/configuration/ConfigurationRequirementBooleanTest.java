@@ -18,35 +18,18 @@ package de.metanome.algorithm_integration.configuration;
 
 import de.metanome.test_helper.GwtSerializationTester;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link ConfigurationSpecificationCsvFile}
+ * Tests for {@link ConfigurationRequirementBoolean}
  */
-public class ConfigurationSpecificationCsvFileTest {
+public class ConfigurationRequirementBooleanTest {
 
   /**
-   * @throws Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-
-  }
-
-  /**
-   * @throws Exception
-   */
-  @After
-  public void tearDown() throws Exception {
-
-  }
-
-  /**
-   * Test method for {@link ConfigurationSpecificationCsvFile#ConfigurationSpecificationCsvFile(String)}
+   * Test method for {@link ConfigurationRequirementBoolean#ConfigurationRequirementBoolean(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -56,11 +39,11 @@ public class ConfigurationSpecificationCsvFileTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
-    ConfigurationSpecificationCsvFile
-        configSpec =
-        new ConfigurationSpecificationCsvFile(expectedIdentifier);
 
     // Execute functionality
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -70,7 +53,7 @@ public class ConfigurationSpecificationCsvFileTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationCsvFile#ConfigurationSpecificationCsvFile(String,
+   * Test method for {@link ConfigurationRequirementBoolean#ConfigurationRequirementBoolean(String,
    * int)} <p/> The identifier should be set in the constructor and be retrievable through
    * getIdentifier. The numberOfValues should be set to 2.
    */
@@ -79,27 +62,50 @@ public class ConfigurationSpecificationCsvFileTest {
     // Setup
     // Expected values
     String expectedIdentifier = "parameter1";
-    int expectedNumberOFValues = 2;
-    ConfigurationSpecificationCsvFile
-        configSpec =
-        new ConfigurationSpecificationCsvFile(expectedIdentifier, expectedNumberOFValues);
+    int expectedNumberOfValues = 2;
 
     // Execute functionality
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOFValues, actualNumberOfValues);
+    assertEquals(expectedNumberOfValues, actualNumberOfValues);
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
+   * Test method for {@link ConfigurationRequirementBoolean#setSettings(ConfigurationSettingBoolean...)}
+   *
+   * The values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetValues() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    configSpec.setSettings(expectedValue0, expectedValue1);
+
+    // Check result
+    assertEquals(expectedValue0, configSpec.settings[0]);
+    assertEquals(expectedValue1, configSpec.settings[1]);
+  }
+
+  /**
+   * Tests that the instances of {@link ConfigurationRequirementBoolean}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationSpecificationCsvFile("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementBoolean("some identifier", 3));
   }
 }

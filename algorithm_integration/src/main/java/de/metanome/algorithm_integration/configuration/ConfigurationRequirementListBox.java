@@ -20,12 +20,12 @@ package de.metanome.algorithm_integration.configuration;
 import java.util.ArrayList;
 
 /**
- * Concrete {@link ConfigurationSpecification} for list box of strings.
+ * Concrete {@link ConfigurationRequirement} for list box of strings.
  *
  * @author Tanja Bergmann
- * @see ConfigurationSpecification
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationListBox extends ConfigurationSpecification {
+public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   private ConfigurationSettingListBox[] settings;
   private ArrayList<String> values;
@@ -33,7 +33,7 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationListBox() {
+  public ConfigurationRequirementListBox() {
   }
 
   /**
@@ -42,20 +42,20 @@ public class ConfigurationSpecificationListBox extends ConfigurationSpecificatio
    * @param identifier the specification's identifier
    * @param values     the values, which should be displayed in the list box
    */
-  public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values) {
+  public ConfigurationRequirementListBox(String identifier, ArrayList<String> values) {
     super(identifier);
     this.values = values;
   }
 
   /**
-   * Constructs a {@link ConfigurationSpecificationListBox}, potentially requesting several values.
+   * Constructs a {@link ConfigurationRequirementListBox}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param values         the values, which should be displayed in the list box
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationListBox(String identifier, ArrayList<String> values,
-                                           int numberOfValues) {
+  public ConfigurationRequirementListBox(String identifier, ArrayList<String> values,
+                                         int numberOfValues) {
     super(identifier, numberOfValues);
     this.values = values;
   }

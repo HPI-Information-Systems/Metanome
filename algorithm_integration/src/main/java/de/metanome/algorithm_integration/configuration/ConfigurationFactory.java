@@ -17,7 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Converts {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification} into
+ * Converts {@link ConfigurationRequirement} into
  * {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
@@ -26,12 +26,12 @@ public abstract class ConfigurationFactory {
 
   /**
    * Initializes first step in double dispatch to specify type of the incoming {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationSpecification}.
+   * ConfigurationRequirement}.
    *
    * @param specification the specification to convert
    * @return the resulting configuration value
    */
-  public ConfigurationValue build(ConfigurationSpecification specification) {
+  public ConfigurationValue build(ConfigurationRequirement specification) {
     return null; // specification.build(this);
   }
 }

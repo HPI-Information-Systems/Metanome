@@ -17,51 +17,51 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationSpecification} sql iterator.
+ * Concrete {@link ConfigurationRequirement} for strings.
  *
  * @author Jakob Zwiener
- * @see ConfigurationSpecification
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationSqlIterator extends ConfigurationSpecification {
+public class ConfigurationRequirementString extends ConfigurationRequirement {
 
-  private static final long serialVersionUID = 6601202469601881851L;
+  private static final long serialVersionUID = 7041289462720572215L;
 
-  private ConfigurationSettingSqlIterator[] settings;
+  private ConfigurationSettingString[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationSqlIterator() {
+  public ConfigurationRequirementString() {
   }
 
   /**
-   * Construct a {@link ConfigurationSpecificationSqlIterator}, requesting 1 value.
+   * Construct a ConfigurationSepcificationString, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecificationSqlIterator(String identifier) {
+  public ConfigurationRequirementString(String identifier) {
     super(identifier);
   }
 
   /**
-   * Construcats a {@link ConfigurationSpecificationSqlIterator}, potentially requesting several
-   * values.
+   * Constructs a {@link ConfigurationRequirementString}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationSqlIterator(String identifier,
-                                               int numberOfValues) {
+  public ConfigurationRequirementString(String identifier,
+                                        int numberOfValues) {
 
     super(identifier, numberOfValues);
   }
 
   @Override
-  public ConfigurationSettingSqlIterator[] getSettings() {
-    return settings;
+  public ConfigurationSettingString[] getSettings() {
+    return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingSqlIterator... settings) {
-    this.settings = settings;
+  public void setSettings(ConfigurationSettingString... configurationSettings) {
+    this.settings = configurationSettings;
   }
+
 }

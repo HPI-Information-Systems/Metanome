@@ -18,18 +18,35 @@ package de.metanome.algorithm_integration.configuration;
 
 import de.metanome.test_helper.GwtSerializationTester;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link ConfigurationSpecificationBoolean}
+ * Tests for {@link ConfigurationRequirementString}
  */
-public class ConfigurationSpecificationBooleanTest {
+public class ConfigurationRequirementStringTest {
 
   /**
-   * Test method for {@link ConfigurationSpecificationBoolean#ConfigurationSpecificationBoolean(String)}
+   * @throws Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+
+  }
+
+  /**
+   * @throws Exception
+   */
+  @After
+  public void tearDown() throws Exception {
+
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementString#ConfigurationRequirementString(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -39,11 +56,11 @@ public class ConfigurationSpecificationBooleanTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
+    ConfigurationRequirementString
+        configSpec =
+        new ConfigurationRequirementString(expectedIdentifier);
 
     // Execute functionality
-    ConfigurationSpecificationBoolean
-        configSpec =
-        new ConfigurationSpecificationBoolean(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -53,7 +70,7 @@ public class ConfigurationSpecificationBooleanTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationBoolean#ConfigurationSpecificationBoolean(String,
+   * Test method for {@link ConfigurationRequirementString#ConfigurationRequirementString(String,
    * int)} <p/> The identifier should be set in the constructor and be retrievable through
    * getIdentifier. The numberOfValues should be set to 2.
    */
@@ -63,11 +80,11 @@ public class ConfigurationSpecificationBooleanTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 2;
+    ConfigurationRequirementString
+        configSpec =
+        new ConfigurationRequirementString(expectedIdentifier, expectedNumberOfValues);
 
     // Execute functionality
-    ConfigurationSpecificationBoolean
-        configSpec =
-        new ConfigurationSpecificationBoolean(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfValues();
 
@@ -77,35 +94,12 @@ public class ConfigurationSpecificationBooleanTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean#setSettings(ConfigurationSettingBoolean...)}
-   *
-   * The values should be correctly settable on the specification.
-   */
-  @Test
-  public void testSetValues() {
-    // Setup
-    ConfigurationSpecificationBoolean
-        configSpec =
-        new ConfigurationSpecificationBoolean("parameter1", 2);
-    // Expected values
-    ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
-    ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
-
-    // Execute functionality
-    configSpec.setSettings(expectedValue0, expectedValue1);
-
-    // Check result
-    assertEquals(expectedValue0, configSpec.settings[0]);
-    assertEquals(expectedValue1, configSpec.settings[1]);
-  }
-
-  /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean}
+   * Tests that the instances of {@link ConfigurationRequirementString}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationSpecificationBoolean("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementString("some identifier", 3));
   }
 }

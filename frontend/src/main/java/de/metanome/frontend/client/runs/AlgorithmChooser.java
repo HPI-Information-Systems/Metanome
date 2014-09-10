@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.ParameterService;
@@ -80,13 +80,13 @@ public class AlgorithmChooser extends FlowPanel {
     String selectedValue = getSelectedAlgorithm();
     this.messageReceiver.clearErrors();
 
-    AsyncCallback<List<ConfigurationSpecification>> callback =
-        new AsyncCallback<List<ConfigurationSpecification>>() {
+    AsyncCallback<List<ConfigurationRequirement>> callback =
+        new AsyncCallback<List<ConfigurationRequirement>>() {
           public void onFailure(Throwable caught) {
             messageReceiver.addError("Error while retrieving configuration requirements.");
           }
 
-          public void onSuccess(List<ConfigurationSpecification> result) {
+          public void onSuccess(List<ConfigurationRequirement> result) {
             forwardParameters(result);
           }
         };
@@ -103,7 +103,7 @@ public class AlgorithmChooser extends FlowPanel {
    * @param callback      callback object for RPC
    */
   public void callParameterService(String selectedValue,
-                                   AsyncCallback<List<ConfigurationSpecification>> callback) {
+                                   AsyncCallback<List<ConfigurationRequirement>> callback) {
     parameterService.retrieveParameters(selectedValue, callback);
   }
 
@@ -112,7 +112,7 @@ public class AlgorithmChooser extends FlowPanel {
    *
    * @param paramList list of parameters necessary for the chosen algorithm
    */
-  protected void forwardParameters(List<ConfigurationSpecification> paramList) {
+  protected void forwardParameters(List<ConfigurationRequirement> paramList) {
     ((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
   }
 

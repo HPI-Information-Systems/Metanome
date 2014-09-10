@@ -28,12 +28,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link ConfigurationSpecificationInteger}
+ * Tests for {@link ConfigurationRequirementInteger}
  */
-public class ConfigurationSpecificationIntegerTest {
+public class ConfigurationRequirementIntegerTest {
 
   /**
-   * Test method for {@link ConfigurationSpecificationInteger#ConfigurationSpecificationInteger(String)}
+   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -43,9 +43,9 @@ public class ConfigurationSpecificationIntegerTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         configSpec =
-        new ConfigurationSpecificationInteger(expectedIdentifier);
+        new ConfigurationRequirementInteger(expectedIdentifier);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -57,7 +57,7 @@ public class ConfigurationSpecificationIntegerTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationInteger#ConfigurationSpecificationInteger(String,
+   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String,
    * int)} <p/> The identifier should be set in the constructor and be retrievable through
    * getIdentifier. The numberOfValues should be set to 2.
    */
@@ -67,9 +67,9 @@ public class ConfigurationSpecificationIntegerTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 2;
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         configSpec =
-        new ConfigurationSpecificationInteger(expectedIdentifier, expectedNumberOfValues);
+        new ConfigurationRequirementInteger(expectedIdentifier, expectedNumberOfValues);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -81,15 +81,15 @@ public class ConfigurationSpecificationIntegerTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger#getSettings()}
-   * and {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger#setSettings(ConfigurationSettingInteger...)}
+   * Test method for {@link ConfigurationRequirementInteger#getSettings()}
+   * and {@link ConfigurationRequirementInteger#setSettings(ConfigurationSettingInteger...)}
    */
   @Test
   public void testGetSetSpecification() {
     // Setup
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         specificationInteger =
-        new ConfigurationSpecificationInteger("parameter1");
+        new ConfigurationRequirementInteger("parameter1");
     // Expected values
     ConfigurationSettingInteger expectedSetting1 = new ConfigurationSettingInteger();
     ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
@@ -106,12 +106,12 @@ public class ConfigurationSpecificationIntegerTest {
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger}
+   * Tests that the instances of {@link ConfigurationRequirementInteger}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationSpecificationInteger("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementInteger("some identifier", 3));
   }
 }

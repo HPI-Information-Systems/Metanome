@@ -17,40 +17,40 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification} for
+ * Concrete {@link ConfigurationRequirement} for
  * {@link de.metanome.algorithm_integration.input.RelationalInput}s.
  *
  * @author Jakob Zwiener
- * @see ConfigurationSpecification
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationRelationalInput extends ConfigurationSpecification {
+public class ConfigurationRequirementRelationalInput extends ConfigurationRequirement {
 
   ConfigurationSettingRelationalInput[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationRelationalInput() {
+  public ConfigurationRequirementRelationalInput() {
   }
 
   /**
-   * Construct a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput},
+   * Construct a {@link ConfigurationRequirementRelationalInput},
    * requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecificationRelationalInput(String identifier) {
+  public ConfigurationRequirementRelationalInput(String identifier) {
     super(identifier);
   }
 
   /**
-   * Constructs a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput},
+   * Constructs a {@link ConfigurationRequirementRelationalInput},
    * potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationRelationalInput(
+  public ConfigurationRequirementRelationalInput(
       String identifier, int numberOfValues) {
     super(identifier, numberOfValues);
   }

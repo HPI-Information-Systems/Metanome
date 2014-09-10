@@ -18,7 +18,7 @@ package de.metanome.frontend.client.runs;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.frontend.client.BasePage;
@@ -84,7 +84,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     TabWrapper tabWrapper = new TabWrapper();
     RunConfigurationPage page = new RunConfigurationPage(new BasePage()) {
       @Override
-      public void addParameterTable(List<ConfigurationSpecification> paramList) {
+      public void addParameterTable(List<ConfigurationRequirement> paramList) {
         super.addParameterTable(paramList);
         finishTest();
       }

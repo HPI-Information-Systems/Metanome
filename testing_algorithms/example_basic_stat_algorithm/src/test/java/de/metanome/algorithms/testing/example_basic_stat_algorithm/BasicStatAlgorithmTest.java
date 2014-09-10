@@ -18,8 +18,8 @@ package de.metanome.algorithms.testing.example_basic_stat_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
@@ -64,10 +64,10 @@ public class BasicStatAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationSpecification> actualConfiguration = algorithm.getConfigurationRequirements();
+    List<ConfigurationRequirement> actualConfiguration = algorithm.getConfigurationRequirements();
 
     // Check result
-    assertThat(actualConfiguration, hasItem(isA(ConfigurationSpecificationCsvFile.class)));
+    assertThat(actualConfiguration, hasItem(isA(ConfigurationRequirementCsvFile.class)));
   }
 
   /**

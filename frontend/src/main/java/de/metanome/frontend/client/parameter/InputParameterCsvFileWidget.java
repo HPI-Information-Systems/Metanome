@@ -17,10 +17,10 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.CsvFileInput;
@@ -36,9 +36,9 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   /**
    * Corresponding ConfigurationSpecification, where the value is going to be written
    */
-  private ConfigurationSpecificationCsvFile specification;
+  private ConfigurationRequirementCsvFile specification;
 
-  public InputParameterCsvFileWidget(ConfigurationSpecificationCsvFile configSpec,
+  public InputParameterCsvFileWidget(ConfigurationRequirementCsvFile configSpec,
                                      TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
@@ -52,7 +52,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   }
 
   @Override
-  public ConfigurationSpecificationCsvFile getUpdatedSpecification()
+  public ConfigurationRequirementCsvFile getUpdatedSpecification()
       throws InputValidationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingCsvFile[] values = new ConfigurationSettingCsvFile[inputWidgets.size()];
@@ -95,13 +95,13 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   }
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationCsvFile) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementCsvFile) config;
   }
 
   @Override

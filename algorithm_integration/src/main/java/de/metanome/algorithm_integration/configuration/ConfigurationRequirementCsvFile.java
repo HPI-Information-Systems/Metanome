@@ -17,12 +17,12 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationSpecification} for csv files.
+ * Concrete {@link ConfigurationRequirement} for csv files.
  *
  * @author Jakob Zwiener
- * @see ConfigurationSpecification
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationCsvFile extends ConfigurationSpecification {
+public class ConfigurationRequirementCsvFile extends ConfigurationRequirement {
 
   private static final long serialVersionUID = 8842139128248338302L;
 
@@ -31,26 +31,26 @@ public class ConfigurationSpecificationCsvFile extends ConfigurationSpecificatio
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationCsvFile() {
+  public ConfigurationRequirementCsvFile() {
   }
 
   /**
-   * Constructs a {@link ConfigurationSpecificationCsvFile}, requesting 1 value.
+   * Constructs a {@link ConfigurationRequirementCsvFile}, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecificationCsvFile(String identifier) {
+  public ConfigurationRequirementCsvFile(String identifier) {
     super(identifier);
   }
 
   /**
-   * Constructs a {@link ConfigurationSpecificationCsvFile}, potentially requesting several values.
+   * Constructs a {@link ConfigurationRequirementCsvFile}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationCsvFile(String identifier,
-                                           int numberOfValues) {
+  public ConfigurationRequirementCsvFile(String identifier,
+                                         int numberOfValues) {
 
     super(identifier, numberOfValues);
   }

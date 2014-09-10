@@ -19,9 +19,9 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
@@ -80,7 +80,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
     setting.setFileName(aFileName);
 
-    ConfigurationSpecificationCsvFile configSpec = new ConfigurationSpecificationCsvFile("test");
+    ConfigurationRequirementCsvFile configSpec = new ConfigurationRequirementCsvFile("test");
     InputParameterCsvFileWidget
         dataSourceWidget =
         new InputParameterCsvFileWidget(configSpec, tabWrapper);

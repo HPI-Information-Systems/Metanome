@@ -19,22 +19,22 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.frontend.client.TabWrapper;
 
 public class GwtTestBooleanParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
     int noOfValues = 3;
-    ConfigurationSpecificationBoolean
+    ConfigurationRequirementBoolean
         specification =
-        new ConfigurationSpecificationBoolean("bool", noOfValues);
+        new ConfigurationRequirementBoolean("bool", noOfValues);
 
     //Execute
     InputParameterBooleanWidget
@@ -48,15 +48,15 @@ public class GwtTestBooleanParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#InputParameterBooleanWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
-    int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-    ConfigurationSpecificationBoolean
+    int noOfValues = ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES;
+    ConfigurationRequirementBoolean
         specification =
-        new ConfigurationSpecificationBoolean("bool", noOfValues);
+        new ConfigurationRequirementBoolean("bool", noOfValues);
 
     //Execute
     InputParameterBooleanWidget
@@ -74,8 +74,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
-                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
         new InputParameterBooleanWidget(specification, new TabWrapper());
@@ -95,8 +95,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
-                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
         new InputParameterBooleanWidget(specification, new TabWrapper());
@@ -116,8 +116,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testGetUpdatedSpecification() {
     //Setup
-    ConfigurationSpecificationBoolean specification = new ConfigurationSpecificationBoolean("bool",
-                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
         new InputParameterBooleanWidget(specification, new TabWrapper());
@@ -126,9 +126,9 @@ public class GwtTestBooleanParameter extends GWTTestCase {
 
     // Execute
     widget.inputWidgets.get(0).setValue(false);
-    ConfigurationSpecificationBoolean
+    ConfigurationRequirementBoolean
         updatedSpecification =
-        (ConfigurationSpecificationBoolean) widget.getUpdatedSpecification();
+        (ConfigurationRequirementBoolean) widget.getUpdatedSpecification();
 
     //Check
     assertFalse(updatedSpecification.getSettings()[0].value);

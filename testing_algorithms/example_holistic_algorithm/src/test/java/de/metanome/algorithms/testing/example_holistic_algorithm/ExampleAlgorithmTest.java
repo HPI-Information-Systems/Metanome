@@ -17,8 +17,8 @@
 package de.metanome.algorithms.testing.example_holistic_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -67,14 +67,14 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationSpecification>
+    List<ConfigurationRequirement>
         actualConfigurationRequirements =
         this.algorithm.getConfigurationRequirements();
 
     // Check result
     assertEquals(1, actualConfigurationRequirements.size());
     assertThat(actualConfigurationRequirements.get(0),
-               instanceOf(ConfigurationSpecificationString.class));
+               instanceOf(ConfigurationRequirementString.class));
   }
 
   /**

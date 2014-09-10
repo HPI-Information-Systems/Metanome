@@ -21,8 +21,8 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
@@ -57,9 +57,9 @@ public class GwtTestServiceCall extends GWTTestCase {
 
     String algorithmFileName = "example_ucc_algorithm.jar";
     TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
-    List<ConfigurationSpecification> configs = new ArrayList<>();
-    ConfigurationSpecificationString inputParameter =
-        new ConfigurationSpecificationString("pathToInputFile");
+    List<ConfigurationRequirement> configs = new ArrayList<>();
+    ConfigurationRequirementString inputParameter =
+        new ConfigurationRequirementString("pathToInputFile");
     inputParameter.setSettings(new ConfigurationSettingString("path/to/file1"),
                                new ConfigurationSettingString("path/to/file2"));
     configs.add(inputParameter);
@@ -92,13 +92,13 @@ public class GwtTestServiceCall extends GWTTestCase {
    */
   public void testParameterService() {
     // Setup
-    AsyncCallback<List<ConfigurationSpecification>> callback =
-        new AsyncCallback<List<ConfigurationSpecification>>() {
+    AsyncCallback<List<ConfigurationRequirement>> callback =
+        new AsyncCallback<List<ConfigurationRequirement>>() {
           public void onFailure(Throwable caught) {
             fail();
           }
 
-          public void onSuccess(List<ConfigurationSpecification> result) {
+          public void onSuccess(List<ConfigurationRequirement> result) {
             assertNotNull(result);
             finishTest();
           }

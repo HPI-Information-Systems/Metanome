@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface Algorithm {
    *
    * @return a list of ConfigurationSpecifications
    */
-  List<ConfigurationSpecification> getConfigurationRequirements();
+  List<ConfigurationRequirement> getConfigurationRequirements();
 
   /**
    * Starts the execution of the algorithm.

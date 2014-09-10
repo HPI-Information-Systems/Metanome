@@ -20,7 +20,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 import de.metanome.frontend.client.services.ParameterService;
 
@@ -39,11 +39,11 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
    *
    * @param algorithmFileName name of the algorithm for which the configuration parameters shall be
    *                          retrieved
-   * @return a list of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s
+   * @return a list of {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s
    * necessary for calling the given algorithm
    */
   @Override
-  public List<ConfigurationSpecification> retrieveParameters(String algorithmFileName)
+  public List<ConfigurationRequirement> retrieveParameters(String algorithmFileName)
       throws AlgorithmExecutionException {
     Algorithm algorithm = null;
     AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
@@ -53,7 +53,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
       throw new AlgorithmExecutionException(e.getMessage());
     }
 
-    List<ConfigurationSpecification> configList = algorithm.getConfigurationRequirements();
+    List<ConfigurationRequirement> configList = algorithm.getConfigurationRequirements();
 
     return configList;
   }

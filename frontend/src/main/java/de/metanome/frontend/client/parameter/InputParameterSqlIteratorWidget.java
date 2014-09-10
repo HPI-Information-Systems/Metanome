@@ -19,8 +19,8 @@ package de.metanome.frontend.client.parameter;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -35,9 +35,9 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   /**
    * Corresponding inputParameter, where the value is going to be written
    */
-  private ConfigurationSpecificationSqlIterator specification;
+  private ConfigurationRequirementSqlIterator specification;
 
-  public InputParameterSqlIteratorWidget(ConfigurationSpecificationSqlIterator config,
+  public InputParameterSqlIteratorWidget(ConfigurationRequirementSqlIterator config,
                                          TabWrapper wrapper) {
     super(config, wrapper);
   }
@@ -50,7 +50,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   }
 
   @Override
-  public ConfigurationSpecification getUpdatedSpecification() throws InputValidationException {
+  public ConfigurationRequirement getUpdatedSpecification() throws InputValidationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingSqlIterator[]
         values =
@@ -94,13 +94,13 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   }
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationSqlIterator) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementSqlIterator) config;
   }
 
   @Override

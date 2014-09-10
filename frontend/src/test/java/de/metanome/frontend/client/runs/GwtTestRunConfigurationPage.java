@@ -18,9 +18,9 @@ package de.metanome.frontend.client.runs;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
@@ -63,7 +63,7 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
 
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-    List<ConfigurationSpecification> paramList = new ArrayList<>();
+    List<ConfigurationRequirement> paramList = new ArrayList<>();
     int widgetCount = runConfigPage.getWidgetCount();
 
     // Execute
@@ -154,9 +154,9 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
 
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
-    List<ConfigurationSpecification> paramList = new ArrayList<>();
-    paramList.add(new ConfigurationSpecificationString("someString"));
-    paramList.add(new ConfigurationSpecificationCsvFile("theDataSource"));
+    List<ConfigurationRequirement> paramList = new ArrayList<>();
+    paramList.add(new ConfigurationRequirementString("someString"));
+    paramList.add(new ConfigurationRequirementCsvFile("theDataSource"));
 
     // Execute
     runConfigPage.algorithmChooser.forwardParameters(paramList);

@@ -19,8 +19,8 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
@@ -44,7 +44,7 @@ public class ConfigurationValueListBox implements ConfigurationValue {
   }
 
   public ConfigurationValueListBox(
-      ConfigurationSpecificationListBox specification) {
+      ConfigurationRequirementListBox specification) {
     this.identifier = specification.getIdentifier();
     this.selectedValues = new String[specification.getSettings().length];
     int i = 0;

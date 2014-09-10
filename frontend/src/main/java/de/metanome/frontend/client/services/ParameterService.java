@@ -20,14 +20,14 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
 import java.util.List;
 
 @RemoteServiceRelativePath("parameterService")
 public interface ParameterService extends RemoteService {
 
-  public List<ConfigurationSpecification> retrieveParameters(String selectedValue)
+  public List<ConfigurationRequirement> retrieveParameters(String selectedValue)
       throws AlgorithmExecutionException;
 
 }

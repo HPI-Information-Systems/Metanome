@@ -18,49 +18,50 @@ package de.metanome.algorithm_integration.configuration;
 
 
 /**
- * Concrete {@link ConfigurationSpecification} for integers.
+ * Concrete {@link ConfigurationRequirement} for booleans.
  *
- * @author Tanja Bergmann
- * @see ConfigurationSpecification
+ * @author Jakob Zwiener
+ * @see ConfigurationRequirement
  */
-public class ConfigurationSpecificationInteger extends ConfigurationSpecification {
+public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
 
-  private ConfigurationSettingInteger[] settings;
+  private static final long serialVersionUID = -8167469173057966270L;
+
+  public ConfigurationSettingBoolean[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecificationInteger() {
+  public ConfigurationRequirementBoolean() {
   }
 
   /**
-   * Construct a ConfigurationSpecificationInteger, requesting 1 value.
+   * Construct a {@link ConfigurationRequirementBoolean}, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecificationInteger(String identifier) {
+  public ConfigurationRequirementBoolean(String identifier) {
     super(identifier);
   }
 
-
   /**
-   * Constructs a {@link ConfigurationSpecificationInteger}, potentially requesting several values.
+   * Constructs a {@link ConfigurationRequirementBoolean}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecificationInteger(String identifier,
-                                           int numberOfValues) {
-
+  public ConfigurationRequirementBoolean(String identifier,
+                                         int numberOfValues) {
     super(identifier, numberOfValues);
   }
 
   @Override
-  public ConfigurationSettingInteger[] getSettings() {
-    return this.settings;
+  public ConfigurationSettingBoolean[] getSettings() {
+    return settings;
   }
 
-  public void setSettings(ConfigurationSettingInteger... settings) {
+  public void setSettings(ConfigurationSettingBoolean... settings) {
+    // TODO check number
     this.settings = settings;
   }
 }

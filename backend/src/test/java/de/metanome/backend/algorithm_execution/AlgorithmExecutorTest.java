@@ -18,9 +18,9 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
@@ -263,10 +263,10 @@ public class AlgorithmExecutorTest {
     // Setup
     // Build file input specification
     int numberOfInputs = 5;
-    List<ConfigurationSpecification> configurationSpecifications = new LinkedList<>();
-    ConfigurationSpecificationCsvFile
+    List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
+    ConfigurationRequirementCsvFile
         specification =
-        new ConfigurationSpecificationCsvFile(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
+        new ConfigurationRequirementCsvFile(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
                                               numberOfInputs);
 
     // Build input files
@@ -291,13 +291,13 @@ public class AlgorithmExecutorTest {
     settings[4] = lastSetting;
     specification.setSettings(settings);
 
-    configurationSpecifications.add(specification);
+    configurationRequirements.add(specification);
 
     String algorithmFileName = "example_basic_stat_algorithm.jar";
     new Algorithm(algorithmFileName).store();
 
     // Execute functionality
-    executor.executeAlgorithm(algorithmFileName, configurationSpecifications);
+    executor.executeAlgorithm(algorithmFileName, configurationRequirements);
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);

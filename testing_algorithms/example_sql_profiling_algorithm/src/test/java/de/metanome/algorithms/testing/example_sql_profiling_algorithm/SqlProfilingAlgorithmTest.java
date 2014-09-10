@@ -17,8 +17,8 @@
 package de.metanome.algorithms.testing.example_sql_profiling_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import org.junit.Before;
@@ -51,13 +51,13 @@ public class SqlProfilingAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationSpecification>
+    List<ConfigurationRequirement>
         actualConfigurationRequirements =
         algorithm.getConfigurationRequirements();
 
     // Check result
     assertThat(actualConfigurationRequirements.get(0),
-               instanceOf(ConfigurationSpecificationSqlIterator.class));
+               instanceOf(ConfigurationRequirementSqlIterator.class));
   }
 
   /**

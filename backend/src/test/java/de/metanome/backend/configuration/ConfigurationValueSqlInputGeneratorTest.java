@@ -19,7 +19,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class ConfigurationValueSqlInputGeneratorTest {
 
     // Execute functionality
     ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
-        new ConfigurationSpecificationSqlIterator(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementSqlIterator(expectedIdentifier).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
@@ -85,7 +85,7 @@ public class ConfigurationValueSqlInputGeneratorTest {
 
     // Execute functionality
     ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
-        new ConfigurationSpecificationSqlIterator(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementSqlIterator(expectedIdentifier).getIdentifier(),
         expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);

@@ -20,13 +20,13 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
@@ -51,28 +51,28 @@ public class GwtTestParameterTable extends GWTTestCase {
     // Setup
     TestHelper.resetDatabaseSync();
 
-    List<ConfigurationSpecification> paramList = new ArrayList<>();
+    List<ConfigurationRequirement> paramList = new ArrayList<>();
 
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
 
-    ConfigurationSpecificationString
+    ConfigurationRequirementString
         ConfigurationSpecificationString =
-        new ConfigurationSpecificationString("Filename");
-    ConfigurationSpecificationBoolean
+        new ConfigurationRequirementString("Filename");
+    ConfigurationRequirementBoolean
         ConfigurationSpecificationBoolean =
-        new ConfigurationSpecificationBoolean("Omit warnings");
-    ConfigurationSpecificationCsvFile
+        new ConfigurationRequirementBoolean("Omit warnings");
+    ConfigurationRequirementCsvFile
         ConfigurationSpecificationCsvFile =
-        new ConfigurationSpecificationCsvFile("inputData");
-    ConfigurationSpecificationInteger
+        new ConfigurationRequirementCsvFile("inputData");
+    ConfigurationRequirementInteger
         ConfigurationSpecificationInteger =
-        new ConfigurationSpecificationInteger("NumberOfTables");
-    ConfigurationSpecificationListBox
+        new ConfigurationRequirementInteger("NumberOfTables");
+    ConfigurationRequirementListBox
         ConfigurationSpecificationListBox =
-        new ConfigurationSpecificationListBox("listBox", values);
+        new ConfigurationRequirementListBox("listBox", values);
 
     paramList.add(ConfigurationSpecificationString);
     paramList.add(ConfigurationSpecificationBoolean);
@@ -122,31 +122,31 @@ public class GwtTestParameterTable extends GWTTestCase {
     //Setup
     TestHelper.resetDatabaseSync();
 
-    ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
+    ArrayList<ConfigurationRequirement> paramList = new ArrayList<>();
 
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
 
-    final ConfigurationSpecificationString
+    final ConfigurationRequirementString
         ConfigurationSpecificationString =
-        new ConfigurationSpecificationString("string");
-    final ConfigurationSpecificationBoolean
+        new ConfigurationRequirementString("string");
+    final ConfigurationRequirementBoolean
         ConfigurationSpecificationBoolean =
-        new ConfigurationSpecificationBoolean("bool");
-    final ConfigurationSpecificationCsvFile
+        new ConfigurationRequirementBoolean("bool");
+    final ConfigurationRequirementCsvFile
         ConfigurationSpecificationCsvFile =
-        new ConfigurationSpecificationCsvFile("csv");
-    final ConfigurationSpecificationSqlIterator
+        new ConfigurationRequirementCsvFile("csv");
+    final ConfigurationRequirementSqlIterator
         ConfigurationSpecificationSQLIterator =
-        new ConfigurationSpecificationSqlIterator("sql");
-    final ConfigurationSpecificationInteger
+        new ConfigurationRequirementSqlIterator("sql");
+    final ConfigurationRequirementInteger
         ConfigurationSpecificationInteger =
-        new ConfigurationSpecificationInteger("integer");
-    final ConfigurationSpecificationListBox
+        new ConfigurationRequirementInteger("integer");
+    final ConfigurationRequirementListBox
         ConfigurationSpecificationListBox =
-        new ConfigurationSpecificationListBox("listBox", values);
+        new ConfigurationRequirementListBox("listBox", values);
 
     paramList.add(ConfigurationSpecificationString);
     paramList.add(ConfigurationSpecificationBoolean);
@@ -161,8 +161,8 @@ public class GwtTestParameterTable extends GWTTestCase {
     setCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
 
     //Execute
-    List<ConfigurationSpecification> retrievedParams = null;
-    List<ConfigurationSpecification> retrievedDataSources = null;
+    List<ConfigurationRequirement> retrievedParams = null;
+    List<ConfigurationRequirement> retrievedDataSources = null;
     try {
       retrievedParams = pt.getConfigurationSpecificationsWithValues();
       retrievedDataSources = pt.getConfigurationSpecificationDataSourcesWithValues();
@@ -221,7 +221,7 @@ public class GwtTestParameterTable extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecification,
+   * Test method for {@link de.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirement,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testConfigurationSpecificationWidgetCreation() throws InputValidationException {
@@ -234,21 +234,21 @@ public class GwtTestParameterTable extends GWTTestCase {
     values.add("Column 2");
 
     String identifierString = "stringParam";
-    ConfigurationSpecification stringParam = new ConfigurationSpecificationString(identifierString);
+    ConfigurationRequirement stringParam = new ConfigurationRequirementString(identifierString);
     String identifierInteger = "integerParam";
-    ConfigurationSpecification
+    ConfigurationRequirement
         integerParam =
-        new ConfigurationSpecificationInteger(identifierInteger);
+        new ConfigurationRequirementInteger(identifierInteger);
     String identifierBoolean = "boolParam";
-    ConfigurationSpecification boolParam = new ConfigurationSpecificationBoolean(identifierBoolean);
+    ConfigurationRequirement boolParam = new ConfigurationRequirementBoolean(identifierBoolean);
     String identifierCsv = "csvParam";
-    ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv);
+    ConfigurationRequirement csvParam = new ConfigurationRequirementCsvFile(identifierCsv);
     String identifierSql = "sqlParam";
-    ConfigurationSpecification sqlParam = new ConfigurationSpecificationSqlIterator(identifierSql);
+    ConfigurationRequirement sqlParam = new ConfigurationRequirementSqlIterator(identifierSql);
     String identifierListbox = "listboxParam";
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         listboxParam =
-        new ConfigurationSpecificationListBox(identifierListbox, values);
+        new ConfigurationRequirementListBox(identifierListbox, values);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -284,7 +284,7 @@ public class GwtTestParameterTable extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecification,
+   * Test method for {@link de.metanome.frontend.client.parameter.WidgetFactory#buildWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirement,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testMultipleValuesWidgetCreation() throws AlgorithmConfigurationException {
@@ -297,27 +297,27 @@ public class GwtTestParameterTable extends GWTTestCase {
     values.add("Column 2");
 
     String identifierString = "stringParam";
-    ConfigurationSpecification
+    ConfigurationRequirement
         stringParam =
-        new ConfigurationSpecificationString(identifierString, 2);
+        new ConfigurationRequirementString(identifierString, 2);
     String identifierInteger = "integerParam";
-    ConfigurationSpecification
+    ConfigurationRequirement
         integerParam =
-        new ConfigurationSpecificationInteger(identifierInteger, 2);
+        new ConfigurationRequirementInteger(identifierInteger, 2);
     String identifierBoolean = "boolParam";
-    ConfigurationSpecification
+    ConfigurationRequirement
         boolParam =
-        new ConfigurationSpecificationBoolean(identifierBoolean, 2);
+        new ConfigurationRequirementBoolean(identifierBoolean, 2);
     String identifierCsv = "csvParam";
-    ConfigurationSpecification csvParam = new ConfigurationSpecificationCsvFile(identifierCsv, 2);
+    ConfigurationRequirement csvParam = new ConfigurationRequirementCsvFile(identifierCsv, 2);
     String identifierSql = "sqlParam";
-    ConfigurationSpecification
+    ConfigurationRequirement
         sqlParam =
-        new ConfigurationSpecificationSqlIterator(identifierSql, 2);
+        new ConfigurationRequirementSqlIterator(identifierSql, 2);
     String identifierListbox = "listboxParam";
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         listboxParam =
-        new ConfigurationSpecificationListBox(identifierListbox, values, 2);
+        new ConfigurationRequirementListBox(identifierListbox, values, 2);
 
     TabWrapper tabWrapper = new TabWrapper();
 

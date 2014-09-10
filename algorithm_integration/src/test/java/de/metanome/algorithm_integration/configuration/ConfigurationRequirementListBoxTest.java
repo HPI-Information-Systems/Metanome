@@ -29,12 +29,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link ConfigurationSpecificationListBox}
+ * Tests for {@link ConfigurationRequirementListBox}
  */
-public class ConfigurationSpecificationListBoxTest {
+public class ConfigurationRequirementListBoxTest {
 
   /**
-   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String,
+   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String,
    * java.util.ArrayList)} <p/> The identifier should be set in the constructor and be retrievable
    * through getIdentifier. The numberOfValues should be set to 1.
    */
@@ -49,9 +49,9 @@ public class ConfigurationSpecificationListBoxTest {
     expectedValues.add("second");
     expectedValues.add("third");
 
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         configSpec =
-        new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues);
+        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -65,7 +65,7 @@ public class ConfigurationSpecificationListBoxTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationListBox#ConfigurationSpecificationListBox(String,
+   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String,
    * java.util.ArrayList, int)} The identifier should be set in the constructor and be retrievable
    * through getIdentifier. The numberOfValues should be set to 2.
    */
@@ -80,9 +80,9 @@ public class ConfigurationSpecificationListBoxTest {
     expectedValues.add("second");
     expectedValues.add("third");
 
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         configSpec =
-        new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues,
+        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues,
                                               expectedNumberOfValues);
 
     // Execute functionality
@@ -97,8 +97,8 @@ public class ConfigurationSpecificationListBoxTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSpecificationListBox#getSettings()} and {@link
-   * ConfigurationSpecificationListBox#setSettings(ConfigurationSettingListBox...)}
+   * Test method for {@link ConfigurationRequirementListBox#getSettings()} and {@link
+   * ConfigurationRequirementListBox#setSettings(ConfigurationSettingListBox...)}
    */
   @Test
   public void testGetSetSpecification() {
@@ -107,9 +107,9 @@ public class ConfigurationSpecificationListBoxTest {
     expectedValues.add("first");
     expectedValues.add("second");
     expectedValues.add("third");
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         specificationListBox =
-        new ConfigurationSpecificationListBox("parameter1", expectedValues);
+        new ConfigurationRequirementListBox("parameter1", expectedValues);
 
     // Expected values
     ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
@@ -127,12 +127,12 @@ public class ConfigurationSpecificationListBoxTest {
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox}
+   * Tests that the instances of {@link ConfigurationRequirementListBox}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSpecificationListBox("some identifier", new ArrayList<String>(), 3));
+        new ConfigurationRequirementListBox("some identifier", new ArrayList<String>(), 3));
   }
 }

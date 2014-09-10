@@ -28,7 +28,7 @@ import java.io.Serializable;
  *
  * @author Jakob Zwiener
  */
-public abstract class ConfigurationSpecification implements Serializable {
+public abstract class ConfigurationRequirement implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
   private static final long serialVersionUID = 4312752686730530733L;
@@ -42,7 +42,7 @@ public abstract class ConfigurationSpecification implements Serializable {
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSpecification() {
+  public ConfigurationRequirement() {
   }
 
   /**
@@ -52,7 +52,7 @@ public abstract class ConfigurationSpecification implements Serializable {
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationSpecification(String identifier) {
+  public ConfigurationRequirement(String identifier) {
     this(identifier, 1);
   }
 
@@ -65,7 +65,7 @@ public abstract class ConfigurationSpecification implements Serializable {
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationSpecification(String identifier, int numberOfValues) {
+  public ConfigurationRequirement(String identifier, int numberOfValues) {
     this.identifier = identifier;
     this.numberOfValues = numberOfValues;
   }

@@ -18,15 +18,15 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationFactory;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationRelationalInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.SqlInputGenerator;
 import de.metanome.backend.input.csv.CsvFileGenerator;
@@ -43,14 +43,14 @@ import java.io.FileNotFoundException;
 public class DefaultConfigurationFactory extends ConfigurationFactory {
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator}
    * to a {@link de.metanome.algorithm_integration.input.SqlInputGenerator}.
    *
    * @param specification the sql iterator specification
    * @return the created sql input generator
    */
   private static SqlInputGenerator[] createSqlIteratorGenerators(
-      ConfigurationSpecificationSqlIterator specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementSqlIterator specification) throws AlgorithmConfigurationException {
 
     SqlIteratorGenerator[]
         sqlIteratorGenerators =
@@ -67,14 +67,14 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   }
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile}
    * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
    *
    * @param specification the file input specification
    * @return the created file input generator
    */
   private static FileInputGenerator[] createFileInputGenerators(
-      ConfigurationSpecificationCsvFile specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementCsvFile specification) throws AlgorithmConfigurationException {
 
     CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];
 
@@ -107,7 +107,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueBoolean build(ConfigurationSpecificationBoolean specification) {
+  public ConfigurationValueBoolean build(ConfigurationRequirementBoolean specification) {
     return new ConfigurationValueBoolean(specification);
   }
 
@@ -115,7 +115,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueFileInputGenerator build(
-      ConfigurationSpecificationCsvFile specification) {
+      ConfigurationRequirementCsvFile specification) {
     try {
       return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
                                                       createFileInputGenerators(specification));
@@ -129,14 +129,14 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueInteger build(ConfigurationSpecificationInteger specification) {
+  public ConfigurationValueInteger build(ConfigurationRequirementInteger specification) {
     return new ConfigurationValueInteger(specification);
   }
 
   /**
    * TODO docs
    */
-  public ConfigurationValueListBox build(ConfigurationSpecificationListBox specification) {
+  public ConfigurationValueListBox build(ConfigurationRequirementListBox specification) {
     return new ConfigurationValueListBox(specification);
   }
 
@@ -146,7 +146,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueRelationalInputGenerator build(
-      ConfigurationSpecificationRelationalInput specification) {
+      ConfigurationRequirementRelationalInput specification) {
     //return new ConfigurationValueRelationalInputGenerator(specification);
     return null;
   }
@@ -155,7 +155,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueSqlInputGenerator build(
-      ConfigurationSpecificationSqlIterator specification) {
+      ConfigurationRequirementSqlIterator specification) {
     try {
       return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
                                                      createSqlIteratorGenerators(specification));
@@ -169,7 +169,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueString build(ConfigurationSpecificationString specification) {
+  public ConfigurationValueString build(ConfigurationRequirementString specification) {
     return new ConfigurationValueString(specification);
   }
 
