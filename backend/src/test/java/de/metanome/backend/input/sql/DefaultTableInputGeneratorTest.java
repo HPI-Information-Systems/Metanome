@@ -14,23 +14,8 @@
  * limitations under the License.
  */
 
-package de.metanome.algorithm_integration.configuration;
+package de.metanome.backend.input.sql;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
-
-import java.io.FileNotFoundException;
-
-/**
- * TODO docs
- *
- * @author Jakob Zwiener
- */
-public interface ConfigurationSettingRelationalInput extends IsSerializable {
-
-  public abstract void generate(RelationalInputGeneratorInitializer generator)
-      throws FileNotFoundException, AlgorithmConfigurationException;
+public class DefaultTableInputGeneratorTest {
 
 }

@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
 import de.metanome.backend.input.csv.DefaultFileInputGenerator;
 import de.metanome.backend.input.sql.SqlIteratorGenerator;
 
@@ -117,21 +118,6 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueFileInputGenerator build(
-      ConfigurationRequirementFileInput specification) {
-    try {
-      return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
-                                                      createFileInputGenerators(specification));
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
-      // TODO handle exception
-    }
-    return null;
-  }
-
-  /**
-   * TODO docs
-   */
   public ConfigurationValueInteger build(ConfigurationRequirementInteger specification) {
     return new ConfigurationValueInteger(specification);
   }
@@ -149,9 +135,10 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueRelationalInputGenerator build(
-      ConfigurationRequirementRelationalInput specification) {
-    //return new ConfigurationValueRelationalInputGenerator(specification);
-    return null;
+      ConfigurationRequirementRelationalInput requirement)
+      throws FileNotFoundException, AlgorithmConfigurationException {
+    DefaultRelationalInputGeneratorInitializer inputGeneratorInitializer = new DefaultRelationalInputGeneratorInitializer(requirement);
+    return inputGeneratorInitializer.getConfigurationValue();
   }
 
   /**

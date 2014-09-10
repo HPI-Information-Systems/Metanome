@@ -19,13 +19,17 @@ package de.metanome.algorithm_integration.configuration;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
+
+import java.io.FileNotFoundException;
+
 
 /**
  * Stores one CSV file configuration.
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingFileInput extends ConfigurationSettingDataSource {
+public class ConfigurationSettingFileInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
@@ -174,5 +178,10 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingDataSourc
   @Override
   public String getValueAsString() {
     return fileName;
+  }
+
+  @Override
+  public void generate(RelationalInputGeneratorInitializer generator) throws FileNotFoundException {
+    generator.initialize(this);
   }
 }

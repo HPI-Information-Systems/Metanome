@@ -18,7 +18,10 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.base.Joiner;
 
-public class ConfigurationSettingTableInput extends ConfigurationSettingDataSource {
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
+
+public class ConfigurationSettingTableInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
 
   private static final long serialVersionUID = 3242593091096735218L;
@@ -85,4 +88,9 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingDataSour
     return Joiner.on(';').join(this.table, this.databaseConnection.getValueAsString());
   }
 
+  @Override
+  public void generate(RelationalInputGeneratorInitializer generator)
+      throws AlgorithmConfigurationException {
+    generator.initialize(this);
+  }
 }
