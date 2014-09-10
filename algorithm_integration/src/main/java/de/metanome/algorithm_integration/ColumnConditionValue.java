@@ -58,30 +58,12 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   @Override
-  public int compareTo(ColumnCondition o) {
-    if (o instanceof ColumnConditionValue) {
-      ColumnConditionValue other = (ColumnConditionValue) o;
-      if (other.isNegated == this.isNegated) {
-        int columnComparison = this.columnIdentifier.compareTo(other.columnIdentifier);
-        if (columnComparison != 0) {
-          return columnComparison;
-        } else {
-          return this.columnValue.compareTo(other.columnValue);
-        }
-      } else {
-        if (this.isNegated) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    }
-    return -1;
-  }
-
-  @Override
   public float getCoverage() {
     return coverage;
+  }
+
+  public void setCoverage(float coverage) {
+    this.coverage = coverage;
   }
 
   @Override
@@ -93,10 +75,6 @@ public class ColumnConditionValue implements ColumnCondition {
       builder.append(NOT);
     }
     builder.append(this.columnValue);
-    if (this.coverage > 0) {
-      builder.append(" Cov: ");
-      builder.append(this.coverage);
-    }
     return builder.toString();
   }
 
@@ -134,4 +112,27 @@ public class ColumnConditionValue implements ColumnCondition {
     result = 31 * result + (isNegated ? 1 : 0);
     return result;
   }
+
+  @Override
+  public int compareTo(ColumnCondition o) {
+    if (o instanceof ColumnConditionValue) {
+      ColumnConditionValue other = (ColumnConditionValue) o;
+      if (other.isNegated == this.isNegated) {
+        int columnComparison = this.columnIdentifier.compareTo(other.columnIdentifier);
+        if (columnComparison != 0) {
+          return columnComparison;
+        } else {
+          return this.columnValue.compareTo(other.columnValue);
+        }
+      } else {
+        if (this.isNegated) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    }
+    return -1;
+  }
+
 }

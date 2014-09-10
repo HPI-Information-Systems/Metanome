@@ -80,8 +80,12 @@ public class ConditionalUniqueColumnCombination implements Result {
 
   @Override
   public String toString() {
-    return columnCombination.toString() + condition.toString();
-
+    StringBuilder builder = new StringBuilder();
+    builder.append(columnCombination.toString());
+    builder.append(condition.toString());
+    builder.append("Coverage: ");
+    builder.append(condition.getCoverage());
+    return builder.toString();
   }
 
   @Override
