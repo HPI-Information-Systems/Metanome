@@ -28,9 +28,9 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.input_fields.SqlIteratorInput;
+import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
 
-public class GwtTestSqlIteratorParameter extends GWTTestCase {
+public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
 
   private String aUrl = "url";
   private String aPassword = "password";
@@ -53,7 +53,7 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    SqlIteratorInput widget = new SqlIteratorInput(false, tabWrapper);
+    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, tabWrapper);
     ConfigurationSettingDatabaseConnection
         setting =
         new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);
@@ -99,9 +99,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     ConfigurationRequirementDatabaseConnection
         configSpec =
         new ConfigurationRequirementDatabaseConnection("test");
-    InputParameterSqlIteratorWidget
+    InputParameterDatabaseConnectionWidget
         dataSourceWidget =
-        new InputParameterSqlIteratorWidget(configSpec, tabWrapper);
+        new InputParameterDatabaseConnectionWidget(configSpec, tabWrapper);
 
     dataSourceWidget.inputWidgets.get(0).listbox.addValue(aUrl);
     dataSourceWidget.inputWidgets.get(0).databaseConnections.put(aUrl, databaseConnection);
@@ -109,7 +109,8 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     // Execute
     dataSourceWidget.setDataSource(setting);
 
-    assertTrue(((SqlIteratorInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
+    assertTrue(
+        ((DatabaseConnectionInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
     retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget

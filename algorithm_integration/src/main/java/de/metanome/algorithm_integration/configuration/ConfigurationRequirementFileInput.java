@@ -17,7 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationRequirement} for csv files.
+ * Concrete {@link ConfigurationRequirement} for file inputs.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement

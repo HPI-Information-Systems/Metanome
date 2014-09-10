@@ -20,8 +20,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @see de.metanome.backend.results_db.FileInput
  */
-public class CsvFileInput extends InputField {
+public class FileInputInput extends InputField {
 
   public ListBoxInput listbox;
   public Map<String, FileInput> fileInputs;
@@ -53,7 +53,7 @@ public class CsvFileInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public CsvFileInput(boolean optional, TabWrapper messageReceiver) {
+  public FileInputInput(boolean optional, TabWrapper messageReceiver) {
     super(optional);
 
     this.messageReceiver = messageReceiver;

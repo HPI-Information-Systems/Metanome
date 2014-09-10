@@ -27,14 +27,14 @@ import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
 /**
- * Tests for {@link de.metanome.frontend.client.input_fields.SqlIteratorInput}
+ * Tests for {@link DatabaseConnectionInput}
  *
  * @author Jakob Zwiener
  */
-public class GwtTestSqlIteratorInput extends GWTTestCase {
+public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.SqlIteratorInput#SqlIteratorInput(boolean,
+   * Test method for {@link DatabaseConnectionInput#DatabaseConnectionInput(boolean,
    * de.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the optional
    * parameter should be set correctly and all widgets should be initialized.
    */
@@ -48,19 +48,21 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     boolean expectedOptional = true;
 
     // Execute functionality
-    SqlIteratorInput actualSqlIteratorInput = new SqlIteratorInput(expectedOptional, tabWrapper);
+    DatabaseConnectionInput
+        actualDatabaseConnectionInput = new DatabaseConnectionInput(expectedOptional, tabWrapper);
 
     // Check result
-    assertEquals(expectedOptional, actualSqlIteratorInput.isOptional);
-    assertEquals(2, actualSqlIteratorInput.getWidgetCount());
-    assertNotNull(actualSqlIteratorInput.listbox);
+    assertEquals(expectedOptional, actualDatabaseConnectionInput.isOptional);
+    assertEquals(2, actualDatabaseConnectionInput.getWidgetCount());
+    assertNotNull(actualDatabaseConnectionInput.listbox);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
 
   /**
-   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection)}
+   * Test method for {@link DatabaseConnectionInput#getValues()} and {@link
+   * DatabaseConnectionInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {
@@ -80,18 +82,20 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
         new ConfigurationSettingDatabaseConnection("url", "username", "password", DbSystem.DB2);
 
     // Initialize SqlIteratorInput (waiting for fetching all current database connections)
-    SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false, tabWrapper);
+    DatabaseConnectionInput
+        databaseConnectionInput =
+        new DatabaseConnectionInput(false, tabWrapper);
 
-    sqlIteratorInput.databaseConnections.put("url", dbConnection);
-    sqlIteratorInput.listbox.addValue("--");
-    sqlIteratorInput.listbox.addValue("url");
+    databaseConnectionInput.databaseConnections.put("url", dbConnection);
+    databaseConnectionInput.listbox.addValue("--");
+    databaseConnectionInput.listbox.addValue("url");
 
     // Execute functionality
-    sqlIteratorInput.setValues(expectedSetting);
+    databaseConnectionInput.setValues(expectedSetting);
 
     ConfigurationSettingDatabaseConnection actualSetting = null;
     try {
-      actualSetting = sqlIteratorInput.getValues();
+      actualSetting = databaseConnectionInput.getValues();
     } catch (InputValidationException e) {
       fail();
     }

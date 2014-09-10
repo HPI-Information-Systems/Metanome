@@ -24,8 +24,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -33,9 +33,9 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.input_fields.CsvFileInput;
+import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
+import de.metanome.frontend.client.input_fields.FileInputInput;
 import de.metanome.frontend.client.input_fields.IntegerInput;
-import de.metanome.frontend.client.input_fields.SqlIteratorInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class GwtTestParameterTable extends GWTTestCase {
 
     // - CSV FILE row
     assertEquals(2, pt.getCellCount(2));
-    assertEquals(InputParameterCsvFileWidget.class, pt.getWidget(2, 1).getClass());
+    assertEquals(InputParameterFileInputWidget.class, pt.getWidget(2, 1).getClass());
 
     // - LIST BOX row
     assertEquals(2, pt.getCellCount(3));
@@ -157,8 +157,8 @@ public class GwtTestParameterTable extends GWTTestCase {
 
     final ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
     enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
-    setDatabaseConnection((InputParameterSqlIteratorWidget) pt.getWidget(3, 1));
-    setCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
+    setDatabaseConnection((InputParameterDatabaseConnectionWidget) pt.getWidget(3, 1));
+    setCsvFile((InputParameterFileInputWidget) pt.getWidget(2, 1));
 
     //Execute
     List<ConfigurationRequirement> retrievedParams = null;
@@ -190,13 +190,13 @@ public class GwtTestParameterTable extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-  private void setCsvFile(InputParameterCsvFileWidget widget) {
+  private void setCsvFile(InputParameterFileInputWidget widget) {
     FileInput fileInput = new FileInput("name");
 
-    for (CsvFileInput csvFileInput : widget.inputWidgets) {
-      csvFileInput.listbox.addValue("name");
-      csvFileInput.fileInputs.put("name", fileInput);
-      csvFileInput.listbox.setSelectedValue("name");
+    for (FileInputInput fileInputInput : widget.inputWidgets) {
+      fileInputInput.listbox.addValue("name");
+      fileInputInput.fileInputs.put("name", fileInput);
+      fileInputInput.listbox.setSelectedValue("name");
     }
   }
 
@@ -206,17 +206,17 @@ public class GwtTestParameterTable extends GWTTestCase {
     }
   }
 
-  private void setDatabaseConnection(InputParameterSqlIteratorWidget widget) {
+  private void setDatabaseConnection(InputParameterDatabaseConnectionWidget widget) {
     DatabaseConnection dbConnection = new DatabaseConnection();
     dbConnection.setUrl("url");
     dbConnection.setPassword("password");
     dbConnection.setUsername("username");
     dbConnection.setSystem(DbSystem.DB2);
 
-    for (SqlIteratorInput sqlIteratorInput : widget.inputWidgets) {
-      sqlIteratorInput.listbox.addValue("url");
-      sqlIteratorInput.databaseConnections.put("url", dbConnection);
-      sqlIteratorInput.listbox.setSelectedValue("url");
+    for (DatabaseConnectionInput databaseConnectionInput : widget.inputWidgets) {
+      databaseConnectionInput.listbox.addValue("url");
+      databaseConnectionInput.databaseConnections.put("url", dbConnection);
+      databaseConnectionInput.listbox.setSelectedValue("url");
     }
   }
 
@@ -244,7 +244,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     String identifierCsv = "csvParam";
     ConfigurationRequirement csvParam = new ConfigurationRequirementFileInput(identifierCsv);
     String identifierSql = "sqlParam";
-    ConfigurationRequirement sqlParam = new ConfigurationRequirementDatabaseConnection(identifierSql);
+    ConfigurationRequirement
+        sqlParam =
+        new ConfigurationRequirementDatabaseConnection(identifierSql);
     String identifierListbox = "listboxParam";
     ConfigurationRequirementListBox
         listboxParam =
@@ -267,10 +269,10 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertTrue(boolWidget instanceof InputParameterBooleanWidget);
     assertEquals(identifierBoolean, boolWidget.getSpecification().getIdentifier());
 
-    assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
+    assertTrue(csvWidget instanceof InputParameterFileInputWidget);
     assertEquals(identifierCsv, csvWidget.getSpecification().getIdentifier());
 
-    assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
+    assertTrue(sqlWidget instanceof InputParameterDatabaseConnectionWidget);
     assertEquals(identifierSql, sqlWidget.getSpecification().getIdentifier());
 
     assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
@@ -339,11 +341,11 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertTrue(integerWidget instanceof InputParameterIntegerWidget);
     assertEquals(2, ((InputParameterIntegerWidget) integerWidget).getWidgetCount());
 
-    assertTrue(csvWidget instanceof InputParameterCsvFileWidget);
-    assertEquals(2, ((InputParameterCsvFileWidget) csvWidget).getWidgetCount());
+    assertTrue(csvWidget instanceof InputParameterFileInputWidget);
+    assertEquals(2, ((InputParameterFileInputWidget) csvWidget).getWidgetCount());
 
-    assertTrue(sqlWidget instanceof InputParameterSqlIteratorWidget);
-    assertEquals(2, ((InputParameterSqlIteratorWidget) sqlWidget).getWidgetCount());
+    assertTrue(sqlWidget instanceof InputParameterDatabaseConnectionWidget);
+    assertEquals(2, ((InputParameterDatabaseConnectionWidget) sqlWidget).getWidgetCount());
 
     assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
     assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());

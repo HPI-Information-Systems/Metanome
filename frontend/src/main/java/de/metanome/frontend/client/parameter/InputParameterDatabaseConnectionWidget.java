@@ -17,34 +17,34 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
+import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
 import de.metanome.frontend.client.input_fields.InputField;
-import de.metanome.frontend.client.input_fields.SqlIteratorInput;
 
 import java.util.List;
 
-public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWidget {
+public class InputParameterDatabaseConnectionWidget extends InputParameterDataSourceWidget {
 
-  protected List<SqlIteratorInput> inputWidgets;
+  protected List<DatabaseConnectionInput> inputWidgets;
   protected TabWrapper messageReceiver;
   /**
    * Corresponding inputParameter, where the value is going to be written
    */
   private ConfigurationRequirementDatabaseConnection specification;
 
-  public InputParameterSqlIteratorWidget(ConfigurationRequirementDatabaseConnection config,
-                                         TabWrapper wrapper) {
+  public InputParameterDatabaseConnectionWidget(ConfigurationRequirementDatabaseConnection config,
+                                                TabWrapper wrapper) {
     super(config, wrapper);
   }
 
   @Override
   protected void addInputField(boolean optional) {
-    SqlIteratorInput widget = new SqlIteratorInput(optional, messageReceiver);
+    DatabaseConnectionInput widget = new DatabaseConnectionInput(optional, messageReceiver);
     this.inputWidgets.add(widget);
     this.add(widget);
   }
@@ -84,13 +84,13 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   }
 
   @Override
-  public List<SqlIteratorInput> getInputWidgets() {
+  public List<DatabaseConnectionInput> getInputWidgets() {
     return this.inputWidgets;
   }
 
   @Override
   public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-    this.inputWidgets = (List<SqlIteratorInput>) inputWidgetsList;
+    this.inputWidgets = (List<DatabaseConnectionInput>) inputWidgetsList;
   }
 
   @Override

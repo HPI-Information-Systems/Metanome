@@ -26,14 +26,14 @@ import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
 /**
- * Tests for {@link de.metanome.frontend.client.input_fields.CsvFileInput}
+ * Tests for {@link FileInputInput}
  */
-public class GwtTestCsvFileInput extends GWTTestCase {
+public class GwtTestFileInputInput extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.CsvFileInput#CsvFileInput(boolean,
-   * de.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the optional
-   * parameter should be set correctly and all widgets should be initialized.
+   * Test method for {@link FileInputInput#FileInputInput(boolean, de.metanome.frontend.client.TabWrapper)}
+   * <p/> After calling the constructor the optional parameter should be set correctly and all
+   * widgets should be initialized.
    */
   public void testConstructor() {
     // Set up
@@ -46,20 +46,19 @@ public class GwtTestCsvFileInput extends GWTTestCase {
     boolean expectedOptional = true;
 
     // Execute functionality
-    CsvFileInput actualCsvFileInput = new CsvFileInput(expectedOptional, tabWrapper);
+    FileInputInput actualFileInputInput = new FileInputInput(expectedOptional, tabWrapper);
 
     // Check result
-    assertEquals(expectedOptional, actualCsvFileInput.isOptional);
-    assertEquals(2, actualCsvFileInput.getWidgetCount());
-    assertNotNull(actualCsvFileInput.listbox);
+    assertEquals(expectedOptional, actualFileInputInput.isOptional);
+    assertEquals(2, actualFileInputInput.getWidgetCount());
+    assertNotNull(actualFileInputInput.listbox);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.CsvFileInput#getValues()} and
-   * {@link de.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
+   * Test method for {@link FileInputInput#getValues()} and {@link FileInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
@@ -74,20 +73,20 @@ public class GwtTestCsvFileInput extends GWTTestCase {
         new ConfigurationSettingFileInput("filename");
 
     // Initialize CsvFileInput (waiting for fetching all current file inputs)
-    final CsvFileInput csvFileInputs = new CsvFileInput(false, new TabWrapper());
+    final FileInputInput fileInputInputs = new FileInputInput(false, new TabWrapper());
 
-    csvFileInputs.listbox.addValue("filename");
-    csvFileInputs.fileInputs.put("filename", fileInput);
+    fileInputInputs.listbox.addValue("filename");
+    fileInputInputs.fileInputs.put("filename", fileInput);
 
     try {
-      csvFileInputs.setValues(expectedSetting);
+      fileInputInputs.setValues(expectedSetting);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
 
     ConfigurationSettingFileInput actualSetting = null;
     try {
-      actualSetting = csvFileInputs.getValues();
+      actualSetting = fileInputInputs.getValues();
     } catch (InputValidationException e) {
       fail();
     }

@@ -21,7 +21,8 @@ import com.google.common.base.Joiner;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
-public class ConfigurationSettingTableInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+public class ConfigurationSettingTableInput
+    implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
 
   private static final long serialVersionUID = 3242593091096735218L;
@@ -32,9 +33,11 @@ public class ConfigurationSettingTableInput implements ConfigurationSettingDataS
   /**
    * Exists for GWT serialization.
    */
-  protected ConfigurationSettingTableInput() {}
+  public ConfigurationSettingTableInput() {
+  }
 
-  public ConfigurationSettingTableInput(String table, ConfigurationSettingDatabaseConnection databaseConnection) {
+  public ConfigurationSettingTableInput(String table,
+                                        ConfigurationSettingDatabaseConnection databaseConnection) {
     this.table = table;
     this.databaseConnection = databaseConnection;
   }

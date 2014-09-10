@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Claudia Exeler
  * @see de.metanome.backend.results_db.DatabaseConnection
  */
-public class SqlIteratorInput extends InputField {
+public class DatabaseConnectionInput extends InputField {
 
   public ListBoxInput listbox;
   public Map<String, DatabaseConnection> databaseConnections;
@@ -50,7 +50,7 @@ public class SqlIteratorInput extends InputField {
    */
   private String preselectedDatabaseConnection;
 
-  public SqlIteratorInput(boolean optional, TabWrapper messageReceiver) {
+  public DatabaseConnectionInput(boolean optional, TabWrapper messageReceiver) {
     super(optional);
 
     this.messageReceiver = messageReceiver;
@@ -127,7 +127,9 @@ public class SqlIteratorInput extends InputField {
     }
 
     if (dataSourceSetting instanceof ConfigurationSettingDatabaseConnection) {
-      ConfigurationSettingDatabaseConnection setting = (ConfigurationSettingDatabaseConnection) dataSourceSetting;
+      ConfigurationSettingDatabaseConnection
+          setting =
+          (ConfigurationSettingDatabaseConnection) dataSourceSetting;
       this.setValues(setting);
     } else {
       throw new AlgorithmConfigurationException("This is not a sql iterator setting.");
@@ -149,9 +151,9 @@ public class SqlIteratorInput extends InputField {
     DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(selectedValue);
 
     return new ConfigurationSettingDatabaseConnection(currentDatabaseConnection.getUrl(),
-                                               currentDatabaseConnection.getUsername(),
-                                               currentDatabaseConnection.getPassword(),
-                                               currentDatabaseConnection.getSystem());
+                                                      currentDatabaseConnection.getUsername(),
+                                                      currentDatabaseConnection.getPassword(),
+                                                      currentDatabaseConnection.getSystem());
   }
 
   /**

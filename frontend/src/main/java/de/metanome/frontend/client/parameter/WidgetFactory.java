@@ -47,12 +47,13 @@ public class WidgetFactory {
                                          messageReceiver);
     } else if (config instanceof ConfigurationRequirementFileInput) {
       widget =
-          new InputParameterCsvFileWidget((ConfigurationRequirementFileInput) config,
-                                          messageReceiver);
+          new InputParameterFileInputWidget((ConfigurationRequirementFileInput) config,
+                                            messageReceiver);
     } else if (config instanceof ConfigurationRequirementDatabaseConnection) {
       widget =
-          new InputParameterSqlIteratorWidget((ConfigurationRequirementDatabaseConnection) config,
-                                              messageReceiver);
+          new InputParameterDatabaseConnectionWidget(
+              (ConfigurationRequirementDatabaseConnection) config,
+              messageReceiver);
     } else if (config instanceof ConfigurationRequirementInteger) {
       widget =
           new InputParameterIntegerWidget((ConfigurationRequirementInteger) config,

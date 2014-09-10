@@ -17,20 +17,20 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.input_fields.CsvFileInput;
+import de.metanome.frontend.client.input_fields.FileInputInput;
 import de.metanome.frontend.client.input_fields.InputField;
 
 import java.util.List;
 
-public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget {
+public class InputParameterFileInputWidget extends InputParameterDataSourceWidget {
 
-  protected List<CsvFileInput> inputWidgets;
+  protected List<FileInputInput> inputWidgets;
   protected TabWrapper messageReceiver;
 
   /**
@@ -38,14 +38,14 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
    */
   private ConfigurationRequirementFileInput specification;
 
-  public InputParameterCsvFileWidget(ConfigurationRequirementFileInput configSpec,
-                                     TabWrapper messageReceiver) {
+  public InputParameterFileInputWidget(ConfigurationRequirementFileInput configSpec,
+                                       TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
 
   @Override
   protected void addInputField(boolean optional) {
-    CsvFileInput widget = new CsvFileInput(optional, messageReceiver);
+    FileInputInput widget = new FileInputInput(optional, messageReceiver);
     this.inputWidgets.add(widget);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(widget, index);
@@ -91,7 +91,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
 
   @Override
   public void setInputWidgets(List<? extends InputField> inputWidgetsList) {
-    this.inputWidgets = (List<CsvFileInput>) inputWidgetsList;
+    this.inputWidgets = (List<FileInputInput>) inputWidgetsList;
   }
 
   @Override
