@@ -16,34 +16,53 @@
 
 package de.metanome.backend.input.sql;
 
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
+/**
+ * Provides database tables as {@link RelationalInput} by executing select statements on an
+ * underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator}.
+ *
+ * @author Jakob Zwiener
+ * @see de.metanome.algorithm_integration.input.RelationalInput
+ * @see de.metanome.backend.input.sql.SqlIteratorGenerator
+ */
 public class DefaultTableInputGenerator implements RelationalInputGenerator {
 
-  protected SqlIteratorGenerator sqlIteratorGenerator;
-  protected String tableName;
+  protected static final String BASE_STATEMENT = "SELECT * FROM ";
 
-  public DefaultTableInputGenerator(SqlIteratorGenerator sqlIteratorGenerator) {
+  protected SqlIteratorGenerator sqlIteratorGenerator;
+  protected String table;
+
+  /**
+   * Exists for tests.
+   */
+  protected DefaultTableInputGenerator(SqlIteratorGenerator sqlIteratorGenerator, String table) {
     this.sqlIteratorGenerator = sqlIteratorGenerator;
+    this.table = table;
   }
 
+  /**
+   * @param setting the table input setting to construct the table input generator from
+   * @throws AlgorithmConfigurationException is thrown if the underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator} cannot be instantiated.
+   */
   public DefaultTableInputGenerator(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException {
-    this.tableName = setting.getTable();
     this.sqlIteratorGenerator = new SqlIteratorGenerator(setting.getDatabaseConnection());
+    this.table = setting.getTable();
   }
 
+  /**
+   * Generates a new {@link de.metanome.algorithm_integration.input.RelationalInput} to iterate over the data in the table.
+   *
+   * @return the {@link de.metanome.algorithm_integration.input.RelationalInput}
+   * @throws InputGenerationException if the sql statement could not be executed
+   */
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
-    return sqlIteratorGenerator.generateRelationalInputFromSql(buildStatement());
-  }
-
-  private String buildStatement() {
-    return null;
+    return sqlIteratorGenerator.generateRelationalInputFromSql(BASE_STATEMENT + table);
   }
 }

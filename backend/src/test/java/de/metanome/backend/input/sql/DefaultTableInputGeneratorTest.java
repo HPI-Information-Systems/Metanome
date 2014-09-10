@@ -16,6 +16,40 @@
 
 package de.metanome.backend.input.sql;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
+
+import org.junit.Test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+/**
+ * Tests for {@link de.metanome.backend.input.sql.DefaultTableInputGenerator}
+ *
+ * @author Jakob Zwiener
+ */
 public class DefaultTableInputGeneratorTest {
 
+  /**
+   * Test method for {@link DefaultTableInputGenerator#generateNewCopy()}
+   *
+   * The table input generator should call the underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator}
+   * to execute a select table for the given table.
+   */
+  @Test
+  public void testGenerateNewCopy() throws InputGenerationException {
+    // Setup
+    // Expected values
+    SqlIteratorGenerator sqlIteratorGenerator = mock(SqlIteratorGenerator.class);
+    String expectedTable = "some table";
+    DefaultTableInputGenerator tableInputGenerator =
+        new DefaultTableInputGenerator(sqlIteratorGenerator, expectedTable);
+
+    // Execute functionality
+    tableInputGenerator.generateNewCopy();
+
+    // Check result
+    verify(sqlIteratorGenerator)
+        .generateRelationalInputFromSql(DefaultTableInputGenerator.BASE_STATEMENT + expectedTable);
+  }
 }
