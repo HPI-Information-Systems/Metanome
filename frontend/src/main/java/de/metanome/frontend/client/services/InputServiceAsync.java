@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.client.input_fields;
+package de.metanome.frontend.client.services;
 
-/**
- * Created by tanja on 10.09.14.
- */
-public class RelationaInputInput {
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.metanome.backend.results_db.Input;
+
+import java.util.List;
+
+public interface InputServiceAsync {
+
+  void listInputs(AsyncCallback<List<Input>> async);
 }

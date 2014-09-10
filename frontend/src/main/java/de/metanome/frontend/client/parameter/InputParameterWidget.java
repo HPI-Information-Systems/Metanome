@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
@@ -101,7 +102,7 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
    * @throws InputValidationException if the specification is invalid
    */
   public abstract ConfigurationRequirement getUpdatedSpecification()
-      throws InputValidationException;
+      throws InputValidationException, AlgorithmConfigurationException;
 
   /**
    * @return true, if the input field represents a data source input, false otherwise

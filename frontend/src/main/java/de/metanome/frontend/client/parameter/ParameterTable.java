@@ -89,7 +89,7 @@ public class ParameterTable extends FlexTable {
    * When parameter values are submitted, their values are set and used to call the execution
    * service corresponding to the current tab.
    */
-  public void submit() {
+  public void submit() throws AlgorithmConfigurationException {
     try {
       List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
       List<ConfigurationRequirement> dataSources =
@@ -111,7 +111,7 @@ public class ParameterTable extends FlexTable {
    *                                                                      input
    */
   public List<ConfigurationRequirement> getConfigurationSpecificationDataSourcesWithValues()
-      throws InputValidationException {
+      throws InputValidationException, AlgorithmConfigurationException {
     LinkedList<ConfigurationRequirement> parameterList = new LinkedList<>();
 
     for (InputParameterDataSourceWidget childWidget : this.dataSourceChildWidgets) {
@@ -131,7 +131,7 @@ public class ParameterTable extends FlexTable {
    *                                                                      input
    */
   public List<ConfigurationRequirement> getConfigurationSpecificationsWithValues()
-      throws InputValidationException {
+      throws InputValidationException, AlgorithmConfigurationException {
     LinkedList<ConfigurationRequirement> parameterList = new LinkedList<>();
 
     for (InputParameterWidget childWidget : this.childWidgets) {

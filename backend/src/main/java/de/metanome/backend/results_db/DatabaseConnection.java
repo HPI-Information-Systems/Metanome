@@ -149,4 +149,9 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
   public int hashCode() {
     return (int) (id ^ (id >>> 32));
   }
+
+  public String getIdentifier() {
+    return url + "; " + username + "; " + system.name();
+  }
+
 }

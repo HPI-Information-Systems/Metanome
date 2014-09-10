@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.client.parameter;
+package de.metanome.frontend.client.services;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.backend.results_db.Input;
 
-public class ParameterTableSubmitHandler implements ClickHandler {
+import java.util.List;
 
-  @Override
-  public void onClick(ClickEvent event) {
-    ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();
-    try {
-      paramTable.submit();
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace(); // Todo
-    }
-  }
+@RemoteServiceRelativePath("inputService")
+public interface InputService extends RemoteService {
+
+  public List<Input> listInputs();
 
 }
+

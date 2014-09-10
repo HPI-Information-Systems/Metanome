@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
  *
  * @author Jakob Zwiener
  */
-public interface ConfigurationSettingRelationalInput extends IsSerializable {
+public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
 
   public abstract void generate(RelationalInputGeneratorInitializer generator)
       throws FileNotFoundException, AlgorithmConfigurationException;

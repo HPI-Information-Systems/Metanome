@@ -153,4 +153,18 @@ public class FileInputTest {
     // Cleanup
     HibernateUtil.clear();
   }
+
+  @Test
+  public void testGetIdentifier() {
+    // Setup
+    String fileName = "name";
+
+    FileInput input = new FileInput(fileName);
+
+    // Execute
+    String actualIdentifier = input.getIdentifier();
+
+    // Check
+    assertEquals(fileName, actualIdentifier);
+  }
 }

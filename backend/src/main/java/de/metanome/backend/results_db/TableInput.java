@@ -96,4 +96,10 @@ public class TableInput extends Input implements Serializable {
 
     return this;
   }
+
+  @Override
+  public String getIdentifier() {
+    return tableName + "; " + databaseConnection.getIdentifier();
+  }
+
 }

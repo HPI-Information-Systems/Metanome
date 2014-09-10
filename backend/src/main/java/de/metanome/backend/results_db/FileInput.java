@@ -205,4 +205,10 @@ public class FileInput extends Input implements Serializable {
 
     return this;
   }
+
+  @Override
+  public String getIdentifier() {
+    return fileName;
+  }
+
 }

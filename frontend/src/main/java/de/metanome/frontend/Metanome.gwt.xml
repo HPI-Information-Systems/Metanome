@@ -40,6 +40,8 @@
              class="de.metanome.frontend.server.DatabaseConnectionServiceImpl"/>
     <servlet path="/tableInputService"
              class="de.metanome.frontend.server.TableInputServiceImpl"/>
+    <servlet path="/inputService"
+             class="de.metanome.frontend.server.InputServiceImpl"/>
 
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
     <add-linker name="xsiframe"/>

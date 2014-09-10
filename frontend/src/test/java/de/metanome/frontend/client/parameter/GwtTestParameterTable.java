@@ -118,7 +118,8 @@ public class GwtTestParameterTable extends GWTTestCase {
    * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()} and
    * for {@link ParameterTable#getConfigurationSpecificationsWithValues()}
    */
-  public void testRetrieveSimpleParameterValues() throws InputValidationException {
+  public void testRetrieveSimpleParameterValues()
+      throws InputValidationException, AlgorithmConfigurationException {
     //Setup
     TestHelper.resetDatabaseSync();
 

@@ -110,5 +110,7 @@ public class Input extends ResultsDbEntity implements Serializable {
     return (int) (id ^ (id >>> 32));
   }
 
-
+  public String getIdentifier() {
+    return String.valueOf(id);
+  }
 }
