@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueSqlInputGeneratorTest {
+public class ConfigurationValueDatabaseConnectionGeneratorTest {
 
   /**
    * Test method for {@link ConfigurationValueSqlInputGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
@@ -51,9 +51,9 @@ public class ConfigurationValueSqlInputGeneratorTest {
     interfaces.add(SqlInputParameterAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
-    SqlInputGenerator[]
+    DatabaseConnectionGenerator[]
         expectedConfigurationValue =
-        {mock(SqlInputGenerator.class), mock(SqlInputGenerator.class)};
+        {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
     ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
@@ -79,9 +79,9 @@ public class ConfigurationValueSqlInputGeneratorTest {
     interfaces.add(ProgressEstimatingAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
-    SqlInputGenerator[]
+    DatabaseConnectionGenerator[]
         expectedConfigurationValues =
-        {mock(SqlInputGenerator.class), mock(SqlInputGenerator.class)};
+        {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
     ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(

@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link de.metanome.backend.input.sql.SqlIterator}
+ * Tests for {@link ResultSetIterator}
  *
  * @author Jakob Zwiener
  */

@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SqlIterator implements RelationalInput {
+public class ResultSetIterator implements RelationalInput {
 
   protected ResultSet resultSet;
   protected int numberOfColumns;
@@ -36,7 +36,7 @@ public class SqlIterator implements RelationalInput {
   protected String relationName;
   protected ImmutableList<String> columnNames;
 
-  public SqlIterator(ResultSet resultSet) throws SQLException {
+  public ResultSetIterator(ResultSet resultSet) throws SQLException {
     this.resultSet = resultSet;
     ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
     this.numberOfColumns = resultSetMetaData.getColumnCount();

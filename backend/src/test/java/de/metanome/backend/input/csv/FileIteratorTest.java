@@ -33,19 +33,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for {@link de.metanome.backend.input.csv.CsvFile}
+ * Tests for {@link FileIterator}
  *
  * @author Jakbo Zwiener
  */
-public class CsvFileTest {
+public class FileIteratorTest {
 
   CsvFileOneLineFixture fixture;
-  CsvFile csvFile;
+  FileIterator fileIterator;
 
   @Before
   public void setUp() throws Exception {
     this.fixture = new CsvFileOneLineFixture();
-    this.csvFile = this.fixture.getTestData();
+    this.fileIterator = this.fixture.getTestData();
   }
 
   @After
@@ -58,9 +58,9 @@ public class CsvFileTest {
   @Test
   public void testHasNext() throws InputIterationException {
     // Check result
-    assertTrue(this.csvFile.hasNext());
-    this.csvFile.next();
-    assertFalse(this.csvFile.hasNext());
+    assertTrue(this.fileIterator.hasNext());
+    this.fileIterator.next();
+    assertFalse(this.fileIterator.hasNext());
   }
 
   /**
@@ -69,7 +69,7 @@ public class CsvFileTest {
   @Test
   public void testNext() throws InputIterationException {
     // Check result
-    assertEquals(this.fixture.getExpectedStrings(), this.csvFile.next());
+    assertEquals(this.fixture.getExpectedStrings(), this.fileIterator.next());
   }
 
   /**
@@ -80,14 +80,14 @@ public class CsvFileTest {
   public void testNextSeparator() throws InputIterationException, InputGenerationException {
     // Setup
     CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
-    CsvFile csvFileSeparator = fixtureSeparator.getTestData();
+    FileIterator csvFileSeparator = fixtureSeparator.getTestData();
 
     // Check result
     assertEquals(fixtureSeparator.getExpectedStrings(), csvFileSeparator.next());
   }
 
   /**
-   * Test method for {@link CsvFile#next()}
+   * Test method for {@link FileIterator#next()}
    *
    * A csv with differing line lengths should be partially parsable if the skipDifferingLines
    * parameter is set to true.
@@ -96,7 +96,7 @@ public class CsvFileTest {
   public void testParseThroughErrors() throws InputGenerationException, InputIterationException {
     // Setup
     CsvFileShortLineFixture shortLineFixture = new CsvFileShortLineFixture();
-    CsvFile csvFileThroughErrors = shortLineFixture.getTestData(true);
+    FileIterator csvFileThroughErrors = shortLineFixture.getTestData(true);
 
     // Execute functionality
     // Check result
@@ -107,15 +107,15 @@ public class CsvFileTest {
   }
 
   /**
-   * Test method for {@link CsvFile#next()} <p/> The first line in the csv should determine the line
-   * length (it could be the header). Every next line should have this length or an {@link
+   * Test method for {@link FileIterator#next()} <p/> The first line in the csv should determine the
+   * line length (it could be the header). Every next line should have this length or an {@link
    * de.metanome.algorithm_integration.input.InputIterationException} should be thrown.
    */
   @Test
   public void testShortWithHeader() throws InputIterationException {
     // Setup
     CsvFileShortLineWithHeaderFixture shortLineFixture = new CsvFileShortLineWithHeaderFixture();
-    CsvFile csvFileShortWithHeader = shortLineFixture.getTestData();
+    FileIterator csvFileShortWithHeader = shortLineFixture.getTestData();
 
     // Execute functionality
     // Check result
@@ -128,7 +128,7 @@ public class CsvFileTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.input.csv.CsvFile#next()}
+   * Test method for {@link FileIterator#next()}
    *
    * A valid csv file without differing lines should be parsable with the skipDifferingLines
    * parameter set.
@@ -137,7 +137,7 @@ public class CsvFileTest {
   public void testParseCorrectFileWithSkipDifferingLines() throws InputIterationException {
     // Setup
     CsvFileFixture csvFileFixture = new CsvFileFixture();
-    CsvFile multiLineCsvFile = csvFileFixture.getTestData(true);
+    FileIterator multiLineCsvFile = csvFileFixture.getTestData(true);
 
     // Execute functionality
     // Check result
@@ -147,14 +147,14 @@ public class CsvFileTest {
   }
 
   /**
-   * Test method for {@link CsvFile#next()}
+   * Test method for {@link FileIterator#next()}
    *
    * When iterating over a csv file with alternating line length an exception should be thrown.
    */
   @Test
   public void testShort() throws InputIterationException, InputGenerationException {
     // Setup
-    CsvFile shortCsvFile = new CsvFileShortLineFixture().getTestData();
+    FileIterator shortCsvFile = new CsvFileShortLineFixture().getTestData();
 
     // Check result
     try {
@@ -167,60 +167,60 @@ public class CsvFileTest {
   }
 
   /**
-   * Test method for {@link CsvFile#numberOfColumns()} <p/> A {@link CsvFile} should return the
-   * correct number of columns of the file.
+   * Test method for {@link FileIterator#numberOfColumns()} <p/> A {@link FileIterator} should
+   * return the correct number of columns of the file.
    */
   @Test
   public void testNumberOfColumns() throws InputIterationException, InputGenerationException {
     // Setup
     CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
-    CsvFile csvFile = fixtureSeparator.getTestData();
+    FileIterator fileIterator = fixtureSeparator.getTestData();
 
     // Check result
-    assertEquals(fixture.getExpectedNumberOfColumns(), csvFile.numberOfColumns());
+    assertEquals(fixture.getExpectedNumberOfColumns(), fileIterator.numberOfColumns());
   }
 
   /**
-   * Test method for {@link CsvFile#relationName()} <p/> A {@link CsvFile} should return a relation
-   * name.
+   * Test method for {@link FileIterator#relationName()} <p/> A {@link FileIterator} should return a
+   * relation name.
    */
   @Test
   public void testRelationName() throws InputIterationException, InputGenerationException {
     // Setup
     CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
-    CsvFile csvFile = fixtureSeparator.getTestData();
+    FileIterator fileIterator = fixtureSeparator.getTestData();
 
     // Execute functionality
     // Check result
-    assertEquals(fixture.getExpectedRelationName(), csvFile.relationName());
+    assertEquals(fixture.getExpectedRelationName(), fileIterator.relationName());
   }
 
   /**
-   * Test method for {@link CsvFile#columnNames()} <p/> A {@link CsvFile} should return the correct
-   * column names.
+   * Test method for {@link FileIterator#columnNames()} <p/> A {@link FileIterator} should return
+   * the correct column names.
    */
   @Test
   public void testColumnNames() throws InputIterationException, InputGenerationException {
     // Setup
     CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
-    CsvFile csvFile = fixtureSeparator.getTestData();
+    FileIterator fileIterator = fixtureSeparator.getTestData();
 
     // Execute functionality
     // Check result
-    assertEquals(fixture.getExpectedColumnNames(), csvFile.columnNames());
+    assertEquals(fixture.getExpectedColumnNames(), fileIterator.columnNames());
   }
 
   /**
-   * Test method for {@link CsvFile#generateHeaderLine()} <p/> A {@link CsvFile} should return the
-   * correct header names.
+   * Test method for {@link FileIterator#generateHeaderLine()} <p/> A {@link FileIterator} should
+   * return the correct header names.
    */
   @Test
   public void testGenerateHeaderLine() throws InputIterationException, InputGenerationException {
     // Setup
     CsvFileOneLineFixture fixtureSeparator = new CsvFileOneLineFixture(';');
 
-    CsvFile csvFileWithHeader = fixtureSeparator.getTestData();
-    CsvFile csvFileWithoutHeader = fixtureSeparator.getTestDataWithoutHeader();
+    FileIterator csvFileWithHeader = fixtureSeparator.getTestData();
+    FileIterator csvFileWithoutHeader = fixtureSeparator.getTestDataWithoutHeader();
 
     // Execute functionality
     // Check result
@@ -230,41 +230,42 @@ public class CsvFileTest {
   }
 
   /**
-   * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char)} <p/> A {@link
-   * CsvFile} generated from an empty file should be constructable without exceptions, return false
-   * on hasNext, return 0 as numberOfColumns and have a valid standard header.
+   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, char, char)} <p/> A
+   * {@link FileIterator} generated from an empty file should be constructable without exceptions,
+   * return false on hasNext, return 0 as numberOfColumns and have a valid standard header.
    */
   @Test
   public void testConstructWithEmptyFile() throws InputIterationException, IOException {
     // Execute functionality
     // Check result
     // Should not throw exception
-    CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"');
-    assertFalse(csvFile.hasNext());
-    assertEquals(0, csvFile.numberOfColumns());
-    assertNotNull(csvFile.columnNames());
+    FileIterator fileIterator = new FileIterator("testRelation", new StringReader(""), ',', '"');
+    assertFalse(fileIterator.hasNext());
+    assertEquals(0, fileIterator.numberOfColumns());
+    assertNotNull(fileIterator.columnNames());
 
     // Cleanup
-    csvFile.close();
+    fileIterator.close();
   }
 
   /**
-   * Test method for {@link CsvFile#CsvFile(String, java.io.Reader, char, char, int, boolean)} <p/>
-   * A {@link CsvFile} with header generated from an empty file should be constructable without
-   * exceptions, return false on hasNext, return 0 as numberOfColumns and have a valid standard
-   * header.
+   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, char, char, int,
+   * boolean)} <p/> A {@link FileIterator} with header generated from an empty file should be
+   * constructable without exceptions, return false on hasNext, return 0 as numberOfColumns and have
+   * a valid standard header.
    */
   @Test
   public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
     // Execute functionality
     // Check result
     // Should not throw exception
-    CsvFile csvFile = new CsvFile("testRelation", new StringReader(""), ',', '"', 0, true);
-    assertFalse(csvFile.hasNext());
-    assertEquals(0, csvFile.numberOfColumns());
-    assertNotNull(csvFile.columnNames());
+    FileIterator
+        fileIterator = new FileIterator("testRelation", new StringReader(""), ',', '"', 0, true);
+    assertFalse(fileIterator.hasNext());
+    assertEquals(0, fileIterator.numberOfColumns());
+    assertNotNull(fileIterator.columnNames());
 
     // Cleanup
-    csvFile.close();
+    fileIterator.close();
   }
 }

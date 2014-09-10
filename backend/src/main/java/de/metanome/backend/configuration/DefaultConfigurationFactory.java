@@ -21,15 +21,15 @@ import de.metanome.algorithm_integration.configuration.ConfigurationFactory;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
-import de.metanome.backend.input.csv.CsvFileGenerator;
+import de.metanome.backend.input.csv.DefaultFileInputGenerator;
 import de.metanome.backend.input.sql.SqlIteratorGenerator;
 
 import java.io.File;
@@ -44,12 +44,12 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
 
   /**
    * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
-   * to a {@link de.metanome.algorithm_integration.input.SqlInputGenerator}.
+   * to a {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}.
    *
    * @param specification the sql iterator specification
    * @return the created sql input generator
    */
-  private static SqlInputGenerator[] createSqlIteratorGenerators(
+  private static DatabaseConnectionGenerator[] createSqlIteratorGenerators(
       ConfigurationRequirementDatabaseConnection specification) throws AlgorithmConfigurationException {
 
     SqlIteratorGenerator[]
@@ -76,14 +76,16 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   private static FileInputGenerator[] createFileInputGenerators(
       ConfigurationRequirementFileInput specification) throws AlgorithmConfigurationException {
 
-    CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];
+    DefaultFileInputGenerator[]
+        defaultFileInputGenerators =
+        new DefaultFileInputGenerator[specification.getSettings().length];
 
     int i = 0;
     for (ConfigurationSettingFileInput setting : specification.getSettings()) {
       try {
         if (setting.isAdvanced()) {
-          csvFileGenerators[i] =
-              new CsvFileGenerator(new File(setting.getFileName()),
+          defaultFileInputGenerators[i] =
+              new DefaultFileInputGenerator(new File(setting.getFileName()),
                                    setting.getSeparatorChar(),
                                    setting.getQuoteChar(),
                                    setting.getEscapeChar(),
@@ -93,7 +95,8 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
                                    setting.hasHeader(),
                                    setting.isSkipDifferingLines());
         } else {
-          csvFileGenerators[i] = new CsvFileGenerator(new File(setting.getFileName()));
+          defaultFileInputGenerators[i] =
+              new DefaultFileInputGenerator(new File(setting.getFileName()));
         }
       } catch (FileNotFoundException e) {
         throw new AlgorithmConfigurationException("Could not find CSV file.");
@@ -101,7 +104,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
       i++;
     }
 
-    return csvFileGenerators;
+    return defaultFileInputGenerators;
   }
 
   /**

@@ -18,10 +18,10 @@ package de.metanome.algorithm_integration.algorithm_types;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 /**
- * An {@link Algorithm} that takes {@link de.metanome.algorithm_integration.input.SqlInputGenerator}
+ * An {@link Algorithm} that takes {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}
  * configuration values.
  *
  * @author Jakob Zwiener
@@ -39,7 +39,7 @@ public interface SqlInputParameterAlgorithm extends Algorithm {
    *                                                                           received configuration
    *                                                                           values
    */
-  void setSqlInputConfigurationValue(String identifier, SqlInputGenerator... values)
+  void setSqlInputConfigurationValue(String identifier, DatabaseConnectionGenerator... values)
       throws AlgorithmConfigurationException;
 
 }

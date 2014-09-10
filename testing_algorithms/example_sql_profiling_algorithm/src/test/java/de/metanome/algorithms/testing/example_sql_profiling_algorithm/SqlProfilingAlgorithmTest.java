@@ -19,7 +19,7 @@ package de.metanome.algorithms.testing.example_sql_profiling_algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -62,13 +62,13 @@ public class SqlProfilingAlgorithmTest {
 
   /**
    * Test method for {@link de.metanome.algorithms.testing.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setSqlInputConfigurationValue(String,
-   * de.metanome.algorithm_integration.input.SqlInputGenerator...)}
+   * de.metanome.algorithm_integration.input.DatabaseConnectionGenerator...)}
    */
   @Test
   public void testSetSqlInputConfigurationValue() throws AlgorithmConfigurationException {
     // Setup
     // Expected values
-    SqlInputGenerator expectedInputGenerator = mock(SqlInputGenerator.class);
+    DatabaseConnectionGenerator expectedInputGenerator = mock(DatabaseConnectionGenerator.class);
 
     // Execute functionality
     algorithm.setSqlInputConfigurationValue(SqlProfilingAlgorithm.SQL_IDENTIFIER,
@@ -84,7 +84,7 @@ public class SqlProfilingAlgorithmTest {
   @Test
   public void testExecute() throws AlgorithmConfigurationException {
     // Setup
-    SqlInputGenerator inputGenerator = mock(SqlInputGenerator.class);
+    DatabaseConnectionGenerator inputGenerator = mock(DatabaseConnectionGenerator.class);
     algorithm.setSqlInputConfigurationValue(SqlProfilingAlgorithm.SQL_IDENTIFIER, inputGenerator);
     // Expected values
     // TODO add asserts

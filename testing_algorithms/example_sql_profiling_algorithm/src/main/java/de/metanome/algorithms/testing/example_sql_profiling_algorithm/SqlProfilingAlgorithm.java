@@ -21,7 +21,7 @@ import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,10 +36,11 @@ public class SqlProfilingAlgorithm implements SqlInputParameterAlgorithm {
 
   public static final String SQL_IDENTIFIER = "sql identifier";
 
-  protected SqlInputGenerator inputGenerator;
+  protected DatabaseConnectionGenerator inputGenerator;
 
   @Override
-  public void setSqlInputConfigurationValue(String identifier, SqlInputGenerator... values)
+  public void setSqlInputConfigurationValue(String identifier,
+                                            DatabaseConnectionGenerator... values)
       throws AlgorithmConfigurationException {
 
     if (identifier.equals(SQL_IDENTIFIER)) {

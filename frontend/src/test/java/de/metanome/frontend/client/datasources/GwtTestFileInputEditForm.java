@@ -22,7 +22,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.input.csv.FileIterator;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.helpers.InputValidationException;
@@ -142,8 +142,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     assertEquals(CSVReader.DEFAULT_SKIP_LINES, input.getSkipLines());
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, input.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, input.isIgnoreLeadingWhiteSpace());
-    assertEquals(CsvFile.DEFAULT_HAS_HEADER, input.isHasHeader());
-    assertEquals(CsvFile.DEFAULT_SKIP_DIFFERING_LINES, input.isSkipDifferingLines());
+    assertEquals(FileIterator.DEFAULT_HAS_HEADER, input.isHasHeader());
+    assertEquals(FileIterator.DEFAULT_SKIP_DIFFERING_LINES, input.isSkipDifferingLines());
   }
 
 

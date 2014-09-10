@@ -17,9 +17,10 @@
 package de.metanome.backend.input.sql;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,14 +31,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Generates {@link de.metanome.backend.input.sql.SqlIterator}s or {@link java.sql.ResultSet}s for a
+ * Generates {@link ResultSetIterator}s or {@link java.sql.ResultSet}s for a
  * given query.
  *
  * @author Jakob Zwiener
- * @see de.metanome.backend.input.sql.SqlIterator
+ * @see ResultSetIterator
  * @see java.sql.ResultSet
  */
-public class SqlIteratorGenerator implements SqlInputGenerator {
+public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
 
   public static final int DEFAULT_FETCH_SIZE = 100;
   private int fetchSize = DEFAULT_FETCH_SIZE;
@@ -64,20 +65,25 @@ public class SqlIteratorGenerator implements SqlInputGenerator {
     }
   }
 
+  public SqlIteratorGenerator(ConfigurationSettingDatabaseConnection setting)
+      throws AlgorithmConfigurationException {
+    this(setting.getDbUrl(), setting.getUsername(), setting.getPassword());
+  }
+
   @Override
   public RelationalInput generateRelationalInputFromSql(String queryString)
       throws InputGenerationException {
 
     ResultSet resultSet = executeQuery(queryString);
 
-    SqlIterator sqlIterator;
+    ResultSetIterator resultSetIterator;
     try {
-      sqlIterator = new SqlIterator(resultSet);
+      resultSetIterator = new ResultSetIterator(resultSet);
     } catch (SQLException e) {
       throw new InputGenerationException("Could not construct sql input.");
     }
 
-    return sqlIterator;
+    return resultSetIterator;
   }
 
   /**

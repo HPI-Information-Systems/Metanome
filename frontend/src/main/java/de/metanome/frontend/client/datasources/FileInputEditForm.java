@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.input.csv.FileIterator;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
@@ -175,8 +175,8 @@ public class FileInputEditForm extends Grid {
     setSkipLines(CSVReader.DEFAULT_SKIP_LINES);
     setStrictQuotes(CSVParser.DEFAULT_STRICT_QUOTES);
     setIgnoreLeadingWhiteSpace(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
-    setHasHeader(CsvFile.DEFAULT_HAS_HEADER);
-    setSkipDifferingLines(CsvFile.DEFAULT_SKIP_DIFFERING_LINES);
+    setHasHeader(FileIterator.DEFAULT_HAS_HEADER);
+    setSkipDifferingLines(FileIterator.DEFAULT_SKIP_DIFFERING_LINES);
   }
 
   /**

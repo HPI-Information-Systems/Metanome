@@ -19,6 +19,7 @@ package de.metanome.backend.input.csv;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -34,7 +35,7 @@ import java.io.FileReader;
  *
  * @author Jakob Zwiener
  */
-public class CsvFileGenerator implements FileInputGenerator {
+public class DefaultFileInputGenerator implements FileInputGenerator {
 
   protected File inputFile;
   protected char separator = CSVParser.DEFAULT_SEPARATOR;
@@ -43,13 +44,13 @@ public class CsvFileGenerator implements FileInputGenerator {
   protected int skipLines = CSVReader.DEFAULT_SKIP_LINES;
   protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
   protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-  protected boolean hasHeader = CsvFile.DEFAULT_HAS_HEADER;
-  protected boolean skipDifferingLines = CsvFile.DEFAULT_SKIP_DIFFERING_LINES;
+  protected boolean hasHeader = FileIterator.DEFAULT_HAS_HEADER;
+  protected boolean skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
 
   /**
    * @param inputFile the csv input
    */
-  public CsvFileGenerator(File inputFile) throws FileNotFoundException {
+  public DefaultFileInputGenerator(File inputFile) throws FileNotFoundException {
     this.setInputFile(inputFile);
   }
 
@@ -65,10 +66,11 @@ public class CsvFileGenerator implements FileInputGenerator {
    * @param hasHeader               set if the csv has a header
    * @param skipDifferingLines      set if the csv file should skip lines with differing length
    */
-  public CsvFileGenerator(File inputFile, char separator, char quotechar, char escape,
-                          int skipLines,
-                          boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean hasHeader,
-                          boolean skipDifferingLines) throws FileNotFoundException {
+  public DefaultFileInputGenerator(File inputFile, char separator, char quotechar, char escape,
+                                   int skipLines,
+                                   boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
+                                   boolean hasHeader,
+                                   boolean skipDifferingLines) throws FileNotFoundException {
     this.setInputFile(inputFile);
     this.separator = separator;
     this.quotechar = quotechar;
@@ -80,10 +82,23 @@ public class CsvFileGenerator implements FileInputGenerator {
     this.skipDifferingLines = skipDifferingLines;
   }
 
+  public DefaultFileInputGenerator(ConfigurationSettingFileInput setting)
+      throws FileNotFoundException {
+    this.setInputFile(new File(setting.getFileName()));
+    this.separator = setting.getSeparatorChar();
+    this.quotechar = setting.getQuoteChar();
+    this.escape = setting.getEscapeChar();
+    this.skipLines = setting.getSkipLines();
+    this.strictQuotes = setting.isStrictQuotes();
+    this.ignoreLeadingWhiteSpace = setting.isIgnoreLeadingWhiteSpace();
+    this.hasHeader = setting.hasHeader();
+    this.skipDifferingLines = setting.isSkipDifferingLines();
+  }
+
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
-      return new CsvFile(inputFile.getName(), new FileReader(inputFile), separator, quotechar,
+      return new FileIterator(inputFile.getName(), new FileReader(inputFile), separator, quotechar,
                          escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader,
                          skipDifferingLines);
     } catch (FileNotFoundException e) {

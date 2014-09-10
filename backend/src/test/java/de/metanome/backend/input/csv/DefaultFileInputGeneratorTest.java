@@ -29,11 +29,11 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link CsvFileGenerator}
+ * Tests for {@link DefaultFileInputGenerator}
  *
  * @author Jakob Zwiener
  */
-public class CsvFileGeneratorTest {
+public class DefaultFileInputGeneratorTest {
 
   protected CsvFileFixture csvFileFixture;
   protected File expectedFile;
@@ -45,7 +45,7 @@ public class CsvFileGeneratorTest {
   protected boolean expectedIgnoreLeadingWhiteSpace;
   protected boolean expectedHasHeader;
   protected boolean expectedSkipDifferingLines;
-  protected CsvFileGenerator generator;
+  protected DefaultFileInputGenerator generator;
 
   @Before
   public void setUp() throws Exception {
@@ -60,9 +60,11 @@ public class CsvFileGeneratorTest {
     this.expectedHasHeader = true;
     this.expectedSkipDifferingLines = true;
     this.generator =
-        new CsvFileGenerator(expectedFile, expectedSeparator, expectedQuotechar, expectedEscape,
-                             expectedLine, expectedStrictQuotes, expectedIgnoreLeadingWhiteSpace,
-                             expectedHasHeader, expectedSkipDifferingLines);
+        new DefaultFileInputGenerator(expectedFile, expectedSeparator, expectedQuotechar,
+                                      expectedEscape,
+                                      expectedLine, expectedStrictQuotes,
+                                      expectedIgnoreLeadingWhiteSpace,
+                                      expectedHasHeader, expectedSkipDifferingLines);
   }
 
   @After
@@ -71,8 +73,8 @@ public class CsvFileGeneratorTest {
   }
 
   /**
-   * Test method for {@link CsvFileGenerator#CsvFileGenerator(java.io.File, char, char, char, int,
-   * boolean, boolean, boolean, boolean)}
+   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File, char,
+   * char, char, int, boolean, boolean, boolean, boolean)}
    *
    * The generator should store the file path correctly.
    */
@@ -91,7 +93,7 @@ public class CsvFileGeneratorTest {
   }
 
   /**
-   * Test method for {@link CsvFileGenerator#generateNewCopy()}
+   * Test method for {@link DefaultFileInputGenerator#generateNewCopy()}
    *
    * The generator should generate fresh csv files iterable from the start.
    */
@@ -101,7 +103,7 @@ public class CsvFileGeneratorTest {
     RelationalInput csv = generator.generateNewCopy();
 
     // Check result
-    assertEquals(expectedSkipDifferingLines, ((CsvFile) csv).skipDifferingLines);
+    assertEquals(expectedSkipDifferingLines, ((FileIterator) csv).skipDifferingLines);
     // The csv should contain both lines and iterate through them with next.
     assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
     assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
@@ -114,7 +116,7 @@ public class CsvFileGeneratorTest {
   }
 
   /**
-   * Test method for {@link CsvFileGenerator#getInputFile()}
+   * Test method for {@link DefaultFileInputGenerator#getInputFile()}
    */
   @Test
   public void testGetInputFile() {

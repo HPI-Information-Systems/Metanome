@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithm_integration.input.SqlInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 import java.util.Set;
 
@@ -32,13 +32,14 @@ import java.util.Set;
 public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
 
   protected final String identifier;
-  protected final SqlInputGenerator[] values;
+  protected final DatabaseConnectionGenerator[] values;
 
   /**
    * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and a
    * SqlInputGenerator as value.
    */
-  public ConfigurationValueSqlInputGenerator(String identifier, SqlInputGenerator... values) {
+  public ConfigurationValueSqlInputGenerator(String identifier,
+                                             DatabaseConnectionGenerator... values) {
     this.identifier = identifier;
     this.values = values;
   }

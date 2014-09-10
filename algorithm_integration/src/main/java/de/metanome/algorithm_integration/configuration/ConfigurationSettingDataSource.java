@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 
 /**
@@ -27,9 +27,7 @@ import java.io.Serializable;
  *
  * @author Claudia Exeler
  */
-public abstract class ConfigurationSettingDataSource implements Serializable {
-
-  private static final long serialVersionUID = 8344875059579539858L;
+public interface ConfigurationSettingDataSource extends IsSerializable {
 
   public abstract String getValueAsString();
 }

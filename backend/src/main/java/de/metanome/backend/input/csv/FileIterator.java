@@ -28,11 +28,11 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * {@link CsvFile}s are Iterators over lines in a csv file.
+ * {@link FileIterator}s are Iterators over lines in a csv file.
  *
  * @author Jakob Zwiener
  */
-public class CsvFile implements RelationalInput {
+public class FileIterator implements RelationalInput {
 
   public static final boolean DEFAULT_HAS_HEADER = false;
   public static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
@@ -48,32 +48,37 @@ public class CsvFile implements RelationalInput {
   // Initialized to -1 because of lookahead
   protected int currentLineNumber = -1;
 
-  public CsvFile(String relationName, Reader reader, char separator, char quotechar)
+  public FileIterator(String relationName, Reader reader, char separator, char quotechar)
       throws InputIterationException {
     this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
   }
 
-  public CsvFile(String relationName, Reader reader, char separator, char quoteChar, int skipLines)
+  public FileIterator(String relationName, Reader reader, char separator, char quoteChar,
+                      int skipLines)
       throws InputIterationException {
     this(relationName, reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
   }
 
-  public CsvFile(String relationName, Reader reader, char separator, char quotechar, int skipLines,
-                 boolean hasHeader) throws InputIterationException {
+  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
+                      int skipLines,
+                      boolean hasHeader) throws InputIterationException {
     this(relationName, reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines,
          CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
   }
 
-  public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape,
-                 int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                 boolean hasHeader) throws InputIterationException {
+  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
+                      char escape,
+                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
+                      boolean hasHeader) throws InputIterationException {
     this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes,
          ignoreLeadingWhiteSpace, hasHeader, DEFAULT_SKIP_DIFFERING_LINES);
   }
 
-  public CsvFile(String relationName, Reader reader, char separator, char quotechar, char escape,
-                 int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                 boolean hasHeader, boolean skipDifferingLines) throws InputIterationException {
+  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
+                      char escape,
+                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
+                      boolean hasHeader, boolean skipDifferingLines)
+      throws InputIterationException {
     this.relationName = relationName;
     this.csvReader =
         new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes,

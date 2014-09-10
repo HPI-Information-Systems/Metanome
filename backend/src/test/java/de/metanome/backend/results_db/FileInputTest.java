@@ -19,7 +19,7 @@ package de.metanome.backend.results_db;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.input.csv.FileIterator;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -104,8 +104,8 @@ public class FileInputTest {
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, actualFileInput.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
                  actualFileInput.isIgnoreLeadingWhiteSpace());
-    assertEquals(CsvFile.DEFAULT_HAS_HEADER, actualFileInput.isHasHeader());
-    assertEquals(CsvFile.DEFAULT_SKIP_DIFFERING_LINES, actualFileInput.isSkipDifferingLines());
+    assertEquals(FileIterator.DEFAULT_HAS_HEADER, actualFileInput.isHasHeader());
+    assertEquals(FileIterator.DEFAULT_SKIP_DIFFERING_LINES, actualFileInput.isSkipDifferingLines());
   }
 
   /**

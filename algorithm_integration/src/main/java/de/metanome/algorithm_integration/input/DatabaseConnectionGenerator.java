@@ -24,7 +24,7 @@ import java.sql.SQLException;
  *
  * @author Jakob Zwiener
  */
-public interface SqlInputGenerator extends AutoCloseable {
+public interface DatabaseConnectionGenerator extends AutoCloseable {
 
   /**
    * Creates a {@link RelationalInput} from an sql statement issued to a database.
