@@ -18,8 +18,8 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -264,9 +264,9 @@ public class AlgorithmExecutorTest {
     // Build file input specification
     int numberOfInputs = 5;
     List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
-    ConfigurationRequirementCsvFile
+    ConfigurationRequirementFileInput
         specification =
-        new ConfigurationRequirementCsvFile(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
+        new ConfigurationRequirementFileInput(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
                                               numberOfInputs);
 
     // Build input files
@@ -277,15 +277,15 @@ public class AlgorithmExecutorTest {
     expectedStatisticValue = fileFixture.getTestData(expectedStatisticValue).getAbsolutePath();
 
     // Build mock configuration settings
-    ConfigurationSettingCsvFile[] settings = new ConfigurationSettingCsvFile[numberOfInputs];
+    ConfigurationSettingFileInput[] settings = new ConfigurationSettingFileInput[numberOfInputs];
     for (int i = 0; i < numberOfInputs - 1; i++) {
-      ConfigurationSettingCsvFile configurationSetting = mock(ConfigurationSettingCsvFile.class);
+      ConfigurationSettingFileInput configurationSetting = mock(ConfigurationSettingFileInput.class);
       when(configurationSetting.isAdvanced()).thenReturn(false);
       when(configurationSetting.getFileName()).thenReturn(expectedOtherFileName);
       settings[i] = configurationSetting;
     }
     // Last setting determines algorithm's result
-    ConfigurationSettingCsvFile lastSetting = mock(ConfigurationSettingCsvFile.class);
+    ConfigurationSettingFileInput lastSetting = mock(ConfigurationSettingFileInput.class);
     when(lastSetting.isAdvanced()).thenReturn(false);
     when(lastSetting.getFileName()).thenReturn(expectedStatisticValue);
     settings[4] = lastSetting;

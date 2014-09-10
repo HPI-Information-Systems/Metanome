@@ -26,14 +26,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator}
+ * Tests for {@link ConfigurationSettingDatabaseConnection}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingSqlIteratorTest {
+public class ConfigurationSettingDatabaseConnectionTest {
 
   /**
-   * Test method for {@link ConfigurationSettingSqlIterator#ConfigurationSettingSqlIterator(String,
+   * Test method for {@link ConfigurationSettingDatabaseConnection#ConfigurationSettingDatabaseConnection(String,
    * String, String, DbSystem)}
    */
   @Test
@@ -46,9 +46,9 @@ public class ConfigurationSettingSqlIteratorTest {
     DbSystem expectedSystem = DbSystem.HANA;
 
     // Execute functionality
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         actualSetting =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
 
     // Check result
@@ -59,7 +59,7 @@ public class ConfigurationSettingSqlIteratorTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSettingSqlIterator#getValueAsString()}
+   * Test method for {@link ConfigurationSettingDatabaseConnection#getValueAsString()}
    */
   @Test
   public void testGetValueAsString() {
@@ -69,8 +69,8 @@ public class ConfigurationSettingSqlIteratorTest {
     String expectedUsername = "username";
     String expectedPassword = "password";
     DbSystem expectedSystem = DbSystem.PostgreSQL;
-    ConfigurationSettingSqlIterator setting =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+    ConfigurationSettingDatabaseConnection setting =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
     String expectedValuesString = Joiner.on(';')
         .join(expectedUrl, expectedUsername, DbSystem.PostgreSQL.name());
@@ -83,8 +83,8 @@ public class ConfigurationSettingSqlIteratorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator#equals(Object)}
-   * and {@link ConfigurationSettingSqlIterator#hashCode()}
+   * Test method for {@link ConfigurationSettingDatabaseConnection#equals(Object)}
+   * and {@link ConfigurationSettingDatabaseConnection#hashCode()}
    */
   @Test
   public void testEqualsHashCode() {
@@ -94,40 +94,40 @@ public class ConfigurationSettingSqlIteratorTest {
     String expectedUsername = "username";
     String expectedPassword = "password";
     DbSystem expectedSystem = DbSystem.Oracle;
-    ConfigurationSettingSqlIterator setting =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+    ConfigurationSettingDatabaseConnection setting =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
-    ConfigurationSettingSqlIterator equalSetting =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+    ConfigurationSettingDatabaseConnection equalSetting =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
-    ConfigurationSettingSqlIterator notEqualSettingUrl =
-        new ConfigurationSettingSqlIterator("some other url", expectedUsername,
+    ConfigurationSettingDatabaseConnection notEqualSettingUrl =
+        new ConfigurationSettingDatabaseConnection("some other url", expectedUsername,
                                             expectedPassword, expectedSystem);
-    ConfigurationSettingSqlIterator notEqualSettingUsername =
-        new ConfigurationSettingSqlIterator(expectedUrl, "some other user", expectedPassword,
+    ConfigurationSettingDatabaseConnection notEqualSettingUsername =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, "some other user", expectedPassword,
                                             expectedSystem);
-    ConfigurationSettingSqlIterator notEqualSettingPassword =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername,
+    ConfigurationSettingDatabaseConnection notEqualSettingPassword =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername,
                                             "some other password", expectedSystem);
-    ConfigurationSettingSqlIterator notEqualSettingSystem =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+    ConfigurationSettingDatabaseConnection notEqualSettingSystem =
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             DbSystem.PostgreSQL);
 
     // Execute functionality
     // Check result
-    new EqualsAndHashCodeTester<ConfigurationSettingSqlIterator>()
+    new EqualsAndHashCodeTester<ConfigurationSettingDatabaseConnection>()
         .performBasicEqualsAndHashCodeChecks(setting, equalSetting, notEqualSettingUrl,
                                              notEqualSettingUsername, notEqualSettingPassword,
                                              notEqualSettingSystem);
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator}
+   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingSqlIterator("dbUrl", "username", "password", DbSystem.DB2));
+        new ConfigurationSettingDatabaseConnection("dbUrl", "username", "password", DbSystem.DB2));
   }
 }

@@ -35,7 +35,7 @@ import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -75,7 +75,7 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
   public List<ConfigurationRequirement> getConfigurationRequirements() {
     List<ConfigurationRequirement> configurations = new LinkedList<>();
 
-    configurations.add(new ConfigurationRequirementCsvFile("identifier"));
+    configurations.add(new ConfigurationRequirementFileInput("identifier"));
 
     return configurations;
   }

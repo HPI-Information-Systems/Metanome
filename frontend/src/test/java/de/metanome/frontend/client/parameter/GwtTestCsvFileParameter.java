@@ -19,8 +19,8 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
@@ -46,7 +46,7 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     fileInput.setFileName(aFileName);
 
     CsvFileInput widget = new CsvFileInput(false, tabWrapper);
-    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 
     widget.listbox.addValue("--");
@@ -77,10 +77,10 @@ public class GwtTestCsvFileParameter extends GWTTestCase {
     FileInput fileInput = new FileInput();
     fileInput.setFileName(aFileName);
 
-    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 
-    ConfigurationRequirementCsvFile configSpec = new ConfigurationRequirementCsvFile("test");
+    ConfigurationRequirementFileInput configSpec = new ConfigurationRequirementFileInput("test");
     InputParameterCsvFileWidget
         dataSourceWidget =
         new InputParameterCsvFileWidget(configSpec, tabWrapper);

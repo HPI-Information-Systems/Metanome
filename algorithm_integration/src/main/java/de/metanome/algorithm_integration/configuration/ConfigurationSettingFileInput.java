@@ -25,7 +25,7 @@ import au.com.bytecode.opencsv.CSVReader;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource {
+public class ConfigurationSettingFileInput extends ConfigurationSettingDataSource {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
@@ -53,7 +53,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSettingCsvFile() {
+  public ConfigurationSettingFileInput() {
   }
 
   /**
@@ -61,7 +61,7 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
    *
    * @param fileName the name of the CSV file
    */
-  public ConfigurationSettingCsvFile(String fileName) {
+  public ConfigurationSettingFileInput(String fileName) {
     this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
          DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
          DEFAULT_SKIPDIFFERINGLINES);
@@ -74,10 +74,11 @@ public class ConfigurationSettingCsvFile extends ConfigurationSettingDataSource 
    * @param advanced true if the custom configurations should be used; that is, if one of the
    *                 following parameters differs from the default value
    */
-  public ConfigurationSettingCsvFile(String fileName, boolean advanced, char separator, char quote,
-                                     char escape, boolean strictQuotes,
-                                     boolean ignoreLeadingWhiteSpace, int line,
-                                     boolean header, boolean skipDifferingLines) {
+  public ConfigurationSettingFileInput(String fileName, boolean advanced, char separator,
+                                       char quote,
+                                       char escape, boolean strictQuotes,
+                                       boolean ignoreLeadingWhiteSpace, int line,
+                                       boolean header, boolean skipDifferingLines) {
     this.fileName = fileName;
     this.advanced = advanced;
     this.separatorChar = separator;

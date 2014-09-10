@@ -17,51 +17,50 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationRequirement} sql iterator.
+ * Concrete {@link ConfigurationRequirement} for csv files.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-public class ConfigurationRequirementSqlIterator extends ConfigurationRequirement {
+public class ConfigurationRequirementFileInput extends ConfigurationRequirement {
 
-  private static final long serialVersionUID = 6601202469601881851L;
+  private static final long serialVersionUID = 8842139128248338302L;
 
-  private ConfigurationSettingSqlIterator[] settings;
+  private ConfigurationSettingFileInput[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationRequirementSqlIterator() {
+  public ConfigurationRequirementFileInput() {
   }
 
   /**
-   * Construct a {@link ConfigurationRequirementSqlIterator}, requesting 1 value.
+   * Constructs a {@link ConfigurationRequirementFileInput}, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationRequirementSqlIterator(String identifier) {
+  public ConfigurationRequirementFileInput(String identifier) {
     super(identifier);
   }
 
   /**
-   * Construcats a {@link ConfigurationRequirementSqlIterator}, potentially requesting several
-   * values.
+   * Constructs a {@link ConfigurationRequirementFileInput}, potentially requesting several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationRequirementSqlIterator(String identifier,
-                                             int numberOfValues) {
+  public ConfigurationRequirementFileInput(String identifier,
+                                           int numberOfValues) {
 
     super(identifier, numberOfValues);
   }
 
   @Override
-  public ConfigurationSettingSqlIterator[] getSettings() {
-    return settings;
+  public ConfigurationSettingFileInput[] getSettings() {
+    return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingSqlIterator... settings) {
-    this.settings = settings;
+  public void setSettings(ConfigurationSettingFileInput... configurationSettings) {
+    this.settings = configurationSettings;
   }
 }

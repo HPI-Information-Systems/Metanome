@@ -24,9 +24,9 @@ import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlg
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -53,8 +53,8 @@ public class ExampleAlgorithm
     List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementCsvFile(CSVFILE_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementSqlIterator(SQL_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementDatabaseConnection(SQL_IDENTIFIER));
 
     ArrayList<String> listBoxValues = new ArrayList<>();
     listBoxValues.add("column 1");

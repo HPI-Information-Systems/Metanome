@@ -29,7 +29,7 @@ public class ConfigurationSettingTableInputTest {
 
 
   /**
-   * Test method for {@link ConfigurationSettingTableInput#ConfigurationSettingTableInput(String, ConfigurationSettingSqlIterator)}
+   * Test method for {@link ConfigurationSettingTableInput#ConfigurationSettingTableInput(String, ConfigurationSettingDatabaseConnection)}
    */
   @Test
   public void testConstructor() {
@@ -41,9 +41,9 @@ public class ConfigurationSettingTableInputTest {
 
     // Expected values
     String expectedTable = "table";
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
 
     // Execute functionality
@@ -69,9 +69,9 @@ public class ConfigurationSettingTableInputTest {
 
     // Expected values
     String expectedTable = "table";
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
 
     ConfigurationSettingTableInput
@@ -101,9 +101,9 @@ public class ConfigurationSettingTableInputTest {
     DbSystem expectedSystem = DbSystem.PostgreSQL;
     // Expected values
     String expectedTable = "table";
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
-        new ConfigurationSettingSqlIterator(expectedUrl, expectedUsername, expectedPassword,
+        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
 
     ConfigurationSettingTableInput
@@ -115,7 +115,7 @@ public class ConfigurationSettingTableInputTest {
     ConfigurationSettingTableInput notEqualSettingTable =
         new ConfigurationSettingTableInput("some other table", expectedDatabaseConnection);
     ConfigurationSettingTableInput notEqualSettingDatabaseConnection =
-        new ConfigurationSettingTableInput(expectedTable, new ConfigurationSettingSqlIterator(expectedUrl, "some other username", expectedPassword, expectedSystem));
+        new ConfigurationSettingTableInput(expectedTable, new ConfigurationSettingDatabaseConnection(expectedUrl, "some other username", expectedPassword, expectedSystem));
 
     // Execute functionality
     // Check result
@@ -125,13 +125,13 @@ public class ConfigurationSettingTableInputTest {
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator}
+   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingTableInput("table", new ConfigurationSettingSqlIterator("dbUrl", "username", "password", DbSystem.DB2)));
+        new ConfigurationSettingTableInput("table", new ConfigurationSettingDatabaseConnection("dbUrl", "username", "password", DbSystem.DB2)));
   }
 
 }

@@ -23,14 +23,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile}
+ * Tests for {@link ConfigurationSettingFileInput}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingCsvFileTest {
+public class ConfigurationSettingFileInputTest {
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile#ConfigurationSettingCsvFile(String,
+   * Test method for {@link ConfigurationSettingFileInput#ConfigurationSettingFileInput(String,
    * boolean, char, char, char, boolean, boolean, int, boolean, boolean)}
    */
   @Test
@@ -49,9 +49,9 @@ public class ConfigurationSettingCsvFileTest {
     boolean expectedDifferingLines = false;
 
     // Execute functionality
-    ConfigurationSettingCsvFile
+    ConfigurationSettingFileInput
         actualSetting =
-        new ConfigurationSettingCsvFile(expectedFileName, expectedIsAdvanced, expectedSeparator,
+        new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
                                         expectedQuote, expectedEscape, expectedIsStrictQuotes,
                                         expectedIsIgnoreLeadingWhitespace, expectedLines,
                                         expectedHeader, expectedDifferingLines);
@@ -68,13 +68,13 @@ public class ConfigurationSettingCsvFileTest {
   }
 
   /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile}
+   * Tests that the instances of {@link ConfigurationSettingFileInput}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingCsvFile("fileName", true, ',', '"', '\\', true, true, 2, true,
+        new ConfigurationSettingFileInput("fileName", true, ',', '"', '\\', true, true, 2, true,
                                         true));
   }
 }

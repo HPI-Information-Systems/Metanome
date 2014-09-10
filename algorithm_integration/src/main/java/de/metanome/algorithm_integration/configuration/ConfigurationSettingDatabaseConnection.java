@@ -24,7 +24,7 @@ import com.google.common.base.Joiner;
  *
  * @author Claudia Exeler
  */
-public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSource {
+public class ConfigurationSettingDatabaseConnection extends ConfigurationSettingDataSource {
 
   private static final long serialVersionUID = 3242593091096735218L;
 
@@ -36,11 +36,11 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
   /**
    * Exists for GWT serialization.
    */
-  protected ConfigurationSettingSqlIterator() {
+  protected ConfigurationSettingDatabaseConnection() {
   }
 
-  public ConfigurationSettingSqlIterator(String dbUrl, String username, String password,
-                                         DbSystem system) {
+  public ConfigurationSettingDatabaseConnection(String dbUrl, String username, String password,
+                                                DbSystem system) {
     this.dbUrl = dbUrl;
     this.username = username;
     this.password = password;
@@ -88,7 +88,7 @@ public class ConfigurationSettingSqlIterator extends ConfigurationSettingDataSou
       return false;
     }
 
-    ConfigurationSettingSqlIterator that = (ConfigurationSettingSqlIterator) o;
+    ConfigurationSettingDatabaseConnection that = (ConfigurationSettingDatabaseConnection) o;
 
     if (!dbUrl.equals(that.dbUrl)) {
       return false;

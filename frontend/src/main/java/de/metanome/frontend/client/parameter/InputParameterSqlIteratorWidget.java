@@ -17,10 +17,10 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -35,9 +35,9 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   /**
    * Corresponding inputParameter, where the value is going to be written
    */
-  private ConfigurationRequirementSqlIterator specification;
+  private ConfigurationRequirementDatabaseConnection specification;
 
-  public InputParameterSqlIteratorWidget(ConfigurationRequirementSqlIterator config,
+  public InputParameterSqlIteratorWidget(ConfigurationRequirementDatabaseConnection config,
                                          TabWrapper wrapper) {
     super(config, wrapper);
   }
@@ -52,9 +52,9 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   @Override
   public ConfigurationRequirement getUpdatedSpecification() throws InputValidationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingSqlIterator[]
+    ConfigurationSettingDatabaseConnection[]
         values =
-        new ConfigurationSettingSqlIterator[inputWidgets.size()];
+        new ConfigurationSettingDatabaseConnection[inputWidgets.size()];
 
     for (int i = 0; i < inputWidgets.size(); i++) {
       values[i] = inputWidgets.get(i).getValues();
@@ -68,7 +68,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
   @Override
   public void setDataSource(ConfigurationSettingDataSource dataSource)
       throws AlgorithmConfigurationException {
-    this.inputWidgets.get(0).setValues((ConfigurationSettingSqlIterator) dataSource);
+    this.inputWidgets.get(0).setValues((ConfigurationSettingDatabaseConnection) dataSource);
   }
 
   @Override
@@ -80,7 +80,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
 
   @Override
   public boolean accepts(ConfigurationSettingDataSource setting) {
-    return setting instanceof ConfigurationSettingSqlIterator;
+    return setting instanceof ConfigurationSettingDatabaseConnection;
   }
 
   @Override
@@ -100,7 +100,7 @@ public class InputParameterSqlIteratorWidget extends InputParameterDataSourceWid
 
   @Override
   public void setSpecification(ConfigurationRequirement config) {
-    this.specification = (ConfigurationRequirementSqlIterator) config;
+    this.specification = (ConfigurationRequirementDatabaseConnection) config;
   }
 
   @Override

@@ -19,13 +19,13 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationFactory;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.SqlInputGenerator;
@@ -43,21 +43,21 @@ import java.io.FileNotFoundException;
 public class DefaultConfigurationFactory extends ConfigurationFactory {
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
    * to a {@link de.metanome.algorithm_integration.input.SqlInputGenerator}.
    *
    * @param specification the sql iterator specification
    * @return the created sql input generator
    */
   private static SqlInputGenerator[] createSqlIteratorGenerators(
-      ConfigurationRequirementSqlIterator specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementDatabaseConnection specification) throws AlgorithmConfigurationException {
 
     SqlIteratorGenerator[]
         sqlIteratorGenerators =
         new SqlIteratorGenerator[specification.getSettings().length];
 
     int i = 0;
-    for (ConfigurationSettingSqlIterator setting : specification.getSettings()) {
+    for (ConfigurationSettingDatabaseConnection setting : specification.getSettings()) {
       sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
                                                           setting.getUsername(),
                                                           setting.getPassword());
@@ -67,19 +67,19 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   }
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}
    * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
    *
    * @param specification the file input specification
    * @return the created file input generator
    */
   private static FileInputGenerator[] createFileInputGenerators(
-      ConfigurationRequirementCsvFile specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementFileInput specification) throws AlgorithmConfigurationException {
 
     CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];
 
     int i = 0;
-    for (ConfigurationSettingCsvFile setting : specification.getSettings()) {
+    for (ConfigurationSettingFileInput setting : specification.getSettings()) {
       try {
         if (setting.isAdvanced()) {
           csvFileGenerators[i] =
@@ -115,7 +115,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueFileInputGenerator build(
-      ConfigurationRequirementCsvFile specification) {
+      ConfigurationRequirementFileInput specification) {
     try {
       return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
                                                       createFileInputGenerators(specification));
@@ -155,7 +155,7 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueSqlInputGenerator build(
-      ConfigurationRequirementSqlIterator specification) {
+      ConfigurationRequirementDatabaseConnection specification) {
     try {
       return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
                                                      createSqlIteratorGenerators(specification));

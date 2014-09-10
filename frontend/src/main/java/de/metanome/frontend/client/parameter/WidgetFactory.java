@@ -18,10 +18,10 @@ package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.frontend.client.TabWrapper;
 
@@ -45,13 +45,13 @@ public class WidgetFactory {
       widget =
           new InputParameterStringWidget((ConfigurationRequirementString) config,
                                          messageReceiver);
-    } else if (config instanceof ConfigurationRequirementCsvFile) {
+    } else if (config instanceof ConfigurationRequirementFileInput) {
       widget =
-          new InputParameterCsvFileWidget((ConfigurationRequirementCsvFile) config,
+          new InputParameterCsvFileWidget((ConfigurationRequirementFileInput) config,
                                           messageReceiver);
-    } else if (config instanceof ConfigurationRequirementSqlIterator) {
+    } else if (config instanceof ConfigurationRequirementDatabaseConnection) {
       widget =
-          new InputParameterSqlIteratorWidget((ConfigurationRequirementSqlIterator) config,
+          new InputParameterSqlIteratorWidget((ConfigurationRequirementDatabaseConnection) config,
                                               messageReceiver);
     } else if (config instanceof ConfigurationRequirementInteger) {
       widget =

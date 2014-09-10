@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage.Tabs;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -171,11 +171,11 @@ public class GwtTestBasePage extends GWTTestCase {
    */
   public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
     final BasePage page = new BasePage();
-    ConfigurationSettingCsvFile dataSource = new ConfigurationSettingCsvFile();
+    ConfigurationSettingFileInput dataSource = new ConfigurationSettingFileInput();
 
     String dataSourceName = "inputA.csv";
     dataSource.setFileName(dataSourceName);
-    final ConfigurationSettingCsvFile finalDataSource = dataSource;
+    final ConfigurationSettingFileInput finalDataSource = dataSource;
 
     AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
       @Override

@@ -19,7 +19,7 @@ package de.metanome.frontend.client.input_fields;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
@@ -60,7 +60,7 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator)}
+   * Test method for {@link SqlIteratorInput#getValues()} and {@link de.metanome.frontend.client.input_fields.SqlIteratorInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {
@@ -76,8 +76,8 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     dbConnection.setSystem(DbSystem.DB2);
 
     // Expected values
-    ConfigurationSettingSqlIterator expectedSetting =
-        new ConfigurationSettingSqlIterator("url", "username", "password", DbSystem.DB2);
+    ConfigurationSettingDatabaseConnection expectedSetting =
+        new ConfigurationSettingDatabaseConnection("url", "username", "password", DbSystem.DB2);
 
     // Initialize SqlIteratorInput (waiting for fetching all current database connections)
     SqlIteratorInput sqlIteratorInput = new SqlIteratorInput(false, tabWrapper);
@@ -89,7 +89,7 @@ public class GwtTestSqlIteratorInput extends GWTTestCase {
     // Execute functionality
     sqlIteratorInput.setValues(expectedSetting);
 
-    ConfigurationSettingSqlIterator actualSetting = null;
+    ConfigurationSettingDatabaseConnection actualSetting = null;
     try {
       actualSetting = sqlIteratorInput.getValues();
     } catch (InputValidationException e) {

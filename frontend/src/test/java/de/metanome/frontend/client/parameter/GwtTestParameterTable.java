@@ -22,10 +22,10 @@ import com.google.gwt.user.client.ui.Button;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -64,9 +64,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     ConfigurationRequirementBoolean
         ConfigurationSpecificationBoolean =
         new ConfigurationRequirementBoolean("Omit warnings");
-    ConfigurationRequirementCsvFile
+    ConfigurationRequirementFileInput
         ConfigurationSpecificationCsvFile =
-        new ConfigurationRequirementCsvFile("inputData");
+        new ConfigurationRequirementFileInput("inputData");
     ConfigurationRequirementInteger
         ConfigurationSpecificationInteger =
         new ConfigurationRequirementInteger("NumberOfTables");
@@ -135,12 +135,12 @@ public class GwtTestParameterTable extends GWTTestCase {
     final ConfigurationRequirementBoolean
         ConfigurationSpecificationBoolean =
         new ConfigurationRequirementBoolean("bool");
-    final ConfigurationRequirementCsvFile
+    final ConfigurationRequirementFileInput
         ConfigurationSpecificationCsvFile =
-        new ConfigurationRequirementCsvFile("csv");
-    final ConfigurationRequirementSqlIterator
+        new ConfigurationRequirementFileInput("csv");
+    final ConfigurationRequirementDatabaseConnection
         ConfigurationSpecificationSQLIterator =
-        new ConfigurationRequirementSqlIterator("sql");
+        new ConfigurationRequirementDatabaseConnection("sql");
     final ConfigurationRequirementInteger
         ConfigurationSpecificationInteger =
         new ConfigurationRequirementInteger("integer");
@@ -242,9 +242,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     String identifierBoolean = "boolParam";
     ConfigurationRequirement boolParam = new ConfigurationRequirementBoolean(identifierBoolean);
     String identifierCsv = "csvParam";
-    ConfigurationRequirement csvParam = new ConfigurationRequirementCsvFile(identifierCsv);
+    ConfigurationRequirement csvParam = new ConfigurationRequirementFileInput(identifierCsv);
     String identifierSql = "sqlParam";
-    ConfigurationRequirement sqlParam = new ConfigurationRequirementSqlIterator(identifierSql);
+    ConfigurationRequirement sqlParam = new ConfigurationRequirementDatabaseConnection(identifierSql);
     String identifierListbox = "listboxParam";
     ConfigurationRequirementListBox
         listboxParam =
@@ -309,11 +309,11 @@ public class GwtTestParameterTable extends GWTTestCase {
         boolParam =
         new ConfigurationRequirementBoolean(identifierBoolean, 2);
     String identifierCsv = "csvParam";
-    ConfigurationRequirement csvParam = new ConfigurationRequirementCsvFile(identifierCsv, 2);
+    ConfigurationRequirement csvParam = new ConfigurationRequirementFileInput(identifierCsv, 2);
     String identifierSql = "sqlParam";
     ConfigurationRequirement
         sqlParam =
-        new ConfigurationRequirementSqlIterator(identifierSql, 2);
+        new ConfigurationRequirementDatabaseConnection(identifierSql, 2);
     String identifierListbox = "listboxParam";
     ConfigurationRequirementListBox
         listboxParam =

@@ -17,8 +17,8 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
@@ -36,9 +36,9 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   /**
    * Corresponding ConfigurationSpecification, where the value is going to be written
    */
-  private ConfigurationRequirementCsvFile specification;
+  private ConfigurationRequirementFileInput specification;
 
-  public InputParameterCsvFileWidget(ConfigurationRequirementCsvFile configSpec,
+  public InputParameterCsvFileWidget(ConfigurationRequirementFileInput configSpec,
                                      TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
@@ -52,10 +52,10 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
   }
 
   @Override
-  public ConfigurationRequirementCsvFile getUpdatedSpecification()
+  public ConfigurationRequirementFileInput getUpdatedSpecification()
       throws InputValidationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingCsvFile[] values = new ConfigurationSettingCsvFile[inputWidgets.size()];
+    ConfigurationSettingFileInput[] values = new ConfigurationSettingFileInput[inputWidgets.size()];
 
     for (int i = 0; i < inputWidgets.size(); i++) {
       values[i] = inputWidgets.get(i).getValues();
@@ -81,7 +81,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
 
   @Override
   public boolean accepts(ConfigurationSettingDataSource setting) {
-    return setting instanceof ConfigurationSettingCsvFile;
+    return setting instanceof ConfigurationSettingFileInput;
   }
 
   @Override
@@ -101,7 +101,7 @@ public class InputParameterCsvFileWidget extends InputParameterDataSourceWidget 
 
   @Override
   public void setSpecification(ConfigurationRequirement config) {
-    this.specification = (ConfigurationRequirementCsvFile) config;
+    this.specification = (ConfigurationRequirementFileInput) config;
   }
 
   @Override

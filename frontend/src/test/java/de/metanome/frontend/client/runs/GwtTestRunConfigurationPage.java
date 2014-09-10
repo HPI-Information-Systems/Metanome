@@ -19,7 +19,7 @@ package de.metanome.frontend.client.runs;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
@@ -156,7 +156,7 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
     List<ConfigurationRequirement> paramList = new ArrayList<>();
     paramList.add(new ConfigurationRequirementString("someString"));
-    paramList.add(new ConfigurationRequirementCsvFile("theDataSource"));
+    paramList.add(new ConfigurationRequirementFileInput("theDataSource"));
 
     // Execute
     runConfigPage.algorithmChooser.forwardParameters(paramList);

@@ -25,9 +25,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link ConfigurationRequirementSqlIterator}
+ * Tests for {@link ConfigurationRequirementDatabaseConnection}
  */
-public class ConfigurationRequirementSqlIteratorTest {
+public class ConfigurationRequirementDatabaseConnectionTest {
 
   /**
    * @throws Exception
@@ -46,7 +46,7 @@ public class ConfigurationRequirementSqlIteratorTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementSqlIterator#ConfigurationRequirementSqlIterator(String)}
+   * Test method for {@link ConfigurationRequirementDatabaseConnection#ConfigurationRequirementDatabaseConnection(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -56,9 +56,9 @@ public class ConfigurationRequirementSqlIteratorTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
-    ConfigurationRequirementSqlIterator
+    ConfigurationRequirementDatabaseConnection
         configSpec =
-        new ConfigurationRequirementSqlIterator(expectedIdentifier);
+        new ConfigurationRequirementDatabaseConnection(expectedIdentifier);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -70,7 +70,7 @@ public class ConfigurationRequirementSqlIteratorTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementSqlIterator#ConfigurationRequirementSqlIterator(String)}
+   * Test method for {@link ConfigurationRequirementDatabaseConnection#ConfigurationRequirementDatabaseConnection(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 2.
    */
@@ -80,9 +80,9 @@ public class ConfigurationRequirementSqlIteratorTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 2;
-    ConfigurationRequirementSqlIterator
+    ConfigurationRequirementDatabaseConnection
         configSpec =
-        new ConfigurationRequirementSqlIterator(expectedIdentifier, expectedNumberOfValues);
+        new ConfigurationRequirementDatabaseConnection(expectedIdentifier, expectedNumberOfValues);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -94,12 +94,12 @@ public class ConfigurationRequirementSqlIteratorTest {
   }
 
   /**
-   * Tests that the instances of {@link ConfigurationRequirementSqlIterator}
+   * Tests that the instances of {@link ConfigurationRequirementDatabaseConnection}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationRequirementSqlIterator("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementDatabaseConnection("some identifier", 3));
   }
 }

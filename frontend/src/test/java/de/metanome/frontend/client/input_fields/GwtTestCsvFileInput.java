@@ -19,7 +19,7 @@ package de.metanome.frontend.client.input_fields;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
@@ -59,7 +59,7 @@ public class GwtTestCsvFileInput extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.input_fields.CsvFileInput#getValues()} and
-   * {@link de.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile)}
+   * {@link de.metanome.frontend.client.input_fields.CsvFileInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
@@ -70,8 +70,8 @@ public class GwtTestCsvFileInput extends GWTTestCase {
     fileInput.setFileName("filename");
 
     // Expected values
-    final ConfigurationSettingCsvFile expectedSetting =
-        new ConfigurationSettingCsvFile("filename");
+    final ConfigurationSettingFileInput expectedSetting =
+        new ConfigurationSettingFileInput("filename");
 
     // Initialize CsvFileInput (waiting for fetching all current file inputs)
     final CsvFileInput csvFileInputs = new CsvFileInput(false, new TabWrapper());
@@ -85,7 +85,7 @@ public class GwtTestCsvFileInput extends GWTTestCase {
       fail();
     }
 
-    ConfigurationSettingCsvFile actualSetting = null;
+    ConfigurationSettingFileInput actualSetting = null;
     try {
       actualSetting = csvFileInputs.getValues();
     } catch (InputValidationException e) {

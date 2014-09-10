@@ -24,7 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgor
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -48,7 +48,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));
-    configurationRequirement.add(new ConfigurationRequirementCsvFile(
+    configurationRequirement.add(new ConfigurationRequirementFileInput(
         "input file", 2));
 
     return configurationRequirement;

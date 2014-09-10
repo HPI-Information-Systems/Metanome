@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.SqlInputGenerator;
 
 import java.util.LinkedList;
@@ -51,7 +51,7 @@ public class SqlProfilingAlgorithm implements SqlInputParameterAlgorithm {
   public List<ConfigurationRequirement> getConfigurationRequirements() {
     List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
 
-    configurationRequirements.add(new ConfigurationRequirementSqlIterator(SQL_IDENTIFIER));
+    configurationRequirements.add(new ConfigurationRequirementDatabaseConnection(SQL_IDENTIFIER));
 
     return configurationRequirements;
   }

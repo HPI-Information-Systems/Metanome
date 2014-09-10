@@ -20,9 +20,9 @@ import com.google.common.base.Joiner;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
@@ -54,9 +54,9 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setSystem(aSystem);
 
     SqlIteratorInput widget = new SqlIteratorInput(false, tabWrapper);
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         setting =
-        new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
+        new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);
 
     widget.databaseConnections.put(aUrl, databaseConnection);
     widget.listbox.addValue("--");
@@ -92,13 +92,13 @@ public class GwtTestSqlIteratorParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    ConfigurationSettingSqlIterator
+    ConfigurationSettingDatabaseConnection
         setting =
-        new ConfigurationSettingSqlIterator(aUrl, aUser, aPassword, aSystem);
+        new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);
 
-    ConfigurationRequirementSqlIterator
+    ConfigurationRequirementDatabaseConnection
         configSpec =
-        new ConfigurationRequirementSqlIterator("test");
+        new ConfigurationRequirementDatabaseConnection("test");
     InputParameterSqlIteratorWidget
         dataSourceWidget =
         new InputParameterSqlIteratorWidget(configSpec, tabWrapper);

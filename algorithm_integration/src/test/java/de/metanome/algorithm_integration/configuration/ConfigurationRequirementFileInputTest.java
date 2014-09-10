@@ -25,9 +25,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link ConfigurationRequirementCsvFile}
+ * Tests for {@link ConfigurationRequirementFileInput}
  */
-public class ConfigurationRequirementCsvFileTest {
+public class ConfigurationRequirementFileInputTest {
 
   /**
    * @throws Exception
@@ -46,7 +46,7 @@ public class ConfigurationRequirementCsvFileTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementCsvFile#ConfigurationRequirementCsvFile(String)}
+   * Test method for {@link ConfigurationRequirementFileInput#ConfigurationRequirementFileInput(String)}
    * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
    * The numberOfValues should be set to 1.
    */
@@ -56,9 +56,9 @@ public class ConfigurationRequirementCsvFileTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOfValues = 1;
-    ConfigurationRequirementCsvFile
+    ConfigurationRequirementFileInput
         configSpec =
-        new ConfigurationRequirementCsvFile(expectedIdentifier);
+        new ConfigurationRequirementFileInput(expectedIdentifier);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -70,7 +70,7 @@ public class ConfigurationRequirementCsvFileTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementCsvFile#ConfigurationRequirementCsvFile(String,
+   * Test method for {@link ConfigurationRequirementFileInput#ConfigurationRequirementFileInput(String,
    * int)} <p/> The identifier should be set in the constructor and be retrievable through
    * getIdentifier. The numberOfValues should be set to 2.
    */
@@ -80,9 +80,9 @@ public class ConfigurationRequirementCsvFileTest {
     // Expected values
     String expectedIdentifier = "parameter1";
     int expectedNumberOFValues = 2;
-    ConfigurationRequirementCsvFile
+    ConfigurationRequirementFileInput
         configSpec =
-        new ConfigurationRequirementCsvFile(expectedIdentifier, expectedNumberOFValues);
+        new ConfigurationRequirementFileInput(expectedIdentifier, expectedNumberOFValues);
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
@@ -94,12 +94,12 @@ public class ConfigurationRequirementCsvFileTest {
   }
 
   /**
-   * Tests that the instances of {@link ConfigurationRequirementCsvFile}
+   * Tests that the instances of {@link ConfigurationRequirementFileInput}
    * are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester
-        .checkGwtSerializability(new ConfigurationRequirementCsvFile("some identifier", 3));
+        .checkGwtSerializability(new ConfigurationRequirementFileInput("some identifier", 3));
   }
 }

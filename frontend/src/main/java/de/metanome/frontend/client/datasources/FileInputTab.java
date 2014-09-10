@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabContent;
@@ -148,7 +148,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @return the ConfigurationSettingDataSource from the given file input
    */
   private ConfigurationSettingDataSource convertFileInputToDataSource(FileInput input) {
-    ConfigurationSettingCsvFile setting = new ConfigurationSettingCsvFile();
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
 
     setting.setFileName(input.getFileName());
     setting.setEscapeChar(input.getEscapechar());

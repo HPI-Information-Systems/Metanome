@@ -17,50 +17,51 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationRequirement} for csv files.
+ * Concrete {@link ConfigurationRequirement} sql iterator.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-public class ConfigurationRequirementCsvFile extends ConfigurationRequirement {
+public class ConfigurationRequirementDatabaseConnection extends ConfigurationRequirement {
 
-  private static final long serialVersionUID = 8842139128248338302L;
+  private static final long serialVersionUID = 6601202469601881851L;
 
-  private ConfigurationSettingCsvFile[] settings;
+  private ConfigurationSettingDatabaseConnection[] settings;
 
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationRequirementCsvFile() {
+  public ConfigurationRequirementDatabaseConnection() {
   }
 
   /**
-   * Constructs a {@link ConfigurationRequirementCsvFile}, requesting 1 value.
+   * Construct a {@link ConfigurationRequirementDatabaseConnection}, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
-  public ConfigurationRequirementCsvFile(String identifier) {
+  public ConfigurationRequirementDatabaseConnection(String identifier) {
     super(identifier);
   }
 
   /**
-   * Constructs a {@link ConfigurationRequirementCsvFile}, potentially requesting several values.
+   * Construcats a {@link ConfigurationRequirementDatabaseConnection}, potentially requesting several
+   * values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
    */
-  public ConfigurationRequirementCsvFile(String identifier,
-                                         int numberOfValues) {
+  public ConfigurationRequirementDatabaseConnection(String identifier,
+                                                    int numberOfValues) {
 
     super(identifier, numberOfValues);
   }
 
   @Override
-  public ConfigurationSettingCsvFile[] getSettings() {
-    return this.settings;
+  public ConfigurationSettingDatabaseConnection[] getSettings() {
+    return settings;
   }
 
-  public void setSettings(ConfigurationSettingCsvFile... configurationSettings) {
-    this.settings = configurationSettings;
+  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
+    this.settings = settings;
   }
 }

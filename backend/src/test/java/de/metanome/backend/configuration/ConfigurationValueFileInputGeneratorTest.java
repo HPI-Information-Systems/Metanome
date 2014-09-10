@@ -19,7 +19,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class ConfigurationValueFileInputGeneratorTest {
 
     // Execute functionality
     ConfigurationValueFileInputGenerator configValue = new ConfigurationValueFileInputGenerator(
-        new ConfigurationRequirementCsvFile(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
         expectedConfigurationValues);
     configValue.triggerSetValue(algorithm, interfaces);
 
@@ -87,7 +87,7 @@ public class ConfigurationValueFileInputGeneratorTest {
 
     // Execute functionality
     ConfigurationValueFileInputGenerator configValue = new ConfigurationValueFileInputGenerator(
-        new ConfigurationRequirementCsvFile(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
         expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);

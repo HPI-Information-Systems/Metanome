@@ -27,7 +27,7 @@ import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorit
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -60,7 +60,7 @@ public class ExampleAlgorithm
   public List<ConfigurationRequirement> getConfigurationRequirements() {
     List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementCsvFile(CSV_FILE_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementInteger(INTEGER_IDENTIFIER));
 

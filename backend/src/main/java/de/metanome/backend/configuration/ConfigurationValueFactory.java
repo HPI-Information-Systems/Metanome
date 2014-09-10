@@ -18,13 +18,13 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -53,14 +53,14 @@ public class ConfigurationValueFactory {
 
     if (specification instanceof ConfigurationRequirementBoolean) {
       return new ConfigurationValueBoolean((ConfigurationRequirementBoolean) specification);
-    } else if (specification instanceof ConfigurationRequirementCsvFile) {
+    } else if (specification instanceof ConfigurationRequirementFileInput) {
       return new ConfigurationValueFileInputGenerator(specification.getIdentifier(),
                                                       createFileInputGenerators(
-                                                          (ConfigurationRequirementCsvFile) specification));
-    } else if (specification instanceof ConfigurationRequirementSqlIterator) {
+                                                          (ConfigurationRequirementFileInput) specification));
+    } else if (specification instanceof ConfigurationRequirementDatabaseConnection) {
       return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
                                                      createSqlIteratorGenerators(
-                                                         (ConfigurationRequirementSqlIterator) specification));
+                                                         (ConfigurationRequirementDatabaseConnection) specification));
     } else if (specification instanceof ConfigurationRequirementString) {
       return new ConfigurationValueString((ConfigurationRequirementString) specification);
     } else if (specification instanceof ConfigurationRequirementInteger) {
@@ -73,21 +73,21 @@ public class ConfigurationValueFactory {
   }
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementSqlIterator}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
    * to a {@link de.metanome.algorithm_integration.input.SqlInputGenerator}.
    *
    * @param specification the sql iterator specification
    * @return the created sql input generator
    */
   private static SqlInputGenerator[] createSqlIteratorGenerators(
-      ConfigurationRequirementSqlIterator specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementDatabaseConnection specification) throws AlgorithmConfigurationException {
 
     SqlIteratorGenerator[]
         sqlIteratorGenerators =
         new SqlIteratorGenerator[specification.getSettings().length];
 
     int i = 0;
-    for (ConfigurationSettingSqlIterator setting : specification.getSettings()) {
+    for (ConfigurationSettingDatabaseConnection setting : specification.getSettings()) {
       sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
                                                           setting.getUsername(),
                                                           setting.getPassword());
@@ -97,19 +97,19 @@ public class ConfigurationValueFactory {
   }
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementCsvFile}
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}
    * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
    *
    * @param specification the file input specification
    * @return the created file input generator
    */
   private static FileInputGenerator[] createFileInputGenerators(
-      ConfigurationRequirementCsvFile specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementFileInput specification) throws AlgorithmConfigurationException {
 
     CsvFileGenerator[] csvFileGenerators = new CsvFileGenerator[specification.getSettings().length];
 
     int i = 0;
-    for (ConfigurationSettingCsvFile setting : specification.getSettings()) {
+    for (ConfigurationSettingFileInput setting : specification.getSettings()) {
       try {
         if (setting.isAdvanced()) {
           csvFileGenerators[i] =

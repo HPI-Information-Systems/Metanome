@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
@@ -126,8 +126,8 @@ public class SqlIteratorInput extends InputField {
       return;
     }
 
-    if (dataSourceSetting instanceof ConfigurationSettingSqlIterator) {
-      ConfigurationSettingSqlIterator setting = (ConfigurationSettingSqlIterator) dataSourceSetting;
+    if (dataSourceSetting instanceof ConfigurationSettingDatabaseConnection) {
+      ConfigurationSettingDatabaseConnection setting = (ConfigurationSettingDatabaseConnection) dataSourceSetting;
       this.setValues(setting);
     } else {
       throw new AlgorithmConfigurationException("This is not a sql iterator setting.");
@@ -139,7 +139,7 @@ public class SqlIteratorInput extends InputField {
    *
    * @return the widget's settings
    */
-  public ConfigurationSettingSqlIterator getValues() throws InputValidationException {
+  public ConfigurationSettingDatabaseConnection getValues() throws InputValidationException {
     String selectedValue = this.listbox.getSelectedValue();
 
     if (selectedValue.equals("--")) {
@@ -148,7 +148,7 @@ public class SqlIteratorInput extends InputField {
 
     DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(selectedValue);
 
-    return new ConfigurationSettingSqlIterator(currentDatabaseConnection.getUrl(),
+    return new ConfigurationSettingDatabaseConnection(currentDatabaseConnection.getUrl(),
                                                currentDatabaseConnection.getUsername(),
                                                currentDatabaseConnection.getPassword(),
                                                currentDatabaseConnection.getSystem());
@@ -160,7 +160,7 @@ public class SqlIteratorInput extends InputField {
    * @param setting the settings to set
    * @throws AlgorithmConfigurationException if no database connections are set
    */
-  public void setValues(ConfigurationSettingSqlIterator setting)
+  public void setValues(ConfigurationSettingDatabaseConnection setting)
       throws AlgorithmConfigurationException {
     for (Map.Entry<String, DatabaseConnection> con : this.databaseConnections.entrySet()) {
       DatabaseConnection current = con.getValue();

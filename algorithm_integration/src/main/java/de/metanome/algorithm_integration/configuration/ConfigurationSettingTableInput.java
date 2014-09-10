@@ -24,14 +24,14 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingDataSour
   private static final long serialVersionUID = 3242593091096735218L;
 
   private String table;
-  private ConfigurationSettingSqlIterator databaseConnection;
+  private ConfigurationSettingDatabaseConnection databaseConnection;
 
   /**
    * Exists for GWT serialization.
    */
   protected ConfigurationSettingTableInput() {}
 
-  public ConfigurationSettingTableInput(String table, ConfigurationSettingSqlIterator databaseConnection) {
+  public ConfigurationSettingTableInput(String table, ConfigurationSettingDatabaseConnection databaseConnection) {
     this.table = table;
     this.databaseConnection = databaseConnection;
   }
@@ -44,11 +44,11 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingDataSour
     this.table = table;
   }
 
-  public ConfigurationSettingSqlIterator getDatabaseConnection() {
+  public ConfigurationSettingDatabaseConnection getDatabaseConnection() {
     return this.databaseConnection;
   }
 
-  public void setDatabaseConnection(ConfigurationSettingSqlIterator databaseConnection) {
+  public void setDatabaseConnection(ConfigurationSettingDatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
   }
 
