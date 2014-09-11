@@ -98,7 +98,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     }
 
     this.fileInputList.setHTML(0, 0, "<b>File Name</b>");
-    this.fileInputList.setHTML(1, 0, "<b>comment</b>");
+    this.fileInputList.setHTML(0, 1, "<b>Comment</b>");
 
     for (final FileInput input : inputs) {
       this.addFileInputToTable(input);

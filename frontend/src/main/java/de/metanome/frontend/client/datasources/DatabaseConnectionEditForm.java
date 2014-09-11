@@ -24,6 +24,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
@@ -45,7 +46,7 @@ public class DatabaseConnectionEditForm extends Grid {
   protected TextBox usernameTextbox;
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
-  protected TextBox commentTextbox;
+  protected TextArea commentTextbox;
   private DatabaseConnectionServiceAsync databaseConnectionService;
   private DatabaseConnectionTab parent;
   private TabWrapper messageReceiver;
@@ -73,7 +74,8 @@ public class DatabaseConnectionEditForm extends Grid {
     this.setText(3, 0, "Password");
     this.setWidget(3, 1, this.passwordTextbox);
 
-    this.commentTextbox = new TextBox();
+    this.commentTextbox = new TextArea();
+    this.commentTextbox.setVisibleLines(3);
     this.setText(4, 0, "Comment");
     this.setWidget(4, 1, this.commentTextbox);
 

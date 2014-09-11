@@ -25,7 +25,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -88,18 +87,20 @@ public class FileInputEditForm extends Grid {
     this.parent = parent;
     this.fileInputService = GWT.create(FileInputService.class);
 
-    FlowPanel standardPanel = new FlowPanel();
+    Grid standardPanel = new Grid(3, 2);
     this.setWidget(0, 0, standardPanel);
 
     fileListBox = createListbox();
-    standardPanel.add(fileListBox);
+    standardPanel.setText(0, 0, "File Name");
+    standardPanel.setWidget(0, 1, fileListBox);
 
     commentTextArea = new TextArea();
-    commentTextArea.setVisibleLines(5);
-    standardPanel.add(commentTextArea);
+    commentTextArea.setVisibleLines(3);
+    standardPanel.setText(1, 0, "Comment");
+    standardPanel.setWidget(1, 1, commentTextArea);
 
     advancedCheckbox = createAdvancedCheckbox();
-    standardPanel.add(advancedCheckbox);
+    standardPanel.setWidget(2, 1, advancedCheckbox);
 
     advancedTable = new FlexTable();
     advancedTable.setVisible(false);

@@ -72,7 +72,7 @@ public class TableInputEditForm extends Grid {
     this.setWidget(1, 1, this.tableNameTextbox);
 
     this.commentTextbox = new TextArea();
-    this.commentTextbox.setVisibleLines(5);
+    this.commentTextbox.setVisibleLines(3);
     this.setText(2, 0, "Comment");
     this.setWidget(2, 1, this.commentTextbox);
 

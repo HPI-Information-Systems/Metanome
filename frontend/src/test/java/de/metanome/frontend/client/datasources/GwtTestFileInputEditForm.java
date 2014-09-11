@@ -206,10 +206,11 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     input.reset();
 
     String actualFile = input.fileListBox.getSelectedValue();
+    String actualComment = input.commentTextArea.getText();
 
     //Check
     assertEquals("--", actualFile);
-    assertEquals("", input.commentTextArea.getText());
+    assertEquals("", actualComment);
   }
 
   @Override
