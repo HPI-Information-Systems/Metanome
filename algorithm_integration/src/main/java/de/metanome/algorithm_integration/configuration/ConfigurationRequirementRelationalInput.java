@@ -17,8 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 /**
- * Concrete {@link ConfigurationRequirement} for
- * {@link de.metanome.algorithm_integration.input.RelationalInput}s.
+ * Concrete {@link ConfigurationRequirement} for {@link de.metanome.algorithm_integration.input.RelationalInput}s.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
@@ -34,8 +33,7 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   }
 
   /**
-   * Construct a {@link ConfigurationRequirementRelationalInput},
-   * requesting 1 value.
+   * Construct a {@link ConfigurationRequirementRelationalInput}, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
@@ -44,8 +42,8 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   }
 
   /**
-   * Constructs a {@link ConfigurationRequirementRelationalInput},
-   * potentially requesting several values.
+   * Constructs a {@link ConfigurationRequirementRelationalInput}, potentially requesting several
+   * values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
@@ -68,6 +66,7 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
    * @return true if the correct number of settings have been set
    */
   public boolean setSettings(ConfigurationSettingRelationalInput... values) {
+    // FIXME an Exception should be thrown
     if (values.length != getNumberOfValues()) {
       return false;
     }
