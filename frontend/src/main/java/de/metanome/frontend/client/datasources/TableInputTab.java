@@ -128,7 +128,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
       }
     });
 
-    Button runButton = new Button("Run");
+    Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
       @Override
