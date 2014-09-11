@@ -25,64 +25,38 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementI
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
 import de.metanome.backend.input.csv.DefaultFileInputGenerator;
-import de.metanome.backend.input.sql.SqlIteratorGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * TODO docs
+ * Converts given {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
  */
 public class DefaultConfigurationFactory extends ConfigurationFactory {
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
-   * to a {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}.
-   *
-   * @param specification the sql iterator specification
-   * @return the created sql input generator
-   */
-  private static DatabaseConnectionGenerator[] createSqlIteratorGenerators(
-      ConfigurationRequirementDatabaseConnection specification) throws AlgorithmConfigurationException {
-
-    SqlIteratorGenerator[]
-        sqlIteratorGenerators =
-        new SqlIteratorGenerator[specification.getSettings().length];
-
-    int i = 0;
-    for (ConfigurationSettingDatabaseConnection setting : specification.getSettings()) {
-      sqlIteratorGenerators[i] = new SqlIteratorGenerator(setting.getDbUrl(),
-                                                          setting.getUsername(),
-                                                          setting.getPassword());
-      i++;
-    }
-    return sqlIteratorGenerators;
-  }
-
-  /**
    * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}
    * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
    *
-   * @param specification the file input specification
+   * @param requirement the file input requirement
    * @return the created file input generator
    */
+  @Deprecated
   private static FileInputGenerator[] createFileInputGenerators(
-      ConfigurationRequirementFileInput specification) throws AlgorithmConfigurationException {
+      ConfigurationRequirementFileInput requirement) throws AlgorithmConfigurationException {
 
     DefaultFileInputGenerator[]
         defaultFileInputGenerators =
-        new DefaultFileInputGenerator[specification.getSettings().length];
+        new DefaultFileInputGenerator[requirement.getSettings().length];
 
     int i = 0;
-    for (ConfigurationSettingFileInput setting : specification.getSettings()) {
+    for (ConfigurationSettingFileInput setting : requirement.getSettings()) {
       try {
         if (setting.isAdvanced()) {
           defaultFileInputGenerators[i] =
@@ -111,22 +85,22 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueBoolean build(ConfigurationRequirementBoolean specification) {
-    return new ConfigurationValueBoolean(specification);
+  public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement) {
+    return new ConfigurationValueBoolean(requirement);
   }
 
   /**
    * TODO docs
    */
-  public ConfigurationValueInteger build(ConfigurationRequirementInteger specification) {
-    return new ConfigurationValueInteger(specification);
+  public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement) {
+    return new ConfigurationValueInteger(requirement);
   }
 
   /**
    * TODO docs
    */
-  public ConfigurationValueListBox build(ConfigurationRequirementListBox specification) {
-    return new ConfigurationValueListBox(specification);
+  public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement) {
+    return new ConfigurationValueListBox(requirement);
   }
 
   // TODO add ConfigurationValueDatabaseConnection
@@ -145,10 +119,9 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
    * TODO docs
    */
   public ConfigurationValueSqlInputGenerator build(
-      ConfigurationRequirementDatabaseConnection specification) {
+      ConfigurationRequirementDatabaseConnection requirement) {
     try {
-      return new ConfigurationValueSqlInputGenerator(specification.getIdentifier(),
-                                                     createSqlIteratorGenerators(specification));
+      return new ConfigurationValueSqlInputGenerator(requirement);
     } catch (AlgorithmConfigurationException e) {
       e.printStackTrace();
       //TODO handle exception
@@ -159,8 +132,8 @@ public class DefaultConfigurationFactory extends ConfigurationFactory {
   /**
    * TODO docs
    */
-  public ConfigurationValueString build(ConfigurationRequirementString specification) {
-    return new ConfigurationValueString(specification);
+  public ConfigurationValueString build(ConfigurationRequirementString requirement) {
+    return new ConfigurationValueString(requirement);
   }
 
 }

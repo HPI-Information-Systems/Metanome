@@ -58,6 +58,9 @@ public class DefaultRelationalInputGeneratorInitializer implements RelationalInp
   }
 
   public ConfigurationValueRelationalInputGenerator getConfigurationValue() {
-    return new ConfigurationValueRelationalInputGenerator(identifier, (RelationalInputGenerator[]) generatorList.toArray());
+    return new ConfigurationValueRelationalInputGenerator(identifier,
+                                                          generatorList.toArray(
+                                                              new RelationalInputGenerator[generatorList
+                                                                  .size()]));
   }
 }
