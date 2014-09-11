@@ -157,8 +157,9 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
       table.setWidget(row, 0, new HTML("<b>" + algorithm.getName() + "</b>"));
       table.setText(row, 1, "Author: " + algorithm.getAuthor());
       table.setText(row, 2, "File: " + algorithm.getFileName());
-      table.setWidget(row, 3, runButton);
-      table.setWidget(row, 4, deleteButton);
+      table.setText(row, 3, "Description: " + algorithm.getDescription());
+      table.setWidget(row, 4, runButton);
+      table.setWidget(row, 5, deleteButton);
       row++;
     }
   }
