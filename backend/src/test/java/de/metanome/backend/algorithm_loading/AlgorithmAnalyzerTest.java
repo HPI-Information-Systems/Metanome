@@ -42,6 +42,8 @@ public class AlgorithmAnalyzerTest {
     assertFalse(analyzer.isFunctionalDependencyAlgorithm());
     assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    assertTrue(analyzer.isTempFileAlgorithm());
+    assertFalse(analyzer.isProgressEstimatingAlgorithm());
   }
 
   @Test
@@ -60,6 +62,8 @@ public class AlgorithmAnalyzerTest {
     assertTrue(analyzer.isFunctionalDependencyAlgorithm());
     assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    assertFalse(analyzer.isTempFileAlgorithm());
+    assertFalse(analyzer.isProgressEstimatingAlgorithm());
   }
 
 }

@@ -22,6 +22,8 @@ import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorith
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
 import org.apache.commons.lang3.ClassUtils;
@@ -38,11 +40,15 @@ public class AlgorithmAnalyzer {
 
   private Algorithm algorithm;
 
-  private boolean functionalDependency = false;
-  private boolean inclusionDependency = false;
-  private boolean uniqueColumnCombination = false;
-  private boolean conditionalUniqueColumnCombination = false;
-  private boolean basicStatistic = false;
+  private boolean functionalDependencyAlgorithm = false;
+  private boolean inclusionDependencyAlgorithm = false;
+  private boolean uniqueColumnCombinationAlgorithm = false;
+  private boolean conditionalUniqueColumnCombinationAlgorithm = false;
+  private boolean basicStatisticAlgorithm = false;
+  private boolean tempFileAlgorithm = false;
+  private boolean progressEstimatingAlgorithm = false;
+
+  Set<Class<?>> interfaces;
 
   /**
    *
@@ -61,49 +67,65 @@ public class AlgorithmAnalyzer {
 
     this.algorithm = loader.loadAlgorithm(algorithmPath);
 
-    setInterfaces();
+    analyzerInterfaces();
   }
 
-  private void setInterfaces() {
-    Set<Class<?>> interfaces = getInterfaces(algorithm);
+  private void analyzerInterfaces() {
+    this.interfaces = extractInterfaces(algorithm);
 
     if (interfaces.contains(FunctionalDependencyAlgorithm.class))
-      functionalDependency = true;
+      functionalDependencyAlgorithm = true;
     if (interfaces.contains(InclusionDependencyAlgorithm.class))
-      inclusionDependency = true;
+      inclusionDependencyAlgorithm = true;
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class))
-      uniqueColumnCombination = true;
+      uniqueColumnCombinationAlgorithm = true;
     if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class))
-      conditionalUniqueColumnCombination = true;
+      conditionalUniqueColumnCombinationAlgorithm = true;
     if (interfaces.contains(BasicStatisticsAlgorithm.class))
-      basicStatistic = true;
+      basicStatisticAlgorithm = true;
+    if (interfaces.contains(TempFileAlgorithm.class))
+      tempFileAlgorithm = true;
+    if (interfaces.contains(ProgressEstimatingAlgorithm.class))
+      progressEstimatingAlgorithm = true;
   }
 
   public boolean isFunctionalDependencyAlgorithm() {
-    return functionalDependency;
+    return functionalDependencyAlgorithm;
   }
 
   public boolean isInclusionDependencyAlgorithm() {
-    return inclusionDependency;
+    return inclusionDependencyAlgorithm;
   }
 
   public boolean isUniqueColumnCombinationAlgorithm() {
-    return uniqueColumnCombination;
+    return uniqueColumnCombinationAlgorithm;
   }
 
   public boolean isConditionalUniqueColumnCombinationAlgorithm() {
-    return conditionalUniqueColumnCombination;
+    return conditionalUniqueColumnCombinationAlgorithm;
   }
 
   public boolean isBasicStatisticAlgorithm() {
-    return basicStatistic;
+    return basicStatisticAlgorithm;
+  }
+
+  public boolean isTempFileAlgorithm() {
+    return tempFileAlgorithm;
+  }
+
+  public boolean isProgressEstimatingAlgorithm() {
+    return progressEstimatingAlgorithm;
   }
 
   public Algorithm getAlgorithm() {
     return algorithm;
   }
 
-  protected Set<Class<?>> getInterfaces(Object object) {
+  public Set<Class<?>> getInterfaces() {
+    return this.interfaces;
+  }
+
+  protected Set<Class<?>> extractInterfaces(Object object) {
     return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
   }
 
