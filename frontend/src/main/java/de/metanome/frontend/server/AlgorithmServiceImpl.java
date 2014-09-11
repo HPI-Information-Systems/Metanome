@@ -23,7 +23,9 @@ import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumn
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.frontend.client.services.AlgorithmService;
@@ -105,8 +107,24 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
    * @see de.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.metanome.backend.results_db.Algorithm)
    */
   @Override
-  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException {
+  public Algorithm addAlgorithm(Algorithm algorithm)
+      throws EntityStorageException, AlgorithmLoadingException {
+    AlgorithmAnalyzer analyzer = null;
+    try {
+      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
+    } catch (Exception e) {
+      throw new AlgorithmLoadingException("Algorithm could not be loaded!");
+    }
+
+    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
+    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
+    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
+    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+
     algorithm.store();
+
+    return algorithm;
   }
 
   @Override

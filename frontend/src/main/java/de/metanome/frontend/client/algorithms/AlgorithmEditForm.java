@@ -17,14 +17,12 @@
 package de.metanome.frontend.client.algorithms;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -48,15 +46,11 @@ public class AlgorithmEditForm extends Grid {
   protected ListBoxInput fileListBox = new ListBoxInput(false);
   protected TextBox nameTextBox = new TextBox();
   protected TextBox authorTextBox = new TextBox();
-  protected TextBox descriptionTextBox = new TextBox();
-  protected CheckBox indCheckBox = new CheckBox("Inclusion Dependencies");
-  protected CheckBox fdCheckBox = new CheckBox("Functional Dependencies");
-  protected CheckBox uccCheckBox = new CheckBox("Unique Column Combinations");
-  protected CheckBox basicStatsCheckBox = new CheckBox("Basic Statistics");
+  protected TextArea descriptionTextArea = new TextArea();
 
 
   public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
-    super(6, 2);
+    super(5, 2);
 
     this.algorithmsPage = parent;
     this.messageReceiver = messageReceiver;
@@ -71,25 +65,11 @@ public class AlgorithmEditForm extends Grid {
     this.setText(2, 0, "Author");
     this.setWidget(2, 1, this.authorTextBox);
 
+    this.descriptionTextArea.setVisibleLines(3);
     this.setText(3, 0, "Description");
-    this.setWidget(3, 1, this.descriptionTextBox);
+    this.setWidget(3, 1, this.descriptionTextArea);
 
-    this.setText(4, 0, "Features");
-    FlowPanel p = new FlowPanel();
-
-    p.getElement().getStyle().setWidth(300, Style.Unit.PX);
-    this.indCheckBox.addStyleName("left");
-    this.fdCheckBox.addStyleName("left");
-    this.uccCheckBox.addStyleName("left");
-    this.basicStatsCheckBox.addStyleName("left");
-
-    p.add(this.indCheckBox);
-    p.add(this.fdCheckBox);
-    p.add(this.uccCheckBox);
-    p.add(this.basicStatsCheckBox);
-    this.setWidget(4, 1, p);
-
-    this.setWidget(5, 1, (Widget) new Button("Save", new ClickHandler() {
+    this.setWidget(4, 1, (Widget) new Button("Save", new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
@@ -133,27 +113,22 @@ public class AlgorithmEditForm extends Grid {
 
   /**
    * @return a new Algorithm instance with attribute values according to user input
-   * @throws InputValidationException if the algorithm does not implement an algorithm type or the
-   *                                  algorithm name is not set
+   * @throws InputValidationException if the algorithm name is not set
    */
-  protected Algorithm retrieveInputValues() throws InputValidationException {
-    Algorithm algorithm = new Algorithm(this.fileListBox.getSelectedValue());
+  protected Algorithm retrieveInputValues()
+      throws InputValidationException {
+    String algorithmFile = this.fileListBox.getSelectedValue();
+
+    Algorithm algorithm = new Algorithm(algorithmFile);
     algorithm.setName(this.nameTextBox.getValue());
     algorithm.setAuthor(this.authorTextBox.getValue());
-    algorithm.setDescription(this.descriptionTextBox.getValue());
+    algorithm.setDescription(this.descriptionTextArea.getValue());
 
-    algorithm.setInd(this.indCheckBox.getValue());
-    algorithm.setFd(this.fdCheckBox.getValue());
-    algorithm.setUcc(this.uccCheckBox.getValue());
-    algorithm.setBasicStat(this.basicStatsCheckBox.getValue());
-
-    if (!algorithm.isInd() && !algorithm.isFd() && !algorithm.isUcc() && !algorithm.isBasicStat()) {
-      throw new InputValidationException(
-          "Your algorithm must implement at least one algorithm type.");
-    } else if (algorithm.getName().isEmpty()) {
+    if (algorithm.getName().isEmpty()) {
       throw new InputValidationException("Your algorithm should have a name!");
     }
 
     return algorithm;
   }
+
 }
