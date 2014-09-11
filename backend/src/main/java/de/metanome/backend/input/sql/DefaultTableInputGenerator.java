@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.input.TableInputGenerator;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
@@ -30,7 +30,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
  * @see de.metanome.algorithm_integration.input.RelationalInput
  * @see de.metanome.backend.input.sql.SqlIteratorGenerator
  */
-public class DefaultTableInputGenerator implements RelationalInputGenerator {
+public class DefaultTableInputGenerator implements TableInputGenerator {
 
   protected static final String BASE_STATEMENT = "SELECT * FROM ";
 
