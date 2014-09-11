@@ -39,7 +39,6 @@ import java.util.List;
 /**
  * @author Jens Ehrlich
  */
-
 public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgorithm,
                                          StringParameterAlgorithm, FileInputParameterAlgorithm,
                                          ProgressEstimatingAlgorithm {

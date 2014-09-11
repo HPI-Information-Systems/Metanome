@@ -19,8 +19,11 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
+import de.metanome.backend.input.sql.SqlIteratorGenerator;
 
 import java.util.Set;
 
@@ -42,6 +45,33 @@ public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
                                              DatabaseConnectionGenerator... values) {
     this.identifier = identifier;
     this.values = values;
+  }
+
+  public ConfigurationValueSqlInputGenerator(
+      ConfigurationRequirementDatabaseConnection configurationRequirement)
+      throws AlgorithmConfigurationException {
+    this.identifier = configurationRequirement.getIdentifier();
+    this.values = convertToValues(configurationRequirement);
+  }
+
+  /**
+   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
+   * to a {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}.
+   *
+   * @param configurationRequirement the sql iterator specification
+   * @return the created sql input generator
+   */
+  protected DatabaseConnectionGenerator[] convertToValues(
+      ConfigurationRequirementDatabaseConnection configurationRequirement)
+      throws AlgorithmConfigurationException {
+    ConfigurationSettingDatabaseConnection[] settings = configurationRequirement.getSettings();
+    DatabaseConnectionGenerator[] newValues = new DatabaseConnectionGenerator[settings.length];
+
+    for (int i = 0; i < settings.length; i++) {
+      newValues[i] = new SqlIteratorGenerator(settings[i]);
+    }
+
+    return newValues;
   }
 
   @Override
