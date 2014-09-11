@@ -24,6 +24,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.frontend.client.BasePage;
@@ -85,8 +86,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add the result table and the visualization tab
     TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(resultsTab, "Table");
-    panel.add(visualizationTab, "Visualization");
+    panel.add(new ScrollPanel(resultsTab), "Table");
+    panel.add(new ScrollPanel(visualizationTab), "Visualization");
     this.add(panel);
   }
 
