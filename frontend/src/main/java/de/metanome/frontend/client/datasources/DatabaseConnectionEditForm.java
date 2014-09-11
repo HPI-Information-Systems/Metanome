@@ -45,12 +45,13 @@ public class DatabaseConnectionEditForm extends Grid {
   protected TextBox usernameTextbox;
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
+  protected TextBox commentTextbox;
   private DatabaseConnectionServiceAsync databaseConnectionService;
   private DatabaseConnectionTab parent;
   private TabWrapper messageReceiver;
 
   public DatabaseConnectionEditForm(DatabaseConnectionTab parent) {
-    super(5, 2);
+    super(6, 2);
 
     this.parent = parent;
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
@@ -72,7 +73,11 @@ public class DatabaseConnectionEditForm extends Grid {
     this.setText(3, 0, "Password");
     this.setWidget(3, 1, this.passwordTextbox);
 
-    this.setWidget(4, 1, new Button("Save", new ClickHandler() {
+    this.commentTextbox = new TextBox();
+    this.setText(4, 0, "Comment");
+    this.setWidget(4, 1, this.commentTextbox);
+
+    this.setWidget(5, 1, new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveDatabaseConnection();
@@ -87,12 +92,14 @@ public class DatabaseConnectionEditForm extends Grid {
    * @param system   the database system for the database connection
    * @param username the username for the database connection
    * @param password the password for the database connection
+   * @param comment  the comment for the database connection
    */
-  public void setValues(String url, String system, String username, String password) {
+  public void setValues(String url, String system, String username, String password, String comment) {
     this.dbUrlTextbox.setValue(url);
     this.usernameTextbox.setValue(username);
     this.passwordTextbox.setValue(password);
     this.systemListBox.setSelectedValue(system);
+    this.commentTextbox.setValue(comment);
   }
 
   /**
@@ -108,6 +115,7 @@ public class DatabaseConnectionEditForm extends Grid {
     String username = this.usernameTextbox.getValue();
     String password = this.passwordTextbox.getValue();
     String system = this.systemListBox.getSelectedValue();
+    String comment = this.commentTextbox.getValue();
 
     if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty()) {
       throw new InputValidationException(
@@ -118,7 +126,8 @@ public class DatabaseConnectionEditForm extends Grid {
         .setUrl(url)
         .setUsername(username)
         .setPassword(password)
-        .setSystem(DbSystem.valueOf(system));
+        .setSystem(DbSystem.valueOf(system))
+        .setComment(comment);
 
     return connection;
   }
@@ -160,6 +169,7 @@ public class DatabaseConnectionEditForm extends Grid {
     this.usernameTextbox.setText("");
     this.passwordTextbox.setText("");
     this.systemListBox.reset();
+    this.commentTextbox.setText("");
   }
 
   /**
