@@ -26,16 +26,21 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
 import de.metanome.frontend.client.input_fields.FileInputInput;
 import de.metanome.frontend.client.input_fields.IntegerInput;
+import de.metanome.frontend.client.input_fields.RelationalInputInput;
+import de.metanome.frontend.client.input_fields.TableInputInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,6 +153,12 @@ public class GwtTestParameterTable extends GWTTestCase {
     final ConfigurationRequirementListBox
         ConfigurationSpecificationListBox =
         new ConfigurationRequirementListBox("listBox", values);
+    final ConfigurationRequirementRelationalInput
+        ConfigurationSpecificationRelationalInput =
+        new ConfigurationRequirementRelationalInput("relational");
+    final ConfigurationRequirementTableInput
+        ConfigurationSpecificationTableInput =
+        new ConfigurationRequirementTableInput("table");
 
     paramList.add(ConfigurationSpecificationString);
     paramList.add(ConfigurationSpecificationBoolean);
@@ -155,11 +166,15 @@ public class GwtTestParameterTable extends GWTTestCase {
     paramList.add(ConfigurationSpecificationSQLIterator);
     paramList.add(ConfigurationSpecificationInteger);
     paramList.add(ConfigurationSpecificationListBox);
+    paramList.add(ConfigurationSpecificationRelationalInput);
+    paramList.add(ConfigurationSpecificationTableInput);
 
     final ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
     enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
     setDatabaseConnection((InputParameterDatabaseConnectionWidget) pt.getWidget(3, 1));
-    setCsvFile((InputParameterFileInputWidget) pt.getWidget(2, 1));
+    setFileInput((InputParameterFileInputWidget) pt.getWidget(2, 1));
+    setRelationalInput((InputParameterRelationalInputWidget) pt.getWidget(6, 1));
+    setTableInput((InputParameterTableInputWidget) pt.getWidget(7, 1));
 
     //Execute
     List<ConfigurationRequirement> retrievedParams = null;
@@ -179,6 +194,8 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
     assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
     assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+    assertTrue(!retrievedParams.contains(ConfigurationSpecificationTableInput));
+    assertTrue(!retrievedParams.contains(ConfigurationSpecificationRelationalInput));
 
     assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
     assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
@@ -186,18 +203,48 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
     assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
     assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+    assertTrue(retrievedDataSources.contains(ConfigurationSpecificationTableInput));
+    assertTrue(retrievedDataSources.contains(ConfigurationSpecificationRelationalInput));
 
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
 
-  private void setCsvFile(InputParameterFileInputWidget widget) {
+  private void setFileInput(InputParameterFileInputWidget widget) {
     FileInput fileInput = new FileInput("name");
 
     for (FileInputInput fileInputInput : widget.inputWidgets) {
       fileInputInput.listbox.addValue("name");
       fileInputInput.fileInputs.put("name", fileInput);
       fileInputInput.listbox.setSelectedValue("name");
+    }
+  }
+
+  private void setTableInput(InputParameterTableInputWidget widget) {
+    DatabaseConnection dbConnection = new DatabaseConnection();
+    dbConnection.setUrl("url");
+    dbConnection.setPassword("password");
+    dbConnection.setUsername("username");
+    dbConnection.setSystem(DbSystem.DB2);
+
+    TableInput tableInput = new TableInput();
+    tableInput.setTableName("table");
+    tableInput.setDatabaseConnection(dbConnection);
+
+    for (TableInputInput tableInputInput : widget.inputWidgets) {
+      tableInputInput.listbox.addValue("table;url;username;DB2");
+      tableInputInput.tableInputs.put("table;url;username;DB2", tableInput);
+      tableInputInput.listbox.setSelectedValue("table;url;username;DB2");
+    }
+  }
+
+  private void setRelationalInput(InputParameterRelationalInputWidget widget) {
+    FileInput fileInput = new FileInput("name");
+
+    for (RelationalInputInput relationalInputInput : widget.inputWidgets) {
+      relationalInputInput.listbox.addValue("name");
+      relationalInputInput.inputs.put("name", fileInput);
+      relationalInputInput.listbox.setSelectedValue("name");
     }
   }
 
@@ -252,6 +299,10 @@ public class GwtTestParameterTable extends GWTTestCase {
     ConfigurationRequirementListBox
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values);
+    String identifierRelationalInput = "relationalParam";
+    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput);
+    String identifierTable = "table";
+    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -262,6 +313,8 @@ public class GwtTestParameterTable extends GWTTestCase {
     InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
     InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
     InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
+    InputParameterWidget tableWidget = WidgetFactory.buildWidget(tableParam, tabWrapper);
+    InputParameterWidget relationalWidget = WidgetFactory.buildWidget(relationalParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -281,6 +334,12 @@ public class GwtTestParameterTable extends GWTTestCase {
 
     assertTrue(integerWidget instanceof InputParameterIntegerWidget);
     assertEquals(identifierInteger, integerWidget.getSpecification().getIdentifier());
+
+    assertTrue(tableWidget instanceof InputParameterTableInputWidget);
+    assertEquals(identifierTable, tableWidget.getSpecification().getIdentifier());
+
+    assertTrue(relationalWidget instanceof InputParameterRelationalInputWidget);
+    assertEquals(identifierRelationalInput, relationalWidget.getSpecification().getIdentifier());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -321,6 +380,10 @@ public class GwtTestParameterTable extends GWTTestCase {
     ConfigurationRequirementListBox
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values, 2);
+    String identifierRelationalInput = "relationalParam";
+    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
+    String identifierTable = "table";
+    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable, 2);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -331,6 +394,8 @@ public class GwtTestParameterTable extends GWTTestCase {
     InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam, tabWrapper);
     InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam, tabWrapper);
     InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam, tabWrapper);
+    InputParameterWidget tableWidget = WidgetFactory.buildWidget(tableParam, tabWrapper);
+    InputParameterWidget relationalWidget = WidgetFactory.buildWidget(relationalParam, tabWrapper);
 
     //Check
     assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -350,6 +415,12 @@ public class GwtTestParameterTable extends GWTTestCase {
 
     assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
     assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());
+
+    assertTrue(tableWidget instanceof InputParameterTableInputWidget);
+    assertEquals(2, ((InputParameterTableInputWidget) tableWidget).getWidgetCount());
+
+    assertTrue(relationalWidget instanceof InputParameterRelationalInputWidget);
+    assertEquals(2, ((InputParameterRelationalInputWidget) relationalWidget).getWidgetCount());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
