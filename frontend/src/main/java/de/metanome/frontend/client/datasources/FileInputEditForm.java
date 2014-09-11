@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -72,6 +73,7 @@ public class FileInputEditForm extends Grid {
   protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
+  protected TextArea commentTextArea;
   private FileInputServiceAsync fileInputService;
   private FileInputTab parent;
   private String path = "";
@@ -91,6 +93,10 @@ public class FileInputEditForm extends Grid {
 
     fileListBox = createListbox();
     standardPanel.add(fileListBox);
+
+    commentTextArea = new TextArea();
+    commentTextArea.setVisibleLines(5);
+    standardPanel.add(commentTextArea);
 
     advancedCheckbox = createAdvancedCheckbox();
     standardPanel.add(advancedCheckbox);
@@ -284,12 +290,14 @@ public class FileInputEditForm extends Grid {
     FileInput fileInput = new FileInput();
 
     String fileName = this.fileListBox.getSelectedValue();
+    String comment = this.commentTextArea.getValue();
 
     if (fileName.isEmpty() || fileName.equals("--")) {
       throw new InputValidationException("The file name is invalid.");
     }
 
     fileInput.setFileName(this.path + fileName);
+    fileInput.setComment(comment);
 
     if (this.advancedCheckbox.getValue()) {
       return setAdvancedSettings(fileInput);
@@ -388,6 +396,7 @@ public class FileInputEditForm extends Grid {
    * Reset the file name to the default entry "--" in the list box.
    */
   public void reset() {
+    this.commentTextArea.setText("");
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
   }

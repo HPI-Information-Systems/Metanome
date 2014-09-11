@@ -41,6 +41,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
         new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
 
     String expectedFileName = "file name";
+    String expectedComment = "comment";
+    field.commentTextArea.setText(expectedComment);
     field.setFileName(expectedFileName);
 
     // Execute
@@ -48,6 +50,7 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check
     assertEquals(expectedFileName, input.getFileName());
+    assertEquals(expectedComment, input.getComment());
   }
 
   /**
@@ -197,6 +200,7 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     input.fileListBox.addValue("file1");
     input.fileListBox.addValue("file2");
     input.fileListBox.setSelectedValue("file2");
+    input.commentTextArea.setText("comment");
 
     // Execute
     input.reset();
@@ -205,6 +209,7 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     //Check
     assertEquals("--", actualFile);
+    assertEquals("", input.commentTextArea.getText());
   }
 
   @Override
