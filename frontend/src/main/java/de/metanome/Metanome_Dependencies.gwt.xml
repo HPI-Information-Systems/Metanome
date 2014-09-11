@@ -39,6 +39,7 @@
         <include name="ConfigurationSettingString.java"/>
         <include name="ConfigurationSettingInteger.java"/>
         <include name="ConfigurationSettingListBox.java"/>
+        <include name="ConfigurationSettingRelationalInput.java"/>
         <include name="ConfigurationRequirement.java"/>
         <include name="ConfigurationRequirementBoolean.java"/>
         <include name="ConfigurationRequirementFileInput.java"/>
@@ -66,6 +67,9 @@
         <include name="FunctionalDependency.java"/>
         <include name="InclusionDependency.java"/>
         <include name="BasicStatistic.java"/>
+    </source>
+    <source path="algorithm_integration/input">
+        <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>

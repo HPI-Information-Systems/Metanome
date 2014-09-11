@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -181,6 +183,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   }
 
   @Override
+  @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer generator) throws FileNotFoundException {
     generator.initialize(this);
   }

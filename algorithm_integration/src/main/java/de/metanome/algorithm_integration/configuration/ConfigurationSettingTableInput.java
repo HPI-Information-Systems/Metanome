@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -92,6 +93,7 @@ public class ConfigurationSettingTableInput
   }
 
   @Override
+  @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer generator)
       throws AlgorithmConfigurationException {
     generator.initialize(this);

@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * Represents a table input in the database.
@@ -98,6 +99,7 @@ public class TableInput extends Input implements Serializable {
   }
 
   @Override
+  @Transient
   public String getIdentifier() {
     return tableName + "; " + databaseConnection.getIdentifier();
   }

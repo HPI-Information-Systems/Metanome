@@ -117,7 +117,7 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
         .getUpdatedSpecification()
         .getSettings()[0];
 
-    assertEquals(Joiner.on(';').join(aUrl, aUser, aPassword, aSystem),
+    assertEquals(Joiner.on(';').join(aUrl, aUser, aSystem),
                  retrievedSetting.getValueAsString());
 
     // Cleanup

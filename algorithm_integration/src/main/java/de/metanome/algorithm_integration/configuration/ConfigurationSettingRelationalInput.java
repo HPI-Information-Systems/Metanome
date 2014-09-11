@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -30,6 +31,7 @@ import java.io.FileNotFoundException;
  */
 public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
 
+  @GwtIncompatible("Can only be called from backend.")
   public abstract void generate(RelationalInputGeneratorInitializer generator)
       throws FileNotFoundException, AlgorithmConfigurationException;
 

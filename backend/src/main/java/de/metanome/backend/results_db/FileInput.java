@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 /**
  * Represents file inputs in the database.
@@ -207,6 +208,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   @Override
+  @Transient
   public String getIdentifier() {
     return fileName;
   }
