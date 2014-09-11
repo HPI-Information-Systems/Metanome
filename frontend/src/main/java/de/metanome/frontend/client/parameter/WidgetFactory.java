@@ -22,7 +22,9 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
 import de.metanome.frontend.client.TabWrapper;
 
 public class WidgetFactory {
@@ -62,6 +64,14 @@ public class WidgetFactory {
       widget =
           new InputParameterListBoxWidget((ConfigurationRequirementListBox) config,
                                           messageReceiver);
+    } else if (config instanceof ConfigurationRequirementRelationalInput) {
+      widget =
+          new InputParameterRelationalInputWidget((ConfigurationRequirementRelationalInput) config,
+                                          messageReceiver);
+    } else if (config instanceof ConfigurationRequirementTableInput) {
+      widget =
+          new InputParameterTableInputWidget((ConfigurationRequirementTableInput) config,
+                                                  messageReceiver);
     }
     return widget;
   }
