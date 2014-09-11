@@ -18,7 +18,7 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -77,12 +77,13 @@ public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
       throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(SqlInputParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
           "Algorithm does not accept sql input configuration values.");
     }
 
-    SqlInputParameterAlgorithm sqlInputParameterAlgorithm = (SqlInputParameterAlgorithm) algorithm;
-    sqlInputParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
+    DatabaseConnectionParameterAlgorithm
+        databaseConnectionParameterAlgorithm = (DatabaseConnectionParameterAlgorithm) algorithm;
+    databaseConnectionParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
   }
 }

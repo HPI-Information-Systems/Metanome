@@ -26,7 +26,7 @@ import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
  *
  * @author Jakob Zwiener
  */
-public interface SqlInputParameterAlgorithm extends Algorithm {
+public interface DatabaseConnectionParameterAlgorithm extends Algorithm {
 
   /**
    * Sets a SqlInputGenerator configuration value on the algorithm.

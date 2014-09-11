@@ -18,7 +18,7 @@ package de.metanome.algorithms.testing.example_sql_profiling_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.algorithm_types.SqlInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Jakob Zwiener
  */
-public class SqlProfilingAlgorithm implements SqlInputParameterAlgorithm {
+public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorithm {
 
   public static final String SQL_IDENTIFIER = "sql identifier";
 
