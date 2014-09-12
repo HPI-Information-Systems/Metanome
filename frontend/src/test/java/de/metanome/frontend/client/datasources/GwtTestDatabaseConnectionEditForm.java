@@ -36,6 +36,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
     String expectedUrl = "url";
     String expectedUser = "user";
     String expectedPassword = "password";
+    String expectedComment = "comment";
     String expectedSystem = DbSystem.DB2.name();
 
     DatabaseConnectionEditForm
@@ -44,7 +45,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
             new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
 
     // Execute
-    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
+    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword, expectedComment);
     DatabaseConnection actualConnection = input.getValue();
 
     //Check
@@ -52,6 +53,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
     assertEquals(expectedSystem, actualConnection.getSystem().name());
     assertEquals(expectedUser, actualConnection.getUsername());
     assertEquals(expectedPassword, actualConnection.getPassword());
+    assertEquals(expectedComment, actualConnection.getComment());
   }
 
   /**
@@ -70,7 +72,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
             new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
 
     // Execute
-    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword);
+    input.setValues(expectedUrl, expectedSystem, expectedUser, expectedPassword, "");
 
     //Check
     try {
@@ -89,7 +91,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
         input =
         new DatabaseConnectionEditForm(
             new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
-    input.setValues("url", DbSystem.DB2.name(), "user", "password");
+    input.setValues("url", DbSystem.DB2.name(), "user", "password", "some comment");
 
     // Execute
     input.reset();
@@ -98,12 +100,14 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
     String actualPassword = input.passwordTextbox.getText();
     String actualSystem = input.systemListBox.getSelectedValue();
     String actualUrl = input.dbUrlTextbox.getText();
+    String actualComment = input.commentTextbox.getText();
 
     //Check
     assertEquals("", actualUser);
     assertEquals(Arrays.asList(DbSystem.names()).get(0), actualSystem);
     assertEquals("", actualPassword);
     assertEquals("", actualUrl);
+    assertEquals("", actualComment);
   }
 
 

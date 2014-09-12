@@ -77,7 +77,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>de.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms.depminer</groupId>
                                     <artifactId>depminer_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -86,7 +86,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms.fastfds</groupId>
                                     <artifactId>fastfds_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -95,7 +95,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms.fdep</groupId>
                                     <artifactId>fdep_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>
@@ -104,7 +104,7 @@
                                     </outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>de.metanome.algorithms</groupId>
+                                    <groupId>de.metanome.algorithms.tane</groupId>
                                     <artifactId>tane_algorithm</artifactId>
                                     <version>${algorithms.version}</version>
                                     <type>jar</type>

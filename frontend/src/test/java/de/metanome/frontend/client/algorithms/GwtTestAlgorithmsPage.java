@@ -128,7 +128,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     algorithmsPage.setMessageReceiver(tab);
 
     // Construct and execute failure on the callback
-    AsyncCallback<Void> callback = algorithmsPage.getAddCallback(new Algorithm("fileName"));
+    AsyncCallback<Algorithm> callback = algorithmsPage.getAddCallback();
     callback.onFailure(new Throwable());
 
     assertTrue(tab.isInError());
@@ -154,8 +154,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     Algorithm a1 = new Algorithm("fileName");
     a1.setUcc(true);
 
-    AsyncCallback<Void> callback = algorithmsPage.getAddCallback(a1);
-    callback.onSuccess(null);
+    AsyncCallback<Algorithm> callback = algorithmsPage.getAddCallback();
+    callback.onSuccess(a1);
 
     assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
 

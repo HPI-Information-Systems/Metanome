@@ -153,6 +153,8 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
     cuccTable.setText(row, 2, conditionalUniqueColumnCombination.getCondition().toString());
+    cuccTable.setText(row, 3, Float
+        .toString(conditionalUniqueColumnCombination.getCondition().getCoverage()));
   }
 
   @Override

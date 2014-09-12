@@ -39,6 +39,7 @@ public class TableInput extends Input implements Serializable {
 
   protected String tableName;
   protected DatabaseConnection databaseConnection;
+  protected String comment;
 
   /**
    * Retrieves a TableInput from the database.
@@ -89,6 +90,16 @@ public class TableInput extends Input implements Serializable {
 
   public void setDatabaseConnection(DatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
+  }
+
+  public String getComment() {
+    return comment;
+  }
+
+  public TableInput setComment(String comment) {
+    this.comment = comment;
+
+    return this;
   }
 
   @Override
