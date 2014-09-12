@@ -69,10 +69,10 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
   protected boolean isFd;
   protected boolean isUcc;
   protected boolean isCucc;
-  protected boolean hasRelationalInput;
-  protected boolean hasDatabaseConnection;
-  protected boolean hasTableInput;
-  protected boolean hasFileInput;
+  protected boolean isRelationalInput;
+  protected boolean isDatabaseConnection;
+  protected boolean isTableInput;
+  protected boolean isFileInput;
 
   protected boolean isBasicStat;
 
@@ -114,16 +114,16 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
       setBasicStat(true);
     }
     if (algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
-      setHasFileInput(true);
+      setFileInput(true);
     }
     if (algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
-      setHasTableInput(true);
+      setTableInput(true);
     }
     if (algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
-      setHasRelationalInput(true);
+      setRelationalInput(true);
     }
     if (algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
-      setHasDatabaseConnection(true);
+      setDatabaseConnection(true);
     }
   }
 
@@ -323,34 +323,34 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     return this;
   }
 
-  public boolean hasRelationalInput() { return this.hasRelationalInput; }
+  public boolean isRelationalInput() { return this.isRelationalInput; }
 
-  public Algorithm setHasRelationalInput(boolean hasInput) {
-    this.hasRelationalInput = hasInput;
-
-    return this;
-  }
-
-  public boolean hasTableInput() { return this.hasTableInput; }
-
-  public Algorithm setHasTableInput(boolean hasInput) {
-    this.hasTableInput = hasInput;
+  public Algorithm setRelationalInput(boolean hasInput) {
+    this.isRelationalInput = hasInput;
 
     return this;
   }
 
-  public boolean hasFileInput() { return this.hasFileInput; }
+  public boolean isTableInput() { return this.isTableInput; }
 
-  public Algorithm setHasFileInput(boolean hasInput) {
-    this.hasFileInput = hasInput;
+  public Algorithm setTableInput(boolean hasInput) {
+    this.isTableInput = hasInput;
 
     return this;
   }
 
-  public boolean hasDatabaseConnection() { return this.hasDatabaseConnection; }
+  public boolean isFileInput() { return this.isFileInput; }
 
-  public Algorithm setHasDatabaseConnection(boolean hasInput) {
-    this.hasDatabaseConnection = hasInput;
+  public Algorithm setFileInput(boolean hasInput) {
+    this.isFileInput = hasInput;
+
+    return this;
+  }
+
+  public boolean isDatabaseConnection() { return this.isDatabaseConnection; }
+
+  public Algorithm setDatabaseConnection(boolean hasInput) {
+    this.isDatabaseConnection = hasInput;
 
     return this;
   }

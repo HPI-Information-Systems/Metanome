@@ -46,7 +46,6 @@ public class AlgorithmContentEquals {
     if (algo1.getDescription() != null ? !algo1.getDescription().equals(algo2.getDescription())
                                        : algo2.getDescription() != null) {
       return false;
-
     }
     if (!(algo1.isInd() == algo2.isInd())) {
       return false;
@@ -57,10 +56,22 @@ public class AlgorithmContentEquals {
     if (!(algo1.isUcc() == algo2.isUcc())) {
       return false;
     }
-
     if (!(algo1.isCucc() == algo2.isCucc())) {
       return false;
     }
+    if (!(algo1.isFileInput() == algo2.isFileInput())) {
+      return false;
+    }
+    if (!(algo1.isDatabaseConnection() == algo2.isDatabaseConnection())) {
+      return false;
+    }
+    if (!(algo1.isTableInput() == algo2.isTableInput())) {
+      return false;
+    }
+    if (!(algo1.isRelationalInput() == algo2.isRelationalInput())) {
+      return false;
+    }
+
 
     return algo1.isBasicStat() == algo2.isBasicStat();
 

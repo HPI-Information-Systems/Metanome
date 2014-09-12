@@ -24,6 +24,10 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.ParameterService;
@@ -209,10 +213,26 @@ public class AlgorithmChooser extends FlowPanel {
    *                   filtered
    */
   public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
-    this.listbox.setSelectedIndex(0);
-    // TODO filter out any algorithms that would not accept the given data source
-    System.out.println("Filtering algorithms for a data source is not yet implemented.");
+    for (Algorithm algorithm : this.algorithms.values()) {
+      if (dataSource instanceof ConfigurationSettingDatabaseConnection &&
+          algorithm.isDatabaseConnection()) {
+        removeAlgorithm(algorithm.getName());
+      }
+      else if (dataSource instanceof ConfigurationSettingTableInput &&
+          algorithm.isTableInput()) {
+        removeAlgorithm(algorithm.getName());
+      }
+      else if (dataSource instanceof ConfigurationSettingFileInput &&
+          algorithm.isFileInput()) {
+        removeAlgorithm(algorithm.getName());
+      }
+      else if (dataSource instanceof ConfigurationSettingRelationalInput &&
+          algorithm.isRelationalInput()) {
+        removeAlgorithm(algorithm.getName());
+      }
+    }
 
+    this.listbox.setSelectedIndex(0);
   }
 
   public void setMessageReceiver(TabWrapper receiver) {

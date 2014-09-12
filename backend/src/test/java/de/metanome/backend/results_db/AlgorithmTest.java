@@ -82,10 +82,10 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isUcc());
     assertTrue(actualAlgorithm.isCucc());
     assertTrue(actualAlgorithm.isBasicStat());
-    assertTrue(actualAlgorithm.hasDatabaseConnection());
-    assertTrue(actualAlgorithm.hasFileInput());
-    assertTrue(actualAlgorithm.hasRelationalInput());
-    assertTrue(actualAlgorithm.hasTableInput());
+    assertTrue(actualAlgorithm.isDatabaseConnection());
+    assertTrue(actualAlgorithm.isFileInput());
+    assertTrue(actualAlgorithm.isRelationalInput());
+    assertTrue(actualAlgorithm.isTableInput());
   }
 
   /**
@@ -122,10 +122,10 @@ public class AlgorithmTest {
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());
-    assertFalse(actualAlgorithm.hasDatabaseConnection());
-    assertTrue(actualAlgorithm.hasFileInput());
-    assertFalse(actualAlgorithm.hasRelationalInput());
-    assertFalse(actualAlgorithm.hasTableInput());
+    assertFalse(actualAlgorithm.isDatabaseConnection());
+    assertTrue(actualAlgorithm.isFileInput());
+    assertFalse(actualAlgorithm.isRelationalInput());
+    assertFalse(actualAlgorithm.isTableInput());
   }
 
   /**
