@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.datasources;
 
+import com.google.common.base.Joiner;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -93,11 +94,6 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param inputs the table inputs
    */
   protected void listTableInputs(List<TableInput> inputs) {
-    if (inputs.isEmpty()) {
-      this.add(new HTML("<h4>There are no Table Inputs yet.</h4>"));
-      return;
-    }
-
     this.tableInputList.setHTML(0, 0, "<b>Database Connection</b>");
     this.tableInputList.setHTML(0, 1, "<b>Table Name</b>");
 
@@ -123,8 +119,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
       @Override
       public void onClick(ClickEvent clickEvent) {
         tableInputService.deleteTableInput(input,
-                                           getDeleteCallback(finalRow,
-                                                             input.getDatabaseConnection()));
+                                           getDeleteCallback(input));
       }
     });
 
@@ -139,10 +134,10 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
     DatabaseConnection connection = input.getDatabaseConnection();
 
-    this.tableInputList.setText(row, 0,
-                                connection.getSystem().name() + "; " + connection.getUrl() + "; "
-                                + connection.getUsername());
-    this.tableInputList.setText(row, 1, input.getTableName());
+    this.tableInputList.setWidget(row, 0, new HTML(connection.getSystem().name()
+                                                   + "; " + connection.getUrl() + "; "
+                                                   + connection.getUsername()));
+    this.tableInputList.setWidget(row, 1, new HTML(input.getTableName()));
     this.tableInputList.setWidget(row, 2, runButton);
     this.tableInputList.setWidget(row, 3, deleteButton);
   }
@@ -187,11 +182,10 @@ public class TableInputTab extends FlowPanel implements TabContent {
   /**
    * Creates the callback for the delete call.
    *
-   * @param row The row, which contains the input.
+   * @param input the table input, which should be deleted.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final int row,
-                                                  final DatabaseConnection connection) {
+  protected AsyncCallback<Void> getDeleteCallback(final TableInput input) {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
@@ -200,14 +194,40 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
       @Override
       public void onSuccess(Void aVoid) {
-        tableInputList.removeRow(row);
-        setEnableOfDeleteButton(connection, true);
+        tableInputList.removeRow(findRow(input));
+        setEnableOfDeleteButton(input.getDatabaseConnection(), true);
       }
     };
   }
 
   public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
     this.parent.setEnableOfDeleteButton(databaseConnection, enabled);
+  }
+
+  /**
+   * Find the row in the table, which contains the given table input.
+   * @param input the table input
+   * @return the row number
+   */
+  private int findRow(TableInput input) {
+    int row = 0;
+
+    String identifierConnection = Joiner.on(";").join(input.getDatabaseConnection().getUrl(),
+                                                      input.getDatabaseConnection().getUsername(),
+                                                      input.getDatabaseConnection().getSystem().name());
+
+    while (row < this.tableInputList.getRowCount()) {
+      HTML connectionWidget = (HTML) this.tableInputList.getWidget(row, 0);
+      HTML tableWidget = (HTML) this.tableInputList.getWidget(row, 1);
+
+      if (connectionWidget != null && identifierConnection.equals(
+          connectionWidget.getText()) &&
+          tableWidget != null && input.getTableName().equals(tableWidget.getText())) {
+        return row;
+      }
+      row++;
+    }
+    return -1;
   }
 
   @Override

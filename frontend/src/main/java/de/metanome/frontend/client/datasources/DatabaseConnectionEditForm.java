@@ -132,7 +132,7 @@ public class DatabaseConnectionEditForm extends Grid {
       final DatabaseConnection currentConnection = this.getValue();
 
       this.databaseConnectionService
-          .storeDatabaseConnection(currentConnection, new AsyncCallback<Void>() {
+          .storeDatabaseConnection(currentConnection, new AsyncCallback<DatabaseConnection>() {
             @Override
             public void onFailure(Throwable throwable) {
               messageReceiver
@@ -140,10 +140,10 @@ public class DatabaseConnectionEditForm extends Grid {
             }
 
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(DatabaseConnection connection) {
               reset();
-              parent.addDatabaseConnectionToTable(currentConnection);
-              parent.updateTableInputTab(currentConnection);
+              parent.addDatabaseConnectionToTable(connection);
+              parent.updateTableInputTab(connection);
               parent.updateDataSourcesOnRunConfiguration();
             }
           });

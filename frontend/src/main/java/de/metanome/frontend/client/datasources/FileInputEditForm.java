@@ -392,7 +392,6 @@ public class FileInputEditForm extends Grid {
     this.setDefaultAdvancedSettings();
   }
 
-
   /**
    * Set the message receiver.
    *
