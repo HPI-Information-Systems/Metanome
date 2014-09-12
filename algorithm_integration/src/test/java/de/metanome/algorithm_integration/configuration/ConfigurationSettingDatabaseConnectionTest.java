@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.base.Joiner;
-
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
@@ -72,8 +70,7 @@ public class ConfigurationSettingDatabaseConnectionTest {
     ConfigurationSettingDatabaseConnection setting =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
                                             expectedSystem);
-    String expectedValuesString = Joiner.on(';')
-        .join(expectedUrl, expectedUsername, DbSystem.PostgreSQL.name());
+    String expectedValuesString = expectedUrl + "; " + expectedUsername + "; " + DbSystem.PostgreSQL.name();
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();

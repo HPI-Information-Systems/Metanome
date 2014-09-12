@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.base.Joiner;
-
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
@@ -78,8 +76,7 @@ public class ConfigurationSettingTableInputTest {
         setting =
         new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
 
-    String expectedValuesString = Joiner.on(';')
-        .join(expectedTable, expectedDatabaseConnection.getValueAsString());
+    String expectedValuesString = expectedTable + "; " + expectedDatabaseConnection.getValueAsString();
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();
