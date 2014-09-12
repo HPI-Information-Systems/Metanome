@@ -72,10 +72,10 @@ public class RelationalInputAlgorithmTest {
    * Test method for {@link RelationalInputAlgorithm#execute()}
    *
    * The algorithm should throw an {@link de.metanome.algorithm_integration.AlgorithmExecutionException}
-   * if one of the inputs has not been set.
+   * if the relational input has not been set.
    */
   @Test
-  public void testExecuteNoInputs() throws AlgorithmExecutionException {
+  public void testExecuteMissingRelationalInput() throws AlgorithmExecutionException {
     // Execute functionality
     // Check result
     try {
@@ -87,14 +87,6 @@ public class RelationalInputAlgorithmTest {
 
     algorithm.setRelationalInputConfigurationValue("some identifier",
                                                    mock(RelationalInputGenerator.class));
-    try {
-      algorithm.execute();
-      fail("An exception should have been thrown.");
-    } catch (AlgorithmExecutionException e) {
-      // Intentionally left blank
-    }
-
-    algorithm.setTableInputConfigurationValue("some identifier", mock(TableInputGenerator.class));
     // No exception should be thrown
     algorithm.execute();
   }
