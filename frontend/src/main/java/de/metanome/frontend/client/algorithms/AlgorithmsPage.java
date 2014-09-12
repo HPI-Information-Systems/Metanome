@@ -206,7 +206,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
-    algorithmService.addAlgorithm(algorithm, getAddCallback(algorithm));
+    algorithmService.addAlgorithm(algorithm, getAddCallback());
   }
 
   /**
@@ -242,11 +242,10 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Constructs a callback that will add the given algorithm to all matching tables
    *
-   * @param algorithm the algorithm to add to the page
    * @return the desired callback instance
    */
-  protected AsyncCallback<Void> getAddCallback(final Algorithm algorithm) {
-    return new AsyncCallback<Void>() {
+  protected AsyncCallback<Algorithm> getAddCallback() {
+    return new AsyncCallback<Algorithm>() {
 
       @Override
       public void onFailure(Throwable caught) {
@@ -254,7 +253,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
       }
 
       @Override
-      public void onSuccess(Void result) {
+      public void onSuccess(Algorithm algorithm) {
         ArrayList<Algorithm> list = new ArrayList<Algorithm>();
         list.add(algorithm);
         basePage.addAlgorithmsToRunConfigurations(list);
