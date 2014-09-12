@@ -47,12 +47,13 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
     editForm.dbConnectionListBox.addValue("1: url");
     editForm.dbMap.put("1: url", dbConnection);
 
-    editForm.setValues("1: url", "table");
+    editForm.setValues("1: url", "table", "comment");
 
     // Expected values
     final TableInput expectedInput = new TableInput();
     expectedInput.setDatabaseConnection(dbConnection);
     expectedInput.setTableName("table");
+    expectedInput.setComment("comment");
 
     // Check
     assertEquals(editForm.getValue(), expectedInput);
@@ -74,16 +75,19 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
     input.dbConnectionListBox.addValue("--");
     input.dbConnectionListBox.addValue("1: db2");
     input.tableNameTextbox.setText("table name");
+    input.commentTextbox.setText("some comment");
 
     // Execute
     input.reset();
 
     String actualDB = input.dbConnectionListBox.getSelectedValue();
     String actualTable = input.tableNameTextbox.getText();
+    String actualComment = input.commentTextbox.getText();
 
     // Check
     assertEquals("", actualTable);
     assertEquals("--", actualDB);
+    assertEquals("", actualComment);
 
     // Cleanup
     TestHelper.resetDatabaseSync();

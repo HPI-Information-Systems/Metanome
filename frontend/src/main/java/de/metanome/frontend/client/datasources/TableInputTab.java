@@ -100,6 +100,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
     this.tableInputList.setHTML(0, 0, "<b>Database Connection</b>");
     this.tableInputList.setHTML(0, 1, "<b>Table Name</b>");
+    this.tableInputList.setHTML(0, 2, "<b>Comment</b>");
 
     for (TableInput input : inputs) {
       this.addTableInputToTable(input);
@@ -143,8 +144,9 @@ public class TableInputTab extends FlowPanel implements TabContent {
                                 connection.getSystem().name() + "; " + connection.getUrl() + "; "
                                 + connection.getUsername());
     this.tableInputList.setText(row, 1, input.getTableName());
-    this.tableInputList.setWidget(row, 2, runButton);
-    this.tableInputList.setWidget(row, 3, deleteButton);
+    this.tableInputList.setText(row, 2, input.getComment());
+    this.tableInputList.setWidget(row, 3, runButton);
+    this.tableInputList.setWidget(row, 4, deleteButton);
   }
 
   /**

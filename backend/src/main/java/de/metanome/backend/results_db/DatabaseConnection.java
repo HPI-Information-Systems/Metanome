@@ -42,6 +42,7 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
   protected String username;
   protected String password;
   protected DbSystem system;
+  protected String comment;
 
   /**
    * Retrieves a DatabaseConnection from the database.
@@ -123,8 +124,20 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
     return system;
   }
 
-  public void setSystem(DbSystem system) {
+  public DatabaseConnection setSystem(DbSystem system) {
     this.system = system;
+
+    return this;
+  }
+
+  public String getComment() {
+    return comment;
+  }
+
+  public DatabaseConnection setComment(String comment) {
+    this.comment = comment;
+
+    return this;
   }
 
   @Override

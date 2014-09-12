@@ -25,9 +25,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -72,6 +72,7 @@ public class FileInputEditForm extends Grid {
   protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
+  protected TextArea commentTextArea;
   private FileInputServiceAsync fileInputService;
   private FileInputTab parent;
   private String path = "";
@@ -86,14 +87,20 @@ public class FileInputEditForm extends Grid {
     this.parent = parent;
     this.fileInputService = GWT.create(FileInputService.class);
 
-    FlowPanel standardPanel = new FlowPanel();
+    Grid standardPanel = new Grid(3, 2);
     this.setWidget(0, 0, standardPanel);
 
     fileListBox = createListbox();
-    standardPanel.add(fileListBox);
+    standardPanel.setText(0, 0, "File Name");
+    standardPanel.setWidget(0, 1, fileListBox);
+
+    commentTextArea = new TextArea();
+    commentTextArea.setVisibleLines(3);
+    standardPanel.setText(1, 0, "Comment");
+    standardPanel.setWidget(1, 1, commentTextArea);
 
     advancedCheckbox = createAdvancedCheckbox();
-    standardPanel.add(advancedCheckbox);
+    standardPanel.setWidget(2, 1, advancedCheckbox);
 
     advancedTable = new FlexTable();
     advancedTable.setVisible(false);
@@ -284,12 +291,14 @@ public class FileInputEditForm extends Grid {
     FileInput fileInput = new FileInput();
 
     String fileName = this.fileListBox.getSelectedValue();
+    String comment = this.commentTextArea.getValue();
 
     if (fileName.isEmpty() || fileName.equals("--")) {
       throw new InputValidationException("The file name is invalid.");
     }
 
     fileInput.setFileName(this.path + fileName);
+    fileInput.setComment(comment);
 
     if (this.advancedCheckbox.getValue()) {
       return setAdvancedSettings(fileInput);
@@ -388,6 +397,7 @@ public class FileInputEditForm extends Grid {
    * Reset the file name to the default entry "--" in the list box.
    */
   public void reset() {
+    this.commentTextArea.setText("");
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
   }

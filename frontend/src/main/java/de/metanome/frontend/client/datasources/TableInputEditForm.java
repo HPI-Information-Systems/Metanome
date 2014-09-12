@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -48,12 +49,13 @@ public class TableInputEditForm extends Grid {
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
+  protected TextArea commentTextbox;
   private TableInputServiceAsync tableInputService;
   private TabWrapper messageReceiver;
   private TableInputTab parent;
 
   public TableInputEditForm(TableInputTab parent) {
-    super(3, 2);
+    super(4, 2);
 
     this.parent = parent;
 
@@ -69,7 +71,12 @@ public class TableInputEditForm extends Grid {
     this.setText(1, 0, "Table Name");
     this.setWidget(1, 1, this.tableNameTextbox);
 
-    this.setWidget(2, 1, new Button("Save", new ClickHandler() {
+    this.commentTextbox = new TextArea();
+    this.commentTextbox.setVisibleLines(3);
+    this.setText(2, 0, "Comment");
+    this.setWidget(2, 1, this.commentTextbox);
+
+    this.setWidget(3, 1, new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveTableInput();
@@ -83,10 +90,12 @@ public class TableInputEditForm extends Grid {
    * @param connectionIdentifier the identifier of the database connection which should be selected
    *                             in the list box
    * @param tableName            the table name which should be set in the text box
+   * @param comment               the comment of the table input
    */
-  protected void setValues(String connectionIdentifier, String tableName) {
+  protected void setValues(String connectionIdentifier, String tableName, String comment) {
     this.dbConnectionListBox.setSelectedValue(connectionIdentifier);
     this.tableNameTextbox.setValue(tableName);
+    this.commentTextbox.setValue(comment);
   }
 
   /**
@@ -101,6 +110,7 @@ public class TableInputEditForm extends Grid {
     String identifier = this.dbConnectionListBox.getSelectedValue();
     DatabaseConnection connection = this.dbMap.get(identifier);
     String tableName = this.tableNameTextbox.getValue();
+    String comment = this.commentTextbox.getValue();
 
     if (tableName.isEmpty() || connection == null) {
       throw new InputValidationException(
@@ -109,6 +119,7 @@ public class TableInputEditForm extends Grid {
 
     tableInput.setDatabaseConnection(connection);
     tableInput.setTableName(tableName);
+    tableInput.setComment(comment);
 
     return tableInput;
   }
@@ -157,6 +168,7 @@ public class TableInputEditForm extends Grid {
   public void reset() {
     this.dbConnectionListBox.reset();
     this.tableNameTextbox.setText("");
+    this.commentTextbox.setText("");
   }
 
   /**
