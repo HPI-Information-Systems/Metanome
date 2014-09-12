@@ -49,6 +49,7 @@ public class FileInput extends Input implements Serializable {
   protected boolean ignoreLeadingWhiteSpace;
   protected boolean hasHeader;
   protected boolean skipDifferingLines;
+  protected String comment;
 
   /**
    * Constructs a FileInput with default parser settings.
@@ -195,6 +196,16 @@ public class FileInput extends Input implements Serializable {
 
   public FileInput setSkipDifferingLines(boolean skipDifferingLines) {
     this.skipDifferingLines = skipDifferingLines;
+
+    return this;
+  }
+
+  public String getComment() {
+    return comment;
+  }
+
+  public FileInput setComment(String comment) {
+    this.comment = comment;
 
     return this;
   }

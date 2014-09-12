@@ -93,6 +93,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
    */
   protected void listFileInputs(List<FileInput> inputs) {
     this.fileInputList.setHTML(0, 0, "<b>File Name</b>");
+    this.fileInputList.setHTML(0, 1, "<b>Comment</b>");
 
     for (final FileInput input : inputs) {
       this.addFileInputToTable(input);
@@ -130,8 +131,9 @@ public class FileInputTab extends FlowPanel implements TabContent {
     });
 
     this.fileInputList.setText(row, 0, FilePathHelper.getFileName(input.getFileName()));
-    this.fileInputList.setWidget(row, 1, runButton);
-    this.fileInputList.setWidget(row, 2, deleteButton);
+    this.fileInputList.setText(row, 1, input.getComment());
+    this.fileInputList.setWidget(row, 2, runButton);
+    this.fileInputList.setWidget(row, 3, deleteButton);
   }
 
   /**

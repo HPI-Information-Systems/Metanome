@@ -20,6 +20,7 @@ package de.metanome.frontend.client.services;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 
@@ -42,7 +43,9 @@ public interface AlgorithmService extends RemoteService {
 
   public List<Algorithm> listAllAlgorithms();
 
-  public void addAlgorithm(Algorithm algorithm) throws EntityStorageException;
+  public Algorithm addAlgorithm(Algorithm algorithm)
+      throws EntityStorageException, AlgorithmLoadingException;
 
   public void deleteAlgorithm(Algorithm algorithm);
+
 }

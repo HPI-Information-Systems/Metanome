@@ -18,6 +18,7 @@ package de.metanome.frontend.server;
 
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -122,15 +123,14 @@ public class AlgorithmServiceImplTest {
    * <p/> When no interface is specified all stored algorithms should be retrieved by the service.
    */
   @Test
-  public void testAddAlgorithm() throws EntityStorageException {
+  public void testAddAlgorithm() throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     AlgorithmServiceImpl finderService = new AlgorithmServiceImpl();
 
     // Execute functionality: add an IND algorithm
-    Algorithm algorithm = new Algorithm("someFileName.jar");
-    algorithm.setInd(true);
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
     finderService.addAlgorithm(algorithm);
 
     // Check result

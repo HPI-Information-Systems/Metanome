@@ -115,6 +115,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     this.connectionInputList.setHTML(0, 0, "<b>Url</b>");
     this.connectionInputList.setHTML(0, 1, "<b>Username</b>");
     this.connectionInputList.setHTML(0, 2, "<b>System</b>");
+    this.connectionInputList.setHTML(0, 3, "<b>Comment</b>");
 
     for (final DatabaseConnection input : inputs) {
       this.addDatabaseConnectionToTable(input);
@@ -151,10 +152,11 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     });
 
     this.connectionInputList.setWidget(row, 0, new HTML(input.getUrl()));
-    this.connectionInputList.setWidget(row, 1, new HTML(input.getUsername()));
-    this.connectionInputList.setWidget(row, 2, new HTML(input.getSystem().name()));
-    this.connectionInputList.setWidget(row, 3, runButton);
-    this.connectionInputList.setWidget(row, 4, deleteButton);
+    this.connectionInputList.setText(row, 1, input.getUsername());
+    this.connectionInputList.setText(row, 2, input.getSystem().name());
+    this.connectionInputList.setText(row, 3, input.getComment());
+    this.connectionInputList.setWidget(row, 4, runButton);
+    this.connectionInputList.setWidget(row, 5, deleteButton);
   }
 
   /**

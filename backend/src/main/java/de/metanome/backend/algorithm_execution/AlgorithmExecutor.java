@@ -28,24 +28,20 @@ import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
+import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.ConfigurationValueFactory;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 
-import org.apache.commons.lang3.ClassUtils;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -125,52 +121,49 @@ public class AlgorithmExecutor implements Closeable {
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
-    AlgorithmJarLoader loader = new AlgorithmJarLoader();
-    Algorithm algorithm;
 
-    algorithm = loader.loadAlgorithm(algorithmFileName);
-
-    Set<Class<?>> interfaces = getInterfaces(algorithm);
+    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
+    Algorithm algorithm = analyzer.getAlgorithm();
 
     for (ConfigurationValue configValue : parameters) {
-      configValue.triggerSetValue(algorithm, interfaces);
+      configValue.triggerSetValue(algorithm, analyzer.getInterfaces());
     }
 
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+    if (analyzer.isFunctionalDependencyAlgorithm()) {
       FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
       fdAlgorithm.setResultReceiver(resultReceiver);
     }
 
-    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+    if (analyzer.isInclusionDependencyAlgorithm()) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);
     }
 
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+    if (analyzer.isUniqueColumnCombinationAlgorithm()) {
       UniqueColumnCombinationsAlgorithm
           uccAlgorithm =
           (UniqueColumnCombinationsAlgorithm) algorithm;
       uccAlgorithm.setResultReceiver(resultReceiver);
     }
 
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+    if (analyzer.isConditionalUniqueColumnCombinationAlgorithm()) {
       ConditionalUniqueColumnCombinationAlgorithm
           cuccAlgorithm =
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
     }
 
-    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
+    if (analyzer.isBasicStatisticAlgorithm()) {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
       basicStatAlgorithm.setResultReceiver(resultReceiver);
     }
 
-    if (interfaces.contains(TempFileAlgorithm.class)) {
+    if (analyzer.isTempFileAlgorithm()) {
       TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
       tempFileAlgorithm.setTempFileGenerator(fileGenerator);
     }
 
-    if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
+    if (analyzer.isProgressEstimatingAlgorithm()) {
       ProgressEstimatingAlgorithm
           progressEstimatingAlgorithm =
           (ProgressEstimatingAlgorithm) algorithm;
@@ -189,10 +182,6 @@ public class AlgorithmExecutor implements Closeable {
         .store();
 
     return elapsedNanos;
-  }
-
-  protected Set<Class<?>> getInterfaces(Object object) {
-    return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
   }
 
   @Override
