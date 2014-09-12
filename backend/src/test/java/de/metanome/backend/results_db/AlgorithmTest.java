@@ -18,9 +18,13 @@ package de.metanome.backend.results_db;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
@@ -60,6 +64,11 @@ public class AlgorithmTest {
     algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
     algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+    algorithmInterfaces.add(RelationalInputParameterAlgorithm.class);
+    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
+    algorithmInterfaces.add(TableInputParameterAlgorithm.class);
+    algorithmInterfaces.add(DatabaseConnectionParameterAlgorithm.class);
+
     // Expected values
     String expectedFileName = "some file name";
 
@@ -73,6 +82,10 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isUcc());
     assertTrue(actualAlgorithm.isCucc());
     assertTrue(actualAlgorithm.isBasicStat());
+    assertTrue(actualAlgorithm.hasDatabaseConnection());
+    assertTrue(actualAlgorithm.hasFileInput());
+    assertTrue(actualAlgorithm.hasRelationalInput());
+    assertTrue(actualAlgorithm.hasTableInput());
   }
 
   /**
@@ -86,6 +99,7 @@ public class AlgorithmTest {
     // Setup
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
     algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
     // Expected values
     String expectedFileName = "some file name";
     String expectedName = "some name";
@@ -108,6 +122,10 @@ public class AlgorithmTest {
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());
+    assertFalse(actualAlgorithm.hasDatabaseConnection());
+    assertTrue(actualAlgorithm.hasFileInput());
+    assertFalse(actualAlgorithm.hasRelationalInput());
+    assertFalse(actualAlgorithm.hasTableInput());
   }
 
   /**

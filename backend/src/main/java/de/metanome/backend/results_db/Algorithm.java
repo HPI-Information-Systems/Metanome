@@ -21,8 +21,12 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
 import org.hibernate.criterion.Criterion;
@@ -65,6 +69,10 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
   protected boolean isFd;
   protected boolean isUcc;
   protected boolean isCucc;
+  protected boolean hasRelationalInput;
+  protected boolean hasDatabaseConnection;
+  protected boolean hasTableInput;
+  protected boolean hasFileInput;
 
   protected boolean isBasicStat;
 
@@ -104,6 +112,18 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     }
     if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
       setBasicStat(true);
+    }
+    if (algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
+      setHasFileInput(true);
+    }
+    if (algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
+      setHasTableInput(true);
+    }
+    if (algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
+      setHasRelationalInput(true);
+    }
+    if (algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
+      setHasDatabaseConnection(true);
     }
   }
 
@@ -299,6 +319,38 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
 
   public Algorithm setBasicStat(boolean isBasicStat) {
     this.isBasicStat = isBasicStat;
+
+    return this;
+  }
+
+  public boolean hasRelationalInput() { return this.hasRelationalInput; }
+
+  public Algorithm setHasRelationalInput(boolean hasInput) {
+    this.hasRelationalInput = hasInput;
+
+    return this;
+  }
+
+  public boolean hasTableInput() { return this.hasTableInput; }
+
+  public Algorithm setHasTableInput(boolean hasInput) {
+    this.hasTableInput = hasInput;
+
+    return this;
+  }
+
+  public boolean hasFileInput() { return this.hasFileInput; }
+
+  public Algorithm setHasFileInput(boolean hasInput) {
+    this.hasFileInput = hasInput;
+
+    return this;
+  }
+
+  public boolean hasDatabaseConnection() { return this.hasDatabaseConnection; }
+
+  public Algorithm setHasDatabaseConnection(boolean hasInput) {
+    this.hasDatabaseConnection = hasInput;
 
     return this;
   }
