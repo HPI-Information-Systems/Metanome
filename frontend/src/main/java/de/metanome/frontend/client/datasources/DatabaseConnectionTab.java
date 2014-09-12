@@ -88,22 +88,22 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
           public void onSuccess(List<DatabaseConnection> connections) {
             listDatabaseConnections(connections);
             addEditForm();
+
+            // disable all delete button of database connection which are referenced by a table input
+            tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+              @Override
+              public void onFailure(Throwable throwable) {
+              }
+
+              @Override
+              public void onSuccess(List<TableInput> tableInputs) {
+                for (TableInput input : tableInputs) {
+                  setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+                }
+              }
+            });
           }
         });
-
-    // disable all delete button of database connection which are referenced by a table input
-    tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
-      @Override
-      public void onFailure(Throwable throwable) {
-      }
-
-      @Override
-      public void onSuccess(List<TableInput> tableInputs) {
-        for (TableInput input : tableInputs) {
-          setEnableOfDeleteButton(input.getDatabaseConnection(), false);
-        }
-      }
-    });
   }
 
   /**

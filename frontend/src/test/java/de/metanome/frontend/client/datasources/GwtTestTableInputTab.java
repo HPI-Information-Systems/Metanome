@@ -142,11 +142,11 @@ public class GwtTestTableInputTab extends GWTTestCase {
     page.databaseConnectionTab.connectionInputList.setWidget(1, 2, new HTML("DB2"));
     page.databaseConnectionTab.connectionInputList.setWidget(1, 4, deleteButton2);
 
-    tableInputTab.tableInputList.setWidget(0, 0, new HTML("url1;user1;DB2"));
+    tableInputTab.tableInputList.setWidget(0, 0, new HTML("DB2; url1; user1"));
     tableInputTab.tableInputList.setWidget(0, 1, new HTML("table1"));
-    tableInputTab.tableInputList.setWidget(1, 0, new HTML("url2;user2;DB2"));
+    tableInputTab.tableInputList.setWidget(1, 0, new HTML("DB2; url2; user2"));
     tableInputTab.tableInputList.setWidget(1, 1, new HTML("table2"));
-    tableInputTab.tableInputList.setWidget(2, 0, new HTML("url3;user3;DB2"));
+    tableInputTab.tableInputList.setWidget(2, 0, new HTML("DB2; url3; user3"));
     tableInputTab.tableInputList.setWidget(2, 1, new HTML("table3"));
 
     int rowCount = tableInputTab.tableInputList.getRowCount();

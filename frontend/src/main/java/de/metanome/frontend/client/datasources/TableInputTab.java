@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.common.base.Joiner;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -212,9 +211,9 @@ public class TableInputTab extends FlowPanel implements TabContent {
   private int findRow(TableInput input) {
     int row = 0;
 
-    String identifierConnection = Joiner.on(";").join(input.getDatabaseConnection().getUrl(),
-                                                      input.getDatabaseConnection().getUsername(),
-                                                      input.getDatabaseConnection().getSystem().name());
+    String identifierConnection = input.getDatabaseConnection().getSystem().name() + "; " +
+                                  input.getDatabaseConnection().getUrl() + "; " +
+                                  input.getDatabaseConnection().getUsername();
 
     while (row < this.tableInputList.getRowCount()) {
       HTML connectionWidget = (HTML) this.tableInputList.getWidget(row, 0);
