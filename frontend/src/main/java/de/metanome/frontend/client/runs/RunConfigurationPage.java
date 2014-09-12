@@ -18,11 +18,15 @@ package de.metanome.frontend.client.runs;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
@@ -59,6 +63,21 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   public RunConfigurationPage(BasePage basePage) {
     super(Style.Unit.EM);
     this.basePage = basePage;
+
+    FlowPanel panel = new FlowPanel();
+    Button refreshButton = new Button("Refresh");
+    refreshButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        String name = algorithmChooser.getSelectedAlgorithm();
+        algorithmChooser.resetListBox();
+        algorithmChooser.setSelectedAlgorithm(name);
+        primaryDataSourceLabel.setText("");
+      }
+    });
+    panel.add(refreshButton);
+
+    this.addNorth(panel, 3);
 
     this.primaryDataSourceLabel = new Label();
     this.addNorth(this.primaryDataSourceLabel, 2);
@@ -111,6 +130,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.messageReceiver.clearErrors();
     this.messageReceiver.clearInfos();
 
+    this.algorithmChooser.resetListBox();
     this.algorithmChooser.setSelectedAlgorithm(algorithmName);
     this.algorithmChooser.submit();
   }
@@ -136,6 +156,8 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.primaryDataSourceLabel.setText(
         "This should filter for algorithms applicable on " + dataSource.getValueAsString());
     removeParameterTable();
+
+    this.algorithmChooser.resetListBox();
     this.algorithmChooser.filterForPrimaryDataSource(dataSource);
   }
 

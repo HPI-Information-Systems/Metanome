@@ -150,7 +150,7 @@ public class GwtTestBasePage extends GWTTestCase {
         assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
         assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
         assertNotNull(runPage.parameterTable);
-        assertEquals(3, runPage.getWidgetCount());
+        assertEquals(4, runPage.getWidgetCount());
 
         // Cleanup
         TestHelper.resetDatabaseSync();

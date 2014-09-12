@@ -22,11 +22,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
@@ -177,14 +176,7 @@ public class AlgorithmChooser extends FlowPanel {
    */
   public void removeAlgorithm(String algorithmName) {
     this.algorithms.remove(algorithmName);
-    int index = 0;
-    while (index < this.listbox.getItemCount()) {
-      if (this.listbox.getItemText(index).equals(algorithmName)) {
-        this.listbox.removeItem(index);
-        return;
-      }
-      index++;
-    }
+    removeAlgorithmFromListBox(algorithmName);
   }
 
   /**
@@ -215,24 +207,54 @@ public class AlgorithmChooser extends FlowPanel {
   public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
     for (Algorithm algorithm : this.algorithms.values()) {
       if (dataSource instanceof ConfigurationSettingDatabaseConnection &&
-          algorithm.isDatabaseConnection()) {
-        removeAlgorithm(algorithm.getName());
+          !algorithm.isDatabaseConnection()) {
+        removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingTableInput &&
-          algorithm.isTableInput()) {
-        removeAlgorithm(algorithm.getName());
+          !algorithm.isTableInput()) {
+        removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingFileInput &&
-          algorithm.isFileInput()) {
-        removeAlgorithm(algorithm.getName());
-      }
-      else if (dataSource instanceof ConfigurationSettingRelationalInput &&
-          algorithm.isRelationalInput()) {
-        removeAlgorithm(algorithm.getName());
+          !algorithm.isFileInput()) {
+        removeAlgorithmFromListBox(algorithm.getName());
       }
     }
 
     this.listbox.setSelectedIndex(0);
+  }
+
+  /**
+   * Removes the given algorithm from the list box.
+   * @param algorithmName the algorithm's name, which should be removed
+   */
+  private void removeAlgorithmFromListBox(String algorithmName) {
+    int index = 0;
+    while (index < this.listbox.getItemCount()) {
+      if (this.listbox.getItemText(index).equals(algorithmName)) {
+        this.listbox.removeItem(index);
+        return;
+      }
+      index++;
+    }
+  }
+
+  /**
+   * Resets the list box. Adds all available algorithms to the list box again.
+   */
+  public void resetListBox() {
+    this.listbox.clear();
+
+    this.listbox.addItem("--");
+    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+    this.listbox.setSelectedIndex(0);
+
+    for (Algorithm algorithm : this.algorithms.values()) {
+      String name = algorithm.getName();
+      if (name == null) {
+        name = algorithm.getFileName();
+      }
+      sortedInsert(name);
+    }
   }
 
   public void setMessageReceiver(TabWrapper receiver) {

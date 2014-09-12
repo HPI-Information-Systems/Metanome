@@ -19,6 +19,9 @@ package de.metanome.frontend.client.runs;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.frontend.client.BasePage;
@@ -153,7 +156,6 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
    * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#removeAlgorithm(String)}
    */
   public void testRemoveAlgorithm() {
-    // Setup
     LinkedList<Algorithm> algorithms = new LinkedList<>();
     algorithms.add(new Algorithm("Algorithm 1"));
     algorithms.add(new Algorithm("Algorithm 2"));
@@ -169,6 +171,103 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertEquals("--", jarChooser.listbox.getItemText(0));
     assertEquals("Algorithm 1", jarChooser.listbox.getItemText(1));
   }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#filterForPrimaryDataSource(de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   */
+  public void testFilterForPrimaryDataSourceFileInput() {
+    // Setup
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+
+    Algorithm algo1 = new Algorithm("file1.jar");
+    algo1.setName("algo1");
+    algo1.setInd(true);
+    algo1.setFileInput(true);
+    algorithms.add(algo1);
+
+    Algorithm algo2 = new Algorithm("file2.jar");
+    algo2.setName("algo2");
+    algo2.setFd(true);
+    algo2.setTableInput(true);
+    algorithms.add(algo2);
+
+    Algorithm algo3 = new Algorithm("file3.jar");
+    algo3.setName("algo3");
+    algo3.setUcc(true);
+    algo3.setDatabaseConnection(true);
+    algorithms.add(algo3);
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(4, jarChooser.listbox.getItemCount());
+
+    // Execute
+    jarChooser.filterForPrimaryDataSource(new ConfigurationSettingFileInput());
+
+    assertEquals(2, jarChooser.listbox.getItemCount());
+    assertEquals("--", jarChooser.listbox.getItemText(0));
+    assertEquals("algo1", jarChooser.listbox.getItemText(1));
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#filterForPrimaryDataSource(de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
+   */
+  public void testFilterForPrimaryDataSourceDatabaseConnection() {
+    // Setup
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+
+    Algorithm algo1 = new Algorithm("file1.jar");
+    algo1.setName("algo1");
+    algo1.setInd(true);
+    algo1.setFileInput(true);
+    algorithms.add(algo1);
+
+    Algorithm algo2 = new Algorithm("file2.jar");
+    algo2.setName("algo2");
+    algo2.setFd(true);
+    algo2.setTableInput(true);
+    algorithms.add(algo2);
+
+    Algorithm algo3 = new Algorithm("file3.jar");
+    algo3.setName("algo3");
+    algo3.setUcc(true);
+    algo3.setFileInput(true);
+    algo3.setDatabaseConnection(true);
+    algorithms.add(algo3);
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(4, jarChooser.listbox.getItemCount());
+
+    // Execute
+    jarChooser.filterForPrimaryDataSource(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",
+                                                                                     DbSystem.DB2));
+
+    assertEquals(2, jarChooser.listbox.getItemCount());
+    assertEquals("--", jarChooser.listbox.getItemText(0));
+    assertEquals("algo3", jarChooser.listbox.getItemText(1));
+  }
+
+  /**
+   * Test method for {@link AlgorithmChooser#resetListBox()}
+   */
+  public void testResetListBox() {
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(3, jarChooser.listbox.getItemCount());
+    jarChooser.listbox.removeItem(1);
+    assertEquals(2, jarChooser.listbox.getItemCount());
+
+    // Execute
+    jarChooser.resetListBox();
+
+    assertEquals(3, jarChooser.listbox.getItemCount());
+  }
+
 
   @Override
   public String getModuleName() {

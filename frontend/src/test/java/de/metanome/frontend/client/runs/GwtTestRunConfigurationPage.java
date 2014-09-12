@@ -48,7 +48,7 @@ public class GwtTestRunConfigurationPage extends GWTTestCase {
     RunConfigurationPage runConfigPage = new RunConfigurationPage(page);
 
     // Check - should contain the jarChooser and a Label for pre-selected data source (possibly empty)
-    assertEquals(2, runConfigPage.getWidgetCount());
+    assertEquals(3, runConfigPage.getWidgetCount());
     assertNotNull(runConfigPage.getJarChooser());
 
     // Cleanup
