@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.input_fields;
 
-import com.google.common.base.Joiner;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -82,8 +81,7 @@ public class TableInputInput extends InputField {
 
         if (result != null && result.size() > 0) {
           for (TableInput input : result) {
-            DatabaseConnection db = input.getDatabaseConnection();
-            String identifier = Joiner.on(';').join(input.getTableName(), db.getUrl(), db.getUsername(), db.getSystem());
+            String identifier = input.getIdentifier();
 
             tableInputNames.add(identifier);
             tableInputs.put(identifier, input);

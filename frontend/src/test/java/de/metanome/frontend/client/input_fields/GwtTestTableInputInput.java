@@ -87,8 +87,8 @@ public class GwtTestTableInputInput extends GWTTestCase {
     // Initialize TableInputInput (waiting for fetching all current file inputs)
     final TableInputInput tableInputInputs = new TableInputInput(false, new TabWrapper());
 
-    tableInputInputs.listbox.addValue("table;url;user;DB2");
-    tableInputInputs.tableInputs.put("table;url;user;DB2", tableInput);
+    tableInputInputs.listbox.addValue(tableInput.getIdentifier());
+    tableInputInputs.tableInputs.put(tableInput.getIdentifier(), tableInput);
 
     try {
       tableInputInputs.setValues(expectedSetting);

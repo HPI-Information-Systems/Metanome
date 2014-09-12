@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.parameter;
 
-import com.google.common.base.Joiner;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -86,6 +85,8 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
 
     TabWrapper tabWrapper = new TabWrapper();
 
+    String expectedIdentifier = aUrl + "; " + aUser + "; " + aSystem;
+
     DatabaseConnection databaseConnection = new DatabaseConnection();
     databaseConnection.setUrl(aUrl);
     databaseConnection.setPassword(aPassword);
@@ -117,8 +118,7 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
         .getUpdatedSpecification()
         .getSettings()[0];
 
-    assertEquals(Joiner.on(';').join(aUrl, aUser, aSystem),
-                 retrievedSetting.getValueAsString());
+    assertEquals(expectedIdentifier, retrievedSetting.getValueAsString());
 
     // Cleanup
     TestHelper.resetDatabaseSync();

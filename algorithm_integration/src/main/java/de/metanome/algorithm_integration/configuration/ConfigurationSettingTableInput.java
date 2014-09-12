@@ -17,7 +17,6 @@
 package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Joiner;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
@@ -89,7 +88,7 @@ public class ConfigurationSettingTableInput
 
   @Override
   public String getValueAsString() {
-    return Joiner.on(';').join(this.table, this.databaseConnection.getValueAsString());
+    return this.table + "; " + this.databaseConnection.getValueAsString();
   }
 
   @Override

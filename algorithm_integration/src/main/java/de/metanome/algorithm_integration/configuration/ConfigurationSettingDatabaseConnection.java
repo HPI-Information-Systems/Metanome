@@ -17,8 +17,6 @@
 package de.metanome.algorithm_integration.configuration;
 
 
-import com.google.common.base.Joiner;
-
 /**
  * TODO docs
  *
@@ -117,6 +115,6 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
 
   @Override
   public String getValueAsString() {
-    return Joiner.on(';').join(this.dbUrl, this.username, this.system);
+    return dbUrl + "; " + username + "; " + system.name();
   }
 }

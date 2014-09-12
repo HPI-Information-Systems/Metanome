@@ -79,9 +79,7 @@ public class DatabaseConnectionInput extends InputField {
 
             if (result != null && result.size() > 0) {
               for (DatabaseConnection db : result) {
-                String
-                    identifier =
-                    db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
+                String identifier = db.getIdentifier();
                 dbConnectionNames.add(identifier);
                 databaseConnections.put(identifier, db);
 
