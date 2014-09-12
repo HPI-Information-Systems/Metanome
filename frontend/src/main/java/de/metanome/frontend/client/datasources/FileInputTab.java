@@ -98,6 +98,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     }
 
     this.fileInputList.setHTML(0, 0, "<b>File Name</b>");
+    this.fileInputList.setHTML(0, 1, "<b>Comment</b>");
 
     for (final FileInput input : inputs) {
       this.addFileInputToTable(input);
@@ -127,7 +128,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
       }
     });
 
-    Button runButton = new Button("Run");
+    Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
       @Override
@@ -137,8 +138,9 @@ public class FileInputTab extends FlowPanel implements TabContent {
     });
 
     this.fileInputList.setText(row, 0, FilePathHelper.getFileName(input.getFileName()));
-    this.fileInputList.setWidget(row, 1, runButton);
-    this.fileInputList.setWidget(row, 2, deleteButton);
+    this.fileInputList.setText(row, 1, input.getComment());
+    this.fileInputList.setWidget(row, 2, runButton);
+    this.fileInputList.setWidget(row, 3, deleteButton);
   }
 
   /**

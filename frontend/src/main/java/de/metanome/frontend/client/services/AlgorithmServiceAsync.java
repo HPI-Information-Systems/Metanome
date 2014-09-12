@@ -37,9 +37,10 @@ public interface AlgorithmServiceAsync {
 
   public void listAllAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
-  public void addAlgorithm(Algorithm algorithm, AsyncCallback<Void> callback);
+  void addAlgorithm(Algorithm algorithm, AsyncCallback<Algorithm> async);
 
   void listAvailableAlgorithmFiles(AsyncCallback<String[]> async);
 
   void deleteAlgorithm(Algorithm algorithm, AsyncCallback<Void> async);
+
 }

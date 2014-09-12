@@ -59,7 +59,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TabWrapper tab = new TabWrapper();
     AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
 
-    String fileName = "some/file/name.jar";
+    String fileName = "example_ind_algorithm.jar";
     List<String> names = new ArrayList<>();
     names.add(fileName);
     form.fileListBox.setValues(names);
@@ -67,7 +67,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     form.fileListBox.setSelectedValue(fileName);
     form.nameTextBox.setValue("some algorithm");
     form.authorTextBox.setValue("--");
-    form.indCheckBox.setValue(true);
 
     // the above is valid input and retrieving the values should not fail
     try {
@@ -92,7 +91,6 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
     form.nameTextBox.setValue("some algorithm");
     form.authorTextBox.setValue("--");
-    form.indCheckBox.setValue(true);
 
     try {
       form.retrieveInputValues();

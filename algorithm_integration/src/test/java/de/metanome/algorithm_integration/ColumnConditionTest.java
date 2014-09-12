@@ -47,7 +47,9 @@ public class ColumnConditionTest {
         OrCondition =
         new ColumnConditionOr(andCondition, new ColumnConditionValue(column21, "A"));
     //check result
-    assertEquals("[table2.column1: A | [table1.column1: A & table1.column2: B]]",
+    assertEquals(
+        "[table2.column1: A " + ColumnCondition.OR + " [table1.column1: A " + ColumnCondition.AND
+        + " table1.column2: B]]",
                  OrCondition.toString());
   }
 

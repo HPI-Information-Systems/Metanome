@@ -19,6 +19,7 @@ package de.metanome.frontend.client.datasources;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
@@ -55,9 +56,9 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
     this.fileInputTab = new FileInputTab(this);
     this.databaseConnectionTab = new DatabaseConnectionTab(this);
 
-    this.add(fileInputTab, FILE_INPUT);
-    this.add(databaseConnectionTab, DATABASE_CONNECTION);
-    this.add(tableInputTab, TABLE_INPUT);
+    this.add(new ScrollPanel(fileInputTab), FILE_INPUT);
+    this.add(new ScrollPanel(databaseConnectionTab), DATABASE_CONNECTION);
+    this.add(new ScrollPanel(tableInputTab), TABLE_INPUT);
   }
 
   /**
