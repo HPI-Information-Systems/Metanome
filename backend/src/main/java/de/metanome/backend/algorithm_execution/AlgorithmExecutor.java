@@ -35,17 +35,13 @@ import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 
-import org.apache.commons.lang3.ClassUtils;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class AlgorithmExecutor implements Closeable {
 
@@ -186,10 +182,6 @@ public class AlgorithmExecutor implements Closeable {
         .store();
 
     return elapsedNanos;
-  }
-
-  protected Set<Class<?>> getInterfaces(Object object) {
-    return new HashSet<>(ClassUtils.getAllInterfaces(object.getClass()));
   }
 
   @Override
