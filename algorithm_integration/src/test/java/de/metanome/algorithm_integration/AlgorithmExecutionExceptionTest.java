@@ -26,6 +26,8 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Test for {@link de.metanome.algorithm_integration.AlgorithmExecutionException}
+ *
+ * @author Jakob Zwiener
  */
 public class AlgorithmExecutionExceptionTest {
 
@@ -51,7 +53,8 @@ public class AlgorithmExecutionExceptionTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.AlgorithmExecutionException#AlgorithmExecutionException(String, Throwable)}
+   * Test method for {@link de.metanome.algorithm_integration.AlgorithmExecutionException#AlgorithmExecutionException(String,
+   * Throwable)}
    *
    * The exception should store the message and the cause.
    */

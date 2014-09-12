@@ -16,9 +16,12 @@
 
 package de.metanome.algorithm_integration;
 
+/**
+ * Exception to signal an error while configuring the algorithm.
+ *
+ * @author Jakob Zwiener
+ */
 public class AlgorithmConfigurationException extends AlgorithmExecutionException {
-
-  private static final long serialVersionUID = 187522613654685926L;
 
   public AlgorithmConfigurationException() {
     super();
@@ -26,6 +29,10 @@ public class AlgorithmConfigurationException extends AlgorithmExecutionException
 
   public AlgorithmConfigurationException(String message) {
     super(message);
+  }
+
+  public AlgorithmConfigurationException(String message, Throwable cause) {
+    super(message, cause);
   }
 
 }
