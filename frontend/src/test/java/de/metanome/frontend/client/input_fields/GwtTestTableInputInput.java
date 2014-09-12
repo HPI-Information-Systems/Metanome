@@ -75,7 +75,7 @@ public class GwtTestTableInputInput extends GWTTestCase {
 
     TableInput tableInput = new TableInput();
     tableInput.setTableName("table");
-    tableInput.setDatabaseConnection(new DatabaseConnection());
+    tableInput.setDatabaseConnection(databaseConnection);
 
     // Expected values
     final ConfigurationSettingTableInput expectedSetting =
