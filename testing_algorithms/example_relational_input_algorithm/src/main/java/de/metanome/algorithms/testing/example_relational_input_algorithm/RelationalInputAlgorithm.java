@@ -61,10 +61,13 @@ public class RelationalInputAlgorithm implements UniqueColumnCombinationsAlgorit
     return configurationRequirements;
   }
 
+  /**
+   * Algorithm fails if the relational input has not been configured.
+   */
   @Override
   public void execute() throws AlgorithmExecutionException {
-    if ((relationalInputGenerator == null) || (tableInputGenerator == null)) {
-      throw new AlgorithmConfigurationException("Some inputs have not been configured.");
+    if (relationalInputGenerator == null) {
+      throw new AlgorithmConfigurationException("The relational input has not been configured.");
     }
   }
 
