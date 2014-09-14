@@ -36,7 +36,7 @@ public class ConfigurationValueRelationalInputGenerator implements Configuration
 
   /**
    * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier
-   * and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}values.
+   * and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} values.
    *
    * @param identifier the configuration value identifier
    * @param values the configuration values

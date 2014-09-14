@@ -25,7 +25,11 @@ import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
-
+/**
+ * Represents integer configuration values for {@link Algorithm}s.
+ *
+ * @author Jakob Zwiener
+ */
 public class ConfigurationValueInteger implements ConfigurationValue {
 
   protected final String identifier;
