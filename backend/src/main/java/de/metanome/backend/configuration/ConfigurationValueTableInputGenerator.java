@@ -53,7 +53,7 @@ public class ConfigurationValueTableInputGenerator implements ConfigurationValue
 
   /**
    * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator}
-   * using a {@link de.metanome.algorithm_integration.input.TableInputGenerator}s.
+   * using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput}.
    *
    * @param requirement the requirement to generate the {@link de.metanome.algorithm_integration.input.TableInputGenerator}s
    */
