@@ -24,34 +24,36 @@ import de.metanome.algorithm_integration.input.TableInputGenerator;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
- * underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator}.
+ * underlying {@link DefaultDatabaseConnectionGenerator}.
  *
  * @author Jakob Zwiener
  * @see de.metanome.algorithm_integration.input.RelationalInput
- * @see de.metanome.backend.input.sql.SqlIteratorGenerator
+ * @see DefaultDatabaseConnectionGenerator
  */
 public class DefaultTableInputGenerator implements TableInputGenerator {
 
   protected static final String BASE_STATEMENT = "SELECT * FROM ";
 
-  protected SqlIteratorGenerator sqlIteratorGenerator;
+  protected DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator;
   protected String table;
 
   /**
    * Exists for tests.
    */
-  protected DefaultTableInputGenerator(SqlIteratorGenerator sqlIteratorGenerator, String table) {
-    this.sqlIteratorGenerator = sqlIteratorGenerator;
+  protected DefaultTableInputGenerator(
+      DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator, String table) {
+    this.defaultDatabaseConnectionGenerator = defaultDatabaseConnectionGenerator;
     this.table = table;
   }
 
   /**
    * @param setting the table input setting to construct the table input generator from
-   * @throws AlgorithmConfigurationException is thrown if the underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator} cannot be instantiated.
+   * @throws AlgorithmConfigurationException is thrown if the underlying {@link DefaultDatabaseConnectionGenerator} cannot be instantiated.
    */
   public DefaultTableInputGenerator(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException {
-    this.sqlIteratorGenerator = new SqlIteratorGenerator(setting.getDatabaseConnection());
+    this.defaultDatabaseConnectionGenerator =
+        new DefaultDatabaseConnectionGenerator(setting.getDatabaseConnection());
     this.table = setting.getTable();
   }
 
@@ -63,6 +65,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    */
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
-    return sqlIteratorGenerator.generateRelationalInputFromSql(BASE_STATEMENT + table);
+    return defaultDatabaseConnectionGenerator
+        .generateRelationalInputFromSql(BASE_STATEMENT + table);
   }
 }

@@ -33,23 +33,24 @@ public class DefaultTableInputGeneratorTest {
   /**
    * Test method for {@link DefaultTableInputGenerator#generateNewCopy()}
    *
-   * The table input generator should call the underlying {@link de.metanome.backend.input.sql.SqlIteratorGenerator}
+   * The table input generator should call the underlying {@link DefaultDatabaseConnectionGenerator}
    * to execute a select table for the given table.
    */
   @Test
   public void testGenerateNewCopy() throws InputGenerationException {
     // Setup
     // Expected values
-    SqlIteratorGenerator sqlIteratorGenerator = mock(SqlIteratorGenerator.class);
+    DefaultDatabaseConnectionGenerator
+        defaultDatabaseConnectionGenerator = mock(DefaultDatabaseConnectionGenerator.class);
     String expectedTable = "some table";
     DefaultTableInputGenerator tableInputGenerator =
-        new DefaultTableInputGenerator(sqlIteratorGenerator, expectedTable);
+        new DefaultTableInputGenerator(defaultDatabaseConnectionGenerator, expectedTable);
 
     // Execute functionality
     tableInputGenerator.generateNewCopy();
 
     // Check result
-    verify(sqlIteratorGenerator)
+    verify(defaultDatabaseConnectionGenerator)
         .generateRelationalInputFromSql(DefaultTableInputGenerator.BASE_STATEMENT + expectedTable);
   }
 }
