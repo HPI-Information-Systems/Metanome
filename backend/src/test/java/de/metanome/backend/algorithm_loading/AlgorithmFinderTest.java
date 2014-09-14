@@ -32,7 +32,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * TODO docs
+ * Tests for {@link de.metanome.backend.algorithm_loading.AlgorithmFinder}
+ *
+ * @author Claudia Exeler
  */
 public class AlgorithmFinderTest {
 
@@ -111,7 +113,7 @@ public class AlgorithmFinderTest {
         algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
 
     //Check
-    assertEquals(3, algos.length); //TODO determine number of expected algorithms dynamically
+    assertEquals(4, algos.length); //TODO determine number of expected algorithms dynamically
     //TODO make sure no wrong algorithms are returned
   }
 }
