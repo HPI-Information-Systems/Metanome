@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
-import de.metanome.backend.input.sql.SqlIteratorGenerator;
+import de.metanome.backend.input.sql.DefaultDatabaseConnectionGenerator;
 
 import java.util.Set;
 
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
+public class ConfigurationValueDatabaseConnectionGenerator implements ConfigurationValue {
 
   protected final String identifier;
   protected final DatabaseConnectionGenerator[] values;
@@ -41,34 +41,42 @@ public class ConfigurationValueSqlInputGenerator implements ConfigurationValue {
    * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and a
    * SqlInputGenerator as value.
    */
-  public ConfigurationValueSqlInputGenerator(String identifier,
-                                             DatabaseConnectionGenerator... values) {
+  public ConfigurationValueDatabaseConnectionGenerator(String identifier,
+                                                       DatabaseConnectionGenerator... values) {
     this.identifier = identifier;
     this.values = values;
   }
 
-  public ConfigurationValueSqlInputGenerator(
-      ConfigurationRequirementDatabaseConnection configurationRequirement)
+  /**
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueDatabaseConnectionGenerator}
+   * using a {@link ConfigurationRequirementDatabaseConnection}.
+   *
+   * @param requirement the requirement to generate the {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}s
+   * @throws AlgorithmConfigurationException thrown if the requirement cannot be converted to
+   *                                         values
+   */
+  public ConfigurationValueDatabaseConnectionGenerator(
+      ConfigurationRequirementDatabaseConnection requirement)
       throws AlgorithmConfigurationException {
-    this.identifier = configurationRequirement.getIdentifier();
-    this.values = convertToValues(configurationRequirement);
+    this.identifier = requirement.getIdentifier();
+    this.values = convertToValues(requirement);
   }
 
   /**
    * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
    * to a {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}.
    *
-   * @param configurationRequirement the sql iterator specification
-   * @return the created sql input generator
+   * @param requirement the database connection requirement
+   * @return the created database connection generator
    */
   protected DatabaseConnectionGenerator[] convertToValues(
-      ConfigurationRequirementDatabaseConnection configurationRequirement)
+      ConfigurationRequirementDatabaseConnection requirement)
       throws AlgorithmConfigurationException {
-    ConfigurationSettingDatabaseConnection[] settings = configurationRequirement.getSettings();
+    ConfigurationSettingDatabaseConnection[] settings = requirement.getSettings();
     DatabaseConnectionGenerator[] newValues = new DatabaseConnectionGenerator[settings.length];
 
     for (int i = 0; i < settings.length; i++) {
-      newValues[i] = new SqlIteratorGenerator(settings[i]);
+      newValues[i] = new DefaultDatabaseConnectionGenerator(settings[i]);
     }
 
     return newValues;

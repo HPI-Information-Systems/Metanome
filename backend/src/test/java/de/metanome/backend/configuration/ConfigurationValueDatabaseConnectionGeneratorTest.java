@@ -32,14 +32,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link ConfigurationValueSqlInputGenerator}
+ * Tests for {@link ConfigurationValueDatabaseConnectionGenerator}
  *
  * @author Jakob Zwiener
  */
 public class ConfigurationValueDatabaseConnectionGeneratorTest {
 
   /**
-   * Test method for {@link ConfigurationValueSqlInputGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link ConfigurationValueDatabaseConnectionGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * Set)} <p/> Parameters should be set on the algorithm through triggerSetValue. This is the last
    * call in a double dispatch call to determine the parameters type.
    */
@@ -58,7 +58,8 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
         {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
-    ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
+    ConfigurationValueDatabaseConnectionGenerator
+        configValue = new ConfigurationValueDatabaseConnectionGenerator(
         new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
@@ -68,7 +69,7 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
   }
 
   /**
-   * Test method for {@link ConfigurationValueSqlInputGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
+   * Test method for {@link ConfigurationValueDatabaseConnectionGenerator#triggerSetValue(de.metanome.algorithm_integration.Algorithm,
    * java.util.Set)} <p/> When the correct algorithm interface is missing an exception should be
    * thrown.
    */
@@ -88,7 +89,8 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
         {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
-    ConfigurationValueSqlInputGenerator configValue = new ConfigurationValueSqlInputGenerator(
+    ConfigurationValueDatabaseConnectionGenerator
+        configValue = new ConfigurationValueDatabaseConnectionGenerator(
         new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
         expectedConfigurationValues);
     try {
