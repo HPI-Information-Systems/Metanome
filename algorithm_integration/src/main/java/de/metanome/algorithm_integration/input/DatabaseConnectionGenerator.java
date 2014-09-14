@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.input;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -50,4 +51,10 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * Closes all executed statements.
    */
   void closeAllStatements() throws SQLException;
+
+  /**
+   * @return the database connection
+   */
+  Connection getConnection();
+
 }
