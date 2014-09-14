@@ -21,13 +21,29 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 
-import java.io.FileNotFoundException;
-
+/**
+ * Initializes {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}s that are
+ * based on files or database tables.
+ *
+ * @author Tanja Bergmann
+ */
 public interface RelationalInputGeneratorInitializer {
 
+  /**
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput}.
+   *
+   * @param setting the setting used to initialize the input
+   * @throws AlgorithmConfigurationException if the input cannot be initialized
+   */
   public void initialize(ConfigurationSettingFileInput setting)
-      throws FileNotFoundException;
+      throws AlgorithmConfigurationException;
 
+  /**
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput}.
+   *
+   * @param setting the setting used to initialize the input
+   * @throws AlgorithmConfigurationException if the input cannot be initialized
+   */
   public void initialize(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException;
 

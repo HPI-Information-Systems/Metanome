@@ -28,18 +28,25 @@ import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenera
 import de.metanome.backend.input.csv.DefaultFileInputGenerator;
 import de.metanome.backend.input.sql.DefaultTableInputGenerator;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 public class DefaultRelationalInputGeneratorInitializer implements RelationalInputGeneratorInitializer {
 
   List<RelationalInputGenerator> generatorList = new ArrayList<>();
   String identifier;
 
+  /**
+   * @param requirementRelationalInput the requirement to initialize from
+   * @throws AlgorithmConfigurationException if one of the settings from the requirement cannot be
+   *                                         converted
+   */
   public DefaultRelationalInputGeneratorInitializer(
       ConfigurationRequirementRelationalInput requirementRelationalInput)
-      throws FileNotFoundException, AlgorithmConfigurationException {
+  throws AlgorithmConfigurationException {
     this.identifier = requirementRelationalInput.getIdentifier();
 
     for (ConfigurationSettingRelationalInput setting : requirementRelationalInput.getSettings()) {
@@ -47,16 +54,27 @@ public class DefaultRelationalInputGeneratorInitializer implements RelationalInp
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void initialize(ConfigurationSettingFileInput setting)
-      throws FileNotFoundException {
+  throws AlgorithmConfigurationException {
     generatorList.add(new DefaultFileInputGenerator(setting));
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void initialize(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException {
     generatorList.add(new DefaultTableInputGenerator(setting));
   }
 
+  /**
+   * @return the initialized {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}s
+   */
   public ConfigurationValueRelationalInputGenerator getConfigurationValue() {
     return new ConfigurationValueRelationalInputGenerator(identifier,
                                                           generatorList.toArray(
