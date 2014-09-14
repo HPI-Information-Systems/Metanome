@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} for strings.
  *
@@ -62,6 +64,15 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
 
   public void setSettings(ConfigurationSettingString... configurationSettings) {
     this.settings = configurationSettings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 
 }

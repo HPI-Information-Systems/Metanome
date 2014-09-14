@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} for booleans.
  *
@@ -63,5 +65,14 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   public void setSettings(ConfigurationSettingBoolean... settings) {
     // TODO check number
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

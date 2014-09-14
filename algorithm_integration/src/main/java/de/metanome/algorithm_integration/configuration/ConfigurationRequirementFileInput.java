@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} for file inputs.
  *
@@ -62,5 +64,14 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
 
   public void setSettings(ConfigurationSettingFileInput... configurationSettings) {
     this.settings = configurationSettings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

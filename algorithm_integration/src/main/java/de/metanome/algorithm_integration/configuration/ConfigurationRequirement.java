@@ -17,6 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import java.io.Serializable;
 
@@ -88,4 +89,18 @@ public abstract class ConfigurationRequirement implements Serializable {
    * @return the specification's settings
    */
   public abstract Object[] getSettings();
+
+  /**
+   * Builds the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   * from the {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} using
+   * the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}.
+   *
+   * @param factory the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}
+   *                used for conversion
+   * @return the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   * @throws AlgorithmConfigurationException thrown if the conversion is not successful
+   */
+  public abstract ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException;
+
 }

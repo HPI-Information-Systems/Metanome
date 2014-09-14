@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} for table inputs.
  *
@@ -61,6 +63,15 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
 
   public void setSettings(ConfigurationSettingTableInput... configurationSettings) {
     this.settings = configurationSettings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 
 }

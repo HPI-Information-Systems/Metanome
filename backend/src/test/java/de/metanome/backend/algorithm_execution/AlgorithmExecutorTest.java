@@ -20,8 +20,10 @@ import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -29,7 +31,9 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm;
+import de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
@@ -62,6 +66,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
+ */
 public class AlgorithmExecutorTest {
 
   protected CloseableOmniscientResultReceiver resultReceiver;
@@ -85,7 +92,7 @@ public class AlgorithmExecutorTest {
    * 0ns.
    */
   @Test
-  public void executeFunctionalDependencyAlgorithmTest()
+  public void testExecuteFunctionalDependencyAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
@@ -111,7 +118,7 @@ public class AlgorithmExecutorTest {
    * java.util.List)} <p/> Tests the execution of an ind algorithm.
    */
   @Test
-  public void executeInclusionDependencyTest()
+  public void testExecuteInclusionDependency()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
@@ -120,6 +127,9 @@ public class AlgorithmExecutorTest {
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
     configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
+    configs.add(new ConfigurationValueFileInputGenerator(
+        ExampleAlgorithm.CSV_FILE_IDENTIFIER,
+        mock(FileInputGenerator.class)));
     String algorithmFileName = "example_ind_algorithm.jar";
     new Algorithm(algorithmFileName)
         .store();
@@ -132,11 +142,41 @@ public class AlgorithmExecutorTest {
   }
 
   /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
+   * java.util.List)}
+   *
+   * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm}
+   * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
+   * from a file.
+   */
+  @Test
+  public void testRelationalInputAlgorithm()
+      throws AlgorithmExecutionException, AlgorithmLoadingException, EntityStorageException,
+             FileNotFoundException, UnsupportedEncodingException {
+    // Setup
+    String algorithmFileName = "example_relational_input_algorithm.jar";
+    String path = new FileFixture("some file content").getTestData("some file name").getPath();
+    List<ConfigurationRequirement> requirements = new ArrayList<>();
+    ConfigurationRequirementRelationalInput
+        requirementRelationalInput =
+        new ConfigurationRequirementRelationalInput(
+            RelationalInputAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
+    requirementRelationalInput.setSettings(new ConfigurationSettingFileInput(path));
+    requirements.add(requirementRelationalInput);
+    new Algorithm(algorithmFileName)
+        .store();
+
+    // Execute functionality
+    // Check result
+    executor.executeAlgorithm(algorithmFileName, requirements);
+  }
+
+  /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
    * java.util.List)} <p/> Tests the execution of an ucc algorithm.
    */
   @Test
-  public void executeUniqueColumnCombinationsAlgorithmTest()
+  public void testExecuteUniqueColumnCombinationsAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
@@ -274,7 +314,9 @@ public class AlgorithmExecutorTest {
     // Build mock configuration settings
     ConfigurationSettingFileInput[] settings = new ConfigurationSettingFileInput[numberOfInputs];
     for (int i = 0; i < numberOfInputs - 1; i++) {
-      ConfigurationSettingFileInput configurationSetting = mock(ConfigurationSettingFileInput.class);
+      ConfigurationSettingFileInput
+          configurationSetting =
+          mock(ConfigurationSettingFileInput.class);
       when(configurationSetting.isAdvanced()).thenReturn(false);
       when(configurationSetting.getFileName()).thenReturn(expectedOtherFileName);
       settings[i] = configurationSetting;

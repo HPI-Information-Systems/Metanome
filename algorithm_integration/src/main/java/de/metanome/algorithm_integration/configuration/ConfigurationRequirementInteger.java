@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} for integers.
  *
@@ -62,5 +64,14 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
 
   public void setSettings(ConfigurationSettingInteger... settings) {
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

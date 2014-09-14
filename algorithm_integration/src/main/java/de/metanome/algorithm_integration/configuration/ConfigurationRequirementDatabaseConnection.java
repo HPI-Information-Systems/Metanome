@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Concrete {@link ConfigurationRequirement} sql iterator.
  *
@@ -63,5 +65,14 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
 
   public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

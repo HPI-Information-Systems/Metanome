@@ -43,6 +43,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Executes given algorithms.
+ */
 public class AlgorithmExecutor implements Closeable {
 
   protected CloseableOmniscientResultReceiver resultReceiver;
@@ -76,17 +79,17 @@ public class AlgorithmExecutor implements Closeable {
    * seconds is returned as long.
    *
    * @param algorithmFileName the algorithm's file name
-   * @param parameters        list of configuration specifications
+   * @param requirements        list of configuration requirements
    * @return elapsed time in ns
    */
   public long executeAlgorithm(String algorithmFileName,
-                               List<ConfigurationRequirement> parameters)
+                               List<ConfigurationRequirement> requirements)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
 
-    for (ConfigurationRequirement requirement : parameters) {
-      parameterValues.add(configurationFactory.build(requirement));
+    for (ConfigurationRequirement requirement : requirements) {
+      parameterValues.add(requirement.build(configurationFactory));
     }
 
     try {

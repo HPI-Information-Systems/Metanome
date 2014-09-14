@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 import java.util.ArrayList;
 
 /**
@@ -67,6 +69,15 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   public void setSettings(ConfigurationSettingListBox... settings) {
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 
   /**
