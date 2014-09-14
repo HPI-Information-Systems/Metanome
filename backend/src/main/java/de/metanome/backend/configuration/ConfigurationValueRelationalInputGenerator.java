@@ -25,7 +25,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import java.util.Set;
 
 /**
- * Represents csv file configuration values for {@link Algorithm}s.
+ * Represents {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} configuration values for {@link Algorithm}s.
  *
  * @author Jakob Zwiener
  */
@@ -37,6 +37,9 @@ public class ConfigurationValueRelationalInputGenerator implements Configuration
   /**
    * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier
    * and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}values.
+   *
+   * @param identifier the configuration value identifier
+   * @param values the configuration values
    */
   public ConfigurationValueRelationalInputGenerator(String identifier,
                                                     RelationalInputGenerator... values) {
