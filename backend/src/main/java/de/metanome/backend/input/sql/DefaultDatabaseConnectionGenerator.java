@@ -31,14 +31,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Generates {@link ResultSetIterator}s or {@link java.sql.ResultSet}s for a
- * given query.
+ * Generates {@link ResultSetIterator}s or {@link java.sql.ResultSet}s for a given query.
  *
  * @author Jakob Zwiener
  * @see ResultSetIterator
  * @see java.sql.ResultSet
  */
-public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
+public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGenerator {
 
   public static final int DEFAULT_FETCH_SIZE = 100;
   private int fetchSize = DEFAULT_FETCH_SIZE;
@@ -52,10 +51,10 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
   /**
    * Exists for tests.
    */
-  protected SqlIteratorGenerator() {
+  protected DefaultDatabaseConnectionGenerator() {
   }
 
-  public SqlIteratorGenerator(String dbUrl, String userName, String password)
+  public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password)
       throws AlgorithmConfigurationException {
     try {
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
@@ -65,7 +64,7 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
     }
   }
 
-  public SqlIteratorGenerator(ConfigurationSettingDatabaseConnection setting)
+  public DefaultDatabaseConnectionGenerator(ConfigurationSettingDatabaseConnection setting)
       throws AlgorithmConfigurationException {
     this(setting.getDbUrl(), setting.getUsername(), setting.getPassword());
   }
@@ -126,6 +125,14 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
     }
   }
 
+  /**
+   * @return the dbConnection
+   */
+  @Override
+  public Connection getConnection() {
+    return dbConnection;
+  }
+
   @Override
   public void close() throws SQLException {
     if (!dbConnection.isClosed()) {
@@ -137,7 +144,7 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
     return fetchSize;
   }
 
-  public SqlIteratorGenerator setFetchSize(int fetchSize) {
+  public DefaultDatabaseConnectionGenerator setFetchSize(int fetchSize) {
     this.fetchSize = fetchSize;
     return this;
   }
@@ -146,7 +153,7 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
     return resultSetType;
   }
 
-  public SqlIteratorGenerator setResultSetType(int resultSetType) {
+  public DefaultDatabaseConnectionGenerator setResultSetType(int resultSetType) {
     this.resultSetType = resultSetType;
     return this;
   }
@@ -155,7 +162,7 @@ public class SqlIteratorGenerator implements DatabaseConnectionGenerator {
     return resultSetConcurrency;
   }
 
-  public SqlIteratorGenerator setResultSetConcurrency(int resultSetConcurrency) {
+  public DefaultDatabaseConnectionGenerator setResultSetConcurrency(int resultSetConcurrency) {
     this.resultSetConcurrency = resultSetConcurrency;
     return this;
   }
