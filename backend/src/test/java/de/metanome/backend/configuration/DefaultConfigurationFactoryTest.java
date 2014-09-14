@@ -17,15 +17,27 @@
 package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.backend.input.csv.FileFixture;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -46,6 +58,98 @@ public class DefaultConfigurationFactoryTest {
   }
 
   /**
+   * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean)}
+   *
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}s should be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueBoolean}s.
+   */
+  @Test
+  public void testBuildBoolean() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "some identifier";
+    boolean expectedValue1 = true;
+    boolean expectedValue2 = false;
+    ConfigurationRequirementBoolean
+        requirement =
+        new ConfigurationRequirementBoolean(expectedIdentifier, 2);
+    requirement.setSettings(new ConfigurationSettingBoolean(expectedValue1),
+                            new ConfigurationSettingBoolean(
+                                expectedValue2));
+
+    // Execute functionality
+    ConfigurationValueBoolean actualConfigValue =
+        factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(expectedValue1, actualConfigValue.values[0]);
+    assertEquals(expectedValue2, actualConfigValue.values[1]);
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger)}
+   *
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}s should
+   * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueInteger}s.
+   */
+  @Test
+  public void testBuildInteger() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "some identifier";
+    int expectedValue1 = 42;
+    int expectedValue2 = 23;
+    ConfigurationRequirementInteger
+        requirement =
+        new ConfigurationRequirementInteger(expectedIdentifier, 2);
+    requirement.setSettings(new ConfigurationSettingInteger(expectedValue1),
+                            new ConfigurationSettingInteger(
+                                expectedValue2));
+
+    // Execute functionality
+    ConfigurationValueInteger actualConfigValue =
+        factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(expectedValue1, actualConfigValue.values[0]);
+    assertEquals(expectedValue2, actualConfigValue.values[1]);
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox)}
+   *
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox}s should
+   * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueListBox}s.
+   */
+  @Test
+  public void testBuildListBox() {
+    // Setup
+    String expectedIdentifier = "some identifier";
+    ArrayList<String> possibleValues = new ArrayList<>();
+    possibleValues.add("value1");
+    possibleValues.add("value2");
+    String expectedValue1 = possibleValues.get(0);
+    String expectedValue2 = possibleValues.get(1);
+    ConfigurationRequirementListBox
+        requirement =
+        new ConfigurationRequirementListBox(expectedIdentifier, possibleValues, 2);
+    requirement.setSettings(new ConfigurationSettingListBox(expectedValue1),
+                            new ConfigurationSettingListBox(expectedValue2));
+
+    // Execute functionality
+    ConfigurationValueListBox actualConfigValue = factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.selectedValues.length);
+    assertEquals(expectedValue1, actualConfigValue.selectedValues[0]);
+    assertEquals(expectedValue2, actualConfigValue.selectedValues[1]);
+  }
+
+  /**
    * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput)}
    *
    * A {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput}
@@ -55,16 +159,15 @@ public class DefaultConfigurationFactoryTest {
   @Test
   public void testBuildRelationalInput()
       throws FileNotFoundException, AlgorithmConfigurationException, InputGenerationException,
-             InputIterationException {
+             InputIterationException, UnsupportedEncodingException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
-    String expectedPath = Thread.currentThread().getContextClassLoader().getResource(
-        "inputData/inputA.csv").getPath();
+    String expectedPath = new FileFixture("fileContent").getTestData("some file name").getPath();
     ConfigurationRequirementRelationalInput
         configRequirement =
         new ConfigurationRequirementRelationalInput(
-            expectedIdentifier, 1);
+            expectedIdentifier);
 
     // Check preconditions
     assertTrue(configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath)));
@@ -76,6 +179,66 @@ public class DefaultConfigurationFactoryTest {
     // Check result
     assertEquals(expectedIdentifier, actualConfigurationValue.identifier);
     assertFalse(actualConfigurationValue.values[0].generateNewCopy().hasNext());
+  }
+
+  /**
+   * Test method for{@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput)}
+   *
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}s
+   * should be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}s.
+   */
+  @Test
+  public void testBuildFileInput()
+      throws AlgorithmConfigurationException, FileNotFoundException, UnsupportedEncodingException,
+             InputGenerationException, InputIterationException {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "some identifier";
+    String expectedPath = new FileFixture("fileContent").getTestData("some file name").getPath();
+    ConfigurationRequirementFileInput
+        configRequirement =
+        new ConfigurationRequirementFileInput(expectedIdentifier);
+    configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath));
+
+    // Execute functionality
+    ConfigurationValueFileInputGenerator
+        actualConfigurationValue =
+        factory.build(configRequirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigurationValue.identifier);
+    assertEquals(1, actualConfigurationValue.values.length);
+    assertFalse(actualConfigurationValue.values[0].generateNewCopy().hasNext());
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementString)}
+   *
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString}s should
+   * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueString}s.
+   */
+  @Test
+  public void testBuildString() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "some identifier";
+    String expectedValue1 = "some string";
+    String expectedValue2 = "some other string";
+    ConfigurationRequirementString
+        requirement =
+        new ConfigurationRequirementString(expectedIdentifier, 2);
+    requirement
+        .setSettings(new ConfigurationSettingString(expectedValue1), new ConfigurationSettingString(
+            expectedValue2));
+
+    // Execute functionality
+    ConfigurationValueString actualConfigValue = factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(expectedValue1, actualConfigValue.values[0]);
+    assertEquals(expectedValue2, actualConfigValue.values[1]);
   }
 
 }

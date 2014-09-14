@@ -25,115 +25,116 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementI
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
-import de.metanome.backend.input.csv.DefaultFileInputGenerator;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Converts given {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
  */
-public class DefaultConfigurationFactory extends ConfigurationFactory {
+public class DefaultConfigurationFactory implements ConfigurationFactory {
 
   /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}
-   * to a {@link de.metanome.algorithm_integration.input.FileInputGenerator}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueBoolean} from a@{link ConfigurationRequirementBoolean}.
    *
-   * @param requirement the file input requirement
-   * @return the created file input generator
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
    */
-  @Deprecated
-  private static FileInputGenerator[] createFileInputGenerators(
-      ConfigurationRequirementFileInput requirement) throws AlgorithmConfigurationException {
-
-    DefaultFileInputGenerator[]
-        defaultFileInputGenerators =
-        new DefaultFileInputGenerator[requirement.getSettings().length];
-
-    int i = 0;
-    for (ConfigurationSettingFileInput setting : requirement.getSettings()) {
-      try {
-        if (setting.isAdvanced()) {
-          defaultFileInputGenerators[i] =
-              new DefaultFileInputGenerator(new File(setting.getFileName()),
-                                   setting.getSeparatorChar(),
-                                   setting.getQuoteChar(),
-                                   setting.getEscapeChar(),
-                                   setting.getSkipLines(),
-                                   setting.isStrictQuotes(),
-                                   setting.isIgnoreLeadingWhiteSpace(),
-                                   setting.hasHeader(),
-                                   setting.isSkipDifferingLines());
-        } else {
-          defaultFileInputGenerators[i] =
-              new DefaultFileInputGenerator(new File(setting.getFileName()));
-        }
-      } catch (FileNotFoundException e) {
-        throw new AlgorithmConfigurationException("Could not find CSV file.");
-      }
-      i++;
-    }
-
-    return defaultFileInputGenerators;
-  }
-
-  /**
-   * TODO docs
-   */
+  @Override
   public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement) {
     return new ConfigurationValueBoolean(requirement);
   }
 
   /**
-   * TODO docs
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueInteger} from a@{link ConfigurationRequirementInteger}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
    */
+  @Override
   public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement) {
     return new ConfigurationValueInteger(requirement);
   }
 
   /**
-   * TODO docs
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueListBox} from a@{link ConfigurationRequirementListBox}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
    */
+  @Override
   public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement) {
     return new ConfigurationValueListBox(requirement);
   }
 
-  // TODO add ConfigurationValueDatabaseConnection
-
   /**
-   * TODO docs
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator} from a@{link ConfigurationRequirementRelationalInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} cannot be initialized
    */
+  @Override
   public ConfigurationValueRelationalInputGenerator build(
       ConfigurationRequirementRelationalInput requirement)
-      throws FileNotFoundException, AlgorithmConfigurationException {
+      throws AlgorithmConfigurationException {
     DefaultRelationalInputGeneratorInitializer inputGeneratorInitializer = new DefaultRelationalInputGeneratorInitializer(requirement);
     return inputGeneratorInitializer.getConfigurationValue();
   }
 
   /**
-   * TODO docs
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueDatabaseConnectionGenerator} from a@{link ConfigurationRequirementDatabaseConnection}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException when the {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator} cannot be initialized
    */
-  public ConfigurationValueSqlInputGenerator build(
-      ConfigurationRequirementDatabaseConnection requirement) {
-    try {
-      return new ConfigurationValueSqlInputGenerator(requirement);
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
-      //TODO handle exception
-    }
-    return null;
+  @Override
+  public ConfigurationValueDatabaseConnectionGenerator build(
+      ConfigurationRequirementDatabaseConnection requirement)
+      throws AlgorithmConfigurationException {
+    return new ConfigurationValueDatabaseConnectionGenerator(requirement);
   }
 
   /**
-   * TODO docs
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator} from a@{link ConfigurationRequirementFileInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws AlgorithmConfigurationException if the underlying file cannot be found
    */
+  @Override
+  public ConfigurationValueFileInputGenerator build(ConfigurationRequirementFileInput requirement)
+      throws AlgorithmConfigurationException {
+    return new ConfigurationValueFileInputGenerator(requirement);
+  }
+
+  /**
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueString} from a@{link
+   * ConfigurationRequirementString}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   */
+  @Override
   public ConfigurationValueString build(ConfigurationRequirementString requirement) {
     return new ConfigurationValueString(requirement);
+  }
+
+  /**
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueTableInputGenerator} from
+   * a@{link ConfigurationRequirementTableInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws AlgorithmConfigurationException when the statement fetching the table data cannot be
+   *                                         executed
+   */
+  @Override
+  public ConfigurationValueTableInputGenerator build(ConfigurationRequirementTableInput requirement)
+      throws AlgorithmConfigurationException {
+    return new ConfigurationValueTableInputGenerator(requirement);
   }
 
 }
