@@ -16,11 +16,12 @@
 
 package de.metanome.backend.input.csv;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,11 +68,6 @@ public class DefaultFileInputGeneratorTest {
                                       expectedHasHeader, expectedSkipDifferingLines);
   }
 
-  @After
-  public void tearDown() throws Exception {
-
-  }
-
   /**
    * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File, char,
    * char, char, int, boolean, boolean, boolean, boolean)}
@@ -93,6 +89,40 @@ public class DefaultFileInputGeneratorTest {
   }
 
   /**
+   * Test method for {@link de.metanome.backend.input.csv.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
+   *
+   * The generator should store the settings correctly.
+   */
+  @Test
+  public void testConstructorSetting() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationSettingFileInput expectedSetting = new ConfigurationSettingFileInput();
+    expectedSetting.setFileName(expectedFile.getPath());
+    expectedSetting.setSeparatorChar(expectedSeparator);
+    expectedSetting.setQuoteChar(expectedQuotechar);
+    expectedSetting.setEscapeChar(expectedEscape);
+    expectedSetting.setSkipLines(expectedLine);
+    expectedSetting.setStrictQuotes(expectedStrictQuotes);
+    expectedSetting.setIgnoreLeadingWhiteSpace(expectedIgnoreLeadingWhiteSpace);
+    expectedSetting.setHeader(expectedHasHeader);
+    expectedSetting.setSkipDifferingLines(expectedSkipDifferingLines);
+
+    // Execute functionality
+    DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedSetting);
+
+    // Check result
+    assertEquals(expectedFile, actualGenerator.inputFile);
+    assertEquals(expectedSeparator, actualGenerator.separator);
+    assertEquals(expectedQuotechar, actualGenerator.quotechar);
+    assertEquals(expectedEscape, actualGenerator.escape);
+    assertEquals(expectedLine, actualGenerator.skipLines);
+    assertEquals(expectedStrictQuotes, actualGenerator.strictQuotes);
+    assertEquals(expectedIgnoreLeadingWhiteSpace, actualGenerator.ignoreLeadingWhiteSpace);
+    assertEquals(expectedHasHeader, actualGenerator.hasHeader);
+    assertEquals(expectedSkipDifferingLines, actualGenerator.skipDifferingLines);
+  }
+
+  /**
    * Test method for {@link DefaultFileInputGenerator#generateNewCopy()}
    *
    * The generator should generate fresh csv files iterable from the start.
@@ -100,17 +130,17 @@ public class DefaultFileInputGeneratorTest {
   @Test
   public void testGenerateNewCsvFile() throws InputGenerationException, InputIterationException {
     // Setup
-    RelationalInput csv = generator.generateNewCopy();
+    RelationalInput fileInput = generator.generateNewCopy();
 
     // Check result
-    assertEquals(expectedSkipDifferingLines, ((FileIterator) csv).skipDifferingLines);
-    // The csv should contain both lines and iterate through them with next.
-    assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
-    assertEquals(csvFileFixture.expectedFirstLine(), csv.next());
-    assertEquals(csvFileFixture.expectedSecondLine(), csv.next());
+    assertEquals(expectedSkipDifferingLines, ((FileIterator) fileInput).skipDifferingLines);
+    // The fileInput should contain both lines and iterate through them with next.
+    assertEquals(csvFileFixture.expectedHeader(), fileInput.columnNames());
+    assertEquals(csvFileFixture.expectedFirstLine(), fileInput.next());
+    assertEquals(csvFileFixture.expectedSecondLine(), fileInput.next());
     // A new CsvFile should iterate from the start.
     RelationalInput csv2 = generator.generateNewCopy();
-    assertEquals(csvFileFixture.expectedHeader(), csv.columnNames());
+    assertEquals(csvFileFixture.expectedHeader(), fileInput.columnNames());
     assertEquals(csvFileFixture.expectedFirstLine(), csv2.next());
     assertEquals(csvFileFixture.expectedSecondLine(), csv2.next());
   }

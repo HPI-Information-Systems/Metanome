@@ -19,6 +19,7 @@ package de.metanome.backend.input.csv;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
@@ -82,9 +83,18 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     this.skipDifferingLines = skipDifferingLines;
   }
 
+  /**
+   * @param setting the settings to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s
+   *                with
+   * @throws AlgorithmConfigurationException thrown if the file cannot be found
+   */
   public DefaultFileInputGenerator(ConfigurationSettingFileInput setting)
-      throws FileNotFoundException {
-    this.setInputFile(new File(setting.getFileName()));
+      throws AlgorithmConfigurationException {
+    try {
+      this.setInputFile(new File(setting.getFileName()));
+    } catch (FileNotFoundException e) {
+      throw new AlgorithmConfigurationException("File could not be found.", e);
+    }
     this.separator = setting.getSeparatorChar();
     this.quotechar = setting.getQuoteChar();
     this.escape = setting.getEscapeChar();
