@@ -21,13 +21,12 @@ import com.google.common.annotations.GwtIncompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
-
-import java.io.FileNotFoundException;
 
 
 /**
- * Stores one CSV file configuration.
+ * Stores one file input's configuration settings.
  *
  * @author Jakob Zwiener
  */
@@ -43,7 +42,6 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
-  private static final long serialVersionUID = -770650561337139324L;
   private String fileName;
   private boolean advanced;
   private char separatorChar;
@@ -182,9 +180,13 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
     return fileName;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @GwtIncompatible("Can only be called from backend.")
-  public void generate(RelationalInputGeneratorInitializer generator) throws FileNotFoundException {
-    generator.initialize(this);
+  public void generate(RelationalInputGeneratorInitializer initializer)
+      throws AlgorithmConfigurationException {
+    initializer.initialize(this);
   }
 }

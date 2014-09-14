@@ -59,7 +59,7 @@ public class DefaultRelationalInputGeneratorInitializer implements RelationalInp
    */
   @Override
   public void initialize(ConfigurationSettingFileInput setting)
-  throws AlgorithmConfigurationException {
+      throws AlgorithmConfigurationException {
     generatorList.add(new DefaultFileInputGenerator(setting));
   }
 

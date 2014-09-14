@@ -21,11 +21,13 @@ import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+/**
+ * Stores the configuration settings for a table input.
+ *
+ * @author Tanja Bergmann
+ */
 public class ConfigurationSettingTableInput
     implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
-
-
-  private static final long serialVersionUID = 3242593091096735218L;
 
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
@@ -91,10 +93,13 @@ public class ConfigurationSettingTableInput
     return this.table + "; " + this.databaseConnection.getValueAsString();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @GwtIncompatible("Can only be called from backend.")
-  public void generate(RelationalInputGeneratorInitializer generator)
+  public void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException {
-    generator.initialize(this);
+    initializer.initialize(this);
   }
 }
