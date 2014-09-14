@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
@@ -65,6 +67,7 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
    * {@inheritDoc}
    */
   @Override
+  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);

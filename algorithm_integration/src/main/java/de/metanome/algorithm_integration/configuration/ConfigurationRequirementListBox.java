@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import com.google.common.annotations.GwtIncompatible;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import java.util.ArrayList;
@@ -75,6 +77,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
