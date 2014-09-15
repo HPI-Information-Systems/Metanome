@@ -19,8 +19,8 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
@@ -45,7 +45,7 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
    * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean
    * values.
    */
-  public ConfigurationValueBoolean(ConfigurationSpecificationBoolean specification) {
+  public ConfigurationValueBoolean(ConfigurationRequirementBoolean specification) {
     this.identifier = specification.getIdentifier();
     this.values = new boolean[specification.getSettings().length];
     int i = 0;

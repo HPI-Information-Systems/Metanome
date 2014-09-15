@@ -25,6 +25,9 @@ import java.io.File;
  */
 public interface FileInputGenerator extends RelationalInputGenerator {
 
+  /**
+   * @return the input file
+   */
   File getInputFile();
 
 }

@@ -18,7 +18,7 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class ConfigurationValueListBoxTest {
 
     // Execute functionality
     ConfigurationValueListBox configValue = new ConfigurationValueListBox(
-        new ConfigurationSpecificationListBox(expectedIdentifier, expectedValues).getIdentifier(),
+        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 

@@ -18,8 +18,8 @@ package de.metanome.algorithms.testing.example_ucc_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -71,14 +71,14 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationSpecification>
+    List<ConfigurationRequirement>
         actualConfigurationRequirements =
         this.algorithm.getConfigurationRequirements();
 
     // Check result
     assertEquals(2, actualConfigurationRequirements.size());
     assertThat(actualConfigurationRequirements.get(0),
-               instanceOf(ConfigurationSpecificationString.class));
+               instanceOf(ConfigurationRequirementString.class));
   }
 
   /**

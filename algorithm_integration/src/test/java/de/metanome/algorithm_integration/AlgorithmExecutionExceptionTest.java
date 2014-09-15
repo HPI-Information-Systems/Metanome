@@ -20,10 +20,14 @@ import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
  * Test for {@link de.metanome.algorithm_integration.AlgorithmExecutionException}
+ *
+ * @author Jakob Zwiener
  */
 public class AlgorithmExecutionExceptionTest {
 
@@ -32,8 +36,7 @@ public class AlgorithmExecutionExceptionTest {
    * <p/> The exception should store the message.
    */
   @Test
-  public void testAlgorithmExecutionException() {
-    // Setup
+  public void testAlgorithmExecutionExceptionString() {
     // Expected values
     String expectedMessage = "some message";
 
@@ -47,6 +50,34 @@ public class AlgorithmExecutionExceptionTest {
 
     // Check result
     assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.AlgorithmExecutionException#AlgorithmExecutionException(String,
+   * Throwable)}
+   *
+   * The exception should store the message and the cause.
+   */
+  @Test
+  public void testAlgorithmExecutionExceptionStringThrowable() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+    Throwable expectedCause = new FileNotFoundException("some file was not found");
+
+    // Execute functionality
+    String actualMessage;
+    Throwable actualCause;
+    try {
+      throw new AlgorithmExecutionException(expectedMessage, expectedCause);
+    } catch (AlgorithmExecutionException e) {
+      actualMessage = e.getMessage();
+      actualCause = e.getCause();
+    }
+
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+    assertEquals(expectedCause, actualCause);
   }
 
   /**

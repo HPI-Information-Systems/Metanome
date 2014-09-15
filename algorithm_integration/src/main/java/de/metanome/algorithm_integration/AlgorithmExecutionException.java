@@ -16,9 +16,15 @@
 
 package de.metanome.algorithm_integration;
 
-public class AlgorithmExecutionException extends Exception {
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-  private static final long serialVersionUID = 3323364350205621228L;
+
+/**
+ * An Exception to signal an error while executing the algorithm.
+ *
+ * @author Jakob Zwiener
+ */
+public class AlgorithmExecutionException extends Exception implements IsSerializable {
 
   protected AlgorithmExecutionException() {
     super();
@@ -26,6 +32,10 @@ public class AlgorithmExecutionException extends Exception {
 
   public AlgorithmExecutionException(String message) {
     super(message);
+  }
+
+  public AlgorithmExecutionException(String message, Throwable cause) {
+    super(message, cause);
   }
 
 }

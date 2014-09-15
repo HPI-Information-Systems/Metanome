@@ -16,22 +16,116 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
- * Converts {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification} into
- * {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
+ * Converts {@link ConfigurationRequirement} to {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
  */
-public abstract class ConfigurationFactory {
+public interface ConfigurationFactory {
 
   /**
-   * Initializes first step in double dispatch to specify type of the incoming {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationSpecification}.
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementBoolean}.
    *
-   * @param specification the specification to convert
-   * @return the resulting configuration value
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
    */
-  public ConfigurationValue build(ConfigurationSpecification specification) {
-    return null; // specification.build(this);
-  }
+  ConfigurationValue build(ConfigurationRequirementBoolean requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementRelationalInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementRelationalInput requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementDatabaseConnection}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementDatabaseConnection requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementFileInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementFileInput requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementInteger}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementInteger requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementListBox}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementListBox requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementString}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementString requirement)
+      throws AlgorithmConfigurationException;
+
+  /**
+   * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
+   * a@{link ConfigurationRequirementTableInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   *                                                                           cannot be correctly
+   *                                                                           build from the requirement
+   */
+  ConfigurationValue build(ConfigurationRequirementTableInput requirement)
+      throws AlgorithmConfigurationException;
 }

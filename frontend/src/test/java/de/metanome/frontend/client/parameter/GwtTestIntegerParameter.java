@@ -19,9 +19,9 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.IntegerInput;
@@ -34,9 +34,9 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
     int noOfValues = 3;
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         specification =
-        new ConfigurationSpecificationInteger("integer", noOfValues);
+        new ConfigurationRequirementInteger("integer", noOfValues);
 
     //Execute
     InputParameterIntegerWidget
@@ -52,10 +52,10 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   @Test
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
-    int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-    ConfigurationSpecificationInteger
+    int noOfValues = ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES;
+    ConfigurationRequirementInteger
         specification =
-        new ConfigurationSpecificationInteger("integer", noOfValues);
+        new ConfigurationRequirementInteger("integer", noOfValues);
 
     //Execute
     InputParameterIntegerWidget
@@ -71,8 +71,8 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   @Test
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("bool",
-                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementInteger specification = new ConfigurationRequirementInteger("bool",
+                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget =
         new InputParameterIntegerWidget(specification, new TabWrapper());
@@ -90,8 +90,8 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   @Test
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationInteger specification = new ConfigurationSpecificationInteger("bool",
-                                                                                            ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementInteger specification = new ConfigurationRequirementInteger("bool",
+                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget =
         new InputParameterIntegerWidget(specification, new TabWrapper());
@@ -112,18 +112,18 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   public void testRetrieveValues() throws AlgorithmConfigurationException {
     //Setup
     int value1 = 7;
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         specification1 =
-        new ConfigurationSpecificationInteger("integer",
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+        new ConfigurationRequirementInteger("integer",
+                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget1 =
         new InputParameterIntegerWidget(specification1, new TabWrapper());
 
-    ConfigurationSpecificationInteger
+    ConfigurationRequirementInteger
         specification2 =
-        new ConfigurationSpecificationInteger("integer",
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+        new ConfigurationRequirementInteger("integer",
+                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget2 =
         new InputParameterIntegerWidget(specification2, new TabWrapper());

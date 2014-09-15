@@ -20,9 +20,13 @@ package de.metanome.backend.algorithm_loading;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
@@ -47,6 +51,11 @@ public class AlgorithmAnalyzer {
   private boolean basicStatisticAlgorithm = false;
   private boolean tempFileAlgorithm = false;
   private boolean progressEstimatingAlgorithm = false;
+
+  private boolean relationalInputAlgorithm = false;
+  private boolean fileInputAlgorithm = false;
+  private boolean tableInputAlgorithm = false;
+  private boolean databaseConnectionAlgorithm = false;
 
   Set<Class<?>> interfaces;
 
@@ -87,6 +96,14 @@ public class AlgorithmAnalyzer {
       tempFileAlgorithm = true;
     if (interfaces.contains(ProgressEstimatingAlgorithm.class))
       progressEstimatingAlgorithm = true;
+    if (interfaces.contains(RelationalInputParameterAlgorithm.class))
+      relationalInputAlgorithm = true;
+    if (interfaces.contains(FileInputParameterAlgorithm.class))
+      fileInputAlgorithm = true;
+    if (interfaces.contains(TableInputParameterAlgorithm.class))
+      tableInputAlgorithm = true;
+    if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class))
+      databaseConnectionAlgorithm = true;
   }
 
   public boolean isFunctionalDependencyAlgorithm() {
@@ -116,6 +133,14 @@ public class AlgorithmAnalyzer {
   public boolean isProgressEstimatingAlgorithm() {
     return progressEstimatingAlgorithm;
   }
+
+  public boolean isRelationalInputAlgorithm() { return relationalInputAlgorithm; }
+
+  public boolean isFileInputAlgorithm() { return fileInputAlgorithm; }
+
+  public boolean isTableInputAlgorithm() { return tableInputAlgorithm; }
+
+  public boolean isDatabaseConnectionAlgorithm() { return databaseConnectionAlgorithm; }
 
   public Algorithm getAlgorithm() {
     return algorithm;

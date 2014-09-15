@@ -18,24 +18,18 @@ package de.metanome.algorithm_integration;
 
 import de.metanome.test_helper.GwtSerializationTester;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Test for {@link de.metanome.algorithm_integration.AlgorithmConfigurationException}
+ *
+ * @author Jakob Zwiener
  */
 public class AlgorithmConfigurationExceptionTest {
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
 
   /**
    * Test method for {@link de.metanome.algorithm_integration.AlgorithmConfigurationException#AlgorithmConfigurationException(String)}
@@ -57,6 +51,33 @@ public class AlgorithmConfigurationExceptionTest {
 
     // Check result
     assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.AlgorithmConfigurationException#AlgorithmConfigurationException(String, java.lang.Throwable)}
+   *
+   * The exception should store the message and the cause.
+   */
+  @Test
+  public void testAlgorithmConfigurationExceptionStringThrowable() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+    Throwable expectedCause = new FileNotFoundException("some file was not found");
+
+    // Execute functionality
+    String actualMessage;
+    Throwable actualCause;
+    try {
+      throw new AlgorithmConfigurationException(expectedMessage, expectedCause);
+    } catch (AlgorithmConfigurationException e) {
+      actualMessage = e.getMessage();
+      actualCause = e.getCause();
+    }
+
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+    assertEquals(expectedCause, actualCause);
   }
 
   /**

@@ -22,7 +22,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -41,14 +42,14 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
    * @param config  the configuration specification
    * @param wrapper the tab wrapper
    */
-  public InputParameterWidget(ConfigurationSpecification config, TabWrapper wrapper) {
+  public InputParameterWidget(ConfigurationRequirement config, TabWrapper wrapper) {
     super();
 
     this.setMessageReceiver(wrapper);
     this.setSpecification(config);
 
     if (this.getSpecification().getNumberOfValues()
-        == ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES) {
+        == ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES) {
       this.setInputWidgets(new ArrayList<InputField>(1));
       this.addInputField(true);    //one default input field
       createAddOneButton();
@@ -100,8 +101,8 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
    * @return the updated specification of the input
    * @throws InputValidationException if the specification is invalid
    */
-  public abstract ConfigurationSpecification getUpdatedSpecification()
-      throws InputValidationException;
+  public abstract ConfigurationRequirement getUpdatedSpecification()
+      throws InputValidationException, AlgorithmConfigurationException;
 
   /**
    * @return true, if the input field represents a data source input, false otherwise
@@ -125,14 +126,14 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
   /**
    * @return the current configuration specification
    */
-  public abstract ConfigurationSpecification getSpecification();
+  public abstract ConfigurationRequirement getSpecification();
 
   /**
    * Sets the configuration specification
    *
    * @param config the configuration specification, which should be set
    */
-  public abstract void setSpecification(ConfigurationSpecification config);
+  public abstract void setSpecification(ConfigurationRequirement config);
 
   /**
    * Sets the message receiver

@@ -44,6 +44,10 @@ public class AlgorithmAnalyzerTest {
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
     assertTrue(analyzer.isTempFileAlgorithm());
     assertFalse(analyzer.isProgressEstimatingAlgorithm());
+    assertTrue(analyzer.isFileInputAlgorithm());
+    assertFalse(analyzer.isRelationalInputAlgorithm());
+    assertFalse(analyzer.isTableInputAlgorithm());
+    assertFalse(analyzer.isDatabaseConnectionAlgorithm());
   }
 
   @Test
@@ -64,6 +68,10 @@ public class AlgorithmAnalyzerTest {
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
     assertFalse(analyzer.isTempFileAlgorithm());
     assertFalse(analyzer.isProgressEstimatingAlgorithm());
+    assertTrue(analyzer.isFileInputAlgorithm());
+    assertFalse(analyzer.isRelationalInputAlgorithm());
+    assertFalse(analyzer.isTableInputAlgorithm());
+    assertFalse(analyzer.isDatabaseConnectionAlgorithm());
   }
 
 }

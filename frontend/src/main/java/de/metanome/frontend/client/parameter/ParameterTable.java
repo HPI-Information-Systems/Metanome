@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
@@ -48,14 +48,14 @@ public class ParameterTable extends FlexTable {
    * @param primaryDataSource the primary data source
    * @param messageReceiver   to send errors to
    */
-  public ParameterTable(List<ConfigurationSpecification> paramList,
+  public ParameterTable(List<ConfigurationRequirement> paramList,
                         ConfigurationSettingDataSource primaryDataSource,
                         TabWrapper messageReceiver) {
     super();
     this.messageReceiver = messageReceiver;
 
     int row = 0;
-    for (ConfigurationSpecification param : paramList) {
+    for (ConfigurationRequirement param : paramList) {
       this.setText(row, 0, param.getIdentifier());
 
       InputParameterWidget currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
@@ -89,10 +89,10 @@ public class ParameterTable extends FlexTable {
    * When parameter values are submitted, their values are set and used to call the execution
    * service corresponding to the current tab.
    */
-  public void submit() {
+  public void submit() throws AlgorithmConfigurationException {
     try {
-      List<ConfigurationSpecification> parameters = getConfigurationSpecificationsWithValues();
-      List<ConfigurationSpecification> dataSources =
+      List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
+      List<ConfigurationRequirement> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
       getAlgorithmTab().startExecution(parameters, dataSources);
     } catch (InputValidationException e) {
@@ -110,9 +110,9 @@ public class ParameterTable extends FlexTable {
    *                                                                      cannot validate their
    *                                                                      input
    */
-  public List<ConfigurationSpecification> getConfigurationSpecificationDataSourcesWithValues()
-      throws InputValidationException {
-    LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
+  public List<ConfigurationRequirement> getConfigurationSpecificationDataSourcesWithValues()
+      throws InputValidationException, AlgorithmConfigurationException {
+    LinkedList<ConfigurationRequirement> parameterList = new LinkedList<>();
 
     for (InputParameterDataSourceWidget childWidget : this.dataSourceChildWidgets) {
       parameterList.add(childWidget.getUpdatedSpecification());
@@ -130,9 +130,9 @@ public class ParameterTable extends FlexTable {
    *                                                                      cannot validate their
    *                                                                      input
    */
-  public List<ConfigurationSpecification> getConfigurationSpecificationsWithValues()
-      throws InputValidationException {
-    LinkedList<ConfigurationSpecification> parameterList = new LinkedList<>();
+  public List<ConfigurationRequirement> getConfigurationSpecificationsWithValues()
+      throws InputValidationException, AlgorithmConfigurationException {
+    LinkedList<ConfigurationRequirement> parameterList = new LinkedList<>();
 
     for (InputParameterWidget childWidget : this.childWidgets) {
       parameterList.add(childWidget.getUpdatedSpecification());
@@ -143,7 +143,7 @@ public class ParameterTable extends FlexTable {
 
   /**
    * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose
-   * underlying {@link ConfigurationSpecification} has the given identifier.
+   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has the given identifier.
    *
    * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
    * @return This parameter's child widgets that corresponds to the given identifier, or null if

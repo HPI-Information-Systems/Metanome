@@ -18,13 +18,13 @@ package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 
 
 public abstract class InputParameterDataSourceWidget extends InputParameterWidget {
 
-  public InputParameterDataSourceWidget(ConfigurationSpecification config, TabWrapper wrapper) {
+  public InputParameterDataSourceWidget(ConfigurationRequirement config, TabWrapper wrapper) {
     super(config, wrapper);
   }
 

@@ -17,7 +17,7 @@
 package de.metanome.frontend.server;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
 import junit.framework.TestCase;
 
@@ -44,7 +44,7 @@ public class ParameterServiceTest extends TestCase {
     ParameterServiceImpl parameterService = new ParameterServiceImpl();
 
     //Execute
-    List<ConfigurationSpecification>
+    List<ConfigurationRequirement>
         inputParameters =
         parameterService.retrieveParameters("example_ucc_algorithm.jar");
 

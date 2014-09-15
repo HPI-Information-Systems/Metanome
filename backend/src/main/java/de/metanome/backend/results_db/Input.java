@@ -27,6 +27,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 
 /**
  * Represents superclass inputs in the database.
@@ -110,5 +111,8 @@ public class Input extends ResultsDbEntity implements Serializable {
     return (int) (id ^ (id >>> 32));
   }
 
-
+  @Transient
+  public String getIdentifier() {
+    return String.valueOf(id);
+  }
 }

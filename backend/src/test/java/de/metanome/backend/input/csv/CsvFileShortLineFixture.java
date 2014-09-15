@@ -32,16 +32,16 @@ import java.io.StringReader;
  */
 public class CsvFileShortLineFixture {
 
-  public CsvFile getTestData() throws InputGenerationException, InputIterationException {
+  public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
   }
 
-  public CsvFile getTestData(boolean skipDifferingLines)
+  public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    return new CsvFile("some_file", new StringReader(
+    return new FileIterator("some_file", new StringReader(
         Joiner.on(',').join(getExpectedFirstParsableLine()) + "\nfour,five\n" + Joiner.on(',')
             .join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"), ',', '\'', '\\',
-                       0, false, true, false, skipDifferingLines);
+                            0, false, true, false, skipDifferingLines);
   }
 
   public ImmutableList<String> getExpectedFirstParsableLine() {

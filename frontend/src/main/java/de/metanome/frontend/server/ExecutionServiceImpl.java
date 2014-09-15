@@ -20,7 +20,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
@@ -78,7 +78,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
 
   @Override
   public long executeAlgorithm(String algorithmFileName, String executionIdentifier,
-                               List<ConfigurationSpecification> parameters)
+                               List<ConfigurationRequirement> parameters)
       throws AlgorithmLoadingException,
              AlgorithmExecutionException {
     AlgorithmExecutor executor;

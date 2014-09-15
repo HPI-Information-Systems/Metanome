@@ -26,11 +26,11 @@ import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgo
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.configuration.ConfigurationValueFactory;
+import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -43,12 +43,17 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Executes given algorithms.
+ */
 public class AlgorithmExecutor implements Closeable {
 
   protected CloseableOmniscientResultReceiver resultReceiver;
   protected ProgressCache progressCache;
 
   protected FileGenerator fileGenerator;
+
+  protected DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
 
   /**
    * Constructs a new executor with new result receivers and generators.
@@ -68,24 +73,23 @@ public class AlgorithmExecutor implements Closeable {
 
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
-   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSpecification}s to {@link
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to {@link
    * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
    * @param algorithmFileName the algorithm's file name
-   * @param parameters        list of configuration specifications
+   * @param requirements        list of configuration requirements
    * @return elapsed time in ns
    */
   public long executeAlgorithm(String algorithmFileName,
-                               List<ConfigurationSpecification> parameters)
+                               List<ConfigurationRequirement> requirements)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
 
-    for (ConfigurationSpecification specification : parameters) {
-      parameterValues.add(ConfigurationValueFactory.createConfigurationValue(specification));
-
+    for (ConfigurationRequirement requirement : requirements) {
+      parameterValues.add(requirement.build(configurationFactory));
     }
 
     try {

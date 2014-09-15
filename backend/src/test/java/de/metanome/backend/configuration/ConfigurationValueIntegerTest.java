@@ -18,13 +18,15 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -47,12 +49,44 @@ public class ConfigurationValueIntegerTest {
 
     // Execute functionality
     ConfigurationValueInteger configValue = new ConfigurationValueInteger(
-        new ConfigurationSpecificationInteger(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementInteger(expectedIdentifier).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
     verify(algorithm).setIntegerConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.configuration.ConfigurationValueInteger#ConfigurationValueInteger(de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger)}
+   *
+   * The integers in the requirement should be properly stored in the value.
+   */
+  @Test
+  public void testConstructorRequirement() {
+    // Expected values
+    int[] expectedValues = {3, 6, 12309478};
+    String expectedIdentifier = "some identifier";
+    ConfigurationRequirementInteger
+        requirement =
+        new ConfigurationRequirementInteger(expectedIdentifier, 3);
+    requirement.setSettings(buildSettings(expectedValues));
+
+    // Execute functionality
+    ConfigurationValueInteger actualConfigValue = new ConfigurationValueInteger(requirement);
+
+    // Check result
+    assertArrayEquals(actualConfigValue.values, expectedValues);
+  }
+
+  private ConfigurationSettingInteger[] buildSettings(int[] expectedValues) {
+    ConfigurationSettingInteger[] settings = new ConfigurationSettingInteger[expectedValues.length];
+
+    for (int i = 0; i < expectedValues.length; i++) {
+      settings[i] = new ConfigurationSettingInteger(expectedValues[i]);
+    }
+
+    return settings;
   }
 
 }

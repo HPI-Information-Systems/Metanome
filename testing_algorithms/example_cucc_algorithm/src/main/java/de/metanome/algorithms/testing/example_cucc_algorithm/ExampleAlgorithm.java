@@ -25,9 +25,9 @@ import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumn
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.ConditionalUniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -39,7 +39,6 @@ import java.util.List;
 /**
  * @author Jens Ehrlich
  */
-
 public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgorithm,
                                          StringParameterAlgorithm, FileInputParameterAlgorithm,
                                          ProgressEstimatingAlgorithm {
@@ -49,15 +48,15 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   protected ProgressReceiver progressReceiver;
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
-    List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
+    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationSpecification.add(new ConfigurationSpecificationString(
+    configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));
-    configurationSpecification.add(new ConfigurationSpecificationCsvFile(
+    configurationRequirement.add(new ConfigurationRequirementFileInput(
         "input file", 2));
 
-    return configurationSpecification;
+    return configurationRequirement;
   }
 
   @Override

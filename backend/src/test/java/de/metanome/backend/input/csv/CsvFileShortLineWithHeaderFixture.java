@@ -27,9 +27,10 @@ import java.io.StringReader;
  */
 public class CsvFileShortLineWithHeaderFixture {
 
-  public CsvFile getTestData() throws InputIterationException {
-    return new CsvFile("some_file",
-                       new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"), ',', '\'',
-                       '\\', 0, false, true, true, false);
+  public FileIterator getTestData() throws InputIterationException {
+    return new FileIterator("some_file",
+                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"), ',',
+                            '\'',
+                            '\\', 0, false, true, true, false);
   }
 }

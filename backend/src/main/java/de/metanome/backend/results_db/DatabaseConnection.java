@@ -27,6 +27,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * Represents a database connection in the database.
@@ -162,4 +163,10 @@ public class DatabaseConnection extends ResultsDbEntity implements Serializable 
   public int hashCode() {
     return (int) (id ^ (id >>> 32));
   }
+
+  @Transient
+  public String getIdentifier() {
+    return url + "; " + username + "; " + system.name();
+  }
+
 }
