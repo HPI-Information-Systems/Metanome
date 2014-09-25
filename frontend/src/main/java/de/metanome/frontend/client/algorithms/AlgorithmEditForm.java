@@ -33,7 +33,8 @@ import de.metanome.frontend.client.input_fields.ListBoxInput;
 import de.metanome.frontend.client.services.AlgorithmService;
 import de.metanome.frontend.client.services.AlgorithmServiceAsync;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Claudia Exeler
@@ -48,16 +49,27 @@ public class AlgorithmEditForm extends Grid {
   protected TextBox authorTextBox = new TextBox();
   protected TextArea descriptionTextArea = new TextArea();
 
+  private List<String> algorithmsInDatabase;
+  private List<String> algorithmsOnStorage;
 
   public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
-    super(5, 2);
+    super(5, 3);
 
     this.algorithmsPage = parent;
     this.messageReceiver = messageReceiver;
 
-    this.createFileListBox();
+    Button refreshButton = new Button("Refresh");
+    refreshButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        updateFileListBox();
+      }
+    });
+
+    this.updateFileListBox();
     this.setText(0, 0, "File Name");
     this.setWidget(0, 1, this.fileListBox);
+    this.setWidget(0, 2, refreshButton);
 
     this.setText(1, 0, "Algorithm Name");
     this.setWidget(1, 1, this.nameTextBox);
@@ -81,8 +93,57 @@ public class AlgorithmEditForm extends Grid {
   /**
    * Find all available algorithms files and adds them to the list box.
    */
-  private void createFileListBox() {
-    AsyncCallback<String[]> callback = new AsyncCallback<String[]>() {
+  private void updateFileListBox() {
+    this.fileListBox.clear();
+    this.fileListBox.addValue("--");
+    this.fileListBox.disableFirstEntry();
+
+    this.algorithmsInDatabase = new ArrayList<>();
+    this.algorithmsOnStorage = new ArrayList<>();
+
+    // Add available CSV files
+    AsyncCallback<String[]> storageCallback = getStorageCallback();
+    AsyncCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
+
+    AlgorithmServiceAsync service = GWT.create(AlgorithmService.class);
+    service.listAvailableAlgorithmFiles(storageCallback);
+    service.listAllAlgorithms(databaseCallback);
+  }
+
+  /**
+   * Gets all algorithms in the database.
+   * The list box should only contain those algorithms, which are not yet stored in the database.
+   * @return the callback
+   */
+  private AsyncCallback<List<Algorithm>> getDatabaseCallback() {
+    return new AsyncCallback<List<Algorithm>>() {
+      public void onFailure(Throwable caught) {
+      }
+
+      public void onSuccess(List<Algorithm> result) {
+        List<String> algorithmNames = new ArrayList<>();
+
+        for (Algorithm algorithm : result)
+          algorithmsInDatabase.add(algorithm.getFileName());
+
+        for (String name : algorithmsOnStorage) {
+          if (!algorithmsInDatabase.contains(name)) {
+            algorithmNames.add(name);
+          }
+        }
+
+        fileListBox.setValues(algorithmNames);
+      }
+    };
+  }
+
+  /**
+   * Gets all algorithms on storage.
+   * The list box should only contain those algorithms, which are not yet stored in the database.
+   * @return the callback
+   */
+  private AsyncCallback<String[]> getStorageCallback() {
+    return new AsyncCallback<String[]>() {
       @Override
       public void onFailure(Throwable throwable) {
         messageReceiver.addError(
@@ -91,13 +152,26 @@ public class AlgorithmEditForm extends Grid {
       }
 
       @Override
-      public void onSuccess(String[] strings) {
-        fileListBox.setValues(Arrays.asList(strings));
+      public void onSuccess(String[] result) {
+        List<String> algorithmNames = new ArrayList<>();
+
+        if (result.length == 0) {
+          messageReceiver
+              .addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
+          return;
+        }
+
+        for (String name : result) {
+          if (algorithmsInDatabase.size() > 0 && !algorithmsInDatabase.contains(name)) {
+            algorithmNames.add(name);
+          }
+
+          algorithmsOnStorage.add(name);
+        }
+
+        fileListBox.setValues(algorithmNames);
       }
     };
-
-    AlgorithmServiceAsync service = GWT.create(AlgorithmService.class);
-    service.listAvailableAlgorithmFiles(callback);
   }
 
   /**
@@ -130,5 +204,4 @@ public class AlgorithmEditForm extends Grid {
 
     return algorithm;
   }
-
 }
