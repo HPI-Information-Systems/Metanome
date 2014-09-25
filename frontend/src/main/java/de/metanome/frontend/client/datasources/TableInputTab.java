@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
@@ -150,8 +152,13 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @return the ConfigurationSettingDataSource from the given table input
    */
   private ConfigurationSettingDataSource convertTableInputToDataSource(TableInput input) {
-    // TODO configuration setting is missing
-    return null;
+    ConfigurationSettingDatabaseConnection settingDatabaseConnection =
+        new ConfigurationSettingDatabaseConnection(input.getDatabaseConnection().getUrl(),
+                                                   input.getDatabaseConnection().getUsername(),
+                                                   input.getDatabaseConnection().getPassword(),
+                                                   input.getDatabaseConnection().getSystem());
+
+    return new ConfigurationSettingTableInput(input.getTableName(), settingDatabaseConnection);
   }
 
   /**
