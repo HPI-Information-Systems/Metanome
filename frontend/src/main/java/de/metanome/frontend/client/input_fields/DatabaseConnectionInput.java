@@ -73,7 +73,7 @@ public class DatabaseConnectionInput extends InputField {
           }
 
           public void onSuccess(List<DatabaseConnection> result) {
-            List<String> dbConnectionNames = new ArrayList<String>();
+            List<String> dbConnectionNames = new ArrayList<>();
             dbConnectionNames.add("--");
             String preselectedIdentifier = null;
 
@@ -113,7 +113,7 @@ public class DatabaseConnectionInput extends InputField {
    * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws AlgorithmConfigurationException If the data source setting is not a sql iterator
+   * @throws AlgorithmConfigurationException If the data source setting is not a database connection
    *                                         setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
@@ -130,7 +130,7 @@ public class DatabaseConnectionInput extends InputField {
           (ConfigurationSettingDatabaseConnection) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a sql iterator setting.");
+      throw new AlgorithmConfigurationException("This is not a databse connection setting.");
     }
   }
 

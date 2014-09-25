@@ -169,7 +169,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   }
 
   /**
-   * Test method for {@link DefaultDatabaseConnectionGenerator#close()} <p/> The sql iterator
+   * Test method for {@link DefaultDatabaseConnectionGenerator#close()} <p/> The database connection
    * generator should be closeable. After closing the sql iterator generator the underlying db
    * connection should be closed.
    */

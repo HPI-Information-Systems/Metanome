@@ -38,8 +38,8 @@ public class ConfigurationValueDatabaseConnectionGenerator implements Configurat
   protected final DatabaseConnectionGenerator[] values;
 
   /**
-   * Constructs a ConfigurationValueSqlInputGenerator using the specification's identifier and a
-   * SqlInputGenerator as value.
+   * Constructs a ConfigurationValueDatabaseConnectionGenerator using the specification's identifier
+   * and a DatabaseConnectionGenerator as value.
    */
   public ConfigurationValueDatabaseConnectionGenerator(String identifier,
                                                        DatabaseConnectionGenerator... values) {
@@ -87,11 +87,12 @@ public class ConfigurationValueDatabaseConnectionGenerator implements Configurat
       throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept sql input configuration values.");
+          "Algorithm does not accept database connection input configuration values.");
     }
 
     DatabaseConnectionParameterAlgorithm
         databaseConnectionParameterAlgorithm = (DatabaseConnectionParameterAlgorithm) algorithm;
-    databaseConnectionParameterAlgorithm.setSqlInputConfigurationValue(identifier, values);
+    databaseConnectionParameterAlgorithm.setDatabaseConnectionGeneratorConfigurationValue(
+        identifier, values);
   }
 }
