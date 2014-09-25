@@ -31,6 +31,7 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.services.InputService;
 import de.metanome.frontend.client.services.InputServiceAsync;
@@ -84,6 +85,9 @@ public class RelationalInputInput extends InputField {
         if (result != null && result.size() > 0) {
           for (Input input : result) {
             String identifier = input.getIdentifier();
+
+            if (input instanceof FileInput)
+              identifier = FilePathHelper.getFileName(identifier);
 
             inputNames.add(identifier);
             inputs.put(identifier, input);
