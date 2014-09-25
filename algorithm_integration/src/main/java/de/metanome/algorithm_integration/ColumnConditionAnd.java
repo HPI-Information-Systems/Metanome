@@ -63,9 +63,11 @@ public class ColumnConditionAnd implements ColumnCondition {
 
   @Override
   public float getCoverage() {
-    float coverage = 0;
+    float coverage = Float.MAX_VALUE;
     for (ColumnCondition subCondition : this.columnValues) {
-      coverage += subCondition.getCoverage();
+      if (coverage > subCondition.getCoverage()) {
+        coverage = subCondition.getCoverage();
+      }
     }
     return coverage;
   }
