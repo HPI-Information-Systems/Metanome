@@ -54,6 +54,8 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected ResultTable fdTable;
   protected ResultTable basicsTable;
 
+  protected boolean receivedResults = false;
+
   public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
     this.executionService = executionService;
     this.executionIdentifier = executionIdentifier;
@@ -78,7 +80,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
       @Override
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("Could not fetch results: " + caught.getMessage());
       }
 
       @Override
@@ -97,6 +98,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     for (Result r : results) {
       try {
         r.sendResultTo(this);
+        this.receivedResults = true;
       } catch (CouldNotReceiveResultException e) {
         this.messageReceiver.addError("Could not display results: " + e.getMessage());
       }

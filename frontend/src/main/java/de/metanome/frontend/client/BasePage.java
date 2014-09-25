@@ -25,14 +25,12 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
-import de.metanome.frontend.client.results.ResultsTablePage;
-import de.metanome.frontend.client.results.ResultsVisualizationPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 import de.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -145,32 +143,9 @@ public class BasePage extends TabLayoutPanel {
       }
 
       public void onSuccess(Long executionTime) {
-        handleSuccessfulExecution(executionService, executionIdentifier, executionTime);
+        resultsPage.updateOnSuccess(executionTime);
       }
     };
-  }
-
-  /**
-   * Creates the results table and visualization page.
-   *
-   * @param executionService    the service instance used for executing the algorithm
-   * @param executionIdentifier the execution identifier
-   * @param executionTime       the time, which was needed for execution
-   */
-  private void handleSuccessfulExecution(ExecutionServiceAsync executionService,
-                                         String executionIdentifier, Long executionTime) {
-    // Create new tab with result table
-    ResultsTablePage
-        resultsTableContent =
-        new ResultsTablePage(executionService, executionIdentifier);
-    resultsTableContent.setMessageReceiver(this.resultPageTabWrapper);
-
-    // Create new tab with visualizations of result
-    ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-    visualizationTab.setMessageReceiver(this.resultPageTabWrapper);
-
-    // remove the content from the result page and set the content to the new fetched result
-    this.resultsPage.updateOnSuccess(resultsTableContent, visualizationTab, executionTime);
   }
 
   /**

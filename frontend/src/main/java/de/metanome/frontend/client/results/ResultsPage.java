@@ -49,6 +49,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected ProgressBar progressBar;
   protected Timer timer;
 
+  protected Label algorithmLabel;
+
+  private ResultsTablePage tablePage;
+
   protected String executionIdentifier;
   private String algorithmFileName;
   private ExecutionServiceAsync executionService;
@@ -67,28 +71,25 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param resultsTab            the results tab
-   * @param visualizationTab      the visualization tab
    * @param executionTimeNanoSecs the execution time in nanoseconds
    */
-  public void updateOnSuccess(ResultsTablePage resultsTab,
-                              ResultsVisualizationPage visualizationTab,
-                              Long executionTimeNanoSecs) {
+  public void updateOnSuccess(Long executionTimeNanoSecs) {
     this.timer.cancel();
-    this.clear();
+
+    this.remove(this.algorithmLabel);
+    this.remove(this.progressBar);
+    this.remove(this.runningIndicator);
 
     // Add a label for the execution time
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
     Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
-    this.add(new Label("Algorithm " + this.algorithmFileName + " executed in " + format
-        .format(date, TimeZone.createTimeZone(0))
-                       + " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms."));
+    String timeString = "Algorithm " + this.algorithmFileName + " executed in " +
+                        format.format(date, TimeZone.createTimeZone(0)) +
+                        " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms.";
+    this.insert(new Label(timeString), 0);
 
-    // Add the result table and the visualization tab
-    TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(new ScrollPanel(resultsTab), "Table");
-    panel.add(new ScrollPanel(visualizationTab), "Visualization");
-    this.add(panel);
+    if (!this.tablePage.receivedResults)
+      this.messageReceiver.addError("The results could not be displayed.");
   }
 
   /**
@@ -111,18 +112,37 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.clear();
 
     // Add label for the algorithm, which is executed at the moment
-    this.add(new Label("Executing algorithm " + this.algorithmFileName));
+    this.algorithmLabel = new Label("Executing algorithm " + this.algorithmFileName);
+    this.add(algorithmLabel);
 
     // Add a running indicator
     this.runningIndicator = new Image("ajax-loader.gif");
     this.add(this.runningIndicator);
 
+    // Add a progress bar if the algorithm supports it
     this.progressBar = new ProgressBar(0, 1);
     this.add(this.progressBar);
 
+    // Create new tab with result table
+    this.tablePage =
+        new ResultsTablePage(this.executionService, this.executionIdentifier);
+    tablePage.setMessageReceiver(this.messageReceiver);
+
+    // Create new tab with visualizations of result
+    ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
+    visualizationTab.setMessageReceiver(this.messageReceiver);
+
+    // Add the result table and the visualization tab
+    TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
+    panel.add(new ScrollPanel(tablePage), "Table");
+    panel.add(new ScrollPanel(visualizationTab), "Visualization");
+    this.add(panel);
+
+    final ResultsTablePage resultsTab = tablePage;
     this.timer = new Timer() {
       public void run() {
         updateProgress();
+        resultsTab.fetchResults();
       }
     };
 
