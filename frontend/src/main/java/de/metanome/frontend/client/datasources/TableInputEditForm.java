@@ -140,14 +140,12 @@ public class TableInputEditForm extends Grid {
             List<String> dbConnectionNames = new ArrayList<String>();
             dbConnectionNames.add("--");
 
-            if (result != null || result.size() > 0) {
+            if (result != null && result.size() > 0) {
               for (DatabaseConnection db : result) {
                 String identifier = db.getIdentifier();
                 dbConnectionNames.add(identifier);
                 dbMap.put(identifier, db);
               }
-            } else {
-              messageReceiver.addError("There are no database connections in the database!");
             }
 
             dbConnectionListBox.clear();

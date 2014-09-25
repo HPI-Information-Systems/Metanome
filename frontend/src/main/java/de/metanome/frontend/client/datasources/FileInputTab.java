@@ -92,11 +92,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @param inputs the file inputs
    */
   protected void listFileInputs(List<FileInput> inputs) {
-    if (inputs.isEmpty()) {
-      this.add(new HTML("<h4>There are no File Inputs yet.</h4>"));
-      return;
-    }
-
     this.fileInputList.setHTML(0, 0, "<b>File Name</b>");
     this.fileInputList.setHTML(0, 1, "<b>Comment</b>");
 
@@ -122,9 +117,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
       @Override
       public void onClick(ClickEvent clickEvent) {
         fileInputService.deleteFileInput(input,
-                                         parent.getDeleteCallback(fileInputList,
-                                                                  finalRow,
-                                                                  "File Input"));
+                                         getDeleteCallback(input));
       }
     });
 
@@ -171,6 +164,45 @@ public class FileInputTab extends FlowPanel implements TabContent {
    */
   public void updateDataSourcesOnRunConfiguration() {
     this.parent.updateDataSourcesOnRunConfiguration();
+  }
+
+  /**
+   * Creates the callback for the delete call.
+   *
+   * @param input The file input, which should be deleted.
+   * @return The callback
+   */
+  protected AsyncCallback<Void> getDeleteCallback(final FileInput input) {
+    return new AsyncCallback<Void>() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        messageReceiver.addError("Could not delete the file input: " + throwable.getMessage());
+      }
+
+      @Override
+      public void onSuccess(Void aVoid) {
+        fileInputList.removeRow(findRow(input));
+      }
+    };
+  }
+
+  /**
+   * Find the row in the table, which contains the given file input.
+   * @param input the file input
+   * @return the row number
+   */
+  private int findRow(FileInput input) {
+    int row = 0;
+
+    while (row < this.fileInputList.getRowCount()) {
+      HTML fileWidget = (HTML) this.fileInputList.getWidget(row, 0);
+
+      if (fileWidget != null && input.getFileName().equals(fileWidget.getText())) {
+        return row;
+      }
+      row++;
+    }
+    return -1;
   }
 
   @Override

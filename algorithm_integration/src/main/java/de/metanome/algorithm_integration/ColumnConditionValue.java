@@ -70,7 +70,7 @@ public class ColumnConditionValue implements ColumnCondition {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(this.columnIdentifier.toString());
-    builder.append(": ");
+    builder.append("= ");
     if (this.isNegated) {
       builder.append(NOT);
     }
