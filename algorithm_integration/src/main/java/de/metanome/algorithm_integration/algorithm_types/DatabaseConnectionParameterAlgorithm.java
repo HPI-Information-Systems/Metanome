@@ -29,17 +29,18 @@ import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 public interface DatabaseConnectionParameterAlgorithm extends Algorithm {
 
   /**
-   * Sets a SqlInputGenerator configuration value on the algorithm.
+   * Sets a DatabaseConnectionGenerator configuration value on the algorithm.
    *
    * @param identifier the parameter's identifier
-   * @param values     one or multiple SqlInputGenerator values
+   * @param values     one or multiple DatabaseConnectionGenerator values
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the algorithm
    *                                                                           cannot be correctly
    *                                                                           configured using the
    *                                                                           received configuration
    *                                                                           values
    */
-  void setSqlInputConfigurationValue(String identifier, DatabaseConnectionGenerator... values)
+  void setDatabaseConnectionGeneratorConfigurationValue(String identifier,
+                                                        DatabaseConnectionGenerator... values)
       throws AlgorithmConfigurationException;
 
 }

@@ -61,7 +61,7 @@ public class SqlProfilingAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithms.testing.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setSqlInputConfigurationValue(String,
+   * Test method for {@link de.metanome.algorithms.testing.example_sql_profiling_algorithm.SqlProfilingAlgorithm#setDatabaseConnectionGeneratorConfigurationValue(String,
    * de.metanome.algorithm_integration.input.DatabaseConnectionGenerator...)}
    */
   @Test
@@ -71,8 +71,9 @@ public class SqlProfilingAlgorithmTest {
     DatabaseConnectionGenerator expectedInputGenerator = mock(DatabaseConnectionGenerator.class);
 
     // Execute functionality
-    algorithm.setSqlInputConfigurationValue(SqlProfilingAlgorithm.SQL_IDENTIFIER,
-                                            expectedInputGenerator);
+    algorithm
+        .setDatabaseConnectionGeneratorConfigurationValue(SqlProfilingAlgorithm.DATABASE_IDENTIFIER,
+                                                          expectedInputGenerator);
 
     // Check result
     assertSame(expectedInputGenerator, algorithm.inputGenerator);
@@ -85,7 +86,9 @@ public class SqlProfilingAlgorithmTest {
   public void testExecute() throws AlgorithmConfigurationException {
     // Setup
     DatabaseConnectionGenerator inputGenerator = mock(DatabaseConnectionGenerator.class);
-    algorithm.setSqlInputConfigurationValue(SqlProfilingAlgorithm.SQL_IDENTIFIER, inputGenerator);
+    algorithm
+        .setDatabaseConnectionGeneratorConfigurationValue(SqlProfilingAlgorithm.DATABASE_IDENTIFIER,
+                                                          inputGenerator);
     // Expected values
     // TODO add asserts
     // the systems property should be output from an sql connection

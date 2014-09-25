@@ -43,7 +43,7 @@ public class ExampleAlgorithm
   public final static String LISTBOX_IDENTIFIER = "column names";
   public final static String STRING_IDENTIFIER = "pathToOutputFile";
   public final static String CSVFILE_IDENTIFIER = "input file";
-  public final static String SQL_IDENTIFIER = "DB-connection";
+  public final static String DATABASE_IDENTIFIER = "DB-connection";
   protected String path = null;
   protected String selectedColumn = null;
   protected FunctionalDependencyResultReceiver resultReceiver;
@@ -54,7 +54,8 @@ public class ExampleAlgorithm
 
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementDatabaseConnection(SQL_IDENTIFIER));
+    configurationRequirement
+        .add(new ConfigurationRequirementDatabaseConnection(DATABASE_IDENTIFIER));
 
     ArrayList<String> listBoxValues = new ArrayList<>();
     listBoxValues.add("column 1");

@@ -39,11 +39,11 @@ public class ConfigurationValueTableInputGenerator implements ConfigurationValue
   protected final TableInputGenerator[] values;
 
   /**
-   * Constructs a {@link ConfigurationValueRelationalInputGenerator} using the specification's identifier
-   * and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}values.
+   * Constructs a {@link ConfigurationValueRelationalInputGenerator} using the specification's
+   * identifier and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}values.
    *
    * @param identifier the configuration value's identifier
-   * @param values the values
+   * @param values     the values
    */
   public ConfigurationValueTableInputGenerator(String identifier,
                                                TableInputGenerator... values) {
@@ -68,7 +68,7 @@ public class ConfigurationValueTableInputGenerator implements ConfigurationValue
    * to a {@link de.metanome.algorithm_integration.input.TableInputGenerator}.
    *
    * @param requirement the
-   * @return the created sql input generator
+   * @return the created table input generator
    */
   protected TableInputGenerator[] convertToValues(ConfigurationRequirementTableInput requirement)
       throws AlgorithmConfigurationException {
