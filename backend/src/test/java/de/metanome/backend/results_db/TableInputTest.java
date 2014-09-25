@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -106,5 +107,29 @@ public class TableInputTest {
 
     // Cleanup
     HibernateUtil.clear();
+  }
+
+  @Test
+  public void testGetIdentifier() {
+    // Setup
+    String tableName = "tableName";
+
+    DatabaseConnection connection = new DatabaseConnection();
+    connection.setUrl("url");
+    connection.setPassword("pwd");
+    connection.setSystem(DbSystem.DB2);
+    connection.setUsername("user");
+
+    String expectedIdentifier = "tableName; url; user; DB2";
+
+    TableInput input = new TableInput();
+    input.setDatabaseConnection(connection);
+    input.setTableName("tableName");
+
+    // Execute
+    String actualIdentifier = input.getIdentifier();
+
+    // Check
+    assertEquals(expectedIdentifier, actualIdentifier);
   }
 }

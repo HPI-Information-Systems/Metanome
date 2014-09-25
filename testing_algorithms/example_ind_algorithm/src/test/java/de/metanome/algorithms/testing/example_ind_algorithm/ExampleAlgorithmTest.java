@@ -19,7 +19,7 @@ package de.metanome.algorithms.testing.example_ind_algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.InclusionDependency;
@@ -72,7 +72,7 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationSpecification>
+    List<ConfigurationRequirement>
         actualConfigurationRequirements =
         this.algorithm.getConfigurationRequirements();
 

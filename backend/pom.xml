@@ -106,6 +106,13 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.metanome</groupId>
+                                    <artifactId>example_relational_input_algorithm</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.metanome</groupId>
                                     <artifactId>example_ucc_algorithm</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
@@ -235,6 +242,12 @@
         </dependency>
         <dependency>
             <groupId>de.metanome</groupId>
+            <artifactId>example_relational_input_algorithm</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>0.0.2-SNAPSHOT</version>
             <scope>compile</scope>
@@ -248,7 +261,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.26</version>
+            <version>5.1.30</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102-jdbc41</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

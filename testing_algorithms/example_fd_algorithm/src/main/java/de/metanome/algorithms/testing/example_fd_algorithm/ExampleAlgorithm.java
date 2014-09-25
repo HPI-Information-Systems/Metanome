@@ -23,11 +23,11 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationSqlIterator;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
@@ -49,23 +49,23 @@ public class ExampleAlgorithm
   protected FunctionalDependencyResultReceiver resultReceiver;
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
-    List<ConfigurationSpecification> configurationSpecification = new ArrayList<>();
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
+    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationSpecification.add(new ConfigurationSpecificationString(STRING_IDENTIFIER));
-    configurationSpecification.add(new ConfigurationSpecificationCsvFile(CSVFILE_IDENTIFIER));
-    configurationSpecification.add(new ConfigurationSpecificationSqlIterator(SQL_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER));
+    configurationRequirement.add(new ConfigurationRequirementDatabaseConnection(SQL_IDENTIFIER));
 
     ArrayList<String> listBoxValues = new ArrayList<>();
     listBoxValues.add("column 1");
     listBoxValues.add("column 2");
     listBoxValues.add("column 3");
-    ConfigurationSpecificationListBox
+    ConfigurationRequirementListBox
         specificationListBox =
-        new ConfigurationSpecificationListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
-    configurationSpecification.add(specificationListBox);
+        new ConfigurationRequirementListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
+    configurationRequirement.add(specificationListBox);
 
-    return configurationSpecification;
+    return configurationRequirement;
   }
 
   @Override

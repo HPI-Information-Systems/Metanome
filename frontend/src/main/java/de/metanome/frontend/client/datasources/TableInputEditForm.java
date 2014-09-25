@@ -142,9 +142,7 @@ public class TableInputEditForm extends Grid {
 
             if (result != null && result.size() > 0) {
               for (DatabaseConnection db : result) {
-                String
-                    identifier =
-                    db.getSystem().name() + "; " + db.getUrl() + "; " + db.getUsername();
+                String identifier = db.getIdentifier();
                 dbConnectionNames.add(identifier);
                 dbMap.put(identifier, db);
               }
@@ -198,18 +196,14 @@ public class TableInputEditForm extends Grid {
 
   public void addDatabaseConnection(DatabaseConnection connection) {
     String
-        identifier =
-        connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection
-            .getUsername();
+        identifier = connection.getIdentifier();
     this.dbConnectionListBox.addValue(identifier);
     this.dbMap.put(identifier, connection);
   }
 
   public void removeDatabaseConnection(DatabaseConnection connection) {
     String
-        identifier =
-        connection.getSystem().name() + "; " + connection.getUrl() + "; " + connection
-            .getUsername();
+        identifier = connection.getIdentifier();
     this.dbConnectionListBox.removeValue(identifier);
     this.dbMap.remove(connection);
   }

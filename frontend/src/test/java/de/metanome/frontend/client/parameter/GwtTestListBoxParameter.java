@@ -19,8 +19,8 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.frontend.client.TabWrapper;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class GwtTestListBoxParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
@@ -38,8 +38,8 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 3");
     values.add("Column 2");
     int noOfValues = 3;
-    ConfigurationSpecificationListBox specification =
-        new ConfigurationSpecificationListBox("enum", values, noOfValues);
+    ConfigurationRequirementListBox specification =
+        new ConfigurationRequirementListBox("enum", values, noOfValues);
 
     // Execute
     InputParameterListBoxWidget
@@ -53,7 +53,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#InputParameterListBoxWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
@@ -62,9 +62,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
-    int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-    ConfigurationSpecificationListBox specification =
-        new ConfigurationSpecificationListBox("enum", values, noOfValues);
+    int noOfValues = ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES;
+    ConfigurationRequirementListBox specification =
+        new ConfigurationRequirementListBox("enum", values, noOfValues);
 
     // Execute
     InputParameterListBoxWidget
@@ -87,9 +87,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 3");
     values.add("Column 2");
 
-    ConfigurationSpecificationListBox specification =
-        new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementListBox specification =
+        new ConfigurationRequirementListBox("enum", values,
+                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterListBoxWidget
         widget =
         new InputParameterListBoxWidget(specification, new TabWrapper());
@@ -113,9 +113,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
-    ConfigurationSpecificationListBox specification =
-        new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementListBox specification =
+        new ConfigurationRequirementListBox("enum", values,
+                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
 
     InputParameterListBoxWidget
         widget =
@@ -142,9 +142,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 2");
     String expectedSelectedValue = "Column 3";
 
-    ConfigurationSpecificationListBox expectedSpecification =
-        new ConfigurationSpecificationListBox("enum", values,
-                                              ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementListBox expectedSpecification =
+        new ConfigurationRequirementListBox("enum", values,
+                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
 
     InputParameterListBoxWidget
         widget =
@@ -152,7 +152,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     widget.setSelection(expectedSelectedValue);
 
     // Execute
-    ConfigurationSpecificationListBox specification = widget.getUpdatedSpecification();
+    ConfigurationRequirementListBox specification = widget.getUpdatedSpecification();
 
     // Check
     assertEquals(expectedSpecification.getSettings().length, specification.getSettings().length);

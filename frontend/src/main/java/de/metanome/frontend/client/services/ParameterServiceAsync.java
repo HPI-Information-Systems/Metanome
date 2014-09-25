@@ -18,13 +18,13 @@ package de.metanome.frontend.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
 import java.util.List;
 
 public interface ParameterServiceAsync {
 
   public void retrieveParameters(String selectedValue,
-                                 AsyncCallback<List<ConfigurationSpecification>> callback);
+                                 AsyncCallback<List<ConfigurationRequirement>> callback);
 
 }

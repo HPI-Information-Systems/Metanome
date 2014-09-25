@@ -16,9 +16,9 @@
 
 package de.metanome.frontend.client.parameter;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
@@ -27,11 +27,11 @@ import java.util.List;
 
 public class InputParameterListBoxWidget extends InputParameterWidget {
 
-  protected ConfigurationSpecificationListBox specification;
+  protected ConfigurationRequirementListBox specification;
   protected List<ListBoxInput> inputWidgets;
   protected TabWrapper messageReceiver;
 
-  public InputParameterListBoxWidget(ConfigurationSpecificationListBox config, TabWrapper wrapper) {
+  public InputParameterListBoxWidget(ConfigurationRequirementListBox config, TabWrapper wrapper) {
     super(config, wrapper);
   }
 
@@ -45,7 +45,7 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecificationListBox getUpdatedSpecification() {
+  public ConfigurationRequirementListBox getUpdatedSpecification() {
     this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
   }
@@ -75,13 +75,13 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
 
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationListBox) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementListBox) config;
   }
 
   protected void setSelection(String value) {

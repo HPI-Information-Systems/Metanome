@@ -16,9 +16,9 @@
 
 package de.metanome.frontend.client.parameter;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.BooleanInput;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -27,12 +27,12 @@ import java.util.List;
 
 public class InputParameterBooleanWidget extends InputParameterWidget {
 
-  protected ConfigurationSpecificationBoolean specification;
+  protected ConfigurationRequirementBoolean specification;
   protected List<BooleanInput> inputWidgets;
   protected TabWrapper messageReceiver;
 
 
-  public InputParameterBooleanWidget(ConfigurationSpecificationBoolean specification,
+  public InputParameterBooleanWidget(ConfigurationRequirementBoolean specification,
                                      TabWrapper wrapper) {
     super(specification, wrapper);
   }
@@ -46,7 +46,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecification getUpdatedSpecification() {
+  public ConfigurationRequirement getUpdatedSpecification() {
     // Build an array with the actual number of set values.
     ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[inputWidgets.size()];
 
@@ -69,13 +69,13 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationBoolean) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementBoolean) config;
   }
 
   @Override

@@ -19,13 +19,17 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.backend.input.csv.DefaultFileInputGenerator;
 
 import java.util.Set;
 
 /**
- * Represents a file input configuration value for {@link de.metanome.algorithm_integration.Algorithm}s.
+ * Represents {@link de.metanome.algorithm_integration.input.FileInputGenerator} configuration
+ * values for {@link Algorithm}s.
  *
  * @author Jakob Zwiener
  */
@@ -38,12 +42,40 @@ public class ConfigurationValueFileInputGenerator implements ConfigurationValue 
    * Constructs a ConfigurationValueFileInputGenerator using the specification's identifier and the
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator} values.
    *
-   * @param identifier the configuration value's identifier
-   * @param values     the values to set
+   * @param identifier the configuration value identifier
+   * @param values     the configuration values
    */
-  public ConfigurationValueFileInputGenerator(String identifier, FileInputGenerator... values) {
+  public ConfigurationValueFileInputGenerator(String identifier,
+                                              FileInputGenerator... values) {
     this.identifier = identifier;
     this.values = values;
+  }
+
+  /**
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}
+   * using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}.
+   *
+   * @param requirement the requirement to generate the {@link de.metanome.algorithm_integration.input.FileInputGenerator}
+   */
+  public ConfigurationValueFileInputGenerator(ConfigurationRequirementFileInput requirement)
+      throws AlgorithmConfigurationException {
+    this.identifier = requirement.getIdentifier();
+    this.values = convertToValues(requirement);
+  }
+
+  private FileInputGenerator[] convertToValues(ConfigurationRequirementFileInput requirement)
+      throws AlgorithmConfigurationException {
+    FileInputGenerator[]
+        fileInputGenerators =
+        new FileInputGenerator[requirement.getNumberOfValues()];
+
+    ConfigurationSettingFileInput[] settings = requirement.getSettings();
+
+    for (int i = 0; i < requirement.getNumberOfValues(); i++) {
+      fileInputGenerators[i] = new DefaultFileInputGenerator(settings[i]);
+    }
+
+    return fileInputGenerators;
   }
 
   @Override
@@ -53,8 +85,8 @@ public class ConfigurationValueFileInputGenerator implements ConfigurationValue 
       throw new AlgorithmConfigurationException(
           "Algorithm does not accept file input configuration values.");
     }
-    FileInputParameterAlgorithm
-        fileInputParameterAlgorithm =
+
+    FileInputParameterAlgorithm fileInputParameterAlgorithm =
         (FileInputParameterAlgorithm) algorithm;
     fileInputParameterAlgorithm.setFileInputConfigurationValue(identifier, values);
   }

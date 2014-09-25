@@ -20,23 +20,23 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.StringInput;
 
 public class GwtTestStringParameter extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementString,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithFixedNumber() throws AlgorithmConfigurationException {
     //Setup
     int noOfValues = 3;
-    ConfigurationSpecificationString
+    ConfigurationRequirementString
         specification =
-        new ConfigurationSpecificationString("string", noOfValues);
+        new ConfigurationRequirementString("string", noOfValues);
 
     //Execute
     InputParameterStringWidget
@@ -50,15 +50,15 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString,
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#InputParameterStringWidget(de.metanome.algorithm_integration.configuration.ConfigurationRequirementString,
    * de.metanome.frontend.client.TabWrapper)}
    */
   public void testCreateWithArbitraryNumber() throws AlgorithmConfigurationException {
     //Setup
-    int noOfValues = ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES;
-    ConfigurationSpecificationString
+    int noOfValues = ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES;
+    ConfigurationRequirementString
         specification =
-        new ConfigurationSpecificationString("string", noOfValues);
+        new ConfigurationRequirementString("string", noOfValues);
 
     //Execute
     InputParameterStringWidget
@@ -76,8 +76,8 @@ public class GwtTestStringParameter extends GWTTestCase {
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
-                                                                                          ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
+                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());
@@ -97,8 +97,8 @@ public class GwtTestStringParameter extends GWTTestCase {
    */
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
-                                                                                          ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
+                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());
@@ -119,8 +119,8 @@ public class GwtTestStringParameter extends GWTTestCase {
   public void testRetrieveValues() throws AlgorithmConfigurationException {
     //Setup
     String value = "something";
-    ConfigurationSpecificationString specification = new ConfigurationSpecificationString("bool",
-                                                                                          ConfigurationSpecification.ARBITRARY_NUMBER_OF_VALUES);
+    ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
+                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());

@@ -19,7 +19,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationBoolean;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class ConfigurationValueBooleanTest {
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-        new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
         expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
@@ -80,7 +80,7 @@ public class ConfigurationValueBooleanTest {
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-        new ConfigurationSpecificationBoolean(expectedIdentifier).getIdentifier(),
+        new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
         expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);

@@ -121,6 +121,10 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
     algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
     algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
     algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
+    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
+    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
+    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
 
     algorithm.store();
 

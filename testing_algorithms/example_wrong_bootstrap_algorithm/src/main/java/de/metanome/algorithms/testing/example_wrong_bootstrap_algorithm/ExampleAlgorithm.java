@@ -18,7 +18,7 @@ package de.metanome.algorithms.testing.example_wrong_bootstrap_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ import java.util.List;
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 
   @Override
-  public List<ConfigurationSpecification> getConfigurationRequirements() {
+  public List<ConfigurationRequirement> getConfigurationRequirements() {
     return new LinkedList<>();
   }
 

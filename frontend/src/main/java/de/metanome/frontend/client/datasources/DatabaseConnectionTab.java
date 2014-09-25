@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingSqlIterator;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
@@ -167,7 +167,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(
       DatabaseConnection input) {
-    return new ConfigurationSettingSqlIterator(input.getUrl(), input.getUsername(),
+    return new ConfigurationSettingDatabaseConnection(input.getUrl(), input.getUsername(),
                                                input.getPassword(),
                                                input.getSystem());
   }

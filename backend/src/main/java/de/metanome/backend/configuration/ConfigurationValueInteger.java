@@ -19,13 +19,17 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
-
+/**
+ * Represents integer configuration values for {@link Algorithm}s.
+ *
+ * @author Jakob Zwiener
+ */
 public class ConfigurationValueInteger implements ConfigurationValue {
 
   protected final String identifier;
@@ -43,11 +47,17 @@ public class ConfigurationValueInteger implements ConfigurationValue {
     this.values = values;
   }
 
-  public ConfigurationValueInteger(ConfigurationSpecificationInteger specification) {
-    this.identifier = specification.getIdentifier();
-    this.values = new int[specification.getSettings().length];
+  /**
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueInteger} using a {@link
+   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}.
+   *
+   * @param requirement the requirement to generate the integer values
+   */
+  public ConfigurationValueInteger(ConfigurationRequirementInteger requirement) {
+    this.identifier = requirement.getIdentifier();
+    this.values = new int[requirement.getSettings().length];
     int i = 0;
-    for (ConfigurationSettingInteger setting : specification.getSettings()) {
+    for (ConfigurationSettingInteger setting : requirement.getSettings()) {
       this.values[i] = setting.value;
       i++;
     }

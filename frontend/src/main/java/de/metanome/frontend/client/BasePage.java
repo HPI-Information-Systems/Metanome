@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
@@ -110,7 +110,7 @@ public class BasePage extends TabLayoutPanel {
    */
   public void startAlgorithmExecution(ExecutionServiceAsync executionService,
                                       String algorithmFileName,
-                                      List<ConfigurationSpecification> parameters) {
+                                      List<ConfigurationRequirement> parameters) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();

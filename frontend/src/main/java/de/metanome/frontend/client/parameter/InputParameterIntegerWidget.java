@@ -17,8 +17,8 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -28,11 +28,11 @@ import java.util.List;
 
 public class InputParameterIntegerWidget extends InputParameterWidget {
 
-  protected ConfigurationSpecificationInteger specification;
+  protected ConfigurationRequirementInteger specification;
   protected List<IntegerInput> inputWidgets;
   protected TabWrapper messageReceiver;
 
-  public InputParameterIntegerWidget(ConfigurationSpecificationInteger config, TabWrapper wrapper) {
+  public InputParameterIntegerWidget(ConfigurationRequirementInteger config, TabWrapper wrapper) {
     super(config, wrapper);
   }
 
@@ -46,7 +46,7 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecificationInteger getUpdatedSpecification()
+  public ConfigurationRequirementInteger getUpdatedSpecification()
       throws InputValidationException {
     this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
@@ -77,13 +77,13 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationSpecification getSpecification() {
+  public ConfigurationRequirement getSpecification() {
     return this.specification;
   }
 
   @Override
-  public void setSpecification(ConfigurationSpecification config) {
-    this.specification = (ConfigurationSpecificationInteger) config;
+  public void setSpecification(ConfigurationRequirement config) {
+    this.specification = (ConfigurationRequirementInteger) config;
   }
 
   @Override

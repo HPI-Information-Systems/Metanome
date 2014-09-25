@@ -32,19 +32,23 @@
     </source>
     <source path="algorithm_integration/configuration">
         <include name="ConfigurationSettingBoolean.java"/>
-        <include name="ConfigurationSettingCsvFile.java"/>
+        <include name="ConfigurationSettingFileInput.java"/>
+        <include name="ConfigurationSettingTableInput.java"/>
         <include name="ConfigurationSettingDataSource.java"/>
-        <include name="ConfigurationSettingSqlIterator.java"/>
+        <include name="ConfigurationSettingDatabaseConnection.java"/>
         <include name="ConfigurationSettingString.java"/>
         <include name="ConfigurationSettingInteger.java"/>
         <include name="ConfigurationSettingListBox.java"/>
-        <include name="ConfigurationSpecification.java"/>
-        <include name="ConfigurationSpecificationBoolean.java"/>
-        <include name="ConfigurationSpecificationCsvFile.java"/>
-        <include name="ConfigurationSpecificationSqlIterator.java"/>
-        <include name="ConfigurationSpecificationString.java"/>
-        <include name="ConfigurationSpecificationListBox.java"/>
-        <include name="ConfigurationSpecificationInteger.java"/>
+        <include name="ConfigurationSettingRelationalInput.java"/>
+        <include name="ConfigurationRequirement.java"/>
+        <include name="ConfigurationRequirementBoolean.java"/>
+        <include name="ConfigurationRequirementFileInput.java"/>
+        <include name="ConfigurationRequirementTableInput.java"/>
+        <include name="ConfigurationRequirementDatabaseConnection.java"/>
+        <include name="ConfigurationRequirementString.java"/>
+        <include name="ConfigurationRequirementListBox.java"/>
+        <include name="ConfigurationRequirementRelationalInput.java"/>
+        <include name="ConfigurationRequirementInteger.java"/>
         <include name="DbSystem.java"/>
     </source>
     <source path="algorithm_integration/result_receiver">
@@ -63,6 +67,9 @@
         <include name="FunctionalDependency.java"/>
         <include name="InclusionDependency.java"/>
         <include name="BasicStatistic.java"/>
+    </source>
+    <source path="algorithm_integration/input">
+        <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>

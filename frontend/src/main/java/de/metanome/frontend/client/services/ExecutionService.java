@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 
@@ -33,7 +33,7 @@ public interface ExecutionService extends RemoteService {
 
   public long executeAlgorithm(String algorithmName,
                                String executionIdentifier,
-                               List<ConfigurationSpecification> parameters)
+                               List<ConfigurationRequirement> parameters)
       throws AlgorithmConfigurationException, AlgorithmLoadingException,
              AlgorithmExecutionException;
 

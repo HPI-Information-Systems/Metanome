@@ -19,7 +19,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationCsvFile;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     ConfigurationValueRelationalInputGenerator
         configValue =
         new ConfigurationValueRelationalInputGenerator(
-            new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(),
+            new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
             expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
@@ -90,7 +90,7 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     ConfigurationValueRelationalInputGenerator
         configValue =
         new ConfigurationValueRelationalInputGenerator(
-            new ConfigurationSpecificationCsvFile(expectedIdentifier).getIdentifier(),
+            new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
             expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);

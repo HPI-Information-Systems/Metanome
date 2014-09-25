@@ -22,12 +22,13 @@ import com.google.common.annotations.GwtIncompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.CsvFile;
+import de.metanome.backend.input.csv.FileIterator;
 
 import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 /**
  * Represents file inputs in the database.
@@ -61,8 +62,8 @@ public class FileInput extends Input implements Serializable {
     this.skipLines = CSVReader.DEFAULT_SKIP_LINES;
     this.strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
     this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-    this.hasHeader = CsvFile.DEFAULT_HAS_HEADER;
-    this.skipDifferingLines = CsvFile.DEFAULT_SKIP_DIFFERING_LINES;
+    this.hasHeader = FileIterator.DEFAULT_HAS_HEADER;
+    this.skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
   }
 
   /**
@@ -216,4 +217,11 @@ public class FileInput extends Input implements Serializable {
 
     return this;
   }
+
+  @Override
+  @Transient
+  public String getIdentifier() {
+    return fileName;
+  }
+
 }

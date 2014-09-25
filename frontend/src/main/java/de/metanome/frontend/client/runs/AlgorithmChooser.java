@@ -22,8 +22,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecification;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.ParameterService;
@@ -80,13 +83,13 @@ public class AlgorithmChooser extends FlowPanel {
     String selectedValue = getSelectedAlgorithm();
     this.messageReceiver.clearErrors();
 
-    AsyncCallback<List<ConfigurationSpecification>> callback =
-        new AsyncCallback<List<ConfigurationSpecification>>() {
+    AsyncCallback<List<ConfigurationRequirement>> callback =
+        new AsyncCallback<List<ConfigurationRequirement>>() {
           public void onFailure(Throwable caught) {
             messageReceiver.addError("Error while retrieving configuration requirements.");
           }
 
-          public void onSuccess(List<ConfigurationSpecification> result) {
+          public void onSuccess(List<ConfigurationRequirement> result) {
             forwardParameters(result);
           }
         };
@@ -103,7 +106,7 @@ public class AlgorithmChooser extends FlowPanel {
    * @param callback      callback object for RPC
    */
   public void callParameterService(String selectedValue,
-                                   AsyncCallback<List<ConfigurationSpecification>> callback) {
+                                   AsyncCallback<List<ConfigurationRequirement>> callback) {
     parameterService.retrieveParameters(selectedValue, callback);
   }
 
@@ -112,7 +115,7 @@ public class AlgorithmChooser extends FlowPanel {
    *
    * @param paramList list of parameters necessary for the chosen algorithm
    */
-  protected void forwardParameters(List<ConfigurationSpecification> paramList) {
+  protected void forwardParameters(List<ConfigurationRequirement> paramList) {
     ((RunConfigurationPage) this.getParent()).addParameterTable(paramList);
   }
 
@@ -173,14 +176,7 @@ public class AlgorithmChooser extends FlowPanel {
    */
   public void removeAlgorithm(String algorithmName) {
     this.algorithms.remove(algorithmName);
-    int index = 0;
-    while (index < this.listbox.getItemCount()) {
-      if (this.listbox.getItemText(index).equals(algorithmName)) {
-        this.listbox.removeItem(index);
-        return;
-      }
-      index++;
-    }
+    removeAlgorithmFromListBox(algorithmName);
   }
 
   /**
@@ -209,10 +205,56 @@ public class AlgorithmChooser extends FlowPanel {
    *                   filtered
    */
   public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
-    this.listbox.setSelectedIndex(0);
-    // TODO filter out any algorithms that would not accept the given data source
-    System.out.println("Filtering algorithms for a data source is not yet implemented.");
+    for (Algorithm algorithm : this.algorithms.values()) {
+      if (dataSource instanceof ConfigurationSettingDatabaseConnection &&
+          !algorithm.isDatabaseConnection()) {
+        removeAlgorithmFromListBox(algorithm.getName());
+      }
+      else if (dataSource instanceof ConfigurationSettingTableInput &&
+          !algorithm.isTableInput()) {
+        removeAlgorithmFromListBox(algorithm.getName());
+      }
+      else if (dataSource instanceof ConfigurationSettingFileInput &&
+          !algorithm.isFileInput()) {
+        removeAlgorithmFromListBox(algorithm.getName());
+      }
+    }
 
+    this.listbox.setSelectedIndex(0);
+  }
+
+  /**
+   * Removes the given algorithm from the list box.
+   * @param algorithmName the algorithm's name, which should be removed
+   */
+  private void removeAlgorithmFromListBox(String algorithmName) {
+    int index = 0;
+    while (index < this.listbox.getItemCount()) {
+      if (this.listbox.getItemText(index).equals(algorithmName)) {
+        this.listbox.removeItem(index);
+        return;
+      }
+      index++;
+    }
+  }
+
+  /**
+   * Resets the list box. Adds all available algorithms to the list box again.
+   */
+  public void resetListBox() {
+    this.listbox.clear();
+
+    this.listbox.addItem("--");
+    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+    this.listbox.setSelectedIndex(0);
+
+    for (Algorithm algorithm : this.algorithms.values()) {
+      String name = algorithm.getName();
+      if (name == null) {
+        name = algorithm.getFileName();
+      }
+      sortedInsert(name);
+    }
   }
 
   public void setMessageReceiver(TabWrapper receiver) {

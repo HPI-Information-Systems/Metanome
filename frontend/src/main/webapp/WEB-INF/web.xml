@@ -83,6 +83,16 @@
         <url-pattern>/metanome/tableInputService</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>inputServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.InputServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inputServiceImpl</servlet-name>
+        <url-pattern>/metanome/inputService</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>de.metanome.frontend.server.DatabaseInitializer
         </listener-class>

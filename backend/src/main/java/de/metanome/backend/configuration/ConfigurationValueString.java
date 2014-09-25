@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
-import de.metanome.algorithm_integration.configuration.ConfigurationSpecificationString;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
@@ -45,7 +45,7 @@ public class ConfigurationValueString implements ConfigurationValue {
   }
 
   public ConfigurationValueString(
-      ConfigurationSpecificationString specification) {
+      ConfigurationRequirementString specification) {
     this.identifier = specification.getIdentifier();
     this.values = new String[specification.getSettings().length];
     int i = 0;
