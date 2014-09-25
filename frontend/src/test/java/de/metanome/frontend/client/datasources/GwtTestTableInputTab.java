@@ -17,11 +17,18 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.BasePage;
+import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.TestHelper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
 
@@ -92,6 +99,81 @@ public class GwtTestTableInputTab extends GWTTestCase {
     assertEquals(rowCount + 3, input.tableInputList.getRowCount());
   }
 
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#getDeleteCallback(de.metanome.backend.results_db.TableInput)}
+   */
+  public void testDeleteCallback() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnection databaseConnection1 = new DatabaseConnection();
+    databaseConnection1.setUrl("url1");
+    databaseConnection1.setUsername("user1");
+    databaseConnection1.setSystem(DbSystem.DB2);
+
+    TableInput tableInput1 = new TableInput();
+    tableInput1.setTableName("table1");
+    tableInput1.setDatabaseConnection(databaseConnection1);
+
+    DatabaseConnection databaseConnection2 = new DatabaseConnection();
+    databaseConnection2.setUrl("url2");
+    databaseConnection2.setUsername("user2");
+    databaseConnection2.setSystem(DbSystem.DB2);
+
+    TableInput tableInput2 = new TableInput();
+    tableInput2.setTableName("table2");
+    tableInput2.setDatabaseConnection(databaseConnection2);
+
+    BasePage parent = new BasePage();
+    DataSourcePage page = new DataSourcePage(parent);
+    TableInputTab tableInputTab = new TableInputTab(page);
+    page.setMessageReceiver(new TabWrapper());
+
+    Button deleteButton1 = new Button();
+    Button deleteButton2 = new Button();
+
+    page.databaseConnectionTab.connectionInputList.setWidget(0, 0, new HTML("url1"));
+    page.databaseConnectionTab.connectionInputList.setWidget(0, 1, new HTML("user1"));
+    page.databaseConnectionTab.connectionInputList.setWidget(0, 2, new HTML("DB2"));
+    page.databaseConnectionTab.connectionInputList.setWidget(0, 4, deleteButton1);
+
+    page.databaseConnectionTab.connectionInputList.setWidget(1, 0, new HTML("url2"));
+    page.databaseConnectionTab.connectionInputList.setWidget(1, 1, new HTML("user2"));
+    page.databaseConnectionTab.connectionInputList.setWidget(1, 2, new HTML("DB2"));
+    page.databaseConnectionTab.connectionInputList.setWidget(1, 4, deleteButton2);
+
+    tableInputTab.tableInputList.setWidget(0, 0, new HTML("DB2; url1; user1"));
+    tableInputTab.tableInputList.setWidget(0, 1, new HTML("table1"));
+    tableInputTab.tableInputList.setWidget(1, 0, new HTML("DB2; url2; user2"));
+    tableInputTab.tableInputList.setWidget(1, 1, new HTML("table2"));
+    tableInputTab.tableInputList.setWidget(2, 0, new HTML("DB2; url3; user3"));
+    tableInputTab.tableInputList.setWidget(2, 1, new HTML("table3"));
+
+    int rowCount = tableInputTab.tableInputList.getRowCount();
+
+    // Execute (delete Table Input 2)
+    AsyncCallback<Void>
+        callback =
+        tableInputTab.getDeleteCallback(tableInput2);
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 1, tableInputTab.tableInputList.getRowCount());
+    assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(1, 1)).getText());
+    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 4)).isEnabled());
+
+    // Execute (delete Table Input 1)
+    callback = tableInputTab.getDeleteCallback(tableInput1);
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 2, tableInputTab.tableInputList.getRowCount());
+    assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(0, 1)).getText());
+    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 4)).isEnabled());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
 
   @Override
   public String getModuleName() {

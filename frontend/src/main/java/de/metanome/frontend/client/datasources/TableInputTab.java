@@ -93,11 +93,6 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param inputs the table inputs
    */
   protected void listTableInputs(List<TableInput> inputs) {
-    if (inputs.isEmpty()) {
-      this.add(new HTML("<h4>There are no Table Inputs yet.</h4>"));
-      return;
-    }
-
     this.tableInputList.setHTML(0, 0, "<b>Database Connection</b>");
     this.tableInputList.setHTML(0, 1, "<b>Table Name</b>");
     this.tableInputList.setHTML(0, 2, "<b>Comment</b>");
@@ -124,8 +119,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
       @Override
       public void onClick(ClickEvent clickEvent) {
         tableInputService.deleteTableInput(input,
-                                           getDeleteCallback(finalRow,
-                                                             input.getDatabaseConnection()));
+                                           getDeleteCallback(input));
       }
     });
 
@@ -189,11 +183,10 @@ public class TableInputTab extends FlowPanel implements TabContent {
   /**
    * Creates the callback for the delete call.
    *
-   * @param row The row, which contains the input.
+   * @param input the table input, which should be deleted.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final int row,
-                                                  final DatabaseConnection connection) {
+  protected AsyncCallback<Void> getDeleteCallback(final TableInput input) {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
@@ -202,14 +195,40 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
       @Override
       public void onSuccess(Void aVoid) {
-        tableInputList.removeRow(row);
-        setEnableOfDeleteButton(connection, true);
+        tableInputList.removeRow(findRow(input));
+        setEnableOfDeleteButton(input.getDatabaseConnection(), true);
       }
     };
   }
 
   public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
     this.parent.setEnableOfDeleteButton(databaseConnection, enabled);
+  }
+
+  /**
+   * Find the row in the table, which contains the given table input.
+   * @param input the table input
+   * @return the row number
+   */
+  private int findRow(TableInput input) {
+    int row = 0;
+
+    String identifierConnection = input.getDatabaseConnection().getSystem().name() + "; " +
+                                  input.getDatabaseConnection().getUrl() + "; " +
+                                  input.getDatabaseConnection().getUsername();
+
+    while (row < this.tableInputList.getRowCount()) {
+      HTML connectionWidget = (HTML) this.tableInputList.getWidget(row, 0);
+      HTML tableWidget = (HTML) this.tableInputList.getWidget(row, 1);
+
+      if (connectionWidget != null && identifierConnection.equals(
+          connectionWidget.getText()) &&
+          tableWidget != null && input.getTableName().equals(tableWidget.getText())) {
+        return row;
+      }
+      row++;
+    }
+    return -1;
   }
 
   @Override

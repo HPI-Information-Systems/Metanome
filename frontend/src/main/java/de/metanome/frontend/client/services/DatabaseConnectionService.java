@@ -30,7 +30,7 @@ public interface DatabaseConnectionService extends RemoteService {
 
   public DatabaseConnection getDatabaseConnection(long id);
 
-  public void storeDatabaseConnection(DatabaseConnection connection);
+  public DatabaseConnection storeDatabaseConnection(DatabaseConnection connection);
 
   public void deleteDatabaseConnection(DatabaseConnection connection);
 

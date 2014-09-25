@@ -17,9 +17,15 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
+import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.TestHelper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
 
@@ -69,6 +75,48 @@ public class GwtTestFileInputTab extends GWTTestCase {
     assertEquals(rowCount + 3, input.fileInputList.getRowCount());
   }
 
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#getDeleteCallback(de.metanome.backend.results_db.FileInput)}
+   */
+  public void testDeleteCallback() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    FileInput input1 = new FileInput("File 1");
+    FileInput input2 = new FileInput("File 2");
+
+    BasePage parent = new BasePage();
+    DataSourcePage page = new DataSourcePage(parent);
+    FileInputTab fileInputTab = new FileInputTab(page);
+    page.setMessageReceiver(new TabWrapper());
+
+    fileInputTab.fileInputList.setWidget(0, 0, new HTML("File 1"));
+    fileInputTab.fileInputList.setWidget(1, 0, new HTML("File 2"));
+    fileInputTab.fileInputList.setWidget(2, 0, new HTML("File 3"));
+
+    int rowCount = fileInputTab.fileInputList.getRowCount();
+
+    // Execute (delete File 2)
+    AsyncCallback<Void>
+        callback =
+        fileInputTab.getDeleteCallback(input2);
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 1, fileInputTab.fileInputList.getRowCount());
+    assertEquals("File 3", ((HTML) fileInputTab.fileInputList.getWidget(1, 0)).getText());
+
+    // Execute (delete File 1)
+    callback = fileInputTab.getDeleteCallback(input1);
+    callback.onSuccess(null);
+
+    // Check
+    assertEquals(rowCount - 2, fileInputTab.fileInputList.getRowCount());
+    assertEquals("File 3", ((HTML) fileInputTab.fileInputList.getWidget(0, 0)).getText());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
 
   @Override
   public String getModuleName() {
