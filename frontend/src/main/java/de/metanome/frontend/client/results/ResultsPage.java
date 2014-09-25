@@ -76,6 +76,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   public void updateOnSuccess(Long executionTimeNanoSecs) {
     this.timer.cancel();
 
+    // Fetch the last results
+    this.tablePage.fetchResults();
+
     this.remove(this.algorithmLabel);
     this.remove(this.progressBar);
     this.remove(this.runningIndicator);
@@ -87,9 +90,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
                         format.format(date, TimeZone.createTimeZone(0)) +
                         " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms.";
     this.insert(new Label(timeString), 0);
-
-    if (!this.tablePage.receivedResults)
-      this.messageReceiver.addError("The results could not be displayed.");
   }
 
   /**
