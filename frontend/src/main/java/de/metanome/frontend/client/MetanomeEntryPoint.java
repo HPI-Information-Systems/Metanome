@@ -18,6 +18,10 @@ package de.metanome.frontend.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -30,7 +34,17 @@ public class MetanomeEntryPoint implements EntryPoint {
     LayoutPanel bodyPanel = new LayoutPanel();
     bodyPanel.addStyleName("body");
 
-    RootLayoutPanel.get().add(bodyPanel);
+    FlowPanel heading = new FlowPanel();
+    heading.add(new HTML("<h1>Metanome</h1>"));
+    heading.addStyleName("heading");
+
+    DockLayoutPanel p = new DockLayoutPanel(Style.Unit.EM);
+    p.addNorth(heading, 4);
+    p.add(bodyPanel);
+
+    RootLayoutPanel root = RootLayoutPanel.get();
+    root.addStyleName("root");
+    root.add(p);
 
     bodyPanel.add(new BasePage());
   }

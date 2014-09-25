@@ -14,6 +14,19 @@
  * limitations under the License.
  */
 
+.root {
+    background-color: #CCCCCC;
+}
+
+.heading {
+    padding: 3;
+    padding-left:20;
+    background-color: #92c1f0;
+    font-family: monospace;
+    width: 100%;
+    color: black;
+}
+
 body {
     font-family: arial, serif;
     overflow: hidden;
@@ -22,7 +35,6 @@ body {
 .body {
     height: 100%;
     background-color: #CCCCCC;
-    top: 57px !important;
 }
 
 h3 {
@@ -91,6 +103,8 @@ h3 {
     border: none !important;
     width: 100%;
     height: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
