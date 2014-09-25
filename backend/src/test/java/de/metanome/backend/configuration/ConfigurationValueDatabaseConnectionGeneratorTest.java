@@ -65,7 +65,8 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
-    verify(algorithm).setSqlInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+    verify(algorithm).setDatabaseConnectionGeneratorConfigurationValue(expectedIdentifier,
+                                                                       expectedConfigurationValue);
   }
 
   /**

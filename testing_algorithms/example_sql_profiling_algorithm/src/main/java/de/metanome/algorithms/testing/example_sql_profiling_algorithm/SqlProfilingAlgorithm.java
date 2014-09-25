@@ -34,16 +34,16 @@ import java.util.List;
  */
 public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorithm {
 
-  public static final String SQL_IDENTIFIER = "sql identifier";
+  public static final String DATABASE_IDENTIFIER = "sql identifier";
 
   protected DatabaseConnectionGenerator inputGenerator;
 
   @Override
-  public void setSqlInputConfigurationValue(String identifier,
-                                            DatabaseConnectionGenerator... values)
+  public void setDatabaseConnectionGeneratorConfigurationValue(String identifier,
+                                                               DatabaseConnectionGenerator... values)
       throws AlgorithmConfigurationException {
 
-    if (identifier.equals(SQL_IDENTIFIER)) {
+    if (identifier.equals(DATABASE_IDENTIFIER)) {
       inputGenerator = values[0];
     }
   }
@@ -52,7 +52,8 @@ public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorit
   public List<ConfigurationRequirement> getConfigurationRequirements() {
     List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
 
-    configurationRequirements.add(new ConfigurationRequirementDatabaseConnection(SQL_IDENTIFIER));
+    configurationRequirements.add(new ConfigurationRequirementDatabaseConnection(
+        DATABASE_IDENTIFIER));
 
     return configurationRequirements;
   }

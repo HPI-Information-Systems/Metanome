@@ -81,7 +81,7 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
     ConfigurationSettingDatabaseConnection expectedSetting =
         new ConfigurationSettingDatabaseConnection("url", "username", "password", DbSystem.DB2);
 
-    // Initialize SqlIteratorInput (waiting for fetching all current database connections)
+    // Initialize DatabaseConnectionInput (waiting for fetching all current database connections)
     DatabaseConnectionInput
         databaseConnectionInput =
         new DatabaseConnectionInput(false, tabWrapper);

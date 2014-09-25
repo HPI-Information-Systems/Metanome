@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
- * Concrete {@link ConfigurationRequirement} sql iterator.
+ * Concrete {@link ConfigurationRequirement} for database connections.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
@@ -48,8 +48,8 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   }
 
   /**
-   * Construcats a {@link ConfigurationRequirementDatabaseConnection}, potentially requesting several
-   * values.
+   * Construcats a {@link ConfigurationRequirementDatabaseConnection}, potentially requesting
+   * several values.
    *
    * @param identifier     the specification's identifier
    * @param numberOfValues the number of values expected
