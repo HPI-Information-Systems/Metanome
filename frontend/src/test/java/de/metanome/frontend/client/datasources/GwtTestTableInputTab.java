@@ -135,12 +135,12 @@ public class GwtTestTableInputTab extends GWTTestCase {
     page.databaseConnectionTab.connectionInputList.setWidget(0, 0, new HTML("url1"));
     page.databaseConnectionTab.connectionInputList.setWidget(0, 1, new HTML("user1"));
     page.databaseConnectionTab.connectionInputList.setWidget(0, 2, new HTML("DB2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(0, 4, deleteButton1);
+    page.databaseConnectionTab.connectionInputList.setWidget(0, 5, deleteButton1);
 
     page.databaseConnectionTab.connectionInputList.setWidget(1, 0, new HTML("url2"));
     page.databaseConnectionTab.connectionInputList.setWidget(1, 1, new HTML("user2"));
     page.databaseConnectionTab.connectionInputList.setWidget(1, 2, new HTML("DB2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(1, 4, deleteButton2);
+    page.databaseConnectionTab.connectionInputList.setWidget(1, 5, deleteButton2);
 
     tableInputTab.tableInputList.setWidget(0, 0, new HTML("DB2; url1; user1"));
     tableInputTab.tableInputList.setWidget(0, 1, new HTML("table1"));
@@ -160,7 +160,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
     // Check
     assertEquals(rowCount - 1, tableInputTab.tableInputList.getRowCount());
     assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(1, 1)).getText());
-    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 4)).isEnabled());
+    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 5)).isEnabled());
 
     // Execute (delete Table Input 1)
     callback = tableInputTab.getDeleteCallback(tableInput1);
@@ -169,7 +169,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
     // Check
     assertEquals(rowCount - 2, tableInputTab.tableInputList.getRowCount());
     assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(0, 1)).getText());
-    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 4)).isEnabled());
+    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 5)).isEnabled());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
