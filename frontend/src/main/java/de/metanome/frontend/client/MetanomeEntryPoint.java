@@ -31,9 +31,11 @@ public class MetanomeEntryPoint implements EntryPoint {
   public void onModuleLoad() {
     System.out.println(GWT.getModuleBaseURL());
 
+    // body panel
     LayoutPanel bodyPanel = new LayoutPanel();
     bodyPanel.addStyleName("body");
 
+    // heading panel
     FlowPanel heading = new FlowPanel();
     heading.add(new HTML("<h1>Metanome</h1>"));
     heading.addStyleName("heading");
@@ -42,6 +44,7 @@ public class MetanomeEntryPoint implements EntryPoint {
     p.addNorth(heading, 4);
     p.add(bodyPanel);
 
+    // root panel
     RootLayoutPanel root = RootLayoutPanel.get();
     root.addStyleName("root");
     root.add(p);
