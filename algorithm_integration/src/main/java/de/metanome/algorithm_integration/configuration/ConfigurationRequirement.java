@@ -81,7 +81,7 @@ public abstract class ConfigurationRequirement implements Serializable {
   }
 
   /**
-   * @return numberOfValues
+   * @return number of settings
    */
   public int getNumberOfSettings() {
     return numberOfSettings;

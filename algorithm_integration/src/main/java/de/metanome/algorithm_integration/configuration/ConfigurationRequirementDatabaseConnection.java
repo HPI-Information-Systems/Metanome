@@ -66,11 +66,11 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   }
 
   /**
-   * Sets the actual values on the specification if the number of settings is correct.
+   * Sets the actual settings on the requirement if the number of settings is correct.
    *
    * @param settings the settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * values does not match the expected number of values
+   * settings does not match the expected number of settings
    */
   public void setSettings(ConfigurationSettingDatabaseConnection... settings)
       throws AlgorithmConfigurationException {
