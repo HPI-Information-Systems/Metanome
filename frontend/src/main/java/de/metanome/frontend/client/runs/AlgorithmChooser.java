@@ -211,7 +211,7 @@ public class AlgorithmChooser extends FlowPanel {
         removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingTableInput &&
-          !algorithm.isTableInput()) {
+               (!algorithm.isTableInput() || !algorithm.isRelationalInput())) {
         removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingFileInput &&

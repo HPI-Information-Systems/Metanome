@@ -133,6 +133,36 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
+  public void testReset() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    TabWrapper tab = new TabWrapper();
+    AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
+
+    String fileName = "some/file/name.jar";
+    List<String> names = new ArrayList<>();
+    names.add(fileName);
+    form.fileListBox.setValues(names);
+
+    form.fileListBox.setSelectedValue(fileName);
+    form.nameTextBox.setValue("some algorithm");
+    form.authorTextBox.setValue("--");
+    form.descriptionTextArea.setValue("comment");
+
+    // Execute
+    form.reset();
+
+    // Check
+    assertEquals("", form.nameTextBox.getText());
+    assertEquals("", form.authorTextBox.getText());
+    assertEquals("", form.descriptionTextArea.getText());
+    assertEquals("--", form.fileListBox.getSelectedValue());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
   @Override
   public String getModuleName() {
     return "de.metanome.frontend.client.MetanomeTest";
