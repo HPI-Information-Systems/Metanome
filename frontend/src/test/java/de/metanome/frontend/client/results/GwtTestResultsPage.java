@@ -70,9 +70,10 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.startPolling();
 
     // Check
-    assertEquals(3, page.getWidgetCount());
+    assertEquals(4, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
+    assertNotNull(page.algorithmLabel);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -109,8 +110,7 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#updateOnSuccess(de.metanome.frontend.client.results.ResultsTablePage,
-   * de.metanome.frontend.client.results.ResultsVisualizationPage, Long)}
+   * Test method for {@link ResultsPage#updateOnSuccess(Long)}
    */
   public void testUpdateOnSuccess() {
     // Set up
@@ -118,22 +118,16 @@ public class GwtTestResultsPage extends GWTTestCase {
 
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
-    page.timer = new Timer() {
-      @Override
-      public void run() {
-
-      }
-    };
+    page.setMessageReceiver(new TabWrapper());
 
     ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage tablePage = new ResultsTablePage(executionService, "identifier");
-    ResultsVisualizationPage visualizationPage = new ResultsVisualizationPage();
-
     page.setExecutionParameter(executionService, "identifier", "name");
+
+    page.startPolling();
 
     // Expected Values
     // Execute
-    page.updateOnSuccess(tablePage, visualizationPage, (long) 4543);
+    page.updateOnSuccess((long) 4543);
 
     // Check
     assertEquals(2, page.getWidgetCount());

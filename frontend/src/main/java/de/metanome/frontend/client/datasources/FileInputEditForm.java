@@ -78,6 +78,9 @@ public class FileInputEditForm extends Grid {
   private String path = "";
   private TabWrapper messageReceiver;
 
+  private List<String> filesOnStorage;
+  private List<String> filesInDatabase;
+
   /**
    * Constructor. Set up all UI elements.
    */
@@ -87,12 +90,22 @@ public class FileInputEditForm extends Grid {
     this.parent = parent;
     this.fileInputService = GWT.create(FileInputService.class);
 
-    Grid standardPanel = new Grid(3, 2);
+    Grid standardPanel = new Grid(3, 3);
     this.setWidget(0, 0, standardPanel);
 
-    fileListBox = createListbox();
+    Button refreshButton = new Button("Refresh");
+    refreshButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        updateListbox();
+      }
+    });
+
+    fileListBox = new ListBoxInput(false);
+    updateListbox();
     standardPanel.setText(0, 0, "File Name");
     standardPanel.setWidget(0, 1, fileListBox);
+    standardPanel.setWidget(0, 2, refreshButton);
 
     commentTextArea = new TextArea();
     commentTextArea.setVisibleLines(3);
@@ -237,27 +250,51 @@ public class FileInputEditForm extends Grid {
    *
    * @return a GWT ListBox containing all currently available CSV files
    */
-  private ListBoxInput createListbox() {
-    ListBoxInput listbox = new ListBoxInput(false);
-    listbox.addValue("--");
-    listbox.disableFirstEntry();
+  private void updateListbox() {
+    this.fileListBox.clear();
+    this.fileListBox.addValue("--");
+    this.fileListBox.disableFirstEntry();
+
+    this.filesOnStorage = new ArrayList<>();
+    this.filesInDatabase = new ArrayList<>();
 
     // Add available CSV files
-    AsyncCallback<String[]> callback = getCallback(listbox);
+    AsyncCallback<String[]> storageCallback = getStorageCallback();
+    AsyncCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
     FileInputServiceAsync service = GWT.create(FileInputService.class);
-    service.listCsvFiles(callback);
+    service.listFileInputs(databaseCallback);
+    service.listCsvFiles(storageCallback);
+  }
 
-    return listbox;
+  private AsyncCallback<List<FileInput>> getDatabaseCallback() {
+    return new AsyncCallback<List<FileInput>>() {
+      public void onFailure(Throwable caught) {
+      }
+
+      public void onSuccess(List<FileInput> result) {
+        List<String> fileNames = new ArrayList<>();
+
+        for (FileInput input : result)
+          filesInDatabase.add(input.getIdentifier());
+
+        for (String path : filesOnStorage) {
+          if (!filesInDatabase.contains(path)) {
+            fileNames.add(FilePathHelper.getFileName(path));
+          }
+        }
+
+        fileListBox.setValues(fileNames);
+      }
+    };
   }
 
   /**
    * Creates the callback for getting all available csv files. On success the files are added to the
    * according list box.
    *
-   * @param listbox the listbox where the files should be added.
    * @return the callback
    */
-  protected AsyncCallback<String[]> getCallback(final ListBoxInput listbox) {
+  protected AsyncCallback<String[]> getStorageCallback() {
     return new AsyncCallback<String[]>() {
       public void onFailure(Throwable caught) {
         messageReceiver.addError("Could not find CSV files! Please add them to the input folder.");
@@ -275,10 +312,14 @@ public class FileInputEditForm extends Grid {
         path = FilePathHelper.getFilePath(result[0]);
 
         for (String path : result) {
-          fileNames.add(FilePathHelper.getFileName(path));
+          if (filesInDatabase.size() > 0 && !filesInDatabase.contains(path)) {
+            fileNames.add(FilePathHelper.getFileName(path));
+          }
+
+          filesOnStorage.add(path);
         }
 
-        listbox.setValues(fileNames);
+        fileListBox.setValues(fileNames);
       }
     };
   }
