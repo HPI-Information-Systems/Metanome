@@ -211,11 +211,11 @@ public class AlgorithmChooser extends FlowPanel {
         removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingTableInput &&
-               (!algorithm.isTableInput() || !algorithm.isRelationalInput())) {
+               !(algorithm.isTableInput() || algorithm.isRelationalInput())) {
         removeAlgorithmFromListBox(algorithm.getName());
       }
       else if (dataSource instanceof ConfigurationSettingFileInput &&
-          !algorithm.isFileInput()) {
+               !(algorithm.isFileInput() || algorithm.isRelationalInput())) {
         removeAlgorithmFromListBox(algorithm.getName());
       }
     }
