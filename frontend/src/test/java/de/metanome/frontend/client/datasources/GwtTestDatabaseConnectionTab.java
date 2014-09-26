@@ -106,10 +106,11 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     page.connectionInputList.setWidget(0, 0, new HTML("url"));
     page.connectionInputList.setWidget(0, 1, new HTML("user"));
     page.connectionInputList.setWidget(0, 2, new HTML("DB2"));
-    page.connectionInputList.setWidget(0, 3, new Button("Run"));
-    page.connectionInputList.setWidget(0, 4, new Button("Delete"));
+    page.connectionInputList.setWidget(0, 3, new HTML("Comment"));
+    page.connectionInputList.setWidget(0, 4, new Button("Run"));
+    page.connectionInputList.setWidget(0, 5, new Button("Delete"));
 
-    Button actualButton = (Button) page.connectionInputList.getWidget(0, 4);
+    Button actualButton = (Button) page.connectionInputList.getWidget(0, 5);
 
     assertTrue(actualButton.isEnabled());
 

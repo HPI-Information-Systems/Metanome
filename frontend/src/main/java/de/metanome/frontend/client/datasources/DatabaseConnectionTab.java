@@ -152,8 +152,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     });
 
     this.connectionInputList.setWidget(row, 0, new HTML(input.getUrl()));
-    this.connectionInputList.setText(row, 1, input.getUsername());
-    this.connectionInputList.setText(row, 2, input.getSystem().name());
+    this.connectionInputList.setWidget(row, 1, new HTML(input.getUsername()));
+    this.connectionInputList.setWidget(row, 2, new HTML(input.getSystem().name()));
     this.connectionInputList.setText(row, 3, input.getComment());
     this.connectionInputList.setWidget(row, 4, runButton);
     this.connectionInputList.setWidget(row, 5, deleteButton);
@@ -200,7 +200,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
     int row = findRow(connection);
 
-    Button deleteButton = (Button) this.connectionInputList.getWidget(row, 4);
+    Button deleteButton = (Button) this.connectionInputList.getWidget(row, 5);
     deleteButton.setEnabled(enabled);
   }
 

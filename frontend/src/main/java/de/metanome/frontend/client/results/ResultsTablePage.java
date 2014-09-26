@@ -78,7 +78,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
       @Override
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("Could not fetch results: " + caught.getMessage());
       }
 
       @Override
