@@ -93,7 +93,7 @@ public class AlgorithmEditForm extends Grid {
   /**
    * Find all available algorithms files and adds them to the list box.
    */
-  private void updateFileListBox() {
+  public void updateFileListBox() {
     this.fileListBox.clear();
     this.fileListBox.addValue("--");
     this.fileListBox.disableFirstEntry();
@@ -181,8 +181,6 @@ public class AlgorithmEditForm extends Grid {
     messageReceiver.clearErrors();
     try {
       algorithmsPage.callAddAlgorithm(retrieveInputValues());
-      updateFileListBox();
-      reset();
     } catch (InputValidationException e) {
       messageReceiver.addError(e.getMessage());
     }
