@@ -53,7 +53,7 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
 
   @Override
   public ConfigurationRequirementTableInput getUpdatedSpecification()
-      throws InputValidationException {
+      throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingTableInput[] values = new ConfigurationSettingTableInput[inputWidgets.size()];
 

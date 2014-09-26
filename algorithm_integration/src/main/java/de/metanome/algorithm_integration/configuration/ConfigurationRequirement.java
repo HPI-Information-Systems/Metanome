@@ -40,7 +40,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
    * frontend
    */
-  protected int numberOfValues;
+  protected int numberOfSettings;
 
   /**
    * Exists for GWT serialization.
@@ -66,11 +66,11 @@ public abstract class ConfigurationRequirement implements Serializable {
    * number of values.
    *
    * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param numberOfSettings the number of values expected
    */
-  public ConfigurationRequirement(String identifier, int numberOfValues) {
+  public ConfigurationRequirement(String identifier, int numberOfSettings) {
     this.identifier = identifier;
-    this.numberOfValues = numberOfValues;
+    this.numberOfSettings = numberOfSettings;
   }
 
   /**
@@ -83,8 +83,8 @@ public abstract class ConfigurationRequirement implements Serializable {
   /**
    * @return numberOfValues
    */
-  public int getNumberOfValues() {
-    return numberOfValues;
+  public int getNumberOfSettings() {
+    return numberOfSettings;
   }
 
   /**

@@ -16,11 +16,14 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -45,7 +48,7 @@ public class ConfigurationRequirementBooleanTest {
         configSpec =
         new ConfigurationRequirementBoolean(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -69,7 +72,7 @@ public class ConfigurationRequirementBooleanTest {
         configSpec =
         new ConfigurationRequirementBoolean(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -92,11 +95,33 @@ public class ConfigurationRequirementBooleanTest {
     ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue0, expectedValue1);
+    try {
+      configSpec.setSettings(expectedValue0, expectedValue1);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
 
     // Check result
     assertEquals(expectedValue0, configSpec.settings[0]);
     assertEquals(expectedValue1, configSpec.settings[1]);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#setSettings(ConfigurationSettingBoolean...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetValuesWithWrongNumber() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    configSpec.setSettings(expectedValue);
   }
 
   /**

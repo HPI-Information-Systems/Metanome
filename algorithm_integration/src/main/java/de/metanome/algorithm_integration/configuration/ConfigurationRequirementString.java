@@ -50,13 +50,13 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   /**
    * Constructs a {@link ConfigurationRequirementString}, potentially requesting several values.
    *
-   * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param identifier       the specification's identifier
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirementString(String identifier,
-                                        int numberOfValues) {
+                                        int numberOfSettings) {
 
-    super(identifier, numberOfValues);
+    super(identifier, numberOfSettings);
   }
 
   @Override
@@ -64,8 +64,20 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
     return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingString... configurationSettings) {
-    this.settings = configurationSettings;
+  /**
+   * Sets the actual values on the specification if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * values does not match the expected number of values
+   */
+  public void setSettings(ConfigurationSettingString... settings)
+    throws AlgorithmConfigurationException {
+    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        settings.length != getNumberOfSettings()) {
+        throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+      }
+      this.settings = settings;
   }
 
   /**

@@ -49,12 +49,12 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
    * Constructs a {@link ConfigurationRequirementRelationalInput}, potentially requesting several
    * values.
    *
-   * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param identifier       the specification's identifier
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirementRelationalInput(
-      String identifier, int numberOfValues) {
-    super(identifier, numberOfValues);
+      String identifier, int numberOfSettings) {
+    super(identifier, numberOfSettings);
   }
 
 
@@ -76,17 +76,16 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   /**
    * Sets the actual values on the specification if the number of settings is correct.
    *
-   * @param values the values
-   * @return true if the correct number of settings have been set
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * values does not match the expected number of values
    */
-  public boolean setSettings(ConfigurationSettingRelationalInput... values) {
-    // FIXME an Exception should be thrown
-    if (values.length != getNumberOfValues()) {
-      return false;
+  public void setSettings(ConfigurationSettingRelationalInput... settings)
+      throws AlgorithmConfigurationException {
+    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        settings.length != getNumberOfSettings()) {
+      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
     }
-
-    settings = values;
-
-    return true;
+    this.settings = settings;
   }
 }

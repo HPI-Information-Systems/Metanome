@@ -41,7 +41,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.metanome.backend.configuration.DefaultConfigurationFactory}
@@ -63,7 +62,7 @@ public class DefaultConfigurationFactoryTest {
    * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}s should be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueBoolean}s.
    */
   @Test
-  public void testBuildBoolean() {
+  public void testBuildBoolean() throws AlgorithmConfigurationException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
@@ -94,7 +93,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueInteger}s.
    */
   @Test
-  public void testBuildInteger() {
+  public void testBuildInteger() throws AlgorithmConfigurationException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
@@ -125,7 +124,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueListBox}s.
    */
   @Test
-  public void testBuildListBox() {
+  public void testBuildListBox() throws AlgorithmConfigurationException {
     // Setup
     String expectedIdentifier = "some identifier";
     ArrayList<String> possibleValues = new ArrayList<>();
@@ -169,8 +168,7 @@ public class DefaultConfigurationFactoryTest {
         new ConfigurationRequirementRelationalInput(
             expectedIdentifier);
 
-    // Check preconditions
-    assertTrue(configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath)));
+    configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath));
 
     // Execute functionality
     ConfigurationValueRelationalInputGenerator
@@ -218,7 +216,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueString}s.
    */
   @Test
-  public void testBuildString() {
+  public void testBuildString() throws AlgorithmConfigurationException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";

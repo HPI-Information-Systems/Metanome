@@ -63,8 +63,20 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
     return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingTableInput... configurationSettings) {
-    this.settings = configurationSettings;
+  /**
+   * Sets the actual values on the specification if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * values does not match the expected number of values
+   */
+  public void setSettings(ConfigurationSettingTableInput... settings)
+      throws AlgorithmConfigurationException {
+    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        settings.length != getNumberOfSettings()) {
+      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+    }
+    this.settings = settings;
   }
 
   /**

@@ -63,7 +63,7 @@ public class ConfigurationValueIntegerTest {
    * The integers in the requirement should be properly stored in the value.
    */
   @Test
-  public void testConstructorRequirement() {
+  public void testConstructorRequirement() throws AlgorithmConfigurationException {
     // Expected values
     int[] expectedValues = {3, 6, 12309478};
     String expectedIdentifier = "some identifier";

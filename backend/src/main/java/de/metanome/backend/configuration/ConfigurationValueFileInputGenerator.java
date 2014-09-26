@@ -67,11 +67,11 @@ public class ConfigurationValueFileInputGenerator implements ConfigurationValue 
       throws AlgorithmConfigurationException {
     FileInputGenerator[]
         fileInputGenerators =
-        new FileInputGenerator[requirement.getNumberOfValues()];
+        new FileInputGenerator[requirement.getNumberOfSettings()];
 
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 
-    for (int i = 0; i < requirement.getNumberOfValues(); i++) {
+    for (int i = 0; i < requirement.getNumberOfSettings(); i++) {
       fileInputGenerators[i] = new DefaultFileInputGenerator(settings[i]);
     }
 
