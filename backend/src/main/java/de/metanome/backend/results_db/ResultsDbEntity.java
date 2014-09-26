@@ -17,8 +17,7 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * All Entities in the results db should extend ResultsDbEntity. The entities should be storeable
@@ -26,7 +25,7 @@ import java.io.Serializable;
  *
  * @author Jakob Zwiener
  */
-public abstract class ResultsDbEntity implements Serializable {
+public abstract class ResultsDbEntity implements IsSerializable {
 
   /**
    * Stores a ResultsDbEntity in the database.
