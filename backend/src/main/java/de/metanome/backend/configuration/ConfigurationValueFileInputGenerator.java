@@ -65,13 +65,13 @@ public class ConfigurationValueFileInputGenerator implements ConfigurationValue 
 
   private FileInputGenerator[] convertToValues(ConfigurationRequirementFileInput requirement)
       throws AlgorithmConfigurationException {
-    FileInputGenerator[]
-        fileInputGenerators =
-        new FileInputGenerator[requirement.getNumberOfValues()];
-
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 
-    for (int i = 0; i < requirement.getNumberOfValues(); i++) {
+    FileInputGenerator[]
+        fileInputGenerators =
+        new FileInputGenerator[settings.length];
+
+    for (int i = 0; i < settings.length; i++) {
       fileInputGenerators[i] = new DefaultFileInputGenerator(settings[i]);
     }
 

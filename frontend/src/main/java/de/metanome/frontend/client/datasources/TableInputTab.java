@@ -116,7 +116,6 @@ public class TableInputTab extends FlowPanel implements TabContent {
     int row = this.tableInputList.getRowCount();
 
     Button deleteButton = new Button("Delete");
-    final int finalRow = row;
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
@@ -136,10 +135,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
     DatabaseConnection connection = input.getDatabaseConnection();
 
-    this.tableInputList.setText(row, 0,
-                                connection.getSystem().name() + "; " + connection.getUrl() + "; "
-                                + connection.getUsername());
-    this.tableInputList.setText(row, 1, input.getTableName());
+    this.tableInputList.setWidget(row, 0, new HTML(connection.getIdentifier()));
+    this.tableInputList.setWidget(row, 1, new HTML(input.getTableName()));
     this.tableInputList.setText(row, 2, input.getComment());
     this.tableInputList.setWidget(row, 3, runButton);
     this.tableInputList.setWidget(row, 4, deleteButton);
@@ -220,9 +217,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
   private int findRow(TableInput input) {
     int row = 0;
 
-    String identifierConnection = input.getDatabaseConnection().getSystem().name() + "; " +
-                                  input.getDatabaseConnection().getUrl() + "; " +
-                                  input.getDatabaseConnection().getUsername();
+    String identifierConnection = input.getDatabaseConnection().getIdentifier();
 
     while (row < this.tableInputList.getRowCount()) {
       HTML connectionWidget = (HTML) this.tableInputList.getWidget(row, 0);
