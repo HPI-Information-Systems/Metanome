@@ -40,6 +40,7 @@ public class Result extends ResultsDbEntity implements Serializable {
   protected boolean isFd;
   protected boolean isUcc;
   protected boolean isCucc;
+  protected boolean isOd;
   protected boolean isBasicStat;
 
   /**
@@ -144,6 +145,16 @@ public class Result extends ResultsDbEntity implements Serializable {
 
   public Result setCucc(boolean isCucc) {
     this.isCucc = isCucc;
+
+    return this;
+  }
+  
+  public boolean isOd() {
+    return isOd;
+  }
+
+  public Result setOd(boolean isOd) {
+    this.isOd = isOd;
 
     return this;
   }

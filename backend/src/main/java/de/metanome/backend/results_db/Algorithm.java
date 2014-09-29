@@ -25,6 +25,7 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -69,6 +70,7 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
   protected boolean isFd;
   protected boolean isUcc;
   protected boolean isCucc;
+  protected boolean isOd;
   protected boolean isRelationalInput;
   protected boolean isDatabaseConnection;
   protected boolean isTableInput;
@@ -109,6 +111,9 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     }
     if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       setCucc(true);
+    }
+    if (algorithmInterfaces.contains(OrderDependencyAlgorithm.class)) {
+      setOd(true);
     }
     if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
       setBasicStat(true);
@@ -310,6 +315,16 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
   public Algorithm setCucc(boolean isCucc) {
     this.isCucc = isCucc;
 
+    return this;
+  }
+  
+  public boolean isOd() {
+    return isOd;
+  }
+  
+  public Algorithm setOd(boolean isOd) {
+    this.isOd = isOd;
+    
     return this;
   }
 

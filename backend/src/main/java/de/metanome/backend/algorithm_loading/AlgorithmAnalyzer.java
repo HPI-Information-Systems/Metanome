@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
@@ -48,6 +49,7 @@ public class AlgorithmAnalyzer {
   private boolean inclusionDependencyAlgorithm = false;
   private boolean uniqueColumnCombinationAlgorithm = false;
   private boolean conditionalUniqueColumnCombinationAlgorithm = false;
+  private boolean orderDependencyAlgorithm = false;
   private boolean basicStatisticAlgorithm = false;
   private boolean tempFileAlgorithm = false;
   private boolean progressEstimatingAlgorithm = false;
@@ -90,6 +92,8 @@ public class AlgorithmAnalyzer {
       uniqueColumnCombinationAlgorithm = true;
     if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class))
       conditionalUniqueColumnCombinationAlgorithm = true;
+    if (interfaces.contains(OrderDependencyAlgorithm.class))
+      orderDependencyAlgorithm = true;
     if (interfaces.contains(BasicStatisticsAlgorithm.class))
       basicStatisticAlgorithm = true;
     if (interfaces.contains(TempFileAlgorithm.class))
@@ -122,6 +126,10 @@ public class AlgorithmAnalyzer {
     return conditionalUniqueColumnCombinationAlgorithm;
   }
 
+  public boolean isOrderDependencyAlgorithm() {
+    return orderDependencyAlgorithm;
+  }
+  
   public boolean isBasicStatisticAlgorithm() {
     return basicStatisticAlgorithm;
   }

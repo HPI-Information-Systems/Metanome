@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.io.IOException;
@@ -90,6 +91,13 @@ public class ResultsHub implements CloseableOmniscientResultReceiver {
       throws CouldNotReceiveResultException {
     for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
       resultReceiver.receiveResult(conditionalUniqueColumnCombination);
+    }
+  }
+  
+  @Override
+  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
+    for (CloseableOmniscientResultReceiver resultReceiver : subscriber) {
+      resultReceiver.receiveResult(orderDependency);
     }
   }
 

@@ -16,10 +16,12 @@
 
 package de.metanome.backend.result_receiver;
 
+import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
@@ -60,6 +62,11 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
 
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) {
     results.add(conditionalUniqueColumnCombination);
+  }
+  
+  @Override
+  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
+    results.add(orderDependency);
   }
 
   /**
