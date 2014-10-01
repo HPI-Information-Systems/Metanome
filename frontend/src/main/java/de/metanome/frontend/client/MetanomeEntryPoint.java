@@ -21,7 +21,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -37,7 +37,9 @@ public class MetanomeEntryPoint implements EntryPoint {
 
     // heading panel
     FlowPanel heading = new FlowPanel();
-    heading.add(new HTML("<h1>Metanome</h1>"));
+    Image metanomeImage = new Image("resources/images/Metanome.png");
+    metanomeImage.addStyleName("logo");
+    heading.add(metanomeImage);
     heading.addStyleName("heading");
 
     DockLayoutPanel p = new DockLayoutPanel(Style.Unit.EM);
