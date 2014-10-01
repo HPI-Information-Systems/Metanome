@@ -973,4 +973,24 @@ public class ColumnCombinationBitsetTest {
     assertEquals(new ColumnCombinationBitset(0, 2, 4, 6), inverted);
     assertEquals(actualColumnCombination, inverted.invert(7));
   }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#compareTo(ColumnCombinationBitset)}
+   */
+  @Test
+  public void testCompareTo() {
+    //Setup
+    ColumnCombinationBitset set1 = new ColumnCombinationBitset().addColumn(2);
+    ColumnCombinationBitset set2 = new ColumnCombinationBitset().addColumn(1);
+    ColumnCombinationBitset set3 = new ColumnCombinationBitset().addColumn(1).addColumn(3);
+    ColumnCombinationBitset set4 = new ColumnCombinationBitset().addColumn(2);
+    //Execute functionality
+    //Check Result
+    assertTrue(set1.compareTo(set2) > 0);
+    assertTrue(set1.compareTo(set3) < 0);
+    assertTrue(set1.compareTo(set4) == 0);
+    assertTrue(set2.compareTo(set4) < 0);
+    assertTrue(set1.compareTo(set1) == 0);
+    assertTrue(set2.compareTo(set3) < 0);
+  }
 }
