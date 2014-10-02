@@ -189,11 +189,12 @@ public class SubSetGraph {
     if (this.isEmpty()) {
       return new ArrayList<>();
     }
+
     SubSetGraph graph = new SubSetGraph();
     ArrayList<ColumnCombinationBitset> result = new ArrayList<>();
     TreeSet<SubSetFindTask> openTasks = new TreeSet<>();
     openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
-    //build graph of minimal subsets
+
     while (!openTasks.isEmpty()) {
       SubSetFindTask currentTask = openTasks.pollFirst();
       if (currentTask.subGraph.subSetEnds) {
@@ -222,7 +223,6 @@ public class SubSetGraph {
     }
     return result;
   }
-
 
   /**
    * @return whether the graph is empty

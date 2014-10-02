@@ -217,6 +217,5 @@ public class SubSetGraphTest {
     assertThat(actualMinimalSubsets,
                IsIterableContainingInAnyOrder
                    .containsInAnyOrder(fixture.getExpectedMinimalSubsets()));
-
   }
 }
