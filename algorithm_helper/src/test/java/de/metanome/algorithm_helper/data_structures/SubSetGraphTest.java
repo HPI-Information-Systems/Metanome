@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -211,7 +212,7 @@ public class SubSetGraphTest {
     SubSetGraph graph = fixture.getGraph();
 
     //Execute functionality
-    List<ColumnCombinationBitset> actualMinimalSubsets = graph.getMinimalSubsets();
+    Set<ColumnCombinationBitset> actualMinimalSubsets = graph.getMinimalSubsets();
 
     // Check result
     assertThat(actualMinimalSubsets,

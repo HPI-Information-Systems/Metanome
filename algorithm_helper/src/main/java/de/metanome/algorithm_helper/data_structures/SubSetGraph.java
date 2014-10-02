@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -185,13 +186,13 @@ public class SubSetGraph {
    *
    * @return a list containing all minimal subsets
    */
-  public ArrayList<ColumnCombinationBitset> getMinimalSubsets() {
+  public Set<ColumnCombinationBitset> getMinimalSubsets() {
     if (this.isEmpty()) {
-      return new ArrayList<>();
+      return new TreeSet<>();
     }
 
     SubSetGraph graph = new SubSetGraph();
-    ArrayList<ColumnCombinationBitset> result = new ArrayList<>();
+    TreeSet<ColumnCombinationBitset> result = new TreeSet<>();
     TreeSet<SubSetFindTask> openTasks = new TreeSet<>();
     openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
 
