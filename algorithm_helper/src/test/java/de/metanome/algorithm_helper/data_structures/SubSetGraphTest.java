@@ -200,4 +200,23 @@ public class SubSetGraphTest {
     EqualsAndHashCodeTester<SubSetGraph> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(actualGraph, equalsGraph, notEqualsGraph);
   }
+
+  /**
+   * Test method for {@link SubSetGraph#getMinimalSubsets()}
+   */
+  @Test
+  public void testGetMinimalSubsets() {
+    //Setup
+    SubSetGraphFixture fixture = new SubSetGraphFixture();
+    SubSetGraph graph = fixture.getGraph();
+
+    //Execute functionality
+    List<ColumnCombinationBitset> actualMinimalSubsets = graph.getMinimalSubsets();
+
+    // Check result
+    assertThat(actualMinimalSubsets,
+               IsIterableContainingInAnyOrder
+                   .containsInAnyOrder(fixture.getExpectedMinimalSubsets()));
+
+  }
 }
