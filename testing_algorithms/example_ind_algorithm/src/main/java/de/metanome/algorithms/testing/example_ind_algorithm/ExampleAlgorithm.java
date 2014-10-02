@@ -18,8 +18,8 @@ package de.metanome.algorithms.testing.example_ind_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
@@ -89,10 +89,10 @@ public class ExampleAlgorithm
     if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
       resultReceiver.receiveResult(
           new InclusionDependency(
-              new ColumnCombination(
+              new ColumnPermutation(
                   new ColumnIdentifier(tableName1, "column1"),
                   new ColumnIdentifier("table1", "column2")),
-              new ColumnCombination(
+              new ColumnPermutation(
                   new ColumnIdentifier("table2", "column3"),
                   new ColumnIdentifier("table2", "column2"))
           )

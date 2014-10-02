@@ -21,6 +21,7 @@ import com.google.common.io.Files;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -133,9 +134,9 @@ public class ResultPrinterTest {
   public void testWriteInclusionDependency() throws CouldNotReceiveResultException, IOException {
     // Expected values
     InclusionDependency expectedInd = new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table2", "column23"))
     );
 
