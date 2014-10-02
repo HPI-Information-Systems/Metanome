@@ -37,8 +37,12 @@ body {
     background-color: #CCCCCC;
 }
 
+.logo {
+    height: 4.7em;
+}
+
 h3 {
-    color: #92c1f0;
+    color: #325980;
     font-family: monospace;
     font-size: large;
     margin-top: 15px;
