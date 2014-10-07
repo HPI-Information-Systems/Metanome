@@ -23,6 +23,10 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Represents a conditional unique column combination
  *
@@ -82,9 +86,27 @@ public class ConditionalUniqueColumnCombination implements Result {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(columnCombination.toString());
-    builder.append(condition.toString());
-    builder.append("Coverage: ");
-    builder.append(condition.getCoverage());
+    builder.append("\n");
+    Set<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
+    builder.append(patternTableauHead);
+
+    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
+    for (Map<ColumnIdentifier, String> condition : conditions) {
+      builder.append("\n");
+      for (ColumnIdentifier column : patternTableauHead) {
+        if (condition.containsKey(column)) {
+          builder.append(condition.get(column));
+          builder.append(" ");
+        } else {
+          builder.append("  -  ");
+        }
+      }
+    }
+    builder.append("\n");
+//    builder.append("\n");
+    // builder.append(condition.toString());
+    builder.append(" Coverage: ");
+//    builder.append(condition.getCoverage());
     return builder.toString();
   }
 

@@ -16,6 +16,13 @@
 
 package de.metanome.algorithm_integration;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 /**
  * This is the leaf node class for the {@link ColumnCondition} using the compsite pattern.
  *
@@ -64,6 +71,22 @@ public class ColumnConditionValue implements ColumnCondition {
 
   public void setCoverage(float coverage) {
     this.coverage = coverage;
+  }
+
+  @Override
+  public Set<ColumnIdentifier> getContainedColumns() {
+    Set<ColumnIdentifier> result = new TreeSet<>();
+    result.add(this.columnIdentifier);
+    return result;
+  }
+
+  @Override
+  public List<Map<ColumnIdentifier, String>> getPatternConditions() {
+    List<Map<ColumnIdentifier, String>> result = new LinkedList<>();
+    Map<ColumnIdentifier, String> condition = new TreeMap<>();
+    condition.put(this.columnIdentifier, this.columnValue);
+    result.add(condition);
+    return result;
   }
 
   @Override

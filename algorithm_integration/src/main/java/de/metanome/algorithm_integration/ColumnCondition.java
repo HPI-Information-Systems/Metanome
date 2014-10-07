@@ -18,6 +18,10 @@ package de.metanome.algorithm_integration;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Abstract super class for the composite pattern used for column conditions.
  *
@@ -36,4 +40,8 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
   public ColumnCondition add(ColumnCondition value);
 
   public float getCoverage();
+
+  public Set<ColumnIdentifier> getContainedColumns();
+
+  public List<Map<ColumnIdentifier, String>> getPatternConditions();
 }
