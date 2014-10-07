@@ -101,10 +101,14 @@ public class ConditionalUniqueColumnCombinationTest {
             outerCondition);
     // Expected values
     String
-        expectedStringRepresentation =
-        new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "["
-        + "table1.column1: [condition1, condition2]" + ", " + "table1.column2: [condition3]"
-        + "]";
+        expectedStringRepresentation = "[table1.column1, table2.column2]\r\n" +
+                                       "[table1.column1, table2.column2]\r\n" +
+                                       "condition3   -  \r\n" +
+                                       "condition1 condition2 \r\n" +
+                                       "Coverage: 0.0";
+//        new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "["
+//        + "table1.column1: [condition1, condition2]" + ", " + "table1.column2: [condition3]"
+//        + "]";
 
     // Execute functionality
     System.out.println(actualConditionalColumnCombination.toString());

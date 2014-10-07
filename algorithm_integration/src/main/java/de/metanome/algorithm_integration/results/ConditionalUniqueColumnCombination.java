@@ -86,13 +86,13 @@ public class ConditionalUniqueColumnCombination implements Result {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(columnCombination.toString());
-    builder.append("\n");
+    builder.append("\r\n");
     Set<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
     builder.append(patternTableauHead);
 
     List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
     for (Map<ColumnIdentifier, String> condition : conditions) {
-      builder.append("\n");
+      builder.append("\r\n");
       for (ColumnIdentifier column : patternTableauHead) {
         if (condition.containsKey(column)) {
           builder.append(condition.get(column));
@@ -102,11 +102,10 @@ public class ConditionalUniqueColumnCombination implements Result {
         }
       }
     }
-    builder.append("\n");
-//    builder.append("\n");
-    // builder.append(condition.toString());
-    builder.append(" Coverage: ");
-//    builder.append(condition.getCoverage());
+
+    builder.append("\r\n");
+    builder.append("Coverage: ");
+    builder.append(this.condition.getCoverage());
     return builder.toString();
   }
 
