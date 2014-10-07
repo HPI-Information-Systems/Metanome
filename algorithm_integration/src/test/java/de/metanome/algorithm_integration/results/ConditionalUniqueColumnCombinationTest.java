@@ -21,6 +21,9 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnConditionAnd;
+import de.metanome.algorithm_integration.ColumnConditionOr;
+import de.metanome.algorithm_integration.ColumnConditionValue;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.test_helper.GwtSerializationTester;
@@ -29,6 +32,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -78,23 +82,23 @@ public class ConditionalUniqueColumnCombinationTest {
    * and the {@link de.metanome.algorithm_integration.ColumnConditionAnd} string
    * representation.
    */
-/*
   @Test
   public void testToString() {
     // Setup
     ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    List<ColumnConditionAnd> conditionList = new LinkedList<>();
-    conditionList.add(new ColumnConditionAnd(new ColumnIdentifier("table1", "column1"), "condition1",
-                                          "condition2"));
-    conditionList
-        .add(new ColumnConditionAnd(new ColumnIdentifier("table1", "column2"), "condition3"));
+    ColumnConditionOr outerCondition = new ColumnConditionOr();
+    outerCondition.add(
+        new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
+                               new ColumnConditionValue(expectedColumn2, "condition2")));
+    outerCondition
+        .add(new ColumnConditionValue(expectedColumn1, "condition3"));
 
     ConditionalUniqueColumnCombination
         actualConditionalColumnCombination =
         new ConditionalUniqueColumnCombination(
             new ColumnCombination(expectedColumn1, expectedColumn2),
-            conditionList.toArray(new ColumnConditionAnd[conditionList.size()]));
+            outerCondition);
     // Expected values
     String
         expectedStringRepresentation =
@@ -103,10 +107,10 @@ public class ConditionalUniqueColumnCombinationTest {
         + "]";
 
     // Execute functionality
+    System.out.println(actualConditionalColumnCombination.toString());
     // Check result
     assertEquals(expectedStringRepresentation, actualConditionalColumnCombination.toString());
   }
-*/
 
   /**
    * Test method for {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#equals(Object)}
