@@ -82,11 +82,8 @@ public class ConditionalUniqueColumnCombination implements Result {
     return this.condition;
   }
 
-  @Override
-  public String toString() {
+  public String buildPatternTableau() {
     StringBuilder builder = new StringBuilder();
-    builder.append(columnCombination.toString());
-    builder.append("\r\n");
     Set<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
     builder.append(patternTableauHead);
 
@@ -102,6 +99,16 @@ public class ConditionalUniqueColumnCombination implements Result {
         }
       }
     }
+    return builder.toString();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(columnCombination.toString());
+    builder.append("\r\n");
+
+    builder.append(this.buildPatternTableau());
 
     builder.append("\r\n");
     builder.append("Coverage: ");
