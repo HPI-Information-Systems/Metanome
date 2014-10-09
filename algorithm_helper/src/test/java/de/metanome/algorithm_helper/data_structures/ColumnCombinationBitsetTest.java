@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.test_helper.CompareToTester;
 
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -984,13 +985,15 @@ public class ColumnCombinationBitsetTest {
     ColumnCombinationBitset set2 = new ColumnCombinationBitset().addColumn(1);
     ColumnCombinationBitset set3 = new ColumnCombinationBitset().addColumn(1).addColumn(3);
     ColumnCombinationBitset set4 = new ColumnCombinationBitset().addColumn(2);
+
+    CompareToTester<ColumnCombinationBitset> testerSet1 = new CompareToTester<>(set1);
+    CompareToTester<ColumnCombinationBitset> testerSet2 = new CompareToTester<>(set2);
     //Execute functionality
     //Check Result
-    assertTrue(set1.compareTo(set2) > 0);
-    assertTrue(set1.compareTo(set3) < 0);
-    assertTrue(set1.compareTo(set4) == 0);
-    assertTrue(set2.compareTo(set4) < 0);
-    assertTrue(set1.compareTo(set1) == 0);
-    assertTrue(set2.compareTo(set3) < 0);
+    testerSet1.performCompareToTestEqual(set1, set4);
+    testerSet1.performCompareToTestGreater(set3);
+    testerSet1.performCompareToTestSmaller(set2);
+
+    testerSet2.performCompareToTestGreater(set3, set4);
   }
 }
