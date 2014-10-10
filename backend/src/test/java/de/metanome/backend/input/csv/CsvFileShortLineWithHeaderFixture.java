@@ -28,9 +28,16 @@ import java.io.StringReader;
 public class CsvFileShortLineWithHeaderFixture {
 
   public FileIterator getTestData() throws InputIterationException {
-    return new FileIterator("some_file",
-                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"), ',',
-                            '\'',
-                            '\\', 0, false, true, true, false);
+
+    FileIterator iterator = new FileIterator("some_file");
+    return iterator.setSeparator(',')
+        .setQuoteChar('\'')
+        .setEscapeChar('\\')
+        .setSkipLines(0)
+        .setStrictQuotes(false)
+        .setIgnoreLeadingWhiteSpace(true)
+        .setHasHeader(true)
+        .setSkipDifferingLines(false)
+        .setReader(new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"));
   }
 }

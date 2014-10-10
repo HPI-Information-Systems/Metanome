@@ -38,10 +38,18 @@ public class CsvFileShortLineFixture {
 
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    return new FileIterator("some_file", new StringReader(
+    FileIterator iterator = new FileIterator("some_file");
+    return iterator.setSeparator(',')
+        .setQuoteChar('\'')
+        .setEscapeChar('\\')
+        .setSkipLines(0)
+        .setStrictQuotes(false)
+        .setIgnoreLeadingWhiteSpace(true)
+        .setHasHeader(false)
+        .setSkipDifferingLines(skipDifferingLines)
+        .setReader(new StringReader(
         Joiner.on(',').join(getExpectedFirstParsableLine()) + "\nfour,five\n" + Joiner.on(',')
-            .join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"), ',', '\'', '\\',
-                            0, false, true, false, skipDifferingLines);
+            .join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"));
   }
 
   public ImmutableList<String> getExpectedFirstParsableLine() {

@@ -230,7 +230,7 @@ public class FileIteratorTest {
   }
 
   /**
-   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, char, char)} <p/> A
+   * Test method for {@link FileIterator#FileIterator(String)} <p/> A
    * {@link FileIterator} generated from an empty file should be constructable without exceptions,
    * return false on hasNext, return 0 as numberOfColumns and have a valid standard header.
    */
@@ -239,7 +239,8 @@ public class FileIteratorTest {
     // Execute functionality
     // Check result
     // Should not throw exception
-    FileIterator fileIterator = new FileIterator("testRelation", new StringReader(""), ',', '"');
+    FileIterator fileIterator = new FileIterator("testRelation");
+    fileIterator.setSeparator(',').setQuoteChar('"').setReader(new StringReader(""));
     assertFalse(fileIterator.hasNext());
     assertEquals(0, fileIterator.numberOfColumns());
     assertNotNull(fileIterator.columnNames());
@@ -249,8 +250,8 @@ public class FileIteratorTest {
   }
 
   /**
-   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, char, char, int,
-   * boolean)} <p/> A {@link FileIterator} with header generated from an empty file should be
+   * Test method for {@link FileIterator#FileIterator(String)} <p/>
+   * A {@link FileIterator} with header generated from an empty file should be
    * constructable without exceptions, return false on hasNext, return 0 as numberOfColumns and have
    * a valid standard header.
    */
@@ -260,7 +261,12 @@ public class FileIteratorTest {
     // Check result
     // Should not throw exception
     FileIterator
-        fileIterator = new FileIterator("testRelation", new StringReader(""), ',', '"', 0, true);
+        fileIterator = new FileIterator("testRelation");
+    fileIterator.setSeparator(',')
+        .setQuoteChar('"')
+        .setSkipLines(0)
+        .setHasHeader(true)
+        .setReader(new StringReader(""));
     assertFalse(fileIterator.hasNext());
     assertEquals(0, fileIterator.numberOfColumns());
     assertNotNull(fileIterator.columnNames());

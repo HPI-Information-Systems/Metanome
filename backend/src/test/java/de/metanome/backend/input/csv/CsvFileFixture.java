@@ -56,10 +56,16 @@ public class CsvFileFixture {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines) throws InputIterationException {
-    return new FileIterator("some relation", new StringReader(getCsvFileData()), SEPARATOR,
-                            QUOTE_CHAR,
-                            ESCAPE, 0, STRICT_QUOTES, IGNORE_LEADING_WHITESPACES, HAS_HEADER,
-                            skipDifferingLines);
+    FileIterator iterator = new FileIterator("some relation");
+    return iterator.setSeparator(SEPARATOR)
+        .setHasHeader(HAS_HEADER)
+        .setQuoteChar(QUOTE_CHAR)
+        .setEscapeChar(ESCAPE)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setSkipLines(0)
+        .setSkipDifferingLines(skipDifferingLines)
+        .setReader(new StringReader(getCsvFileData()));
   }
 
   protected List<String> quoteStrings(List<String> unquotedStrings) {

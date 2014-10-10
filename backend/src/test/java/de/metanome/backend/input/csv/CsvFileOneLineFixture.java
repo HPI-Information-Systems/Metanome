@@ -47,14 +47,22 @@ public class CsvFileOneLineFixture {
   }
 
   public FileIterator getTestData() throws InputIterationException, InputGenerationException {
-    return new FileIterator(getExpectedRelationName(), new StringReader(getCsvInputString()),
-                            this.separator, this.quoteChar, 0, true);
+    FileIterator iterator = new FileIterator(getExpectedRelationName());
+    return iterator.setSeparator(this.separator)
+              .setQuoteChar(this.quoteChar)
+              .setSkipLines(0)
+              .setHasHeader(true)
+              .setReader(new StringReader(getCsvInputString()));
   }
 
   public FileIterator getTestDataWithoutHeader()
       throws InputIterationException, InputGenerationException {
-    return new FileIterator(getExpectedRelationName(), new StringReader(getCsvInputString()),
-                            this.separator, this.quoteChar, 1, false);
+    FileIterator iterator = new FileIterator(getExpectedRelationName());
+    return iterator.setSeparator(this.separator)
+        .setQuoteChar(this.quoteChar)
+        .setSkipLines(1)
+        .setHasHeader(false)
+        .setReader(new StringReader(getCsvInputString()));
   }
 
   protected String getCsvInputString() {

@@ -40,7 +40,6 @@ public class FileIterator implements RelationalInput {
   protected static final String DEFAULT_HEADER_STRING = "column";
 
   protected CSVReader csvReader;
-  protected boolean skipDifferingLines;
   protected ImmutableList<String> headerLine;
   protected ImmutableList<String> nextLine;
   protected String relationName;
@@ -48,42 +47,35 @@ public class FileIterator implements RelationalInput {
   // Initialized to -1 because of lookahead
   protected int currentLineNumber = -1;
 
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar)
-      throws InputIterationException {
-    this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
-  }
+  protected char separator = CSVParser.DEFAULT_SEPARATOR;
+  protected char quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
+  protected char escape = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+  protected int skipLines = CSVReader.DEFAULT_SKIP_LINES;
+  protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
+  protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+  protected boolean hasHeader = FileIterator.DEFAULT_HAS_HEADER;
+  protected boolean skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
 
-  public FileIterator(String relationName, Reader reader, char separator, char quoteChar,
-                      int skipLines)
-      throws InputIterationException {
-    this(relationName, reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
-  }
-
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      int skipLines,
-                      boolean hasHeader) throws InputIterationException {
-    this(relationName, reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines,
-         CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
-  }
-
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      char escape,
-                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                      boolean hasHeader) throws InputIterationException {
-    this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes,
-         ignoreLeadingWhiteSpace, hasHeader, DEFAULT_SKIP_DIFFERING_LINES);
-  }
-
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      char escape,
-                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                      boolean hasHeader, boolean skipDifferingLines)
-      throws InputIterationException {
+  public FileIterator(String relationName) {
     this.relationName = relationName;
+  }
+
+  /**
+   * Initialize the CSV Reader.
+   * This method should be called after all other parameters (e.g. separator, quote char) are set.
+   * @param reader the reader
+   * @return the file iterator
+   * @throws InputIterationException if the next line could not be read
+   */
+  public FileIterator setReader(Reader reader) throws InputIterationException {
     this.csvReader =
-        new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes,
-                      ignoreLeadingWhiteSpace);
-    this.skipDifferingLines = skipDifferingLines;
+        new CSVReader(reader,
+                      this.separator,
+                      this.quotechar,
+                      this.escape,
+                      this.skipLines,
+                      this.strictQuotes,
+                      this.ignoreLeadingWhiteSpace);
 
     this.nextLine = readNextLine();
     if (this.nextLine != null) {
@@ -99,6 +91,8 @@ public class FileIterator implements RelationalInput {
     if (this.headerLine == null) {
       this.headerLine = generateHeaderLine();
     }
+
+    return this;
   }
 
   @Override
@@ -186,5 +180,46 @@ public class FileIterator implements RelationalInput {
   @Override
   public ImmutableList<String> columnNames() {
     return headerLine;
+  }
+
+
+  protected FileIterator setSeparator(char separator) {
+    this.separator = separator;
+    return this;
+  }
+
+  protected FileIterator setQuoteChar(char quoteChar) {
+    this.quotechar = quoteChar;
+    return this;
+  }
+
+  protected FileIterator setEscapeChar(char escape) {
+    this.escape = escape;
+    return this;
+  }
+
+  protected FileIterator setSkipLines(int skipLines) {
+    this.skipLines = skipLines;
+    return this;
+  }
+
+  protected FileIterator setStrictQuotes(boolean strictQuotes) {
+    this.strictQuotes = strictQuotes;
+    return this;
+  }
+
+  protected FileIterator setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
+    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+    return this;
+  }
+
+  protected FileIterator setHasHeader(boolean hasHeader) {
+    this.hasHeader = hasHeader;
+    return this;
+  }
+
+  protected FileIterator setSkipDifferingLines(boolean skipDifferingLines) {
+    this.skipDifferingLines = skipDifferingLines;
+    return this;
   }
 }

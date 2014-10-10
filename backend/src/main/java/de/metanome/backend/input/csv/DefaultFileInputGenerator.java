@@ -80,9 +80,16 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
-      return new FileIterator(inputFile.getName(), new FileReader(inputFile), separator, quotechar,
-                         escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader,
-                         skipDifferingLines);
+      FileIterator iterator = new FileIterator(inputFile.getName());
+      return iterator.setSeparator(this.separator)
+          .setQuoteChar(this.quotechar)
+          .setEscapeChar(this.escape)
+          .setSkipLines(this.skipLines)
+          .setStrictQuotes(this.strictQuotes)
+          .setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpace)
+          .setHasHeader(this.hasHeader)
+          .setSkipDifferingLines(this.skipDifferingLines)
+          .setReader(new FileReader(inputFile));
     } catch (FileNotFoundException e) {
       throw new InputGenerationException("File not found.");
     } catch (InputIterationException e) {
