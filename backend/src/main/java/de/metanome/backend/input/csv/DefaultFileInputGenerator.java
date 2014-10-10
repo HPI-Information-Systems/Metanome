@@ -56,34 +56,6 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   }
 
   /**
-   * @param inputFile               the csv input
-   * @param separator               cell separator
-   * @param quotechar               cell quote character
-   * @param escape                  escape character
-   * @param skipLines               number of lines to skip
-   * @param strictQuotes            sets if characters outside the quotes are ignored
-   * @param ignoreLeadingWhiteSpace it true, parser should ignore white space before a quote in a
-   *                                field
-   * @param hasHeader               set if the csv has a header
-   * @param skipDifferingLines      set if the csv file should skip lines with differing length
-   */
-  public DefaultFileInputGenerator(File inputFile, char separator, char quotechar, char escape,
-                                   int skipLines,
-                                   boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                                   boolean hasHeader,
-                                   boolean skipDifferingLines) throws FileNotFoundException {
-    this.setInputFile(inputFile);
-    this.separator = separator;
-    this.quotechar = quotechar;
-    this.escape = escape;
-    this.skipLines = skipLines;
-    this.strictQuotes = strictQuotes;
-    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
-    this.hasHeader = hasHeader;
-    this.skipDifferingLines = skipDifferingLines;
-  }
-
-  /**
    * @param setting the settings to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s
    *                with
    * @throws AlgorithmConfigurationException thrown if the file cannot be found
@@ -132,4 +104,45 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     }
     this.inputFile = inputFile;
   }
+
+  protected DefaultFileInputGenerator setSeparator(char separator) {
+    this.separator = separator;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setQuoteChar(char quoteChar) {
+    this.quotechar = quoteChar;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setEscapeChar(char escape) {
+    this.escape = escape;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setSkipLines(int skipLines) {
+    this.skipLines = skipLines;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setStrictQuotes(boolean strictQuotes) {
+    this.strictQuotes = strictQuotes;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
+    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setHasHeader(boolean hasHeader) {
+    this.hasHeader = hasHeader;
+    return this;
+  }
+
+  protected DefaultFileInputGenerator setSkipDifferingLines(boolean skipDifferingLines) {
+    this.skipDifferingLines = skipDifferingLines;
+    return this;
+  }
+
 }

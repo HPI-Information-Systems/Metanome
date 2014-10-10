@@ -60,17 +60,22 @@ public class DefaultFileInputGeneratorTest {
     this.expectedIgnoreLeadingWhiteSpace = true;
     this.expectedHasHeader = true;
     this.expectedSkipDifferingLines = true;
-    this.generator =
-        new DefaultFileInputGenerator(expectedFile, expectedSeparator, expectedQuotechar,
-                                      expectedEscape,
-                                      expectedLine, expectedStrictQuotes,
-                                      expectedIgnoreLeadingWhiteSpace,
-                                      expectedHasHeader, expectedSkipDifferingLines);
+
+    this.generator = new DefaultFileInputGenerator(expectedFile);
+    this.generator
+          .setSeparator(expectedSeparator)
+          .setQuoteChar(expectedQuotechar)
+          .setEscapeChar(expectedEscape)
+          .setSkipLines(expectedLine)
+          .setStrictQuotes(expectedStrictQuotes)
+          .setIgnoreLeadingWhiteSpace(expectedIgnoreLeadingWhiteSpace)
+          .setHasHeader(expectedHasHeader)
+          .setSkipDifferingLines(expectedSkipDifferingLines);
   }
 
   /**
-   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File, char,
-   * char, char, int, boolean, boolean, boolean, boolean)}
+   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File) and all
+   * set methods.
    *
    * The generator should store the file path correctly.
    */
