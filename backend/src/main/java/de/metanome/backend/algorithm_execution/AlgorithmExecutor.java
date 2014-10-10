@@ -95,19 +95,19 @@ public class AlgorithmExecutor implements Closeable {
     try {
       return executeAlgorithmWithValues(algorithmFileName, parameterValues);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
-      throw new AlgorithmLoadingException();
+      throw new AlgorithmLoadingException("Could not load the algorithm.", e.getCause());
     } catch (IOException e) {
-      throw new AlgorithmLoadingException("IO Exception");
+      throw new AlgorithmLoadingException("IO Exception", e.getCause());
     } catch (ClassNotFoundException e) {
-      throw new AlgorithmLoadingException("Class not found.");
+      throw new AlgorithmLoadingException("Class not found.", e.getCause());
     } catch (InstantiationException e) {
-      throw new AlgorithmLoadingException("Could not instantiate.");
+      throw new AlgorithmLoadingException("Could not instantiate.", e.getCause());
     } catch (InvocationTargetException e) {
-      throw new AlgorithmLoadingException("Could not invoke.");
+      throw new AlgorithmLoadingException("Could not invoke.", e.getCause());
     } catch (NoSuchMethodException e) {
-      throw new AlgorithmLoadingException("No such method.");
+      throw new AlgorithmLoadingException("No such method.", e.getCause());
     } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException("Algorithm not found in database.");
+      throw new AlgorithmLoadingException("Algorithm not found in database.", e.getCause());
     }
   }
 
