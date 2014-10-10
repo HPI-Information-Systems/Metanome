@@ -30,6 +30,7 @@ import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -42,6 +43,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test for {@link de.metanome.backend.results_db.Algorithm}
@@ -266,6 +268,29 @@ public class AlgorithmTest {
                IsIterableContainingInAnyOrder.containsInAnyOrder(expectedHolisticAlgorithm));
 
     // Cleanup
+    HibernateUtil.clear();
+  }
+
+  @Test(expected=ConstraintViolationException.class)
+  public void testUniqueAlgorithmName() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    Algorithm algorithm1 = new Algorithm("someFile1");
+    algorithm1.setName("name");
+    try {
+      algorithm1.store();
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    Algorithm algorithm2 = new Algorithm("someFile2");
+    algorithm2.setName("name");
+
+    // Check
+    algorithm2.store();
+
+    // Clean up
     HibernateUtil.clear();
   }
 
