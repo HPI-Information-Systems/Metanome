@@ -49,10 +49,13 @@ public class CsvFileFixture {
   }
 
   protected String getCsvFileData() {
-    return Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())) + System
-        .getProperty("line.separator") + Joiner.on(SEPARATOR)
-               .join(quoteStrings(expectedFirstLine())) + System.getProperty("line.separator")
-           + Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine()));
+    return Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())) +
+           System.getProperty("line.separator") +
+           Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())) +
+           System.getProperty("line.separator") +
+           Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine())) +
+           System.getProperty("line.separator") +
+           Joiner.on(SEPARATOR).join(quoteStrings(expectedThirdLine()));
   }
 
   public FileIterator getTestData(boolean skipDifferingLines) throws InputIterationException {
@@ -83,6 +86,8 @@ public class CsvFileFixture {
   public ImmutableList<String> expectedSecondLine() {
     return ImmutableList.of("6", "7", "8");
   }
+
+  public ImmutableList<String> expectedThirdLine() { return ImmutableList.of("9", "10"); }
 
 
 }

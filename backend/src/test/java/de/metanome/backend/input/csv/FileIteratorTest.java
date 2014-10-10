@@ -84,6 +84,7 @@ public class FileIteratorTest {
 
     // Check result
     assertEquals(fixtureSeparator.getExpectedStrings(), csvFileSeparator.next());
+    assertEquals(0, csvFileSeparator.getNumberOfSkippedDifferingLines());
   }
 
   /**
@@ -104,6 +105,8 @@ public class FileIteratorTest {
     assertEquals(shortLineFixture.getExpectedSecondParsableLine(), csvFileThroughErrors.next());
     // There should not be another parsable line.
     assertFalse(csvFileThroughErrors.hasNext());
+    // Two lines should be skipped
+    assertEquals(2, csvFileThroughErrors.getNumberOfSkippedDifferingLines());
   }
 
   /**
@@ -144,6 +147,7 @@ public class FileIteratorTest {
     assertEquals(csvFileFixture.expectedHeader(), multiLineCsvFile.columnNames());
     assertEquals(csvFileFixture.expectedFirstLine(), multiLineCsvFile.next());
     assertEquals(csvFileFixture.expectedSecondLine(), multiLineCsvFile.next());
+    assertEquals(1, multiLineCsvFile.getNumberOfSkippedDifferingLines());
   }
 
   /**

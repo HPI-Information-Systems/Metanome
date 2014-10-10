@@ -47,6 +47,7 @@ public class FileIterator implements RelationalInput {
   protected int numberOfColumns = 0;
   // Initialized to -1 because of lookahead
   protected int currentLineNumber = -1;
+  protected int numberOfSkippedLines = 0;
 
   public FileIterator(String relationName, Reader reader, char separator, char quotechar)
       throws InputIterationException {
@@ -139,6 +140,7 @@ public class FileIterator implements RelationalInput {
 
     while (this.nextLine.size() != this.numberOfColumns()) {
       this.nextLine = readNextLine();
+      this.numberOfSkippedLines++;
       if (!hasNext()) {
         break;
       }
@@ -186,5 +188,9 @@ public class FileIterator implements RelationalInput {
   @Override
   public ImmutableList<String> columnNames() {
     return headerLine;
+  }
+
+  public int getNumberOfSkippedDifferingLines() {
+    return numberOfSkippedLines;
   }
 }
