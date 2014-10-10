@@ -31,7 +31,6 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExampleAlgorithm
     implements FunctionalDependencyAlgorithm, UniqueColumnCombinationsAlgorithm,
@@ -42,8 +41,8 @@ public class ExampleAlgorithm
   protected UniqueColumnCombinationResultReceiver uccResultReceiver;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToOutputFile"));
