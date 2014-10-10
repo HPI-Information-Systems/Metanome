@@ -93,7 +93,7 @@ public class AlgorithmEditForm extends Grid {
   /**
    * Find all available algorithms files and adds them to the list box.
    */
-  private void updateFileListBox() {
+  public void updateFileListBox() {
     this.fileListBox.clear();
     this.fileListBox.addValue("--");
     this.fileListBox.disableFirstEntry();
@@ -178,6 +178,7 @@ public class AlgorithmEditForm extends Grid {
    * Add the algorithm to the list of algorithms and store the algorithm in the database.
    */
   protected void submit() {
+    messageReceiver.clearErrors();
     try {
       algorithmsPage.callAddAlgorithm(retrieveInputValues());
     } catch (InputValidationException e) {
@@ -204,4 +205,15 @@ public class AlgorithmEditForm extends Grid {
 
     return algorithm;
   }
+
+  /**
+   * Reset all input fields.
+   */
+  protected void reset() {
+    this.fileListBox.reset();
+    this.nameTextBox.setText("");
+    this.authorTextBox.setText("");
+    this.descriptionTextArea.setText("");
+  }
+
 }
