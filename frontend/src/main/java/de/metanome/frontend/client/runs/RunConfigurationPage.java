@@ -27,10 +27,12 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.parameter.ParameterTable;
 import de.metanome.frontend.client.services.ExecutionService;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
@@ -152,9 +154,13 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.messageReceiver.clearErrors();
     this.messageReceiver.clearInfos();
 
+    String dataSourceName = dataSource.getValueAsString();
+    if (dataSource instanceof ConfigurationSettingFileInput)
+      dataSourceName = FilePathHelper.getFileName(dataSourceName);
+
     this.primaryDataSource = dataSource;
     this.primaryDataSourceLabel.setText(
-        "This should filter for algorithms applicable on " + dataSource.getValueAsString());
+        "This should filter for algorithms applicable on " + dataSourceName);
     removeParameterTable();
 
     this.algorithmChooser.resetListBox();

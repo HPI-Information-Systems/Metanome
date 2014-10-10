@@ -270,6 +270,9 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         if (algorithm.isBasicStat()) {
           addAlgorithmsToTable(list, statsList);
         }
+
+        editForm.updateFileListBox();
+        editForm.reset();
       }
     };
   }

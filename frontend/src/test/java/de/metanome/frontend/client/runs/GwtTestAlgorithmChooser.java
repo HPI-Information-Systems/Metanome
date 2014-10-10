@@ -197,16 +197,23 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     algo3.setDatabaseConnection(true);
     algorithms.add(algo3);
 
+    Algorithm algo4 = new Algorithm("file4.jar");
+    algo4.setName("algo4");
+    algo4.setUcc(true);
+    algo4.setRelationalInput(true);
+    algorithms.add(algo4);
+
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
-    assertEquals(4, jarChooser.listbox.getItemCount());
+    assertEquals(5, jarChooser.listbox.getItemCount());
 
     // Execute
     jarChooser.filterForPrimaryDataSource(new ConfigurationSettingFileInput());
 
-    assertEquals(2, jarChooser.listbox.getItemCount());
+    assertEquals(3, jarChooser.listbox.getItemCount());
     assertEquals("--", jarChooser.listbox.getItemText(0));
     assertEquals("algo1", jarChooser.listbox.getItemText(1));
+    assertEquals("algo4", jarChooser.listbox.getItemText(2));
   }
 
   /**
@@ -235,9 +242,15 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     algo3.setDatabaseConnection(true);
     algorithms.add(algo3);
 
+    Algorithm algo4 = new Algorithm("file4.jar");
+    algo4.setName("algo4");
+    algo4.setUcc(true);
+    algo4.setRelationalInput(true);
+    algorithms.add(algo4);
+
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
-    assertEquals(4, jarChooser.listbox.getItemCount());
+    assertEquals(5, jarChooser.listbox.getItemCount());
 
     // Execute
     jarChooser.filterForPrimaryDataSource(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",

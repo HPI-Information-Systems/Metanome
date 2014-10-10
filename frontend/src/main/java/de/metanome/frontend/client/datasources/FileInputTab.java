@@ -53,6 +53,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     this.parent = parent;
 
     this.fileInputList = new FlexTable();
+    this.fileInputList = new FlexTable();
     this.editForm = new FileInputEditForm(this);
 
     this.addFileInputsToTable(this);
@@ -112,7 +113,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
     int row = this.fileInputList.getRowCount();
 
     Button deleteButton = new Button("Delete");
-    final int finalRow = row;
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
@@ -130,7 +130,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
       }
     });
 
-    this.fileInputList.setText(row, 0, FilePathHelper.getFileName(input.getFileName()));
+    this.fileInputList.setWidget(row, 0, new HTML(FilePathHelper.getFileName(input.getFileName())));
     this.fileInputList.setText(row, 1, input.getComment());
     this.fileInputList.setWidget(row, 2, runButton);
     this.fileInputList.setWidget(row, 3, deleteButton);
@@ -193,11 +193,12 @@ public class FileInputTab extends FlowPanel implements TabContent {
    */
   private int findRow(FileInput input) {
     int row = 0;
+    String fileName = FilePathHelper.getFileName(input.getFileName());
 
     while (row < this.fileInputList.getRowCount()) {
       HTML fileWidget = (HTML) this.fileInputList.getWidget(row, 0);
 
-      if (fileWidget != null && input.getFileName().equals(fileWidget.getText())) {
+      if (fileWidget != null && fileName.equals(fileWidget.getText())) {
         return row;
       }
       row++;
