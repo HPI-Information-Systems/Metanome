@@ -14,43 +14,25 @@
  * limitations under the License.
  */
 
-package de.metanome.algorithm_integration.input;
+package de.metanome.algorithm_integration.result_receiver;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Test for {@link InputIterationException}
- */
-public class InputIterationExceptionTest {
+
+public class CouldNotReceiveResultExceptionTest {
+
 
   /**
-   * @throws java.lang.Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @After
-  public void tearDown() throws Exception {
-  }
-
-  /**
-   * Test method for {@link de.metanome.algorithm_integration.input.InputIterationException#InputIterationException(java.lang.String)}.
-   * <p/> The exception should store the message.
+   * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String)}
+   *
+   * The exception should store the message.
    */
   @Test
-  public void testInputIterationExceptionString() {
+  public void testCouldNotReceiveResultExceptionString() {
     // Setup
     // Expected values
     String expectedMessage = "some message";
@@ -58,8 +40,8 @@ public class InputIterationExceptionTest {
     // Execute functionality
     String actualMessage;
     try {
-      throw new InputIterationException(expectedMessage);
-    } catch (InputIterationException e) {
+      throw new CouldNotReceiveResultException(expectedMessage);
+    } catch (CouldNotReceiveResultException e) {
       actualMessage = e.getMessage();
     }
 
@@ -67,14 +49,13 @@ public class InputIterationExceptionTest {
     assertEquals(expectedMessage, actualMessage);
   }
 
-
   /**
-   * Test method for {@link de.metanome.algorithm_integration.input.InputIterationException#InputIterationException(String, Throwable)}
+   * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String, Throwable)}
    *
    * The exception should store the message and the cause.
    */
   @Test
-  public void testInputIterationExceptionStringThrowable() {
+  public void testCouldNotReceiveResultExceptionStringThrowable() {
     // Setup
     // Expected values
     String expectedMessage = "some message";
@@ -84,8 +65,8 @@ public class InputIterationExceptionTest {
     String actualMessage;
     Throwable actualCause;
     try {
-      throw new InputIterationException(expectedMessage, expectedCause);
-    } catch (InputIterationException e) {
+      throw new CouldNotReceiveResultException(expectedMessage, expectedCause);
+    } catch (CouldNotReceiveResultException e) {
       actualMessage = e.getMessage();
       actualCause = e.getCause();
     }
@@ -93,14 +74,6 @@ public class InputIterationExceptionTest {
     // Check result
     assertEquals(expectedMessage, actualMessage);
     assertEquals(expectedCause, actualCause);
-  }
-
-  /**
-   * Tests that the instances of {@link InputIterationException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new InputIterationException(""));
   }
 
 }
