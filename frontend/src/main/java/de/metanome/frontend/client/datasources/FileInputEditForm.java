@@ -178,6 +178,10 @@ public class FileInputEditForm extends Grid {
           reset();
           parent.addFileInputToTable(input);
           parent.updateDataSourcesOnRunConfiguration();
+          advancedTable.setVisible(false);
+          advancedCheckbox.setValue(false);
+          setDefaultAdvancedSettings();
+          updateListbox();
         }
       });
     } catch (InputValidationException e) {
