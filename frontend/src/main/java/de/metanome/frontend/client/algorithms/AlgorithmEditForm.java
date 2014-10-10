@@ -73,6 +73,7 @@ public class AlgorithmEditForm extends Grid {
 
     this.setText(1, 0, "Algorithm Name");
     this.setWidget(1, 1, this.nameTextBox);
+    this.setText(1, 2, "(Should be unique)");
 
     this.setText(2, 0, "Author");
     this.setWidget(2, 1, this.authorTextBox);

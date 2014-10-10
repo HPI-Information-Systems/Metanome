@@ -39,10 +39,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Represents an algorithm in the database.
@@ -56,6 +59,11 @@ import javax.persistence.NamedQuery;
     )
 )
 @Entity
+@Table(
+    name="Algorithm",
+    uniqueConstraints=
+    @UniqueConstraint(columnNames={"name"})
+)
 @GwtCompatible
 public class Algorithm extends ResultsDbEntity implements Serializable, Comparable<Algorithm> {
 
@@ -243,6 +251,7 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     return this;
   }
 
+  @Column(name = "name", unique = true)
   public String getName() {
     return name;
   }
