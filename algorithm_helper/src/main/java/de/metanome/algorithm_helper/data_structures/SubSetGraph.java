@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A graph that allows efficient lookup of all subsets in the graph for a given
@@ -180,6 +182,50 @@ public class SubSetGraph {
   }
 
   /**
+   * The method returns all minimal subsets contained in the graph using a breadth-first search pattern. Non minimal subsets are not traversed.
+   *
+   * @return a list containing all minimal subsets
+   */
+  public Set<ColumnCombinationBitset> getMinimalSubsets() {
+    if (this.isEmpty()) {
+      return new TreeSet<>();
+    }
+
+    SubSetGraph graph = new SubSetGraph();
+    TreeSet<ColumnCombinationBitset> result = new TreeSet<>();
+    TreeSet<SubSetFindTask> openTasks = new TreeSet<>();
+    openTasks.add(new SubSetFindTask(this, 0, new ColumnCombinationBitset()));
+
+    while (!openTasks.isEmpty()) {
+      SubSetFindTask currentTask = openTasks.pollFirst();
+      if (currentTask.subGraph.subSetEnds) {
+        if (!graph.containsSubset(currentTask.path)) {
+          graph.add(currentTask.path);
+          result.add(currentTask.path);
+        }
+      } else {
+        // Iterate over the remaining column indices
+        for (int bitNumber : currentTask.subGraph.subGraphs.keySet()) {
+          // Get the subgraph behind the current index
+          SubSetGraph subGraph =
+              currentTask.subGraph.subGraphs.get(bitNumber);
+          // column index is not set on any set --> check next column index
+          if (subGraph != null) {
+            // Add the current column index to the path
+            ColumnCombinationBitset path =
+                new ColumnCombinationBitset(currentTask.path)
+                    .addColumn(bitNumber);
+
+            openTasks
+                .add(new SubSetFindTask(subGraph, bitNumber + 1, path));
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
    * @return whether the graph is empty
    */
   public boolean isEmpty() {
@@ -209,7 +255,7 @@ public class SubSetGraph {
 /**
  * Task used to find subsets (avoiding recursion).
  */
-class SubSetFindTask {
+class SubSetFindTask implements Comparable<SubSetFindTask> {
 
   public SubSetGraph subGraph;
   public int numberOfCheckedColumns;
@@ -222,5 +268,10 @@ class SubSetFindTask {
     this.subGraph = subGraph;
     this.numberOfCheckedColumns = numberOfCheckedColumns;
     this.path = path;
+  }
+
+  @Override
+  public int compareTo(SubSetFindTask o) {
+    return this.path.compareTo(o.path);
   }
 }
