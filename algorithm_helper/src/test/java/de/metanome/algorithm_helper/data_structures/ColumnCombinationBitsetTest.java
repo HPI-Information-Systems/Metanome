@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.test_helper.CompareToTester;
 
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -972,5 +973,27 @@ public class ColumnCombinationBitsetTest {
     //Check Result
     assertEquals(new ColumnCombinationBitset(0, 2, 4, 6), inverted);
     assertEquals(actualColumnCombination, inverted.invert(7));
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#compareTo(ColumnCombinationBitset)}
+   */
+  @Test
+  public void testCompareTo() {
+    //Setup
+    ColumnCombinationBitset set1 = new ColumnCombinationBitset().addColumn(2);
+    ColumnCombinationBitset set2 = new ColumnCombinationBitset().addColumn(1);
+    ColumnCombinationBitset set3 = new ColumnCombinationBitset().addColumn(1).addColumn(3);
+    ColumnCombinationBitset set4 = new ColumnCombinationBitset().addColumn(2);
+
+    CompareToTester<ColumnCombinationBitset> testerSet1 = new CompareToTester<>(set1);
+    CompareToTester<ColumnCombinationBitset> testerSet2 = new CompareToTester<>(set2);
+    //Execute functionality
+    //Check Result
+    testerSet1.performCompareToTestEqual(set1, set4);
+    testerSet1.performCompareToTestGreater(set3);
+    testerSet1.performCompareToTestSmaller(set2);
+
+    testerSet2.performCompareToTestGreater(set3, set4);
   }
 }

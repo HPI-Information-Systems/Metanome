@@ -34,7 +34,7 @@ public class SubSetGraphFixture {
   public List<ColumnCombinationBitset> getExpectedIncludedColumnCombinations() {
     List<ColumnCombinationBitset> includedColumnCombinations = new ArrayList<>();
 
-    includedColumnCombinations.add(new ColumnCombinationBitset(1, 4, 6, 8));
+    includedColumnCombinations.add(new ColumnCombinationBitset(1, 5, 6, 8));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3, 4, 6));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 2, 4, 7));
     includedColumnCombinations.add(new ColumnCombinationBitset(1, 3));
@@ -53,6 +53,14 @@ public class SubSetGraphFixture {
         getExpectedIncludedColumnCombinations().get(0),
         getExpectedIncludedColumnCombinations().get(1),
         getExpectedIncludedColumnCombinations().get(3),
+        getExpectedIncludedColumnCombinations().get(5)};
+  }
+
+  public ColumnCombinationBitset[] getExpectedMinimalSubsets() {
+    return new ColumnCombinationBitset[]{
+        getExpectedIncludedColumnCombinations().get(2),
+        getExpectedIncludedColumnCombinations().get(3),
+        getExpectedIncludedColumnCombinations().get(4),
         getExpectedIncludedColumnCombinations().get(5)};
   }
 }
