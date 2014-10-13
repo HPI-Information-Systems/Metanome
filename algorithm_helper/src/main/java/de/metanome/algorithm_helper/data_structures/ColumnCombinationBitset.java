@@ -40,7 +40,7 @@ import java.util.Set;
  * @author Lukas Schulze
  * @author Mandy Roick
  */
-public class ColumnCombinationBitset {
+public class ColumnCombinationBitset implements Comparable<ColumnCombinationBitset> {
 
   protected OpenBitSet bitset;
   protected long size = 0;
@@ -579,6 +579,23 @@ public class ColumnCombinationBitset {
     OpenBitSet invertedBitset = this.bitset.clone();
     invertedBitset.flip(0, size);
     return new ColumnCombinationBitset().setColumns(invertedBitset);
+  }
+
+  public int compareTo(ColumnCombinationBitset other) {
+    long sizeComparator = this.bitset.cardinality() - other.bitset.cardinality();
+    if (sizeComparator != 0) {
+      return (int) sizeComparator;
+    } else {
+      for (int thisBit : this.getSetBits()) {
+        for (int otherBit : other.getSetBits()) {
+          int bitComparator = thisBit - otherBit;
+          if (bitComparator != 0) {
+            return bitComparator;
+          }
+        }
+      }
+    }
+    return 0;
   }
 }
 

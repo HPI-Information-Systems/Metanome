@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -199,5 +200,23 @@ public class SubSetGraphTest {
     // Check result
     EqualsAndHashCodeTester<SubSetGraph> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(actualGraph, equalsGraph, notEqualsGraph);
+  }
+
+  /**
+   * Test method for {@link SubSetGraph#getMinimalSubsets()}
+   */
+  @Test
+  public void testGetMinimalSubsets() {
+    //Setup
+    SubSetGraphFixture fixture = new SubSetGraphFixture();
+    SubSetGraph graph = fixture.getGraph();
+
+    //Execute functionality
+    Set<ColumnCombinationBitset> actualMinimalSubsets = graph.getMinimalSubsets();
+
+    // Check result
+    assertThat(actualMinimalSubsets,
+               IsIterableContainingInAnyOrder
+                   .containsInAnyOrder(fixture.getExpectedMinimalSubsets()));
   }
 }
