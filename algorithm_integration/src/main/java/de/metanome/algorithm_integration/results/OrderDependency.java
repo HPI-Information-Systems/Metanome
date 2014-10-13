@@ -15,8 +15,6 @@
 package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnPermutation;
-import de.metanome.algorithm_integration.ComparisonOperator;
-import de.metanome.algorithm_integration.OrderType;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -33,6 +31,9 @@ public class OrderDependency implements Result {
   protected ColumnPermutation rhs;
   protected OrderType orderType;
   protected ComparisonOperator comparisonOperator;
+  
+  public enum ComparisonOperator { STRICTLY_SMALLER, SMALLER_EQUAL }
+  public enum OrderType { LEXICOGRAPHICAL, POINTWISE }
 
   /**
    * Exists for GWT serialization.
@@ -99,6 +100,33 @@ public class OrderDependency implements Result {
 
   public ColumnPermutation getRhs() {
     return rhs;
+  }
+
+  @Override
+  public String toString() {
+    
+    String orderTypeStringified = "";
+    String comparisonOperatorStringified = "";
+    
+    switch(orderType) {
+      case LEXICOGRAPHICAL:
+        orderTypeStringified = "lex";
+        break;
+      case POINTWISE:
+        orderTypeStringified = "pnt";
+        break;
+    }
+    
+    switch(comparisonOperator) {
+      case SMALLER_EQUAL:
+        comparisonOperatorStringified = "<=";
+        break;
+      case STRICTLY_SMALLER:
+        comparisonOperatorStringified = "< ";
+        break;
+    }
+    
+    return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + "," + orderTypeStringified + "]" + rhs;
   }
 
   public void setRhs(ColumnPermutation rhs) {
