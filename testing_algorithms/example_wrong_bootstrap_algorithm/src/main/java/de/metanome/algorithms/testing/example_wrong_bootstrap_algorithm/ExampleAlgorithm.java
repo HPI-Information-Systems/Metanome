@@ -21,14 +21,13 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    return new LinkedList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    return new ArrayList<>();
   }
 
   @Override

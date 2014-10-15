@@ -27,8 +27,7 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An example algorithm for testing that expects 5 {@link de.metanome.algorithm_integration.input.FileInputGenerator}s
@@ -50,8 +49,8 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
   protected FileInputGenerator[] inputs = null;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configuration = new LinkedList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configuration = new ArrayList<>();
 
     configuration.add(new ConfigurationRequirementFileInput(INPUT_FILE_IDENTIFIER,
                                                             NUMBER_OF_INPUT_FILES));

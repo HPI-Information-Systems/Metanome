@@ -40,8 +40,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A metanome algorithm that does not implement the metanome interfaces directly.
@@ -72,8 +71,8 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
   }
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurations = new LinkedList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurations = new ArrayList<>();
 
     configurations.add(new ConfigurationRequirementFileInput("identifier"));
 
