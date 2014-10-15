@@ -27,14 +27,14 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AlgorithmTemplate
     implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm, TempFileAlgorithm,
                StringParameterAlgorithm {
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     // TODO Auto-generated method stub
     return null;
   }
