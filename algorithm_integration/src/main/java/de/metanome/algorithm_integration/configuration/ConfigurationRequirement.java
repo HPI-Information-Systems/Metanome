@@ -66,7 +66,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    * number of values.
    *
    * @param identifier     the specification's identifier
-   * @param numberOfSettings the number of values expected
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirement(String identifier, int numberOfSettings) {
     this.identifier = identifier;
