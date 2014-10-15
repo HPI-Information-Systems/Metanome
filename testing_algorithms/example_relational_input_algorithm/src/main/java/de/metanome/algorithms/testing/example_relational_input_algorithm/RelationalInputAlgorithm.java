@@ -29,7 +29,6 @@ import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A testing algorithm that requests a {@link de.metanome.algorithm_integration.input.TableInputGenerator}
@@ -51,8 +50,8 @@ public class RelationalInputAlgorithm implements UniqueColumnCombinationsAlgorit
   protected TableInputGenerator tableInputGenerator;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
 
     configurationRequirements.add(new ConfigurationRequirementRelationalInput(
         RELATIONAL_INPUT_IDENTIFIER));

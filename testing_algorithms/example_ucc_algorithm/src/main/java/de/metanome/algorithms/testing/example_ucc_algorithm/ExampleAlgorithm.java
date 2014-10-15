@@ -32,7 +32,6 @@ import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombination
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
                                          StringParameterAlgorithm, FileInputParameterAlgorithm,
@@ -43,8 +42,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   protected ProgressReceiver progressReceiver;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));

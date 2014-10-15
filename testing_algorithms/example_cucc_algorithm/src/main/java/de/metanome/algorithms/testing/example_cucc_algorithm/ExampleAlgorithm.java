@@ -34,7 +34,6 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Jens Ehrlich
@@ -48,8 +47,8 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   protected ProgressReceiver progressReceiver;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));
