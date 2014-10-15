@@ -41,7 +41,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExampleAlgorithm
     implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm,
@@ -57,8 +56,8 @@ public class ExampleAlgorithm
   protected boolean fileInputSet = false;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));

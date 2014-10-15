@@ -34,7 +34,6 @@ import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyRes
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExampleAlgorithm
     implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm,
@@ -49,8 +48,8 @@ public class ExampleAlgorithm
   protected FunctionalDependencyResultReceiver resultReceiver;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER));
