@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.result_receiver;
 
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.results.OrderDependency;
 
 /**
@@ -26,7 +27,7 @@ public interface OrderDependencyResultReceiver {
   /**
    * Receives a {@link OrderDependency} from an {@link OrderDependencyAlgorithm}.
    *
-   * @param orderDependency a found {@link de.metanome.algorithm_integration.results.OrderDependency}
+   * @param orderDependency a found {@link OrderDependency}
    */
   void receiveResult(OrderDependency orderDependency)
       throws CouldNotReceiveResultException;
