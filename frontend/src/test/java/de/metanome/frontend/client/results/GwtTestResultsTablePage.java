@@ -48,6 +48,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
     assertNotNull(resultsTab.indTable);
     assertNotNull(resultsTab.uccTable);
     assertNotNull(resultsTab.cuccTable);
+    assertNotNull(resultsTab.odTable);
     assertNotNull(resultsTab.fdTable);
     assertNotNull(resultsTab.basicsTable);
   }
