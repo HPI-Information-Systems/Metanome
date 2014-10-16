@@ -206,6 +206,10 @@ public class Algorithm extends ResultsDbEntity implements Serializable, Comparab
     if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       criteria.add(Restrictions.eq("cucc", true));
     }
+    
+    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
+      criteria.add(Restrictions.eq("od", true));
+    }
 
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       criteria.add(Restrictions.eq("basicStat", true));
