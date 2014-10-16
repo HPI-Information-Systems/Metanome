@@ -29,6 +29,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -183,5 +184,22 @@ public class PositionListIndexTest {
     assertEquals(fixture.getExpectedSecondPLIRawKeyError(), secondPli.getRawKeyError());
     assertEquals(fixture.getExpectedIntersectedPLIRawKeyError(),
                  firstPli.intersect(secondPli).getRawKeyError());
+  }
+
+  @Test
+  public void testCopy() {
+    // Setup
+    PositionListIndex pli = fixture.getFirstPLI();
+
+    // Execute functionality
+    PositionListIndex copy = pli.copy();
+
+    // Check result
+    assertEquals(pli, copy);
+    assertNotSame(pli, copy);
+    for (int i = 0; i < pli.getClusters().size(); i++) {
+      assertNotSame(pli.getClusters().get(i), copy.getClusters().get(i));
+      assertEquals(pli.getClusters().get(i), copy.getClusters().get(i));
+    }
   }
 }
