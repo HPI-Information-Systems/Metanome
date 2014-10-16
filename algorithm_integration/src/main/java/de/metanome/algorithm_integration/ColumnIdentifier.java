@@ -16,9 +16,9 @@
 
 package de.metanome.algorithm_integration;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
+public class ColumnIdentifier implements Comparable<ColumnIdentifier>, IsSerializable {
 
   private static final long serialVersionUID = 6071753577078585888L;
 

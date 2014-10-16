@@ -16,17 +16,17 @@
 
 package de.metanome.algorithm_integration.results;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
-import java.io.Serializable;
 
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
  *
  * @author Jakob Zwiener
  */
-public interface Result extends Serializable {
+public interface Result extends IsSerializable {
 
   /**
    * Sends a result to an {@link OmniscientResultReceiver}.
