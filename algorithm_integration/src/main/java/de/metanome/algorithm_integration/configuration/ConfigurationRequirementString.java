@@ -73,11 +73,8 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
    */
   public void setSettings(ConfigurationSettingString... settings)
     throws AlgorithmConfigurationException {
-    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        settings.length != getNumberOfSettings()) {
-        throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
-      }
-      this.settings = settings;
+    checkNumberOfSettings(settings.length);
+    this.settings = settings;
   }
 
   /**

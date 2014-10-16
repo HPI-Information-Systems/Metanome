@@ -105,4 +105,16 @@ public abstract class ConfigurationRequirement implements IsSerializable {
   public abstract ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException;
 
+  /**
+   * If a setting is set, the number of given settings has to match the expected number.
+   *
+   * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
+   */
+  protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
+    if (this.numberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        number != this.numberOfSettings) {
+      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+    }
+  }
+
 }

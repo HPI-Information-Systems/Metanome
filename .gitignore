@@ -9,6 +9,7 @@ release.properties
 *.iml
 /target
 */target
+*/*/target
 *.log
 *.lck
 metanomedb.properties

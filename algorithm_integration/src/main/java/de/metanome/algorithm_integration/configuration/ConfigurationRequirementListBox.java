@@ -78,10 +78,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    */
   public void setSettings(ConfigurationSettingListBox... settings)
       throws AlgorithmConfigurationException {
-    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        settings.length != getNumberOfSettings()) {
-      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
-    }
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 

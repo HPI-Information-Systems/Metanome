@@ -73,10 +73,7 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
    */
   public void setSettings(ConfigurationSettingFileInput... settings)
       throws AlgorithmConfigurationException {
-    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        settings.length != getNumberOfSettings()) {
-      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
-    }
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 

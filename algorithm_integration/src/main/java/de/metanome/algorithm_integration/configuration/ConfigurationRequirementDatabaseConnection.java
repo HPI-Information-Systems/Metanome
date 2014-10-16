@@ -74,10 +74,7 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
    */
   public void setSettings(ConfigurationSettingDatabaseConnection... settings)
       throws AlgorithmConfigurationException {
-    if (getNumberOfSettings() != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        settings.length != getNumberOfSettings()) {
-      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
-    }
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 
