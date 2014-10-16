@@ -25,15 +25,20 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
  */
 public class OrderDependency implements Result {
 
-  private static final long serialVersionUID = 8780488672271071564L;
+  public static enum ComparisonOperator {
+    SMALLER_EQUAL, STRICTLY_SMALLER
+  }
+  public static enum OrderType {
+    LEXICOGRAPHICAL, POINTWISE
+  }
+
   public static final String OD_SEPARATOR = "~~>";
-  protected ColumnPermutation lhs;
-  protected ColumnPermutation rhs;
-  protected OrderType orderType;
+  private static final long serialVersionUID = 8780488672271071564L;
   protected ComparisonOperator comparisonOperator;
-  
-  public enum ComparisonOperator { STRICTLY_SMALLER, SMALLER_EQUAL }
-  public enum OrderType { LEXICOGRAPHICAL, POINTWISE }
+  protected ColumnPermutation lhs;
+
+  protected OrderType orderType;
+  protected ColumnPermutation rhs;
 
   /**
    * Exists for GWT serialization.
@@ -44,13 +49,64 @@ public class OrderDependency implements Result {
     this.orderType = OrderType.LEXICOGRAPHICAL;
     this.comparisonOperator = ComparisonOperator.SMALLER_EQUAL;
   }
-  
-  public OrderDependency(ColumnPermutation lhs, ColumnPermutation rhs, OrderType orderType,
-      ComparisonOperator comparisonOperator) {
+
+  public OrderDependency(final ColumnPermutation lhs, final ColumnPermutation rhs,
+      final OrderType orderType, final ComparisonOperator comparisonOperator) {
     this.lhs = lhs;
     this.rhs = rhs;
     this.orderType = orderType;
     this.comparisonOperator = comparisonOperator;
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final OrderDependency other = (OrderDependency) obj;
+    if (comparisonOperator != other.comparisonOperator) {
+      return false;
+    }
+    if (lhs == null) {
+      if (other.lhs != null) {
+        return false;
+      }
+    } else if (!lhs.equals(other.lhs)) {
+      return false;
+    }
+    if (orderType != other.orderType) {
+      return false;
+    }
+    if (rhs == null) {
+      if (other.rhs != null) {
+        return false;
+      }
+    } else if (!rhs.equals(other.rhs)) {
+      return false;
+    }
+    return true;
+  }
+
+  public ComparisonOperator getComparisonOperator() {
+    return comparisonOperator;
+  }
+
+  public ColumnPermutation getLhs() {
+    return lhs;
+  }
+
+  public OrderType getOrderType() {
+    return orderType;
+  }
+
+  public ColumnPermutation getRhs() {
+    return rhs;
   }
 
   @Override
@@ -65,94 +121,55 @@ public class OrderDependency implements Result {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    OrderDependency other = (OrderDependency) obj;
-    if (comparisonOperator != other.comparisonOperator)
-      return false;
-    if (lhs == null) {
-      if (other.lhs != null)
-        return false;
-    } else if (!lhs.equals(other.lhs))
-      return false;
-    if (orderType != other.orderType)
-      return false;
-    if (rhs == null) {
-      if (other.rhs != null)
-        return false;
-    } else if (!rhs.equals(other.rhs))
-      return false;
-    return true;
+  public void sendResultTo(final OmniscientResultReceiver resultReceiver)
+      throws CouldNotReceiveResultException {
+    resultReceiver.receiveResult(this);
   }
 
-  public ColumnPermutation getLhs() {
-    return lhs;
+  public void setComparisonOperator(final ComparisonOperator comparisonOperator) {
+    this.comparisonOperator = comparisonOperator;
   }
 
-  public void setLhs(ColumnPermutation lhs) {
+  public void setLhs(final ColumnPermutation lhs) {
     this.lhs = lhs;
   }
 
-  public ColumnPermutation getRhs() {
-    return rhs;
+  public void setOrderType(final OrderType orderType) {
+    this.orderType = orderType;
+  }
+
+  public void setRhs(final ColumnPermutation rhs) {
+    this.rhs = rhs;
   }
 
   @Override
   public String toString() {
-    
+
     String orderTypeStringified = "";
     String comparisonOperatorStringified = "";
-    
-    switch(orderType) {
+
+    switch (orderType) {
       case LEXICOGRAPHICAL:
         orderTypeStringified = "lex";
         break;
       case POINTWISE:
         orderTypeStringified = "pnt";
         break;
+      default:
     }
-    
-    switch(comparisonOperator) {
+
+    switch (comparisonOperator) {
       case SMALLER_EQUAL:
         comparisonOperatorStringified = "<=";
         break;
       case STRICTLY_SMALLER:
         comparisonOperatorStringified = "< ";
         break;
+      default:
     }
-    
-    return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + "," + orderTypeStringified + "]" + rhs;
-  }
 
-  public void setRhs(ColumnPermutation rhs) {
-    this.rhs = rhs;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
-  }
-
-  public void setOrderType(OrderType orderType) {
-    this.orderType = orderType;
-  }
-
-  public ComparisonOperator getComparisonOperator() {
-    return comparisonOperator;
-  }
-
-  public void setComparisonOperator(ComparisonOperator comparisonOperator) {
-    this.comparisonOperator = comparisonOperator;
-  }
-
-  @Override
-  public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
-    resultReceiver.receiveResult(this);
+    return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + ","
+    + orderTypeStringified + "]" + rhs;
   }
 
 
