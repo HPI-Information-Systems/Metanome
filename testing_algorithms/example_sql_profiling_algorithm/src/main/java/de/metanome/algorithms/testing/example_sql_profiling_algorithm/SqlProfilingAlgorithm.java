@@ -23,8 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -49,8 +48,8 @@ public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorit
   }
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
 
     configurationRequirements.add(new ConfigurationRequirementDatabaseConnection(
         DATABASE_IDENTIFIER));
