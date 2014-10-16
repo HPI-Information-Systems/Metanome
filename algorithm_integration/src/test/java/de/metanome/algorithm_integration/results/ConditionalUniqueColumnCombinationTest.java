@@ -105,7 +105,8 @@ public class ConditionalUniqueColumnCombinationTest {
                                        "[table1.column1, table2.column2]\r\n" +
                                        "condition3   -  \r\n" +
                                        "condition1 condition2 \r\n" +
-                                       "Coverage: 0.0";
+                                       "Coverage: 0.0\r\n" +
+                                       "";
 //        new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "["
 //        + "table1.column1: [condition1, condition2]" + ", " + "table1.column2: [condition3]"
 //        + "]";

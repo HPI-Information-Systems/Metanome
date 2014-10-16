@@ -113,6 +113,7 @@ public class ConditionalUniqueColumnCombination implements Result {
     builder.append("\r\n");
     builder.append("Coverage: ");
     builder.append(this.condition.getCoverage());
+    builder.append("\r\n");
     return builder.toString();
   }
 
