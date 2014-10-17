@@ -22,6 +22,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,7 +50,7 @@ public class InputGenerationExceptionTest {
    * <p/> The exception should store the message.
    */
   @Test
-  public void testInputGenerationException() {
+  public void testInputGenerationExceptionString() {
     // Setup
     // Expected values
     String expectedMessage = "some message";
@@ -63,6 +65,33 @@ public class InputGenerationExceptionTest {
 
     // Check result
     assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.input.InputGenerationException#InputGenerationException(String, Throwable)}
+   *
+   * The exception should store the message and the cause.
+   */
+  @Test
+  public void testInputGenerationExceptionStringThrowable() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+    Throwable expectedCause = new FileNotFoundException("some file was not found");
+
+    // Execute functionality
+    String actualMessage;
+    Throwable actualCause;
+    try {
+      throw new InputGenerationException(expectedMessage, expectedCause);
+    } catch (InputGenerationException e) {
+      actualMessage = e.getMessage();
+      actualCause = e.getCause();
+    }
+
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+    assertEquals(expectedCause, actualCause);
   }
 
   /**

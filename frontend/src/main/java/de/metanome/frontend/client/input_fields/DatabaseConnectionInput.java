@@ -69,7 +69,7 @@ public class DatabaseConnectionInput extends InputField {
         callback =
         new AsyncCallback<List<DatabaseConnection>>() {
           public void onFailure(Throwable caught) {
-            messageReceiver.addError("There are no database connections in the database!");
+            messageReceiver.addError("There are no database connections in the database: " + caught.getMessage());
           }
 
           public void onSuccess(List<DatabaseConnection> result) {
@@ -130,7 +130,7 @@ public class DatabaseConnectionInput extends InputField {
           (ConfigurationSettingDatabaseConnection) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a databse connection setting.");
+      throw new AlgorithmConfigurationException("This is not a database connection setting.");
     }
   }
 

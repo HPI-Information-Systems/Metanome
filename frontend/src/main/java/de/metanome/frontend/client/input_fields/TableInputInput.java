@@ -71,7 +71,7 @@ public class TableInputInput extends InputField {
   public void updateListBox() {
     AsyncCallback<List<TableInput>> callback = new AsyncCallback<List<TableInput>>() {
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no file inputs in the database!");
+        messageReceiver.addError("There are no file inputs in the database: " + caught.getMessage());
       }
 
       public void onSuccess(List<TableInput> result) {

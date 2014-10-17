@@ -20,6 +20,8 @@ import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,7 +34,7 @@ public class EntityStorageExceptionTest {
    * exception should store the message.
    */
   @Test
-  public void testEntityStorageException() {
+  public void testEntityStorageExceptionString() {
     // Setup
     // Expected values
     String expectedMessage = "some message";
@@ -47,6 +49,33 @@ public class EntityStorageExceptionTest {
 
     // Check result
     assertEquals(expectedMessage, actualMessage);
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.results_db.EntityStorageException#EntityStorageException(String, Throwable)}
+   *
+   * The exception should store the message and the cause.
+   */
+  @Test
+  public void testEntityStorageExceptionStringThrowable() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+    Throwable expectedCause = new FileNotFoundException("some file was not found");
+
+    // Execute functionality
+    String actualMessage;
+    Throwable actualCause;
+    try {
+      throw new EntityStorageException(expectedMessage, expectedCause);
+    } catch (EntityStorageException e) {
+      actualMessage = e.getMessage();
+      actualCause = e.getCause();
+    }
+
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+    assertEquals(expectedCause, actualCause);
   }
 
   /**
