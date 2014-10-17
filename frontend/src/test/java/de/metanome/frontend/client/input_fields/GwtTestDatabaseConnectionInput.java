@@ -26,6 +26,9 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Tests for {@link DatabaseConnectionInput}
  *
@@ -34,8 +37,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
   /**
-   * Test method for {@link DatabaseConnectionInput#DatabaseConnectionInput(boolean,
-   * de.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the optional
+   * Test method for {@link DatabaseConnectionInput#DatabaseConnectionInput(boolean, de.metanome.frontend.client.TabWrapper, java.util.List)} <p/> After calling the constructor the optional
    * parameter should be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
@@ -49,7 +51,7 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
     // Execute functionality
     DatabaseConnectionInput
-        actualDatabaseConnectionInput = new DatabaseConnectionInput(expectedOptional, tabWrapper);
+        actualDatabaseConnectionInput = new DatabaseConnectionInput(expectedOptional, tabWrapper, new ArrayList<String>());
 
     // Check result
     assertEquals(expectedOptional, actualDatabaseConnectionInput.isOptional);
@@ -84,7 +86,7 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
     // Initialize DatabaseConnectionInput (waiting for fetching all current database connections)
     DatabaseConnectionInput
         databaseConnectionInput =
-        new DatabaseConnectionInput(false, tabWrapper);
+        new DatabaseConnectionInput(false, tabWrapper, new ArrayList<String>());
 
     databaseConnectionInput.databaseConnections.put("url", dbConnection);
     databaseConnectionInput.listbox.addValue("--");
@@ -108,6 +110,83 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
     // Cleanup
     TestHelper.resetDatabaseSync();
+  }
+
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.DatabaseConnectionInput#handleSuccess(java.util.List)}
+   */
+  public void testHandleSuccess() {
+    // Set up
+    DatabaseConnection dbConnection1 = new DatabaseConnection();
+    dbConnection1.setUrl("url1");
+    dbConnection1.setPassword("password1");
+    dbConnection1.setUsername("username1");
+    dbConnection1.setSystem(DbSystem.DB2);
+
+    DatabaseConnection dbConnection2 = new DatabaseConnection();
+    dbConnection2.setUrl("url2");
+    dbConnection2.setPassword("password2");
+    dbConnection2.setUsername("username2");
+    dbConnection2.setSystem(DbSystem.Oracle);
+
+    List<DatabaseConnection> databaseConnectionList = new ArrayList<>();
+    databaseConnectionList.add(dbConnection1);
+    databaseConnectionList.add(dbConnection2);
+
+    List<String> acceptedSystems = new ArrayList<>();
+    acceptedSystems.add(DbSystem.Oracle.name());
+
+    DatabaseConnectionInput
+        databaseConnectionInput =
+        new DatabaseConnectionInput(false, new TabWrapper(), acceptedSystems);
+
+    // Expected
+    // Execute
+    databaseConnectionInput.handleSuccess(databaseConnectionList);
+
+    // Check
+    assertEquals(2, databaseConnectionInput.listbox.getValues().size());
+    assertTrue(databaseConnectionInput.listbox.getValues().contains(dbConnection2.getIdentifier()));
+    assertFalse(databaseConnectionInput.listbox.getValues().contains(dbConnection1.getIdentifier()));
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.DatabaseConnectionInput#handleSuccess(java.util.List)}
+   */
+  public void testHandleSuccessWithNotListedDbSystem() {
+    // Set up
+    DatabaseConnection dbConnection1 = new DatabaseConnection();
+    dbConnection1.setUrl("url1");
+    dbConnection1.setPassword("password1");
+    dbConnection1.setUsername("username1");
+    dbConnection1.setSystem(DbSystem.DB2);
+
+    DatabaseConnection dbConnection2 = new DatabaseConnection();
+    dbConnection2.setUrl("url2");
+    dbConnection2.setPassword("password2");
+    dbConnection2.setUsername("username2");
+    dbConnection2.setSystem(DbSystem.Oracle);
+
+    List<DatabaseConnection> databaseConnectionList = new ArrayList<>();
+    databaseConnectionList.add(dbConnection1);
+    databaseConnectionList.add(dbConnection2);
+
+    List<String> acceptedSystems = new ArrayList<>();
+    acceptedSystems.add(DbSystem.HANA.name());
+
+    DatabaseConnectionInput
+        databaseConnectionInput =
+        new DatabaseConnectionInput(false, new TabWrapper(), acceptedSystems);
+
+    // Expected
+    // Execute
+    databaseConnectionInput.handleSuccess(databaseConnectionList);
+
+    // Check
+    assertEquals(1, databaseConnectionInput.listbox.getValues().size());
+    assertFalse(databaseConnectionInput.listbox.getValues().contains(dbConnection2.getIdentifier()));
+    assertFalse(databaseConnectionInput.listbox.getValues().contains(dbConnection1.getIdentifier()));
   }
 
   @Override
