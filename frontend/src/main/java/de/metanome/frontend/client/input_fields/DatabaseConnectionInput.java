@@ -43,6 +43,8 @@ public class DatabaseConnectionInput extends InputField {
 
   public ListBoxInput listbox;
   public Map<String, DatabaseConnection> databaseConnections;
+
+  private List<String> acceptedDBSystems;
   private TabWrapper messageReceiver;
   /**
    * When using the link from Data Sources page, this is where the selected database connection is
@@ -50,62 +52,79 @@ public class DatabaseConnectionInput extends InputField {
    */
   private String preselectedDatabaseConnection;
 
-  public DatabaseConnectionInput(boolean optional, TabWrapper messageReceiver) {
+  public DatabaseConnectionInput(boolean optional, TabWrapper messageReceiver, List<String> acceptedDBSystems) {
     super(optional);
 
     this.messageReceiver = messageReceiver;
     this.databaseConnections = new HashMap<>();
+    this.acceptedDBSystems = acceptedDBSystems;
 
-    listbox = new ListBoxInput(false);
+    this.listbox = new ListBoxInput(false);
     updateListBox();
-    this.add(listbox);
+    this.add(this.listbox);
   }
 
   /**
-   * Get all database connections from the database and put them into the list box.
+   * Get all database connections from the database.
+   * On success list all database connection, which are accepted by the algorithm, in the list box.
    */
   public void updateListBox() {
     AsyncCallback<List<DatabaseConnection>>
-        callback =
-        new AsyncCallback<List<DatabaseConnection>>() {
-          public void onFailure(Throwable caught) {
-            messageReceiver.addError("There are no database connections in the database!");
-          }
-
-          public void onSuccess(List<DatabaseConnection> result) {
-            List<String> dbConnectionNames = new ArrayList<>();
-            dbConnectionNames.add("--");
-            String preselectedIdentifier = null;
-
-            if (result != null && result.size() > 0) {
-              for (DatabaseConnection db : result) {
-                String identifier = db.getIdentifier();
-                dbConnectionNames.add(identifier);
-                databaseConnections.put(identifier, db);
-
-                // set the preselected filename
-                if (db.getUrl().equals(preselectedDatabaseConnection)) {
-                  preselectedIdentifier = identifier;
-                }
-              }
-            } else {
-              messageReceiver.addError("There are no database connections in the database!");
-            }
-
-            listbox.clear();
-            listbox.setValues(dbConnectionNames);
-            listbox.disableFirstEntry();
-
-            if (preselectedIdentifier != null) {
-              listbox.setSelectedValue(preselectedIdentifier);
-            }
-          }
-        };
+      callback =
+      new AsyncCallback<List<DatabaseConnection>>() {
+        public void onFailure(Throwable caught) {
+          messageReceiver.addError("There are no database connections in the database!");
+        }
+        public void onSuccess(List<DatabaseConnection> result) {
+          handleSuccess(result);
+        }
+      };
 
     DatabaseConnectionServiceAsync
         databaseConnectionService =
         GWT.create(DatabaseConnectionService.class);
     databaseConnectionService.listDatabaseConnections(callback);
+
+  }
+
+  /**
+   * Filters the database connections and puts them into the list box.
+   * @param result all database connections available in the database
+   */
+  protected void handleSuccess(List<DatabaseConnection> result) {
+    if (result == null || result.size() == 0) {
+      messageReceiver.addError("There are no database connections in the database!");
+      return;
+    }
+
+    List<String> dbConnectionNames = new ArrayList<>();
+    dbConnectionNames.add("--");
+    String preselectedIdentifier = null;
+
+    for (DatabaseConnection db : result) {
+      String identifier = db.getIdentifier();
+
+      // if the database connection is accepted by the algorithm, add the database connection
+      // to the list box
+      if (this.acceptedDBSystems.contains(db.getSystem().name()) ||
+          this.acceptedDBSystems.isEmpty()) {
+        this.databaseConnections.put(identifier, db);
+        dbConnectionNames.add(identifier);
+
+        // set the preselected filename
+        if (db.getUrl().equals(preselectedDatabaseConnection)) {
+          preselectedIdentifier = identifier;
+        }
+      }
+
+      listbox.clear();
+      listbox.setValues(dbConnectionNames);
+      listbox.disableFirstEntry();
+
+      if (preselectedIdentifier != null) {
+        listbox.setSelectedValue(preselectedIdentifier);
+      }
+    }
   }
 
   /**
