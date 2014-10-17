@@ -58,6 +58,7 @@ public class DatabaseConnectionEditForm extends Grid {
     this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
 
     this.dbUrlTextbox = new TextBox();
+    this.dbUrlTextbox.getElement().setPropertyString("placeholder", "jdbc:mysql://localhost/db");
     this.setText(0, 0, "Database URL");
     this.setWidget(0, 1, this.dbUrlTextbox);
 
