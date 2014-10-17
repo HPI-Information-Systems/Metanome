@@ -133,7 +133,7 @@ public class TableInputEditForm extends Grid {
         new AsyncCallback<List<DatabaseConnection>>() {
 
           public void onFailure(Throwable caught) {
-            messageReceiver.addError("There are no database connections in the database!");
+            messageReceiver.addError("There are no database connections in the database: " + caught.getMessage());
           }
 
           public void onSuccess(List<DatabaseConnection> result) {

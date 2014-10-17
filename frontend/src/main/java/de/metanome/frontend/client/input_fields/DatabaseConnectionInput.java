@@ -149,7 +149,7 @@ public class DatabaseConnectionInput extends InputField {
           (ConfigurationSettingDatabaseConnection) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a databse connection setting.");
+      throw new AlgorithmConfigurationException("This is not a database connection setting.");
     }
   }
 

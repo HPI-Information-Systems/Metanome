@@ -29,4 +29,8 @@ public class EntityStorageException extends Exception {
     super(message);
   }
 
+  public EntityStorageException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }
