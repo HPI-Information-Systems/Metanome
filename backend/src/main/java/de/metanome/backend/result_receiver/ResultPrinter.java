@@ -129,7 +129,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     try {
       return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
     } catch (FileNotFoundException e) {
-      throw new CouldNotReceiveResultException("Could not open result file for writing.");
+      throw new CouldNotReceiveResultException("Could not open result file for writing.", e.getCause());
     }
   }
 

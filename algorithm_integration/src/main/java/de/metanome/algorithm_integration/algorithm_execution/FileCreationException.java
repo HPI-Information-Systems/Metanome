@@ -33,4 +33,8 @@ public class FileCreationException extends AlgorithmExecutionException {
     super(message);
   }
 
+  public FileCreationException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }

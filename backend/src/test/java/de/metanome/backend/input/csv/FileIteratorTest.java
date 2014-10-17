@@ -84,6 +84,7 @@ public class FileIteratorTest {
 
     // Check result
     assertEquals(fixtureSeparator.getExpectedStrings(), csvFileSeparator.next());
+    assertEquals(0, csvFileSeparator.getNumberOfSkippedDifferingLines());
   }
 
   /**
@@ -104,6 +105,8 @@ public class FileIteratorTest {
     assertEquals(shortLineFixture.getExpectedSecondParsableLine(), csvFileThroughErrors.next());
     // There should not be another parsable line.
     assertFalse(csvFileThroughErrors.hasNext());
+    // Two lines should be skipped
+    assertEquals(2, csvFileThroughErrors.getNumberOfSkippedDifferingLines());
   }
 
   /**
@@ -128,6 +131,22 @@ public class FileIteratorTest {
   }
 
   /**
+   * Test method for {@link FileIterator#next()} <p/> All empty Strings in a CSV file should be
+   * parsed to null values.
+   */
+  @Test
+  public void testParsingOfEmptyStrings() throws InputIterationException, InputGenerationException {
+    // Setup
+    CsvFileNullValuesFixture nullValuesFixture = new CsvFileNullValuesFixture();
+    FileIterator csvFile = nullValuesFixture.getTestData();
+
+    // Execute functionality
+    // Check result
+    assertEquals(nullValuesFixture.getFirstLineWithNullValues(), csvFile.next());
+    assertEquals(nullValuesFixture.getSecondLineWithNullValues(), csvFile.next());
+  }
+
+  /**
    * Test method for {@link FileIterator#next()}
    *
    * A valid csv file without differing lines should be parsable with the skipDifferingLines
@@ -144,6 +163,7 @@ public class FileIteratorTest {
     assertEquals(csvFileFixture.expectedHeader(), multiLineCsvFile.columnNames());
     assertEquals(csvFileFixture.expectedFirstLine(), multiLineCsvFile.next());
     assertEquals(csvFileFixture.expectedSecondLine(), multiLineCsvFile.next());
+    assertEquals(1, multiLineCsvFile.getNumberOfSkippedDifferingLines());
   }
 
   /**

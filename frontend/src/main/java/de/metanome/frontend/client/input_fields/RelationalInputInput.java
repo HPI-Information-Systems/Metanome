@@ -74,7 +74,7 @@ public class RelationalInputInput extends InputField {
     AsyncCallback<List<Input>> callback = new AsyncCallback<List<Input>>() {
 
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no inputs in the database!");
+        messageReceiver.addError("There are no inputs in the database: " + caught.getMessage());
       }
 
       public void onSuccess(List<Input> result) {

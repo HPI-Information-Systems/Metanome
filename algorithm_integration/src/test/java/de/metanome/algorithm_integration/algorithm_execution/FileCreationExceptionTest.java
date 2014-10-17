@@ -25,6 +25,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -53,7 +55,7 @@ public class FileCreationExceptionTest {
    * store the message.
    */
   @Test
-  public void testFileCreationException() {
+  public void testFileCreationExceptionString() {
     // Setup
     // Expected values
     String expectedMessage = "some message";
@@ -68,6 +70,34 @@ public class FileCreationExceptionTest {
 
     // Check result
     assertEquals(expectedMessage, actualMessage);
+  }
+
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.algorithm_execution.FileCreationException#FileCreationException(String, Throwable)}
+   *
+   * The exception should store the message and the cause.
+   */
+  @Test
+  public void testFileCreationExceptionStringThrowable() {
+    // Setup
+    // Expected values
+    String expectedMessage = "some message";
+    Throwable expectedCause = new FileNotFoundException("some file was not found");
+
+    // Execute functionality
+    String actualMessage;
+    Throwable actualCause;
+    try {
+      throw new FileCreationException(expectedMessage, expectedCause);
+    } catch (FileCreationException e) {
+      actualMessage = e.getMessage();
+      actualCause = e.getCause();
+    }
+
+    // Check result
+    assertEquals(expectedMessage, actualMessage);
+    assertEquals(expectedCause, actualCause);
   }
 
   /**
