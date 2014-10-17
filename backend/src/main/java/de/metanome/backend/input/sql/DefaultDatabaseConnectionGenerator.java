@@ -60,7 +60,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
       this.dbConnection.setAutoCommit(false);
     } catch (SQLException e) {
-      throw new AlgorithmConfigurationException("Failed to get Database Connection.");
+      throw new AlgorithmConfigurationException("Failed to get Database Connection.", e.getCause());
     }
   }
 
@@ -79,7 +79,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     try {
       resultSetIterator = new ResultSetIterator(resultSet);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not construct sql input.");
+      throw new InputGenerationException("Could not construct sql input.", e.getCause());
     }
 
     return resultSetIterator;
@@ -98,13 +98,13 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       sqlStatement.setFetchSize(getFetchSize());
       statements.add(sqlStatement);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not create sql statement on connection.");
+      throw new InputGenerationException("Could not create sql statement on connection.", e.getCause());
     }
     ResultSet resultSet;
     try {
       resultSet = sqlStatement.executeQuery(queryString);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not execute sql statement.");
+      throw new InputGenerationException("Could not execute sql statement.", e.getCause());
     }
 
     return resultSet;

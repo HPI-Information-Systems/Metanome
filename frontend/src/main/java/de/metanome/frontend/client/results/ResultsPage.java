@@ -156,7 +156,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
       @Override
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("Could not fetch progress.");
+        messageReceiver.addError("Could not fetch progress: " + caught.getMessage());
       }
 
       @Override
