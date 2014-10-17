@@ -20,6 +20,9 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Concrete {@link ConfigurationRequirement} for database connections.
  *
@@ -31,6 +34,7 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   private static final long serialVersionUID = 6601202469601881851L;
 
   private ConfigurationSettingDatabaseConnection[] settings;
+  private List<String> acceptedDBSystems = new ArrayList<>();
 
   /**
    * Exists for GWT serialization.
@@ -67,6 +71,14 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
 
   public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
     this.settings = settings;
+  }
+
+  public void setAcceptedDBSystems(ArrayList<String> dbSystems) {
+    this.acceptedDBSystems = dbSystems;
+  }
+
+  public List<String> getAcceptedDBSystems() {
+    return this.acceptedDBSystems;
   }
 
   /**
