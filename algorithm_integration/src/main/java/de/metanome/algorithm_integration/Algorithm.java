@@ -18,7 +18,7 @@ package de.metanome.algorithm_integration;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An algorithm should supply the configuration requirements, should initiate double dispatch with
@@ -32,7 +32,7 @@ public interface Algorithm {
    *
    * @return a list of ConfigurationSpecifications
    */
-  List<ConfigurationRequirement> getConfigurationRequirements();
+  ArrayList<ConfigurationRequirement> getConfigurationRequirements();
 
   /**
    * Starts the execution of the algorithm.

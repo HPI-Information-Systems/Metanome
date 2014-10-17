@@ -30,4 +30,8 @@ public class InputIterationException extends AlgorithmExecutionException {
     super(message);
   }
 
+  public InputIterationException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }
