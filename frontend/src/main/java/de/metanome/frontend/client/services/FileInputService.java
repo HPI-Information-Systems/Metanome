@@ -32,7 +32,7 @@ public interface FileInputService extends RemoteService {
 
   public FileInput getFileInput(long id);
 
-  public void storeFileInput(FileInput input);
+  public FileInput storeFileInput(FileInput input);
 
   public void deleteFileInput(FileInput input);
 }
