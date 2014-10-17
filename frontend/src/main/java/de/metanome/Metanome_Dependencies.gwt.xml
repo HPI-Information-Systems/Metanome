@@ -24,6 +24,7 @@
         <include name="AlgorithmConfigurationException.java"/>
         <include name="AlgorithmExecutionException.java"/>
         <include name="ColumnCombination.java"/>
+        <include name="ColumnPermutation.java"/>
         <include name="ColumnIdentifier.java"/>
         <include name="ColumnCondition.java"/>
         <include name="ColumnConditionAnd.java"/>
