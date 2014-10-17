@@ -18,13 +18,13 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -37,7 +37,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
-public class FileInput extends Input implements Serializable {
+public class FileInput extends Input implements IsSerializable {
 
   private static final long serialVersionUID = 2320081610461965426L;
 

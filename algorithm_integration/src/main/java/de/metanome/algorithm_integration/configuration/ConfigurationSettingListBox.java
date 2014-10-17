@@ -17,14 +17,14 @@
 package de.metanome.algorithm_integration.configuration;
 
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * TODO docs
  *
  * @author Tanja Bergmann
  */
-public class ConfigurationSettingListBox implements Serializable {
+public class ConfigurationSettingListBox implements IsSerializable {
 
   public String selectedValue;
 

@@ -16,7 +16,8 @@
 
 package de.metanome.algorithm_integration;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,7 +25,7 @@ import java.util.TreeSet;
 /**
  * Represents column combinations.
  */
-public class ColumnCombination implements Serializable {
+public class ColumnCombination implements IsSerializable {
 
   private static final long serialVersionUID = 5994284083803031188L;
 
