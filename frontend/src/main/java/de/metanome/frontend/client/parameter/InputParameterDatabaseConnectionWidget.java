@@ -40,11 +40,13 @@ public class InputParameterDatabaseConnectionWidget extends InputParameterDataSo
   public InputParameterDatabaseConnectionWidget(ConfigurationRequirementDatabaseConnection config,
                                                 TabWrapper wrapper) {
     super(config, wrapper);
+
   }
 
   @Override
   protected void addInputField(boolean optional) {
-    DatabaseConnectionInput widget = new DatabaseConnectionInput(optional, messageReceiver);
+    DatabaseConnectionInput widget = new DatabaseConnectionInput(
+        optional, messageReceiver, this.specification.getAcceptedDBSystems());
     this.inputWidgets.add(widget);
     this.add(widget);
   }
