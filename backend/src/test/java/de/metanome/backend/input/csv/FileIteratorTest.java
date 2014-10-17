@@ -131,6 +131,22 @@ public class FileIteratorTest {
   }
 
   /**
+   * Test method for {@link FileIterator#next()} <p/> All empty Strings in a CSV file should be
+   * parsed to null values.
+   */
+  @Test
+  public void testParsingOfEmptyStrings() throws InputIterationException, InputGenerationException {
+    // Setup
+    CsvFileNullValuesFixture nullValuesFixture = new CsvFileNullValuesFixture();
+    FileIterator csvFile = nullValuesFixture.getTestData();
+
+    // Execute functionality
+    // Check result
+    assertEquals(nullValuesFixture.getFirstLineWithNullValues(), csvFile.next());
+    assertEquals(nullValuesFixture.getSecondLineWithNullValues(), csvFile.next());
+  }
+
+  /**
    * Test method for {@link FileIterator#next()}
    *
    * A valid csv file without differing lines should be parsable with the skipDifferingLines

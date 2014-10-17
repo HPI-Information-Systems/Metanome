@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
-import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 
@@ -114,7 +112,7 @@ public class PLIBuilder {
     this.numberOfTuples = 0;
     while (input.hasNext()) {
       this.numberOfTuples++;
-      ImmutableList<String> row = input.next();
+      List<String> row = input.next();
       int columnCount = 0;
       for (String cellValue : row) {
         addValue(rowCount, columnCount, cellValue);

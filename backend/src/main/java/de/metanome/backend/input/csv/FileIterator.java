@@ -16,8 +16,6 @@
 
 package de.metanome.backend.input.csv;
 
-import com.google.common.collect.ImmutableList;
-
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -26,6 +24,9 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link FileIterator}s are Iterators over lines in a csv file.
@@ -41,8 +42,8 @@ public class FileIterator implements RelationalInput {
 
   protected CSVReader csvReader;
   protected boolean skipDifferingLines;
-  protected ImmutableList<String> headerLine;
-  protected ImmutableList<String> nextLine;
+  protected List<String> headerLine;
+  protected List<String> nextLine;
   protected String relationName;
   protected int numberOfColumns = 0;
   // Initialized to -1 because of lookahead
@@ -108,8 +109,8 @@ public class FileIterator implements RelationalInput {
   }
 
   @Override
-  public ImmutableList<String> next() throws InputIterationException {
-    ImmutableList<String> currentLine = this.nextLine;
+  public List<String> next() throws InputIterationException {
+    List<String> currentLine = this.nextLine;
 
     if (currentLine == null) {
       return null;
@@ -125,7 +126,7 @@ public class FileIterator implements RelationalInput {
     return currentLine;
   }
 
-  protected void failDifferingLine(ImmutableList<String> currentLine)
+  protected void failDifferingLine(List<String> currentLine)
       throws InputIterationException {
     if (currentLine.size() != this.numberOfColumns()) {
       throw new InputIterationException(
@@ -147,15 +148,15 @@ public class FileIterator implements RelationalInput {
     }
   }
 
-  protected ImmutableList<String> generateHeaderLine() {
-    String[] headerArray = new String[this.numberOfColumns];
+  protected List<String> generateHeaderLine() {
+    List<String> headerList = new ArrayList<String>();
     for (Integer i = 1; i <= this.numberOfColumns; i++) {
-      headerArray[i - 1] = DEFAULT_HEADER_STRING + i.toString();
+      headerList.add(DEFAULT_HEADER_STRING + i.toString());
     }
-    return ImmutableList.copyOf(headerArray);
+    return Collections.unmodifiableList(headerList);
   }
 
-  protected ImmutableList<String> readNextLine() throws InputIterationException {
+  protected List<String> readNextLine() throws InputIterationException {
     String[] lineArray;
     try {
       lineArray = this.csvReader.readNext();
@@ -166,7 +167,17 @@ public class FileIterator implements RelationalInput {
     if (lineArray == null) {
       return null;
     } else {
-      return ImmutableList.copyOf(lineArray);
+      // Convert empty Strings to null
+      List<String> list = new ArrayList<String>();
+      for (String val : lineArray) {
+        if (val.equals("")) {
+          list.add(null);
+        } else {
+          list.add(val);
+        }
+      }
+      // Return an immutable list
+      return Collections.unmodifiableList(list);
     }
   }
 
@@ -186,7 +197,7 @@ public class FileIterator implements RelationalInput {
   }
 
   @Override
-  public ImmutableList<String> columnNames() {
+  public List<String> columnNames() {
     return headerLine;
   }
 
