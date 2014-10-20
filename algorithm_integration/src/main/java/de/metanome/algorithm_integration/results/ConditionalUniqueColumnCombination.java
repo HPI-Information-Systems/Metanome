@@ -25,7 +25,7 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Represents a conditional unique column combination
@@ -84,7 +84,7 @@ public class ConditionalUniqueColumnCombination implements Result {
 
   public String buildPatternTableau() {
     StringBuilder builder = new StringBuilder();
-    Set<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
+    TreeSet<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
     builder.append(patternTableauHead);
 
     List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
@@ -92,10 +92,27 @@ public class ConditionalUniqueColumnCombination implements Result {
       builder.append("\r\n");
       for (ColumnIdentifier column : patternTableauHead) {
         if (condition.containsKey(column)) {
-          builder.append(condition.get(column));
-          builder.append(" ");
+          String value = condition.get(column);
+          if (value.length() < column.toString().length()) {
+            StringBuilder whitespaceBuilder = new StringBuilder();
+            for (int i = 0; i < (column.toString().length() - value.length()) / 2; i++) {
+              whitespaceBuilder.append(" ");
+            }
+            builder.append(whitespaceBuilder);
+            builder.append(value);
+            builder.append(whitespaceBuilder);
+          } else {
+            builder.append(value);
+            builder.append(" ");
+          }
         } else {
-          builder.append("  -  ");
+          StringBuilder whitespaceBuilder = new StringBuilder();
+          for (int i = 0; i < column.toString().length() / 2; i++) {
+            whitespaceBuilder.append(" ");
+          }
+          builder.append(whitespaceBuilder);
+          builder.append("-");
+          builder.append(whitespaceBuilder);
         }
       }
     }
