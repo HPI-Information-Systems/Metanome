@@ -16,26 +16,26 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
- * Represents column combinations.
+ * Represents column permutations. In contrast to {@link ColumnCombination}s
+ *  the order of the column is not necessarily lexicographically.
  */
-public class ColumnCombination implements IsSerializable {
+public class ColumnPermutation implements Serializable {
 
   private static final long serialVersionUID = 5994284083803031188L;
 
-  protected TreeSet<ColumnIdentifier> columnCombination;
+  protected List<ColumnIdentifier> columnPermutation;
 
   /**
    * Exists for GWT serialization.
    */
-  protected ColumnCombination() {
-    columnCombination = new TreeSet<>();
+  protected ColumnPermutation() {
+    columnPermutation = new ArrayList<>();
   }
 
   /**
@@ -43,8 +43,8 @@ public class ColumnCombination implements IsSerializable {
    *
    * @param columnIdentifier the identifier in the ColumnCombination
    */
-  public ColumnCombination(ColumnIdentifier... columnIdentifier) {
-    columnCombination = new TreeSet<>(Arrays.asList(columnIdentifier));
+  public ColumnPermutation(ColumnIdentifier... columnIdentifier) {
+    columnPermutation = Arrays.asList(columnIdentifier);
   }
 
   /**
@@ -52,13 +52,13 @@ public class ColumnCombination implements IsSerializable {
    *
    * @return columnCombination
    */
-  public Set<ColumnIdentifier> getColumnIdentifiers() {
-    return columnCombination;
+  public List<ColumnIdentifier> getColumnIdentifiers() {
+    return columnPermutation;
   }
 
   @Override
   public String toString() {
-    return columnCombination.toString();
+    return columnPermutation.toString();
   }
 
   @Override
@@ -67,7 +67,7 @@ public class ColumnCombination implements IsSerializable {
     int result = 1;
     result = prime
              * result
-             + ((columnCombination == null) ? 0 : columnCombination
+             + ((columnPermutation == null) ? 0 : columnPermutation
         .hashCode());
     return result;
   }
@@ -83,12 +83,12 @@ public class ColumnCombination implements IsSerializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ColumnCombination other = (ColumnCombination) obj;
-    if (columnCombination == null) {
-      if (other.columnCombination != null) {
+    ColumnPermutation other = (ColumnPermutation) obj;
+    if (columnPermutation == null) {
+      if (other.columnPermutation != null) {
         return false;
       }
-    } else if (!columnCombination.equals(other.columnCombination)) {
+    } else if (!columnPermutation.equals(other.columnPermutation)) {
       return false;
     }
     return true;

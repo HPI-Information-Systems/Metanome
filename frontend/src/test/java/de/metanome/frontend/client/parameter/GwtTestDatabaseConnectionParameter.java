@@ -29,6 +29,8 @@ import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
 
+import java.util.ArrayList;
+
 public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
 
   private String aUrl = "url";
@@ -52,7 +54,7 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, tabWrapper);
+    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, tabWrapper, new ArrayList<String>());
     ConfigurationSettingDatabaseConnection
         setting =
         new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);

@@ -112,9 +112,9 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
                          escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader,
                          skipDifferingLines);
     } catch (FileNotFoundException e) {
-      throw new InputGenerationException("File not found.");
+      throw new InputGenerationException("File not found.", e.getCause());
     } catch (InputIterationException e) {
-      throw new InputGenerationException("Could not iterate over the first line of the csv file.");
+      throw new InputGenerationException("Could not iterate over the first line of the csv file.", e.getCause());
     }
   }
 

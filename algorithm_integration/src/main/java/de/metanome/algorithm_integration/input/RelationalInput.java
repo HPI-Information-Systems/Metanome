@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration.input;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * Relational inputs can be iterated, but iterators may throw {@link InputIterationException}s when
@@ -38,7 +38,7 @@ public interface RelationalInput extends AutoCloseable {
    *
    * @return the next row
    */
-  ImmutableList<String> next() throws InputIterationException;
+  List<String> next() throws InputIterationException;
 
   /**
    * Returns the number of columns.
@@ -59,5 +59,5 @@ public interface RelationalInput extends AutoCloseable {
    *
    * @return the column names.
    */
-  ImmutableList<String> columnNames();
+  List<String> columnNames();
 }

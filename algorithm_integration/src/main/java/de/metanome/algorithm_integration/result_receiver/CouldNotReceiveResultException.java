@@ -18,12 +18,17 @@ package de.metanome.algorithm_integration.result_receiver;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 
+
 public class CouldNotReceiveResultException extends AlgorithmExecutionException {
 
   private static final long serialVersionUID = -5581062620291673939L;
 
   public CouldNotReceiveResultException(String message) {
     super(message);
+  }
+
+  public CouldNotReceiveResultException(String message, Throwable cause) {
+    super(message, cause);
   }
 
 }

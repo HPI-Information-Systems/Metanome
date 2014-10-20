@@ -18,8 +18,8 @@ package de.metanome.algorithms.testing.example_ind_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
@@ -41,7 +41,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExampleAlgorithm
     implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm,
@@ -57,8 +56,8 @@ public class ExampleAlgorithm
   protected boolean fileInputSet = false;
 
   @Override
-  public List<ConfigurationRequirement> getConfigurationRequirements() {
-    List<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER));
     configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
@@ -89,10 +88,10 @@ public class ExampleAlgorithm
     if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
       resultReceiver.receiveResult(
           new InclusionDependency(
-              new ColumnCombination(
+              new ColumnPermutation(
                   new ColumnIdentifier(tableName1, "column1"),
                   new ColumnIdentifier("table1", "column2")),
-              new ColumnCombination(
+              new ColumnPermutation(
                   new ColumnIdentifier("table2", "column3"),
                   new ColumnIdentifier("table2", "column2"))
           )

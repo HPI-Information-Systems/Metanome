@@ -30,4 +30,8 @@ public class InputGenerationException extends AlgorithmExecutionException {
     super(message);
   }
 
+  public InputGenerationException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }

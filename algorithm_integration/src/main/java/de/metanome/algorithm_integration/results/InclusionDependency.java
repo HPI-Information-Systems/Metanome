@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -29,19 +29,19 @@ public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";
   private static final long serialVersionUID = 1217247222227000634L;
-  protected ColumnCombination dependant;
-  protected ColumnCombination referenced;
+  protected ColumnPermutation dependant;
+  protected ColumnPermutation referenced;
 
   /**
    * Exists for GWT serialization.
    */
   protected InclusionDependency() {
-    this.referenced = new ColumnCombination();
-    this.dependant = new ColumnCombination();
+    this.referenced = new ColumnPermutation();
+    this.dependant = new ColumnPermutation();
   }
 
-  public InclusionDependency(ColumnCombination dependant,
-                             ColumnCombination referenced) {
+  public InclusionDependency(ColumnPermutation dependant,
+		  ColumnPermutation referenced) {
     this.dependant = dependant;
     this.referenced = referenced;
   }
@@ -49,14 +49,14 @@ public class InclusionDependency implements Result {
   /**
    * @return dependant
    */
-  public ColumnCombination getDependant() {
+  public ColumnPermutation getDependant() {
     return dependant;
   }
 
   /**
    * @return referenced
    */
-  public ColumnCombination getReferenced() {
+  public ColumnPermutation getReferenced() {
     return referenced;
   }
 
