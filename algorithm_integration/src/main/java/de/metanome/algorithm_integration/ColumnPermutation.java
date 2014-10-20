@@ -1,15 +1,17 @@
 /*
  * Copyright 2014 by the Metanome project
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package de.metanome.algorithm_integration;
@@ -20,11 +22,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Represents column permutations.
+ * Represents column permutations. In contrast to {@link ColumnCombination}s
+ *  the order of the column is not necessarily lexicographically.
  */
 public class ColumnPermutation implements Serializable {
 
-  private static final long serialVersionUID = 5066664198735742462L;
+  private static final long serialVersionUID = 5994284083803031188L;
+
   protected List<ColumnIdentifier> columnPermutation;
 
   /**
@@ -35,16 +39,41 @@ public class ColumnPermutation implements Serializable {
   }
 
   /**
-   * Store string identifiers for columns to form a column permutation.
+   * Store string identifiers for columns to form a column combination.
    *
-   * @param columnIdentifier the identifier in the ColumnPermutation
+   * @param columnIdentifier the identifier in the ColumnCombination
    */
-  public ColumnPermutation(final ColumnIdentifier... columnIdentifier) {
+  public ColumnPermutation(ColumnIdentifier... columnIdentifier) {
     columnPermutation = Arrays.asList(columnIdentifier);
   }
 
+  /**
+   * Get column identifiers as set.
+   *
+   * @return columnCombination
+   */
+  public List<ColumnIdentifier> getColumnIdentifiers() {
+    return columnPermutation;
+  }
+
   @Override
-  public boolean equals(final Object obj) {
+  public String toString() {
+    return columnPermutation.toString();
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime
+             * result
+             + ((columnPermutation == null) ? 0 : columnPermutation
+        .hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
@@ -54,7 +83,7 @@ public class ColumnPermutation implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final ColumnPermutation other = (ColumnPermutation) obj;
+    ColumnPermutation other = (ColumnPermutation) obj;
     if (columnPermutation == null) {
       if (other.columnPermutation != null) {
         return false;
@@ -64,28 +93,4 @@ public class ColumnPermutation implements Serializable {
     }
     return true;
   }
-
-  /**
-   * Get column identifiers as a list.
-   *
-   * @return columnPermutation
-   */
-  public List<ColumnIdentifier> getColumnIdentifiers() {
-    return columnPermutation;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((columnPermutation == null) ? 0 : columnPermutation.hashCode());
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return columnPermutation.toString();
-  }
-
-
 }

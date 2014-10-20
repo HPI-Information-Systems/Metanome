@@ -28,4 +28,8 @@ public class AlgorithmLoadingException extends Exception {
     super(message);
   }
 
+  public AlgorithmLoadingException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }

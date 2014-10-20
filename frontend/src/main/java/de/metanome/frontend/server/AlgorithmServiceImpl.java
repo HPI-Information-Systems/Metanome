@@ -122,7 +122,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
     try {
       analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
     } catch (Exception e) {
-      throw new AlgorithmLoadingException("Algorithm could not be loaded!");
+      throw new AlgorithmLoadingException("Algorithm could not be loaded!", e.getCause());
     }
 
     algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
