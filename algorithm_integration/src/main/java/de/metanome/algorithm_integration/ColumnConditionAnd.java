@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -83,8 +82,8 @@ public class ColumnConditionAnd implements ColumnCondition {
   }
 
   @Override
-  public Set<ColumnIdentifier> getContainedColumns() {
-    Set<ColumnIdentifier> result = new TreeSet<>();
+  public TreeSet<ColumnIdentifier> getContainedColumns() {
+    TreeSet<ColumnIdentifier> result = new TreeSet<>();
     for (ColumnCondition subElement : this.columnValues) {
       result.addAll(subElement.getContainedColumns());
     }

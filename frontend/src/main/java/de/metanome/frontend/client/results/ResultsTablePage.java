@@ -122,7 +122,8 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
 
     int row = indTable.getRowCount();
     indTable.setText(row, 0, inclusionDependency.getDependant().toString());
-    indTable.setText(row, 1, inclusionDependency.getReferenced().toString());
+    indTable.setText(row, 1, "\u2286");
+    indTable.setText(row, 2, inclusionDependency.getReferenced().toString());
   }
 
   @Override

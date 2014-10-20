@@ -20,7 +20,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Abstract super class for the composite pattern used for column conditions.
@@ -41,7 +41,7 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
 
   public float getCoverage();
 
-  public Set<ColumnIdentifier> getContainedColumns();
+  public TreeSet<ColumnIdentifier> getContainedColumns();
 
   public List<Map<ColumnIdentifier, String>> getPatternConditions();
 }
