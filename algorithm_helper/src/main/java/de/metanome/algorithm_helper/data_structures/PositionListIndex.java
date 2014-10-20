@@ -72,17 +72,18 @@ public class PositionListIndex {
   /**
    * Creates a complete (deep) copy of the {@link de.metanome.algorithm_helper.data_structures.PositionListIndex}.
    *
-   * @return copied PositionListIndex
+   * @return cloned PositionListIndex
    */
-  public PositionListIndex copy() {
+  @Override
+  public PositionListIndex clone() {
     List<LongArrayList> newClusters = new ArrayList<>();
     for (LongArrayList cluster : clusters) {
       newClusters.add(cluster.clone());
     }
 
-    PositionListIndex copy = new PositionListIndex(newClusters);
-    copy.rawKeyError = this.rawKeyError;
-    return copy;
+    PositionListIndex clone = new PositionListIndex(newClusters);
+    clone.rawKeyError = this.rawKeyError;
+    return clone;
   }
 
   @Override

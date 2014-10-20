@@ -192,7 +192,7 @@ public class PositionListIndexTest {
     PositionListIndex pli = fixture.getFirstPLI();
 
     // Execute functionality
-    PositionListIndex copy = pli.copy();
+    PositionListIndex copy = pli.clone();
 
     // Check result
     assertEquals(pli, copy);
