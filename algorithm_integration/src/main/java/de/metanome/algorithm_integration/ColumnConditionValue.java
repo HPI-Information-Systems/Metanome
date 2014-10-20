@@ -19,7 +19,6 @@ package de.metanome.algorithm_integration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -74,8 +73,8 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   @Override
-  public Set<ColumnIdentifier> getContainedColumns() {
-    Set<ColumnIdentifier> result = new TreeSet<>();
+  public TreeSet<ColumnIdentifier> getContainedColumns() {
+    TreeSet<ColumnIdentifier> result = new TreeSet<>();
     result.add(this.columnIdentifier);
     return result;
   }
