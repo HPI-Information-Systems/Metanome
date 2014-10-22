@@ -186,8 +186,12 @@ public class PositionListIndexTest {
                  firstPli.intersect(secondPli).getRawKeyError());
   }
 
+  /**
+   * Test method for {@link PositionListIndex#clone()}. Clone() should create a deep copy of the
+   * called {@link de.metanome.algorithm_helper.data_structures.PositionListIndex}.
+   */
   @Test
-  public void testCopy() {
+  public void testClone() {
     // Setup
     PositionListIndex pli = fixture.getFirstPLI();
 
