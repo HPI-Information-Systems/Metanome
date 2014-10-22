@@ -136,6 +136,9 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   @Override
   public void close() throws SQLException {
     if (!dbConnection.isClosed()) {
+      if (!dbConnection.getAutoCommit()) {
+        dbConnection.commit();
+      }
       dbConnection.close();
     }
   }
