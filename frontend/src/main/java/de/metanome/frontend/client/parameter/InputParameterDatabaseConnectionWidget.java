@@ -52,7 +52,8 @@ public class InputParameterDatabaseConnectionWidget extends InputParameterDataSo
   }
 
   @Override
-  public ConfigurationRequirement getUpdatedSpecification() throws InputValidationException {
+  public ConfigurationRequirement getUpdatedSpecification()
+      throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingDatabaseConnection[]
         values =

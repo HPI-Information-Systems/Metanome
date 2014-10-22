@@ -39,7 +39,7 @@ public abstract class ConfigurationRequirement implements IsSerializable {
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
    * frontend
    */
-  protected int numberOfValues;
+  protected int numberOfSettings;
 
   /**
    * Exists for GWT serialization.
@@ -65,11 +65,11 @@ public abstract class ConfigurationRequirement implements IsSerializable {
    * number of values.
    *
    * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param numberOfSettings the number of settings expected
    */
-  public ConfigurationRequirement(String identifier, int numberOfValues) {
+  public ConfigurationRequirement(String identifier, int numberOfSettings) {
     this.identifier = identifier;
-    this.numberOfValues = numberOfValues;
+    this.numberOfSettings = numberOfSettings;
   }
 
   /**
@@ -80,10 +80,10 @@ public abstract class ConfigurationRequirement implements IsSerializable {
   }
 
   /**
-   * @return numberOfValues
+   * @return number of settings
    */
-  public int getNumberOfValues() {
-    return numberOfValues;
+  public int getNumberOfSettings() {
+    return numberOfSettings;
   }
 
   /**
@@ -104,5 +104,17 @@ public abstract class ConfigurationRequirement implements IsSerializable {
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException;
+
+  /**
+   * If a setting is set, the number of given settings has to match the expected number.
+   *
+   * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
+   */
+  protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
+    if (this.numberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        number != this.numberOfSettings) {
+      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+    }
+  }
 
 }

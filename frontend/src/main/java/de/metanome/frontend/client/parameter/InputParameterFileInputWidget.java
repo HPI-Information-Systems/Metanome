@@ -53,7 +53,7 @@ public class InputParameterFileInputWidget extends InputParameterDataSourceWidge
 
   @Override
   public ConfigurationRequirementFileInput getUpdatedSpecification()
-      throws InputValidationException {
+      throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingFileInput[] values = new ConfigurationSettingFileInput[inputWidgets.size()];
 
