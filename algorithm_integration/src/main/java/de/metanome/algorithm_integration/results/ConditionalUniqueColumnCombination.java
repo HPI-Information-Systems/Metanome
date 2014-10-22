@@ -34,6 +34,7 @@ import java.util.TreeSet;
  */
 public class ConditionalUniqueColumnCombination implements Result {
 
+  public static final String LINESEPARATOR = System.getProperty("line.separator");
   public static final String CUCC_SEPARATOR = " | ";
   private static final long serialVersionUID = 6946896625820917113L;
   protected ColumnCombination columnCombination;
@@ -89,7 +90,7 @@ public class ConditionalUniqueColumnCombination implements Result {
 
     List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
     for (Map<ColumnIdentifier, String> condition : conditions) {
-      builder.append("\r\n");
+      builder.append(LINESEPARATOR);
       for (ColumnIdentifier column : patternTableauHead) {
         if (condition.containsKey(column)) {
           String value = condition.get(column);
@@ -123,14 +124,14 @@ public class ConditionalUniqueColumnCombination implements Result {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(columnCombination.toString());
-    builder.append("\r\n");
+    builder.append(LINESEPARATOR);
 
     builder.append(this.buildPatternTableau());
 
-    builder.append("\r\n");
+    builder.append(LINESEPARATOR);
     builder.append("Coverage: ");
     builder.append(this.condition.getCoverage());
-    builder.append("\r\n");
+    builder.append(LINESEPARATOR);
     return builder.toString();
   }
 
