@@ -35,13 +35,42 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
   public static final String OR = "v";
   public static final String NOT = "\u00AC";
 
+
+  /**
+   * Returns the condition as {@link java.lang.String}.
+   *
+   * @return condition
+   */
   public String toString();
 
+  /**
+   * Adds a child to the called {@link de.metanome.algorithm_integration.ColumnCondition}.
+   *
+   * @param value child to by added
+   * @return this
+   */
   public ColumnCondition add(ColumnCondition value);
 
+  /**
+   * Calculates the coverage of all contained {@link de.metanome.algorithm_integration.ColumnCondition}s,
+   * when the coverage is set on the children. The coverage is only correct if there are no
+   * overlapping OR conditions.
+   *
+   * @return coverage between 0 and 100
+   */
   public float getCoverage();
 
+  /**
+   * Returns all {@link de.metanome.algorithm_integration.ColumnIdentifier} that occur in the condition.
+   *
+   * @return sorted set of contained {@link de.metanome.algorithm_integration.ColumnIdentifier}s
+   */
   public TreeSet<ColumnIdentifier> getContainedColumns();
 
+  /**
+   * Traverses all children and builds a pattern tableau, which represents the condition. Each element in the list represents a OR condition and each entry in the map a AND condition. The pattern tableau is only correct if the {@link de.metanome.algorithm_integration.ColumnCondition} is in disjunctive normal form.
+   *
+   * @return pattern tableau
+   */
   public List<Map<ColumnIdentifier, String>> getPatternConditions();
 }
