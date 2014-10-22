@@ -23,7 +23,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * This is the leaf node class for the {@link ColumnCondition} using the compsite pattern.
+ * This is the leaf node class for the {@link ColumnCondition} using the composite pattern.
  *
  * @author Jens Ehrlich
  */
