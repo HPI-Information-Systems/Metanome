@@ -34,7 +34,7 @@ import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
  */
 public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParameterAlgorithm {
 
-  protected static final String FILE_NAME = "pathToFile";
+  public static final String FILE_NAME = "pathToFile";
 
   protected String fileName = null;
   protected OrderDependencyResultReceiver resultReceiver;

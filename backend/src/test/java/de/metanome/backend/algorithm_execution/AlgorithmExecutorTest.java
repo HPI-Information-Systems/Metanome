@@ -28,6 +28,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm;
@@ -113,6 +114,31 @@ public class AlgorithmExecutorTest {
     assertTrue(0 <= elapsedTime);
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
+   * List)} <p/> Tests the execution of an od algorithm. The elapsed time should be greater than
+   * 0ns.
+   */
+  @Test
+  public void testExecuteOrderDependencyAlgorithm()
+      throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
+             SecurityException, IOException, ClassNotFoundException, InstantiationException,
+             IllegalAccessException, InvocationTargetException, NoSuchMethodException,
+             EntityStorageException {
+    // Setup
+    List<ConfigurationValue> configs = new ArrayList<>();
+    configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm.FILE_NAME, "path/to/file"));
+    String algorithmFileName = "example_od_algorithm.jar";
+    new Algorithm(algorithmFileName).store();
+
+    // Execute functionality
+    long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, configs);
+
+    // Check result
+    verify(resultReceiver).receiveResult(isA(OrderDependency.class));
+    assertTrue(0 <= elapsedTime);
+  }
+  
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
    * java.util.List)} <p/> Tests the execution of an ind algorithm.

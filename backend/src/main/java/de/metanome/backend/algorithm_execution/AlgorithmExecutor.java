@@ -29,7 +29,6 @@ import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -160,7 +159,7 @@ public class AlgorithmExecutor implements Closeable {
     }
     
     if (analyzer.isOrderDependencyAlgorithm()) {
-      de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm odAlgorithm = (de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm) algorithm;
+      OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
       odAlgorithm.setResultReceiver(resultReceiver);
     }
 
