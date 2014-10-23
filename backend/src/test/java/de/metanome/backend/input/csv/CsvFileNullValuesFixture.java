@@ -40,12 +40,18 @@ public class CsvFileNullValuesFixture {
 
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    return new FileIterator("some_file",
-        new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
-                         Joiner.on(',').join(getSecondLineWithEmptyStrings())), ',', '\'', '\\',
-                            0, false, true, false, skipDifferingLines);
+    return new FileIterator("some_file")
+        .setEscapeChar('\\')
+        .setHasHeader(false)
+        .setSkipDifferingLines(skipDifferingLines)
+        .setStrictQuotes(false)
+        .setIgnoreLeadingWhiteSpace(true)
+        .setQuoteChar('\'')
+        .setSeparator(',')
+        .setSkipLines(0)
+        .setReader(new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
+                         Joiner.on(',').join(getSecondLineWithEmptyStrings())));
   }
-
 
   public List<String> getFirstLineWithEmptyStrings() {
     List<String> list = new ArrayList<>();
