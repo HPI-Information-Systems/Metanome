@@ -34,7 +34,7 @@ import java.util.TreeSet;
  */
 public class ConditionalUniqueColumnCombination implements Result {
 
-  public static final String LINESEPARATOR = System.getProperty("line.separator");
+  public static final String LINESEPARATOR = "\r\n";
   public static final String CUCC_SEPARATOR = " | ";
   private static final long serialVersionUID = 6946896625820917113L;
   protected ColumnCombination columnCombination;
