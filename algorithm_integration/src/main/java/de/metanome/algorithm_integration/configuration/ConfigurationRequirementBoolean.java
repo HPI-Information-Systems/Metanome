@@ -51,12 +51,12 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   /**
    * Constructs a {@link ConfigurationRequirementBoolean}, potentially requesting several values.
    *
-   * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param identifier      the specification's identifier
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirementBoolean(String identifier,
-                                         int numberOfValues) {
-    super(identifier, numberOfValues);
+                                         int numberOfSettings) {
+    super(identifier, numberOfSettings);
   }
 
   @Override
@@ -64,8 +64,16 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
     return settings;
   }
 
-  public void setSettings(ConfigurationSettingBoolean... settings) {
-    // TODO check number
+  /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  public void setSettings(ConfigurationSettingBoolean... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 

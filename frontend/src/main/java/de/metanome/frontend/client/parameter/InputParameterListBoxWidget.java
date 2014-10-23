@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.parameter;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -45,7 +46,8 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationRequirementListBox getUpdatedSpecification() {
+  public ConfigurationRequirementListBox getUpdatedSpecification()
+      throws AlgorithmConfigurationException {
     this.specification.setSettings(this.getConfigurationSettings());
     return this.specification;
   }
