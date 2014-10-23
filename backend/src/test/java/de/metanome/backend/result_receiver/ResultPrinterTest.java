@@ -191,6 +191,10 @@ public class ResultPrinterTest {
     actualFile.delete();
   }
 
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received
+   * {@link OrderDependency}s should be written to the appropriate file.
+   */
   @Test
   public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException {
     // Expected values
