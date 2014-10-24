@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -80,6 +82,24 @@ public class ColumnConditionOr implements ColumnCondition {
   public ColumnCondition add(ColumnCondition condition) {
     this.columnValues.add(condition);
     return this;
+  }
+
+  @Override
+  public TreeSet<ColumnIdentifier> getContainedColumns() {
+    TreeSet<ColumnIdentifier> result = new TreeSet<>();
+    for (ColumnCondition subElement : this.columnValues) {
+      result.addAll(subElement.getContainedColumns());
+    }
+    return result;
+  }
+
+  @Override
+  public List<Map<ColumnIdentifier, String>> getPatternConditions() {
+    List<Map<ColumnIdentifier, String>> result = new LinkedList<>();
+    for (ColumnCondition columnCondition : this.columnValues) {
+      result.addAll(columnCondition.getPatternConditions());
+    }
+    return result;
   }
 
   public TreeSet<ColumnCondition> getColumnValues() {
