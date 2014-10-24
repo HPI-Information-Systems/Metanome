@@ -69,6 +69,23 @@ public class PositionListIndex {
     return clusters;
   }
 
+  /**
+   * Creates a complete (deep) copy of the {@link de.metanome.algorithm_helper.data_structures.PositionListIndex}.
+   *
+   * @return cloned PositionListIndex
+   */
+  @Override
+  public PositionListIndex clone() {
+    List<LongArrayList> newClusters = new ArrayList<>();
+    for (LongArrayList cluster : clusters) {
+      newClusters.add(cluster.clone());
+    }
+
+    PositionListIndex clone = new PositionListIndex(newClusters);
+    clone.rawKeyError = this.rawKeyError;
+    return clone;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
