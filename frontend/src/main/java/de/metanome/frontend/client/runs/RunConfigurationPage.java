@@ -74,6 +74,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
         String name = algorithmChooser.getSelectedAlgorithm();
         algorithmChooser.setSelectedAlgorithm(name);
         primaryDataSourceLabel.setText("");
+        removeParameterTable();
       }
     });
     panel.add(refreshButton);
@@ -168,7 +169,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   /**
    * Remove the parameterTable from UI if it was present
    */
-  private void removeParameterTable() {
+  public void removeParameterTable() {
     if (parameterTable != null) {
       this.remove(parameterTable);
     }
@@ -218,4 +219,5 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   private String getAlgorithmFileName(String name) {
     return this.algorithmChooser.algorithms.get(name).getFileName();
   }
+
 }

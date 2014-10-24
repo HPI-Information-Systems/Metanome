@@ -28,7 +28,9 @@ public class AlgorithmCategoryChangeHandler implements ChangeHandler {
     String selectedCategory = box.getValue(box.getSelectedIndex());
 
     AlgorithmChooser jarChooser = (AlgorithmChooser) box.getParent();
+    jarChooser.messageReceiver.clearErrors();
     jarChooser.setCurrentCategory(selectedCategory);
     jarChooser.updateAlgorithmListBox();
+    ((RunConfigurationPage) jarChooser.getParent()).removeParameterTable();
   }
 }
