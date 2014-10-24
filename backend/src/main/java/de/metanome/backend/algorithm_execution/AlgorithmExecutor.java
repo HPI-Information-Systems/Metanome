@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorith
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -155,6 +156,11 @@ public class AlgorithmExecutor implements Closeable {
           cuccAlgorithm =
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
+    }
+    
+    if (analyzer.isOrderDependencyAlgorithm()) {
+      OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
+      odAlgorithm.setResultReceiver(resultReceiver);
     }
 
     if (analyzer.isBasicStatisticAlgorithm()) {

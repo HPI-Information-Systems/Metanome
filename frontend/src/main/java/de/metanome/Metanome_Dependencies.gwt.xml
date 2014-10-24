@@ -59,6 +59,7 @@
         <include name="FunctionalDependencyResultReceiver.java"/>
         <include name="InclusionDependencyResultReceiver.java"/>
         <include name="UniqueColumnCombinationResultReceiver.java"/>
+        <include name="OrderDependencyResultReceiver.java"/>
         <include name="CouldNotReceiveResultException.java"/>
     </source>
     <source path="algorithm_integration/results">
@@ -67,6 +68,7 @@
         <include name="UniqueColumnCombination.java"/>
         <include name="FunctionalDependency.java"/>
         <include name="InclusionDependency.java"/>
+        <include name="OrderDependency.java"/>
         <include name="BasicStatistic.java"/>
     </source>
     <source path="algorithm_integration/input">

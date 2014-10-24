@@ -30,6 +30,8 @@ public interface AlgorithmServiceAsync {
 
   public void listUniqueColumnCombinationsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
+  public void listOrderDependencyAlgorithms(AsyncCallback<List<Algorithm>> callback);
+  
   public void listBasicStatisticsAlgorithms(AsyncCallback<List<Algorithm>> callback);
 
   public void listConditionalUniqueColumnCombinationsAlgorithms(

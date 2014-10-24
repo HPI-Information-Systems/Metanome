@@ -27,6 +27,7 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.frontend.client.TabContent;
@@ -52,6 +53,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected ResultTable cuccTable;
   protected ResultTable indTable;
   protected ResultTable fdTable;
+  protected ResultTable odTable;
   protected ResultTable basicsTable;
 
   public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
@@ -66,6 +68,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     uccTable = new ResultTable("Unique Column Combinations");
     cuccTable = new ResultTable("Conditional Unique Column Combinations");
     fdTable = new ResultTable("Functional Dependencies");
+    odTable = new ResultTable("Order Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
 
     fetchResults();
@@ -167,6 +170,19 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable.setText(row, 0, functionalDependency.getDeterminant().toString());
     fdTable.setText(row, 1, "-->");
     fdTable.setText(row, 2, functionalDependency.getDependant().toString());
+  }
+  
+  @Override
+  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
+    if (this.resultsPanel.getWidgetIndex(odTable) < 0) {
+      this.resultsPanel.add(odTable);
+    }
+
+    int row = odTable.getRowCount();
+    odTable.setText(row, 0, orderDependency.getLhs().toString());
+    odTable.setText(row, 1, OrderDependency.OD_SEPARATOR);
+    odTable.setText(row, 2, orderDependency.getRhs().toString());
+    
   }
 
   /* (non-Javadoc)
