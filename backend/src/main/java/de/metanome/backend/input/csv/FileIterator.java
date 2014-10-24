@@ -16,9 +16,9 @@
 
 package de.metanome.backend.input.csv;
 
-import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 
@@ -49,35 +49,25 @@ public class FileIterator implements RelationalInput {
   protected int currentLineNumber = -1;
   protected int numberOfSkippedLines = 0;
 
-  protected char separator = CSVParser.DEFAULT_SEPARATOR;
-  protected char quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
-  protected char escape = CSVParser.DEFAULT_ESCAPE_CHARACTER;
-  protected int skipLines = CSVReader.DEFAULT_SKIP_LINES;
-  protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
-  protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-  protected boolean hasHeader = FileIterator.DEFAULT_HAS_HEADER;
-  protected boolean skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
+  protected boolean hasHeader;
+  protected boolean skipDifferingLines;
 
-  public FileIterator(String relationName) {
+
+  public FileIterator(String relationName, Reader reader, ConfigurationSettingFileInput setting)
+      throws InputIterationException {
     this.relationName = relationName;
-  }
 
-  /**
-   * Initialize the CSV Reader.
-   * This method should be called after all other parameters (e.g. separator, quote char) are set.
-   * @param reader the reader
-   * @return the file iterator
-   * @throws InputIterationException if the next line could not be read
-   */
-  public FileIterator setReader(Reader reader) throws InputIterationException {
+    this.hasHeader = setting.hasHeader();
+    this.skipDifferingLines = setting.isSkipDifferingLines();
+
     this.csvReader =
         new CSVReader(reader,
-                      this.separator,
-                      this.quotechar,
-                      this.escape,
-                      this.skipLines,
-                      this.strictQuotes,
-                      this.ignoreLeadingWhiteSpace);
+                      setting.getSeparatorChar(),
+                      setting.getQuoteChar(),
+                      setting.getEscapeChar(),
+                      setting.getSkipLines(),
+                      setting.isStrictQuotes(),
+                      setting.isIgnoreLeadingWhiteSpace());
 
     this.nextLine = readNextLine();
     if (this.nextLine != null) {
@@ -93,8 +83,6 @@ public class FileIterator implements RelationalInput {
     if (this.headerLine == null) {
       this.headerLine = generateHeaderLine();
     }
-
-    return this;
   }
 
   @Override
@@ -199,43 +187,4 @@ public class FileIterator implements RelationalInput {
     return numberOfSkippedLines;
   }
 
-  protected FileIterator setSeparator(char separator) {
-    this.separator = separator;
-    return this;
-  }
-
-  protected FileIterator setQuoteChar(char quoteChar) {
-    this.quotechar = quoteChar;
-    return this;
-  }
-
-  protected FileIterator setEscapeChar(char escape) {
-    this.escape = escape;
-    return this;
-  }
-
-  protected FileIterator setSkipLines(int skipLines) {
-    this.skipLines = skipLines;
-    return this;
-  }
-
-  protected FileIterator setStrictQuotes(boolean strictQuotes) {
-    this.strictQuotes = strictQuotes;
-    return this;
-  }
-
-  protected FileIterator setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
-    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
-    return this;
-  }
-
-  protected FileIterator setHasHeader(boolean hasHeader) {
-    this.hasHeader = hasHeader;
-    return this;
-  }
-
-  protected FileIterator setSkipDifferingLines(boolean skipDifferingLines) {
-    this.skipDifferingLines = skipDifferingLines;
-    return this;
-  }
 }

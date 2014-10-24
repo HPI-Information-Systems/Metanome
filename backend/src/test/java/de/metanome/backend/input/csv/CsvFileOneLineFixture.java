@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 
 import au.com.bytecode.opencsv.CSVParser;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
@@ -32,6 +33,7 @@ public class CsvFileOneLineFixture {
 
   protected char separator;
   protected char quoteChar;
+  protected ConfigurationSettingFileInput setting;
 
   public CsvFileOneLineFixture() {
     this(CSVParser.DEFAULT_SEPARATOR);
@@ -44,25 +46,28 @@ public class CsvFileOneLineFixture {
   public CsvFileOneLineFixture(char separator, char quoteChar) {
     this.separator = separator;
     this.quoteChar = quoteChar;
+    this.setting = new ConfigurationSettingFileInput(this.getExpectedRelationName());
+    this.setting.setSeparatorChar(this.separator);
+    this.setting.setQuoteChar(this.quoteChar);
   }
 
   public FileIterator getTestData() throws InputIterationException, InputGenerationException {
-    FileIterator iterator = new FileIterator(getExpectedRelationName());
-    return iterator.setSeparator(this.separator)
-              .setQuoteChar(this.quoteChar)
-              .setSkipLines(0)
-              .setHasHeader(true)
-              .setReader(new StringReader(getCsvInputString()));
+    this.setting.setHeader(true);
+    this.setting.setSkipLines(0);
+
+    return new FileIterator(getExpectedRelationName(),
+                            new StringReader(getCsvInputString()),
+                            setting);
   }
 
   public FileIterator getTestDataWithoutHeader()
       throws InputIterationException, InputGenerationException {
-    FileIterator iterator = new FileIterator(getExpectedRelationName());
-    return iterator.setSeparator(this.separator)
-        .setQuoteChar(this.quoteChar)
-        .setSkipLines(1)
-        .setHasHeader(false)
-        .setReader(new StringReader(getCsvInputString()));
+    this.setting.setHeader(false);
+    this.setting.setSkipLines(1);
+
+    return new FileIterator(getExpectedRelationName(),
+                            new StringReader(getCsvInputString()),
+                            setting);
   }
 
   protected String getCsvInputString() {

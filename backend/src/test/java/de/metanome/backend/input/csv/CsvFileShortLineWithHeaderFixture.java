@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.csv;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
@@ -27,17 +28,28 @@ import java.io.StringReader;
  */
 public class CsvFileShortLineWithHeaderFixture {
 
-  public FileIterator getTestData() throws InputIterationException {
+  protected static final char QUOTE_CHAR = '\'';
+  protected static final char SEPARATOR = ',';
+  protected static final char ESCAPE = '\\';
+  protected static final boolean STRICT_QUOTES = false;
+  protected static final boolean IGNORE_LEADING_WHITESPACES = true;
+  protected static final boolean SKIP_DIFFERING_LINES = false;
+  protected static final boolean HAS_HEADER = true;
+  protected static final int SKIP_LINES = 0;
 
-    FileIterator iterator = new FileIterator("some_file");
-    return iterator.setSeparator(',')
-        .setQuoteChar('\'')
-        .setEscapeChar('\\')
-        .setSkipLines(0)
-        .setStrictQuotes(false)
-        .setIgnoreLeadingWhiteSpace(true)
-        .setHasHeader(true)
-        .setSkipDifferingLines(false)
-        .setReader(new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"));
+  public FileIterator getTestData() throws InputIterationException {
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file");
+    setting.setSeparatorChar(SEPARATOR);
+    setting.setHeader(HAS_HEADER);
+    setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
+    setting.setStrictQuotes(STRICT_QUOTES);
+    setting.setEscapeChar(ESCAPE);
+    setting.setQuoteChar(QUOTE_CHAR);
+    setting.setSkipLines(SKIP_LINES);
+    setting.setSkipDifferingLines(SKIP_DIFFERING_LINES);
+
+    return new FileIterator("some_file",
+                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
+                            setting);
   }
 }

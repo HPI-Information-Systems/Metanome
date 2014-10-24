@@ -42,6 +42,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
+
   private String fileName;
   private boolean advanced;
   private char separatorChar;

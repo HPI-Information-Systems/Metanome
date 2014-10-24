@@ -19,6 +19,7 @@ package de.metanome.backend.input.csv;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.File;
@@ -38,9 +39,17 @@ public class CsvFileFixture {
   protected static final boolean HAS_HEADER = true;
 
   protected FileFixture fileFixture;
+  protected ConfigurationSettingFileInput setting;
 
   public CsvFileFixture() {
     this.fileFixture = new FileFixture(getCsvFileData());
+    this.setting = new ConfigurationSettingFileInput("some relation");
+    this.setting.setSeparatorChar(SEPARATOR);
+    this.setting.setHeader(HAS_HEADER);
+    this.setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
+    this.setting.setStrictQuotes(STRICT_QUOTES);
+    this.setting.setEscapeChar(ESCAPE);
+    this.setting.setQuoteChar(QUOTE_CHAR);
   }
 
   public File getTestDataPath(String fileName)
@@ -59,16 +68,8 @@ public class CsvFileFixture {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines) throws InputIterationException {
-    FileIterator iterator = new FileIterator("some relation");
-    return iterator.setSeparator(SEPARATOR)
-        .setHasHeader(HAS_HEADER)
-        .setQuoteChar(QUOTE_CHAR)
-        .setEscapeChar(ESCAPE)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setSkipLines(0)
-        .setSkipDifferingLines(skipDifferingLines)
-        .setReader(new StringReader(getCsvFileData()));
+    this.setting.setSkipDifferingLines(skipDifferingLines);
+    return new FileIterator("some relation", new StringReader(getCsvFileData()), this.setting);
   }
 
   protected List<String> quoteStrings(List<String> unquotedStrings) {

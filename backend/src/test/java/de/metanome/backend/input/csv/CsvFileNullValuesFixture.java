@@ -18,6 +18,7 @@ package de.metanome.backend.input.csv;
 
 import com.google.common.base.Joiner;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
@@ -34,23 +35,34 @@ import java.util.List;
  */
 public class CsvFileNullValuesFixture {
 
+  protected static final char QUOTE_CHAR = '\'';
+  protected static final char SEPARATOR = ',';
+  protected static final char ESCAPE = '\\';
+  protected static final boolean STRICT_QUOTES = false;
+  protected static final boolean IGNORE_LEADING_WHITESPACES = true;
+  protected static final boolean HAS_HEADER = false;
+  protected static final int SKIP_LINES = 0;
+
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
   }
 
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    return new FileIterator("some_file")
-        .setEscapeChar('\\')
-        .setHasHeader(false)
-        .setSkipDifferingLines(skipDifferingLines)
-        .setStrictQuotes(false)
-        .setIgnoreLeadingWhiteSpace(true)
-        .setQuoteChar('\'')
-        .setSeparator(',')
-        .setSkipLines(0)
-        .setReader(new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
-                         Joiner.on(',').join(getSecondLineWithEmptyStrings())));
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file");
+    setting.setSeparatorChar(SEPARATOR);
+    setting.setHeader(HAS_HEADER);
+    setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
+    setting.setStrictQuotes(STRICT_QUOTES);
+    setting.setEscapeChar(ESCAPE);
+    setting.setQuoteChar(QUOTE_CHAR);
+    setting.setSkipLines(SKIP_LINES);
+    setting.setSkipDifferingLines(skipDifferingLines);
+
+    return new FileIterator("some_file",
+                            new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
+                         Joiner.on(',').join(getSecondLineWithEmptyStrings())),
+                            setting);
   }
 
   public List<String> getFirstLineWithEmptyStrings() {

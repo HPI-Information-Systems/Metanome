@@ -19,6 +19,7 @@ package de.metanome.backend.input.csv;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
@@ -32,24 +33,37 @@ import java.io.StringReader;
  */
 public class CsvFileShortLineFixture {
 
+  protected static final char QUOTE_CHAR = '\'';
+  protected static final char SEPARATOR = ',';
+  protected static final char ESCAPE = '\\';
+  protected static final boolean STRICT_QUOTES = false;
+  protected static final boolean IGNORE_LEADING_WHITESPACES = true;
+  protected static final boolean HAS_HEADER = false;
+  protected static final int SKIP_LINES = 0;
+
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
   }
 
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    FileIterator iterator = new FileIterator("some_file");
-    return iterator.setSeparator(',')
-        .setQuoteChar('\'')
-        .setEscapeChar('\\')
-        .setSkipLines(0)
-        .setStrictQuotes(false)
-        .setIgnoreLeadingWhiteSpace(true)
-        .setHasHeader(false)
-        .setSkipDifferingLines(skipDifferingLines)
-        .setReader(new StringReader(
-        Joiner.on(',').join(getExpectedFirstParsableLine()) + "\nfour,five\n" + Joiner.on(',')
-            .join(getExpectedSecondParsableLine()) + "\nnine,ten,eleven,twelve"));
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file");
+    setting.setSeparatorChar(SEPARATOR);
+    setting.setHeader(HAS_HEADER);
+    setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
+    setting.setStrictQuotes(STRICT_QUOTES);
+    setting.setEscapeChar(ESCAPE);
+    setting.setQuoteChar(QUOTE_CHAR);
+    setting.setSkipLines(SKIP_LINES);
+    setting.setSkipDifferingLines(skipDifferingLines);
+
+    return new FileIterator("some_file",
+                            new StringReader(
+                                Joiner.on(',').join(getExpectedFirstParsableLine()) +
+                                "\nfour,five\n" +
+                                Joiner.on(',').join(getExpectedSecondParsableLine()) +
+                                "\nnine,ten,eleven,twelve"),
+                            setting);
   }
 
   public ImmutableList<String> getExpectedFirstParsableLine() {

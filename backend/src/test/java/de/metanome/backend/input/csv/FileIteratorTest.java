@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.csv;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
@@ -250,17 +251,22 @@ public class FileIteratorTest {
   }
 
   /**
-   * Test method for {@link FileIterator#FileIterator(String)} <p/> A
+   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}  <p/> A
    * {@link FileIterator} generated from an empty file should be constructable without exceptions,
    * return false on hasNext, return 0 as numberOfColumns and have a valid standard header.
    */
   @Test
   public void testConstructWithEmptyFile() throws InputIterationException, IOException {
+    // Set up
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation");
+    setting.setSeparatorChar(',');
+    setting.setQuoteChar('"');
+
     // Execute functionality
-    // Check result
     // Should not throw exception
-    FileIterator fileIterator = new FileIterator("testRelation");
-    fileIterator.setSeparator(',').setQuoteChar('"').setReader(new StringReader(""));
+    FileIterator fileIterator = new FileIterator("testRelation", new StringReader(""), setting);
+
+    // Check result
     assertFalse(fileIterator.hasNext());
     assertEquals(0, fileIterator.numberOfColumns());
     assertNotNull(fileIterator.columnNames());
@@ -270,23 +276,26 @@ public class FileIteratorTest {
   }
 
   /**
-   * Test method for {@link FileIterator#FileIterator(String)} <p/>
+   * Test method for {@link FileIterator#FileIterator(String, java.io.Reader, de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}  <p/>
    * A {@link FileIterator} with header generated from an empty file should be
    * constructable without exceptions, return false on hasNext, return 0 as numberOfColumns and have
    * a valid standard header.
    */
   @Test
   public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
+    // Set up
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation");
+    setting.setSeparatorChar(',');
+    setting.setQuoteChar('"');
+    setting.setHeader(true);
+    setting.setSkipLines(0);
+
     // Execute functionality
-    // Check result
     // Should not throw exception
     FileIterator
-        fileIterator = new FileIterator("testRelation");
-    fileIterator.setSeparator(',')
-        .setQuoteChar('"')
-        .setSkipLines(0)
-        .setHasHeader(true)
-        .setReader(new StringReader(""));
+        fileIterator = new FileIterator("testRelation", new StringReader(""), setting);
+
+    // Check result
     assertFalse(fileIterator.hasNext());
     assertEquals(0, fileIterator.numberOfColumns());
     assertNotNull(fileIterator.columnNames());
