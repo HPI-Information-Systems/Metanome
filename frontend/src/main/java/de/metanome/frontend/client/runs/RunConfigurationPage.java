@@ -72,7 +72,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
       @Override
       public void onClick(ClickEvent clickEvent) {
         String name = algorithmChooser.getSelectedAlgorithm();
-        algorithmChooser.resetListBox();
         algorithmChooser.setSelectedAlgorithm(name);
         primaryDataSourceLabel.setText("");
       }
@@ -112,6 +111,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     for (Algorithm algorithm : algorithms) {
       this.algorithmChooser.addAlgorithm(algorithm);
     }
+    this.algorithmChooser.updateAlgorithmListBox();
   }
 
   /**
@@ -132,7 +132,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.messageReceiver.clearErrors();
     this.messageReceiver.clearInfos();
 
-    this.algorithmChooser.resetListBox();
     this.algorithmChooser.setSelectedAlgorithm(algorithmName);
     this.algorithmChooser.submit();
   }
@@ -163,7 +162,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
         "This should filter for algorithms applicable on " + dataSourceName);
     removeParameterTable();
 
-    this.algorithmChooser.resetListBox();
     this.algorithmChooser.filterForPrimaryDataSource(dataSource);
   }
 

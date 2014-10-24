@@ -45,10 +45,10 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     // Setup
     LinkedList<Algorithm> algorithms = new LinkedList<>();
     Algorithm expectedAlgorithm1 = new Algorithm("file name 1");
-    expectedAlgorithm1.setName("name 1");
+    expectedAlgorithm1.setName("name 1").setInd(true);
     algorithms.add(expectedAlgorithm1);
     Algorithm expectedAlgorithm2 = new Algorithm("file name 2");
-    expectedAlgorithm2.setName("name 2");
+    expectedAlgorithm2.setName("name 2").setFd(true);
 
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
@@ -60,6 +60,13 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
         .get(expectedAlgorithm1.getName())));
     assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm2, jarChooser.algorithms
         .get(expectedAlgorithm2.getName())));
+
+    assertEquals(expectedAlgorithm1.getName(), jarChooser.category
+        .get(AlgorithmChooser.AlgorithmCategory.Inclusion_Dependencies.name()).get(0));
+    assertEquals(expectedAlgorithm2.getName(), jarChooser.category
+        .get(AlgorithmChooser.AlgorithmCategory.Functional_Dependencies.name()).get(0));
+    assertEquals(2, jarChooser.category
+        .get(AlgorithmChooser.AlgorithmCategory.All.name()).size());
 
     // Execute duplicate insert
     int previousCount = jarChooser.getListItemCount();
@@ -119,8 +126,9 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
     //Test
-    assertEquals(2, jarChooser.getWidgetCount());
+    assertEquals(3, jarChooser.getWidgetCount());
     assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
+    assertEquals(AlgorithmChooser.AlgorithmCategory.values().length, jarChooser.categoryListBox.getItemCount());
   }
 
   /**
@@ -146,6 +154,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
     // Add another algorithm
     jarChooser.addAlgorithm(algo3);
+    jarChooser.updateAlgorithmListBox();
 
     // Check
     assertTrue(jarChooser.listbox.getItemText(1).compareTo(jarChooser.listbox.getItemText(2)) < 0);
@@ -259,10 +268,11 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertEquals(2, jarChooser.listbox.getItemCount());
     assertEquals("--", jarChooser.listbox.getItemText(0));
     assertEquals("algo3", jarChooser.listbox.getItemText(1));
+    assertEquals(0, jarChooser.categoryListBox.getSelectedIndex());
   }
 
   /**
-   * Test method for {@link AlgorithmChooser#resetListBox()}
+   * Test method for {@link AlgorithmChooser#resetListBoxes()}
    */
   public void testResetListBox() {
     LinkedList<Algorithm> algorithms = new LinkedList<>();
@@ -270,15 +280,17 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     algorithms.add(new Algorithm("Algorithm 2"));
 
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+    jarChooser.categoryListBox.setSelectedIndex(3);
 
     assertEquals(3, jarChooser.listbox.getItemCount());
     jarChooser.listbox.removeItem(1);
     assertEquals(2, jarChooser.listbox.getItemCount());
 
     // Execute
-    jarChooser.resetListBox();
+    jarChooser.resetListBoxes();
 
     assertEquals(3, jarChooser.listbox.getItemCount());
+    assertEquals(0, jarChooser.categoryListBox.getSelectedIndex());
   }
 
 
