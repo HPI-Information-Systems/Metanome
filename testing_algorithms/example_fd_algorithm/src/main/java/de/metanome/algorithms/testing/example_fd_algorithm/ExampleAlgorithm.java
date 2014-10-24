@@ -19,6 +19,7 @@ package de.metanome.algorithms.testing.example_fd_algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
@@ -28,6 +29,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 
 public class ExampleAlgorithm
     implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm,
-               ListBoxParameterAlgorithm {
+               ListBoxParameterAlgorithm, DatabaseConnectionParameterAlgorithm {
 
   public final static String LISTBOX_IDENTIFIER = "column names";
   public final static String STRING_IDENTIFIER = "pathToOutputFile";
@@ -45,6 +47,7 @@ public class ExampleAlgorithm
   public final static String DATABASE_IDENTIFIER = "DB-connection";
   protected String path = null;
   protected String selectedColumn = null;
+  protected DatabaseConnectionGenerator inputGenerator;
   protected FunctionalDependencyResultReceiver resultReceiver;
 
   @Override
@@ -121,4 +124,13 @@ public class ExampleAlgorithm
     }
   }
 
+  @Override
+  public void setDatabaseConnectionGeneratorConfigurationValue(String identifier,
+                                                               DatabaseConnectionGenerator... values)
+      throws AlgorithmConfigurationException {
+
+    if (identifier.equals(DATABASE_IDENTIFIER)) {
+      inputGenerator = values[0];
+    }
+  }
 }

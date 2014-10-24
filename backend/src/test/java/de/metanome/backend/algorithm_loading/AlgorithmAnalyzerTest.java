@@ -71,7 +71,7 @@ public class AlgorithmAnalyzerTest {
     assertTrue(analyzer.isFileInputAlgorithm());
     assertFalse(analyzer.isRelationalInputAlgorithm());
     assertFalse(analyzer.isTableInputAlgorithm());
-    assertFalse(analyzer.isDatabaseConnectionAlgorithm());
+    assertTrue(analyzer.isDatabaseConnectionAlgorithm());
   }
 
 }
