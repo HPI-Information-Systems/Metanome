@@ -16,9 +16,6 @@
 
 package de.metanome.backend.input.csv;
 
-import au.com.bytecode.opencsv.CSVParser;
-import au.com.bytecode.opencsv.CSVReader;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -33,54 +30,25 @@ import java.io.FileReader;
 /**
  * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on csv
  * files.
+ * The setting holds all parameters to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s.
+ * To adapt the parameters you have to adapt the setting.
  *
  * @author Jakob Zwiener
  */
 public class DefaultFileInputGenerator implements FileInputGenerator {
 
   protected File inputFile;
-  protected char separator = CSVParser.DEFAULT_SEPARATOR;
-  protected char quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
-  protected char escape = CSVParser.DEFAULT_ESCAPE_CHARACTER;
-  protected int skipLines = CSVReader.DEFAULT_SKIP_LINES;
-  protected boolean strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
-  protected boolean ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
-  protected boolean hasHeader = FileIterator.DEFAULT_HAS_HEADER;
-  protected boolean skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
+  protected ConfigurationSettingFileInput setting;
 
   /**
-   * @param inputFile the csv input
+   * Creates a DefaultFileInputGenerator with default settings.
+   * The default setting is used to construct a new {@link de.metanome.algorithm_integration.input.RelationalInput}.
+   * @param inputFile the csv input file
+   * @throws java.io.FileNotFoundException if the input file is not found
    */
   public DefaultFileInputGenerator(File inputFile) throws FileNotFoundException {
     this.setInputFile(inputFile);
-  }
-
-  /**
-   * @param inputFile               the csv input
-   * @param separator               cell separator
-   * @param quotechar               cell quote character
-   * @param escape                  escape character
-   * @param skipLines               number of lines to skip
-   * @param strictQuotes            sets if characters outside the quotes are ignored
-   * @param ignoreLeadingWhiteSpace it true, parser should ignore white space before a quote in a
-   *                                field
-   * @param hasHeader               set if the csv has a header
-   * @param skipDifferingLines      set if the csv file should skip lines with differing length
-   */
-  public DefaultFileInputGenerator(File inputFile, char separator, char quotechar, char escape,
-                                   int skipLines,
-                                   boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                                   boolean hasHeader,
-                                   boolean skipDifferingLines) throws FileNotFoundException {
-    this.setInputFile(inputFile);
-    this.separator = separator;
-    this.quotechar = quotechar;
-    this.escape = escape;
-    this.skipLines = skipLines;
-    this.strictQuotes = strictQuotes;
-    this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
-    this.hasHeader = hasHeader;
-    this.skipDifferingLines = skipDifferingLines;
+    this.setting = new ConfigurationSettingFileInput(inputFile.getPath());
   }
 
   /**
@@ -95,22 +63,13 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     } catch (FileNotFoundException e) {
       throw new AlgorithmConfigurationException("File could not be found.", e);
     }
-    this.separator = setting.getSeparatorChar();
-    this.quotechar = setting.getQuoteChar();
-    this.escape = setting.getEscapeChar();
-    this.skipLines = setting.getSkipLines();
-    this.strictQuotes = setting.isStrictQuotes();
-    this.ignoreLeadingWhiteSpace = setting.isIgnoreLeadingWhiteSpace();
-    this.hasHeader = setting.hasHeader();
-    this.skipDifferingLines = setting.isSkipDifferingLines();
+    this.setting = setting;
   }
 
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
-      return new FileIterator(inputFile.getName(), new FileReader(inputFile), separator, quotechar,
-                         escape, skipLines, strictQuotes, ignoreLeadingWhiteSpace, hasHeader,
-                         skipDifferingLines);
+      return new FileIterator(inputFile.getName(), new FileReader(inputFile), setting);
     } catch (FileNotFoundException e) {
       throw new InputGenerationException("File not found.", e.getCause());
     } catch (InputIterationException e) {
@@ -132,4 +91,12 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     }
     this.inputFile = inputFile;
   }
+
+  /**
+   * @return the setting
+   */
+  public ConfigurationSettingFileInput getSetting() {
+    return this.setting;
+  }
+
 }
