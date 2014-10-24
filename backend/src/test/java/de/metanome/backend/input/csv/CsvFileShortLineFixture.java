@@ -47,15 +47,15 @@ public class CsvFileShortLineFixture {
 
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file");
-    setting.setSeparatorChar(SEPARATOR);
-    setting.setHeader(HAS_HEADER);
-    setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
-    setting.setStrictQuotes(STRICT_QUOTES);
-    setting.setEscapeChar(ESCAPE);
-    setting.setQuoteChar(QUOTE_CHAR);
-    setting.setSkipLines(SKIP_LINES);
-    setting.setSkipDifferingLines(skipDifferingLines);
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
+        .setSeparatorChar(SEPARATOR)
+        .setHeader(HAS_HEADER)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setEscapeChar(ESCAPE)
+        .setQuoteChar(QUOTE_CHAR)
+        .setSkipLines(SKIP_LINES)
+        .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
                             new StringReader(

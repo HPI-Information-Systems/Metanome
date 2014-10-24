@@ -38,15 +38,15 @@ public class CsvFileShortLineWithHeaderFixture {
   protected static final int SKIP_LINES = 0;
 
   public FileIterator getTestData() throws InputIterationException {
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file");
-    setting.setSeparatorChar(SEPARATOR);
-    setting.setHeader(HAS_HEADER);
-    setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
-    setting.setStrictQuotes(STRICT_QUOTES);
-    setting.setEscapeChar(ESCAPE);
-    setting.setQuoteChar(QUOTE_CHAR);
-    setting.setSkipLines(SKIP_LINES);
-    setting.setSkipDifferingLines(SKIP_DIFFERING_LINES);
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
+        .setSeparatorChar(SEPARATOR)
+        .setHeader(HAS_HEADER)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setEscapeChar(ESCAPE)
+        .setQuoteChar(QUOTE_CHAR)
+        .setSkipLines(SKIP_LINES)
+        .setSkipDifferingLines(SKIP_DIFFERING_LINES);
 
     return new FileIterator("some_file",
                             new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),

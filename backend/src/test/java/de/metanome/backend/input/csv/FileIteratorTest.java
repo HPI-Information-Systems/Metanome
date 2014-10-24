@@ -258,9 +258,9 @@ public class FileIteratorTest {
   @Test
   public void testConstructWithEmptyFile() throws InputIterationException, IOException {
     // Set up
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation");
-    setting.setSeparatorChar(',');
-    setting.setQuoteChar('"');
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation")
+        .setSeparatorChar(',')
+        .setQuoteChar('"');
 
     // Execute functionality
     // Should not throw exception
@@ -284,11 +284,11 @@ public class FileIteratorTest {
   @Test
   public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
     // Set up
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation");
-    setting.setSeparatorChar(',');
-    setting.setQuoteChar('"');
-    setting.setHeader(true);
-    setting.setSkipLines(0);
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation")
+        .setSeparatorChar(',')
+        .setQuoteChar('"')
+        .setHeader(true)
+        .setSkipLines(0);
 
     // Execute functionality
     // Should not throw exception

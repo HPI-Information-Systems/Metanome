@@ -43,13 +43,13 @@ public class CsvFileFixture {
 
   public CsvFileFixture() {
     this.fileFixture = new FileFixture(getCsvFileData());
-    this.setting = new ConfigurationSettingFileInput("some relation");
-    this.setting.setSeparatorChar(SEPARATOR);
-    this.setting.setHeader(HAS_HEADER);
-    this.setting.setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES);
-    this.setting.setStrictQuotes(STRICT_QUOTES);
-    this.setting.setEscapeChar(ESCAPE);
-    this.setting.setQuoteChar(QUOTE_CHAR);
+    this.setting = new ConfigurationSettingFileInput("some relation")
+        .setSeparatorChar(SEPARATOR)
+        .setHeader(HAS_HEADER)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setEscapeChar(ESCAPE)
+        .setQuoteChar(QUOTE_CHAR);
   }
 
   public File getTestDataPath(String fileName)

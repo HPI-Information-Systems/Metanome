@@ -100,8 +100,9 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
     return fileName;
   }
 
-  public void setFileName(String value) {
+  public ConfigurationSettingFileInput setFileName(String value) {
     this.fileName = value;
+    return this;
   }
 
   public boolean isAdvanced() {
@@ -116,64 +117,72 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
     return separatorChar;
   }
 
-  public void setSeparatorChar(char value) {
+  public ConfigurationSettingFileInput setSeparatorChar(char value) {
     this.separatorChar = value;
+    return this;
   }
 
   public char getQuoteChar() {
     return quoteChar;
   }
 
-  public void setQuoteChar(char value) {
+  public ConfigurationSettingFileInput setQuoteChar(char value) {
     this.quoteChar = value;
+    return this;
   }
 
   public char getEscapeChar() {
     return escapeChar;
   }
 
-  public void setEscapeChar(char value) {
+  public ConfigurationSettingFileInput setEscapeChar(char value) {
     this.escapeChar = value;
+    return this;
   }
 
   public boolean isStrictQuotes() {
     return strictQuotes;
   }
 
-  public void setStrictQuotes(boolean value) {
+  public ConfigurationSettingFileInput setStrictQuotes(boolean value) {
     this.strictQuotes = value;
+    return this;
   }
 
   public boolean isIgnoreLeadingWhiteSpace() {
     return ignoreLeadingWhiteSpace;
   }
 
-  public void setIgnoreLeadingWhiteSpace(boolean value) {
+  public ConfigurationSettingFileInput setIgnoreLeadingWhiteSpace(boolean value) {
     this.ignoreLeadingWhiteSpace = value;
+    return this;
   }
 
   public int getSkipLines() {
     return skipLines;
   }
 
-  public void setSkipLines(int value) {
+  public ConfigurationSettingFileInput setSkipLines(int value) {
     this.skipLines = value;
+    return this;
   }
 
   public boolean hasHeader() {
     return header;
   }
 
-  public void setHeader(boolean header) {
+  public ConfigurationSettingFileInput setHeader(boolean header) {
     this.header = header;
+    return this;
   }
 
   public boolean isSkipDifferingLines() {
     return skipDifferingLines;
   }
 
-  public void setSkipDifferingLines(boolean skipDifferingLines) {
+  public ConfigurationSettingFileInput setSkipDifferingLines(boolean skipDifferingLines) {
     this.skipDifferingLines = skipDifferingLines;
+    return this;
   }
 
   @Override

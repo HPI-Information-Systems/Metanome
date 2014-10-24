@@ -46,9 +46,9 @@ public class CsvFileOneLineFixture {
   public CsvFileOneLineFixture(char separator, char quoteChar) {
     this.separator = separator;
     this.quoteChar = quoteChar;
-    this.setting = new ConfigurationSettingFileInput(this.getExpectedRelationName());
-    this.setting.setSeparatorChar(this.separator);
-    this.setting.setQuoteChar(this.quoteChar);
+    this.setting = new ConfigurationSettingFileInput(this.getExpectedRelationName())
+        .setSeparatorChar(this.separator)
+        .setQuoteChar(this.quoteChar);
   }
 
   public FileIterator getTestData() throws InputIterationException, InputGenerationException {
