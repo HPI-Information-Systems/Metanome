@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.csv;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
@@ -27,10 +28,28 @@ import java.io.StringReader;
  */
 public class CsvFileShortLineWithHeaderFixture {
 
+  protected static final char QUOTE_CHAR = '\'';
+  protected static final char SEPARATOR = ',';
+  protected static final char ESCAPE = '\\';
+  protected static final boolean STRICT_QUOTES = false;
+  protected static final boolean IGNORE_LEADING_WHITESPACES = true;
+  protected static final boolean SKIP_DIFFERING_LINES = false;
+  protected static final boolean HAS_HEADER = true;
+  protected static final int SKIP_LINES = 0;
+
   public FileIterator getTestData() throws InputIterationException {
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
+        .setSeparatorChar(SEPARATOR)
+        .setHeader(HAS_HEADER)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setEscapeChar(ESCAPE)
+        .setQuoteChar(QUOTE_CHAR)
+        .setSkipLines(SKIP_LINES)
+        .setSkipDifferingLines(SKIP_DIFFERING_LINES);
+
     return new FileIterator("some_file",
-                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"), ',',
-                            '\'',
-                            '\\', 0, false, true, true, false);
+                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
+                            setting);
   }
 }

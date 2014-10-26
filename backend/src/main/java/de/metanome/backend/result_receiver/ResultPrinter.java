@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   protected PrintStream uccStream;
   protected PrintStream cuccStream;
   protected PrintStream indStream;
+  protected PrintStream odStream;
 
   protected String algorithmExecutionIdentifier;
   protected String directoryName;
@@ -83,6 +85,11 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
       throws CouldNotReceiveResultException {
     getCuccStream().println(conditionalUniqueColumnCombination.toString());
   }
+  
+  @Override
+  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
+    getOdStream().println(orderDependency.toString());
+  }
 
   protected PrintStream getStatStream() throws CouldNotReceiveResultException {
     if (statStream == null) {
@@ -124,6 +131,16 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     return cuccStream;
 
   }
+  
+  protected PrintStream getOdStream() throws CouldNotReceiveResultException {
+    if (odStream == null) {
+      odStream = openStream("_ods");
+    }
+
+    return odStream;
+
+  }
+  
 
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
     try {
@@ -153,6 +170,9 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
     if (cuccStream != null) {
       cuccStream.close();
+    }
+    if (odStream != null) {
+      odStream.close();
     }
   }
 

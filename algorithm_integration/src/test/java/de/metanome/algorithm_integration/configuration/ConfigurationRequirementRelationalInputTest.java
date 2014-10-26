@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -25,9 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -55,7 +55,7 @@ public class ConfigurationRequirementRelationalInputTest {
         configSpec =
         new ConfigurationRequirementRelationalInput(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -81,7 +81,7 @@ public class ConfigurationRequirementRelationalInputTest {
         configSpec =
         new ConfigurationRequirementRelationalInput(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -93,7 +93,7 @@ public class ConfigurationRequirementRelationalInputTest {
    * ConfigurationRequirementRelationalInput#setSettings(ConfigurationSettingRelationalInput...)
    */
   @Test
-  public void testGetSetValues() {
+  public void testGetSetValues() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementRelationalInput
         configSpec =
@@ -141,9 +141,23 @@ public class ConfigurationRequirementRelationalInputTest {
 
     // Execute functionality
     // Check result
-    assertFalse(configSpec.setSettings(expectedSetting0));
-    assertTrue(configSpec.setSettings(expectedSetting0, expectedSetting1));
-    assertFalse(configSpec.setSettings(expectedSetting0, expectedSetting1, expectedSetting2));
+    try {
+      configSpec.setSettings(expectedSetting0);
+    } catch (AlgorithmConfigurationException e) {
+      // should trow an exception
+    }
+
+    try {
+      configSpec.setSettings(expectedSetting0, expectedSetting1);
+    } catch (AlgorithmConfigurationException e) {
+      fail(); // number of settings is correct
+    }
+
+    try {
+      configSpec.setSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+    } catch (AlgorithmConfigurationException e) {
+      // should throw an exception
+    }
   }
 
 

@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
@@ -30,6 +31,7 @@ import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.hsqldb.server.OdbcUtil;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
@@ -62,6 +64,7 @@ public class AlgorithmTest {
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
     algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
     algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
+    algorithmInterfaces.add(OrderDependencyAlgorithm.class);
     algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
     algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
@@ -83,6 +86,7 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isFd());
     assertTrue(actualAlgorithm.isUcc());
     assertTrue(actualAlgorithm.isCucc());
+    assertTrue(actualAlgorithm.isOd());
     assertTrue(actualAlgorithm.isBasicStat());
     assertTrue(actualAlgorithm.isDatabaseConnection());
     assertTrue(actualAlgorithm.isFileInput());
@@ -120,6 +124,7 @@ public class AlgorithmTest {
     assertFalse(actualAlgorithm.isFd());
     assertTrue(actualAlgorithm.isUcc());
     assertFalse(actualAlgorithm.isCucc());
+    assertFalse(actualAlgorithm.isOd());
     assertFalse(actualAlgorithm.isBasicStat());
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
@@ -223,6 +228,10 @@ public class AlgorithmTest {
     Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path")
         .setCucc(true)
         .store();
+    
+    Algorithm expectedOdAlgorithm = new Algorithm("some od algorithm file path")
+        .setOd(true)
+        .store();
 
     Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path")
         .setBasicStat(true)
@@ -244,6 +253,8 @@ public class AlgorithmTest {
         Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
     List<Algorithm> actualCuccAlgorithms = Algorithm.retrieveAll(
         ConditionalUniqueColumnCombinationAlgorithm.class);
+    List<Algorithm> actualOdAlgorithms = Algorithm.retrieveAll(
+        OrderDependencyAlgorithm.class);
     List<Algorithm>
         actualBasicStatAlgorithms =
         Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
@@ -262,6 +273,8 @@ public class AlgorithmTest {
         .containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
     assertThat(actualCuccAlgorithms,
                IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
+    assertThat(actualOdAlgorithms, 
+               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedOdAlgorithm));
     assertThat(actualBasicStatAlgorithms,
                IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
     assertThat(actualHolisticAlgorithms,

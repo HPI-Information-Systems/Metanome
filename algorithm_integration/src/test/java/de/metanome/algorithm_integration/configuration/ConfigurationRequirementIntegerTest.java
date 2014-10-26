@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link ConfigurationRequirementInteger}
@@ -49,7 +52,7 @@ public class ConfigurationRequirementIntegerTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -73,7 +76,7 @@ public class ConfigurationRequirementIntegerTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -85,11 +88,11 @@ public class ConfigurationRequirementIntegerTest {
    * and {@link ConfigurationRequirementInteger#setSettings(ConfigurationSettingInteger...)}
    */
   @Test
-  public void testGetSetSpecification() {
+  public void testGetSetSpecification() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementInteger
         specificationInteger =
-        new ConfigurationRequirementInteger("parameter1");
+        new ConfigurationRequirementInteger("parameter1", 2);
     // Expected values
     ConfigurationSettingInteger expectedSetting1 = new ConfigurationSettingInteger();
     ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
@@ -103,6 +106,24 @@ public class ConfigurationRequirementIntegerTest {
     // Check results
     assertThat(actualSettings, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedSetting1, expectedSetting2));
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger#setSettings(ConfigurationSettingInteger...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumber() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementInteger
+        configSpec =
+        new ConfigurationRequirementInteger("parameter1", 2);
+    // Expected values
+    ConfigurationSettingInteger expectedValue = mock(ConfigurationSettingInteger.class);
+
+    // Execute functionality
+    configSpec.setSettings(expectedValue);
   }
 
   /**

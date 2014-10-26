@@ -55,13 +55,13 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
    * Construcats a {@link ConfigurationRequirementDatabaseConnection}, potentially requesting
    * several values.
    *
-   * @param identifier     the specification's identifier
-   * @param numberOfValues the number of values expected
+   * @param identifier       the specification's identifier
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirementDatabaseConnection(String identifier,
-                                                    int numberOfValues) {
+                                                    int numberOfSettings) {
 
-    super(identifier, numberOfValues);
+    super(identifier, numberOfSettings);
   }
 
   @Override
@@ -69,7 +69,16 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
     return settings;
   }
 
-  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
+  /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  public void setSettings(ConfigurationSettingDatabaseConnection... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 

@@ -54,13 +54,13 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   /**
    * Constructs a {@link ConfigurationRequirementListBox}, potentially requesting several values.
    *
-   * @param identifier     the specification's identifier
-   * @param values         the values, which should be displayed in the list box
-   * @param numberOfValues the number of values expected
+   * @param identifier       the specification's identifier
+   * @param values           the values, which should be displayed in the list box
+   * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirementListBox(String identifier, ArrayList<String> values,
-                                         int numberOfValues) {
-    super(identifier, numberOfValues);
+                                         int numberOfSettings) {
+    super(identifier, numberOfSettings);
     this.values = values;
   }
 
@@ -69,7 +69,16 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
     return this.settings;
   }
 
-  public void setSettings(ConfigurationSettingListBox... settings) {
+  /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  public void setSettings(ConfigurationSettingListBox... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
 

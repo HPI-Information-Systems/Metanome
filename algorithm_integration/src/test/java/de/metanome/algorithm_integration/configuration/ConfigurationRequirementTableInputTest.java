@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
@@ -23,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 
 public class ConfigurationRequirementTableInputTest {
@@ -60,7 +63,7 @@ public class ConfigurationRequirementTableInputTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -84,11 +87,29 @@ public class ConfigurationRequirementTableInputTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOFValues, actualNumberOfValues);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#setSettings(ConfigurationSettingString...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumber() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementTableInput
+        configSpec =
+        new ConfigurationRequirementTableInput("parameter1", 2);
+    // Expected values
+    ConfigurationSettingTableInput expectedValue = mock(ConfigurationSettingTableInput.class);
+
+    // Execute functionality
+    configSpec.setSettings(expectedValue);
   }
 
   /**

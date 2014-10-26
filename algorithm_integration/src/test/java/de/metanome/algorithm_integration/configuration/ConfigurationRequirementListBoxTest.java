@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link ConfigurationRequirementListBox}
@@ -55,7 +58,7 @@ public class ConfigurationRequirementListBoxTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
     ArrayList<String> actualValues = configSpec.getValues();
 
     // Check result
@@ -87,7 +90,7 @@ public class ConfigurationRequirementListBoxTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfValues();
+    int actualNumberOfValues = configSpec.getNumberOfSettings();
     ArrayList<String> actualValues = configSpec.getValues();
 
     // Check result
@@ -101,7 +104,7 @@ public class ConfigurationRequirementListBoxTest {
    * ConfigurationRequirementListBox#setSettings(ConfigurationSettingListBox...)}
    */
   @Test
-  public void testGetSetSpecification() {
+  public void testGetSetSpecification() throws AlgorithmConfigurationException {
     // Setup
     ArrayList<String> expectedValues = new ArrayList<>();
     expectedValues.add("first");
@@ -109,7 +112,7 @@ public class ConfigurationRequirementListBoxTest {
     expectedValues.add("third");
     ConfigurationRequirementListBox
         specificationListBox =
-        new ConfigurationRequirementListBox("parameter1", expectedValues);
+        new ConfigurationRequirementListBox("parameter1", expectedValues, 2);
 
     // Expected values
     ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
@@ -124,6 +127,24 @@ public class ConfigurationRequirementListBoxTest {
     // Check results
     assertThat(actualSettings, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedSetting1, expectedSetting2));
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox#setSettings(ConfigurationSettingListBox...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumber() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementListBox
+        configSpec =
+        new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
+    // Expected values
+    ConfigurationSettingListBox expectedValue = mock(ConfigurationSettingListBox.class);
+
+    // Execute functionality
+    configSpec.setSettings(expectedValue);
   }
 
   /**

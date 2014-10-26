@@ -18,6 +18,7 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.test_helper.GwtSerializationTester;
@@ -57,7 +58,7 @@ public class InclusionDependencyTest {
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     InclusionDependency
         ind =
-        new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class));
+        new InclusionDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class));
 
     // Execute functionality
     ind.sendResultTo(resultReceiver);
@@ -74,10 +75,10 @@ public class InclusionDependencyTest {
   public void testConstructor() {
     // Setup
     // Expected values
-    ColumnCombination expectedDependant = new ColumnCombination(
+	  ColumnPermutation expectedDependant = new ColumnPermutation(
         new ColumnIdentifier("table2", "column2"),
         new ColumnIdentifier("table2", "column27"));
-    ColumnCombination expectedReferenced = new ColumnCombination(
+    ColumnPermutation expectedReferenced = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"),
         new ColumnIdentifier("table1", "column4"));
     // Execute functionality
@@ -95,10 +96,10 @@ public class InclusionDependencyTest {
   @Test
   public void testToString() {
     // Setup
-    ColumnCombination expectedDependant = new ColumnCombination(
+	  ColumnPermutation expectedDependant = new ColumnPermutation(
         new ColumnIdentifier("table2", "column2"),
         new ColumnIdentifier("table2", "column27"));
-    ColumnCombination expectedReferenced = new ColumnCombination(
+	  ColumnPermutation expectedReferenced = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"),
         new ColumnIdentifier("table1", "column4"));
     InclusionDependency ind = new InclusionDependency(expectedDependant, expectedReferenced);
@@ -121,27 +122,27 @@ public class InclusionDependencyTest {
   public void testEqualsHashCode() {
     // Setup
     InclusionDependency expectedInd = new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedEqualInd = new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedNotEqualDependantInd = new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column4")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedNotEqualReferencedInd = new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table5", "column47"))
     );
 
@@ -164,7 +165,7 @@ public class InclusionDependencyTest {
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new InclusionDependency(mock(ColumnCombination.class), mock(ColumnCombination.class)));
+        new InclusionDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class)));
   }
 
 }

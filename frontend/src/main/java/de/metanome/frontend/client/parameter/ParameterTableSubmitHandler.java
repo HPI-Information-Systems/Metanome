@@ -20,18 +20,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-
 public class ParameterTableSubmitHandler implements ClickHandler {
 
   @Override
   public void onClick(ClickEvent event) {
     ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();
-    try {
-      paramTable.submit();
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace(); // Todo
-    }
+    paramTable.submit();
   }
 
 }

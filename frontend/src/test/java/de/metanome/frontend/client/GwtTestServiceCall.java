@@ -20,6 +20,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
@@ -51,7 +52,7 @@ public class GwtTestServiceCall extends GWTTestCase {
   /**
    * tests the call from client to executionService.executeAlgorithm()
    */
-  public void testExecutionService() {
+  public void testExecutionService() throws AlgorithmConfigurationException {
     // Setup
     TestHelper.resetDatabaseSync();
 
@@ -59,7 +60,7 @@ public class GwtTestServiceCall extends GWTTestCase {
     TestHelper.storeAlgorithmSync(new Algorithm(algorithmFileName));
     List<ConfigurationRequirement> configs = new ArrayList<>();
     ConfigurationRequirementString inputParameter =
-        new ConfigurationRequirementString("pathToInputFile");
+        new ConfigurationRequirementString("pathToInputFile", 2);
     inputParameter.setSettings(new ConfigurationSettingString("path/to/file1"),
                                new ConfigurationSettingString("path/to/file2"));
     configs.add(inputParameter);

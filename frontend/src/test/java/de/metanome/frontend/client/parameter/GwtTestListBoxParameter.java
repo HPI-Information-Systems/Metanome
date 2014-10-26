@@ -152,7 +152,12 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     widget.setSelection(expectedSelectedValue);
 
     // Execute
-    ConfigurationRequirementListBox specification = widget.getUpdatedSpecification();
+    ConfigurationRequirementListBox specification = null;
+    try {
+      specification = widget.getUpdatedSpecification();
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
 
     // Check
     assertEquals(expectedSpecification.getSettings().length, specification.getSettings().length);
