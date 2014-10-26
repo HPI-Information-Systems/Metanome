@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,6 +39,8 @@ public class DefaultFileInputGeneratorTest {
 
   protected CsvFileFixture csvFileFixture;
   protected File expectedFile;
+  protected ConfigurationSettingFileInput expectedSetting;
+
   protected char expectedSeparator;
   protected char expectedQuotechar;
   protected char expectedEscape;
@@ -52,6 +55,7 @@ public class DefaultFileInputGeneratorTest {
   public void setUp() throws Exception {
     this.csvFileFixture = new CsvFileFixture();
     this.expectedFile = csvFileFixture.getTestDataPath("test.csv");
+
     this.expectedSeparator = CsvFileFixture.SEPARATOR;
     this.expectedQuotechar = CsvFileFixture.QUOTE_CHAR;
     this.expectedEscape = '\\';
@@ -60,66 +64,51 @@ public class DefaultFileInputGeneratorTest {
     this.expectedIgnoreLeadingWhiteSpace = true;
     this.expectedHasHeader = true;
     this.expectedSkipDifferingLines = true;
-    this.generator =
-        new DefaultFileInputGenerator(expectedFile, expectedSeparator, expectedQuotechar,
-                                      expectedEscape,
-                                      expectedLine, expectedStrictQuotes,
-                                      expectedIgnoreLeadingWhiteSpace,
-                                      expectedHasHeader, expectedSkipDifferingLines);
+
+    this.expectedSetting = new ConfigurationSettingFileInput(expectedFile.getPath());
+    this.expectedSetting.setEscapeChar(this.expectedEscape);
+    this.expectedSetting.setSkipLines(this.expectedLine);
+    this.expectedSetting.setStrictQuotes(this.expectedStrictQuotes);
+    this.expectedSetting.setIgnoreLeadingWhiteSpace(this.expectedIgnoreLeadingWhiteSpace);
+    this.expectedSetting.setHeader(this.expectedHasHeader);
+    this.expectedSetting.setSkipDifferingLines(this.expectedSkipDifferingLines);
+
+    this.generator = new DefaultFileInputGenerator(expectedSetting);
   }
 
   /**
-   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File, char,
-   * char, char, int, boolean, boolean, boolean, boolean)}
+   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File) and all
+   * set methods.
    *
-   * The generator should store the file path correctly.
+   * The generator should store the setting correctly.
    */
   @Test
   public void testConstructor() {
     // Check result
     assertEquals(expectedFile, generator.inputFile);
-    assertEquals(expectedSeparator, generator.separator);
-    assertEquals(expectedQuotechar, generator.quotechar);
-    assertEquals(expectedEscape, generator.escape);
-    assertEquals(expectedLine, generator.skipLines);
-    assertEquals(expectedStrictQuotes, generator.strictQuotes);
-    assertEquals(expectedIgnoreLeadingWhiteSpace, generator.ignoreLeadingWhiteSpace);
-    assertEquals(expectedHasHeader, generator.hasHeader);
-    assertEquals(expectedSkipDifferingLines, generator.skipDifferingLines);
+    assertEquals(expectedSetting, generator.getSetting());
   }
 
   /**
    * Test method for {@link de.metanome.backend.input.csv.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
    *
-   * The generator should store the settings correctly.
+   * The generator should store the file path correctly.
+   * The generator should use a default setting.
    */
   @Test
-  public void testConstructorSetting() throws AlgorithmConfigurationException {
+  public void testConstructorSetting() throws AlgorithmConfigurationException,
+                                              FileNotFoundException {
     // Setup
-    ConfigurationSettingFileInput expectedSetting = new ConfigurationSettingFileInput();
-    expectedSetting.setFileName(expectedFile.getPath());
-    expectedSetting.setSeparatorChar(expectedSeparator);
-    expectedSetting.setQuoteChar(expectedQuotechar);
-    expectedSetting.setEscapeChar(expectedEscape);
-    expectedSetting.setSkipLines(expectedLine);
-    expectedSetting.setStrictQuotes(expectedStrictQuotes);
-    expectedSetting.setIgnoreLeadingWhiteSpace(expectedIgnoreLeadingWhiteSpace);
-    expectedSetting.setHeader(expectedHasHeader);
-    expectedSetting.setSkipDifferingLines(expectedSkipDifferingLines);
+    ConfigurationSettingFileInput defaultSetting = new ConfigurationSettingFileInput(expectedFile.getPath());
 
     // Execute functionality
-    DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedSetting);
+    DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedFile);
 
     // Check result
     assertEquals(expectedFile, actualGenerator.inputFile);
-    assertEquals(expectedSeparator, actualGenerator.separator);
-    assertEquals(expectedQuotechar, actualGenerator.quotechar);
-    assertEquals(expectedEscape, actualGenerator.escape);
-    assertEquals(expectedLine, actualGenerator.skipLines);
-    assertEquals(expectedStrictQuotes, actualGenerator.strictQuotes);
-    assertEquals(expectedIgnoreLeadingWhiteSpace, actualGenerator.ignoreLeadingWhiteSpace);
-    assertEquals(expectedHasHeader, actualGenerator.hasHeader);
-    assertEquals(expectedSkipDifferingLines, actualGenerator.skipDifferingLines);
+    assertEquals(defaultSetting.hasHeader(), actualGenerator.getSetting().hasHeader());
+    assertEquals(defaultSetting.isSkipDifferingLines(), actualGenerator.getSetting().isSkipDifferingLines());
+    assertEquals(defaultSetting.isStrictQuotes(), actualGenerator.getSetting().isStrictQuotes());
   }
 
   /**

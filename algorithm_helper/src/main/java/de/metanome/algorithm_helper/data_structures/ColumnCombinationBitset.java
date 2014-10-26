@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
-import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 
@@ -533,7 +531,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return a {@link ColumnCombination}
    */
   public ColumnCombination createColumnCombination(String relationName,
-                                                   ImmutableList<String> columnNames) {
+                                                   List<String> columnNames) {
     ColumnIdentifier[] identifierList = new ColumnIdentifier[size()];
     int i = 0;
     for (Integer columnIndex : getSetBits()) {

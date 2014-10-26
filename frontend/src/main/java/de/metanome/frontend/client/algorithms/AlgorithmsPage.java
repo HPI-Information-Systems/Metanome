@@ -49,6 +49,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   protected final FlexTable cuccList;
   protected final FlexTable fdList;
   protected final FlexTable indList;
+  protected final FlexTable odList;
   protected final FlexTable statsList;
   protected TabWrapper messageReceiver;
   protected AlgorithmEditForm editForm;
@@ -72,6 +73,11 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.add(this.fdList);
     updateFdAlgorithms();
 
+    this.add(new HTML("<h3>Order Dependencies</h3>"));
+    this.odList = new FlexTable();
+    this.add(this.odList);
+    updateOdAlgorithms();
+    
     this.add(new HTML("<h3>Inclusion Dependencies<//h3>"));
     this.indList = new FlexTable();
     this.add(this.indList);
@@ -115,6 +121,13 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    */
   private void updateIndAlgorithms() {
     algorithmService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
+  }
+  
+  /**
+   * Request a list of available OD algorithms and display them in the odList
+   */
+  private void updateOdAlgorithms() {
+    algorithmService.listOrderDependencyAlgorithms(getRetrieveCallback(this.odList));
   }
 
   /**
@@ -170,6 +183,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     final boolean ind = algorithm.isInd();
     final boolean basicStat = algorithm.isBasicStat();
     final boolean ucc = algorithm.isUcc();
+    final boolean od = algorithm.isOd();
     final String algorithmName = algorithm.getName();
 
     this.algorithmService.deleteAlgorithm(algorithm, new AsyncCallback<Void>() {
@@ -195,6 +209,9 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         }
         if (ucc) {
           removeRow(uccList, algorithmName);
+        }
+        if (od) {
+          removeRow(odList, algorithmName);
         }
       }
     });
@@ -266,6 +283,9 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         }
         if (algorithm.isUcc()) {
           addAlgorithmsToTable(list, uccList);
+        }
+        if (algorithm.isOd()) {
+          addAlgorithmsToTable(list, odList);
         }
         if (algorithm.isBasicStat()) {
           addAlgorithmsToTable(list, statsList);

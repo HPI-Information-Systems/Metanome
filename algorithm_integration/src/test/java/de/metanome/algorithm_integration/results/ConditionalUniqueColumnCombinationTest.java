@@ -21,6 +21,9 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnConditionAnd;
+import de.metanome.algorithm_integration.ColumnConditionOr;
+import de.metanome.algorithm_integration.ColumnConditionValue;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.test_helper.GwtSerializationTester;
@@ -29,6 +32,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -78,108 +82,38 @@ public class ConditionalUniqueColumnCombinationTest {
    * and the {@link de.metanome.algorithm_integration.ColumnConditionAnd} string
    * representation.
    */
-/*
   @Test
   public void testToString() {
     // Setup
     ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    List<ColumnConditionAnd> conditionList = new LinkedList<>();
-    conditionList.add(new ColumnConditionAnd(new ColumnIdentifier("table1", "column1"), "condition1",
-                                          "condition2"));
-    conditionList
-        .add(new ColumnConditionAnd(new ColumnIdentifier("table1", "column2"), "condition3"));
+    ColumnConditionOr outerCondition = new ColumnConditionOr();
+    outerCondition.add(
+        new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
+                               new ColumnConditionValue(expectedColumn2, "condition2")));
+    outerCondition
+        .add(new ColumnConditionValue(expectedColumn1, "condition3"));
 
     ConditionalUniqueColumnCombination
         actualConditionalColumnCombination =
         new ConditionalUniqueColumnCombination(
             new ColumnCombination(expectedColumn1, expectedColumn2),
-            conditionList.toArray(new ColumnConditionAnd[conditionList.size()]));
+            outerCondition);
     // Expected values
     String
         expectedStringRepresentation =
-        new ColumnCombination(expectedColumn1, expectedColumn2).toString() + "["
-        + "table1.column1: [condition1, condition2]" + ", " + "table1.column2: [condition3]"
-        + "]";
+        "[table1.column1, table2.column2]" + ConditionalUniqueColumnCombination.LINESEPARATOR +
+        "[table1.column1, table2.column2]" + ConditionalUniqueColumnCombination.LINESEPARATOR +
+        "  condition3         -       " + ConditionalUniqueColumnCombination.LINESEPARATOR +
+        "  condition1    condition2  " + ConditionalUniqueColumnCombination.LINESEPARATOR +
+        "Coverage: 0.0" + ConditionalUniqueColumnCombination.LINESEPARATOR +
+                                       "";
 
     // Execute functionality
+    System.out.println(actualConditionalColumnCombination.toString());
     // Check result
     assertEquals(expectedStringRepresentation, actualConditionalColumnCombination.toString());
   }
-*/
-
-  /**
-   * Test method for {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#equals(Object)}
-   * and {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#hashCode()}
-   * <p/> {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}s
-   * containing the same {@link de.metanome.algorithm_integration.ColumnIdentifier}s
-   * and the same {@link de.metanome.algorithm_integration.ColumnConditionAnd}s in
-   * different order should be equal.
-   */
-/*
-  @Test
-  public void testEqualsHashCode() {
-    // Setup
-    ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
-    ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
-    ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
-    ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
-    ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
-    ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
-
-    List<ColumnConditionAnd> conditions1 = new LinkedList<>();
-    conditions1.add(new ColumnConditionAnd(column11, "a"));
-    conditions1.add(new ColumnConditionAnd(column13, "a", "b"));
-
-    List<ColumnConditionAnd> conditions1Eq = new LinkedList<>();
-    conditions1Eq.add(new ColumnConditionAnd(column11, "a"));
-    conditions1Eq.add(new ColumnConditionAnd((column23), "b", "a"));
-
-    List<ColumnConditionAnd> conditions2 = new LinkedList<>();
-    conditions2.add(new ColumnConditionAnd(column21, "a"));
-    conditions2.add(new ColumnConditionAnd(column23, "a"));
-
-    ConditionalUniqueColumnCombination
-        expectedColumnCombination1 =
-        new ConditionalUniqueColumnCombination(new ColumnCombination(column12, column13, column11),
-                                               conditions1.toArray(
-                                                   new ColumnConditionAnd[conditions1.size()]));
-
-    ConditionalUniqueColumnCombination
-        expectedColumnCombination2 =
-        new ConditionalUniqueColumnCombination(new ColumnCombination(column21, column22, column23),
-                                               conditions1.toArray(
-                                                   new ColumnConditionAnd[conditions1.size()]));
-    ConditionalUniqueColumnCombination
-        expectedColumnCombination2Eq =
-        new ConditionalUniqueColumnCombination(new ColumnCombination(column11, column13, column12),
-                                               conditions1Eq.toArray(
-                                                   new ColumnConditionAnd[conditions1Eq.size()]));
-    ConditionalUniqueColumnCombination
-        expectedColumnCombinationNotEquals =
-        new ConditionalUniqueColumnCombination(new ColumnCombination(column21, column23),
-                                               conditions2.toArray(
-                                                   new ColumnConditionAnd[conditions2.size()]));
-    ConditionalUniqueColumnCombination
-        expectedColumnCombinationNotEquals2 =
-        new ConditionalUniqueColumnCombination(new ColumnCombination(column12, column13, column11),
-                                               conditions2.toArray(
-                                                   new ColumnConditionAnd[conditions2.size()]));
-
-    // Execute functionality
-    // Check result
-
-    EqualsAndHashCodeTester<ConditionalUniqueColumnCombination>
-        tester =
-        new EqualsAndHashCodeTester<>();
-    tester
-        .performBasicEqualsAndHashCodeChecks(expectedColumnCombination1, expectedColumnCombination2,
-                                             expectedColumnCombinationNotEquals,
-                                             expectedColumnCombinationNotEquals2);
-    tester.performBasicEqualsAndHashCodeChecks(expectedColumnCombination1,
-                                               expectedColumnCombination2Eq);
-  }
-*/
 
   /**
    * Tests that the instances of {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}

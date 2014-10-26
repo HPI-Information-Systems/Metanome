@@ -23,6 +23,10 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
 /**
  * Represents a conditional unique column combination
  *
@@ -30,6 +34,7 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
  */
 public class ConditionalUniqueColumnCombination implements Result {
 
+  public static final String LINESEPARATOR = "\n";
   public static final String CUCC_SEPARATOR = " | ";
   private static final long serialVersionUID = 6946896625820917113L;
   protected ColumnCombination columnCombination;
@@ -78,13 +83,55 @@ public class ConditionalUniqueColumnCombination implements Result {
     return this.condition;
   }
 
+  public String buildPatternTableau() {
+    StringBuilder builder = new StringBuilder();
+    TreeSet<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
+    builder.append(patternTableauHead);
+
+    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
+    for (Map<ColumnIdentifier, String> condition : conditions) {
+      builder.append(LINESEPARATOR);
+      for (ColumnIdentifier column : patternTableauHead) {
+        if (condition.containsKey(column)) {
+          String value = condition.get(column);
+          if (value.length() < column.toString().length()) {
+            StringBuilder whitespaceBuilder = new StringBuilder();
+            for (int i = 0; i < (column.toString().length() - value.length()) / 2; i++) {
+              whitespaceBuilder.append(" ");
+            }
+            builder.append(whitespaceBuilder);
+            builder.append(value);
+            builder.append(whitespaceBuilder);
+          } else {
+            builder.append(value);
+            builder.append(" ");
+          }
+        } else {
+          StringBuilder whitespaceBuilder = new StringBuilder();
+          for (int i = 0; i < column.toString().length() / 2; i++) {
+            whitespaceBuilder.append(" ");
+          }
+          builder.append(whitespaceBuilder);
+          builder.append("-");
+          builder.append(whitespaceBuilder);
+        }
+      }
+    }
+    return builder.toString();
+  }
+
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(columnCombination.toString());
-    builder.append(condition.toString());
+    builder.append(LINESEPARATOR);
+
+    builder.append(this.buildPatternTableau());
+
+    builder.append(LINESEPARATOR);
     builder.append("Coverage: ");
-    builder.append(condition.getCoverage());
+    builder.append(this.condition.getCoverage());
+    builder.append(LINESEPARATOR);
     return builder.toString();
   }
 

@@ -26,6 +26,9 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
+import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import org.apache.commons.io.FileUtils;
@@ -188,6 +191,39 @@ public class ResultPrinterTest {
     actualFile.delete();
   }
 
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received
+   * {@link OrderDependency}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException {
+    // Expected values
+    OrderDependency expectedOd =
+        new OrderDependency(new ColumnPermutation(
+            new ColumnIdentifier("table1", "column2")),
+        new ColumnPermutation(
+            new ColumnIdentifier("table1", "column23")),
+        OrderType.LEXICOGRAPHICAL,
+        ComparisonOperator.SMALLER_EQUAL);
+
+    // Check precondition
+    assertNull(printer.odStream);
+
+    // Execute functionality
+    printer.receiveResult(expectedOd);
+
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + "_ods");
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    assertTrue(fileContent.contains(expectedOd.toString()));
+
+    // Cleanup
+    actualFile.delete();
+  }
+  
   /**
    * Test method for {@link ResultPrinter#close()} <p/> Even if no streams are set the {@link
    * ResultPrinter} should be closeable.
