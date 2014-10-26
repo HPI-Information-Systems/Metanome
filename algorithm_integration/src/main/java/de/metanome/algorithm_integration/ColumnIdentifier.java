@@ -41,6 +41,14 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, IsSeriali
     this.tableIdentifier = tableIdentifier;
     this.columnIdentifier = columnIdentifier;
   }
+  
+  public String getTableIdentifier() {
+    return tableIdentifier;
+  }
+
+  public String getColumnIdentifier() {
+    return columnIdentifier;
+  }
 
   @Override
   public String toString() {
