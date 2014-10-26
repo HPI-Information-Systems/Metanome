@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorith
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
@@ -88,6 +89,14 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
   }
 
   /**
+   * @return all order dependency algorithms in the database
+   */
+  @Override
+  public List<Algorithm> listOrderDependencyAlgorithms() {
+    return listAlgorithms(OrderDependencyAlgorithm.class);
+  }
+  
+  /**
    * @return all basic statistics algorithms in the database
    */
   @Override
@@ -120,6 +129,7 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
     algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
     algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
     algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
     algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
     algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
     algorithm.setFileInput(analyzer.isFileInputAlgorithm());

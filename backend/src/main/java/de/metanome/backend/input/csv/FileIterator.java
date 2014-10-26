@@ -16,9 +16,9 @@
 
 package de.metanome.backend.input.csv;
 
-import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 
@@ -41,7 +41,6 @@ public class FileIterator implements RelationalInput {
   protected static final String DEFAULT_HEADER_STRING = "column";
 
   protected CSVReader csvReader;
-  protected boolean skipDifferingLines;
   protected List<String> headerLine;
   protected List<String> nextLine;
   protected String relationName;
@@ -50,42 +49,25 @@ public class FileIterator implements RelationalInput {
   protected int currentLineNumber = -1;
   protected int numberOfSkippedLines = 0;
 
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar)
-      throws InputIterationException {
-    this(relationName, reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
-  }
+  protected boolean hasHeader;
+  protected boolean skipDifferingLines;
 
-  public FileIterator(String relationName, Reader reader, char separator, char quoteChar,
-                      int skipLines)
-      throws InputIterationException {
-    this(relationName, reader, separator, quoteChar, skipLines, DEFAULT_HAS_HEADER);
-  }
 
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      int skipLines,
-                      boolean hasHeader) throws InputIterationException {
-    this(relationName, reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, skipLines,
-         CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, hasHeader);
-  }
-
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      char escape,
-                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                      boolean hasHeader) throws InputIterationException {
-    this(relationName, reader, separator, quotechar, escape, skipLines, strictQuotes,
-         ignoreLeadingWhiteSpace, hasHeader, DEFAULT_SKIP_DIFFERING_LINES);
-  }
-
-  public FileIterator(String relationName, Reader reader, char separator, char quotechar,
-                      char escape,
-                      int skipLines, boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
-                      boolean hasHeader, boolean skipDifferingLines)
+  public FileIterator(String relationName, Reader reader, ConfigurationSettingFileInput setting)
       throws InputIterationException {
     this.relationName = relationName;
+
+    this.hasHeader = setting.hasHeader();
+    this.skipDifferingLines = setting.isSkipDifferingLines();
+
     this.csvReader =
-        new CSVReader(reader, separator, quotechar, escape, skipLines, strictQuotes,
-                      ignoreLeadingWhiteSpace);
-    this.skipDifferingLines = skipDifferingLines;
+        new CSVReader(reader,
+                      setting.getSeparatorChar(),
+                      setting.getQuoteChar(),
+                      setting.getEscapeChar(),
+                      setting.getSkipLines(),
+                      setting.isStrictQuotes(),
+                      setting.isIgnoreLeadingWhiteSpace());
 
     this.nextLine = readNextLine();
     if (this.nextLine != null) {
@@ -204,4 +186,5 @@ public class FileIterator implements RelationalInput {
   public int getNumberOfSkippedDifferingLines() {
     return numberOfSkippedLines;
   }
+
 }

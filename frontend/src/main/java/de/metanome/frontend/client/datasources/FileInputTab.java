@@ -143,17 +143,16 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @return the ConfigurationSettingDataSource from the given file input
    */
   private ConfigurationSettingDataSource convertFileInputToDataSource(FileInput input) {
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
-
-    setting.setFileName(input.getFileName());
-    setting.setEscapeChar(input.getEscapechar());
-    setting.setHeader(input.isHasHeader());
-    setting.setIgnoreLeadingWhiteSpace(input.isIgnoreLeadingWhiteSpace());
-    setting.setQuoteChar(input.getQuotechar());
-    setting.setSeparatorChar(input.getSeparator());
-    setting.setSkipDifferingLines(input.isSkipDifferingLines());
-    setting.setSkipLines(input.getSkipLines());
-    setting.setStrictQuotes(input.isStrictQuotes());
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput()
+        .setFileName(input.getFileName())
+        .setEscapeChar(input.getEscapechar())
+        .setHeader(input.isHasHeader())
+        .setIgnoreLeadingWhiteSpace(input.isIgnoreLeadingWhiteSpace())
+        .setQuoteChar(input.getQuotechar())
+        .setSeparatorChar(input.getSeparator())
+        .setSkipDifferingLines(input.isSkipDifferingLines())
+        .setSkipLines(input.getSkipLines())
+        .setStrictQuotes(input.isStrictQuotes());
 
     return setting;
   }

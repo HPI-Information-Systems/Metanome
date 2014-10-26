@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.parameter;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -46,7 +47,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
   }
 
   @Override
-  public ConfigurationRequirement getUpdatedSpecification() {
+  public ConfigurationRequirement getUpdatedSpecification() throws AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
     ConfigurationSettingBoolean[] values = new ConfigurationSettingBoolean[inputWidgets.size()];
 

@@ -21,6 +21,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -48,6 +49,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
     assertNotNull(resultsTab.indTable);
     assertNotNull(resultsTab.uccTable);
     assertNotNull(resultsTab.cuccTable);
+    assertNotNull(resultsTab.odTable);
     assertNotNull(resultsTab.fdTable);
     assertNotNull(resultsTab.basicsTable);
   }
@@ -99,9 +101,9 @@ public class GwtTestResultsTablePage extends GWTTestCase {
     // Check result
     assertEquals(0, resultsTab.indTable.getRowCount());
     resultsTab.receiveResult(new InclusionDependency(
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnCombination(
+        new ColumnPermutation(
             new ColumnIdentifier("table2", "column23"))
     ));
     assertEquals(1, resultsTab.indTable.getRowCount());

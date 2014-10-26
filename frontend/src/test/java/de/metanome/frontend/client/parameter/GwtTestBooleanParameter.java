@@ -114,7 +114,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
   /**
    * Test method for {@link InputParameterBooleanWidget#getUpdatedSpecification()}
    */
-  public void testGetUpdatedSpecification() {
+  public void testGetUpdatedSpecification() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);

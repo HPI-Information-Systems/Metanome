@@ -42,6 +42,7 @@ public class AlgorithmAnalyzerTest {
     assertFalse(analyzer.isFunctionalDependencyAlgorithm());
     assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    assertFalse(analyzer.isOrderDependencyAlgorithm());
     assertTrue(analyzer.isTempFileAlgorithm());
     assertFalse(analyzer.isProgressEstimatingAlgorithm());
     assertTrue(analyzer.isFileInputAlgorithm());
@@ -66,9 +67,35 @@ public class AlgorithmAnalyzerTest {
     assertTrue(analyzer.isFunctionalDependencyAlgorithm());
     assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
     assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    assertFalse(analyzer.isOrderDependencyAlgorithm());
     assertFalse(analyzer.isTempFileAlgorithm());
     assertFalse(analyzer.isProgressEstimatingAlgorithm());
     assertTrue(analyzer.isFileInputAlgorithm());
+    assertFalse(analyzer.isRelationalInputAlgorithm());
+    assertFalse(analyzer.isTableInputAlgorithm());
+    assertTrue(analyzer.isDatabaseConnectionAlgorithm());
+  }
+  
+  @Test
+  public void analyzeOrderDependencyAlgorithmTest()
+      throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
+             NoSuchMethodException, ClassNotFoundException {
+    // Setup
+    String algorithmFileName = "example_od_algorithm.jar";
+
+    // Execute
+    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
+
+    // Check
+    assertFalse(analyzer.isInclusionDependencyAlgorithm());
+    assertFalse(analyzer.isBasicStatisticAlgorithm());
+    assertFalse(analyzer.isFunctionalDependencyAlgorithm());
+    assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
+    assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    assertTrue(analyzer.isOrderDependencyAlgorithm());
+    assertFalse(analyzer.isTempFileAlgorithm());
+    assertFalse(analyzer.isProgressEstimatingAlgorithm());
+    assertFalse(analyzer.isFileInputAlgorithm());
     assertFalse(analyzer.isRelationalInputAlgorithm());
     assertFalse(analyzer.isTableInputAlgorithm());
     assertFalse(analyzer.isDatabaseConnectionAlgorithm());

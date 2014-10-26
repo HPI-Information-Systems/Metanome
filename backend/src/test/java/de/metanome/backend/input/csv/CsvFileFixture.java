@@ -19,6 +19,7 @@ package de.metanome.backend.input.csv;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.File;
@@ -38,9 +39,17 @@ public class CsvFileFixture {
   protected static final boolean HAS_HEADER = true;
 
   protected FileFixture fileFixture;
+  protected ConfigurationSettingFileInput setting;
 
   public CsvFileFixture() {
     this.fileFixture = new FileFixture(getCsvFileData());
+    this.setting = new ConfigurationSettingFileInput("some relation")
+        .setSeparatorChar(SEPARATOR)
+        .setHeader(HAS_HEADER)
+        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+        .setStrictQuotes(STRICT_QUOTES)
+        .setEscapeChar(ESCAPE)
+        .setQuoteChar(QUOTE_CHAR);
   }
 
   public File getTestDataPath(String fileName)
@@ -59,10 +68,8 @@ public class CsvFileFixture {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines) throws InputIterationException {
-    return new FileIterator("some relation", new StringReader(getCsvFileData()), SEPARATOR,
-                            QUOTE_CHAR,
-                            ESCAPE, 0, STRICT_QUOTES, IGNORE_LEADING_WHITESPACES, HAS_HEADER,
-                            skipDifferingLines);
+    this.setting.setSkipDifferingLines(skipDifferingLines);
+    return new FileIterator("some relation", new StringReader(getCsvFileData()), this.setting);
   }
 
   protected List<String> quoteStrings(List<String> unquotedStrings) {

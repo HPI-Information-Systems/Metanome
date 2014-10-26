@@ -89,13 +89,13 @@ public class ParameterTable extends FlexTable {
    * When parameter values are submitted, their values are set and used to call the execution
    * service corresponding to the current tab.
    */
-  public void submit() throws AlgorithmConfigurationException {
+  public void submit() {
     try {
       List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
       List<ConfigurationRequirement> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
       getAlgorithmTab().startExecution(parameters, dataSources);
-    } catch (InputValidationException e) {
+    } catch (InputValidationException | AlgorithmConfigurationException e) {
       this.messageReceiver.clearErrors();
       this.messageReceiver.addError(e.getMessage());
     }
