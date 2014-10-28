@@ -16,10 +16,10 @@
 
 package de.metanome.frontend.client.results;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Table to display the results of an algorithm execution
@@ -49,8 +49,15 @@ public class ResultTable extends FlowPanel {
     this.table.setText(row, column, text);
   }
 
-  public void setText(int row, int column, SafeHtml html) {
-    this.table.setHTML(row, column, html);
+  /**
+   * Set the widget in the specific row and column
+   *
+   * @param row    the row
+   * @param column the column
+   * @param widget widget, which should be displayed
+   */
+  public void setWidget(int row, int column, Widget widget) {
+    this.table.setWidget(row, column, widget);
   }
 
   /**

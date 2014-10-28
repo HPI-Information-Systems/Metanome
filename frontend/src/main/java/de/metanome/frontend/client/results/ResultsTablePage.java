@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.results;
 
 
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -156,8 +155,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = cuccTable.getRowCount();
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-    cuccTable.setText(row, 2, new SafeHtmlBuilder()
-        .appendEscapedLines(conditionalUniqueColumnCombination.buildPatternTableau()).toSafeHtml());
+    cuccTable.setWidget(row, 2, conditionalUniqueColumnCombination.buildPatternTableauTableHtml());
     cuccTable.setText(row, 3, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
     cuccTable.setText(row, 4, Float.toString(
         conditionalUniqueColumnCombination.getCondition().getCoverage()));
