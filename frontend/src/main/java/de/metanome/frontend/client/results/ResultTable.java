@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.results;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -46,6 +47,10 @@ public class ResultTable extends FlowPanel {
    */
   public void setText(int row, int column, String text) {
     this.table.setText(row, column, text);
+  }
+
+  public void setText(int row, int column, SafeHtml html) {
+    this.table.setHTML(row, column, html);
   }
 
   /**
