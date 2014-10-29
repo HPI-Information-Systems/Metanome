@@ -92,12 +92,13 @@ public class FileInputServiceImpl extends RemoteServiceServlet implements FileIn
    * @param input the file input which should be stored
    */
   @Override
-  public void storeFileInput(FileInput input) {
+  public FileInput storeFileInput(FileInput input) {
     try {
-      input.store();
+      return input.store();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }
+    return null;
   }
 
   @Override

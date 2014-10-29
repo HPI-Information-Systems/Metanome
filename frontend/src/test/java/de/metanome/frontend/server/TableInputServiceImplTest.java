@@ -164,13 +164,14 @@ public class TableInputServiceImplTest {
     expectedTableInput.setTableName("table1");
 
     // Execute functionality
-    tableInputService.storeTableInput(expectedTableInput);
+    expectedTableInput = tableInputService.storeTableInput(expectedTableInput);
 
     // Finds algorithms of all or no interfaces
     List<TableInput> inputs = tableInputService.listTableInputs();
 
     // Check result
     assertTrue(inputs.contains(expectedTableInput));
+    assertTrue(expectedTableInput.getId() > 0);
 
     // Cleanup
     HibernateUtil.clear();

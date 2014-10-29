@@ -165,16 +165,14 @@ public class FileInputEditForm extends Grid {
   private void saveFileInput() {
     messageReceiver.clearErrors();
     try {
-      final FileInput input = this.getValue();
-
-      this.fileInputService.storeFileInput(input, new AsyncCallback<Void>() {
+      this.fileInputService.storeFileInput(this.getValue(), new AsyncCallback<FileInput>() {
         @Override
         public void onFailure(Throwable throwable) {
           messageReceiver.addError("File Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
-        public void onSuccess(Void aVoid) {
+        public void onSuccess(FileInput input) {
           reset();
           parent.addFileInputToTable(input);
           parent.updateDataSourcesOnRunConfiguration();

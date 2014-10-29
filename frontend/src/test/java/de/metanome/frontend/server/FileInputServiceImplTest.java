@@ -132,13 +132,14 @@ public class FileInputServiceImplTest {
     expectedFileInput.setFileName("file1");
 
     // Execute functionality
-    fileInputService.storeFileInput(expectedFileInput);
+    expectedFileInput = fileInputService.storeFileInput(expectedFileInput);
 
     // Finds algorithms of all or no interfaces
     List<FileInput> inputs = fileInputService.listFileInputs();
 
     // Check result
     assertTrue(inputs.contains(expectedFileInput));
+    assertTrue(expectedFileInput.getId() > 0);
 
     // Cleanup
     HibernateUtil.clear();

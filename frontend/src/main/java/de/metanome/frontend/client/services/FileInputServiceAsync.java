@@ -29,7 +29,7 @@ public interface FileInputServiceAsync {
 
   void getFileInput(long id, AsyncCallback<FileInput> async);
 
-  void storeFileInput(FileInput input, AsyncCallback<Void> async);
+  void storeFileInput(FileInput input, AsyncCallback<FileInput> async);
 
   void listFileInputs(AsyncCallback<List<FileInput>> async);
 

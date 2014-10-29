@@ -173,19 +173,17 @@ public class TableInputEditForm extends Grid {
   private void saveTableInput() {
     messageReceiver.clearErrors();
     try {
-      final TableInput currentInput = this.getValue();
-
-      this.tableInputService.storeTableInput(currentInput, new AsyncCallback<Void>() {
+      this.tableInputService.storeTableInput(this.getValue(), new AsyncCallback<TableInput>() {
         @Override
         public void onFailure(Throwable throwable) {
           messageReceiver.addError("Table Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
-        public void onSuccess(Void aVoid) {
+        public void onSuccess(TableInput input) {
           reset();
-          parent.addTableInputToTable(currentInput);
-          parent.setEnableOfDeleteButton(currentInput.getDatabaseConnection(), false);
+          parent.addTableInputToTable(input);
+          parent.setEnableOfDeleteButton(input.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
         }
       });
