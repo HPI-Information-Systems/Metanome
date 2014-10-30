@@ -189,7 +189,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.algorithmService.deleteAlgorithm(algorithm, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
-        messageReceiver.addError("Could not delete algorithm: " + throwable.getMessage());
+        messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
       }
 
       @Override
@@ -266,7 +266,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
       @Override
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("Could not add the algorithm: " + caught.getMessage());
+        messageReceiver.addErrorHTML("Could not add the algorithm: " + caught.getMessage());
       }
 
       @Override

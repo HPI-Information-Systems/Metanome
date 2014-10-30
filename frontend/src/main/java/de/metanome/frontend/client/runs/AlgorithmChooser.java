@@ -86,7 +86,7 @@ public class AlgorithmChooser extends FlowPanel {
     AsyncCallback<List<ConfigurationRequirement>> callback =
         new AsyncCallback<List<ConfigurationRequirement>>() {
           public void onFailure(Throwable caught) {
-            messageReceiver.addError("Error while retrieving configuration requirements: " + caught.getMessage());
+            messageReceiver.addErrorHTML("Error while retrieving configuration requirements: " + caught.getMessage());
           }
 
           public void onSuccess(List<ConfigurationRequirement> result) {

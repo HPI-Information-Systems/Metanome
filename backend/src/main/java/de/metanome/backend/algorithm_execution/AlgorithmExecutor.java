@@ -32,6 +32,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -98,10 +99,9 @@ public class AlgorithmExecutor implements Closeable {
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
-      throw new AlgorithmLoadingException(e.getMessage(), e);
+      throw new AlgorithmLoadingException(ExceptionParser.parse(e), e);
     } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException(
-          "Algorithm not found in database (" + e.getMessage() + ").", e);
+      throw new AlgorithmLoadingException(ExceptionParser.parse(e, "Algorithm not found in database"), e);
     }
   }
 

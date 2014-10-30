@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.helper.ExceptionParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -146,7 +147,8 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     try {
       return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
     } catch (FileNotFoundException e) {
-      throw new CouldNotReceiveResultException("Could not open result file for writing (" + e.getMessage() + ").", e);
+      throw new CouldNotReceiveResultException(
+          ExceptionParser.parse(e, "Could not open result file for writing"), e);
     }
   }
 

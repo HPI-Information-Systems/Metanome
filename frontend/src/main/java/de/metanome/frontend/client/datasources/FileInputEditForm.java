@@ -168,7 +168,7 @@ public class FileInputEditForm extends Grid {
       this.fileInputService.storeFileInput(this.getValue(), new AsyncCallback<FileInput>() {
         @Override
         public void onFailure(Throwable throwable) {
-          messageReceiver.addError("File Input could not be stored: " + throwable.getMessage());
+          messageReceiver.addErrorHTML("File Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
@@ -183,7 +183,7 @@ public class FileInputEditForm extends Grid {
         }
       });
     } catch (InputValidationException e) {
-      messageReceiver.addError("Invalid Input: " + e.getMessage());
+      messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());
     }
   }
 
@@ -299,7 +299,7 @@ public class FileInputEditForm extends Grid {
   protected AsyncCallback<String[]> getStorageCallback() {
     return new AsyncCallback<String[]>() {
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("Could not find CSV files! Please add them to the input folder.");
+        messageReceiver.addErrorHTML("Could not find CSV files! Please add them to the input folder.");
       }
 
       public void onSuccess(String[] result) {

@@ -21,6 +21,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.backend.helper.ExceptionParser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -144,7 +145,8 @@ public class FileIterator implements RelationalInput {
       lineArray = this.csvReader.readNext();
       currentLineNumber++;
     } catch (IOException e) {
-      throw new InputIterationException("Could not read next line in csv file (" + e.getMessage() + ").", e);
+      throw new InputIterationException(
+          ExceptionParser.parse(e, "Could not read next line in csv file"), e);
     }
     if (lineArray == null) {
       return null;

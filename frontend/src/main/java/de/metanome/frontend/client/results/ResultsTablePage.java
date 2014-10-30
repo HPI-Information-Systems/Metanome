@@ -100,7 +100,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
       try {
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
-        this.messageReceiver.addError("Could not display results: " + e.getMessage());
+        this.messageReceiver.addErrorHTML("Could not display results: " + e.getMessage());
       }
     }
   }

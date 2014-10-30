@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.backend.helper.ExceptionParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +62,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     try {
       this.setInputFile(new File(setting.getFileName()));
     } catch (FileNotFoundException e) {
-      throw new AlgorithmConfigurationException(e.getMessage(), e);
+      throw new AlgorithmConfigurationException(ExceptionParser.parse(e), e);
     }
     this.setting = setting;
   }
@@ -71,9 +72,10 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     try {
       return new FileIterator(inputFile.getName(), new FileReader(inputFile), setting);
     } catch (FileNotFoundException e) {
-      throw new InputGenerationException(e.getMessage(), e.getCause());
+      throw new InputGenerationException(ExceptionParser.parse(e), e);
     } catch (InputIterationException e) {
-      throw new InputGenerationException("Could not iterate over the first line of the csv file (" + e.getMessage() + ").", e.getCause());
+      throw new InputGenerationException(
+          ExceptionParser.parse(e, "Could not iterate over the first line of the csv file"), e);
     }
   }
 
