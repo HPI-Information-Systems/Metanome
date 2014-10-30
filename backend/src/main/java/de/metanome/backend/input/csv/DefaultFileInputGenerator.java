@@ -61,7 +61,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     try {
       this.setInputFile(new File(setting.getFileName()));
     } catch (FileNotFoundException e) {
-      throw new AlgorithmConfigurationException("File could not be found.", e);
+      throw new AlgorithmConfigurationException(e.getMessage(), e);
     }
     this.setting = setting;
   }
@@ -71,9 +71,9 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     try {
       return new FileIterator(inputFile.getName(), new FileReader(inputFile), setting);
     } catch (FileNotFoundException e) {
-      throw new InputGenerationException("File not found.", e.getCause());
+      throw new InputGenerationException(e.getMessage(), e.getCause());
     } catch (InputIterationException e) {
-      throw new InputGenerationException("Could not iterate over the first line of the csv file.", e.getCause());
+      throw new InputGenerationException("Could not iterate over the first line of the csv file (" + e.getMessage() + ").", e.getCause());
     }
   }
 

@@ -144,7 +144,7 @@ public class FileIterator implements RelationalInput {
       lineArray = this.csvReader.readNext();
       currentLineNumber++;
     } catch (IOException e) {
-      throw new InputIterationException("Could not read next line in csv file.", e.getCause());
+      throw new InputIterationException("Could not read next line in csv file (" + e.getMessage() + ").", e);
     }
     if (lineArray == null) {
       return null;

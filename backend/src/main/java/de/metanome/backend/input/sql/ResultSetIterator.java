@@ -62,7 +62,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         hasNext = resultSet.next();
       } catch (SQLException e) {
-        throw new InputIterationException("Could not retrieve next row.", e.getCause());
+        throw new InputIterationException("Could not retrieve next row (" + e.getMessage() + ").", e);
       }
       nextCalled = true;
     }
@@ -77,7 +77,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         resultSet.next();
       } catch (SQLException e) {
-        throw new InputIterationException("Could not retrieve next row.", e.getCause());
+        throw new InputIterationException("Could not retrieve next row (" + e.getMessage() + ").", e);
       }
     }
 
@@ -89,7 +89,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         resultRow[columnIndex] = resultSet.getString(columnIndex + 1);
       } catch (SQLException e) {
-        throw new InputIterationException("Could not retrieve values from result set.", e.getCause());
+        throw new InputIterationException("Could not retrieve values from result set (" + e.getMessage() + ").", e);
       }
     }
 
