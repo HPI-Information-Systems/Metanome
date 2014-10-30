@@ -50,7 +50,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
     try {
       algorithm = jarLoader.loadAlgorithm(algorithmFileName);
     } catch (Exception e) {
-      throw new AlgorithmExecutionException(e.getMessage(), e.getCause());
+      throw new AlgorithmExecutionException(e.getMessage(), e);
     }
 
     List<ConfigurationRequirement> configList = algorithm.getConfigurationRequirements();
