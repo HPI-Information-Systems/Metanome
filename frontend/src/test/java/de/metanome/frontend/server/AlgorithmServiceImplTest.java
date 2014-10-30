@@ -131,7 +131,7 @@ public class AlgorithmServiceImplTest {
 
     // Execute functionality: add an IND algorithm
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    finderService.addAlgorithm(algorithm);
+    algorithm = finderService.addAlgorithm(algorithm);
 
     // Check result
     assertTrue(finderService.listAllAlgorithms().contains(algorithm));

@@ -30,7 +30,7 @@ public interface TableInputService extends RemoteService {
 
   public TableInput getTableInput(long id);
 
-  public void storeTableInput(TableInput input);
+  public TableInput storeTableInput(TableInput input);
 
   public void deleteTableInput(TableInput input);
 
