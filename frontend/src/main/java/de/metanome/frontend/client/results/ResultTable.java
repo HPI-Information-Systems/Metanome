@@ -19,6 +19,7 @@ package de.metanome.frontend.client.results;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Table to display the results of an algorithm execution
@@ -46,6 +47,17 @@ public class ResultTable extends FlowPanel {
    */
   public void setText(int row, int column, String text) {
     this.table.setText(row, column, text);
+  }
+
+  /**
+   * Set the widget in the specific row and column
+   *
+   * @param row    the row
+   * @param column the column
+   * @param widget widget, which should be displayed
+   */
+  public void setWidget(int row, int column, Widget widget) {
+    this.table.setWidget(row, column, widget);
   }
 
   /**
