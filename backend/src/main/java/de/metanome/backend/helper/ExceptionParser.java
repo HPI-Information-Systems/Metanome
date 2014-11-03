@@ -45,7 +45,7 @@ public class ExceptionParser {
   public static String parse(Throwable throwable, String message) {
     String lineSeparator = "<br/>";
     StringBuilder errorMessage = new StringBuilder();
-    int max = Math.min(20, throwable.getStackTrace().length);
+    int max = throwable.getStackTrace().length;
 
     if (!message.isEmpty()) {
       errorMessage.append(message);

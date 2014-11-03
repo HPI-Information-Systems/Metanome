@@ -101,8 +101,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer.cancel();
     this.clear();
 
-    this.add(new Label("The execution was not successful."));
-    this.messageReceiver.addErrorHTML(message);
+    this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
   }
 
   /**

@@ -122,7 +122,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
     if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty()) {
       throw new InputValidationException(
-          "The database url, username and password should all be set!");
+          "The database url, username, password and system should all be set!");
     }
 
     connection
