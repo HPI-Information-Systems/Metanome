@@ -20,10 +20,12 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 
 public class AlgorithmTemplate
     implements UniqueColumnCombinationsAlgorithm, FunctionalDependencyAlgorithm, TempFileAlgorithm,
-               StringParameterAlgorithm {
+               StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
   @Override
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
@@ -72,4 +74,10 @@ public class AlgorithmTemplate
 
   }
 
+  @Override
+  public void setRelationalInputConfigurationValue(String identifier,
+                                                   RelationalInputGenerator... values)
+      throws AlgorithmConfigurationException {
+    // TODO Auto-generated method stub
+  }
 }
