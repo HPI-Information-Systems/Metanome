@@ -54,7 +54,7 @@ public class IntegerInput extends InputField {
     try {
       val = this.textbox.getValueOrThrow();
     } catch (ParseException e) {
-      throw new InputValidationException("Only numbers are allowed!");
+      throw new InputValidationException("Only numbers are allowed!", e);
     }
     if (val == null) {
       throw new InputValidationException("You have to enter a number!");
