@@ -560,8 +560,16 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
   }
 
   /**
-   * @param columnIndices index of bit to test
+   * @param columnIndex index of bit to test
    * @return true iff the bit at columnIndex is set
+   */
+  public boolean containsColumn(int columnIndex) {
+    return bitset.get(columnIndex);
+  }
+
+  /**
+   * @param columnIndices index of bit to test
+   * @return true iff the bits in the columnIndices are set
    */
   public boolean containsColumn(int... columnIndices) {
     for (int columnIndex : columnIndices) {
