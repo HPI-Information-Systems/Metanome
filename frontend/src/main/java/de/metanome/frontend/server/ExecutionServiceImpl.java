@@ -86,15 +86,15 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
     try {
       executor = buildExecutor(executionIdentifier);
     } catch (FileNotFoundException e) {
-      throw new AlgorithmExecutionException("Could not generate result file.", e.getCause());
+      throw new AlgorithmExecutionException("Could not generate result file.", e);
     } catch (UnsupportedEncodingException e) {
-      throw new AlgorithmExecutionException("Could not build temporary file generator.", e.getCause());
+      throw new AlgorithmExecutionException("Could not build temporary file generator.", e);
     }
     long executionTime = executor.executeAlgorithm(algorithmFileName, parameters);
     try {
       executor.close();
     } catch (IOException e) {
-      throw new AlgorithmExecutionException("Could not close algorithm executor.", e.getCause());
+      throw new AlgorithmExecutionException("Could not close algorithm executor.", e);
     }
 
     return executionTime;

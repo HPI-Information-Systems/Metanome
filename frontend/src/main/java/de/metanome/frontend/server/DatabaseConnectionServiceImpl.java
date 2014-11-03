@@ -66,8 +66,7 @@ public class DatabaseConnectionServiceImpl extends RemoteServiceServlet implemen
   @Override
   public DatabaseConnection storeDatabaseConnection(DatabaseConnection connection) {
     try {
-      connection.store();
-      return connection;
+      return connection.store();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }

@@ -73,12 +73,13 @@ public class TableInputServiceImpl extends RemoteServiceServlet implements
    * @param input the table input which should be stored
    */
   @Override
-  public void storeTableInput(TableInput input) {
+  public TableInput storeTableInput(TableInput input) {
     try {
-      input.store();
+      return input.store();
     } catch (EntityStorageException e) {
       e.printStackTrace();
     }
+    return null;
   }
 
   @Override
