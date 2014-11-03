@@ -71,8 +71,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     refreshButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        String name = algorithmChooser.getSelectedAlgorithm();
-        algorithmChooser.setSelectedAlgorithm(name);
+        algorithmChooser.resetListBoxes();
         primaryDataSourceLabel.setText("");
         removeParameterTable();
       }
