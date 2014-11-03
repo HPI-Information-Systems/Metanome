@@ -223,6 +223,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertEquals("--", jarChooser.algorithmListBox.getItemText(0));
     assertEquals("algo1", jarChooser.algorithmListBox.getItemText(1));
     assertEquals("algo4", jarChooser.algorithmListBox.getItemText(2));
+    assertEquals(0, jarChooser.categoryListBox.getSelectedIndex());
   }
 
   /**
@@ -290,6 +291,7 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     jarChooser.resetListBoxes();
 
     assertEquals(3, jarChooser.algorithmListBox.getItemCount());
+    assertEquals(0, jarChooser.algorithmListBox.getSelectedIndex());
     assertEquals(0, jarChooser.categoryListBox.getSelectedIndex());
   }
 
