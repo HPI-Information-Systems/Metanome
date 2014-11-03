@@ -31,8 +31,6 @@ import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.hsqldb.server.OdbcUtil;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -213,37 +211,45 @@ public class AlgorithmTest {
     HibernateUtil.clear();
 
     // Expected values
-    Algorithm
-        expectedIndAlgorithm =
-        new Algorithm("some ind algorithm file path").setInd(true).store();
+    Algorithm expectedIndAlgorithm = new Algorithm("some ind algorithm file path")
+        .setName("ind")
+        .setInd(true)
+        .store();
 
     Algorithm expectedFdAlgorithm = new Algorithm("some fd algorithm file path")
+        .setName("fd")
         .setFd(true)
         .store();
 
     Algorithm expectedUccAlgorithm = new Algorithm("some ucc algorithm file path")
+        .setName("ucc")
         .setUcc(true)
         .store();
 
     Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path")
+        .setName("cucc")
         .setCucc(true)
         .store();
     
     Algorithm expectedOdAlgorithm = new Algorithm("some od algorithm file path")
+        .setName("od")
         .setOd(true)
         .store();
 
     Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path")
+        .setName("basic")
         .setBasicStat(true)
         .store();
 
     Algorithm expectedHolisticAlgorithm = new Algorithm("some holistic algorithm file path")
+        .setName("holistic")
         .setFd(true)
         .setUcc(true)
         .store();
 
-    Algorithm otherAlgorithm = new Algorithm("some other path");
-    otherAlgorithm.store();
+    Algorithm otherAlgorithm = new Algorithm("some other path")
+        .setName("other")
+        .store();
 
     // Execute functionality
     List<Algorithm> actualIndAlgorithms = Algorithm.retrieveAll(InclusionDependencyAlgorithm.class);
@@ -284,8 +290,8 @@ public class AlgorithmTest {
     HibernateUtil.clear();
   }
 
-  @Test(expected=ConstraintViolationException.class)
-  public void testUniqueAlgorithmName() throws EntityStorageException {
+  @Test
+  public void testUniqueAlgorithmName() {
     // Setup
     HibernateUtil.clear();
 
@@ -301,7 +307,11 @@ public class AlgorithmTest {
     algorithm2.setName("name");
 
     // Check
-    algorithm2.store();
+    try {
+      algorithm2.store();
+    } catch (EntityStorageException e) {
+      // should throw an exception
+    }
 
     // Clean up
     HibernateUtil.clear();

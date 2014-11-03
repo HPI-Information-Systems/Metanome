@@ -24,6 +24,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
 
 import java.io.Serializable;
@@ -72,9 +73,14 @@ public class HibernateUtil {
 
     session.beginTransaction();
     session.save(entity);
-    session.getTransaction().commit();
-
-    session.close();
+    try {
+      session.getTransaction().commit();
+    } catch (ConstraintViolationException e) {
+      session.getTransaction().rollback();
+      throw new EntityStorageException("Could not store object because of a constraint violation exception", e);
+    } finally {
+      session.close();
+    }
   }
 
   /**
