@@ -213,6 +213,8 @@ public class AlgorithmChooser extends FlowPanel {
       this.categoryMap.get(AlgorithmCategory.Unique_Column_Combinations.name()).add(name);
     if (algorithm.isFd())
       this.categoryMap.get(AlgorithmCategory.Functional_Dependencies.name()).add(name);
+    if (algorithm.isOd())
+      this.categoryMap.get(AlgorithmCategory.Order_Dependencies.name()).add(name);
     if (algorithm.isInd())
       this.categoryMap.get(AlgorithmCategory.Inclusion_Dependencies.name()).add(name);
     if (algorithm.isBasicStat())
@@ -326,6 +328,7 @@ public class AlgorithmChooser extends FlowPanel {
     Unique_Column_Combinations,
     Conditional_Unique_Column_Combination,
     Functional_Dependencies,
+    Order_Dependencies,
     Inclusion_Dependencies,
     Basic_Statistics;
 

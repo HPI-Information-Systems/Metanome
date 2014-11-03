@@ -216,7 +216,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * Returns the file name of the algorithm, which is needed for execution
    */
   private String getAlgorithmFileName(String name) {
-    return this.algorithmChooser.algorithms.get(name).getFileName();
+    return this.algorithmChooser.algorithmMap.get(name).getFileName();
   }
 
 }
