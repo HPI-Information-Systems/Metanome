@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.backend.helper.ExceptionParser;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -60,7 +61,8 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
       this.dbConnection.setAutoCommit(false);
     } catch (SQLException e) {
-      throw new AlgorithmConfigurationException("Failed to get Database Connection.", e);
+      throw new AlgorithmConfigurationException(
+          ExceptionParser.parse(e, "Failed to get Database Connection"), e);
     }
   }
 
@@ -79,7 +81,8 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     try {
       resultSetIterator = new ResultSetIterator(resultSet);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not construct sql input.", e);
+      throw new InputGenerationException(
+          ExceptionParser.parse(e, "Could not construct sql input"), e);
     }
 
     return resultSetIterator;
@@ -98,13 +101,15 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       sqlStatement.setFetchSize(getFetchSize());
       statements.add(sqlStatement);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not create sql statement on connection.", e);
+      throw new InputGenerationException(
+          ExceptionParser.parse(e, "Could not create sql statement on connection"), e);
     }
     ResultSet resultSet;
     try {
       resultSet = sqlStatement.executeQuery(queryString);
     } catch (SQLException e) {
-      throw new InputGenerationException("Could not execute sql statement.", e);
+      throw new InputGenerationException(
+          ExceptionParser.parse(e, "Could not execute sql statement"), e);
     }
 
     return resultSet;

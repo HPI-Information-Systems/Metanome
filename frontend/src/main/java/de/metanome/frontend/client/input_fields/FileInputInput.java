@@ -70,7 +70,7 @@ public class FileInputInput extends InputField {
   public void updateListBox() {
     AsyncCallback<List<FileInput>> callback = new AsyncCallback<List<FileInput>>() {
       public void onFailure(Throwable caught) {
-        messageReceiver.addError("There are no file inputs in the database: " + caught.getMessage());
+        messageReceiver.addErrorHTML("There are no file inputs in the database: " + caught.getMessage());
       }
 
       public void onSuccess(List<FileInput> result) {

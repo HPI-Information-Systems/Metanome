@@ -133,7 +133,7 @@ public class TableInputEditForm extends Grid {
         new AsyncCallback<List<DatabaseConnection>>() {
 
           public void onFailure(Throwable caught) {
-            messageReceiver.addError("There are no database connections in the database: " + caught.getMessage());
+            messageReceiver.addErrorHTML("There are no database connections in the database: " + caught.getMessage());
           }
 
           public void onSuccess(List<DatabaseConnection> result) {
@@ -176,7 +176,7 @@ public class TableInputEditForm extends Grid {
       this.tableInputService.storeTableInput(this.getValue(), new AsyncCallback<TableInput>() {
         @Override
         public void onFailure(Throwable throwable) {
-          messageReceiver.addError("Table Input could not be stored: " + throwable.getMessage());
+          messageReceiver.addErrorHTML("Table Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
@@ -188,7 +188,7 @@ public class TableInputEditForm extends Grid {
         }
       });
     } catch (InputValidationException e) {
-      messageReceiver.addError("Invalid Input: " + e.getMessage());
+      messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());
     }
   }
 

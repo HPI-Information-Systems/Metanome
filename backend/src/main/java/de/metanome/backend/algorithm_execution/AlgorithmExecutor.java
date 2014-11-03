@@ -32,6 +32,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -80,7 +81,7 @@ public class AlgorithmExecutor implements Closeable {
    * seconds is returned as long.
    *
    * @param algorithmFileName the algorithm's file name
-   * @param requirements        list of configuration requirements
+   * @param requirements      list of configuration requirements
    * @return elapsed time in ns
    */
   public long executeAlgorithm(String algorithmFileName,
@@ -95,20 +96,12 @@ public class AlgorithmExecutor implements Closeable {
 
     try {
       return executeAlgorithmWithValues(algorithmFileName, parameterValues);
-    } catch (IllegalArgumentException | SecurityException | IllegalAccessException e) {
-      throw new AlgorithmLoadingException("Could not load the algorithm.", e);
-    } catch (IOException e) {
-      throw new AlgorithmLoadingException("IO Exception", e);
-    } catch (ClassNotFoundException e) {
-      throw new AlgorithmLoadingException("Class not found.", e);
-    } catch (InstantiationException e) {
-      throw new AlgorithmLoadingException("Could not instantiate.", e);
-    } catch (InvocationTargetException e) {
-      throw new AlgorithmLoadingException("Could not invoke.", e);
-    } catch (NoSuchMethodException e) {
-      throw new AlgorithmLoadingException("No such method.", e);
+    } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
+        ClassNotFoundException | InstantiationException | InvocationTargetException |
+        NoSuchMethodException e) {
+      throw new AlgorithmLoadingException(ExceptionParser.parse(e), e);
     } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException("Algorithm not found in database.", e);
+      throw new AlgorithmLoadingException(ExceptionParser.parse(e, "Algorithm not found in database"), e);
     }
   }
 
@@ -157,7 +150,7 @@ public class AlgorithmExecutor implements Closeable {
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
     }
-    
+
     if (analyzer.isOrderDependencyAlgorithm()) {
       OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
       odAlgorithm.setResultReceiver(resultReceiver);

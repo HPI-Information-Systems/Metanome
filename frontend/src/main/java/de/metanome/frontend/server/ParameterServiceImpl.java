@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.frontend.client.services.ParameterService;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class ParameterServiceImpl extends RemoteServiceServlet implements Parame
     try {
       algorithm = jarLoader.loadAlgorithm(algorithmFileName);
     } catch (Exception e) {
-      throw new AlgorithmExecutionException(e.getMessage(), e);
+      throw new AlgorithmExecutionException(ExceptionParser.parse(e), e);
     }
 
     List<ConfigurationRequirement> configList = algorithm.getConfigurationRequirements();

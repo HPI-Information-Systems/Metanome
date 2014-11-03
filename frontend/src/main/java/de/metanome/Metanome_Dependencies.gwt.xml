@@ -77,6 +77,9 @@
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>
     </source>
+    <source path="backend/helper">
+        <include name="ExceptionParser.java"/>
+    </source>
     <source path="backend/results_db">
         <include name="Algorithm.java"/>
         <include name="AlgorithmContentEquals.java"/>

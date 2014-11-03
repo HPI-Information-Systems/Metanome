@@ -214,7 +214,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     return new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable throwable) {
-        messageReceiver.addError("Could not delete the database connection: " + throwable.getMessage());
+        messageReceiver.addErrorHTML("Could not delete the database connection: " + throwable.getMessage());
       }
 
       @Override

@@ -27,6 +27,7 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.frontend.client.services.AlgorithmService;
@@ -122,7 +123,8 @@ public class AlgorithmServiceImpl extends RemoteServiceServlet implements Algori
     try {
       analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
     } catch (Exception e) {
-      throw new AlgorithmLoadingException("The jar of the algorithm could not be loaded! (" + e.toString() + ")", e);
+      throw new AlgorithmLoadingException(
+          ExceptionParser.parse(e, "The jar of the algorithm could not be loaded"), e);
     }
 
     algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());

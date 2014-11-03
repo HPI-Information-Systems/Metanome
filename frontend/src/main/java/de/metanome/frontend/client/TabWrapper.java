@@ -17,6 +17,7 @@
 package de.metanome.frontend.client;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
 
@@ -77,6 +78,17 @@ public class TabWrapper extends FlowPanel {
    */
   public void addError(String message) {
     Label label = new Label(message);
+    this.errorPanel.add(label);
+    this.setInError(true);
+  }
+
+  /**
+   * Displays the given error message.
+   *
+   * @param message the message, which should be displayed.
+   */
+  public void addErrorHTML(String message) {
+    HTML label = new HTML(message);
     this.errorPanel.add(label);
     this.setInError(true);
   }

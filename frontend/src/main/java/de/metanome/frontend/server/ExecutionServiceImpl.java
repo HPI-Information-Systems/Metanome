@@ -27,6 +27,7 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultsCache;
 import de.metanome.backend.result_receiver.ResultsHub;
@@ -86,15 +87,18 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
     try {
       executor = buildExecutor(executionIdentifier);
     } catch (FileNotFoundException e) {
-      throw new AlgorithmExecutionException("Could not generate result file.", e);
+      throw new AlgorithmExecutionException(
+          ExceptionParser.parse(e, "Could not generate result file"), e);
     } catch (UnsupportedEncodingException e) {
-      throw new AlgorithmExecutionException("Could not build temporary file generator.", e);
+      throw new AlgorithmExecutionException(
+          ExceptionParser.parse(e, "Could not build temporary file generator"), e);
     }
     long executionTime = executor.executeAlgorithm(algorithmFileName, parameters);
     try {
       executor.close();
     } catch (IOException e) {
-      throw new AlgorithmExecutionException("Could not close algorithm executor.", e);
+      throw new AlgorithmExecutionException(
+          ExceptionParser.parse(e, "Could not close algorithm executor"), e);
     }
 
     return executionTime;

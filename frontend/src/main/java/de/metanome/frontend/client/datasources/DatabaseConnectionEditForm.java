@@ -122,7 +122,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
     if (url.isEmpty() || username.isEmpty() || password.isEmpty() || system.isEmpty()) {
       throw new InputValidationException(
-          "The database url, username and password should all be set!");
+          "The database url, username, password and system should all be set!");
     }
 
     connection
@@ -148,7 +148,7 @@ public class DatabaseConnectionEditForm extends Grid {
             @Override
             public void onFailure(Throwable throwable) {
               messageReceiver
-                  .addError("Database Connection could not be stored:" + throwable.getMessage());
+                  .addErrorHTML("Database Connection could not be stored:" + throwable.getMessage());
             }
 
             @Override
@@ -160,7 +160,7 @@ public class DatabaseConnectionEditForm extends Grid {
             }
           });
     } catch (InputValidationException e) {
-      messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
+      messageReceiver.addErrorHTML("Database Connection could not be stored: " + e.getMessage());
     }
   }
 
