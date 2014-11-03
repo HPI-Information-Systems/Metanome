@@ -93,7 +93,6 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.timer = new Timer() {
       @Override
       public void run() {
-
       }
     };
 
@@ -102,8 +101,8 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.updateOnError("message");
 
     // Check
-    assertEquals(1, page.getWidgetCount());
-    assertTrue(page.getWidget(0) instanceof Label);
+    assertTrue(page.messageReceiver.isInError());
+    assertEquals(0, page.getWidgetCount());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
