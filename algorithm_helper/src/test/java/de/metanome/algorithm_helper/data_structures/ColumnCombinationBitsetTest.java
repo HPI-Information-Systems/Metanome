@@ -839,7 +839,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#containsColumn(int...)} <p/> Should return true iff
+   * Test method for {@link ColumnCombinationBitset#containsColumn(int...)} and {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsColumn(int)} <p/> Should return true iff
    * the bit at bitIndex is set.
    */
   @Test
