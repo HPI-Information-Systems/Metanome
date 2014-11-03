@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -252,6 +253,7 @@ public class Algorithm extends ResultsDbEntity implements IsSerializable, Compar
     return this;
   }
 
+  @Column(name = "name", unique = true)
   public String getName() {
     return name;
   }
