@@ -68,7 +68,7 @@ public class ColumnConditionAnd implements ColumnCondition {
 
   @Override
   public float getCoverage() {
-    if (this.coverage == Float.NaN) {
+    if (Float.isNaN(this.coverage)) {
       float coverage = Float.MAX_VALUE;
       for (ColumnCondition subCondition : this.columnValues) {
         if (coverage > subCondition.getCoverage()) {

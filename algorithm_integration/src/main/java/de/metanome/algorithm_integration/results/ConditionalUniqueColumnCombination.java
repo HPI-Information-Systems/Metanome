@@ -129,6 +129,8 @@ public class ConditionalUniqueColumnCombination implements Result {
     builder.append(columnCombination.toString());
     builder.append(CUCC_SEPARATOR);
     builder.append(condition.toString());
+    builder.append(" Coverage: ");
+    builder.append(this.condition.getCoverage());
     return builder.toString();
   }
 

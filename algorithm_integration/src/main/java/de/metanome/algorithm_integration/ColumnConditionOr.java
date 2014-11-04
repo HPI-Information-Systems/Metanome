@@ -72,7 +72,7 @@ public class ColumnConditionOr implements ColumnCondition {
 
   @Override
   public float getCoverage() {
-    if (Float.NaN == this.coverage) {
+    if (Float.isNaN(this.coverage)) {
       float coverage = 0;
       for (ColumnCondition subCondition : this.columnValues) {
         coverage += subCondition.getCoverage();
