@@ -32,6 +32,7 @@ public class ColumnConditionOr implements ColumnCondition {
 
   protected boolean isNegated = false;
   protected TreeSet<ColumnCondition> columnValues;
+  protected float coverage = Float.NaN;
 
   /**
    * Exists for Gwt serialization
@@ -71,11 +72,20 @@ public class ColumnConditionOr implements ColumnCondition {
 
   @Override
   public float getCoverage() {
-    float coverage = 0;
-    for (ColumnCondition subCondition : this.columnValues) {
-      coverage += subCondition.getCoverage();
+    if (Float.NaN == this.coverage) {
+      float coverage = 0;
+      for (ColumnCondition subCondition : this.columnValues) {
+        coverage += subCondition.getCoverage();
+      }
+      return coverage;
+    } else {
+      return this.coverage;
     }
-    return coverage;
+  }
+
+  @Override
+  public void setCoverage(float coverage) {
+    this.coverage = coverage;
   }
 
   @Override
