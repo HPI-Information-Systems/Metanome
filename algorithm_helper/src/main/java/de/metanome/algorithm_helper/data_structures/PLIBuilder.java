@@ -38,10 +38,11 @@ public class PLIBuilder {
   protected long numberOfTuples = -1;
   protected List<HashMap<String, LongArrayList>> columns = null;
   protected RelationalInput input;
-  protected boolean nullEqualsNull = true;
+  protected boolean nullEqualsNull;
 
   public PLIBuilder(RelationalInput input) {
     this.input = input;
+    this.nullEqualsNull = true;
   }
   public PLIBuilder(RelationalInput input, boolean nullEqualsNull) {
     this(input);
@@ -92,7 +93,7 @@ public class PLIBuilder {
   }
 
   /**
-   * Builds a {@link TreeSet} of the values of every column in the input.
+   * Builds a {@link TreeSet} of the values of every column in the input. "null" values are filtered as they are not required for spider.
    *
    * @return all comlumns' sorted distinct values
    * @throws InputIterationException if the input cannot be iterated
@@ -104,15 +105,10 @@ public class PLIBuilder {
     }
 
     List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
-    if (!this.nullEqualsNull) {
-      throw new InputIterationException(
-          "Distinct sorted values with null != null semantic are currently not supported");
-    }
+
     for (HashMap<String, LongArrayList> columnMap : columns) {
       if (columnMap.containsKey(null)) {
-        LongArrayList nullValues = columnMap.get(null);
         columnMap.remove(null);
-        columnMap.put("", nullValues);
       }
       distinctSortedColumns.add(new TreeSet<>(columnMap.keySet()));
     }
@@ -136,13 +132,12 @@ public class PLIBuilder {
   }
 
   protected void addValue(long rowCount, int columnCount, String attributeCell) {
-    if (!this.nullEqualsNull && attributeCell == null) {
-      // if null != null, null values should not be added to the pli at all
-      return;
-    }
-
     if (columns.size() <= columnCount) {
       columns.add(new HashMap<String, LongArrayList>());
+    }
+
+    if (!this.nullEqualsNull && attributeCell == null) {
+      return;
     }
 
     if (columns.get(columnCount).containsKey(attributeCell)) {
