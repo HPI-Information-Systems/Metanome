@@ -71,10 +71,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     refreshButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        String name = algorithmChooser.getSelectedAlgorithm();
-        algorithmChooser.resetListBox();
-        algorithmChooser.setSelectedAlgorithm(name);
+        algorithmChooser.resetListBoxes();
         primaryDataSourceLabel.setText("");
+        removeParameterTable();
       }
     });
     panel.add(refreshButton);
@@ -112,6 +111,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     for (Algorithm algorithm : algorithms) {
       this.algorithmChooser.addAlgorithm(algorithm);
     }
+    this.algorithmChooser.updateAlgorithmListBox();
   }
 
   /**
@@ -132,7 +132,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.messageReceiver.clearErrors();
     this.messageReceiver.clearInfos();
 
-    this.algorithmChooser.resetListBox();
     this.algorithmChooser.setSelectedAlgorithm(algorithmName);
     this.algorithmChooser.submit();
   }
@@ -163,14 +162,13 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
         "This should filter for algorithms applicable on " + dataSourceName);
     removeParameterTable();
 
-    this.algorithmChooser.resetListBox();
     this.algorithmChooser.filterForPrimaryDataSource(dataSource);
   }
 
   /**
    * Remove the parameterTable from UI if it was present
    */
-  private void removeParameterTable() {
+  public void removeParameterTable() {
     if (parameterTable != null) {
       this.remove(parameterTable);
     }
@@ -218,6 +216,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    * Returns the file name of the algorithm, which is needed for execution
    */
   private String getAlgorithmFileName(String name) {
-    return this.algorithmChooser.algorithms.get(name).getFileName();
+    return this.algorithmChooser.algorithmMap.get(name).getFileName();
   }
+
 }

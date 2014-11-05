@@ -32,7 +32,9 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.ParameterService;
 import de.metanome.frontend.client.services.ParameterServiceAsync;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +46,12 @@ import java.util.Map;
 public class AlgorithmChooser extends FlowPanel {
 
   protected Label label;
-  protected ListBox listbox;
+  protected ListBox algorithmListBox;
+  protected ListBox categoryListBox;
 
-  protected Map<String, Algorithm> algorithms = new HashMap<String, Algorithm>();
+  protected Map<String, Algorithm> algorithmMap = new HashMap<>();
+  protected Map<String, List<String>> categoryMap = new HashMap<>();
+  protected String currentCategory;
 
   protected ParameterServiceAsync parameterService;
   protected TabWrapper messageReceiver;
@@ -60,20 +65,51 @@ public class AlgorithmChooser extends FlowPanel {
     this.label = new Label("Choose your algorithm:");
     this.add(label);
 
-    this.listbox = new ListBox();
+    this.algorithmListBox = new ListBox();
+    this.categoryListBox = new ListBox(false);
 
-    //unselectable default entry
-    this.listbox.addItem("--");
-    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-    this.listbox.setSelectedIndex(0);
+    // Add all categories to the category list box
+    initializeCategoryListBoxAndMap();
 
     if (algorithms != null) {
       for (Algorithm algorithm : algorithms) {
         this.addAlgorithm(algorithm);
       }
     }
-    this.add(listbox);
-    this.listbox.addChangeHandler(new AlgorithmChooserChangeHandler());
+
+    // Add all algorithms to the algorithms list box
+    this.currentCategory = AlgorithmCategory.All.name();
+    updateAlgorithmListBox();
+
+    this.add(categoryListBox);
+    this.add(algorithmListBox);
+
+    this.algorithmListBox.addChangeHandler(new AlgorithmChooserChangeHandler());
+    this.categoryListBox.addChangeHandler(new AlgorithmCategoryChangeHandler());
+  }
+
+  /**
+   * Clears the algorithm list box and adds all algorithms of the current selected algorithm
+   * category to it.
+   */
+  public void updateAlgorithmListBox() {
+    this.algorithmListBox.clear();
+    this.algorithmListBox.addItem("--");
+    this.algorithmListBox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+    this.algorithmListBox.setSelectedIndex(0);
+
+    for (String name : this.categoryMap.get(this.currentCategory))
+      sortedInsert(name);
+  }
+
+  /**
+   * Add all categories to category list box.
+   */
+  private void initializeCategoryListBoxAndMap() {
+    for (String c : AlgorithmCategory.getCategories()) {
+      this.categoryListBox.addItem(c);
+      this.categoryMap.put(c, new ArrayList<String>());
+    }
   }
 
   /**
@@ -95,7 +131,7 @@ public class AlgorithmChooser extends FlowPanel {
         };
 
     // Make the call to the parameter service.
-    callParameterService(algorithms.get(selectedValue).getFileName(), callback);
+    callParameterService(algorithmMap.get(selectedValue).getFileName(), callback);
   }
 
   /**
@@ -120,18 +156,18 @@ public class AlgorithmChooser extends FlowPanel {
   }
 
   /**
-   * @return the number of items in the listbox, that is, the number of available algorithms in this
-   * JarChooser
+   * @return the number of items in the algorithm list box, that is, the number of available
+   * algorithms in this JarChooser
    */
   public int getListItemCount() {
-    return this.listbox.getItemCount();
+    return this.algorithmListBox.getItemCount();
   }
 
   /**
    * @return the value at the currently selected index
    */
   public String getSelectedAlgorithm() {
-    return listbox.getValue(listbox.getSelectedIndex());
+    return algorithmListBox.getValue(algorithmListBox.getSelectedIndex());
   }
 
   /**
@@ -141,9 +177,11 @@ public class AlgorithmChooser extends FlowPanel {
    * @throws IndexOutOfBoundsException if none of the entries have the given value.
    */
   public void setSelectedAlgorithm(String algorithmName) {
-    for (int i = 0; i < listbox.getItemCount(); i++) {
-      if (listbox.getValue(i).equals(algorithmName)) {
-        this.listbox.setSelectedIndex(i);
+    resetListBoxes();
+
+    for (int i = 0; i < algorithmListBox.getItemCount(); i++) {
+      if (algorithmListBox.getValue(i).equals(algorithmName)) {
+        this.algorithmListBox.setSelectedIndex(i);
         return;
       }
     }
@@ -163,10 +201,24 @@ public class AlgorithmChooser extends FlowPanel {
       name = algorithm.getFileName();
     }
 
-    if (!this.algorithms.containsKey(name)) {
-      this.algorithms.put(name, algorithm);
-      sortedInsert(name);
+    if (!this.algorithmMap.containsKey(name)) {
+      this.algorithmMap.put(name, algorithm);
     }
+
+    this.categoryMap.get(AlgorithmCategory.All.name()).add(name);
+
+    if (algorithm.isCucc())
+      this.categoryMap.get(AlgorithmCategory.Conditional_Unique_Column_Combination.name()).add(name);
+    if (algorithm.isUcc())
+      this.categoryMap.get(AlgorithmCategory.Unique_Column_Combinations.name()).add(name);
+    if (algorithm.isFd())
+      this.categoryMap.get(AlgorithmCategory.Functional_Dependencies.name()).add(name);
+    if (algorithm.isOd())
+      this.categoryMap.get(AlgorithmCategory.Order_Dependencies.name()).add(name);
+    if (algorithm.isInd())
+      this.categoryMap.get(AlgorithmCategory.Inclusion_Dependencies.name()).add(name);
+    if (algorithm.isBasicStat())
+      this.categoryMap.get(AlgorithmCategory.Basic_Statistics.name()).add(name);
   }
 
   /**
@@ -175,13 +227,23 @@ public class AlgorithmChooser extends FlowPanel {
    * @param algorithmName the algorithm's name, which should be removed
    */
   public void removeAlgorithm(String algorithmName) {
-    this.algorithms.remove(algorithmName);
-    removeAlgorithmFromListBox(algorithmName);
+    this.algorithmMap.remove(algorithmName);
+
+    for (List<String> algorithms : this.categoryMap.values()) {
+      for (Iterator<String> iterator = algorithms.iterator(); iterator.hasNext(); ) {
+        String name = iterator.next();
+        if (name.equals(algorithmName)) {
+          iterator.remove();
+        }
+      }
+    }
+
+    updateAlgorithmListBox();
   }
 
   /**
-   * Inserts a new item in alphabetical ordering, that is, after before the first item that is
-   * lexicographically larger than the argument.
+   * Inserts a new item in alphabetical ordering into the algorithm list box, that is, after
+   * before the first item that is lexicographically larger than the argument.
    *
    * @param name The value to be inserted.
    */
@@ -189,12 +251,12 @@ public class AlgorithmChooser extends FlowPanel {
     int insertIndex = 0;
     do {
       insertIndex++;
-      if (insertIndex >= this.listbox.getItemCount()) {
-        this.listbox.addItem(name);
+      if (insertIndex >= this.algorithmListBox.getItemCount()) {
+        this.algorithmListBox.addItem(name);
         return;
       }
-    } while (this.listbox.getValue(insertIndex).compareTo(name) < 0);
-    this.listbox.insertItem(name, insertIndex);
+    } while (this.algorithmListBox.getValue(insertIndex).compareTo(name) < 0);
+    this.algorithmListBox.insertItem(name, insertIndex);
   }
 
   /**
@@ -205,7 +267,9 @@ public class AlgorithmChooser extends FlowPanel {
    *                   filtered
    */
   public void filterForPrimaryDataSource(ConfigurationSettingDataSource dataSource) {
-    for (Algorithm algorithm : this.algorithms.values()) {
+    resetListBoxes();
+
+    for (Algorithm algorithm : this.algorithmMap.values()) {
       if (dataSource instanceof ConfigurationSettingDatabaseConnection &&
           !algorithm.isDatabaseConnection()) {
         removeAlgorithmFromListBox(algorithm.getName());
@@ -220,18 +284,18 @@ public class AlgorithmChooser extends FlowPanel {
       }
     }
 
-    this.listbox.setSelectedIndex(0);
+    this.algorithmListBox.setSelectedIndex(0);
   }
 
   /**
-   * Removes the given algorithm from the list box.
+   * Removes the given algorithm from the algorithm list box.
    * @param algorithmName the algorithm's name, which should be removed
    */
   private void removeAlgorithmFromListBox(String algorithmName) {
     int index = 0;
-    while (index < this.listbox.getItemCount()) {
-      if (this.listbox.getItemText(index).equals(algorithmName)) {
-        this.listbox.removeItem(index);
+    while (index < this.algorithmListBox.getItemCount()) {
+      if (this.algorithmListBox.getItemText(index).equals(algorithmName)) {
+        this.algorithmListBox.removeItem(index);
         return;
       }
       index++;
@@ -239,27 +303,49 @@ public class AlgorithmChooser extends FlowPanel {
   }
 
   /**
-   * Resets the list box. Adds all available algorithms to the list box again.
+   * Resets the list boxes. Sets the category to 'ALL' and adds all available algorithms to the
+   * algorithm list box again.
    */
-  public void resetListBox() {
-    this.listbox.clear();
+  public void resetListBoxes() {
+    this.currentCategory = AlgorithmCategory.All.name();
+    this.categoryListBox.setSelectedIndex(0);
+    updateAlgorithmListBox();
+  }
 
-    this.listbox.addItem("--");
-    this.listbox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
-    this.listbox.setSelectedIndex(0);
+  /**
+   * Sets the current selected category.
+   * @param currentCategory the current category
+   */
+  public void setCurrentCategory(String currentCategory) {
+    this.currentCategory = currentCategory;
+  }
 
-    for (Algorithm algorithm : this.algorithms.values()) {
-      String name = algorithm.getName();
-      if (name == null) {
-        name = algorithm.getFileName();
+  /**
+   * Enum that holds all available algorithm categories.
+   */
+  public enum AlgorithmCategory {
+    All,
+    Unique_Column_Combinations,
+    Conditional_Unique_Column_Combination,
+    Functional_Dependencies,
+    Order_Dependencies,
+    Inclusion_Dependencies,
+    Basic_Statistics;
+
+    /**
+     * @return a list of category names
+     */
+    public static List<String> getCategories() {
+      List<String> categories = new ArrayList<>();
+      for (AlgorithmCategory c : values()) {
+        categories.add(c.name());
       }
-      sortedInsert(name);
+      return categories;
     }
   }
 
   public void setMessageReceiver(TabWrapper receiver) {
     this.messageReceiver = receiver;
   }
-
 
 }
