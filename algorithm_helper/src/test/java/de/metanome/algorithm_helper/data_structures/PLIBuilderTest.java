@@ -41,7 +41,7 @@ public class PLIBuilderTest {
   @Before
   public void setUp() throws Exception {
     fixture = new PLIBuilderFixture();
-    builder = new PLIBuilder(fixture.getSimpleRelationalInput());
+    builder = new PLIBuilder(fixture.getInputGenerator().generateNewCopy());
   }
 
   @After

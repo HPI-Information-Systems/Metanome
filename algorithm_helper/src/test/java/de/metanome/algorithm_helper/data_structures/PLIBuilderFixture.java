@@ -18,12 +18,16 @@ package de.metanome.algorithm_helper.data_structures;
 
 import com.google.common.collect.ImmutableList;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 
-import java.util.ArrayList;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
@@ -33,80 +37,65 @@ import static org.mockito.Mockito.when;
 
 public class PLIBuilderFixture {
 
-  protected List<ArrayList<String>> columns = new LinkedList<>();
+  protected List<ImmutableList<String>> table = new LinkedList<>();
+  protected RelationalInput input;
+  int rowPosition;
 
   public PLIBuilderFixture() {
-    ArrayList<String> column1 = new ArrayList<>();
-    column1.add("1");
-    column1.add("2");
-    column1.add("3");
-    column1.add("4");
-    column1.add("5");
-    columns.add(column1);
-    ArrayList<String> column2 = new ArrayList<>();
-    column2.add("1");
-    column2.add("1");
-    column2.add("1");
-    column2.add("1");
-    column2.add("1");
-    columns.add(column2);
-    ArrayList<String> column3 = new ArrayList<>();
-    column3.add("5");
-    column3.add("5");
-    column3.add("3");
-    column3.add("3");
-    column3.add("5");
-    columns.add(column3);
-    ArrayList<String> column4 = new ArrayList<>();
-    column4.add("");
-    column4.add("2");
-    column4.add("");
-    column4.add("4");
-    column4.add("5");
-    columns.add(column4);
+    table.add(ImmutableList.of("1", "1", "5", ""));
+    table.add(ImmutableList.of("2", "1", "5", "2"));
+    table.add(ImmutableList.of("3", "1", "3", ""));
+    table.add(ImmutableList.of("4", "1", "3", "4"));
+    table.add(ImmutableList.of("5", "1", "5", "5"));
   }
 
-  public RelationalInput getSimpleRelationalInput() throws InputIterationException {
-    RelationalInput simpleRelationalInput = mock(RelationalInput.class);
+  public RelationalInputGenerator getInputGenerator()
+      throws InputGenerationException, InputIterationException {
+    RelationalInputGenerator inputGenerator = mock(RelationalInputGenerator.class);
+    this.input = this.getRelationalInput();
+    when(inputGenerator.generateNewCopy())
+        .thenAnswer(new Answer<RelationalInput>() {
+          public RelationalInput answer(InvocationOnMock invocation) throws Throwable {
+            rowPosition = 0;
+            return input;
+          }
+        });
+    return inputGenerator;
+  }
 
-    when(simpleRelationalInput.next())
-        .thenReturn(ImmutableList
-                        .of(columns.get(0).get(0), columns.get(1).get(0), columns.get(2).get(0),
-                            columns.get(3).get(0)))
-        .thenReturn(ImmutableList
-                        .of(columns.get(0).get(1), columns.get(1).get(1), columns.get(2).get(1),
-                            columns.get(3).get(1)))
-        .thenReturn(ImmutableList
-                        .of(columns.get(0).get(2), columns.get(1).get(2), columns.get(2).get(2),
-                            columns.get(3).get(2)))
-        .thenReturn(ImmutableList
-                        .of(columns.get(0).get(3), columns.get(1).get(3), columns.get(2).get(3),
-                            columns.get(3).get(3)))
-        .thenReturn(ImmutableList
-                        .of(columns.get(0).get(4), columns.get(1).get(4), columns.get(2).get(4),
-                            columns.get(3).get(4)));
+  protected RelationalInput getRelationalInput() throws InputIterationException {
+    RelationalInput input = mock(RelationalInput.class);
 
-    when(simpleRelationalInput.hasNext())
-        .thenReturn(true)
-        .thenReturn(true)
-        .thenReturn(true)
-        .thenReturn(true)
-        .thenReturn(true)
-        .thenReturn(false);
+    when(input.hasNext()).thenAnswer(new Answer<Boolean>() {
+      public Boolean answer(InvocationOnMock invocation) throws Throwable {
+        return rowPosition < table.size();
+      }
+    });
 
-    return simpleRelationalInput;
+    when(input.next()).thenAnswer(new Answer<ImmutableList<String>>() {
+      public ImmutableList<String> answer(InvocationOnMock invocation) throws Throwable {
+        rowPosition += 1;
+        return table.get(rowPosition - 1);
+      }
+    });
+
+    return input;
   }
 
 
   public long getExpectedNumberOfTuples() {
-    return columns.get(0).size();
+    return table.size();
   }
 
   public List<TreeSet<String>> getExpectedDistinctSortedColumns() {
     List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
 
-    for (ArrayList<String> columnValues : columns) {
-      distinctSortedColumns.add(new TreeSet<>(columnValues));
+    for (int col = 0; col < table.get(0).size(); col++) {
+      TreeSet<String> sortedcolumn = new TreeSet<>();
+      for (int row = 0; row < table.size(); row++) {
+        sortedcolumn.add(table.get(row).get(col));
+      }
+      distinctSortedColumns.add(sortedcolumn);
     }
 
     return distinctSortedColumns;
