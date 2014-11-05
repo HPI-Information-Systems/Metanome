@@ -94,10 +94,9 @@ public class PLIBuilderFixture {
       TreeSet<String> sortedcolumn = new TreeSet<>();
       for (int row = 0; row < table.size(); row++) {
         String value = table.get(row).get(col);
-        if (value == null) {
-          value = "";
+        if (value != null) {
+          sortedcolumn.add(value);
         }
-        sortedcolumn.add(value);
       }
       distinctSortedColumns.add(sortedcolumn);
     }
