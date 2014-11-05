@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
-import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -28,6 +26,8 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
@@ -37,16 +37,16 @@ import static org.mockito.Mockito.when;
 
 public class PLIBuilderFixture {
 
-  protected List<ImmutableList<String>> table = new LinkedList<>();
+  protected ArrayList<ArrayList<String>> table = new ArrayList<>();
   protected RelationalInput input;
   int rowPosition;
 
   public PLIBuilderFixture() {
-    table.add(ImmutableList.of("1", "1", "5", ""));
-    table.add(ImmutableList.of("2", "1", "5", "2"));
-    table.add(ImmutableList.of("3", "1", "3", ""));
-    table.add(ImmutableList.of("4", "1", "3", "4"));
-    table.add(ImmutableList.of("5", "1", "5", "5"));
+    table.add(new ArrayList<>(Arrays.asList("1", "1", "5", null)));
+    table.add(new ArrayList<>(Arrays.asList("2", "1", "5", "2")));
+    table.add(new ArrayList<>(Arrays.asList("3", "1", "3", null)));
+    table.add(new ArrayList<>(Arrays.asList("4", "1", "3", "4")));
+    table.add(new ArrayList<>(Arrays.asList("5", "1", "5", "5")));
   }
 
   public RelationalInputGenerator getInputGenerator()
@@ -72,8 +72,8 @@ public class PLIBuilderFixture {
       }
     });
 
-    when(input.next()).thenAnswer(new Answer<ImmutableList<String>>() {
-      public ImmutableList<String> answer(InvocationOnMock invocation) throws Throwable {
+    when(input.next()).thenAnswer(new Answer<ArrayList<String>>() {
+      public ArrayList<String> answer(InvocationOnMock invocation) throws Throwable {
         rowPosition += 1;
         return table.get(rowPosition - 1);
       }
@@ -93,7 +93,11 @@ public class PLIBuilderFixture {
     for (int col = 0; col < table.get(0).size(); col++) {
       TreeSet<String> sortedcolumn = new TreeSet<>();
       for (int row = 0; row < table.size(); row++) {
-        sortedcolumn.add(table.get(row).get(col));
+        String value = table.get(row).get(col);
+        if (value == null) {
+          value = "";
+        }
+        sortedcolumn.add(value);
       }
       distinctSortedColumns.add(sortedcolumn);
     }
