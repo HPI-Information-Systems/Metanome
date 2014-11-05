@@ -105,7 +105,7 @@ public class PLIBuilderFixture {
     return distinctSortedColumns;
   }
 
-  public List<PositionListIndex> getExpectedPLIList() {
+  public List<PositionListIndex> getExpectedPLIList(boolean nullEqualsNull) {
     List<PositionListIndex> expectedPLIList = new LinkedList<>();
     List<LongArrayList> list1 = new LinkedList<>();
     PositionListIndex PLI1 = new PositionListIndex(list1);
@@ -141,8 +141,10 @@ public class PLIBuilderFixture {
     List<LongArrayList> list4 = new LinkedList<>();
     LongArrayList arrayList41 = new LongArrayList();
 
-    arrayList41.add(0);
-    arrayList41.add(2);
+    if (nullEqualsNull) {
+      arrayList41.add(0);
+      arrayList41.add(2);
+    }
 
     list4.add(arrayList41);
     PositionListIndex PLI4 = new PositionListIndex(list4);

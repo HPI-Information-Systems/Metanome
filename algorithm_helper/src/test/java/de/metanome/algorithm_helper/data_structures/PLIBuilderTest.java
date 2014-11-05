@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -50,13 +51,35 @@ public class PLIBuilderTest {
 
   /**
    * Test method for {@link PLIBuilder#getPLIList()} <p/> Tests that {@link
-   * de.metanome.algorithm_helper.data_structures.PositionListIndex}es are build correclty.
+   * de.metanome.algorithm_helper.data_structures.PositionListIndex}es are build correctly.
    */
   @Test
-  public void testCalculatePLI() throws InputIterationException {
+  public void testCalculatePLINullEqualsNull() throws InputIterationException {
     // Setup
     // Expected values
-    List<PositionListIndex> expectedPLIList = fixture.getExpectedPLIList();
+    List<PositionListIndex> expectedPLIList = fixture.getExpectedPLIList(true);
+    PositionListIndex[]
+        expectedPLIArray =
+        expectedPLIList.toArray(new PositionListIndex[expectedPLIList.size()]);
+
+    // Execute functionality
+    List<PositionListIndex> actualPLIList = builder.getPLIList();
+
+    // Check result
+    assertThat(actualPLIList, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedPLIArray));
+  }
+
+  /**
+   * Test method for {@link PLIBuilder#getPLIList()} <p/> Tests that {@link
+   * de.metanome.algorithm_helper.data_structures.PositionListIndex}es are build correctly.
+   */
+  @Test
+  public void testCalculatePLINullNotEqualsNull()
+      throws InputIterationException, InputGenerationException {
+    // Setup
+    this.builder = new PLIBuilder(fixture.getInputGenerator().generateNewCopy(), false);
+    // Expected values
+    List<PositionListIndex> expectedPLIList = fixture.getExpectedPLIList(false);
     PositionListIndex[]
         expectedPLIArray =
         expectedPLIList.toArray(new PositionListIndex[expectedPLIList.size()]);
