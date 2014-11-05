@@ -139,17 +139,17 @@ public class PLIBuilderFixture {
     expectedPLIList.add(PLI3);
 
     List<LongArrayList> list4 = new LinkedList<>();
-    LongArrayList arrayList41 = new LongArrayList();
-
     if (nullEqualsNull) {
+      LongArrayList arrayList41 = new LongArrayList();
+
       arrayList41.add(0);
       arrayList41.add(2);
+
+      list4.add(arrayList41);
     }
 
-    list4.add(arrayList41);
     PositionListIndex PLI4 = new PositionListIndex(list4);
     expectedPLIList.add(PLI4);
-
     return expectedPLIList;
   }
 }
