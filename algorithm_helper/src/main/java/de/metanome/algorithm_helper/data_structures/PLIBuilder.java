@@ -43,7 +43,6 @@ public class PLIBuilder {
   public PLIBuilder(RelationalInput input) {
     this.input = input;
   }
-
   public PLIBuilder(RelationalInput input, boolean nullEqualsNull) {
     this(input);
     this.nullEqualsNull = nullEqualsNull;
@@ -105,7 +104,10 @@ public class PLIBuilder {
     }
 
     List<TreeSet<String>> distinctSortedColumns = new LinkedList<>();
-
+    if (!this.nullEqualsNull) {
+      throw new InputIterationException(
+          "Distinct sorted values with null != null semantic are currently not supported");
+    }
     for (HashMap<String, LongArrayList> columnMap : columns) {
       if (columnMap.containsKey(null)) {
         LongArrayList nullValues = columnMap.get(null);
