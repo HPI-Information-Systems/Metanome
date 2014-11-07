@@ -51,6 +51,11 @@
             <name>Tanja Bergmann</name>
             <email>tanja.bergmann@student.hpi.uni-potsdam.de</email>
         </developer>
+        <developer>
+            <id>moritz</id>
+            <name>Moritz Finke</name>
+            <email>moritz.finke@student.hpi.uni-potsdam.de</email>
+        </developer>
     </developers>
 
     <properties>
