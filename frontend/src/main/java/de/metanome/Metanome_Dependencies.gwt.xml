@@ -81,6 +81,9 @@
         <include name="ExceptionParser.java"/>
     </source>
     <source path="backend/results_db">
+        <include name="Execution.java"/>
+        <include name="Result.java"/>
+        <include name="ExecutionId.java"/>
         <include name="Algorithm.java"/>
         <include name="AlgorithmContentEquals.java"/>
         <include name="DatabaseConnection.java"/>

@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import org.hibernate.annotations.CollectionId;
@@ -32,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,6 +50,7 @@ import javax.persistence.OneToMany;
  * @author Jakob Zwiener
  */
 @Entity
+@GwtCompatible
 @IdClass(ExecutionId.class)
 public class Execution extends ResultsDbEntity implements Serializable {
 
@@ -95,6 +98,7 @@ public class Execution extends ResultsDbEntity implements Serializable {
    * @param begin     the start time of the execution
    * @return the execution
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static Execution retrieve(Algorithm algorithm, Timestamp begin)
       throws EntityStorageException {
     return (Execution) HibernateUtil.retrieve(Execution.class, new ExecutionId(algorithm, begin));
@@ -105,6 +109,7 @@ public class Execution extends ResultsDbEntity implements Serializable {
    *
    * @return a list of all executions
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static List<Execution> retrieveAll() {
     List<Execution> executions = null;
 
@@ -194,7 +199,8 @@ public class Execution extends ResultsDbEntity implements Serializable {
 
   @OneToMany(
       fetch = FetchType.EAGER,
-      mappedBy = "execution"
+      mappedBy = "execution",
+      cascade = CascadeType.REMOVE
   )
   @Fetch(value = FetchMode.SELECT)
   public Set<Result> getResults() {

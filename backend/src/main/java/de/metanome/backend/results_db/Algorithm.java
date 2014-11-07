@@ -40,11 +40,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * Represents an algorithm in the database.
@@ -76,8 +78,9 @@ public class Algorithm extends ResultsDbEntity implements IsSerializable, Compar
   protected boolean isDatabaseConnection;
   protected boolean isTableInput;
   protected boolean isFileInput;
-
   protected boolean isBasicStat;
+  protected Set<Execution> executions;
+
 
   /**
    * Exists for hibernate serialization
@@ -374,6 +377,15 @@ public class Algorithm extends ResultsDbEntity implements IsSerializable, Compar
     this.isDatabaseConnection = hasInput;
 
     return this;
+  }
+
+  @OneToMany(cascade = CascadeType.REMOVE)
+  public Set<Execution> getExecutions() {
+    return this.executions;
+  }
+
+  public void setExecutions(Set<Execution> executions) {
+    this.executions = executions;
   }
 
   @Override

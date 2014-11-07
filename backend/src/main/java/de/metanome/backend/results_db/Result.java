@@ -62,6 +62,7 @@ public class Result extends ResultsDbEntity implements IsSerializable {
    * @param filePath the result's file path.
    * @return the result
    */
+  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public static Result retrieve(String filePath) throws EntityStorageException {
     return (Result) HibernateUtil.retrieve(Result.class, filePath);
   }

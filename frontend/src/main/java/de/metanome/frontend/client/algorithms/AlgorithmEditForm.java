@@ -119,6 +119,7 @@ public class AlgorithmEditForm extends Grid {
   private AsyncCallback<List<Algorithm>> getDatabaseCallback() {
     return new AsyncCallback<List<Algorithm>>() {
       public void onFailure(Throwable caught) {
+        System.out.println(caught.getMessage());
       }
 
       public void onSuccess(List<Algorithm> result) {
