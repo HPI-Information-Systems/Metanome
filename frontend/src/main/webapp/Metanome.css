@@ -156,8 +156,6 @@ h3 {
 }
 
 .gwt-Button:hover {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
-    background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
     background-color: #dfdfdf;
 }
 
@@ -168,4 +166,59 @@ h3 {
 
 .gwt-Button:focus {
     outline-width: 3px;
+}
+
+
+.gwt-PopupPanelGlass {
+    background-color: #000;
+    opacity: 0.3;
+}
+
+.gwt-DialogBox .Caption {
+    background: #F1F1F1;
+    padding: 4px 8px 4px 4px;
+    cursor: default;
+    font-family: Arial Unicode MS, Arial, sans-serif;
+    font-weight: bold;
+    border-bottom: 1px solid #bbbbbb;
+    border-top: 1px solid #D2D2D2;
+}
+.gwt-DialogBox .dialogContent {
+}
+.gwt-DialogBox .dialogMiddleCenter {
+    padding: 3px;
+    background: white;
+}
+.gwt-DialogBox .dialogTopLeftInner {
+    width: 10px;
+    height: 8px;
+}
+.gwt-DialogBox .dialogTopRightInner {
+    width: 12px;
+}
+.gwt-DialogBox .dialogBottomLeftInner {
+    width: 10px;
+    height: 12px;
+}
+.gwt-DialogBox .dialogBottomRightInner {
+    width: 12px;
+    height: 12px;
+}
+* html .gwt-DialogBox .dialogTopLeftInner {
+    width: 10px;
+    overflow: hidden;
+}
+* html .gwt-DialogBox .dialogTopRightInner {
+    width: 12px;
+    overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomLeftInner {
+    width: 10px;
+    height: 12px;
+    overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomRightInner {
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
 }

@@ -160,10 +160,11 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
       Button deleteButton = new Button("Delete");
       deleteButton.setTitle(algorithm.getName());
+      final AlgorithmsPage page = this;
       deleteButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          deleteAlgorithm(algorithm);
+          new AlgorithmDeleteDialogBox(page, algorithm).show();
         }
       });
 
