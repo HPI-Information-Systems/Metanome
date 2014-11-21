@@ -46,6 +46,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="de.metanome.backend.results_db.Algorithm"/>
+        <mapping class="de.metanome.backend.results_db.AlgorithmObj"/>
         <mapping class="de.metanome.backend.results_db.DatabaseConnection"/>
         <mapping class="de.metanome.backend.results_db.Execution"/>
         <mapping class="de.metanome.backend.results_db.FileInput"/>

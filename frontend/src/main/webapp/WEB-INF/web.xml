@@ -29,7 +29,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                de.metanome.frontend.server.interfaces.api
+                de.metanome.backend.results_db
             </param-value>
         </init-param>
     </servlet>
@@ -38,75 +38,75 @@
         <url-pattern>/metanome/api/*</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>parameterServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.ParameterServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>parameterServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/parameterService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>parameterServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.ParameterServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>parameterServiceImpl</servlet-name>
+        <url-pattern>/metanome/parameterService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>algorithmServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.AlgorithmServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>algorithmServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/algorithmService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>algorithmServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.AlgorithmServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>algorithmServiceImpl</servlet-name>
+        <url-pattern>/metanome/algorithmService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>executionServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.ExecutionServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>executionServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/executionService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>executionServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.ExecutionServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>executionServiceImpl</servlet-name>
+        <url-pattern>/metanome/executionService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>fileInputServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.FileInputServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>fileInputServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/fileInputService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>fileInputServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.FileInputServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fileInputServiceImpl</servlet-name>
+        <url-pattern>/metanome/fileInputService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>databaseConnectionServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.DatabaseConnectionServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>databaseConnectionServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/databaseConnectionService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>databaseConnectionServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.DatabaseConnectionServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>databaseConnectionServiceImpl</servlet-name>
+        <url-pattern>/metanome/databaseConnectionService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>tableInputServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.TableInputServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>tableInputServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/tableInputService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>tableInputServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.TableInputServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tableInputServiceImpl</servlet-name>
+        <url-pattern>/metanome/tableInputService</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>inputServiceImpl</servlet-name>-->
-        <!--<servlet-class>de.metanome.frontend.server.InputServiceImpl-->
-        <!--</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>inputServiceImpl</servlet-name>-->
-        <!--<url-pattern>/metanome/inputService</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>inputServiceImpl</servlet-name>
+        <servlet-class>de.metanome.frontend.server.InputServiceImpl
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inputServiceImpl</servlet-name>
+        <url-pattern>/metanome/inputService</url-pattern>
+    </servlet-mapping>
 
     <listener>
         <listener-class>de.metanome.frontend.server.DatabaseInitializer

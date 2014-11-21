@@ -85,6 +85,8 @@
         <include name="Result.java"/>
         <include name="ExecutionId.java"/>
         <include name="Algorithm.java"/>
+        <include name="AlgorithmObj.java"/>
+        <include name="AlgorithmRes.java"/>
         <include name="AlgorithmContentEquals.java"/>
         <include name="DatabaseConnection.java"/>
         <include name="TableInput.java"/>
