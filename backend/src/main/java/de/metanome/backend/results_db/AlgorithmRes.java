@@ -16,23 +16,8 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -49,72 +34,16 @@ public class AlgorithmRes {
   @GET
   @Path("/algorithm/{fileName}")
   @Produces("application/json")
-  public Algorithm retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
-    return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+  public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
+    return (AlgorithmObj) HibernateUtil.retrieve(AlgorithmObj.class, fileName);
   }
 
-  /**
-   * Retrieves all algorithms stored in the database.
-   *
-   * @return a list of all algorithms
-   */
-  @GET
-  @Path("/all")
+  @POST
+  @Path("/store/{fileName}")
   @Produces("application/json")
-  public List<Algorithm> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(Algorithm.class);
-  }
-
-  /**
-   * Retrieves all algorithms stored in the database, that are of a type associated to one of the
-   * interfaces.
-   *
-   * @param algorithmInterfaces algorithm interfaces specifying the expected algorithm type
-   * @return a list of matching algorithms
-   */
-  @GET
-  @Path("/all/{interfaces}")
-  @Produces("application/json")
-  public static List<Algorithm> retrieveAll(@PathParam("interfaces") Class<?>... algorithmInterfaces) {
-    // Cannot directly use array, as some interfaces might not be relevant for query.
-    ArrayList<Criterion> criteria = new ArrayList<>(algorithmInterfaces.length);
-
-    Set<Class<?>> interfaces = new HashSet<>(Arrays.asList(algorithmInterfaces));
-
-    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("ind", true));
-    }
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("fd", true));
-    }
-
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-      criteria.add(Restrictions.eq("ucc", true));
-    }
-
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-      criteria.add(Restrictions.eq("cucc", true));
-    }
-
-    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("od", true));
-    }
-
-    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
-      criteria.add(Restrictions.eq("basicStat", true));
-    }
-
-    List<Algorithm> algorithms = null;
-    try {
-      algorithms =
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return algorithms;
+  public void storeAlgorithm(@PathParam("fileName") String fileName) throws EntityStorageException {
+    AlgorithmObj algorithmObj = new AlgorithmObj(fileName);
+    HibernateUtil.store(algorithmObj);
   }
 
 }

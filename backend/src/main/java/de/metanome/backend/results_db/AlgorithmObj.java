@@ -17,8 +17,9 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
@@ -37,19 +38,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@NamedQueries(
-    @NamedQuery(
-        name = "get all",
-        query = "from Algorithm"
-    )
-)
 @GwtCompatible
 @Entity
-public class AlgorithmObj extends ResultsDbEntity implements IsSerializable, Comparable<Algorithm> {
+public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
   protected String fileName;
   protected String name;
@@ -259,6 +252,7 @@ public class AlgorithmObj extends ResultsDbEntity implements IsSerializable, Com
   }
 
   @OneToMany(cascade = CascadeType.REMOVE)
+  @JsonIgnore
   public Set<Execution> getExecutions() {
     return executions;
   }
@@ -299,12 +293,4 @@ public class AlgorithmObj extends ResultsDbEntity implements IsSerializable, Com
     return this.getName().compareTo(o.getName());
   }
 
-
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public AlgorithmObj store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
 }

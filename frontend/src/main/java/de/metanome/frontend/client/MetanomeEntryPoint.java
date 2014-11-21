@@ -19,17 +19,43 @@ package de.metanome.frontend.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
+import org.fusesource.restygwt.client.JsonCallback;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.Resource;
+
 public class MetanomeEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
     System.out.println(GWT.getModuleBaseURL());
+
+
+    Resource resource = new Resource( GWT.getModuleBaseURL() + "algorithms/store/");
+
+    JSONValue request = JSONParser.parseStrict("{\"fileName\":\"example_fd_algorithm.jar\"}");
+
+    resource.post().json(request).send(
+        new JsonCallback() {
+          @Override
+          public void onFailure(Method method, Throwable throwable) {
+
+          }
+
+          @Override
+          public void onSuccess(Method method, JSONValue jsonValue) {
+
+          }
+        });
+
+
 
     // body panel
     LayoutPanel bodyPanel = new LayoutPanel();
