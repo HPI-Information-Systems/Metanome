@@ -27,21 +27,22 @@
     <entry-point class="de.metanome.frontend.client.MetanomeEntryPoint"/>
 
     <source path="client"/>
+    <source path="shared"/>
 
-    <servlet path="/parameterService"
-             class="de.metanome.frontend.server.ParameterServiceImpl"/>
-    <servlet path="/algorithmService"
-             class="de.metanome.frontend.server.AlgorithmServiceImpl"/>
-    <servlet path="/executionService"
-             class="de.metanome.frontend.server.ExecutionServiceImpl"/>
-    <servlet path="/fileInputService"
-             class="de.metanome.frontend.server.FileInputServiceImpl"/>
-    <servlet path="/databaseConnectionService"
-             class="de.metanome.frontend.server.DatabaseConnectionServiceImpl"/>
-    <servlet path="/tableInputService"
-             class="de.metanome.frontend.server.TableInputServiceImpl"/>
-    <servlet path="/inputService"
-             class="de.metanome.frontend.server.InputServiceImpl"/>
+    <!--<servlet path="/parameterService"-->
+             <!--class="de.metanome.frontend.server.ParameterServiceImpl"/>-->
+    <!--<servlet path="/algorithmService"-->
+             <!--class="de.metanome.frontend.server.AlgorithmServiceImpl"/>-->
+    <!--<servlet path="/executionService"-->
+             <!--class="de.metanome.frontend.server.ExecutionServiceImpl"/>-->
+    <!--<servlet path="/fileInputService"-->
+             <!--class="de.metanome.frontend.server.FileInputServiceImpl"/>-->
+    <!--<servlet path="/databaseConnectionService"-->
+             <!--class="de.metanome.frontend.server.DatabaseConnectionServiceImpl"/>-->
+    <!--<servlet path="/tableInputService"-->
+             <!--class="de.metanome.frontend.server.TableInputServiceImpl"/>-->
+    <!--<servlet path="/inputService"-->
+             <!--class="de.metanome.frontend.server.InputServiceImpl"/>-->
 
     <!-- Changing the linker is only necessary if you want to try out SuperDevMode -->
     <add-linker name="xsiframe"/>
@@ -51,6 +52,7 @@
     <!-- the theme of your GWT application by uncommenting          -->
     <!-- any one of the following lines.                           -->
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <inherits name="org.fusesource.restygwt.RestyGWT"/>
     <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
     <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
     <stylesheet src="/Metanome.css"/>

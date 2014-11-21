@@ -51,7 +51,7 @@ public class MetanomeEntryPoint implements EntryPoint {
     root.addStyleName("root");
     root.add(p);
 
-    bodyPanel.add(new BasePage());
+    //bodyPanel.add(new BasePage());
   }
 
 }
