@@ -52,13 +52,19 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
   public ColumnCondition add(ColumnCondition value);
 
   /**
-   * Calculates the coverage of all contained {@link de.metanome.algorithm_integration.ColumnCondition}s,
-   * when the coverage is set on the children. The coverage is only correct if there are no
-   * overlapping OR conditions.
+   * Returns the set coverage or calculates the coverage of the children if no coverage was set.
+   * The calculation may be wrong if there are overlapping {@link de.metanome.algorithm_integration.ColumnConditionAnd} as child of a {@link de.metanome.algorithm_integration.ColumnConditionOr}.
    *
    * @return coverage between 0 and 100
    */
   public float getCoverage();
+
+  /**
+   * Sets the coverage on the element.
+   *
+   * @param coverage to be set
+   */
+  public void setCoverage(float coverage);
 
   /**
    * Returns all {@link de.metanome.algorithm_integration.ColumnIdentifier} that occur in the condition.
@@ -68,7 +74,10 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
   public TreeSet<ColumnIdentifier> getContainedColumns();
 
   /**
-   * Traverses all children and builds a pattern tableau, which represents the condition. Each element in the list represents a OR condition and each entry in the map a AND condition. The pattern tableau is only correct if the {@link de.metanome.algorithm_integration.ColumnCondition} is in disjunctive normal form.
+   * Traverses all children and builds a pattern tableau, which represents the condition.
+   * Each element in the list represents a OR condition and each entry in the map a AND condition.
+   * The pattern tableau is only correct if the {@link de.metanome.algorithm_integration.ColumnCondition}
+   * is in disjunctive normal form.
    *
    * @return pattern tableau
    */

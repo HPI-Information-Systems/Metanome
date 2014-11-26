@@ -110,9 +110,10 @@ public class ConditionalUniqueColumnCombinationTest {
                                        "";
 
     // Execute functionality
-    System.out.println(actualConditionalColumnCombination.toString());
+    System.out.println(actualConditionalColumnCombination.buildPatternTableau());
     // Check result
-    assertEquals(expectedStringRepresentation, actualConditionalColumnCombination.toString());
+    assertEquals(expectedStringRepresentation,
+                 actualConditionalColumnCombination.buildPatternTableau());
   }
 
   /**
