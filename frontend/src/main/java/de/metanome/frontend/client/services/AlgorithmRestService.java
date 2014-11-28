@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.client;
+package de.metanome.frontend.client.services;
 
 
 import de.metanome.backend.results_db.AlgorithmObj;
@@ -31,6 +31,6 @@ import javax.ws.rs.Path;
 public interface AlgorithmRestService extends RestService {
 
   @GET
-  public void getAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listAllAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
 }

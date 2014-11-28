@@ -34,6 +34,7 @@ import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
+import de.metanome.frontend.client.services.AlgorithmRestService;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
 
 import org.fusesource.restygwt.client.Defaults;
@@ -68,14 +69,16 @@ public class BasePage extends TabLayoutPanel {
 
     Defaults.setServiceRoot(GWT.getHostPageBaseURL());
     AlgorithmRestService service = GWT.create(AlgorithmRestService.class);
-    service.getAlgorithms(
+    service.listAllAlgorithms(
         new MethodCallback<List<AlgorithmObj>>() {
 
           @Override
           public void onSuccess(Method method, List<AlgorithmObj> algorithms) {
-            for (AlgorithmObj algo: algorithms) {
-              algorithmLabel.setText(algo.getFileName());
+            String str = "";
+            for (AlgorithmObj algo : algorithms) {
+              str = str + " " + algo.getFileName();
             }
+            algorithmLabel.setText(str);
           }
 
           @Override
