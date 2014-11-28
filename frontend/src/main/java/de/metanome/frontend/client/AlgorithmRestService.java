@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.results_db;
+package de.metanome.frontend.client;
 
-/**
- * @author Jakob Zwiener
- */
-public class EntityStorageException extends Exception {
 
-  private static final long serialVersionUID = -174040542991104845L;
+import de.metanome.backend.results_db.AlgorithmObj;
 
-  protected EntityStorageException() {
-    super();
-  }
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.RestService;
 
-  public EntityStorageException(String message) {
-    super(message);
-  }
+import java.util.List;
 
-  public EntityStorageException(String message, Throwable cause) {
-    super(message, cause);
-  }
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+@Path("/api/algorithms")
+public interface AlgorithmRestService extends RestService {
+
+  @GET
+  public void getAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
 }

@@ -30,6 +30,7 @@ import java.sql.Timestamp;
 @GwtCompatible
 public class ExecutionId implements Serializable {
 
+  private static final long serialVersionUID = 5202628162767994302L;
   protected Algorithm algorithm;
   protected Timestamp begin;
 

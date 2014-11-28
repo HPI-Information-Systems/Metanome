@@ -16,10 +16,7 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
@@ -34,13 +31,10 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-@GwtCompatible
 @Entity
 public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
@@ -58,7 +52,6 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
   protected boolean isTableInput;
   protected boolean isFileInput;
   protected boolean isBasicStat;
-  protected Set<Execution> executions;
 
   /**
    * Exists for hibernate serialization
@@ -251,27 +244,17 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
     this.isBasicStat = isBasicStat;
   }
 
-  @OneToMany(cascade = CascadeType.REMOVE)
-  @JsonIgnore
-  public Set<Execution> getExecutions() {
-    return executions;
-  }
-
-  public void setExecutions(Set<Execution> executions) {
-    this.executions = executions;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
 
     }
-    if (!(o instanceof Algorithm)) {
+    if (!(o instanceof AlgorithmObj)) {
       return false;
     }
 
-    Algorithm algorithm = (Algorithm) o;
+    AlgorithmObj algorithm = (AlgorithmObj) o;
 
     if (fileName != null ? !fileName.equals(algorithm.fileName) : algorithm.fileName != null) {
       return false;

@@ -54,6 +54,8 @@ import javax.persistence.OneToMany;
 @IdClass(ExecutionId.class)
 public class Execution extends ResultsDbEntity implements Serializable {
 
+  private static final long serialVersionUID = 3206866673344232787L;
+
   // TODO cascading save to children
 
   protected Algorithm algorithm;

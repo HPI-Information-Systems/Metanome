@@ -74,6 +74,18 @@
     <source path="algorithm_integration/input">
         <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
+    <source path="algorithm_integration/algorithm_types">
+        <include name="InclusionDependencyAlgorithm.java"/>
+        <include name="FunctionalDependencyAlgorithm.java"/>
+        <include name="UniqueColumnCombinationsAlgorithm.java"/>
+        <include name="ConditionalUniqueColumnCombinationAlgorithm.java"/>
+        <include name="OrderDependencyAlgorithm.java"/>
+        <include name="BasicStatisticsAlgorithm.java"/>
+        <include name="FileInputParameterAlgorithm.java"/>
+        <include name="TableInputParameterAlgorithm.java"/>
+        <include name="RelationalInputParameterAlgorithm.java"/>
+        <include name="DatabaseConnectionParameterAlgorithm.java"/>
+    </source>
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>
     </source>

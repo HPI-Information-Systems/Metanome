@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.results_db;
+package de.metanome.backend.resources;
+
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmObj;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/algorithms")
+@Path("algorithms")
 public class AlgorithmRes {
 
   @GET
@@ -48,7 +53,8 @@ public class AlgorithmRes {
   @GET
   @Path("/{fileName}")
   @Produces("application/json")
-  public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
+  public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws
+                                                                       EntityStorageException {
     Algorithm algo = (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
     return new AlgorithmObj(algo.getFileName());
   }

@@ -31,26 +31,6 @@ public class MetanomeEntryPoint implements EntryPoint {
   public void onModuleLoad() {
     System.out.println(GWT.getModuleBaseURL());
 
-//
-//    Resource resource = new Resource( GWT.getModuleBaseURL() + "algorithms/store/");
-//
-//    JSONValue request = JSONParser.parseStrict("{\"fileName\":\"example_fd_algorithm.jar\"}");
-//
-//    resource.post().json(request).send(
-//        new JsonCallback() {
-//          @Override
-//          public void onFailure(Method method, Throwable throwable) {
-//
-//          }
-//
-//          @Override
-//          public void onSuccess(Method method, JSONValue jsonValue) {
-//
-//          }
-//        });
-//
-
-
     // body panel
     LayoutPanel bodyPanel = new LayoutPanel();
     bodyPanel.addStyleName("body");
@@ -72,8 +52,6 @@ public class MetanomeEntryPoint implements EntryPoint {
     root.add(p);
 
     bodyPanel.add(new BasePage());
-
-
   }
 
 }

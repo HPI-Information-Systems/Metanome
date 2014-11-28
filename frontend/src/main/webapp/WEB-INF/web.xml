@@ -28,12 +28,12 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>de.metanome.backend.results_db</param-value>
+            <param-value>de.metanome.backend.resources</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
-        <url-pattern>/metanome/api/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
