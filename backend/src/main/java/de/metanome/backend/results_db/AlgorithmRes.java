@@ -16,34 +16,26 @@
 
 package de.metanome.backend.results_db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("algorithms")
+@Path("/algorithms")
 public class AlgorithmRes {
 
-  /**
-   * Retrieves an Algorithm from the database.
-   *
-   * @param fileName the Algorithm's file name
-   * @return the algorithm
-   */
   @GET
-  @Path("/algorithm/{fileName}")
   @Produces("application/json")
-  public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
-    return (AlgorithmObj) HibernateUtil.retrieve(AlgorithmObj.class, fileName);
-  }
+  public List<AlgorithmObj> getAlgorithms() {
 
-  @POST
-  @Path("/store/{fileName}")
-  @Produces("application/json")
-  public void storeAlgorithm(@PathParam("fileName") String fileName) throws EntityStorageException {
-    AlgorithmObj algorithmObj = new AlgorithmObj(fileName);
-    HibernateUtil.store(algorithmObj);
+    List<AlgorithmObj> algorithms = new ArrayList<AlgorithmObj>();
+    for (int i = 0; i < 5; i++) {
+      algorithms.add(new AlgorithmObj("test-" + i + ".jar"));
+    }
+
+    return algorithms;
   }
 
 }
