@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 @Path("/algorithms")
@@ -36,6 +37,20 @@ public class AlgorithmRes {
     }
 
     return algorithms;
+  }
+
+  /**
+   * Retrieves an Algorithm from the database.
+   *
+   * @param fileName the Algorithm's file name
+   * @return the algorithm
+   */
+  @GET
+  @Path("/{fileName}")
+  @Produces("application/json")
+  public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
+    Algorithm algo = (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+    return new AlgorithmObj(algo.getFileName());
   }
 
 }
