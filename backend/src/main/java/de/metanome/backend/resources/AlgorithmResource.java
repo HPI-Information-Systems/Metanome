@@ -22,7 +22,10 @@ import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlg
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -32,10 +35,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 @Path("algorithms")
 public class AlgorithmResource {
@@ -146,44 +152,42 @@ public class AlgorithmResource {
     return Algorithm.retrieveAll(algorithmClass);
   }
 
-//  /* (non-Javadoc)
-//   * @see de.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.metanome.backend.results_db.Algorithm)
-//   */
-//  @GET
-//  @Path("/add/{fileName}")
-//  @Produces("application/json")
-//  public Algorithm addAlgorithm(Algorithm algorithm)
-//      throws EntityStorageException, AlgorithmLoadingException {
-//    AlgorithmAnalyzer analyzer = null;
-//    try {
-//      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
-//    } catch (Exception e) {
-//      throw new AlgorithmLoadingException(
-//          ExceptionParser.parse(e, "The jar of the algorithm could not be loaded"), e);
-//    }
-//
-//    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
-//    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
-//    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
-//    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-//    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
-//    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
-//    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
-//    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
-//    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
-//    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
-//
-//    algorithm.store();
-//
-//    return algorithm;
-//  }
+  /* (non-Javadoc)
+   * @see de.metanome.frontend.client.services.AlgorithmService#addAlgorithm(de.metanome.backend.results_db.Algorithm)
+   */
+  @POST
+  @Path("/add")
+  public void addAlgorithm(@QueryParam("fileName") String fileName)
+      throws EntityStorageException, AlgorithmLoadingException {
+    AlgorithmAnalyzer analyzer = null;
+    try {
+      analyzer = new AlgorithmAnalyzer(fileName);
+    } catch (Exception e) {
+      throw new AlgorithmLoadingException(
+          ExceptionParser.parse(e, "The jar of the algorithm could not be loaded"), e);
+    }
 
-//  @POST
-//  @Path("/delete/{fileName}")
-//  @Produces("application/json")
-//  public void deleteAlgorithm(@PathParam("fileName") String fileName) {
-//    algorithm.delete();
-//  }
+    Algorithm algorithm = new Algorithm(fileName);
+    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
+    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
+    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
+    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
+    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
+    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
+    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
+    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+
+    algorithm.store();
+  }
+
+  @DELETE
+  @Path("/delete")
+  public void deleteAlgorithm(@QueryParam("fileName") String fileName) {
+    Algorithm algorithm = new Algorithm(fileName);
+    algorithm.delete();
+  }
 
   /**
    * Lists all algorithm file names located in the algorithm folder.
