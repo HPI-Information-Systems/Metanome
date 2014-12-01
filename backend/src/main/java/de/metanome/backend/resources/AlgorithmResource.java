@@ -33,15 +33,16 @@ import de.metanome.backend.results_db.HibernateUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 @Path("algorithms")
 public class AlgorithmResource {
@@ -59,7 +60,6 @@ public class AlgorithmResource {
   public AlgorithmObj retrieve(@PathParam("fileName") String fileName) throws EntityStorageException {
     Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
     return new AlgorithmObj(algorithm.getFileName());
-
   }
 
 
@@ -157,8 +157,11 @@ public class AlgorithmResource {
    */
   @POST
   @Path("/add")
-  public void addAlgorithm(@QueryParam("fileName") String fileName)
+  @Consumes("application/json")
+  public void addAlgorithm(AlgorithmObj algorithmObj)
       throws EntityStorageException, AlgorithmLoadingException {
+    String fileName = algorithmObj.getFileName();
+
     AlgorithmAnalyzer analyzer = null;
     try {
       analyzer = new AlgorithmAnalyzer(fileName);
@@ -183,10 +186,11 @@ public class AlgorithmResource {
   }
 
   @DELETE
-  @Path("/delete")
-  public void deleteAlgorithm(@QueryParam("fileName") String fileName) {
-    Algorithm algorithm = new Algorithm(fileName);
-    algorithm.delete();
+  @Path("/delete/{fileName}")
+  public void deleteAlgorithm(@PathParam("fileName") String fileName)
+      throws EntityStorageException {
+    Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+    HibernateUtil.delete(algorithm);
   }
 
   /**
@@ -197,8 +201,10 @@ public class AlgorithmResource {
   @GET
   @Path("/files/")
   @Produces("application/json")
-  public String[] listAvailableAlgorithmFiles() throws IOException, ClassNotFoundException {
+  public List<String> listAvailableAlgorithmFiles() throws IOException, ClassNotFoundException {
     AlgorithmFinder algorithmFinder = new AlgorithmFinder();
-    return algorithmFinder.getAvailableAlgorithmFileNames(null);
+    List<String> files = new ArrayList<>();
+    Collections.addAll(files, algorithmFinder.getAvailableAlgorithmFileNames(null));
+    return files;
   }
 }

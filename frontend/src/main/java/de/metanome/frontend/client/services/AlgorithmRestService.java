@@ -24,7 +24,9 @@ import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @Path("/api/algorithms")
@@ -33,4 +35,30 @@ public interface AlgorithmRestService extends RestService {
   @GET
   public void listAllAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
+  @GET
+  public void listInclusionDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listFunctionalDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listConditionalUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listOrderDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listBasicStatisticsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+
+  @GET
+  public void listAvailableAlgorithmFiles(MethodCallback<List<String>> callback);
+
+  @POST
+  public void addAlgorithm(AlgorithmObj algorithmObj, MethodCallback<Void> callback);
+
+  @DELETE
+  public void deleteAlgorithm(String fileName, MethodCallback<Void> callback);
 }

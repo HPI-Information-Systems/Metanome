@@ -52,6 +52,7 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
   protected boolean isTableInput;
   protected boolean isFileInput;
   protected boolean isBasicStat;
+//  protected Set<Execution> executions;
 
   /**
    * Exists for hibernate serialization
@@ -60,6 +61,10 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
   }
 
+  /**
+   *
+   * @param fileName the file name of the algorithm jar
+   */
   public AlgorithmObj(String fileName) {
     this.fileName = fileName;
   }
@@ -135,8 +140,9 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
     return fileName;
   }
 
-  public void setFileName(String fileName) {
+  public AlgorithmObj setFileName(String fileName) {
     this.fileName = fileName;
+    return this;
   }
 
   @Column(name = "name", unique = true)
@@ -144,105 +150,127 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
     return name;
   }
 
-  public void setName(String name) {
+  public AlgorithmObj setName(String name) {
     this.name = name;
+    return this;
   }
 
   public String getAuthor() {
     return author;
   }
 
-  public void setAuthor(String author) {
+  public AlgorithmObj setAuthor(String author) {
     this.author = author;
+    return this;
   }
 
   public String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
+  public AlgorithmObj setDescription(String description) {
     this.description = description;
+    return this;
   }
 
   public boolean isInd() {
     return isInd;
   }
 
-  public void setInd(boolean isInd) {
+  public AlgorithmObj setInd(boolean isInd) {
     this.isInd = isInd;
+    return this;
   }
 
   public boolean isFd() {
     return isFd;
   }
 
-  public void setFd(boolean isFd) {
+  public AlgorithmObj setFd(boolean isFd) {
     this.isFd = isFd;
+    return this;
   }
 
   public boolean isUcc() {
     return isUcc;
   }
 
-  public void setUcc(boolean isUcc) {
+  public AlgorithmObj setUcc(boolean isUcc) {
     this.isUcc = isUcc;
+    return this;
   }
 
   public boolean isCucc() {
     return isCucc;
   }
 
-  public void setCucc(boolean isCucc) {
+  public AlgorithmObj setCucc(boolean isCucc) {
     this.isCucc = isCucc;
+    return this;
   }
 
   public boolean isOd() {
     return isOd;
   }
 
-  public void setOd(boolean isOd) {
+  public AlgorithmObj setOd(boolean isOd) {
     this.isOd = isOd;
+    return this;
   }
 
   public boolean isRelationalInput() {
     return isRelationalInput;
   }
 
-  public void setRelationalInput(boolean isRelationalInput) {
+  public AlgorithmObj setRelationalInput(boolean isRelationalInput) {
     this.isRelationalInput = isRelationalInput;
+    return this;
   }
 
   public boolean isDatabaseConnection() {
     return isDatabaseConnection;
   }
 
-  public void setDatabaseConnection(boolean isDatabaseConnection) {
+  public AlgorithmObj setDatabaseConnection(boolean isDatabaseConnection) {
     this.isDatabaseConnection = isDatabaseConnection;
+    return this;
   }
 
   public boolean isTableInput() {
     return isTableInput;
   }
 
-  public void setTableInput(boolean isTableInput) {
+  public AlgorithmObj setTableInput(boolean isTableInput) {
     this.isTableInput = isTableInput;
+    return this;
   }
 
   public boolean isFileInput() {
     return isFileInput;
   }
 
-  public void setFileInput(boolean isFileInput) {
+  public AlgorithmObj setFileInput(boolean isFileInput) {
     this.isFileInput = isFileInput;
+    return this;
   }
 
   public boolean isBasicStat() {
     return isBasicStat;
   }
 
-  public void setBasicStat(boolean isBasicStat) {
+  public AlgorithmObj setBasicStat(boolean isBasicStat) {
     this.isBasicStat = isBasicStat;
+    return this;
   }
+
+//  public Set<Execution> getExecutions() {
+//    return executions;
+//  }
+//
+//  public AlgorithmObj setExecutions(Set<Execution> executions) {
+//    this.executions = executions;
+//    return this;
+//  }
 
   @Override
   public boolean equals(Object o) {
@@ -274,6 +302,26 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
   @Override
   public int compareTo(Algorithm o) {
     return this.getName().compareTo(o.getName());
+  }
+
+
+  @Override
+  public String toString() {
+    return "Algorithm [fileName=" + fileName
+           + ", name=" + name
+           + ", author=" + author
+           + ", description=" + description
+           + ", ind=" + isInd
+           + ", fd=" + isFd
+           + ", ucc=" + isUcc
+           + ", cucc=" + isCucc
+           + ", od=" + isOd
+           + ", relational_input=" + isRelationalInput
+           + ", database_connection=" + isDatabaseConnection
+           + ", table_input=" + isTableInput
+           + ", file_input=" + isFileInput
+           + ", basic_stat=" + isBasicStat
+           + "]";
   }
 
 }
