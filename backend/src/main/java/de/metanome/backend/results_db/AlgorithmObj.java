@@ -29,8 +29,6 @@ import de.metanome.algorithm_integration.algorithm_types.RelationalInputParamete
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -40,34 +38,20 @@ import javax.persistence.Id;
 @Entity
 public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
-  @JsonProperty("fileName")
   protected String fileName;
-  @JsonProperty("name")
   protected String name;
-  @JsonProperty("author")
   protected String author;
-  @JsonProperty("description")
   protected String description;
-  @JsonProperty("isInd")
-  protected boolean isInd;
-  @JsonProperty("isFd")
-  protected boolean isFd;
-  @JsonProperty("isUcc")
-  protected boolean isUcc;
-  @JsonProperty("isCucc")
-  protected boolean isCucc;
-  @JsonProperty("isOd")
-  protected boolean isOd;
-  @JsonProperty("isRelationalInput")
-  protected boolean isRelationalInput;
-  @JsonProperty("isDatabaseConnection")
-  protected boolean isDatabaseConnection;
-  @JsonProperty("isTableInput")
-  protected boolean isTableInput;
-  @JsonProperty("isFileInput")
-  protected boolean isFileInput;
-  @JsonProperty("isBasicStat")
-  protected boolean isBasicStat;
+  protected boolean ind;
+  protected boolean fd;
+  protected boolean ucc;
+  protected boolean cucc;
+  protected boolean od;
+  protected boolean relationalInput;
+  protected boolean databaseConnection;
+  protected boolean tableInput;
+  protected boolean fileInput;
+  protected boolean basicStat;
 //  protected Set<Execution> executions;
 
   /**
@@ -190,92 +174,92 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
   }
 
   public boolean isInd() {
-    return isInd;
+    return ind;
   }
 
   public AlgorithmObj setInd(boolean isInd) {
-    this.isInd = isInd;
+    this.ind = isInd;
     return this;
   }
 
   public boolean isFd() {
-    return isFd;
+    return fd;
   }
 
   public AlgorithmObj setFd(boolean isFd) {
-    this.isFd = isFd;
+    this.fd = isFd;
     return this;
   }
 
   public boolean isUcc() {
-    return isUcc;
+    return ucc;
   }
 
   public AlgorithmObj setUcc(boolean isUcc) {
-    this.isUcc = isUcc;
+    this.ucc = isUcc;
     return this;
   }
 
   public boolean isCucc() {
-    return isCucc;
+    return cucc;
   }
 
   public AlgorithmObj setCucc(boolean isCucc) {
-    this.isCucc = isCucc;
+    this.cucc = isCucc;
     return this;
   }
 
   public boolean isOd() {
-    return isOd;
+    return od;
   }
 
   public AlgorithmObj setOd(boolean isOd) {
-    this.isOd = isOd;
+    this.od = isOd;
     return this;
   }
 
   public boolean isRelationalInput() {
-    return isRelationalInput;
+    return relationalInput;
   }
 
   public AlgorithmObj setRelationalInput(boolean isRelationalInput) {
-    this.isRelationalInput = isRelationalInput;
+    this.relationalInput = isRelationalInput;
     return this;
   }
 
   public boolean isDatabaseConnection() {
-    return isDatabaseConnection;
+    return databaseConnection;
   }
 
   public AlgorithmObj setDatabaseConnection(boolean isDatabaseConnection) {
-    this.isDatabaseConnection = isDatabaseConnection;
+    this.databaseConnection = isDatabaseConnection;
     return this;
   }
 
   public boolean isTableInput() {
-    return isTableInput;
+    return tableInput;
   }
 
   public AlgorithmObj setTableInput(boolean isTableInput) {
-    this.isTableInput = isTableInput;
+    this.tableInput = isTableInput;
     return this;
   }
 
   public boolean isFileInput() {
-    return isFileInput;
+    return fileInput;
   }
 
   public AlgorithmObj setFileInput(boolean isFileInput) {
-    this.isFileInput = isFileInput;
+    this.fileInput = isFileInput;
     return this;
   }
 
   public boolean isBasicStat() {
-    return isBasicStat;
+    return basicStat;
   }
 
   public AlgorithmObj setBasicStat(boolean isBasicStat) {
-    this.isBasicStat = isBasicStat;
+    this.basicStat = isBasicStat;
     return this;
   }
 
@@ -328,16 +312,16 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
            + ", name=" + name
            + ", author=" + author
            + ", description=" + description
-           + ", isInd=" + isInd
-           + ", isFd=" + isFd
-           + ", isUcc=" + isUcc
-           + ", isCucc=" + isCucc
-           + ", isOd=" + isOd
-           + ", isRelationalInput=" + isRelationalInput
-           + ", isDatabaseConnection=" + isDatabaseConnection
-           + ", isTableInput=" + isTableInput
-           + ", isFileInput=" + isFileInput
-           + ", isBasicStat=" + isBasicStat
+           + ", ind=" + ind
+           + ", fd=" + fd
+           + ", ucc=" + ucc
+           + ", cucc=" + cucc
+           + ", od=" + od
+           + ", relationalInput=" + relationalInput
+           + ", databaseConnection=" + databaseConnection
+           + ", tableInput=" + tableInput
+           + ", fileInput=" + fileInput
+           + ", basicStat=" + basicStat
            + "]";
   }
 
