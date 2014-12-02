@@ -37,7 +37,6 @@ import de.metanome.frontend.client.runs.RunConfigurationPage;
 import de.metanome.frontend.client.services.AlgorithmRestService;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
 
-import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -67,7 +66,6 @@ public class BasePage extends TabLayoutPanel {
     super(1, Unit.CM);
     this.addStyleName("basePage");
 
-    Defaults.setServiceRoot(GWT.getHostPageBaseURL());
     AlgorithmRestService service = GWT.create(AlgorithmRestService.class);
     service.listAllAlgorithms(
         new MethodCallback<List<AlgorithmObj>>() {

@@ -28,6 +28,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 @Path("/api/algorithms")
 public interface AlgorithmRestService extends RestService {
@@ -36,29 +37,38 @@ public interface AlgorithmRestService extends RestService {
   public void listAllAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/inclusion_dependency_algorithms/")
   public void listInclusionDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/functional_dependency_algorithms/")
   public void listFunctionalDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/unique_column_combination_algorithms/")
   public void listUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/conditional_unique_column_combination_algorithms/")
   public void listConditionalUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/order_dependency_algorithms/")
   public void listOrderDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/basic_statistics_algorithms/")
   public void listBasicStatisticsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
 
   @GET
+  @Path("/files/")
   public void listAvailableAlgorithmFiles(MethodCallback<List<String>> callback);
 
   @POST
-  public void addAlgorithm(AlgorithmObj algorithmObj, MethodCallback<Void> callback);
+  @Path("/add")
+  public void addAlgorithm(AlgorithmObj algorithmObj, MethodCallback<AlgorithmObj> callback);
 
   @DELETE
-  public void deleteAlgorithm(String fileName, MethodCallback<Void> callback);
+  @Path("/delete/{fileName}")
+  public void deleteAlgorithm(@PathParam("fileName") String fileName, MethodCallback<Void> callback);
 }

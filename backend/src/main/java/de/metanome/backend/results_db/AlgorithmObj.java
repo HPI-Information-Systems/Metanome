@@ -29,6 +29,8 @@ import de.metanome.algorithm_integration.algorithm_types.RelationalInputParamete
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -38,19 +40,33 @@ import javax.persistence.Id;
 @Entity
 public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
+  @JsonProperty("fileName")
   protected String fileName;
+  @JsonProperty("name")
   protected String name;
+  @JsonProperty("author")
   protected String author;
+  @JsonProperty("description")
   protected String description;
+  @JsonProperty("isInd")
   protected boolean isInd;
+  @JsonProperty("isFd")
   protected boolean isFd;
+  @JsonProperty("isUcc")
   protected boolean isUcc;
+  @JsonProperty("isCucc")
   protected boolean isCucc;
+  @JsonProperty("isOd")
   protected boolean isOd;
+  @JsonProperty("isRelationalInput")
   protected boolean isRelationalInput;
+  @JsonProperty("isDatabaseConnection")
   protected boolean isDatabaseConnection;
+  @JsonProperty("isTableInput")
   protected boolean isTableInput;
+  @JsonProperty("isFileInput")
   protected boolean isFileInput;
+  @JsonProperty("isBasicStat")
   protected boolean isBasicStat;
 //  protected Set<Execution> executions;
 
@@ -307,20 +323,21 @@ public class AlgorithmObj implements IsSerializable, Comparable<Algorithm> {
 
   @Override
   public String toString() {
-    return "Algorithm [fileName=" + fileName
+    return "Algorithm ["
+           +   "fileName=" + fileName
            + ", name=" + name
            + ", author=" + author
            + ", description=" + description
-           + ", ind=" + isInd
-           + ", fd=" + isFd
-           + ", ucc=" + isUcc
-           + ", cucc=" + isCucc
-           + ", od=" + isOd
-           + ", relational_input=" + isRelationalInput
-           + ", database_connection=" + isDatabaseConnection
-           + ", table_input=" + isTableInput
-           + ", file_input=" + isFileInput
-           + ", basic_stat=" + isBasicStat
+           + ", isInd=" + isInd
+           + ", isFd=" + isFd
+           + ", isUcc=" + isUcc
+           + ", isCucc=" + isCucc
+           + ", isOd=" + isOd
+           + ", isRelationalInput=" + isRelationalInput
+           + ", isDatabaseConnection=" + isDatabaseConnection
+           + ", isTableInput=" + isTableInput
+           + ", isFileInput=" + isFileInput
+           + ", isBasicStat=" + isBasicStat
            + "]";
   }
 

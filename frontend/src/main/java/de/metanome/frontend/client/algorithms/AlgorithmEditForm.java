@@ -16,10 +16,8 @@
 
 package de.metanome.frontend.client.algorithms;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextArea;
@@ -27,11 +25,14 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.AlgorithmService;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,12 +104,13 @@ public class AlgorithmEditForm extends Grid {
     this.algorithmsOnStorage = new ArrayList<>();
 
     // Add available CSV files
-    AsyncCallback<String[]> storageCallback = getStorageCallback();
-    AsyncCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
+    MethodCallback<List<String>> storageCallback = getStorageCallback();
+    MethodCallback<List<AlgorithmObj>> databaseCallback = getDatabaseCallback();
 
-    AlgorithmServiceAsync service = GWT.create(AlgorithmService.class);
-    service.listAvailableAlgorithmFiles(storageCallback);
-    service.listAllAlgorithms(databaseCallback);
+
+    AlgorithmRestService restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
+    restService.listAvailableAlgorithmFiles(storageCallback);
+    restService.listAllAlgorithms(databaseCallback);
   }
 
   /**
@@ -116,16 +118,19 @@ public class AlgorithmEditForm extends Grid {
    * The list box should only contain those algorithms, which are not yet stored in the database.
    * @return the callback
    */
-  private AsyncCallback<List<Algorithm>> getDatabaseCallback() {
-    return new AsyncCallback<List<Algorithm>>() {
-      public void onFailure(Throwable caught) {
+  private MethodCallback<List<AlgorithmObj>> getDatabaseCallback() {
+    return new MethodCallback<List<AlgorithmObj>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
         System.out.println(caught.getMessage());
       }
 
-      public void onSuccess(List<Algorithm> result) {
+      @Override
+      public void onSuccess(Method method, List<AlgorithmObj> result) {
         List<String> algorithmNames = new ArrayList<>();
+        List<Algorithm> l = convert(result);
 
-        for (Algorithm algorithm : result)
+        for (Algorithm algorithm : l)
           algorithmsInDatabase.add(algorithm.getFileName());
 
         for (String name : algorithmsOnStorage) {
@@ -144,20 +149,20 @@ public class AlgorithmEditForm extends Grid {
    * The list box should only contain those algorithms, which are not yet stored in the database.
    * @return the callback
    */
-  private AsyncCallback<String[]> getStorageCallback() {
-    return new AsyncCallback<String[]>() {
+  private MethodCallback<List<String>> getStorageCallback() {
+    return new MethodCallback<List<String>>() {
       @Override
-      public void onFailure(Throwable throwable) {
+      public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addError(
             "Could not find any algorithms. Please add your algorithms to the algorithm folder.");
         throwable.printStackTrace();
       }
 
       @Override
-      public void onSuccess(String[] result) {
+      public void onSuccess(Method method, List<String> result) {
         List<String> algorithmNames = new ArrayList<>();
 
-        if (result.length == 0) {
+        if (result.size() == 0) {
           messageReceiver
               .addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
           return;
@@ -218,4 +223,25 @@ public class AlgorithmEditForm extends Grid {
     this.descriptionTextArea.setText("");
   }
 
+  protected List<Algorithm> convert(List<AlgorithmObj> l) {
+    List<Algorithm> algorithms = new ArrayList<>();
+    for (AlgorithmObj a : l) {
+      Algorithm algorithm = new Algorithm(a.getFileName());
+      algorithm.setFd(a.isFd());
+      algorithm.setInd(a.isInd());
+      algorithm.setUcc(a.isUcc());
+      algorithm.setCucc(a.isCucc());
+      algorithm.setOd(a.isOd());
+      algorithm.setBasicStat(a.isBasicStat());
+      algorithm.setDatabaseConnection(a.isDatabaseConnection());
+      algorithm.setFileInput(a.isFileInput());
+      algorithm.setRelationalInput(a.isRelationalInput());
+      algorithm.setTableInput(a.isTableInput());
+      algorithm.setAuthor(a.getAuthor());
+      algorithm.setName(a.getName());
+      algorithm.setDescription(a.getDescription());
+      algorithms.add(algorithm);
+    }
+    return algorithms;
+  }
 }

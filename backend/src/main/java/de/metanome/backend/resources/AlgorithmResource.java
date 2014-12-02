@@ -66,7 +66,21 @@ public class AlgorithmResource {
   private List<AlgorithmObj> convert (List<Algorithm> l) {
     List<AlgorithmObj> algorithms = new ArrayList<>();
     for (Algorithm a : l) {
-      algorithms.add(new AlgorithmObj(a.getFileName()));
+      AlgorithmObj algorithm = new AlgorithmObj(a.getFileName());
+      algorithm.setFd(a.isFd());
+      algorithm.setInd(a.isInd());
+      algorithm.setUcc(a.isUcc());
+      algorithm.setCucc(a.isCucc());
+      algorithm.setOd(a.isOd());
+      algorithm.setBasicStat(a.isBasicStat());
+      algorithm.setDatabaseConnection(a.isDatabaseConnection());
+      algorithm.setFileInput(a.isFileInput());
+      algorithm.setRelationalInput(a.isRelationalInput());
+      algorithm.setTableInput(a.isTableInput());
+      algorithm.setAuthor(a.getAuthor());
+      algorithm.setName(a.getName());
+      algorithm.setDescription(a.getDescription());
+      algorithms.add(algorithm);
     }
     return algorithms;
   }
@@ -158,7 +172,8 @@ public class AlgorithmResource {
   @POST
   @Path("/add")
   @Consumes("application/json")
-  public void addAlgorithm(AlgorithmObj algorithmObj)
+  @Produces("application/json")
+  public AlgorithmObj addAlgorithm(AlgorithmObj algorithmObj)
       throws EntityStorageException, AlgorithmLoadingException {
     String fileName = algorithmObj.getFileName();
 
@@ -171,6 +186,9 @@ public class AlgorithmResource {
     }
 
     Algorithm algorithm = new Algorithm(fileName);
+    algorithm.setAuthor(algorithmObj.getAuthor());
+    algorithm.setName(algorithmObj.getName());
+    algorithm.setDescription(algorithmObj.getDescription());
     algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
     algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
     algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
@@ -181,8 +199,20 @@ public class AlgorithmResource {
     algorithm.setFileInput(analyzer.isFileInputAlgorithm());
     algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
     algorithm.setTableInput(analyzer.isTableInputAlgorithm());
-
     algorithm.store();
+
+    algorithmObj.setFd(analyzer.isFunctionalDependencyAlgorithm());
+    algorithmObj.setInd(analyzer.isInclusionDependencyAlgorithm());
+    algorithmObj.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
+    algorithmObj.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithmObj.setOd(analyzer.isOrderDependencyAlgorithm());
+    algorithmObj.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+    algorithmObj.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
+    algorithmObj.setFileInput(analyzer.isFileInputAlgorithm());
+    algorithmObj.setRelationalInput(analyzer.isRelationalInputAlgorithm());
+    algorithmObj.setTableInput(analyzer.isTableInputAlgorithm());
+
+    return algorithmObj;
   }
 
   @DELETE

@@ -19,18 +19,22 @@ package de.metanome.frontend.client.algorithms;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.services.AlgorithmRestService;
 import de.metanome.frontend.client.services.AlgorithmService;
 import de.metanome.frontend.client.services.AlgorithmServiceAsync;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +48,7 @@ import java.util.List;
 public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   protected final AlgorithmServiceAsync algorithmService;
+  protected final AlgorithmRestService restService;
   protected final BasePage basePage;
   protected final FlexTable uccList;
   protected final FlexTable cuccList;
@@ -56,6 +61,8 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   public AlgorithmsPage(BasePage parent) {
     this.algorithmService = GWT.create(AlgorithmService.class);
+    this.restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
+
     this.basePage = parent;
 
     this.add(new HTML("<h3>Unique Column Combinations</h3>"));
@@ -98,14 +105,14 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * Request a list of available UCC algorithms and display them in the uccList
    */
   private void updateUccAlgorithms() {
-    algorithmService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
+    this.restService.listUniqueColumnCombinationsAlgorithms(getRetrieveCallback(this.uccList));
   }
 
   /**
    * Request a list of available CUCC algorithms and display them in the cuccList
    */
   private void updateCuccAlgorithms() {
-    algorithmService.listConditionalUniqueColumnCombinationsAlgorithms(
+    this.restService.listConditionalUniqueColumnCombinationsAlgorithms(
         getRetrieveCallback(this.cuccList));
   }
 
@@ -113,28 +120,28 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * Request a list of available FD algorithms and display them in the fdList
    */
   private void updateFdAlgorithms() {
-    algorithmService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
+    this.restService.listFunctionalDependencyAlgorithms(getRetrieveCallback(this.fdList));
   }
 
   /**
    * Request a list of available IND algorithms and display them in the indList
    */
   private void updateIndAlgorithms() {
-    algorithmService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
+    this.restService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
   
   /**
    * Request a list of available OD algorithms and display them in the odList
    */
   private void updateOdAlgorithms() {
-    algorithmService.listOrderDependencyAlgorithms(getRetrieveCallback(this.odList));
+    this.restService.listOrderDependencyAlgorithms(getRetrieveCallback(this.odList));
   }
 
   /**
    * Request a list of available Basic Statistics algorithms and display them in the statsList
    */
   private void updateStatsAlgorithms() {
-    algorithmService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
+    this.restService.listBasicStatisticsAlgorithms(getRetrieveCallback(this.statsList));
   }
 
   /**
@@ -187,35 +194,35 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     final boolean od = algorithm.isOd();
     final String algorithmName = algorithm.getName();
 
-    this.algorithmService.deleteAlgorithm(algorithm, new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
-      }
+    this.restService.deleteAlgorithm(algorithm.getFileName(), new MethodCallback<Void>() {
+       @Override
+       public void onFailure(Method method, Throwable throwable) {
+         messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
+       }
 
-      @Override
-      public void onSuccess(Void aVoid) {
-        basePage.removeAlgorithmFromRunConfigurations(algorithmName);
-        if (cucc) {
-          removeRow(cuccList, algorithmName);
-        }
-        if (fd) {
-          removeRow(fdList, algorithmName);
-        }
-        if (ind) {
-          removeRow(indList, algorithmName);
-        }
-        if (basicStat) {
-          removeRow(statsList, algorithmName);
-        }
-        if (ucc) {
-          removeRow(uccList, algorithmName);
-        }
-        if (od) {
-          removeRow(odList, algorithmName);
-        }
-      }
-    });
+       @Override
+       public void onSuccess(Method method, Void aVoid) {
+         basePage.removeAlgorithmFromRunConfigurations(algorithmName);
+         if (cucc) {
+           removeRow(cuccList, algorithmName);
+         }
+         if (fd) {
+           removeRow(fdList, algorithmName);
+         }
+         if (ind) {
+           removeRow(indList, algorithmName);
+         }
+         if (basicStat) {
+           removeRow(statsList, algorithmName);
+         }
+         if (ucc) {
+           removeRow(uccList, algorithmName);
+         }
+         if (od) {
+           removeRow(odList, algorithmName);
+         }
+       }
+     });
   }
 
   /**
@@ -224,7 +231,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
-    algorithmService.addAlgorithm(algorithm, getAddCallback());
+    this.restService.addAlgorithm(convert(algorithm), getAddCallback());
   }
 
   /**
@@ -243,16 +250,18 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param list Object that all returned elements will be added to
    * @return the desired callback instance
    */
-  protected AsyncCallback<List<Algorithm>> getRetrieveCallback(final FlexTable list) {
-    return new AsyncCallback<List<Algorithm>>() {
-      public void onFailure(Throwable caught) {
-        messageReceiver.addError(caught.getMessage());
-        caught.printStackTrace();
+  protected MethodCallback<List<AlgorithmObj>> getRetrieveCallback(final FlexTable list) {
+    return new MethodCallback<List<AlgorithmObj>>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError(throwable.getMessage());
       }
 
-      public void onSuccess(List<Algorithm> result) {
-        basePage.addAlgorithmsToRunConfigurations(result);
-        addAlgorithmsToTable(result, list);
+      @Override
+      public void onSuccess(Method method, List<AlgorithmObj> algorithms) {
+        List<Algorithm> a = convert(algorithms);
+        basePage.addAlgorithmsToRunConfigurations(a);
+        addAlgorithmsToTable(a, list);
       }
     };
   }
@@ -262,18 +271,17 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    *
    * @return the desired callback instance
    */
-  protected AsyncCallback<Algorithm> getAddCallback() {
-    return new AsyncCallback<Algorithm>() {
-
+  protected MethodCallback<AlgorithmObj> getAddCallback() {
+    return new MethodCallback<AlgorithmObj>() {
       @Override
-      public void onFailure(Throwable caught) {
-        messageReceiver.addErrorHTML("Could not add the algorithm: " + caught.getMessage());
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addErrorHTML("Could not add the algorithm: " + throwable.getMessage());
       }
 
       @Override
-      public void onSuccess(Algorithm algorithm) {
+      public void onSuccess(Method method, AlgorithmObj algorithm) {
         ArrayList<Algorithm> list = new ArrayList<Algorithm>();
-        list.add(algorithm);
+        list.add(convert(algorithm));
         basePage.addAlgorithmsToRunConfigurations(list);
 
         if (algorithm.isInd()) {
@@ -327,4 +335,62 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.messageReceiver = tab;
   }
 
+  /**
+   * JUST A HELPER METHOD
+   */
+  protected AlgorithmObj convert(Algorithm a) {
+    AlgorithmObj algorithm = new AlgorithmObj(a.getFileName());
+    algorithm.setFd(a.isFd());
+    algorithm.setInd(a.isInd());
+    algorithm.setUcc(a.isUcc());
+    algorithm.setCucc(a.isCucc());
+    algorithm.setOd(a.isOd());
+    algorithm.setBasicStat(a.isBasicStat());
+    algorithm.setDatabaseConnection(a.isDatabaseConnection());
+    algorithm.setFileInput(a.isFileInput());
+    algorithm.setRelationalInput(a.isRelationalInput());
+    algorithm.setTableInput(a.isTableInput());
+    algorithm.setAuthor(a.getAuthor());
+    algorithm.setName(a.getName());
+    algorithm.setDescription(a.getDescription());
+    return algorithm;
+  }
+  protected Algorithm convert(AlgorithmObj a) {
+    Algorithm algorithm = new Algorithm(a.getFileName());
+    algorithm.setFd(a.isFd());
+    algorithm.setInd(a.isInd());
+    algorithm.setUcc(a.isUcc());
+    algorithm.setCucc(a.isCucc());
+    algorithm.setOd(a.isOd());
+    algorithm.setBasicStat(a.isBasicStat());
+    algorithm.setDatabaseConnection(a.isDatabaseConnection());
+    algorithm.setFileInput(a.isFileInput());
+    algorithm.setRelationalInput(a.isRelationalInput());
+    algorithm.setTableInput(a.isTableInput());
+    algorithm.setAuthor(a.getAuthor());
+    algorithm.setName(a.getName());
+    algorithm.setDescription(a.getDescription());
+    return algorithm;
+  }
+  protected List<Algorithm> convert(List<AlgorithmObj> l) {
+    List<Algorithm> algorithms = new ArrayList<>();
+    for (AlgorithmObj a : l) {
+      Algorithm algorithm = new Algorithm(a.getFileName());
+      algorithm.setFd(a.isFd());
+      algorithm.setInd(a.isInd());
+      algorithm.setUcc(a.isUcc());
+      algorithm.setCucc(a.isCucc());
+      algorithm.setOd(a.isOd());
+      algorithm.setBasicStat(a.isBasicStat());
+      algorithm.setDatabaseConnection(a.isDatabaseConnection());
+      algorithm.setFileInput(a.isFileInput());
+      algorithm.setRelationalInput(a.isRelationalInput());
+      algorithm.setTableInput(a.isTableInput());
+      algorithm.setAuthor(a.getAuthor());
+      algorithm.setName(a.getName());
+      algorithm.setDescription(a.getDescription());
+      algorithms.add(algorithm);
+    }
+    return algorithms;
+  }
 }
