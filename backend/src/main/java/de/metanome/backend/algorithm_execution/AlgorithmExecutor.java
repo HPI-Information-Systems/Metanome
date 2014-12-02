@@ -33,6 +33,7 @@ import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -179,7 +180,9 @@ public class AlgorithmExecutor implements Closeable {
     long after = System.nanoTime();
     long elapsedNanos = after - before;
 
-    new Execution(de.metanome.backend.results_db.Algorithm.retrieve(algorithmFileName),
+    de.metanome.backend.results_db.Algorithm databaseAlgorithm = AlgorithmResource.retrieve(algorithmFileName);
+
+    new Execution(databaseAlgorithm,
                   new Timestamp(beforeWallClockTime))
         .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
         .store();

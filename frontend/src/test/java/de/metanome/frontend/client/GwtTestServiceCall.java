@@ -21,15 +21,13 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
-import de.metanome.frontend.client.services.AlgorithmService;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
 import de.metanome.frontend.client.services.DatabaseConnectionService;
 import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
 import de.metanome.frontend.client.services.ExecutionService;
@@ -113,32 +111,6 @@ public class GwtTestServiceCall extends GWTTestCase {
     // Execute
     parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
 
-  }
-
-  /**
-   * tests the call from client to algorithmService.listInclusionDependencyAlgorithmFileNames()
-   */
-  public void testAlgorithmService() {
-    // Setup
-    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        fail();
-      }
-
-      @Override
-      public void onSuccess(List<Algorithm> result) {
-        assertNotNull(result);
-        finishTest();
-      }
-    };
-
-    AlgorithmServiceAsync algorithmService = GWT.create(AlgorithmService.class);
-
-    // Set a delay period
-    delayTestFinish(500);
-
-    algorithmService.listInclusionDependencyAlgorithms(callback);
   }
 
   /**

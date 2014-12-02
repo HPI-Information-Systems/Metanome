@@ -16,6 +16,8 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
@@ -62,13 +64,15 @@ public class ResultTest {
    * persistence of a Result with an attached {@link Execution}.
    */
   @Test
-  public void testPersistenceWithExecution() throws EntityStorageException {
+  public void testPersistenceWithExecution()
+      throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm file name")
-        .store();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(algorithm);
+
     Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()))
         .store();
 

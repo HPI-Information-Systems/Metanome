@@ -18,6 +18,7 @@ package de.metanome.frontend.server;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -71,7 +72,7 @@ public class DatabaseInitializerTest {
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+    List<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -108,12 +109,12 @@ public class DatabaseInitializerTest {
 
     DatabaseInitializer initializer = new DatabaseInitializer();
     // Expected values
-    Algorithm expectedAlgorithm = new Algorithm("some file name")
-        .store();
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+    List<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,

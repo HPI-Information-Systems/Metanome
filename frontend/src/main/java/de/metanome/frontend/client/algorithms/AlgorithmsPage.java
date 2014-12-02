@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -197,6 +196,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.restService.deleteAlgorithm(algorithm.getFileName(), new MethodCallback<Void>() {
        @Override
        public void onFailure(Method method, Throwable throwable) {
+
          messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
        }
 
@@ -231,7 +231,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
-    this.restService.addAlgorithm(convert(algorithm), getAddCallback());
+    this.restService.addAlgorithm(algorithm, getAddCallback());
   }
 
   /**
@@ -250,18 +250,17 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param list Object that all returned elements will be added to
    * @return the desired callback instance
    */
-  protected MethodCallback<List<AlgorithmObj>> getRetrieveCallback(final FlexTable list) {
-    return new MethodCallback<List<AlgorithmObj>>() {
+  protected MethodCallback<List<Algorithm>> getRetrieveCallback(final FlexTable list) {
+    return new MethodCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addError(throwable.getMessage());
       }
 
       @Override
-      public void onSuccess(Method method, List<AlgorithmObj> algorithms) {
-        List<Algorithm> a = convert(algorithms);
-        basePage.addAlgorithmsToRunConfigurations(a);
-        addAlgorithmsToTable(a, list);
+      public void onSuccess(Method method, List<Algorithm> algorithms) {
+        basePage.addAlgorithmsToRunConfigurations(algorithms);
+        addAlgorithmsToTable(algorithms, list);
       }
     };
   }
@@ -271,17 +270,17 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    *
    * @return the desired callback instance
    */
-  protected MethodCallback<AlgorithmObj> getAddCallback() {
-    return new MethodCallback<AlgorithmObj>() {
+  protected MethodCallback<Algorithm> getAddCallback() {
+    return new MethodCallback<Algorithm>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addErrorHTML("Could not add the algorithm: " + throwable.getMessage());
       }
 
       @Override
-      public void onSuccess(Method method, AlgorithmObj algorithm) {
+      public void onSuccess(Method method, Algorithm algorithm) {
         ArrayList<Algorithm> list = new ArrayList<Algorithm>();
-        list.add(convert(algorithm));
+        list.add(algorithm);
         basePage.addAlgorithmsToRunConfigurations(list);
 
         if (algorithm.isInd()) {
@@ -335,62 +334,4 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.messageReceiver = tab;
   }
 
-  /**
-   * JUST A HELPER METHOD
-   */
-  protected AlgorithmObj convert(Algorithm a) {
-    AlgorithmObj algorithm = new AlgorithmObj(a.getFileName());
-    algorithm.setFd(a.isFd());
-    algorithm.setInd(a.isInd());
-    algorithm.setUcc(a.isUcc());
-    algorithm.setCucc(a.isCucc());
-    algorithm.setOd(a.isOd());
-    algorithm.setBasicStat(a.isBasicStat());
-    algorithm.setDatabaseConnection(a.isDatabaseConnection());
-    algorithm.setFileInput(a.isFileInput());
-    algorithm.setRelationalInput(a.isRelationalInput());
-    algorithm.setTableInput(a.isTableInput());
-    algorithm.setAuthor(a.getAuthor());
-    algorithm.setName(a.getName());
-    algorithm.setDescription(a.getDescription());
-    return algorithm;
-  }
-  protected Algorithm convert(AlgorithmObj a) {
-    Algorithm algorithm = new Algorithm(a.getFileName());
-    algorithm.setFd(a.isFd());
-    algorithm.setInd(a.isInd());
-    algorithm.setUcc(a.isUcc());
-    algorithm.setCucc(a.isCucc());
-    algorithm.setOd(a.isOd());
-    algorithm.setBasicStat(a.isBasicStat());
-    algorithm.setDatabaseConnection(a.isDatabaseConnection());
-    algorithm.setFileInput(a.isFileInput());
-    algorithm.setRelationalInput(a.isRelationalInput());
-    algorithm.setTableInput(a.isTableInput());
-    algorithm.setAuthor(a.getAuthor());
-    algorithm.setName(a.getName());
-    algorithm.setDescription(a.getDescription());
-    return algorithm;
-  }
-  protected List<Algorithm> convert(List<AlgorithmObj> l) {
-    List<Algorithm> algorithms = new ArrayList<>();
-    for (AlgorithmObj a : l) {
-      Algorithm algorithm = new Algorithm(a.getFileName());
-      algorithm.setFd(a.isFd());
-      algorithm.setInd(a.isInd());
-      algorithm.setUcc(a.isUcc());
-      algorithm.setCucc(a.isCucc());
-      algorithm.setOd(a.isOd());
-      algorithm.setBasicStat(a.isBasicStat());
-      algorithm.setDatabaseConnection(a.isDatabaseConnection());
-      algorithm.setFileInput(a.isFileInput());
-      algorithm.setRelationalInput(a.isRelationalInput());
-      algorithm.setTableInput(a.isTableInput());
-      algorithm.setAuthor(a.getAuthor());
-      algorithm.setName(a.getName());
-      algorithm.setDescription(a.getDescription());
-      algorithms.add(algorithm);
-    }
-    return algorithms;
-  }
 }

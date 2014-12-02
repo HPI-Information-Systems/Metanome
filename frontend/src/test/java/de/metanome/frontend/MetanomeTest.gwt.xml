@@ -30,8 +30,6 @@
 
     <servlet path="/parameterService"
              class="de.metanome.frontend.server.ParameterServiceImpl"/>
-    <servlet path="/algorithmService"
-             class="de.metanome.frontend.server.AlgorithmServiceImpl"/>
     <servlet path="/executionService"
              class="de.metanome.frontend.server.ExecutionServiceImpl"/>
     <servlet path="/fileInputService"

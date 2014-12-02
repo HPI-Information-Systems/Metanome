@@ -30,18 +30,13 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -133,163 +128,6 @@ public class AlgorithmTest {
     assertFalse(actualAlgorithm.isTableInput());
   }
 
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Algorithm#store()} and {@link
-   * Algorithm#retrieve(String)} <p/> Algorithms should be storable and retrievable by id. The store
-   * method should return the stored algorithm instance.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    String expectedFileName = "someFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
-
-    // Execute functionality
-    assertSame(expectedAlgorithm, expectedAlgorithm.store());
-    Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
-
-    // Check result
-    assertEquals(expectedAlgorithm, actualAlgorithm);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link Algorithm#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Algorithm expectedAlgorithm1 = new Algorithm("some file name 1").store();
-    Algorithm expectedAlgorithm2 = new Algorithm("some file name 2").store();
-
-    // Execute functionality
-    List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
-
-    // Check result
-    assertThat(actualAlgorithms, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedAlgorithm1, expectedAlgorithm2));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link Algorithm#retrieveAll()} <p/> When the table has never been accessed the
-   * list of algorithms should still be retrievable and empty.
-   */
-  @Test
-  public void testRetrieveAllTableEmpty() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Execute functionality
-    Collection<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
-
-    // Check result
-    assertTrue(actualAlgorithms.isEmpty());
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Algorithm#retrieveAll(Class[])} <p/> Only
-   * algorithms that implement the given interfaces (hence are of certain type) should be returned
-   * when querying.
-   */
-  @Test
-  public void testRetrieveWithInterfaces() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Algorithm expectedIndAlgorithm = new Algorithm("some ind algorithm file path")
-        .setName("ind")
-        .setInd(true)
-        .store();
-
-    Algorithm expectedFdAlgorithm = new Algorithm("some fd algorithm file path")
-        .setName("fd")
-        .setFd(true)
-        .store();
-
-    Algorithm expectedUccAlgorithm = new Algorithm("some ucc algorithm file path")
-        .setName("ucc")
-        .setUcc(true)
-        .store();
-
-    Algorithm expectedCuccAlgorithm = new Algorithm("some cucc algorithm file path")
-        .setName("cucc")
-        .setCucc(true)
-        .store();
-    
-    Algorithm expectedOdAlgorithm = new Algorithm("some od algorithm file path")
-        .setName("od")
-        .setOd(true)
-        .store();
-
-    Algorithm expectedBasicStatAlgorithm = new Algorithm("some basic stat algorithm file path")
-        .setName("basic")
-        .setBasicStat(true)
-        .store();
-
-    Algorithm expectedHolisticAlgorithm = new Algorithm("some holistic algorithm file path")
-        .setName("holistic")
-        .setFd(true)
-        .setUcc(true)
-        .store();
-
-    Algorithm otherAlgorithm = new Algorithm("some other path")
-        .setName("other")
-        .store();
-
-    // Execute functionality
-    List<Algorithm> actualIndAlgorithms = Algorithm.retrieveAll(InclusionDependencyAlgorithm.class);
-    List<Algorithm> actualFdAlgorithms = Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class);
-    List<Algorithm>
-        actualUccAlgorithms =
-        Algorithm.retrieveAll(UniqueColumnCombinationsAlgorithm.class);
-    List<Algorithm> actualCuccAlgorithms = Algorithm.retrieveAll(
-        ConditionalUniqueColumnCombinationAlgorithm.class);
-    List<Algorithm> actualOdAlgorithms = Algorithm.retrieveAll(
-        OrderDependencyAlgorithm.class);
-    List<Algorithm>
-        actualBasicStatAlgorithms =
-        Algorithm.retrieveAll(BasicStatisticsAlgorithm.class);
-    List<Algorithm>
-        actualHolisticAlgorithms =
-        Algorithm.retrieveAll(FunctionalDependencyAlgorithm.class,
-                              UniqueColumnCombinationsAlgorithm.class);
-
-    // Check result
-    // Should retrieve the algorithms of the particular type only
-    assertThat(actualIndAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedIndAlgorithm));
-    assertThat(actualFdAlgorithms, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedFdAlgorithm, expectedHolisticAlgorithm));
-    assertThat(actualUccAlgorithms, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedUccAlgorithm, expectedHolisticAlgorithm));
-    assertThat(actualCuccAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedCuccAlgorithm));
-    assertThat(actualOdAlgorithms, 
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedOdAlgorithm));
-    assertThat(actualBasicStatAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedBasicStatAlgorithm));
-    assertThat(actualHolisticAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedHolisticAlgorithm));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
   @Test
   public void testUniqueAlgorithmName() {
     // Setup
@@ -298,7 +136,7 @@ public class AlgorithmTest {
     Algorithm algorithm1 = new Algorithm("someFile1");
     algorithm1.setName("name");
     try {
-      algorithm1.store();
+      HibernateUtil.store(algorithm1);
     } catch (EntityStorageException e) {
       fail();
     }
@@ -308,7 +146,7 @@ public class AlgorithmTest {
 
     // Check
     try {
-      algorithm2.store();
+      HibernateUtil.store(algorithm2);
     } catch (EntityStorageException e) {
       // should throw an exception
     }

@@ -47,16 +47,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>algorithmServiceImpl</servlet-name>
-        <servlet-class>de.metanome.frontend.server.AlgorithmServiceImpl
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>algorithmServiceImpl</servlet-name>
-        <url-pattern>/metanome/algorithmService</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>executionServiceImpl</servlet-name>
         <servlet-class>de.metanome.frontend.server.ExecutionServiceImpl
         </servlet-class>

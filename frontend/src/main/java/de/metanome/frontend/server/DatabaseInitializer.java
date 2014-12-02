@@ -18,9 +18,11 @@ package de.metanome.frontend.server;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 
 import java.io.File;
@@ -66,25 +68,21 @@ public class DatabaseInitializer implements ServletContextListener {
   protected void addAlgorithms() throws IOException, ClassNotFoundException,
                                         EntityStorageException {
     // only prefill algorithms table if it is currently empty
-    if (!Algorithm.retrieveAll().isEmpty()) {
+    if (!AlgorithmResource.listAllAlgorithms().isEmpty()) {
       return;
     }
 
     AlgorithmFinder jarFinder = new AlgorithmFinder();
 
     // FIXME: do I really want these exceptions here?
+    // FIXME: do not call Hibernate Util
     String[] algorithmFileNames;
     algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
     for (String filePath : algorithmFileNames) {
-      try {
-        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-        new Algorithm(filePath, algorithmInterfaces)
-            .setName(filePath.replaceAll(".jar", ""))
-            .store();
-      } catch (EntityStorageException | IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-      }
+      Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+      HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
+                        .setName(filePath.replaceAll(".jar", "")));
     }
   }
 

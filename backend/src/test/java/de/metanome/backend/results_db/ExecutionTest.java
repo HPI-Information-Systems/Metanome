@@ -16,6 +16,8 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -47,13 +49,13 @@ public class ExecutionTest {
    * Executions should be storable and retrievable by id.
    */
   @Test
-  public void testPersistence() throws EntityStorageException {
+  public void testPersistence() throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Store prerequisite objects in the database.
-    Algorithm algorithm = new Algorithm("some file path");
-    algorithm.store();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());
@@ -88,13 +90,14 @@ public class ExecutionTest {
    * Test method for {@link de.metanome.backend.results_db.Execution#retrieveAll()}
    */
   @Test
-  public void testRetrieveAll() throws EntityStorageException {
+  public void testRetrieveAll() throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Expected values
-    Algorithm expectedAlgorithm = new Algorithm("some file name 1")
-        .store();
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(expectedAlgorithm);
+
     Execution expectedExecution1 = new Execution(expectedAlgorithm)
         .store();
     Execution expectedExecution2 = new Execution(expectedAlgorithm)
@@ -118,13 +121,15 @@ public class ExecutionTest {
    * retrievable from it.
    */
   @Test
-  public void testPersistenceMultipleInputs() throws EntityStorageException {
+  public void testPersistenceMultipleInputs()
+      throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some path")
-        .store();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(algorithm);
+
     Input input1 = new Input()
         .store();
     Input input2 = new Input()
@@ -158,13 +163,14 @@ public class ExecutionTest {
    * and {@link de.metanome.backend.results_db.Result}s.
    */
   @Test
-  public void testPersistenceWithAlgorithmAndResultAndInputs() throws EntityStorageException {
+  public void testPersistenceWithAlgorithmAndResultAndInputs()
+      throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm jar path")
-        .store();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());
@@ -217,13 +223,13 @@ public class ExecutionTest {
    * retrievable from the database.
    */
   @Test
-  public void testPersistenceGetResults() throws EntityStorageException {
+  public void testPersistenceGetResults() throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
     // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm file path")
-        .store();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource.addAlgorithm(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());

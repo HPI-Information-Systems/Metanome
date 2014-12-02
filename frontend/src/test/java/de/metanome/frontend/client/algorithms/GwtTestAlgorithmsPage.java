@@ -58,7 +58,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
 //  /**
-//   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(FlexTable)}
+//   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#getRetrieveCallback(com.google.gwt.user.client.ui.FlexTable)}
 //   *
 //   * After failure is called on the constructed callback, the tab should be in error.
 //   */

@@ -17,7 +17,7 @@
 package de.metanome.frontend.client.services;
 
 
-import de.metanome.backend.results_db.AlgorithmObj;
+import de.metanome.backend.results_db.Algorithm;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
@@ -34,31 +34,31 @@ import javax.ws.rs.PathParam;
 public interface AlgorithmRestService extends RestService {
 
   @GET
-  public void listAllAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listAllAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/inclusion_dependency_algorithms/")
-  public void listInclusionDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listInclusionDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/functional_dependency_algorithms/")
-  public void listFunctionalDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listFunctionalDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/unique_column_combination_algorithms/")
-  public void listUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listUniqueColumnCombinationsAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/conditional_unique_column_combination_algorithms/")
-  public void listConditionalUniqueColumnCombinationsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listConditionalUniqueColumnCombinationsAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/order_dependency_algorithms/")
-  public void listOrderDependencyAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listOrderDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/basic_statistics_algorithms/")
-  public void listBasicStatisticsAlgorithms(MethodCallback<List<AlgorithmObj>> callback);
+  public void listBasicStatisticsAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/files/")
@@ -66,7 +66,7 @@ public interface AlgorithmRestService extends RestService {
 
   @POST
   @Path("/add")
-  public void addAlgorithm(AlgorithmObj algorithmObj, MethodCallback<AlgorithmObj> callback);
+  public void addAlgorithm(Algorithm algorithm, MethodCallback<Algorithm> callback);
 
   @DELETE
   @Path("/delete/{fileName}")

@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
@@ -105,7 +104,7 @@ public class AlgorithmEditForm extends Grid {
 
     // Add available CSV files
     MethodCallback<List<String>> storageCallback = getStorageCallback();
-    MethodCallback<List<AlgorithmObj>> databaseCallback = getDatabaseCallback();
+    MethodCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
 
 
     AlgorithmRestService restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
@@ -118,19 +117,18 @@ public class AlgorithmEditForm extends Grid {
    * The list box should only contain those algorithms, which are not yet stored in the database.
    * @return the callback
    */
-  private MethodCallback<List<AlgorithmObj>> getDatabaseCallback() {
-    return new MethodCallback<List<AlgorithmObj>>() {
+  private MethodCallback<List<Algorithm>> getDatabaseCallback() {
+    return new MethodCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
         System.out.println(caught.getMessage());
       }
 
       @Override
-      public void onSuccess(Method method, List<AlgorithmObj> result) {
+      public void onSuccess(Method method, List<Algorithm> result) {
         List<String> algorithmNames = new ArrayList<>();
-        List<Algorithm> l = convert(result);
 
-        for (Algorithm algorithm : l)
+        for (Algorithm algorithm : result)
           algorithmsInDatabase.add(algorithm.getFileName());
 
         for (String name : algorithmsOnStorage) {
@@ -223,25 +221,4 @@ public class AlgorithmEditForm extends Grid {
     this.descriptionTextArea.setText("");
   }
 
-  protected List<Algorithm> convert(List<AlgorithmObj> l) {
-    List<Algorithm> algorithms = new ArrayList<>();
-    for (AlgorithmObj a : l) {
-      Algorithm algorithm = new Algorithm(a.getFileName());
-      algorithm.setFd(a.isFd());
-      algorithm.setInd(a.isInd());
-      algorithm.setUcc(a.isUcc());
-      algorithm.setCucc(a.isCucc());
-      algorithm.setOd(a.isOd());
-      algorithm.setBasicStat(a.isBasicStat());
-      algorithm.setDatabaseConnection(a.isDatabaseConnection());
-      algorithm.setFileInput(a.isFileInput());
-      algorithm.setRelationalInput(a.isRelationalInput());
-      algorithm.setTableInput(a.isTableInput());
-      algorithm.setAuthor(a.getAuthor());
-      algorithm.setName(a.getName());
-      algorithm.setDescription(a.getDescription());
-      algorithms.add(algorithm);
-    }
-    return algorithms;
-  }
 }

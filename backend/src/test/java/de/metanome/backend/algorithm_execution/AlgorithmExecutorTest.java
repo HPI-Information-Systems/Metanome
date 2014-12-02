@@ -40,6 +40,7 @@ import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -104,7 +105,8 @@ public class AlgorithmExecutorTest {
     String[] selectedValues = {"second"};
     configs.add(new ConfigurationValueListBox("column names", selectedValues));
     String algorithmFileName = "example_fd_algorithm.jar";
-    new Algorithm(algorithmFileName).store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, configs);
@@ -129,7 +131,8 @@ public class AlgorithmExecutorTest {
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm.FILE_NAME, "path/to/file"));
     String algorithmFileName = "example_od_algorithm.jar";
-    new Algorithm(algorithmFileName).store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, configs);
@@ -157,8 +160,8 @@ public class AlgorithmExecutorTest {
         ExampleAlgorithm.CSV_FILE_IDENTIFIER,
         mock(FileInputGenerator.class)));
     String algorithmFileName = "example_ind_algorithm.jar";
-    new Algorithm(algorithmFileName)
-        .store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, configs);
@@ -189,8 +192,8 @@ public class AlgorithmExecutorTest {
             RelationalInputAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     requirementRelationalInput.setSettings(new ConfigurationSettingFileInput(path));
     requirements.add(requirementRelationalInput);
-    new Algorithm(algorithmFileName)
-        .store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     // Check result
@@ -211,7 +214,8 @@ public class AlgorithmExecutorTest {
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
     String algorithmFileName = "example_ucc_algorithm.jar";
-    new Algorithm(algorithmFileName).store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, configs);
@@ -236,7 +240,8 @@ public class AlgorithmExecutorTest {
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
     String algorithmFileName = "example_holistic_algorithm.jar";
-    new Algorithm(algorithmFileName).store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, configs);
@@ -255,14 +260,14 @@ public class AlgorithmExecutorTest {
   public void testExecuteIndirectInterfaceAlgorithm()
       throws IllegalAccessException, IOException, InstantiationException,
              AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
-             ClassNotFoundException, EntityStorageException {
+             ClassNotFoundException, EntityStorageException, AlgorithmLoadingException {
     // Setup
     List<ConfigurationValue> configurationValues = new LinkedList<>();
     configurationValues.add(new ConfigurationValueRelationalInputGenerator("identifier", mock(
         RelationalInputGenerator.class)));
     String algorithmFileName = "example_indirect_interfaces_algorithm.jar";
-    new Algorithm(algorithmFileName)
-        .store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, configurationValues);
@@ -280,7 +285,7 @@ public class AlgorithmExecutorTest {
   public void testExecutionStoredInDatabase()
       throws IllegalAccessException, IOException, InstantiationException,
              AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
-             ClassNotFoundException, EntityStorageException {
+             ClassNotFoundException, EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
 
@@ -288,7 +293,9 @@ public class AlgorithmExecutorTest {
     configurationValues.add(new ConfigurationValueRelationalInputGenerator("identifier", mock(
         RelationalInputGenerator.class)));
     String algorithmFileName = "example_indirect_interfaces_algorithm.jar";
-    Algorithm expectedAlgorithm = new Algorithm(algorithmFileName).store();
+
+    Algorithm algorithm = new Algorithm(algorithmFileName);
+    AlgorithmResource.addAlgorithm(algorithm);
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, configurationValues);
@@ -297,7 +304,7 @@ public class AlgorithmExecutorTest {
     // Check result
     assertFalse(actualExecutions.isEmpty());
     Execution actualExecution = actualExecutions.get(0);
-    assertEquals(expectedAlgorithm, actualExecution.getAlgorithm());
+    assertEquals(algorithm, actualExecution.getAlgorithm());
     // The execution should not be older than 5 seconds.
     assertTrue(new Date().getTime() - actualExecution.getBegin().getTime() < 5000);
     assertTrue(new Date().getTime() - actualExecution.getEnd().getTime() < 5000);
@@ -357,7 +364,8 @@ public class AlgorithmExecutorTest {
     configurationRequirements.add(specification);
 
     String algorithmFileName = "example_basic_stat_algorithm.jar";
-    new Algorithm(algorithmFileName).store();
+
+    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
 
     // Execute functionality
     executor.executeAlgorithm(algorithmFileName, configurationRequirements);

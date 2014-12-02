@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,16 +28,11 @@ import com.google.gwt.user.client.ui.Widget;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.AlgorithmObj;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
-import de.metanome.frontend.client.services.AlgorithmRestService;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -57,33 +51,12 @@ public class BasePage extends TabLayoutPanel {
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
 
-  Label algorithmLabel = new Label();
-
   /**
    * Constructor. Initiates creation of subpages.
    */
   public BasePage() {
     super(1, Unit.CM);
     this.addStyleName("basePage");
-
-    AlgorithmRestService service = GWT.create(AlgorithmRestService.class);
-    service.listAllAlgorithms(
-        new MethodCallback<List<AlgorithmObj>>() {
-
-          @Override
-          public void onSuccess(Method method, List<AlgorithmObj> algorithms) {
-            String str = "";
-            for (AlgorithmObj algo : algorithms) {
-              str = str + " " + algo.getFileName();
-            }
-            algorithmLabel.setText(str);
-          }
-
-          @Override
-          public void onFailure(Method method, Throwable exception) {
-            algorithmLabel.setText("ERROR");
-          }
-        });
 
     // Add data source tab
     this.dataSourcePage = new DataSourcePage(this);
@@ -118,7 +91,7 @@ public class BasePage extends TabLayoutPanel {
     SimplePanel content = new SimplePanel();
     Label temporaryContent = new Label();
     temporaryContent.setText("Metanome Version 0.0.2.");
-    content.add(algorithmLabel);
+    content.add(temporaryContent);
     // content.addStyleName("aboutPage");
     return content;
   }
