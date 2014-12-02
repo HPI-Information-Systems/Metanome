@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.algorithms;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -29,8 +28,6 @@ import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.AlgorithmRestService;
-import de.metanome.frontend.client.services.AlgorithmService;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -46,7 +43,6 @@ import java.util.List;
  */
 public class AlgorithmsPage extends FlowPanel implements TabContent {
 
-  protected final AlgorithmServiceAsync algorithmService;
   protected final AlgorithmRestService restService;
   protected final BasePage basePage;
   protected final FlexTable uccList;
@@ -59,7 +55,6 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   protected AlgorithmEditForm editForm;
 
   public AlgorithmsPage(BasePage parent) {
-    this.algorithmService = GWT.create(AlgorithmService.class);
     this.restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
 
     this.basePage = parent;
@@ -196,7 +191,6 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.restService.deleteAlgorithm(algorithm.getFileName(), new MethodCallback<Void>() {
        @Override
        public void onFailure(Method method, Throwable throwable) {
-
          messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
        }
 
