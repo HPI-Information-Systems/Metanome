@@ -28,8 +28,7 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
 import de.metanome.frontend.client.services.ExecutionService;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
 import de.metanome.frontend.client.services.FileInputService;
@@ -38,6 +37,9 @@ import de.metanome.frontend.client.services.ParameterService;
 import de.metanome.frontend.client.services.ParameterServiceAsync;
 import de.metanome.frontend.client.services.TableInputService;
 import de.metanome.frontend.client.services.TableInputServiceAsync;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,22 +120,23 @@ public class GwtTestServiceCall extends GWTTestCase {
    */
   public void testDatabaseConnectionService() {
     // Setup
-    AsyncCallback<List<DatabaseConnection>>
+    MethodCallback<List<DatabaseConnection>>
         callback =
-        new AsyncCallback<List<DatabaseConnection>>() {
+        new MethodCallback<List<DatabaseConnection>>() {
           @Override
-          public void onFailure(Throwable caught) {
+          public void onFailure(Method method, Throwable caught) {
             fail();
           }
 
           @Override
-          public void onSuccess(List<DatabaseConnection> result) {
+          public void onSuccess(Method method, List<DatabaseConnection> result) {
             assertNotNull(result);
             finishTest();
           }
+
         };
 
-    DatabaseConnectionServiceAsync service = GWT.create(DatabaseConnectionService.class);
+    DatabaseConnectionRestService service = GWT.create(DatabaseConnectionRestService.class);
 
     // Set a delay period
     delayTestFinish(500);

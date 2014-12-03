@@ -109,7 +109,7 @@ public class TestHelper {
    * @param connection the {@link de.metanome.backend.results_db.DatabaseConnection} to store
    */
   public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
-    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
+    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Void>() {
       @Override
       public void onFailure(Throwable caught) {
         database_connection_blocked[0] = false;
@@ -118,10 +118,11 @@ public class TestHelper {
       }
 
       @Override
-      public void onSuccess(Long result) {
+      public void onSuccess(Void aVoid) {
         database_connection_blocked[0] = false;
         System.out.println("Database Connection saved!");
       }
+
     });
 
     Timer rpcCheck = new Timer() {

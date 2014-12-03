@@ -38,7 +38,7 @@ public interface TestDatabaseHelperService extends RemoteService {
 
   void storeAlgorithmInDatabase(Algorithm algorithm);
 
-  long storeDatabaseConnection(DatabaseConnection connection);
+  void storeDatabaseConnection(DatabaseConnection connection);
 
   long storeFileInput(FileInput input);
 

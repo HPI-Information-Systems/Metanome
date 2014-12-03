@@ -26,6 +26,7 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.TableInput;
+import de.metanome.backend.resources.DatabaseConnectionResource;
 
 import java.util.List;
 
@@ -61,13 +62,8 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
    * @param connection the database connection to store
    */
   @Override
-  public long storeDatabaseConnection(DatabaseConnection connection) {
-    try {
-      connection.store();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return connection.getId();
+  public void storeDatabaseConnection(DatabaseConnection connection) {
+    DatabaseConnectionResource.storeDatabaseConnection(connection);
   }
 
   @Override
@@ -82,12 +78,7 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
 
   @Override
   public List<DatabaseConnection> getAllDatabaseConnections() {
-    try {
-      return DatabaseConnection.retrieveAll();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return null;
+    return DatabaseConnectionResource.listDatabaseConnections();
   }
 
   @Override

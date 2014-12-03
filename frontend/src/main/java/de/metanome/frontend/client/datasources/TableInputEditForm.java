@@ -30,10 +30,12 @@ import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
 import de.metanome.frontend.client.services.TableInputService;
 import de.metanome.frontend.client.services.TableInputServiceAsync;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +47,7 @@ import java.util.Map;
  */
 public class TableInputEditForm extends Grid {
 
-  private final DatabaseConnectionServiceAsync databaseConnectionService;
+  private final DatabaseConnectionRestService databaseConnectionService;
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
@@ -59,7 +61,7 @@ public class TableInputEditForm extends Grid {
 
     this.parent = parent;
 
-    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
     this.tableInputService = GWT.create(TableInputService.class);
 
     this.dbConnectionListBox = new ListBoxInput(false);
@@ -128,15 +130,15 @@ public class TableInputEditForm extends Grid {
    * Get all database connection from the database and add them to the list box
    */
   public void updateDatabaseConnectionListBox() {
-    AsyncCallback<List<DatabaseConnection>>
+    MethodCallback<List<DatabaseConnection>>
         callback =
-        new AsyncCallback<List<DatabaseConnection>>() {
+        new MethodCallback<List<DatabaseConnection>>() {
 
-          public void onFailure(Throwable caught) {
+          public void onFailure(Method method, Throwable caught) {
             messageReceiver.addErrorHTML("There are no database connections in the database: " + caught.getMessage());
           }
 
-          public void onSuccess(List<DatabaseConnection> result) {
+          public void onSuccess(Method method, List<DatabaseConnection> result) {
             List<String> dbConnectionNames = new ArrayList<String>();
             dbConnectionNames.add("--");
 
@@ -152,6 +154,7 @@ public class TableInputEditForm extends Grid {
             dbConnectionListBox.setValues(dbConnectionNames);
             dbConnectionListBox.disableFirstEntry();
           }
+
         };
 
     databaseConnectionService.listDatabaseConnections(callback);

@@ -32,10 +32,12 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
 import de.metanome.frontend.client.services.TableInputService;
 import de.metanome.frontend.client.services.TableInputServiceAsync;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   protected FlexTable connectionInputList;
   protected DatabaseConnectionEditForm editForm;
 
-  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private DatabaseConnectionRestService databaseConnectionService;
   private TableInputServiceAsync tableInputService;
 
   private DataSourcePage parent;
@@ -54,7 +56,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param parent the parent page
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
-    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
     this.tableInputService = GWT.create(TableInputService.class);
     this.parent = parent;
 
@@ -77,15 +79,15 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   private void addDatabaseConnectionsToList(final FlowPanel panel) {
     this.databaseConnectionService.listDatabaseConnections(
-        new AsyncCallback<List<DatabaseConnection>>() {
+        new MethodCallback<List<DatabaseConnection>>() {
           @Override
-          public void onFailure(Throwable throwable) {
+          public void onFailure(Method method, Throwable throwable) {
             panel.add(new Label("There are no Database Connections yet. Please restart Metanome after adding a database connection."));
             addEditForm();
           }
 
           @Override
-          public void onSuccess(List<DatabaseConnection> connections) {
+          public void onSuccess(Method method, List<DatabaseConnection> connections) {
             listDatabaseConnections(connections);
             addEditForm();
 
@@ -103,6 +105,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
               }
             });
           }
+
         });
   }
 
@@ -137,7 +140,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        databaseConnectionService.deleteDatabaseConnection(input,
+        databaseConnectionService.deleteDatabaseConnection(input.getId(),
                                                            getDeleteCallback(input));
       }
     });
@@ -210,15 +213,16 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param connection The database connection which should be removed from the table input tab.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
-    return new AsyncCallback<Void>() {
+  protected MethodCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
+    return new  MethodCallback<Void>() {
+
       @Override
-      public void onFailure(Throwable throwable) {
+      public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addErrorHTML("Could not delete the database connection: " + throwable.getMessage());
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Method method, Void aVoid) {
         connectionInputList.removeRow(findRow(connection));
         parent.removeDatabaseConnectionFromTableInputTab(connection);
       }
