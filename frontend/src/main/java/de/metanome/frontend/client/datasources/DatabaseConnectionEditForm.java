@@ -16,11 +16,8 @@
 
 package de.metanome.frontend.client.datasources;
 
-
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -32,8 +29,10 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Arrays;
 
@@ -47,7 +46,7 @@ public class DatabaseConnectionEditForm extends Grid {
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
   protected TextArea commentTextbox;
-  private DatabaseConnectionServiceAsync databaseConnectionService;
+  private DatabaseConnectionRestService databaseConnectionService;
   private DatabaseConnectionTab parent;
   private TabWrapper messageReceiver;
 
@@ -55,7 +54,7 @@ public class DatabaseConnectionEditForm extends Grid {
     super(6, 2);
 
     this.parent = parent;
-    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
+    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
 
     this.dbUrlTextbox = new TextBox();
     this.dbUrlTextbox.getElement().setPropertyString("placeholder", "jdbc:mysql://localhost/db");
@@ -144,20 +143,21 @@ public class DatabaseConnectionEditForm extends Grid {
       final DatabaseConnection currentConnection = this.getValue();
 
       this.databaseConnectionService
-          .storeDatabaseConnection(currentConnection, new AsyncCallback<DatabaseConnection>() {
+          .storeDatabaseConnection(currentConnection, new MethodCallback<DatabaseConnection>() {
             @Override
-            public void onFailure(Throwable throwable) {
+            public void onFailure(Method method, Throwable throwable) {
               messageReceiver
                   .addErrorHTML("Database Connection could not be stored:" + throwable.getMessage());
             }
 
             @Override
-            public void onSuccess(DatabaseConnection connection) {
+            public void onSuccess(Method method, DatabaseConnection connection) {
               reset();
               parent.addDatabaseConnectionToTable(connection);
               parent.updateTableInputTab(connection);
               parent.updateDataSourcesOnRunConfiguration();
             }
+
           });
     } catch (InputValidationException e) {
       messageReceiver.addErrorHTML("Database Connection could not be stored: " + e.getMessage());

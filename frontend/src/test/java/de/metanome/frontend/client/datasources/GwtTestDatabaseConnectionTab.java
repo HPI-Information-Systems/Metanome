@@ -29,6 +29,8 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
+import org.fusesource.restygwt.client.MethodCallback;
+
 import java.util.ArrayList;
 
 
@@ -161,10 +163,10 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     int rowCount = databaseConnectionTab.connectionInputList.getRowCount();
 
     // Execute (delete Database Connection 2)
-    AsyncCallback<Void>
+    MethodCallback<Void>
         callback =
         databaseConnectionTab.getDeleteCallback(databaseConnection2);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 1, databaseConnectionTab.connectionInputList.getRowCount());
@@ -172,7 +174,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Execute (delete DatabaseConnection 1)
     callback = databaseConnectionTab.getDeleteCallback(databaseConnection1);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 2, databaseConnectionTab.connectionInputList.getRowCount());

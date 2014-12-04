@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.server;
+package de.metanome.backend.resources;
 
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -30,20 +30,19 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+
 /**
- * Tests for {@link de.metanome.frontend.server.DatabaseConnectionServiceImpl}
+ * Tests for {@link de.metanome.backend.resources.DatabaseConnectionResource}
  */
-public class DatabaseConnectionServiceImplTest {
+public class DatabaseConnectionResourceTest {
 
   /**
-   * Test method for {@link de.metanome.frontend.server.DatabaseConnectionServiceImpl#listDatabaseConnections()}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#listDatabaseConnections()}
    */
   @Test
   public void testListDatabaseConnections() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
-
-    DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
 
     // Expected values
     DatabaseConnection expectedDb1 = new DatabaseConnection();
@@ -58,11 +57,11 @@ public class DatabaseConnectionServiceImplTest {
     DatabaseConnection[] expectedDbConnections = {expectedDb1, expectedDb2};
 
     for (DatabaseConnection db : expectedDbConnections) {
-      dbService.storeDatabaseConnection(db);
+      DatabaseConnectionResource.storeDatabaseConnection(db);
     }
 
     // Execute functionality
-    List<DatabaseConnection> actualDbConnections = dbService.listDatabaseConnections();
+    List<DatabaseConnection> actualDbConnections = DatabaseConnectionResource.listDatabaseConnections();
 
     // Check result
     assertThat(actualDbConnections,
@@ -73,46 +72,42 @@ public class DatabaseConnectionServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.server.DatabaseConnectionServiceImpl#deleteDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#deleteDatabaseConnection(long)}
    */
   @Test
   public void testDeleteDatabaseConnection() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    DatabaseConnectionServiceImpl service = new DatabaseConnectionServiceImpl();
-
     DatabaseConnection expectedDbConnection = new DatabaseConnection();
     expectedDbConnection.setUrl("url1");
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
-    expectedDbConnection.store();
+    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
 
     long id = expectedDbConnection.getId();
 
     // Check precondition
-    DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
+    DatabaseConnection actualDatabaseConnection = DatabaseConnectionResource.getDatabaseConnection(id);
     assertEquals(expectedDbConnection, actualDatabaseConnection);
 
     // Execute functionality
-    service.deleteDatabaseConnection(expectedDbConnection);
+    DatabaseConnectionResource.deleteDatabaseConnection(id);
 
     // Check result
-    assertNull(DatabaseConnection.retrieve(id));
+    assertNull(DatabaseConnectionResource.getDatabaseConnection(id));
 
     // Cleanup
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link DatabaseConnectionServiceImpl#getDatabaseConnection(long)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#getDatabaseConnection(long)}
    */
   @Test
   public void testGetDatabaseConnection() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
-
-    DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
 
     // Expected values
     DatabaseConnection expectedDbConnection = new DatabaseConnection();
@@ -120,12 +115,12 @@ public class DatabaseConnectionServiceImplTest {
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
 
-    dbService.storeDatabaseConnection(expectedDbConnection);
+    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
 
     long expectedId = expectedDbConnection.getId();
 
     // Execute functionality
-    DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(expectedId);
+    DatabaseConnection actualDbConnection = DatabaseConnectionResource.getDatabaseConnection(expectedId);
 
     // Check result
     assertEquals(expectedDbConnection, actualDbConnection);
@@ -135,17 +130,15 @@ public class DatabaseConnectionServiceImplTest {
   }
 
   /**
-   * Test method for {@link DatabaseConnectionServiceImpl#getDatabaseConnection(long)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#getDatabaseConnection(long)}
    */
   @Test
   public void testGetDatabaseConnectionWithIncorrectId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
-
     // Execute functionality
-    DatabaseConnection actualDbConnection = dbService.getDatabaseConnection(2);
+    DatabaseConnection actualDbConnection = DatabaseConnectionResource.getDatabaseConnection(2);
 
     // Check result
     assertEquals(null, actualDbConnection);
@@ -155,14 +148,12 @@ public class DatabaseConnectionServiceImplTest {
   }
 
   /**
-   * Test method for {@link DatabaseConnectionServiceImpl#storeDatabaseConnection(DatabaseConnection)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#storeDatabaseConnection(DatabaseConnection)}
    */
   @Test
   public void testStoreDatabaseConnection() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
-
-    DatabaseConnectionServiceImpl dbService = new DatabaseConnectionServiceImpl();
 
     // Expected values
     DatabaseConnection expectedDbConnection = new DatabaseConnection();
@@ -171,8 +162,8 @@ public class DatabaseConnectionServiceImplTest {
     expectedDbConnection.setUsername("db1");
 
     // Execute functionality
-    dbService.storeDatabaseConnection(expectedDbConnection);
-    List<DatabaseConnection> connections = dbService.listDatabaseConnections();
+    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
+    List<DatabaseConnection> connections = DatabaseConnectionResource.listDatabaseConnections();
 
     // Check result
     assertTrue(connections.contains(expectedDbConnection));

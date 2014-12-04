@@ -16,17 +16,16 @@
 
 package de.metanome.frontend.client.input_fields;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,20 +68,24 @@ public class DatabaseConnectionInput extends InputField {
    * On success list all database connection, which are accepted by the algorithm, in the list box.
    */
   public void updateListBox() {
-    AsyncCallback<List<DatabaseConnection>>
+    MethodCallback<List<DatabaseConnection>>
       callback =
-      new AsyncCallback<List<DatabaseConnection>>() {
-        public void onFailure(Throwable caught) {
+      new MethodCallback<List<DatabaseConnection>>() {
+
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
           messageReceiver.addError("There are no database connections in the database!");
         }
-        public void onSuccess(List<DatabaseConnection> result) {
-          handleSuccess(result);
+
+        @Override
+        public void onSuccess(Method method, List<DatabaseConnection> databaseConnections) {
+          handleSuccess(databaseConnections);
         }
       };
 
-    DatabaseConnectionServiceAsync
+    DatabaseConnectionRestService
         databaseConnectionService =
-        GWT.create(DatabaseConnectionService.class);
+        com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
     databaseConnectionService.listDatabaseConnections(callback);
 
   }

@@ -19,10 +19,10 @@ package de.metanome.frontend.server;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 
 import java.io.File;
@@ -79,10 +79,14 @@ public class DatabaseInitializer implements ServletContextListener {
     String[] algorithmFileNames;
     algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
-    for (String filePath : algorithmFileNames) {
-      Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-      HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
-                        .setName(filePath.replaceAll(".jar", "")));
+    try {
+      for (String filePath : algorithmFileNames) {
+        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+        AlgorithmResource.addAlgorithm(new Algorithm(filePath, algorithmInterfaces)
+                                           .setName(filePath.replaceAll(".jar", "")));
+      }
+    } catch (WebException e) {
+      e.printStackTrace();
     }
   }
 

@@ -21,7 +21,7 @@ import java.util.List;
 public interface Resource<T> {
 
   public T store(T type);
-  
+
   public void delete(long id);
 
   public T get(long id);
