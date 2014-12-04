@@ -67,16 +67,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>databaseConnectionServiceImpl</servlet-name>
-        <servlet-class>de.metanome.frontend.server.DatabaseConnectionServiceImpl
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>databaseConnectionServiceImpl</servlet-name>
-        <url-pattern>/metanome/databaseConnectionService</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>tableInputServiceImpl</servlet-name>
         <servlet-class>de.metanome.frontend.server.TableInputServiceImpl
         </servlet-class>

@@ -36,8 +36,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class DatabaseConnectionResourceTest {
 
+  private final DatabaseConnectionResource dbResource = new DatabaseConnectionResource();
+
   /**
-   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#listDatabaseConnections()}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#getAll()}
    */
   @Test
   public void testListDatabaseConnections() throws EntityStorageException {
@@ -57,11 +59,11 @@ public class DatabaseConnectionResourceTest {
     DatabaseConnection[] expectedDbConnections = {expectedDb1, expectedDb2};
 
     for (DatabaseConnection db : expectedDbConnections) {
-      DatabaseConnectionResource.storeDatabaseConnection(db);
+      dbResource.store(db);
     }
 
     // Execute functionality
-    List<DatabaseConnection> actualDbConnections = DatabaseConnectionResource.listDatabaseConnections();
+    List<DatabaseConnection> actualDbConnections = dbResource.getAll();
 
     // Check result
     assertThat(actualDbConnections,
@@ -72,7 +74,7 @@ public class DatabaseConnectionResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#deleteDatabaseConnection(long)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#delete(long)}
    */
   @Test
   public void testDeleteDatabaseConnection() throws EntityStorageException {
@@ -83,26 +85,26 @@ public class DatabaseConnectionResourceTest {
     expectedDbConnection.setUrl("url1");
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
-    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
+    dbResource.store(expectedDbConnection);
 
     long id = expectedDbConnection.getId();
 
     // Check precondition
-    DatabaseConnection actualDatabaseConnection = DatabaseConnectionResource.getDatabaseConnection(id);
+    DatabaseConnection actualDatabaseConnection = dbResource.get(id);
     assertEquals(expectedDbConnection, actualDatabaseConnection);
 
     // Execute functionality
-    DatabaseConnectionResource.deleteDatabaseConnection(id);
+    dbResource.delete(id);
 
     // Check result
-    assertNull(DatabaseConnectionResource.getDatabaseConnection(id));
+    assertNull(dbResource.get(id));
 
     // Cleanup
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#getDatabaseConnection(long)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#get(long)}
    */
   @Test
   public void testGetDatabaseConnection() throws EntityStorageException {
@@ -115,12 +117,12 @@ public class DatabaseConnectionResourceTest {
     expectedDbConnection.setPassword("password1");
     expectedDbConnection.setUsername("db1");
 
-    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
+    dbResource.store(expectedDbConnection);
 
     long expectedId = expectedDbConnection.getId();
 
     // Execute functionality
-    DatabaseConnection actualDbConnection = DatabaseConnectionResource.getDatabaseConnection(expectedId);
+    DatabaseConnection actualDbConnection = dbResource.get(expectedId);
 
     // Check result
     assertEquals(expectedDbConnection, actualDbConnection);
@@ -130,7 +132,7 @@ public class DatabaseConnectionResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#getDatabaseConnection(long)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#get(long)}
    */
   @Test
   public void testGetDatabaseConnectionWithIncorrectId() throws EntityStorageException {
@@ -138,7 +140,7 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     // Execute functionality
-    DatabaseConnection actualDbConnection = DatabaseConnectionResource.getDatabaseConnection(2);
+    DatabaseConnection actualDbConnection = dbResource.get(2);
 
     // Check result
     assertEquals(null, actualDbConnection);
@@ -148,7 +150,7 @@ public class DatabaseConnectionResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#storeDatabaseConnection(DatabaseConnection)}
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#store(DatabaseConnection)}
    */
   @Test
   public void testStoreDatabaseConnection() throws EntityStorageException {
@@ -162,8 +164,8 @@ public class DatabaseConnectionResourceTest {
     expectedDbConnection.setUsername("db1");
 
     // Execute functionality
-    DatabaseConnectionResource.storeDatabaseConnection(expectedDbConnection);
-    List<DatabaseConnection> connections = DatabaseConnectionResource.listDatabaseConnections();
+    dbResource.store(expectedDbConnection);
+    List<DatabaseConnection> connections = dbResource.getAll();
 
     // Check result
     assertTrue(connections.contains(expectedDbConnection));

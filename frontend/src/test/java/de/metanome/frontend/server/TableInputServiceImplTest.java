@@ -37,6 +37,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class TableInputServiceImplTest {
 
+  DatabaseConnectionResource dbResource = new DatabaseConnectionResource();
+
   /**
    * Test method for {@link de.metanome.frontend.server.TableInputServiceImpl#listTableInputs()}
    */
@@ -53,14 +55,14 @@ public class TableInputServiceImplTest {
     expectedDb1.setUrl("url1");
     expectedDb1.setPassword("password1");
     expectedDb1.setUsername("db1");
-    DatabaseConnectionResource.storeDatabaseConnection(expectedDb1);
+    dbResource.store(expectedDb1);
 
     DatabaseConnection expectedDb2 = new DatabaseConnection();
     expectedDb2.setId(2);
     expectedDb2.setUrl("url2");
     expectedDb2.setPassword("password2");
     expectedDb2.setUsername("db2");
-    DatabaseConnectionResource.storeDatabaseConnection(expectedDb2);
+    dbResource.store(expectedDb2);
 
     TableInput expectedTableInput1 = new TableInput();
     expectedTableInput1.setDatabaseConnection(expectedDb1);
@@ -102,7 +104,7 @@ public class TableInputServiceImplTest {
     dbConnection.setUrl("url1");
     dbConnection.setPassword("password1");
     dbConnection.setUsername("db1");
-    DatabaseConnectionResource.storeDatabaseConnection(dbConnection);
+    dbResource.store(dbConnection);
 
     TableInput expectedTableInput = new TableInput();
     expectedTableInput.setDatabaseConnection(dbConnection);
@@ -158,7 +160,7 @@ public class TableInputServiceImplTest {
     dbConnection.setUrl("url1");
     dbConnection.setPassword("password1");
     dbConnection.setUsername("db1");
-    DatabaseConnectionResource.storeDatabaseConnection(dbConnection);
+    dbResource.store(dbConnection);
 
     TableInput expectedTableInput = new TableInput();
     expectedTableInput.setDatabaseConnection(dbConnection);
@@ -192,7 +194,7 @@ public class TableInputServiceImplTest {
     dbConnection.setUrl("url1");
     dbConnection.setPassword("password1");
     dbConnection.setUsername("db1");
-    DatabaseConnectionResource.storeDatabaseConnection(dbConnection);
+    dbResource.store(dbConnection);
 
     TableInput expectedTableInput = new TableInput();
     expectedTableInput.setDatabaseConnection(dbConnection);

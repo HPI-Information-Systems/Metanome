@@ -37,14 +37,15 @@ import javax.ws.rs.Produces;
  */
 
 @Path("dbConnections")
-public class DatabaseConnectionResource {
+public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
 
   /**
    * @return all DatabaseConnections in the database
    */
   @GET
   @Produces("application/json")
-  public static List<DatabaseConnection> listDatabaseConnections() {
+  @Override
+  public List<DatabaseConnection> getAll() {
     try {
       return HibernateUtil.queryCriteria(DatabaseConnection.class);
     } catch (EntityStorageException e) {
@@ -58,9 +59,10 @@ public class DatabaseConnectionResource {
    * @return the retrieved DatabaseConnection
    */
   @GET
-  @Path("/retrieve/{id}")
+  @Path("/get/{id}")
   @Produces("application/json")
-  public static DatabaseConnection getDatabaseConnection(@PathParam("id") long id) {
+  @Override
+  public DatabaseConnection get(@PathParam("id") long id) {
     try {
       return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
     } catch (EntityStorageException e) {
@@ -74,16 +76,16 @@ public class DatabaseConnectionResource {
    * @return the stored DatabaseConnection
    */
   @POST
-  @Path("/add")
+  @Path("/store")
   @Consumes("application/json")
   @Produces("application/json")
-  public static DatabaseConnection storeDatabaseConnection(DatabaseConnection dbConnection) {
+  @Override
+  public DatabaseConnection store(DatabaseConnection dbConnection) {
     try {
       HibernateUtil.store(dbConnection);
     } catch (EntityStorageException e) {
       throw new WebException(e);
     }
-
     return dbConnection;
   }
 
@@ -93,7 +95,8 @@ public class DatabaseConnectionResource {
    */
   @DELETE
   @Path("/delete/{id}")
-  public static void deleteDatabaseConnection(@PathParam("id") long id) {
+  @Override
+  public void delete(@PathParam("id") long id) {
     try {
       DatabaseConnection dbConnection = (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
       HibernateUtil.delete(dbConnection);

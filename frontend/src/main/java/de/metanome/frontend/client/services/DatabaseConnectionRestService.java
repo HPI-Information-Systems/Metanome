@@ -36,11 +36,11 @@ public interface DatabaseConnectionRestService extends RestService {
   public void listDatabaseConnections(MethodCallback<List<DatabaseConnection>> callback);
 
   @GET
-  @Path("/retrieve/{id}")
+  @Path("/get/{id}")
   public void getDatabaseConnection(@PathParam("id") long id, MethodCallback<DatabaseConnection> callback);
 
   @POST
-  @Path("/add")
+  @Path("/store")
   public void storeDatabaseConnection(DatabaseConnection dbConnection, MethodCallback<DatabaseConnection> callback);
 
   @DELETE

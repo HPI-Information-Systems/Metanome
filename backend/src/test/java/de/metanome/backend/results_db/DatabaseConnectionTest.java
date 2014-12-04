@@ -36,6 +36,8 @@ import static org.junit.Assert.assertThat;
  */
 public class DatabaseConnectionTest {
 
+  private final DatabaseConnectionResource dbResource = new DatabaseConnectionResource();
+
   /**
    * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#equals(Object)} and
    * {@link DatabaseConnection#hashCode()}
@@ -59,7 +61,7 @@ public class DatabaseConnectionTest {
   }
 
   /**
-   * Test method for {@link DatabaseConnection#getId()}
+   * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#getId()}
    */
   @Test
   public void testGetId() throws EntityStorageException {
@@ -68,11 +70,11 @@ public class DatabaseConnectionTest {
 
     // Expected values
 
-    DatabaseConnectionResource.storeDatabaseConnection(new DatabaseConnection());
-    DatabaseConnectionResource.storeDatabaseConnection(new DatabaseConnection());
+    dbResource.store(new DatabaseConnection());
+    dbResource.store(new DatabaseConnection());
 
     // Execute functionality
-    List<DatabaseConnection> actualConnections = DatabaseConnectionResource.listDatabaseConnections();
+    List<DatabaseConnection> actualConnections = dbResource.getAll();
 
     long actualId1 = actualConnections.get(0).getId();
     long actualId2 = actualConnections.get(1).getId();
