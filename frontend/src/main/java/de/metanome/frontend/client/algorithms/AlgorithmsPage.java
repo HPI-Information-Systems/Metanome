@@ -188,7 +188,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     final boolean od = algorithm.isOd();
     final String algorithmName = algorithm.getName();
 
-    this.restService.deleteAlgorithm(algorithm.getFileName(), new MethodCallback<Void>() {
+    this.restService.deleteAlgorithm(algorithm.getId(), new MethodCallback<Void>() {
        @Override
        public void onFailure(Method method, Throwable throwable) {
          messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
@@ -225,7 +225,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param algorithm algorithm, which should be added to the database
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
-    this.restService.addAlgorithm(algorithm, getAddCallback());
+    this.restService.storeAlgorithm(algorithm, getAddCallback());
   }
 
   /**

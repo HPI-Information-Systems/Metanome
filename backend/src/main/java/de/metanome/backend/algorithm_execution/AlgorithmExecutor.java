@@ -86,6 +86,7 @@ public class AlgorithmExecutor implements Closeable {
    * @return elapsed time in ns
    */
   public long executeAlgorithm(String algorithmFileName,
+                               long algoirthmId,
                                List<ConfigurationRequirement> requirements)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
@@ -96,7 +97,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     try {
-      return executeAlgorithmWithValues(algorithmFileName, parameterValues);
+      return executeAlgorithmWithValues(algorithmFileName, algoirthmId, parameterValues);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -112,10 +113,12 @@ public class AlgorithmExecutor implements Closeable {
    * seconds is returned as long.
    *
    * @param algorithmFileName the algorithm's file name
+   * @param algorithmId       the algorithm's id
    * @param parameters        list of configuration values
    * @return elapsed time in ns
    */
   public long executeAlgorithmWithValues(String algorithmFileName,
+                                         long algorithmId,
                                          List<ConfigurationValue> parameters)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
@@ -180,7 +183,8 @@ public class AlgorithmExecutor implements Closeable {
     long after = System.nanoTime();
     long elapsedNanos = after - before;
 
-    de.metanome.backend.results_db.Algorithm databaseAlgorithm = AlgorithmResource.retrieve(algorithmFileName);
+    AlgorithmResource resource = new AlgorithmResource();
+    de.metanome.backend.results_db.Algorithm databaseAlgorithm = resource.get(algorithmId);
 
     new Execution(databaseAlgorithm,
                   new Timestamp(beforeWallClockTime))

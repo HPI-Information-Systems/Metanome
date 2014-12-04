@@ -40,6 +40,8 @@ import javax.servlet.ServletContextListener;
  */
 public class DatabaseInitializer implements ServletContextListener {
 
+  AlgorithmResource algorithmResource = new AlgorithmResource();
+
   /**
    * Initializes the database.
    *
@@ -68,25 +70,24 @@ public class DatabaseInitializer implements ServletContextListener {
   protected void addAlgorithms() throws IOException, ClassNotFoundException,
                                         EntityStorageException {
     // only prefill algorithms table if it is currently empty
-    if (!AlgorithmResource.listAllAlgorithms().isEmpty()) {
+    if (!algorithmResource.getAll().isEmpty()) {
       return;
     }
 
     AlgorithmFinder jarFinder = new AlgorithmFinder();
 
     // FIXME: do I really want these exceptions here?
-    // FIXME: do not call Hibernate Util
     String[] algorithmFileNames;
     algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
-    try {
-      for (String filePath : algorithmFileNames) {
-        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-        AlgorithmResource.addAlgorithm(new Algorithm(filePath, algorithmInterfaces)
-                                           .setName(filePath.replaceAll(".jar", "")));
+    for (String filePath : algorithmFileNames) {
+      try {
+          Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+          algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
+                                             .setName(filePath.replaceAll(".jar", "")));
+      } catch (WebException e) {
+        e.printStackTrace();
       }
-    } catch (WebException e) {
-      e.printStackTrace();
     }
   }
 

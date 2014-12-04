@@ -19,6 +19,7 @@ package de.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 
 /**
  * {@link TestDatabaseHelperServiceAsync}
@@ -29,6 +30,7 @@ public interface TestDatabaseHelperServiceAsync {
 
   void resetDatabase(AsyncCallback<Void> async);
 
-  void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
+  void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Algorithm> async)
+      throws EntityStorageException;
 
 }

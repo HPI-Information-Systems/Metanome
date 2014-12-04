@@ -35,12 +35,14 @@ import static org.junit.Assert.assertTrue;
 
 public class AlgorithmResourceTest {
 
+  AlgorithmResource resource = new AlgorithmResource();
+
   /**
-   * Test method for {@link AlgorithmResource#listAllAlgorithms()}
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#getAll()}
    * @throws Exception
    */
   @Test
-  public void testListAllAlgorithms() throws Exception {
+  public void testGetAll() throws Exception {
     // Setup
     HibernateUtil.clear();
 
@@ -52,7 +54,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm2);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.getAll();
 
     // Check result
     assertThat(actualAlgorithms, IsIterableContainingInAnyOrder
@@ -63,18 +65,18 @@ public class AlgorithmResourceTest {
   }
 
   /**
-   * Test method for {@link AlgorithmResource#listAllAlgorithms()} ()}
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#getAll()}
    *
    * When the database has never been accessed, the list of algorithms should still be
    * retrievable and empty.
    */
   @Test
-  public void testListAllAlgorithmEmpty() throws EntityStorageException {
+  public void testGetAllEmpty() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
     // Execute functionality
-    Collection<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
+    Collection<Algorithm> actualAlgorithms = resource.getAll();
 
     // Check result
     assertTrue(actualAlgorithms.isEmpty());
@@ -95,7 +97,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listInclusionDependencyAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listInclusionDependencyAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -117,7 +119,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listUniqueColumnCombinationsAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listUniqueColumnCombinationsAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -139,7 +141,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listConditionalUniqueColumnCombinationsAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listConditionalUniqueColumnCombinationsAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -161,7 +163,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listFunctionalDependencyAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listFunctionalDependencyAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -183,7 +185,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listOrderDependencyAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listOrderDependencyAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -205,7 +207,7 @@ public class AlgorithmResourceTest {
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listBasicStatisticsAlgorithms();
+    List<Algorithm> actualAlgorithms = resource.listBasicStatisticsAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -216,26 +218,25 @@ public class AlgorithmResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#deleteAlgorithm(String)}
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#delete(long)}
    * @throws Exception
    */
   @Test
-  public void testDeleteAlgorithm() throws Exception {
+  public void testDelete() throws Exception {
     // Setup
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "someFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
-    HibernateUtil.store(expectedAlgorithm);
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    expectedAlgorithm = resource.store(expectedAlgorithm);
     // Check precondition
-    assertFalse(AlgorithmResource.listAllAlgorithms().isEmpty());
+    assertFalse(resource.getAll().isEmpty());
 
     // Execute functionality
-    AlgorithmResource.deleteAlgorithm(expectedFileName);
+    resource.delete(expectedAlgorithm.getId());
 
     // Check result
-    assertTrue(AlgorithmResource.listAllAlgorithms().isEmpty());
+    assertTrue(resource.getAll().isEmpty());
 
     // Cleanup
     HibernateUtil.clear();
@@ -254,7 +255,7 @@ public class AlgorithmResourceTest {
 
     // Expected values
     // Execute functionality
-    List<String> files = AlgorithmResource.listAvailableAlgorithmFiles();
+    List<String> files = resource.listAvailableAlgorithmFiles();
 
     // Check result
     assertFalse(files.isEmpty());
@@ -264,8 +265,8 @@ public class AlgorithmResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#addAlgorithm(de.metanome.backend.results_db.Algorithm)}
-   * and {@link de.metanome.backend.resources.AlgorithmResource#retrieve(String)}
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#store(de.metanome.backend.results_db.Algorithm)}
+   * and {@link de.metanome.backend.resources.AlgorithmResource#get(long)}
    *
    * Algorithms should be storable and retrievable by id. The store method should return the stored
    * algorithm instance.
@@ -276,15 +277,15 @@ public class AlgorithmResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "example_ind_algorithm.jar";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
 
     // Execute functionality
-    assertSame(expectedAlgorithm, AlgorithmResource.addAlgorithm(expectedAlgorithm));
-    Algorithm actualAlgorithm = AlgorithmResource.retrieve(expectedFileName);
+    Algorithm storedAlgorithm = resource.store(expectedAlgorithm);
+    assertSame(expectedAlgorithm, storedAlgorithm);
+    Algorithm actualAlgorithm = resource.get(storedAlgorithm.getId());
 
     // Check result
-    assertEquals(expectedAlgorithm, actualAlgorithm);
+    assertEquals(storedAlgorithm, actualAlgorithm);
 
     // Cleanup
     HibernateUtil.clear();

@@ -33,6 +33,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -46,6 +47,7 @@ import javax.persistence.NamedQuery;
 @Entity
 public class Algorithm implements IsSerializable, Comparable<Algorithm> {
 
+  protected long id;
   protected String fileName;
   protected String name;
   protected String author;
@@ -144,6 +146,16 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
   }
 
   @Id
+  @GeneratedValue
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  @Column(name = "fileName", unique = true)
   public String getFileName() {
     return fileName;
   }

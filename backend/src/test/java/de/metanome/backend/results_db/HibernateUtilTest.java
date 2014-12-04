@@ -123,14 +123,13 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "testFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
 
     // Execute functionality
     HibernateUtil.store(expectedAlgorithm);
     Algorithm
         actualAlgorithm =
-        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId());
 
     // Check result
     assertEquals(expectedAlgorithm, actualAlgorithm);
@@ -150,20 +149,19 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "testFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    Algorithm expectedAlgorithm = new Algorithm("some file");
     HibernateUtil.store(expectedAlgorithm);
 
     // Check precondition
     Algorithm actualAlgorithm =
-        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId());
     assertEquals(expectedAlgorithm, actualAlgorithm);
 
     // Execute functionality
     HibernateUtil.delete(expectedAlgorithm);
 
     // Check result
-    assertNull(HibernateUtil.retrieve(Algorithm.class, expectedFileName));
+    assertNull(HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId()));
 
     // Cleanup
     HibernateUtil.clear();
@@ -378,8 +376,9 @@ public class HibernateUtilTest {
   public void testClear() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
-    String expectedAlgorithmId = "some alorithm";
-    Algorithm expectedAlgorithm = new Algorithm(expectedAlgorithmId);
+    long expectedAlgorithmId = 0;
+    Algorithm expectedAlgorithm = new Algorithm("some file");
+    expectedAlgorithm.setId(0);
 
     // Execute functionality
     HibernateUtil.store(expectedAlgorithm);

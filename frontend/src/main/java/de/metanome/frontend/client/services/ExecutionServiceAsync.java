@@ -27,6 +27,7 @@ import java.util.List;
 public interface ExecutionServiceAsync {
 
   public void executeAlgorithm(String algorithmName,
+                               long algorithmId,
                                String executionIdentifier,
                                List<ConfigurationRequirement> parameters,
                                AsyncCallback<Long> callback);

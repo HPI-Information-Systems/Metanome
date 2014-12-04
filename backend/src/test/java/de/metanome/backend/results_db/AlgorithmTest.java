@@ -27,12 +27,15 @@ import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgor
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -128,12 +131,38 @@ public class AlgorithmTest {
     assertFalse(actualAlgorithm.isTableInput());
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.results_db.Algorithm#getId()}
+   */
+  @Test
+  public void testGetId() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    AlgorithmResource resource = new AlgorithmResource();
+    resource.store(new Algorithm("example_ind_algorithm.jar"));
+    resource.store(new Algorithm("example_ucc_algorithm.jar"));
+
+    // Execute functionality
+    List<Algorithm> actualAlgorithms = resource.getAll();
+
+    long actualId1 = actualAlgorithms.get(0).getId();
+    long actualId2 = actualAlgorithms.get(1).getId();
+
+    // Check result
+    assertEquals(Math.abs(actualId1 - actualId2), 1);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
   @Test
   public void testUniqueAlgorithmName() {
     // Setup
     HibernateUtil.clear();
 
-    Algorithm algorithm1 = new Algorithm("someFile1");
+    Algorithm algorithm1 = new Algorithm("example_ind_algorithm.jar");
     algorithm1.setName("name");
     try {
       HibernateUtil.store(algorithm1);
@@ -141,13 +170,38 @@ public class AlgorithmTest {
       fail();
     }
 
-    Algorithm algorithm2 = new Algorithm("someFile2");
+    Algorithm algorithm2 = new Algorithm("example_ucc_algorithm.jar");
     algorithm2.setName("name");
 
     // Check
     try {
       HibernateUtil.store(algorithm2);
     } catch (EntityStorageException e) {
+      // should throw an exception
+    }
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+  @Test
+  public void testUniqueAlgorithmFileName() {
+    // Setup
+    HibernateUtil.clear();
+
+    Algorithm algorithm1 = new Algorithm("example_ind_algorithm.jar");
+    try {
+      HibernateUtil.store(algorithm1);
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    Algorithm algorithm2 = new Algorithm("example_ind_algorithm.jar");
+
+    // Check
+    try {
+      HibernateUtil.store(algorithm2);
+    } catch (ConstraintViolationException | EntityStorageException e) {
       // should throw an exception
     }
 

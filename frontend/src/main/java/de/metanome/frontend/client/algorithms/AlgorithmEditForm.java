@@ -109,7 +109,7 @@ public class AlgorithmEditForm extends Grid {
 
     AlgorithmRestService restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
     restService.listAvailableAlgorithmFiles(storageCallback);
-    restService.listAllAlgorithms(databaseCallback);
+    restService.listAlgorithms(databaseCallback);
   }
 
   /**

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 
 /**
  * Helper that performs database interaction synchronously. To be used in tests.
@@ -72,8 +73,10 @@ public class TestHelper {
    *
    * @param algorithm the {@link de.metanome.backend.results_db.Algorithm} to store
    */
-  public static void storeAlgorithmSync(Algorithm algorithm) {
-    testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
+  public static Algorithm storeAlgorithmSync(Algorithm algorithm) throws EntityStorageException {
+    final Algorithm[] returnAlgorithm = {algorithm};
+
+    testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Algorithm>() {
       @Override
       public void onFailure(Throwable caught) {
         algorithm_blocked[0] = false;
@@ -82,8 +85,9 @@ public class TestHelper {
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Algorithm a) {
         algorithm_blocked[0] = false;
+        returnAlgorithm[0] = a;
       }
     });
 
@@ -96,5 +100,7 @@ public class TestHelper {
       }
     };
     rpcCheck.schedule(100);
+
+    return returnAlgorithm[0];
   }
 }

@@ -34,7 +34,7 @@ import javax.ws.rs.PathParam;
 public interface AlgorithmRestService extends RestService {
 
   @GET
-  public void listAllAlgorithms(MethodCallback<List<Algorithm>> callback);
+  public void listAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/inclusion_dependency_algorithms/")
@@ -64,11 +64,15 @@ public interface AlgorithmRestService extends RestService {
   @Path("/files/")
   public void listAvailableAlgorithmFiles(MethodCallback<List<String>> callback);
 
+  @GET
+  @Path("/get/{id}")
+  public void getAlgorithm(@PathParam("id") long id, MethodCallback<Algorithm> callback);
+
   @POST
-  @Path("/add")
-  public void addAlgorithm(Algorithm algorithm, MethodCallback<Algorithm> callback);
+  @Path("/store")
+  public void storeAlgorithm(Algorithm algorithm, MethodCallback<Algorithm> callback);
 
   @DELETE
-  @Path("/delete/{fileName}")
-  public void deleteAlgorithm(@PathParam("fileName") String fileName, MethodCallback<Void> callback);
+  @Path("/delete/{id}")
+  public void deleteAlgorithm(@PathParam("id") long id, MethodCallback<Void> callback);
 }

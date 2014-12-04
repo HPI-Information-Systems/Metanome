@@ -18,8 +18,8 @@ package de.metanome.frontend.client;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 
 /**
@@ -44,8 +44,9 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
    * @param algorithm the algorithm to store
    */
   @Override
-  public void storeAlgorithmInDatabase(Algorithm algorithm) {
-    AlgorithmResource.addAlgorithm(algorithm);
+  public Algorithm storeAlgorithmInDatabase(Algorithm algorithm) throws EntityStorageException {
+    HibernateUtil.store(algorithm);
+    return algorithm;
   }
 
 }

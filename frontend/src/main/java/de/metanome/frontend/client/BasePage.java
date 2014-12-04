@@ -105,6 +105,7 @@ public class BasePage extends TabLayoutPanel {
    */
   public void startAlgorithmExecution(ExecutionServiceAsync executionService,
                                       String algorithmFileName,
+                                      long algorithmId,
                                       List<ConfigurationRequirement> parameters) {
 
     // clear previous errors
@@ -113,7 +114,7 @@ public class BasePage extends TabLayoutPanel {
     String executionIdentifier = getExecutionIdentifier(algorithmFileName);
 
     // Execute algorithm
-    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
+    executionService.executeAlgorithm(algorithmFileName, algorithmId, executionIdentifier, parameters,
                                       this.getExecutionCallback(executionService,
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page

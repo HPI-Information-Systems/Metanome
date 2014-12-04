@@ -184,8 +184,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
                              List<ConfigurationRequirement> configuration) {
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final String algorithmFileName = getAlgorithmFileName(algorithmName);
+    final long algorithmId = getAlgorithmId(algorithmName);
     parameters.addAll(configuration);
-    basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
+    basePage.startAlgorithmExecution(executionService, algorithmFileName, algorithmId, parameters);
   }
 
   /**
@@ -217,6 +218,13 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    */
   private String getAlgorithmFileName(String name) {
     return this.algorithmChooser.algorithmMap.get(name).getFileName();
+  }
+
+  /**
+   * Returns the file name of the algorithm, which is needed for execution
+   */
+  private long getAlgorithmId(String name) {
+    return this.algorithmChooser.algorithmMap.get(name).getId();
   }
 
 }

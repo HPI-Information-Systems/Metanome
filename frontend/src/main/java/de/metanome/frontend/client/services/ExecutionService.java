@@ -32,6 +32,7 @@ import java.util.List;
 public interface ExecutionService extends RemoteService {
 
   public long executeAlgorithm(String algorithmName,
+                               long algorithmId,
                                String executionIdentifier,
                                List<ConfigurationRequirement> parameters)
       throws AlgorithmConfigurationException, AlgorithmLoadingException,

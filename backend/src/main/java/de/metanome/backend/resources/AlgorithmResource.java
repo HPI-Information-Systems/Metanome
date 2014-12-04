@@ -54,20 +54,76 @@ import javax.ws.rs.Produces;
  * @author Tanja Bergmann
  */
 @Path("algorithms")
-public class AlgorithmResource {
+public class AlgorithmResource implements Resource<Algorithm> {
+
+  /**
+   * Adds a algorithm to the database.
+   * @param algorithm the algorithm
+   * @return the stored algorithm
+   */
+  @POST
+  @Path("/store")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Algorithm store(Algorithm algorithm) {
+    AlgorithmAnalyzer analyzer = null;
+    try {
+      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
+    } catch (Exception e) {
+      throw new WebException(e);
+    }
+
+    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
+    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
+    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
+    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
+    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
+    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
+    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
+    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+
+    try {
+      HibernateUtil.store(algorithm);
+    } catch (EntityStorageException e) {
+      throw new WebException(e);
+    }
+
+    return algorithm;
+  }
+
+  /**
+   * Deletes the algorithm, which has the given id, from the database.
+   * @param id the id of the algorithm, which should be deleted
+   */
+  @DELETE
+  @Path("/delete/{id}")
+  @Override
+  public void delete(@PathParam("id") long id) {
+    try {
+      Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
+      HibernateUtil.delete(algorithm);
+    } catch (EntityStorageException e) {
+      throw new WebException(e);
+    }
+
+  }
 
   /**
    * Retrieves an Algorithm from the database.
    *
-   * @param fileName the Algorithm's file name
+   * @param id the Algorithm's id
    * @return the algorithm
    */
   @GET
-  @Path("/{fileName}")
+  @Path("/get/{id}")
   @Produces("application/json")
-  public static Algorithm retrieve(@PathParam("fileName") String fileName) {
+  @Override
+  public Algorithm get(@PathParam("id") long id) {
     try {
-      return (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
+      return (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
     } catch (EntityStorageException e) {
       throw new WebException(e);
     }
@@ -78,7 +134,8 @@ public class AlgorithmResource {
    */
   @GET
   @Produces("application/json")
-  public static List<Algorithm> listAllAlgorithms() {
+  @Override
+  public List<Algorithm> getAll() {
     try {
       return HibernateUtil.queryCriteria(Algorithm.class);
     } catch (EntityStorageException e) {
@@ -92,7 +149,7 @@ public class AlgorithmResource {
   @GET
   @Path("/inclusion_dependency_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listInclusionDependencyAlgorithms() {
+  public List<Algorithm> listInclusionDependencyAlgorithms() {
     try {
       return listAlgorithms(InclusionDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -106,7 +163,7 @@ public class AlgorithmResource {
   @GET
   @Path("/unique_column_combination_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
+  public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
     try {
       return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -120,7 +177,7 @@ public class AlgorithmResource {
   @GET
   @Path("/conditional_unique_column_combination_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
+  public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
     try {
       return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -134,7 +191,7 @@ public class AlgorithmResource {
   @GET
   @Path("/functional_dependency_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listFunctionalDependencyAlgorithms() {
+  public List<Algorithm> listFunctionalDependencyAlgorithms() {
     try {
       return listAlgorithms(FunctionalDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -148,7 +205,7 @@ public class AlgorithmResource {
   @GET
   @Path("/order_dependency_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listOrderDependencyAlgorithms() {
+  public List<Algorithm> listOrderDependencyAlgorithms() {
     try {
       return listAlgorithms(OrderDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -162,7 +219,7 @@ public class AlgorithmResource {
   @GET
   @Path("/basic_statistics_algorithms/")
   @Produces("application/json")
-  public static List<Algorithm> listBasicStatisticsAlgorithms() {
+  public List<Algorithm> listBasicStatisticsAlgorithms() {
     try {
       return listAlgorithms(BasicStatisticsAlgorithm.class);
     } catch (EntityStorageException e) {
@@ -177,7 +234,7 @@ public class AlgorithmResource {
    * @param algorithmClass the implemented algorithm interface.
    * @return the algorithms
    */
-  protected static List<Algorithm> listAlgorithms(Class<?>... algorithmClass) throws EntityStorageException {
+  protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass) throws EntityStorageException {
     // Cannot directly use array, as some interfaces might not be relevant for query.
     ArrayList<Criterion> criteria = new ArrayList<>(algorithmClass.length);
 
@@ -220,58 +277,6 @@ public class AlgorithmResource {
   }
 
   /**
-   * Adds a algorithm to the database.
-   * @param algorithm the algorithm
-   * @return the stored algorithm
-   */
-  @POST
-  @Path("/add")
-  @Consumes("application/json")
-  @Produces("application/json")
-  public static Algorithm addAlgorithm(Algorithm algorithm) {
-    AlgorithmAnalyzer analyzer = null;
-    try {
-      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
-    } catch (Exception e) {
-      throw new WebException(e);
-    }
-
-    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
-    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
-    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
-    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
-    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
-    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
-    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
-    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
-    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
-
-    try {
-      HibernateUtil.store(algorithm);
-    } catch (EntityStorageException e) {
-      throw new WebException(e);
-    }
-
-    return algorithm;
-  }
-
-  /**
-   * Deletes the algorithm, which has the given file name, from the database.
-   * @param fileName the file name of the algorithm, which should be deleted
-   */
-  @DELETE
-  @Path("/delete/{fileName}")
-  public static void deleteAlgorithm(@PathParam("fileName") String fileName) {
-    try {
-      Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, fileName);
-      HibernateUtil.delete(algorithm);
-    } catch (EntityStorageException e) {
-      throw new WebException(e);
-    }
-  }
-
-  /**
    * Lists all algorithm file names located in the algorithm folder.
    *
    * @return list of algorithm file names
@@ -279,7 +284,7 @@ public class AlgorithmResource {
   @GET
   @Path("/files/")
   @Produces("application/json")
-  public  static List<String> listAvailableAlgorithmFiles() {
+  public List<String> listAvailableAlgorithmFiles() {
     try {
       AlgorithmFinder algorithmFinder = new AlgorithmFinder();
       List<String> files = new ArrayList<>();

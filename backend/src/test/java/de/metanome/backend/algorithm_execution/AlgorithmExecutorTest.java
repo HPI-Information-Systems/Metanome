@@ -73,24 +73,25 @@ import static org.mockito.Mockito.when;
  */
 public class AlgorithmExecutorTest {
 
-  protected CloseableOmniscientResultReceiver resultReceiver;
-  protected ProgressCache progressCache;
-  protected FileGenerator fileGenerator;
-
-  protected AlgorithmExecutor executor;
+  private CloseableOmniscientResultReceiver resultReceiver;
+  private ProgressCache progressCache;
+  private FileGenerator fileGenerator;
+  private AlgorithmExecutor executor;
+  private AlgorithmResource resource;
 
   @Before
   public void setUp() throws UnsupportedEncodingException {
     resultReceiver = mock(CloseableOmniscientResultReceiver.class);
     progressCache = mock(ProgressCache.class);
     fileGenerator = new TempFileGenerator();
+    resource = new AlgorithmResource();
 
     executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
-   * List)} <p/> Tests the execution of an fd algorithm. The elapsed time should be greater than
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, long, java.util.List)}
+   * Tests the execution of an fd algorithm. The elapsed time should be greater than
    * 0ns.
    */
   @Test
@@ -106,10 +107,10 @@ public class AlgorithmExecutorTest {
     configs.add(new ConfigurationValueListBox("column names", selectedValues));
     String algorithmFileName = "example_fd_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, configs);
+    long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configs);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -117,8 +118,8 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
-   * List)} <p/> Tests the execution of an od algorithm. The elapsed time should be greater than
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, long, java.util.List)}
+   * Tests the execution of an od algorithm. The elapsed time should be greater than
    * 0ns.
    */
   @Test
@@ -132,10 +133,10 @@ public class AlgorithmExecutorTest {
     configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm.FILE_NAME, "path/to/file"));
     String algorithmFileName = "example_od_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, configs);
+    long elapsedTime = executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configs);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
@@ -143,8 +144,8 @@ public class AlgorithmExecutorTest {
   }
   
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> Tests the execution of an ind algorithm.
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, long, java.util.List)}
+   * Tests the execution of an ind algorithm.
    */
   @Test
   public void testExecuteInclusionDependency()
@@ -161,18 +162,17 @@ public class AlgorithmExecutorTest {
         mock(FileInputGenerator.class)));
     String algorithmFileName = "example_ind_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithmFileName, configs);
+    executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configs);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
-   * java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, long, java.util.List)}
    *
    * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm}
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
@@ -193,16 +193,16 @@ public class AlgorithmExecutorTest {
     requirementRelationalInput.setSettings(new ConfigurationSettingFileInput(path));
     requirements.add(requirementRelationalInput);
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
     // Check result
-    executor.executeAlgorithm(algorithmFileName, requirements);
+    executor.executeAlgorithm(algorithmFileName, algorithm.getId(), requirements);
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> Tests the execution of an ucc algorithm.
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, long, java.util.List)}
+   * Tests the execution of an ucc algorithm.
    */
   @Test
   public void testExecuteUniqueColumnCombinationsAlgorithm()
@@ -215,10 +215,10 @@ public class AlgorithmExecutorTest {
     configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
     String algorithmFileName = "example_ucc_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithmFileName, configs);
+    executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configs);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -227,8 +227,8 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> Tests the execution of an holistic algorithm.
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, long, java.util.List)}
+   * Tests the execution of an holistic algorithm.
    */
   @Test
   public void testExecuteHolisticAlgorithm()
@@ -241,10 +241,10 @@ public class AlgorithmExecutorTest {
     configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
     String algorithmFileName = "example_holistic_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithmFileName, configs);
+    executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configs);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -252,8 +252,8 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> Algorithms that do not implement the metanome interfaces directly should
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, long, java.util.List)}
+   * Algorithms that do not implement the metanome interfaces directly should
    * still be executable.
    */
   @Test
@@ -267,18 +267,18 @@ public class AlgorithmExecutorTest {
         RelationalInputGenerator.class)));
     String algorithmFileName = "example_indirect_interfaces_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithmFileName, configurationValues);
+    executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configurationValues);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String,
-   * java.util.List)} <p/> When executing an {@link de.metanome.algorithm_integration.Algorithm} an
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(String, long, java.util.List)}
+   * When executing an {@link de.metanome.algorithm_integration.Algorithm} an
    * {@link de.metanome.backend.results_db.Execution} should be saved in the results database.
    */
   @Test
@@ -294,11 +294,10 @@ public class AlgorithmExecutorTest {
         RelationalInputGenerator.class)));
     String algorithmFileName = "example_indirect_interfaces_algorithm.jar";
 
-    Algorithm algorithm = new Algorithm(algorithmFileName);
-    AlgorithmResource.addAlgorithm(algorithm);
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithmFileName, configurationValues);
+    executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configurationValues);
     List<Execution> actualExecutions = Execution.retrieveAll();
 
     // Check result
@@ -320,8 +319,8 @@ public class AlgorithmExecutorTest {
   //FIXME add test for incorrect file name
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String,
-   * java.util.List)} <p/> Tests the execution of a basic statistics algorithm that requires several
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(String, long, java.util.List)}
+   * Tests the execution of a basic statistics algorithm that requires several
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
    */
   @Test
@@ -365,10 +364,10 @@ public class AlgorithmExecutorTest {
 
     String algorithmFileName = "example_basic_stat_algorithm.jar";
 
-    AlgorithmResource.addAlgorithm(new Algorithm(algorithmFileName));
+    Algorithm algorithm = resource.store(new Algorithm(algorithmFileName));
 
     // Execute functionality
-    executor.executeAlgorithm(algorithmFileName, configurationRequirements);
+    executor.executeAlgorithm(algorithmFileName, algorithm.getId(), configurationRequirements);
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);

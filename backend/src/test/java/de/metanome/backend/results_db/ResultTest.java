@@ -71,7 +71,8 @@ public class ResultTest {
 
     // Store prerequisite objects in the database
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(algorithm);
+    AlgorithmResource resource = new AlgorithmResource();
+    resource.store(algorithm);
 
     Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()))
         .store();

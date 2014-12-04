@@ -78,7 +78,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
   }
 
   @Override
-  public long executeAlgorithm(String algorithmFileName, String executionIdentifier,
+  public long executeAlgorithm(String algorithmFileName, long algorithmId, String executionIdentifier,
                                List<ConfigurationRequirement> parameters)
       throws AlgorithmLoadingException,
              AlgorithmExecutionException {
@@ -93,7 +93,7 @@ public class ExecutionServiceImpl extends RemoteServiceServlet implements Execut
       throw new AlgorithmExecutionException(
           ExceptionParser.parse(e, "Could not build temporary file generator"), e);
     }
-    long executionTime = executor.executeAlgorithm(algorithmFileName, parameters);
+    long executionTime = executor.executeAlgorithm(algorithmFileName, algorithmId, parameters);
     try {
       executor.close();
     } catch (IOException e) {

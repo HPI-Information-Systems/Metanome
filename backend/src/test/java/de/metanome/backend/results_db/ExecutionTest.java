@@ -43,6 +43,8 @@ import static org.mockito.Mockito.mock;
  */
 public class ExecutionTest {
 
+  AlgorithmResource resource = new AlgorithmResource();
+
   /**
    * Test method for {@link de.metanome.backend.results_db.Execution#store()} and {@link
    * de.metanome.backend.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)} <p/>
@@ -55,7 +57,7 @@ public class ExecutionTest {
 
     // Store prerequisite objects in the database.
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(algorithm);
+    resource.store(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());
@@ -96,7 +98,7 @@ public class ExecutionTest {
 
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(expectedAlgorithm);
+    resource.store(expectedAlgorithm);
 
     Execution expectedExecution1 = new Execution(expectedAlgorithm)
         .store();
@@ -128,7 +130,7 @@ public class ExecutionTest {
 
     // Store prerequisite objects in the database
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(algorithm);
+    resource.store(algorithm);
 
     Input input1 = new Input()
         .store();
@@ -170,7 +172,7 @@ public class ExecutionTest {
 
     // Store prerequisite objects in the database
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(algorithm);
+    resource.store(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());
@@ -229,7 +231,7 @@ public class ExecutionTest {
 
     // Store prerequisite objects in the database
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource.addAlgorithm(algorithm);
+    resource.store(algorithm);
 
     // Expected values
     Timestamp begin = new Timestamp(new Date().getTime());

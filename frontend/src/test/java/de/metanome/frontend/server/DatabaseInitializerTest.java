@@ -32,8 +32,10 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContextEvent;
@@ -48,6 +50,8 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class DatabaseInitializerTest {
+
+  AlgorithmResource algorithmResource = new AlgorithmResource();
 
   /**
    * Test method for {@link de.metanome.frontend.server.DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
@@ -65,22 +69,25 @@ public class DatabaseInitializerTest {
 
     // Expected values
     String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
-    Algorithm[] expectedAlgorithms = new Algorithm[algorithmFileNames.length];
+    Map<String, Algorithm> expectedAlgorithms = new HashMap<>();
     for (int i = 0; i < algorithmFileNames.length; i++) {
-      expectedAlgorithms[i] = buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]);
+      expectedAlgorithms.put(algorithmFileNames[i],
+                             buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]));
     }
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
+    List<Algorithm> actualAlgorithms = algorithmResource.getAll();
 
     // Check result
-    assertThat(actualAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+    for (Algorithm algorithm : actualAlgorithms) {
+      assertTrue(expectedAlgorithms.containsKey(algorithm.getFileName()));
+    }
+
     // Check algorithm fields
-    for (Algorithm expectedAlgorithm : expectedAlgorithms) {
+    for (Algorithm actualAlgorithm : actualAlgorithms) {
       // Get the matching algorithm based on the file name (equals method).
-      Algorithm actualAlgorithm = actualAlgorithms.get(actualAlgorithms.indexOf(expectedAlgorithm));
+      Algorithm expectedAlgorithm = expectedAlgorithms.get(actualAlgorithm.getFileName());
       assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm, actualAlgorithm));
     }
 
@@ -114,7 +121,7 @@ public class DatabaseInitializerTest {
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = AlgorithmResource.listAllAlgorithms();
+    List<Algorithm> actualAlgorithms = algorithmResource.getAll();
 
     // Check result
     assertThat(actualAlgorithms,

@@ -132,7 +132,7 @@ public class GwtTestBasePage extends GWTTestCase {
 //      }
 //    };
 //
-//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
+//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAlgorithms(callback);
 //
 //    Timer timer = new Timer() {
 //      @Override
@@ -196,7 +196,7 @@ public class GwtTestBasePage extends GWTTestCase {
 //      }
 //    };
 //
-//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
+//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAlgorithms(callback);
 //
 //    delayTestFinish(1000);
 //  }

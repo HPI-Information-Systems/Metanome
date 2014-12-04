@@ -20,14 +20,11 @@ import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.DatabaseConnection}
