@@ -20,14 +20,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Input;
-import de.metanome.backend.results_db.TableInput;
-
-import java.util.List;
 
 /**
  * A service to reset the database in gwt client side tests.
@@ -55,58 +48,4 @@ public class TestDatabaseHelperServiceImpl extends RemoteServiceServlet
     AlgorithmResource.addAlgorithm(algorithm);
   }
 
-  /**
-   * Stores a database connection in the database.
-   *
-   * @param connection the database connection to store
-   */
-  @Override
-  public long storeDatabaseConnection(DatabaseConnection connection) {
-    try {
-      connection.store();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return connection.getId();
-  }
-
-  @Override
-  public long storeFileInput(FileInput input) {
-    try {
-      input.store();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return input.getId();
-  }
-
-  @Override
-  public List<DatabaseConnection> getAllDatabaseConnections() {
-    try {
-      return DatabaseConnection.retrieveAll();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  @Override
-  public List<Input> getAllTableInputs() {
-    try {
-      return TableInput.retrieveAll();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  @Override
-  public List<Input> getAllFileInputs() {
-    try {
-      return FileInput.retrieveAll();
-    } catch (EntityStorageException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
 }

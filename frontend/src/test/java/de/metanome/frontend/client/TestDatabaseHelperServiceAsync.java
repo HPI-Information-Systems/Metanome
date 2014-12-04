@@ -19,11 +19,6 @@ package de.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Input;
-
-import java.util.List;
 
 /**
  * {@link TestDatabaseHelperServiceAsync}
@@ -36,13 +31,4 @@ public interface TestDatabaseHelperServiceAsync {
 
   void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
 
-  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Long> async);
-
-  void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> async);
-
-  void getAllTableInputs(AsyncCallback<List<Input>> async);
-
-  void getAllFileInputs(AsyncCallback<List<Input>> async);
-
-  void storeFileInput(FileInput input, AsyncCallback<Long> async);
 }
