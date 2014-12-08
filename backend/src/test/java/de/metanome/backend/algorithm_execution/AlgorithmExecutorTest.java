@@ -41,6 +41,7 @@ import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenera
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.input.csv.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -298,7 +299,8 @@ public class AlgorithmExecutorTest {
 
     // Execute functionality
     executor.executeAlgorithmWithValues(algorithmFileName, algorithm.getId(), configurationValues);
-    List<Execution> actualExecutions = Execution.retrieveAll();
+    ExecutionResource executionResource = new ExecutionResource();
+    List<Execution> actualExecutions = executionResource.getAll();
 
     // Check result
     assertFalse(actualExecutions.isEmpty());

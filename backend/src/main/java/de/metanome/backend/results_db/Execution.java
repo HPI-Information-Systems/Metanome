@@ -16,33 +16,32 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Represents an execution in the database.
@@ -50,18 +49,17 @@ import javax.persistence.OneToMany;
  * @author Jakob Zwiener
  */
 @Entity
-@GwtCompatible
-@IdClass(ExecutionId.class)
-public class Execution extends ResultsDbEntity implements Serializable {
-
-  private static final long serialVersionUID = 3206866673344232787L;
+@Table(name = "execution",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
+public class Execution implements IsSerializable {
 
   // TODO cascading save to children
+  // TODO store proper config
 
+  protected long id;
   protected Algorithm algorithm;
   protected Timestamp begin;
   protected Timestamp end;
-  // TODO store proper config
   protected String config;
   protected Collection<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
@@ -93,53 +91,18 @@ public class Execution extends ResultsDbEntity implements Serializable {
     this.begin = begin;
   }
 
-  /**
-   * Retrieves an Exectution from the database.
-   *
-   * @param algorithm the executed algorithm
-   * @param begin     the start time of the execution
-   * @return the execution
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static Execution retrieve(Algorithm algorithm, Timestamp begin)
-      throws EntityStorageException {
-    return (Execution) HibernateUtil.retrieve(Execution.class, new ExecutionId(algorithm, begin));
-  }
+  @Id
+  @GeneratedValue
+  public long getId() { return id; }
 
-  /**
-   * Retrieves all executions stored in the database
-   *
-   * @return a list of all executions
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Execution> retrieveAll() {
-    List<Execution> executions = null;
-
-    try {
-      executions = HibernateUtil.queryCriteria(Execution.class);
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return executions;
-  }
-
-  /**
-   * Stores the Execution in the database.
-   *
-   * @return the Execution
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public Execution store() throws EntityStorageException {
-    HibernateUtil.store(this);
+  public Execution setId(long id) {
+    this.id = id;
 
     return this;
   }
 
-  @Id
-  @ManyToOne(targetEntity = Algorithm.class)
+  @ManyToOne
+  @JoinColumn(name = "algorithm")
   public Algorithm getAlgorithm() {
     return algorithm;
   }
@@ -150,7 +113,7 @@ public class Execution extends ResultsDbEntity implements Serializable {
     return this;
   }
 
-  @Id
+  @Column(name = "begin")
   public Timestamp getBegin() {
     return begin;
   }
@@ -201,8 +164,7 @@ public class Execution extends ResultsDbEntity implements Serializable {
 
   @OneToMany(
       fetch = FetchType.EAGER,
-      mappedBy = "execution",
-      cascade = CascadeType.REMOVE
+      mappedBy = "execution"
   )
   @Fetch(value = FetchMode.SELECT)
   public Set<Result> getResults() {

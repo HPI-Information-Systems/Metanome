@@ -18,6 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
@@ -31,12 +33,14 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @NamedQueries(
   @NamedQuery(
@@ -62,7 +66,7 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
   protected boolean tableInput;
   protected boolean fileInput;
   protected boolean basicStat;
-//  protected Set<Execution> executions;
+  protected Set<Execution> executions;
 
   /**
    * Exists for hibernate serialization
@@ -283,14 +287,16 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
     return this;
   }
 
-//  public Set<Execution> getExecutions() {
-//    return executions;
-//  }
-//
-//  public AlgorithmObj setExecutions(Set<Execution> executions) {
-//    this.executions = executions;
-//    return this;
-//  }
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.REMOVE, targetEntity = Execution.class)
+  public Set<Execution> getExecutions() {
+    return executions;
+  }
+
+  public Algorithm setExecutions(Set<Execution> executions) {
+    this.executions = executions;
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

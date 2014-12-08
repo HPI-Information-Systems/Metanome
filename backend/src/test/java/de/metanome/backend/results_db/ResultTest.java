@@ -18,6 +18,7 @@ package de.metanome.backend.results_db;
 
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
@@ -71,11 +72,12 @@ public class ResultTest {
 
     // Store prerequisite objects in the database
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    AlgorithmResource resource = new AlgorithmResource();
-    resource.store(algorithm);
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    algorithmResource.store(algorithm);
 
-    Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()))
-        .store();
+    Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()));
+    ExecutionResource executionResource = new ExecutionResource();
+    executionResource.store(execution);
 
     // Expected values
     String filePath = "some file name";
