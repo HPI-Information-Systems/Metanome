@@ -86,7 +86,7 @@ public class DatabaseInitializer implements ServletContextListener {
           algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
                                              .setName(filePath.replaceAll(".jar", "")));
       } catch (WebException e) {
-        e.printStackTrace();
+        // Do something with this exception
       }
     }
   }

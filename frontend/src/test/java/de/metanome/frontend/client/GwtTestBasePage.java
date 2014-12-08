@@ -20,6 +20,8 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage.Tabs;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
@@ -27,7 +29,9 @@ import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests related to the overall page.
@@ -97,109 +101,77 @@ public class GwtTestBasePage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-// FIXME
-// /**
-//   * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
-//   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
-//   * control flow from Algorithms to Run configuration
-//   */
-//  public void testSwitchToRunConfigurationFromAlgorithm() {
-//    // Set up
-//    TestHelper.resetDatabaseSync();
-//
-//    final String algorithmName = "some_name";
-//    final BasePage page = new BasePage();
-//    Algorithm
-//        a =
-//        new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
-//    algorithms.add(a);
-//
-//    page.addAlgorithmsToRunConfigurations(algorithms);
-//
-//    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-//      @Override
-//      public void onFailure(Throwable caught) {
-//        caught.printStackTrace();
-//        fail();
-//      }
-//
-//      @Override
-//      public void onSuccess(List<Algorithm> result) {
-//        page.addAlgorithmsToRunConfigurations(result);
-//
-//        // Execute
-//        page.switchToRunConfiguration(algorithmName, null);
-//      }
-//    };
-//
-//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAlgorithms(callback);
-//
-//    Timer timer = new Timer() {
-//      @Override
-//      public void run() {
-//        RunConfigurationPage runPage = getRunConfigurationPage(page);
-//
-//        // Check
-//        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-//        assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
-//        assertNotNull(runPage.parameterTable);
-//        assertEquals(4, runPage.getWidgetCount());
-//
-//        // Cleanup
-//        TestHelper.resetDatabaseSync();
-//
-//        finishTest();
-//      }
-//    };
-//
-//    timer.schedule(1000);
-//
-//    delayTestFinish(2000);
-//  }
+/**
+   * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
+   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
+   * control flow from Algorithms to Run configuration
+   */
+  public void testSwitchToRunConfigurationFromAlgorithm() {
+    // Set up
+    TestHelper.resetDatabaseSync();
 
-// FIXME
-// /**
-//   * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
-//   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
-//   * control flow from Data sources to Run configuration
-//   */
-//  public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
-//    final BasePage page = new BasePage();
-//    ConfigurationSettingFileInput dataSource = new ConfigurationSettingFileInput();
-//
-//    String dataSourceName = "inputA.csv";
-//    dataSource.setFileName(dataSourceName);
-//    final ConfigurationSettingFileInput finalDataSource = dataSource;
-//
-//    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-//      @Override
-//      public void onFailure(Throwable caught) {
-//        caught.printStackTrace();
-//      }
-//
-//      @Override
-//      public void onSuccess(List<Algorithm> result) {
-//        page.addAlgorithmsToRunConfigurations(result);
-//
-//        // Execute
-//        page.switchToRunConfiguration(null, finalDataSource);
-//
-//        RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
-//
-//        // Check
-//        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-//        assertEquals(finalDataSource.getValueAsString(),
-//                     runConfigPage.primaryDataSource.getValueAsString());
-//        // TODO assert correct filtering
-//
-//        finishTest();
-//      }
-//    };
-//
-//    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAlgorithms(callback);
-//
-//    delayTestFinish(1000);
-//  }
+    final BasePage page = new BasePage();
+
+    final String algorithmName = "some_name";
+    Algorithm algorithm1 = new Algorithm("example_ind_algorithm.jar");
+    algorithm1.setName(algorithmName);
+    algorithm1.setFileInput(true);
+    Algorithm algorithm2 = new Algorithm("some_other_file");
+    algorithm2.setName("some_other_name");
+
+    List<Algorithm> list = new ArrayList<>();
+    list.add(algorithm1);
+    list.add(algorithm2);
+
+    page.addAlgorithmsToRunConfigurations(list);
+
+    // Execute
+    page.switchToRunConfiguration(algorithmName, null);
+
+    // Check
+    RunConfigurationPage runPage = getRunConfigurationPage(page);
+
+    assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+    assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
+    // assertNotNull(runPage.parameterTable);
+    // assertEquals(4, runPage.getWidgetCount());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+
+/**
+   * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
+   * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
+   * control flow from Data sources to Run configuration
+   */
+  public void testSwitchToRunConfigurationFromDataSource() throws AlgorithmConfigurationException {
+    final BasePage page = new BasePage();
+    ConfigurationSettingFileInput dataSource = new ConfigurationSettingFileInput();
+
+    String dataSourceName = "inputA.csv";
+    dataSource.setFileName(dataSourceName);
+    final ConfigurationSettingFileInput finalDataSource = dataSource;
+
+    Algorithm algorithm = new Algorithm("some_file");
+    algorithm.setName("algorithm");
+
+    List<Algorithm> list = new ArrayList<>();
+    list.add(algorithm);
+
+    page.addAlgorithmsToRunConfigurations(list);
+
+    // Execute
+    page.switchToRunConfiguration(null, finalDataSource);
+
+    // Check
+    RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
+
+    assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+    assertEquals(finalDataSource.getValueAsString(),
+                 runConfigPage.primaryDataSource.getValueAsString());
+  }
 
   private RunConfigurationPage getRunConfigurationPage(final BasePage page) {
     return (RunConfigurationPage) ((TabWrapper) ((ScrollPanel) page

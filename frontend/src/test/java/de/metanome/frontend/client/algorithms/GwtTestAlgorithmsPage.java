@@ -165,58 +165,48 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-//  /**
-//   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.metanome.backend.results_db.Algorithm)}
-//   */
-//  public void testDeleteAlgorithm() {
-//    // Setup
-//    TestHelper.resetDatabaseSync();
-//
-//    final AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
-//    final int uccCount = algorithmsPage.uccList.getRowCount();
-//    final int fdCount = algorithmsPage.fdList.getRowCount();
-//
-//    // Create a list of algorithms as result
-//    LinkedList<Algorithm> uccAlgorithms = new LinkedList<Algorithm>();
-//    LinkedList<Algorithm> fdAlgorithms = new LinkedList<Algorithm>();
-//    Algorithm a1 = new Algorithm("fileName1");
-//    a1.setName("algorithm1");
-//    a1.setUcc(true);
-//    a1.setFd(true);
-//    uccAlgorithms.add(a1);
-//    fdAlgorithms.add(a1);
-//    Algorithm a2 = new Algorithm("fileName2");
-//    a2.setName("algorithm2");
-//    a2.setUcc(true);
-//    uccAlgorithms.add(a2);
-//
-//    algorithmsPage.addAlgorithmsToTable(uccAlgorithms, algorithmsPage.uccList);
-//    algorithmsPage.addAlgorithmsToTable(fdAlgorithms, algorithmsPage.fdList);
-//
-//    assertEquals(uccCount + 2, algorithmsPage.uccList.getRowCount());
-//    assertEquals(fdCount + 1, algorithmsPage.fdList.getRowCount());
-//
-//    // Execute
-//    algorithmsPage.deleteAlgorithm(a1);
-//
-//    Timer checkTimer = new Timer() {
-//      @Override
-//      public void run() {
-//        // Check
-//        assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
-//        assertEquals(fdCount, algorithmsPage.fdList.getRowCount());
-//
-//        finishTest();
-//      }
-//    };
-//
-//    checkTimer.schedule(3000);
-//
-//    delayTestFinish(8000);
-//
-//    // Clean up
-//    TestHelper.resetDatabaseSync();
-//  }
+  /**
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#deleteAlgorithm(de.metanome.backend.results_db.Algorithm)}
+   */
+  public void testDeleteAlgorithm() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    final int uccCount = algorithmsPage.uccList.getRowCount();
+    final int fdCount = algorithmsPage.fdList.getRowCount();
+
+    // Create a list of algorithms as result
+    LinkedList<Algorithm> uccAlgorithms = new LinkedList<Algorithm>();
+    LinkedList<Algorithm> fdAlgorithms = new LinkedList<Algorithm>();
+    Algorithm a1 = new Algorithm("fileName1");
+    a1.setName("algorithm1");
+    a1.setUcc(true);
+    a1.setFd(true);
+    uccAlgorithms.add(a1);
+    fdAlgorithms.add(a1);
+    Algorithm a2 = new Algorithm("fileName2");
+    a2.setName("algorithm2");
+    a2.setUcc(true);
+    uccAlgorithms.add(a2);
+
+    algorithmsPage.addAlgorithmsToTable(uccAlgorithms, algorithmsPage.uccList);
+    algorithmsPage.addAlgorithmsToTable(fdAlgorithms, algorithmsPage.fdList);
+
+    assertEquals(uccCount + 2, algorithmsPage.uccList.getRowCount());
+    assertEquals(fdCount + 1, algorithmsPage.fdList.getRowCount());
+
+    // Execute
+    MethodCallback<Void> callback = algorithmsPage.getDeleteCallback(a1);
+    callback.onSuccess(null, null);
+
+    // Check
+    assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
+    assertEquals(fdCount, algorithmsPage.fdList.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
 
   @Override
   public String getModuleName() {

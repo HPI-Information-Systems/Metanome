@@ -179,44 +179,50 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     }
   }
 
+  /**
+   * Calls the rest service to delete the algorithm.
+   * @param algorithm the algorithm, which should be deleted.
+   */
   protected void deleteAlgorithm(Algorithm algorithm) {
-    final boolean cucc = algorithm.isCucc();
-    final boolean fd = algorithm.isFd();
-    final boolean ind = algorithm.isInd();
-    final boolean basicStat = algorithm.isBasicStat();
-    final boolean ucc = algorithm.isUcc();
-    final boolean od = algorithm.isOd();
-    final String algorithmName = algorithm.getName();
+    this.restService.deleteAlgorithm(algorithm.getId(), getDeleteCallback(algorithm));
+  }
 
-    this.restService.deleteAlgorithm(algorithm.getId(), new MethodCallback<Void>() {
-       @Override
-       public void onFailure(Method method, Throwable throwable) {
-         messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
-       }
+  /**
+   * Creates the callback for the deletion of an algorithm.
+   * @param algorithm the algorithm, which should be deleted.
+   * @return the callback
+   */
+  protected MethodCallback<Void> getDeleteCallback(final Algorithm algorithm) {
+    return new MethodCallback<Void>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
+      }
 
-       @Override
-       public void onSuccess(Method method, Void aVoid) {
-         basePage.removeAlgorithmFromRunConfigurations(algorithmName);
-         if (cucc) {
-           removeRow(cuccList, algorithmName);
-         }
-         if (fd) {
-           removeRow(fdList, algorithmName);
-         }
-         if (ind) {
-           removeRow(indList, algorithmName);
-         }
-         if (basicStat) {
-           removeRow(statsList, algorithmName);
-         }
-         if (ucc) {
-           removeRow(uccList, algorithmName);
-         }
-         if (od) {
-           removeRow(odList, algorithmName);
-         }
-       }
-     });
+      @Override
+      public void onSuccess(Method method, Void aVoid) {
+        String algorithmName = algorithm.getName();
+        basePage.removeAlgorithmFromRunConfigurations(algorithmName);
+        if (algorithm.isCucc()) {
+          removeRow(cuccList, algorithmName);
+        }
+        if (algorithm.isFd()) {
+          removeRow(fdList, algorithmName);
+        }
+        if (algorithm.isInd()) {
+          removeRow(indList, algorithmName);
+        }
+        if (algorithm.isBasicStat()) {
+          removeRow(statsList, algorithmName);
+        }
+        if (algorithm.isUcc()) {
+          removeRow(uccList, algorithmName);
+        }
+        if (algorithm.isOd()) {
+          removeRow(odList, algorithmName);
+        }
+      }
+    };
   }
 
   /**
