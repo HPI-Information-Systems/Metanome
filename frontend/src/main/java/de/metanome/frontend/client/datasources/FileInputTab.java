@@ -76,7 +76,11 @@ public class FileInputTab extends FlowPanel implements TabContent {
         new MethodCallback<List<FileInput>>() {
           @Override
           public void onFailure(Method method, Throwable throwable) {
-            panel.add(new Label("There are no File Inputs yet. " + throwable.getCause() + throwable.toString() + throwable.getMessage()));
+            String stackTrace = "";
+            for(StackTraceElement s : throwable.getStackTrace()){
+              stackTrace += s.toString();
+            }
+            panel.add(new Label("There are no File Inputs yet. " + throwable.getCause() + throwable.toString() + stackTrace));
             addEditForm();
           }
 

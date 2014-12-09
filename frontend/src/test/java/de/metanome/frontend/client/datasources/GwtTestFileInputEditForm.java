@@ -109,10 +109,10 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check
     assertEquals(expectedFileName, input.getFileName());
-    assertEquals(separator, input.getSeparator());
-    assertEquals(quotechar, input.getQuotechar());
-    assertEquals(escapechar, input.getEscapechar());
-    assertEquals(skipLines, input.getSkipLines());
+    assertEquals(Character.valueOf(separator), input.getSeparator());
+    assertEquals(Character.valueOf(quotechar), input.getQuotechar());
+    assertEquals(Character.valueOf(escapechar), input.getEscapechar());
+    assertEquals(Integer.valueOf(skipLines), input.getSkipLines());
     assertEquals(strictQuotes, input.isStrictQuotes());
     assertEquals(ignoreLeadingWhiteSpace, input.isIgnoreLeadingWhiteSpace());
     assertEquals(hasHeader, input.isHasHeader());
@@ -139,10 +139,10 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check
     assertEquals(expectedFileName, input.getFileName());
-    assertEquals(CSVParser.DEFAULT_SEPARATOR, input.getSeparator());
-    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, input.getQuotechar());
-    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, input.getEscapechar());
-    assertEquals(CSVReader.DEFAULT_SKIP_LINES, input.getSkipLines());
+    assertEquals(Character.valueOf(CSVParser.DEFAULT_SEPARATOR), input.getSeparator());
+    assertEquals(Character.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER), input.getQuotechar());
+    assertEquals(Character.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER), input.getEscapechar());
+    assertEquals(Integer.valueOf(CSVReader.DEFAULT_SKIP_LINES), input.getSkipLines());
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, input.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, input.isIgnoreLeadingWhiteSpace());
     assertEquals(FileIterator.DEFAULT_HAS_HEADER, input.isHasHeader());

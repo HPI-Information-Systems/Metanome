@@ -42,10 +42,10 @@ public class FileInput extends Input implements IsSerializable {
   private static final long serialVersionUID = 2320081610461965426L;
 
   protected String fileName;
-  protected char separator;
-  protected char quotechar;
-  protected char escapechar;
-  protected int skipLines;
+  protected Character separator;
+  protected Character quotechar;
+  protected Character escapechar;
+  protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;
   protected boolean hasHeader;
@@ -87,41 +87,41 @@ public class FileInput extends Input implements IsSerializable {
     return this;
   }
 
-  public char getSeparator() {
+  public Character getSeparator() {
     return separator;
   }
 
-  public FileInput setSeparator(char separator) {
+  public FileInput setSeparator(Character separator) {
     this.separator = separator;
 
     return this;
   }
 
-  public char getQuotechar() {
+  public Character getQuotechar() {
     return quotechar;
   }
 
-  public FileInput setQuotechar(char quotechar) {
+  public FileInput setQuotechar(Character quotechar) {
     this.quotechar = quotechar;
 
     return this;
   }
 
-  public char getEscapechar() {
+  public Character getEscapechar() {
     return escapechar;
   }
 
-  public FileInput setEscapechar(char escapechar) {
+  public FileInput setEscapechar(Character escapechar) {
     this.escapechar = escapechar;
 
     return this;
   }
 
-  public int getSkipLines() {
+  public Integer getSkipLines() {
     return skipLines;
   }
 
-  public FileInput setSkipLines(int skipLines) {
+  public FileInput setSkipLines(Integer skipLines) {
     this.skipLines = skipLines;
 
     return this;
@@ -188,24 +188,6 @@ public class FileInput extends Input implements IsSerializable {
   @Transient
   public String getIdentifier() {
     return fileName;
-  }
-
-  public FileInput setSeparator(int separator) {
-
-    return this;
-  }
-
-
-  public FileInput setQuotechar(int quotechar) {
-
-    return this;
-  }
-
-
-
-  public FileInput setEscapechar(int escapechar) {
-
-    return this;
   }
 
 }
