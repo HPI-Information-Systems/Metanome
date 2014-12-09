@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -34,6 +35,8 @@ import static org.junit.Assert.assertThat;
  * @author Jakob Zwiener
  */
 public class InputTest {
+
+  private FileInputResource fileInputResource = new FileInputResource();
 
   /**
    * Test method for {@link Input#store()} and {@link Input#retrieve(long)} <p/> Inputs should be
@@ -94,8 +97,7 @@ public class InputTest {
     Input expectedInput = new Input()
         .store();
 
-    FileInput expectedFileInput = new FileInput()
-        .store();
+    FileInput expectedFileInput = fileInputResource.store(new FileInput());
 
     TableInput expectedTableInput = new TableInput()
         .store();

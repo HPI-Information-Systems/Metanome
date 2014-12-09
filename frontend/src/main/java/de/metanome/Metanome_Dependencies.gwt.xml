@@ -103,6 +103,7 @@
         <include name="DatabaseConnectionResource.java"/>
         <include name="TableInput.java"/>
         <include name="FileInput.java"/>
+        <include name="FileInputResource.java"/>
         <include name="Input.java"/>
         <include name="ResultsDbEntity.java"/>
         <include name="EntityStorageException.java"/>

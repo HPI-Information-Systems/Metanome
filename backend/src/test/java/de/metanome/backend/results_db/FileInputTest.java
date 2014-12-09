@@ -20,6 +20,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -39,31 +40,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class FileInputTest {
 
-  /**
-   * Test method for {@link FileInput#store()} and {@link de.metanome.backend.results_db.FileInput#retrieve(long)}
-   * <p/> FileInputs should be storable and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    FileInput expectedFileInput = new FileInput();
-    expectedFileInput.setHasHeader(true);
-
-    // Execute functionality
-    assertSame(expectedFileInput, expectedFileInput.store());
-    long id = expectedFileInput.getId();
-    FileInput actualFileInput = FileInput.retrieve(id);
-
-    // Check result
-    assertEquals(expectedFileInput, actualFileInput);
-    assertTrue(actualFileInput.isHasHeader());
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+  private FileInputResource fileInputResource = new FileInputResource();
 
   /**
    * Test method for {@link FileInput#FileInput()} <p/> After calling the constructor the default
@@ -128,30 +105,6 @@ public class FileInputTest {
     // Check result
     new EqualsAndHashCodeTester<FileInput>()
         .performBasicEqualsAndHashCodeChecks(fileInput, equalFileInput, notEqualFileInput);
-  }
-
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.FileInput#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Input expectedInput = new FileInput()
-        .store();
-
-    // Execute functionality
-    List<Input> actualInputs = FileInput.retrieveAll();
-
-    // Check result
-    assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInput));
-
-    // Cleanup
-    HibernateUtil.clear();
   }
 
   @Test

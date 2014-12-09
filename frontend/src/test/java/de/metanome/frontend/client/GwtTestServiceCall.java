@@ -23,12 +23,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
-import de.metanome.frontend.client.services.FileInputService;
-import de.metanome.frontend.client.services.FileInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
 import de.metanome.frontend.client.services.ParameterService;
 import de.metanome.frontend.client.services.ParameterServiceAsync;
 import de.metanome.frontend.client.services.TableInputService;
 import de.metanome.frontend.client.services.TableInputServiceAsync;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -140,20 +142,21 @@ public class GwtTestServiceCall extends GWTTestCase {
    */
   public void testFileInputService() {
     // Setup
-    AsyncCallback<List<FileInput>> callback = new AsyncCallback<List<FileInput>>() {
+    MethodCallback<List<FileInput>> callback = new MethodCallback<List<FileInput>>() {
       @Override
-      public void onFailure(Throwable caught) {
+      public void onFailure(Method method, Throwable caught) {
         fail();
       }
 
       @Override
-      public void onSuccess(List<FileInput> result) {
+      public void onSuccess(Method method, List<FileInput> result) {
         assertNotNull(result);
         finishTest();
       }
+
     };
 
-    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
 
     // Set a delay period
     delayTestFinish(500);

@@ -40,8 +40,10 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.FileInputService;
-import de.metanome.frontend.client.services.FileInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class FileInputEditForm extends Grid {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
   protected TextArea commentTextArea;
-  private FileInputServiceAsync fileInputService;
+  private FileInputRestService fileInputService;
   private FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
@@ -88,7 +90,7 @@ public class FileInputEditForm extends Grid {
     super(3, 2);
 
     this.parent = parent;
-    this.fileInputService = GWT.create(FileInputService.class);
+    this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
 
     Grid standardPanel = new Grid(3, 3);
     this.setWidget(0, 0, standardPanel);
@@ -165,14 +167,14 @@ public class FileInputEditForm extends Grid {
   private void saveFileInput() {
     messageReceiver.clearErrors();
     try {
-      this.fileInputService.storeFileInput(this.getValue(), new AsyncCallback<FileInput>() {
+      this.fileInputService.storeFileInput(this.getValue(), new MethodCallback<FileInput>() {
         @Override
-        public void onFailure(Throwable throwable) {
+        public void onFailure(Method method, Throwable throwable) {
           messageReceiver.addErrorHTML("File Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
-        public void onSuccess(FileInput input) {
+        public void onSuccess(Method method, FileInput input) {
           reset();
           parent.addFileInputToTable(input);
           parent.updateDataSourcesOnRunConfiguration();
@@ -261,19 +263,19 @@ public class FileInputEditForm extends Grid {
     this.filesInDatabase = new ArrayList<>();
 
     // Add available CSV files
-    AsyncCallback<String[]> storageCallback = getStorageCallback();
-    AsyncCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
-    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    MethodCallback<List<String>> storageCallback = getStorageCallback();
+    MethodCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
+    FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     service.listFileInputs(databaseCallback);
     service.listCsvFiles(storageCallback);
   }
 
-  private AsyncCallback<List<FileInput>> getDatabaseCallback() {
-    return new AsyncCallback<List<FileInput>>() {
-      public void onFailure(Throwable caught) {
+  private MethodCallback<List<FileInput>> getDatabaseCallback() {
+    return new MethodCallback<List<FileInput>>() {
+      public void onFailure(Method method, Throwable caught) {
       }
 
-      public void onSuccess(List<FileInput> result) {
+      public void onSuccess(Method method, List<FileInput> result) {
         List<String> fileNames = new ArrayList<>();
 
         for (FileInput input : result)
@@ -296,22 +298,24 @@ public class FileInputEditForm extends Grid {
    *
    * @return the callback
    */
-  protected AsyncCallback<String[]> getStorageCallback() {
-    return new AsyncCallback<String[]>() {
-      public void onFailure(Throwable caught) {
-        messageReceiver.addErrorHTML("Could not find CSV files! Please add them to the input folder.");
+  protected MethodCallback<List<String>> getStorageCallback() {
+    return new MethodCallback<List<String>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver
+            .addErrorHTML("Could not find CSV files! Please add them to the input folder.");
       }
 
-      public void onSuccess(String[] result) {
+      @Override
+      public void onSuccess(Method method, List<String> result) {
         List<String> fileNames = new ArrayList<>();
 
-        if (result.length == 0) {
+        if (result.size() == 0) {
           messageReceiver
               .addError("Could not find CSV files! Please add them to the input folder.");
           return;
         }
 
-        path = FilePathHelper.getFilePath(result[0]);
+        path = FilePathHelper.getFilePath(result.get(0));
 
         for (String path : result) {
           if (filesInDatabase.size() > 0 && !filesInDatabase.contains(path)) {

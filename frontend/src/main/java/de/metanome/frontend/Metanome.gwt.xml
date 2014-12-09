@@ -33,8 +33,6 @@
              class="de.metanome.frontend.server.ParameterServiceImpl"/>
     <servlet path="/executionService"
              class="de.metanome.frontend.server.ExecutionServiceImpl"/>
-    <servlet path="/fileInputService"
-             class="de.metanome.frontend.server.FileInputServiceImpl"/>
     <servlet path="/tableInputService"
              class="de.metanome.frontend.server.TableInputServiceImpl"/>
     <servlet path="/inputService"

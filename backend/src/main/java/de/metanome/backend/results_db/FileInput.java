@@ -77,40 +77,6 @@ public class FileInput extends Input implements IsSerializable {
 
   }
 
-  /**
-   * Retrieves a FileInput from the database.
-   *
-   * @param id the FileInput's id
-   * @return the fileInput
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static FileInput retrieve(long id) throws EntityStorageException {
-    return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
-  }
-
-  /**
-   * Retrieves all file inputs stored in the database.
-   *
-   * @return a list of all file inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(FileInput.class);
-  }
-
-  /**
-   * Stores the FileInput in the database.
-   *
-   * @return the FileInput
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public FileInput store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
-
   public String getFileName() {
     return fileName;
   }
@@ -222,6 +188,24 @@ public class FileInput extends Input implements IsSerializable {
   @Transient
   public String getIdentifier() {
     return fileName;
+  }
+
+  public FileInput setSeparator(int separator) {
+
+    return this;
+  }
+
+
+  public FileInput setQuotechar(int quotechar) {
+
+    return this;
+  }
+
+
+
+  public FileInput setEscapechar(int escapechar) {
+
+    return this;
   }
 
 }

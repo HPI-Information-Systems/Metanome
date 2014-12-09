@@ -16,9 +16,6 @@
 
 package de.metanome.frontend.client.input_fields;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
@@ -26,8 +23,10 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.FileInputService;
-import de.metanome.frontend.client.services.FileInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,12 +67,12 @@ public class FileInputInput extends InputField {
    * Get all file inputs from the database and put them into the list box.
    */
   public void updateListBox() {
-    AsyncCallback<List<FileInput>> callback = new AsyncCallback<List<FileInput>>() {
-      public void onFailure(Throwable caught) {
+    MethodCallback<List<FileInput>> callback = new MethodCallback<List<FileInput>>() {
+      public void onFailure(Method method, Throwable caught) {
         messageReceiver.addErrorHTML("There are no file inputs in the database: " + caught.getMessage());
       }
 
-      public void onSuccess(List<FileInput> result) {
+      public void onSuccess(Method method, List<FileInput> result) {
         List<String> fileInputNames = new ArrayList<String>();
         fileInputNames.add("--");
         String preselectedIdentifier = null;
@@ -103,8 +102,8 @@ public class FileInputInput extends InputField {
       }
     };
 
-    FileInputServiceAsync
-        fileInputService = GWT.create(FileInputService.class);
+    FileInputRestService
+        fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     fileInputService.listFileInputs(callback);
   }
 
