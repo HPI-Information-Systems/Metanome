@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -64,7 +65,7 @@ public class Execution implements IsSerializable {
   protected long begin;
   protected long end;
   protected String config;
-  protected Collection<Input> inputs = new ArrayList<>();
+  protected List<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
   protected String description;
@@ -160,7 +161,8 @@ public class Execution implements IsSerializable {
     return inputs;
   }
 
-  public Execution setInputs(Collection<Input> inputs) {
+  @JsonIgnore
+  public Execution setInputs(List<Input> inputs) {
     this.inputs = inputs;
 
     return this;
@@ -177,6 +179,7 @@ public class Execution implements IsSerializable {
     return results;
   }
 
+  @JsonIgnore
   public Execution setResults(Set<Result> results) {
     this.results = results;
 
