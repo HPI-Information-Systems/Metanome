@@ -189,10 +189,10 @@ public class ExecutionResourceTest {
     // Execute functionality
     expectedFileInput.store();
     expectedTableInput.store();
+    expectedExecution = executionResource.store(expectedExecution);
     expectedResult1.store();
     expectedResult2.store();
 
-    expectedExecution = executionResource.store(expectedExecution);
     Execution actualExecution = executionResource.get(expectedExecution.getId());
 
     Input[] expectedInputs = {expectedTableInput, expectedFileInput, expectedFileInput};
@@ -240,12 +240,13 @@ public class ExecutionResourceTest {
     // Execute functionality
     expectedExecution.addResult(expectedResult1);
     expectedExecution.addResult(expectedResult2);
+
     expectedExecution = executionResource.store(expectedExecution);
-    Execution actualExecution = executionResource.get(expectedExecution.getId());
 
     expectedResult1.store();
     expectedResult2.store();
 
+    Execution actualExecution = executionResource.get(expectedExecution.getId());
     Set<Result> actualResults = actualExecution.getResults();
 
     // Check result

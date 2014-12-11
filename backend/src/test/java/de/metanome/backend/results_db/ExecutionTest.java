@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
@@ -29,6 +30,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -154,6 +156,42 @@ public class ExecutionTest {
     assertEquals(Math.abs(actualId1 - actualId2), 1);
 
     // Cleanup
+    HibernateUtil.clear();
+  }
+
+  @Test(expected=EntityStorageException.class)
+  public void testUniqueAlgorithmAndBegin() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    Timestamp begin1 = new Timestamp(new Date().getTime());
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    algorithmResource.store(algorithm);
+    Timestamp begin2 = new Timestamp(new Date().getTime());
+
+    // Check precondition
+    assertTrue(begin1 != begin2);
+
+    Execution execution1 = new Execution(algorithm, begin1);
+    try {
+      HibernateUtil.store(execution1);
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    Execution execution2 = new Execution(algorithm, begin2);
+    try {
+      HibernateUtil.store(execution2);
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    // Check
+    Execution execution3 = new Execution(algorithm, begin1);
+    HibernateUtil.store(execution3);
+
+    // Clean up
     HibernateUtil.clear();
   }
 
