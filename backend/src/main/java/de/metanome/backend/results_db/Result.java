@@ -16,11 +16,11 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -30,9 +30,9 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
-@GwtCompatible
-public class Result extends ResultsDbEntity implements IsSerializable {
+public class Result implements IsSerializable {
 
+  protected long id;
   protected String fileName;
   protected Execution execution;
   protected boolean isInd;
@@ -56,31 +56,19 @@ public class Result extends ResultsDbEntity implements IsSerializable {
     this.fileName = fileName;
   }
 
-  /**
-   * Retrieves a result from the databse.
-   *
-   * @param filePath the result's file path.
-   * @return the result
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static Result retrieve(String filePath) throws EntityStorageException {
-    return (Result) HibernateUtil.retrieve(Result.class, filePath);
+  @Id
+  @GeneratedValue
+  public long getId() {
+    return this.id;
   }
 
-  /**
-   * Stores the Result in the database.
-   *
-   * @return the Result
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public Result store() throws EntityStorageException {
-    HibernateUtil.store(this);
+  public Result setId(long id) {
+    this.id = id;
 
     return this;
   }
 
-  @Id
+  @Column(name = "fileName", unique = true)
   public String getFileName() {
     return fileName;
   }

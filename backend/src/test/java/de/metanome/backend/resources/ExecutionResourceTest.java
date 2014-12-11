@@ -45,6 +45,7 @@ public class ExecutionResourceTest {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
   ExecutionResource executionResource = new ExecutionResource();
+  ResultResource resultResource = new ResultResource();
 
   /**
    * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
@@ -189,8 +190,8 @@ public class ExecutionResourceTest {
     expectedFileInput.store();
     expectedTableInput.store();
     expectedExecution = executionResource.store(expectedExecution);
-    expectedResult1.store();
-    expectedResult2.store();
+    resultResource.store(expectedResult1);
+    resultResource.store(expectedResult2);
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());
 
@@ -242,8 +243,8 @@ public class ExecutionResourceTest {
 
     expectedExecution = executionResource.store(expectedExecution);
 
-    expectedResult1.store();
-    expectedResult2.store();
+    resultResource.store(expectedResult1);
+    resultResource.store(expectedResult2);
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());
     Set<Result> actualResults = actualExecution.getResults();

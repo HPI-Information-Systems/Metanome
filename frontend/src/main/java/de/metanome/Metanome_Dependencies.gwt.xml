@@ -96,6 +96,7 @@
         <include name="AlgorithmResource.java"/>
         <include name="ExecutionResource.java"/>
         <include name="DatabaseConnectionResource.java"/>
+        <include name="ResultResource.java"/>
         <include name="WebException.java"/>
     </source>
     <source path="backend/results_db">
