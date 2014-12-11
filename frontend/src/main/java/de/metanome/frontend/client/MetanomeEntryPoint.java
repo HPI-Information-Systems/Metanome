@@ -34,6 +34,7 @@ public class MetanomeEntryPoint implements EntryPoint {
     System.out.println(GWT.getModuleBaseURL());
 
     Defaults.setServiceRoot(GWT.getHostPageBaseURL());
+    org.fusesource.restygwt.client.Defaults.setDateFormat(null);
 
     // body panel
     LayoutPanel bodyPanel = new LayoutPanel();

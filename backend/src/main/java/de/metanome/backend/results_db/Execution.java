@@ -18,6 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -58,8 +60,8 @@ public class Execution implements IsSerializable {
 
   protected long id;
   protected Algorithm algorithm;
-  protected Timestamp begin;
-  protected Timestamp end;
+  protected long begin;
+  protected long end;
   protected String config;
   protected Collection<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
@@ -79,14 +81,14 @@ public class Execution implements IsSerializable {
    * @param algorithm the executed algorithm
    */
   public Execution(Algorithm algorithm) {
-    this(algorithm, new Timestamp(new Date().getTime()));
+    this(algorithm, new Date().getTime());
   }
 
   /**
    * @param algorithm the executed algorithm
    * @param begin     the start time of the execution
    */
-  public Execution(Algorithm algorithm, Timestamp begin) {
+  public Execution(Algorithm algorithm, long begin) {
     this.algorithm = algorithm;
     this.begin = begin;
   }
@@ -114,21 +116,21 @@ public class Execution implements IsSerializable {
   }
 
   @Column(name = "begin")
-  public Timestamp getBegin() {
+  public long getBegin() {
     return begin;
   }
 
-  public Execution setBegin(Timestamp begin) {
+  public Execution setBegin(long begin) {
     this.begin = begin;
 
     return this;
   }
 
-  public Timestamp getEnd() {
+  public long getEnd() {
     return end;
   }
 
-  public Execution setEnd(Timestamp end) {
+  public Execution setEnd(long end) {
     this.end = end;
 
     return this;
@@ -152,6 +154,7 @@ public class Execution implements IsSerializable {
       generator = "sequence"
   )
   @JoinTable
+  @JsonIgnore
   public Collection<Input> getInputs() {
     return inputs;
   }
@@ -167,6 +170,7 @@ public class Execution implements IsSerializable {
       mappedBy = "execution"
   )
   @Fetch(value = FetchMode.SELECT)
+  @JsonIgnore
   public Set<Result> getResults() {
     return results;
   }
@@ -211,7 +215,9 @@ public class Execution implements IsSerializable {
     if (algorithm != null ? !algorithm.equals(execution.algorithm) : execution.algorithm != null) {
       return false;
     }
-    if (begin != null ? !begin.equals(execution.begin) : execution.begin != null) {
+    Timestamp timeBegin = new Timestamp(begin);
+    Timestamp otherTimeBegin = new Timestamp(execution.begin);
+    if (timeBegin != null ? !timeBegin.equals(otherTimeBegin) : otherTimeBegin != null) {
       return false;
     }
 
@@ -221,7 +227,8 @@ public class Execution implements IsSerializable {
   @Override
   public int hashCode() {
     int result = algorithm != null ? algorithm.hashCode() : 0;
-    result = 31 * result + (begin != null ? begin.hashCode() : 0);
+    Timestamp timeBegin = new Timestamp(begin);
+    result = 31 * result + (timeBegin != null ? timeBegin.hashCode() : 0);
     return result;
   }
 

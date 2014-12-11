@@ -51,7 +51,7 @@ public class ExecutionTest {
 
     // Check result
     // The execution should have a timestamp for begin that is not older than 2 seconds.
-    assertTrue(new Date().getTime() - execution.getBegin().getTime() < 2000);
+    assertTrue(new Date().getTime() - execution.getBegin() < 2000);
   }
 
   /**
@@ -61,12 +61,12 @@ public class ExecutionTest {
   public void testEqualsAndHashCode() {
     // Setup
     Algorithm algorithm = new Algorithm("some algorithm file name");
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution execution = new Execution(algorithm, begin);
     Execution equalExecution = new Execution(algorithm, begin);
     Execution
         notEqualExecution =
-        new Execution(new Algorithm("some other file name"), new Timestamp(197));
+        new Execution(new Algorithm("some other file name"), 197);
 
     // Execute functionality
     // Check result
@@ -81,7 +81,7 @@ public class ExecutionTest {
   @Test
   public void testAddInput() {
     // Setup
-    Execution execution = new Execution(mock(Algorithm.class), mock(Timestamp.class));
+    Execution execution = new Execution(mock(Algorithm.class), 123456789);
     // Expected values
     Input input1 = new Input()
         .setId(42);
@@ -112,7 +112,7 @@ public class ExecutionTest {
   @Test
   public void testAddResult() {
     // Setup
-    Execution execution = new Execution(mock(Algorithm.class), mock(Timestamp.class));
+    Execution execution = new Execution(mock(Algorithm.class), 123456789);
     // Expected values
     Result result1 = new Result().setFileName("result1");
     Result result2 = new Result().setFileName("result2");
@@ -164,11 +164,11 @@ public class ExecutionTest {
     // Setup
     HibernateUtil.clear();
 
-    Timestamp begin1 = new Timestamp(new Date().getTime());
+    long begin1 = new Date().getTime();
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
     AlgorithmResource algorithmResource = new AlgorithmResource();
     algorithmResource.store(algorithm);
-    Timestamp begin2 = new Timestamp(new Date().getTime());
+    long begin2 = new Date().getTime();
 
     // Check precondition
     assertTrue(begin1 != begin2);

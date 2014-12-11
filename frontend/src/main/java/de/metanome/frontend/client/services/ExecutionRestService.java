@@ -20,6 +20,7 @@ package de.metanome.frontend.client.services;
 import de.metanome.backend.results_db.Execution;
 
 import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("api/executions")
-public interface ExecutionRestService {
+public interface ExecutionRestService extends RestService {
 
   @GET
   public void listExecutions(MethodCallback<List<Execution>> callback);

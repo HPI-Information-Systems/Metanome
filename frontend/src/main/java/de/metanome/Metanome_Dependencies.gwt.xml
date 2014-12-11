@@ -92,15 +92,18 @@
     <source path="backend/helper">
         <include name="ExceptionParser.java"/>
     </source>
+    <source path="backend/resources">
+        <include name="AlgorithmResource.java"/>
+        <include name="ExecutionResource.java"/>
+        <include name="DatabaseConnectionResource.java"/>
+        <include name="WebException.java"/>
+    </source>
     <source path="backend/results_db">
         <include name="Execution.java"/>
         <include name="Result.java"/>
-        <include name="ExecutionId.java"/>
         <include name="Algorithm.java"/>
-        <include name="AlgorithmResource.java"/>
         <include name="AlgorithmContentEquals.java"/>
         <include name="DatabaseConnection.java"/>
-        <include name="DatabaseConnectionResource.java"/>
         <include name="TableInput.java"/>
         <include name="FileInput.java"/>
         <include name="Input.java"/>

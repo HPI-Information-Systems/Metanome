@@ -307,11 +307,11 @@ public class AlgorithmExecutorTest {
     Execution actualExecution = actualExecutions.get(0);
     assertEquals(algorithm, actualExecution.getAlgorithm());
     // The execution should not be older than 5 seconds.
-    assertTrue(new Date().getTime() - actualExecution.getBegin().getTime() < 5000);
-    assertTrue(new Date().getTime() - actualExecution.getEnd().getTime() < 5000);
+    assertTrue(new Date().getTime() - actualExecution.getBegin() < 5000);
+    assertTrue(new Date().getTime() - actualExecution.getEnd() < 5000);
     // The execution should have taken between 0 and 3 seconds.
-    assertTrue(actualExecution.getEnd().getTime() - actualExecution.getBegin().getTime() < 3000);
-    assertTrue(actualExecution.getEnd().getTime() - actualExecution.getBegin().getTime() > 0);
+    assertTrue(actualExecution.getEnd() - actualExecution.getBegin() < 3000);
+    assertTrue(actualExecution.getEnd() - actualExecution.getBegin() > 0);
     // TODO assert other execution fields
 
     // Cleanup

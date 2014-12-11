@@ -30,7 +30,6 @@ import de.metanome.backend.results_db.TableInput;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -63,7 +62,7 @@ public class ExecutionResourceTest {
     algorithmResource.store(algorithm);
 
     // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution expectedExecution = new Execution(algorithm, begin);
 
     // Execute functionality
@@ -133,7 +132,7 @@ public class ExecutionResourceTest {
     inputs.add(input2);
 
     // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution expectedExecution = new Execution(algorithm, begin)
         .setInputs(inputs);
 
@@ -170,7 +169,7 @@ public class ExecutionResourceTest {
     algorithmResource.store(algorithm);
 
     // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution expectedExecution = new Execution(algorithm, begin);
     // Adding results and inputs
     // Results
@@ -232,7 +231,7 @@ public class ExecutionResourceTest {
     algorithmResource.store(algorithm);
 
     // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution expectedExecution = new Execution(algorithm, begin);
     Result expectedResult1 = new Result("some result file path");
     Result expectedResult2 = new Result("some other result file path");
@@ -264,6 +263,5 @@ public class ExecutionResourceTest {
     // Cleanup
     HibernateUtil.clear();
   }
-
 
 }

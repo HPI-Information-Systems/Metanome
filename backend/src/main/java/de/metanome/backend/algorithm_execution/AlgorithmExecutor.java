@@ -42,7 +42,6 @@ import de.metanome.backend.results_db.Execution;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -189,8 +188,8 @@ public class AlgorithmExecutor implements Closeable {
 
     ExecutionResource executionResource = new ExecutionResource();
     executionResource.store(
-        new Execution(databaseAlgorithm, new Timestamp(beforeWallClockTime))
-          .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
+        new Execution(databaseAlgorithm, beforeWallClockTime)
+          .setEnd(beforeWallClockTime + (elapsedNanos / 1000))
     );
 
     return elapsedNanos;

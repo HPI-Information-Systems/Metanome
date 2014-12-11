@@ -23,7 +23,6 @@ import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -75,7 +74,7 @@ public class ResultTest {
     AlgorithmResource algorithmResource = new AlgorithmResource();
     algorithmResource.store(algorithm);
 
-    Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()));
+    Execution execution = new Execution(algorithm, new Date().getTime());
     ExecutionResource executionResource = new ExecutionResource();
     executionResource.store(execution);
 

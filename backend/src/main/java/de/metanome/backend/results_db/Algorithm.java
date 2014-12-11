@@ -31,6 +31,11 @@ import de.metanome.algorithm_integration.algorithm_types.RelationalInputParamete
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -66,7 +71,7 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
   protected boolean tableInput;
   protected boolean fileInput;
   protected boolean basicStat;
-  protected Set<Execution> executions;
+  protected List<Execution> executions = new ArrayList<>();
 
   /**
    * Exists for hibernate serialization
@@ -288,12 +293,13 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
   }
 
   @JsonIgnore
-  @OneToMany(cascade = CascadeType.REMOVE, targetEntity = Execution.class)
-  public Set<Execution> getExecutions() {
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "algorithm")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  public List<Execution> getExecutions() {
     return executions;
   }
 
-  public Algorithm setExecutions(Set<Execution> executions) {
+  public Algorithm setExecutions(List<Execution> executions) {
     this.executions = executions;
     return this;
   }

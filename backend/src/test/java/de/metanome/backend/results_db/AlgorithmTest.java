@@ -230,6 +230,37 @@ public class AlgorithmTest {
   }
 
   /**
+   * Test method for {@link de.metanome.backend.results_db.Algorithm#equals(Object)} and {@link
+   * de.metanome.backend.results_db.Algorithm#hashCode()}
+   */
+  @Test
+  public void testDeleteExecutionsCascading() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    Execution execution = new Execution(algorithm);
+
+    HibernateUtil.store(algorithm);
+    HibernateUtil.store(execution);
+
+    // Execute functionality
+    HibernateUtil.delete(algorithm);
+
+    // Check result
+    List<Algorithm> acutalAlgorithms = HibernateUtil.queryCriteria(Algorithm.class);
+    List<Execution> acutalExecutions = HibernateUtil.queryCriteria(Execution.class);
+
+    assertTrue(acutalAlgorithms.isEmpty());
+    assertTrue(acutalExecutions.isEmpty());
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+
+  /**
    * Tests that the instances of {@link de.metanome.backend.results_db.Algorithm} are serializable
    * in GWT.
    */
