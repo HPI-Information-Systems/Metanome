@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -167,7 +168,8 @@ public class Execution implements IsSerializable {
 
   @OneToMany(
       fetch = FetchType.EAGER,
-      mappedBy = "execution"
+      mappedBy = "execution",
+      cascade = CascadeType.ALL
   )
   @Fetch(value = FetchMode.SELECT)
   @JsonIgnore
@@ -217,18 +219,14 @@ public class Execution implements IsSerializable {
     }
     Timestamp timeBegin = new Timestamp(begin);
     Timestamp otherTimeBegin = new Timestamp(execution.begin);
-    if (timeBegin != null ? !timeBegin.equals(otherTimeBegin) : otherTimeBegin != null) {
-      return false;
-    }
-
-    return true;
+    return timeBegin.equals(otherTimeBegin);
   }
 
   @Override
   public int hashCode() {
     int result = algorithm != null ? algorithm.hashCode() : 0;
     Timestamp timeBegin = new Timestamp(begin);
-    result = 31 * result + (timeBegin != null ? timeBegin.hashCode() : 0);
+    result = 31 * result + (timeBegin.hashCode());
     return result;
   }
 

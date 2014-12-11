@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -190,6 +191,69 @@ public class ExecutionTest {
     // Check
     Execution execution3 = new Execution(algorithm, begin1);
     HibernateUtil.store(execution3);
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+  @Test
+  public void testCascadingSaveOfResults() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    long begin = new Date().getTime();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(algorithm);
+
+    Execution execution = new Execution(algorithm, begin);
+    Result result = new Result("some_file");
+
+    execution.addResult(result);
+
+    // Execute Functionality
+    HibernateUtil.store(execution);
+
+    // Check
+    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+
+    assertFalse(executions.isEmpty());
+    assertFalse(results.isEmpty());
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+  @Test
+  public void testCascadingDeleteOfResults() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    long begin = new Date().getTime();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(algorithm);
+
+    Execution execution = new Execution(algorithm, begin);
+    Result result = new Result("some_file");
+
+    execution.addResult(result);
+
+    HibernateUtil.store(execution);
+
+    // Check precondition
+    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    assertFalse(executions.isEmpty());
+    assertFalse(results.isEmpty());
+
+    // Execute Functionality
+    HibernateUtil.delete(execution);
+
+    // Check
+    executions = HibernateUtil.queryCriteria(Execution.class);
+    results = HibernateUtil.queryCriteria(Result.class);
+    assertTrue(executions.isEmpty());
+    assertTrue(results.isEmpty());
 
     // Clean up
     HibernateUtil.clear();
