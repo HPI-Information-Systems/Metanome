@@ -25,6 +25,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -42,9 +44,9 @@ public class FileInput extends Input implements IsSerializable {
   private static final long serialVersionUID = 2320081610461965426L;
 
   protected String fileName;
-  protected Character separator;
-  protected Character quotechar;
-  protected Character escapechar;
+  protected String separator; //Todo: atm needs to be String instead of char for serialization
+  protected String quotechar; //Todo: atm needs to be String instead of char for serialization
+  protected String escapechar; //Todo: atm needs to be String instead of char for serialization
   protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;
@@ -56,9 +58,9 @@ public class FileInput extends Input implements IsSerializable {
    * Constructs a FileInput with default parser settings.
    */
   public FileInput() {
-    this.separator = CSVParser.DEFAULT_SEPARATOR;
-    this.quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
-    this.escapechar = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+    this.separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
+    this.quotechar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
+    this.escapechar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
     this.skipLines = CSVReader.DEFAULT_SKIP_LINES;
     this.strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
     this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
@@ -87,32 +89,35 @@ public class FileInput extends Input implements IsSerializable {
     return this;
   }
 
-  public Character getSeparator() {
-    return separator;
+  public char getSeparator() {
+    return separator.charAt(0);
   }
 
-  public FileInput setSeparator(Character separator) {
-    this.separator = separator;
+  @JsonIgnore
+  public FileInput setSeparator(char separator) {
+    this.separator = String.valueOf(separator);
 
     return this;
   }
 
-  public Character getQuotechar() {
-    return quotechar;
+  public char getQuotechar() {
+    return quotechar.charAt(0);
   }
 
-  public FileInput setQuotechar(Character quotechar) {
-    this.quotechar = quotechar;
+  @JsonIgnore
+  public FileInput setQuotechar(char quotechar) {
+    this.quotechar = String.valueOf(quotechar);
 
     return this;
   }
 
-  public Character getEscapechar() {
-    return escapechar;
+  public char getEscapechar() {
+    return escapechar.charAt(0);
   }
 
-  public FileInput setEscapechar(Character escapechar) {
-    this.escapechar = escapechar;
+  @JsonIgnore
+  public FileInput setEscapechar(char escapechar) {
+    this.escapechar = String.valueOf(escapechar);
 
     return this;
   }
@@ -188,6 +193,24 @@ public class FileInput extends Input implements IsSerializable {
   @Transient
   public String getIdentifier() {
     return fileName;
+  }
+
+  public FileInput setSeparator(String separator) {
+    this.separator = String.valueOf(separator.charAt(0));
+
+    return this;
+  }
+
+  public FileInput setQuotechar(String quotechar) {
+    this.quotechar = String.valueOf(quotechar.charAt(0));
+
+    return this;
+  }
+
+  public FileInput setEscapechar(String escapechar) {
+    this.escapechar = String.valueOf(escapechar.charAt(0));
+
+    return this;
   }
 
 }
