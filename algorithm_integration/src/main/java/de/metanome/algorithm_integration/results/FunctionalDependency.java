@@ -21,11 +21,14 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Represents a functional dependency.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("functionalDependency")
 public class FunctionalDependency implements Result {
 
   public static final String FD_SEPARATOR = "-->";

@@ -21,6 +21,9 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
+@JsonTypeName("basicStatistic")
 public class BasicStatistic implements Result {
 
   public static final String NAME_COLUMN_SEPARATOR = " of ";

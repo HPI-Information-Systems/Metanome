@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("columnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
 
   protected ColumnIdentifier columnIdentifier;

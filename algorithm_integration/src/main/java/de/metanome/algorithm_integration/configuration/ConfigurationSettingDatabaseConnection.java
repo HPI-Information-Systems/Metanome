@@ -17,14 +17,15 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * TODO docs
  *
  * @author Claudia Exeler
  */
+@JsonTypeName("configurationSettingDatabaseConnection")
 public class ConfigurationSettingDatabaseConnection implements ConfigurationSettingDataSource {
-
-  private static final long serialVersionUID = 3242593091096735218L;
 
   private String dbUrl;
   private String username;

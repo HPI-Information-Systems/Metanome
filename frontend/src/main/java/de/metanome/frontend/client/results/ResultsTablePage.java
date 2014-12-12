@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.results;
 
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
@@ -32,9 +31,12 @@ import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
-import java.util.ArrayList;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.List;
 
 
 /**
@@ -42,7 +44,7 @@ import java.util.ArrayList;
  */
 public class ResultsTablePage extends FlowPanel implements OmniscientResultReceiver, TabContent {
 
-  protected ExecutionServiceAsync executionService;
+  protected AlgorithmExecutionRestService executionService;
 
   protected String executionIdentifier;
 
@@ -56,7 +58,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected ResultTable odTable;
   protected ResultTable basicsTable;
 
-  public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
+  public ResultsTablePage(AlgorithmExecutionRestService executionService, String executionIdentifier) {
     this.executionService = executionService;
     this.executionIdentifier = executionIdentifier;
 
@@ -78,13 +80,16 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
    * Fetches the results from the execution service and displays them on success.
    */
   protected void fetchResults() {
-    executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
+    if (executionService == null)
+      return;
+
+    executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
-      public void onFailure(Throwable caught) {
+      public void onFailure(Method method, Throwable caught) {
       }
 
       @Override
-      public void onSuccess(ArrayList<Result> result) {
+      public void onSuccess(Method method, List<Result> result) {
         displayResults(result);
       }
     });
@@ -95,7 +100,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
    *
    * @param results the results of algorithm execution
    */
-  protected void displayResults(ArrayList<Result> results) {
+  protected void displayResults(List<Result> results) {
     for (Result r : results) {
       try {
         r.sendResultTo(this);

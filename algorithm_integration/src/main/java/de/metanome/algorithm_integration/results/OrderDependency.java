@@ -14,15 +14,19 @@
 
 package de.metanome.algorithm_integration.results;
 
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Represents an order dependency.
  *
  * @author Philipp Langer
  */
+@JsonTypeName("orderDependency")
 public class OrderDependency implements Result {
 
   public static enum ComparisonOperator {

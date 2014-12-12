@@ -29,7 +29,7 @@ public class ColumnCombination implements IsSerializable {
 
   private static final long serialVersionUID = 5994284083803031188L;
 
-  protected TreeSet<ColumnIdentifier> columnCombination;
+  protected Set<ColumnIdentifier> columnCombination;
 
   /**
    * Exists for GWT serialization.

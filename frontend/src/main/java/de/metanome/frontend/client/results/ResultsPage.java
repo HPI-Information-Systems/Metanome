@@ -20,7 +20,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -30,7 +29,10 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
 
@@ -55,7 +57,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected String executionIdentifier;
   private String algorithmFileName;
-  private ExecutionServiceAsync executionService;
+  private AlgorithmExecutionRestService executionService;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -152,14 +154,14 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * Fetching the current progress of execution and update the progress bar on success.
    */
   protected void updateProgress() {
-    this.executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
+    this.executionService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
       @Override
-      public void onFailure(Throwable caught) {
+      public void onFailure(Method method, Throwable caught) {
         messageReceiver.addErrorHTML("Could not fetch progress: " + caught.getMessage());
       }
 
       @Override
-      public void onSuccess(Float progress) {
+      public void onSuccess(Method method, Float progress) {
         updateProgress(progress);
       }
     });
@@ -183,7 +185,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param executionIdentifier the execution identifier
    * @param algorithmFileName   the algorithm file name
    */
-  public void setExecutionParameter(ExecutionServiceAsync executionService,
+  public void setExecutionParameter(AlgorithmExecutionRestService executionService,
                                     String executionIdentifier, String algorithmFileName) {
     this.executionService = executionService;
     this.algorithmFileName = algorithmFileName;

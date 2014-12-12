@@ -20,11 +20,14 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Represents an inclusion dependency.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("inclusionDependency")
 public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";

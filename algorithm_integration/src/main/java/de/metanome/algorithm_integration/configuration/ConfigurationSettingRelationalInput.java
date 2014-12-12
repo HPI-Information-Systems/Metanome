@@ -22,11 +22,22 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Allows initialization of the input through double dispatch. The input can be generated from bot a file or databse table.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "configurationSettingFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "configurationSettingTableInput")
+              })
 public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
 
   /**

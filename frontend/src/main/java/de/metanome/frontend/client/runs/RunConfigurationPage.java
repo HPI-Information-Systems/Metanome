@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.runs;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,8 +33,7 @@ import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.parameter.ParameterTable;
-import de.metanome.frontend.client.services.ExecutionService;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   protected TabWrapper messageReceiver;
   protected AlgorithmChooser algorithmChooser;
   protected Label primaryDataSourceLabel;
-  protected ExecutionServiceAsync executionService;
+  protected AlgorithmExecutionRestService executionService;
 
 
   /**
@@ -86,7 +84,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
     this.addNorth(this.algorithmChooser, 4);
 
-    this.executionService = GWT.create(ExecutionService.class);
+    this.executionService = com.google.gwt.core.client.GWT.create(AlgorithmExecutionRestService.class);
   }
 
 
@@ -182,11 +180,11 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    */
   public void startExecution(List<ConfigurationRequirement> parameters,
                              List<ConfigurationRequirement> configuration) {
+
     final String algorithmName = getCurrentlySelectedAlgorithm();
-    final String algorithmFileName = getAlgorithmFileName(algorithmName);
-    final long algorithmId = getAlgorithmId(algorithmName);
+    final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
-    basePage.startAlgorithmExecution(executionService, algorithmFileName, algorithmId, parameters);
+    basePage.startAlgorithmExecution(executionService, algorithm, parameters);
   }
 
   /**
@@ -214,17 +212,10 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   }
 
   /**
-   * Returns the file name of the algorithm, which is needed for execution
+   * Returns the algorithm with the given name
    */
-  private String getAlgorithmFileName(String name) {
-    return this.algorithmChooser.algorithmMap.get(name).getFileName();
-  }
-
-  /**
-   * Returns the file name of the algorithm, which is needed for execution
-   */
-  private long getAlgorithmId(String name) {
-    return this.algorithmChooser.algorithmMap.get(name).getId();
+  private Algorithm getAlgorithm(String name) {
+    return this.algorithmChooser.algorithmMap.get(name);
   }
 
 }

@@ -26,6 +26,8 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -35,6 +37,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("conditionalUniqueColumnCombination")
 public class ConditionalUniqueColumnCombination implements Result {
 
   public static final String LINESEPARATOR = "\n";

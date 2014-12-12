@@ -20,12 +20,15 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Concrete {@link ConfigurationRequirement} for strings.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementString")
 public class ConfigurationRequirementString extends ConfigurationRequirement {
 
   private static final long serialVersionUID = 7041289462720572215L;

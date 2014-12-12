@@ -18,6 +18,9 @@ package de.metanome.algorithm_integration;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -27,6 +30,15 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+                  @JsonSubTypes.Type(value = ColumnConditionAnd.class, name = "columnConditionAnd"),
+                  @JsonSubTypes.Type(value = ColumnConditionOr.class, name = "columnConditionOr"),
+                  @JsonSubTypes.Type(value = ColumnConditionValue.class, name = "columnConditionValue")
+              })
 public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondition> {
 
   public static final String OPEN_BRACKET = "[";

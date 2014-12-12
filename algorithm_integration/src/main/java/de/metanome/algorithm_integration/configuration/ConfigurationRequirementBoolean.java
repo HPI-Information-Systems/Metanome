@@ -21,12 +21,15 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Concrete {@link ConfigurationRequirement} for booleans.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementBoolean")
 public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
 
   private static final long serialVersionUID = -8167469173057966270L;

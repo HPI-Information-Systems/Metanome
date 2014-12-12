@@ -22,6 +22,9 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
  * ConfigurationSpecification is then used to construct a configuration value that is sent to the
@@ -30,10 +33,23 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  *
  * @author Jakob Zwiener
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+                  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "configurationRequirementBoolean"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "configurationRequirementDatabaseConnection"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "configurationRequirementFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "configurationRequirementInteger"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "configurationRequirementListBox"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "configurationRequirementRelationalInput"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "configurationRequirementString"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "configurationRequirementTableInput")
+              })
 public abstract class ConfigurationRequirement implements IsSerializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
-  private static final long serialVersionUID = 4312752686730530733L;
   protected String identifier;
   /**
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in

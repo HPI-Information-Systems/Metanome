@@ -18,6 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -80,6 +82,7 @@ public class Result implements IsSerializable {
   }
 
   @ManyToOne(targetEntity = Execution.class)
+  @JsonIgnore
   public Execution getExecution() {
     return execution;
   }
@@ -91,6 +94,7 @@ public class Result implements IsSerializable {
    *
    * @param execution the Execution to add
    */
+  @JsonIgnore
   public Result setExecution(Execution execution) {
     this.execution = execution;
 

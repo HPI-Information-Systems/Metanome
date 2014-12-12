@@ -14,22 +14,49 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.server;
+package de.metanome.backend.resources;
+
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.results.Result;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
-public class ExecutionServiceTest {
+public class AlgorithmExecutionResourceTest {
 
-  ExecutionServiceImpl executionService = new ExecutionServiceImpl();
+  AlgorithmExecutionResource executionService = new AlgorithmExecutionResource();
+
+  @Test
+  public void testFetchNewResults() throws Exception {
+    // Setup
+    // Expected values
+    String expectedExecutionIdentifier = "executionIdentifier";
+    executionService.buildExecutor(expectedExecutionIdentifier);
+    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+
+    // Execute functionality
+    executionService.currentResultReceiver.get(expectedExecutionIdentifier).receiveResult(
+        expectedUcc);
+    List<Result>
+        actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
+
+    // Check result
+    assertFalse(actualResult.isEmpty());
+    assertTrue(actualResult.contains(expectedUcc));
+  }
 
   /**
-   * Test method for {@link ExecutionServiceImpl#fetchProgress(String)} <p/> When fetching the
-   * current progress for an execution the correct progress should be returned.
+   * Test method for {@link AlgorithmExecutionResource#fetchProgress(String)}
+   *
+   * When fetching the current progress for an execution the correct progress should be returned.
    */
   @Test
   public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {

@@ -21,11 +21,14 @@ import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Stores the configuration settings for a table input.
  *
  * @author Tanja Bergmann
  */
+@JsonTypeName("configurationSettingTableInput")
 public class ConfigurationSettingTableInput
     implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 

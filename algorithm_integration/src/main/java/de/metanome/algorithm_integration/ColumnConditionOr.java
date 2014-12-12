@@ -16,10 +16,13 @@
 
 package de.metanome.algorithm_integration;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -28,10 +31,11 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("columnConditionOr")
 public class ColumnConditionOr implements ColumnCondition {
 
   protected boolean isNegated = false;
-  protected TreeSet<ColumnCondition> columnValues;
+  protected Set<ColumnCondition> columnValues;
 
   /**
    * Exists for Gwt serialization
@@ -102,7 +106,7 @@ public class ColumnConditionOr implements ColumnCondition {
     return result;
   }
 
-  public TreeSet<ColumnCondition> getColumnValues() {
+  public Set<ColumnCondition> getColumnValues() {
     return columnValues;
   }
 

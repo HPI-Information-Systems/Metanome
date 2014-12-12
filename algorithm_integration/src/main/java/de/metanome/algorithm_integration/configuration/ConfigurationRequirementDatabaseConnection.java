@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import java.util.List;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementDatabaseConnection")
 public class ConfigurationRequirementDatabaseConnection extends ConfigurationRequirement {
 
   private static final long serialVersionUID = 6601202469601881851L;

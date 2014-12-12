@@ -20,12 +20,15 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Concrete {@link ConfigurationRequirement} for {@link de.metanome.algorithm_integration.input.RelationalInput}s.
  *
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementRelationalInput")
 public class ConfigurationRequirementRelationalInput extends ConfigurationRequirement {
 
   ConfigurationSettingRelationalInput[] settings;

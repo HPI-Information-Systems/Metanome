@@ -18,6 +18,9 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 
 /**
  * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. It is
@@ -27,6 +30,15 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  *
  * @author Claudia Exeler
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "configurationSettingFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "configurationSettingTableInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "configurationSettingDatabaseConnection")
+              })
 public interface ConfigurationSettingDataSource extends IsSerializable {
 
   public abstract String getValueAsString();

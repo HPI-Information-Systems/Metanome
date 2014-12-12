@@ -21,11 +21,26 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+                  @JsonSubTypes.Type(value = BasicStatistic.class, name = "basicStatistic"),
+                  @JsonSubTypes.Type(value = ConditionalUniqueColumnCombination.class, name = "conditionalUniqueColumnCombination"),
+                  @JsonSubTypes.Type(value = FunctionalDependency.class, name = "functionalDependency"),
+                  @JsonSubTypes.Type(value = InclusionDependency.class, name = "inclusionDependency"),
+                  @JsonSubTypes.Type(value = OrderDependency.class, name = "orderDependency"),
+                  @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "uniqueColumnCombination")
+              })
 public interface Result extends IsSerializable {
 
   /**

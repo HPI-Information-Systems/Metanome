@@ -21,12 +21,15 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Concrete {@link ConfigurationRequirement} for integers.
  *
  * @author Tanja Bergmann
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementInteger")
 public class ConfigurationRequirementInteger extends ConfigurationRequirement {
 
   private ConfigurationSettingInteger[] settings;

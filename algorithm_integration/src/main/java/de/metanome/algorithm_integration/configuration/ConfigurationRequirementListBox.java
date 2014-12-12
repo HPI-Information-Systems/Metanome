@@ -21,6 +21,8 @@ import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 import java.util.ArrayList;
 
 /**
@@ -29,6 +31,7 @@ import java.util.ArrayList;
  * @author Tanja Bergmann
  * @see ConfigurationRequirement
  */
+@JsonTypeName("configurationRequirementListBox")
 public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   private ConfigurationSettingListBox[] settings;

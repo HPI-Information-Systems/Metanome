@@ -24,12 +24,15 @@ import au.com.bytecode.opencsv.CSVReader;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 
 /**
  * Stores one file input's configuration settings.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("configurationSettingFileInput")
 public class ConfigurationSettingFileInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
