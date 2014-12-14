@@ -131,49 +131,6 @@ public class ConditionalUniqueColumnCombination implements Result {
     return builder.toString();
   }
 
-  public String buildPatternTableau() {
-    StringBuilder builder = new StringBuilder();
-    builder.append(columnCombination.toString());
-    builder.append(LINESEPARATOR);
-
-    builder.append(this.buildPatternTableauTable());
-
-    builder.append(LINESEPARATOR);
-    builder.append("Coverage: ");
-    builder.append(this.condition.getCoverage());
-    builder.append(LINESEPARATOR);
-    return builder.toString();
-  }
-  /* Todo: move this code to fronend!
-  public Widget buildPatternTableauTableHtml() {
-    FlexTable table = new FlexTable();
-
-    //build header
-    TreeSet<ColumnIdentifier> header = condition.getContainedColumns();
-    int i = 0;
-    for (ColumnIdentifier headColumn : header) {
-      table.setText(0, i, headColumn.toString());
-      i++;
-    }
-
-    int rowCount = 1;
-    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
-    for (Map<ColumnIdentifier, String> condition : conditions) {
-      int columnCount = 0;
-      for (ColumnIdentifier column : header) {
-        if (condition.containsKey(column)) {
-          String value = condition.get(column);
-          table.setText(rowCount, columnCount, value);
-        } else {
-          table.setText(rowCount, columnCount, "-");
-        }
-        columnCount++;
-      }
-      rowCount++;
-    }
-    return table;
-  }*/
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

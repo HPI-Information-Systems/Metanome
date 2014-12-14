@@ -18,7 +18,6 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
@@ -34,6 +33,7 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -59,7 +59,7 @@ import javax.persistence.NamedQuery;
 )
 @Entity
 @GwtCompatible
-public class Algorithm extends ResultsDbEntity implements IsSerializable, Comparable<Algorithm> {
+public class Algorithm extends ResultsDbEntity implements Serializable, Comparable<Algorithm> {
 
   private static final long serialVersionUID = -3276487707781514801L;
 
