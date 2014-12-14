@@ -131,6 +131,20 @@ public class ConditionalUniqueColumnCombination implements Result {
     return builder.toString();
   }
 
+  public String buildPatternTableau() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(columnCombination.toString());
+    builder.append(LINESEPARATOR);
+
+    builder.append(this.buildPatternTableauTable());
+
+    builder.append(LINESEPARATOR);
+    builder.append("Coverage: ");
+    builder.append(this.condition.getCoverage());
+    builder.append(LINESEPARATOR);
+    return builder.toString();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
