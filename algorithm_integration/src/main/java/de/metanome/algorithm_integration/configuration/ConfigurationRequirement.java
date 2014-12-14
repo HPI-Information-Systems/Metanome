@@ -17,10 +17,11 @@
 package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import java.io.Serializable;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
@@ -30,7 +31,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  *
  * @author Jakob Zwiener
  */
-public abstract class ConfigurationRequirement implements IsSerializable {
+public abstract class ConfigurationRequirement implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
   private static final long serialVersionUID = 4312752686730530733L;

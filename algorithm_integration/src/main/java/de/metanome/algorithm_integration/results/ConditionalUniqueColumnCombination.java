@@ -16,9 +16,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.ColumnConditionValue;
@@ -147,7 +144,7 @@ public class ConditionalUniqueColumnCombination implements Result {
     builder.append(LINESEPARATOR);
     return builder.toString();
   }
-
+  /* Todo: move this code to fronend!
   public Widget buildPatternTableauTableHtml() {
     FlexTable table = new FlexTable();
 
@@ -175,7 +172,7 @@ public class ConditionalUniqueColumnCombination implements Result {
       rowCount++;
     }
     return table;
-  }
+  }*/
 
   @Override
   public boolean equals(Object o) {

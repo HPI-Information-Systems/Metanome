@@ -16,8 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
 
 /**
  * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. It is
@@ -27,7 +26,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  *
  * @author Claudia Exeler
  */
-public interface ConfigurationSettingDataSource extends IsSerializable {
+public interface ConfigurationSettingDataSource extends Serializable {
 
   public abstract String getValueAsString();
 }

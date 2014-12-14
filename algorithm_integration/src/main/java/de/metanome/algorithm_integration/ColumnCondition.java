@@ -16,8 +16,7 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -27,7 +26,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
-public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondition> {
+public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {
 
   public static final String OPEN_BRACKET = "[";
   public static final String CLOSE_BRACKET = "]";
