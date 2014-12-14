@@ -25,12 +25,11 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents file inputs in the database.
@@ -93,7 +92,7 @@ public class FileInput extends Input implements IsSerializable {
     return separator.charAt(0);
   }
 
-  @JsonIgnore
+  @XmlTransient
   public FileInput setSeparator(char separator) {
     this.separator = String.valueOf(separator);
 
@@ -104,7 +103,7 @@ public class FileInput extends Input implements IsSerializable {
     return quotechar.charAt(0);
   }
 
-  @JsonIgnore
+  @XmlTransient
   public FileInput setQuotechar(char quotechar) {
     this.quotechar = String.valueOf(quotechar);
 
@@ -115,7 +114,7 @@ public class FileInput extends Input implements IsSerializable {
     return escapechar.charAt(0);
   }
 
-  @JsonIgnore
+  @XmlTransient
   public FileInput setEscapechar(char escapechar) {
     this.escapechar = String.valueOf(escapechar);
 

@@ -19,8 +19,7 @@
 }
 
 .heading {
-    padding: 3;
-    padding-left:20;
+    padding: 3px 3px 3px 20px;
     background-color: #92c1f0;
     font-family: monospace;
     width: 100%;
