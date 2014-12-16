@@ -48,9 +48,9 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
 
   private String fileName;
   private boolean advanced;
-  private char separatorChar;
-  private char quoteChar;
-  private char escapeChar;
+  private String separatorChar; //Todo: atm needs to be String instead of char for serialization
+  private String quoteChar;     //Todo: atm needs to be String instead of char for serialization
+  private String escapeChar;    //Todo: atm needs to be String instead of char for serialization
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
   private int skipLines;
@@ -89,9 +89,9 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
                                        boolean header, boolean skipDifferingLines) {
     this.fileName = fileName;
     this.advanced = advanced;
-    this.separatorChar = separator;
-    this.quoteChar = quote;
-    this.escapeChar = escape;
+    this.separatorChar = String.valueOf(separator);
+    this.quoteChar = String.valueOf(quote);
+    this.escapeChar = String.valueOf(escape);
     this.strictQuotes = strictQuotes;
     this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
     this.skipLines = line;
@@ -117,29 +117,29 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   }
 
   public char getSeparatorChar() {
-    return separatorChar;
+    return separatorChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setSeparatorChar(char value) {
-    this.separatorChar = value;
+    this.separatorChar = String.valueOf(value);
     return this;
   }
 
   public char getQuoteChar() {
-    return quoteChar;
+    return quoteChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setQuoteChar(char value) {
-    this.quoteChar = value;
+    this.quoteChar = String.valueOf(value);
     return this;
   }
 
   public char getEscapeChar() {
-    return escapeChar;
+    return escapeChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setEscapeChar(char value) {
-    this.escapeChar = value;
+    this.escapeChar = String.valueOf(value);
     return this;
   }
 
