@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementRelationalInput")
+@JsonTypeName("ConfigurationRequirementRelationalInput")
 public class ConfigurationRequirementRelationalInput extends ConfigurationRequirement {
 
   ConfigurationSettingRelationalInput[] settings;
@@ -65,7 +65,10 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   public ConfigurationSettingRelationalInput[] getSettings() {
     return settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingRelationalInput... settings) {
     this.settings = settings;
   }

@@ -29,7 +29,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  * @author Tanja Bergmann
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementInteger")
+@JsonTypeName("ConfigurationRequirementInteger")
 public class ConfigurationRequirementInteger extends ConfigurationRequirement {
 
   private ConfigurationSettingInteger[] settings;
@@ -66,7 +66,10 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
   public ConfigurationSettingInteger[] getSettings() {
     return this.settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingInteger... settings) {
     this.settings = settings;
   }

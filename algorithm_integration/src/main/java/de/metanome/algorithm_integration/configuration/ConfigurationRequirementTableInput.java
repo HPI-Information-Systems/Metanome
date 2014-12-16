@@ -27,10 +27,8 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementTableInput")
+@JsonTypeName("ConfigurationRequirementTableInput")
 public class ConfigurationRequirementTableInput extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 8842139128248338302L;
 
   private ConfigurationSettingTableInput[] settings;
 
@@ -65,7 +63,10 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
   public ConfigurationSettingTableInput[] getSettings() {
     return this.settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingTableInput... settings) {
     this.settings = settings;
   }

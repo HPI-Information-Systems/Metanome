@@ -28,10 +28,8 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementString")
+@JsonTypeName("ConfigurationRequirementString")
 public class ConfigurationRequirementString extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 7041289462720572215L;
 
   private ConfigurationSettingString[] settings;
 
@@ -66,7 +64,10 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   public ConfigurationSettingString[] getSettings() {
     return this.settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingString... settings) {
     this.settings = settings;
   }

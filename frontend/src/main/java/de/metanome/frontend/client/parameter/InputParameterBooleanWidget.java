@@ -54,7 +54,7 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
     for (int i = 0; i < inputWidgets.size(); i++) {
       values[i] = new ConfigurationSettingBoolean(inputWidgets.get(i).getValue());
     }
-    specification.chackAndSetSettings(values);
+    specification.checkAndSetSettings(values);
 
     return specification;
   }

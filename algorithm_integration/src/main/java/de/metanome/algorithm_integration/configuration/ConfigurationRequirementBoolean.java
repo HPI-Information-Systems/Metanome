@@ -29,10 +29,8 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementBoolean")
+@JsonTypeName("ConfigurationRequirementBoolean")
 public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = -8167469173057966270L;
 
   public ConfigurationSettingBoolean[] settings;
 
@@ -66,7 +64,10 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   public ConfigurationSettingBoolean[] getSettings() {
     return settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingBoolean... settings) {
     this.settings = settings;
   }
@@ -78,7 +79,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void chackAndSetSettings(ConfigurationSettingBoolean... settings)
+  public void checkAndSetSettings(ConfigurationSettingBoolean... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

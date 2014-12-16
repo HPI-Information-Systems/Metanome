@@ -35,9 +35,9 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "configurationSettingFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "configurationSettingTableInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "configurationSettingDatabaseConnection")
+                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
               })
 public interface ConfigurationSettingDataSource extends IsSerializable {
 

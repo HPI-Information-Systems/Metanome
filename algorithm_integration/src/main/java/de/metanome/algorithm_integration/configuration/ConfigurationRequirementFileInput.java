@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementFileInput")
+@JsonTypeName("ConfigurationRequirementFileInput")
 public class ConfigurationRequirementFileInput extends ConfigurationRequirement {
 
   private static final long serialVersionUID = 8842139128248338302L;
@@ -66,7 +66,10 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
   public ConfigurationSettingFileInput[] getSettings() {
     return this.settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingFileInput... settings) {
     this.settings = settings;
   }

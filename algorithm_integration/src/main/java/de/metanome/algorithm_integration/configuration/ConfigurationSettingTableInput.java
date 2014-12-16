@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  * @author Tanja Bergmann
  */
-@JsonTypeName("configurationSettingTableInput")
+@JsonTypeName("ConfigurationSettingTableInput")
 public class ConfigurationSettingTableInput
     implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 

@@ -26,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Allows initialization of the input through double dispatch. The input can be generated from bot a file or databse table.
+ * Allows initialization of the input through double dispatch. The input can be generated from bot a file or database table.
  *
  * @author Jakob Zwiener
  */
@@ -35,8 +35,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "configurationSettingFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "configurationSettingTableInput")
+                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
               })
 public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
 

@@ -31,7 +31,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
-@JsonTypeName("columnConditionOr")
+@JsonTypeName("ColumnConditionOr")
 public class ColumnConditionOr implements ColumnCondition {
 
   protected boolean isNegated = false;

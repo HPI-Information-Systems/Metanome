@@ -32,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  * @author Jakob Zwiener
  */
-@JsonTypeName("configurationSettingFileInput")
+@JsonTypeName("ConfigurationSettingFileInput")
 public class ConfigurationSettingFileInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;

@@ -71,7 +71,7 @@ public class DefaultConfigurationFactoryTest {
     ConfigurationRequirementBoolean
         requirement =
         new ConfigurationRequirementBoolean(expectedIdentifier, 2);
-    requirement.chackAndSetSettings(new ConfigurationSettingBoolean(expectedValue1),
+    requirement.checkAndSetSettings(new ConfigurationSettingBoolean(expectedValue1),
                                     new ConfigurationSettingBoolean(
                                         expectedValue2));
 

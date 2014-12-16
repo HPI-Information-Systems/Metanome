@@ -31,10 +31,8 @@ import java.util.List;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementDatabaseConnection")
+@JsonTypeName("ConfigurationRequirementDatabaseConnection")
 public class ConfigurationRequirementDatabaseConnection extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 6601202469601881851L;
 
   private ConfigurationSettingDatabaseConnection[] settings;
   private List<String> acceptedDBSystems = new ArrayList<>();
@@ -71,7 +69,10 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   public ConfigurationSettingDatabaseConnection[] getSettings() {
     return settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
     this.settings = settings;
   }

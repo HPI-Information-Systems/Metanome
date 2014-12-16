@@ -25,8 +25,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class ConfigurationSettingString implements IsSerializable {
 
-  private static final long serialVersionUID = 1753877522641977576L;
-
   public String value;
 
   /**

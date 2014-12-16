@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * @author Tanja Bergmann
  * @see ConfigurationRequirement
  */
-@JsonTypeName("configurationRequirementListBox")
+@JsonTypeName("ConfigurationRequirementListBox")
 public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   private ConfigurationSettingListBox[] settings;
@@ -71,7 +71,10 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   public ConfigurationSettingListBox[] getSettings() {
     return this.settings;
   }
-
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
   public void setSettings(ConfigurationSettingListBox... settings) {
     this.settings = settings;
   }

@@ -29,7 +29,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
-@JsonTypeName("columnConditionValue")
+@JsonTypeName("ColumnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
 
   protected ColumnIdentifier columnIdentifier;

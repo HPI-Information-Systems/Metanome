@@ -35,9 +35,9 @@ import java.util.TreeSet;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ColumnConditionAnd.class, name = "columnConditionAnd"),
-                  @JsonSubTypes.Type(value = ColumnConditionOr.class, name = "columnConditionOr"),
-                  @JsonSubTypes.Type(value = ColumnConditionValue.class, name = "columnConditionValue")
+                  @JsonSubTypes.Type(value = ColumnConditionAnd.class, name = "ColumnConditionAnd"),
+                  @JsonSubTypes.Type(value = ColumnConditionOr.class, name = "ColumnConditionOr"),
+                  @JsonSubTypes.Type(value = ColumnConditionValue.class, name = "ColumnConditionValue")
               })
 public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondition> {
 

@@ -38,14 +38,14 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "configurationRequirementBoolean"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "configurationRequirementDatabaseConnection"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "configurationRequirementFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "configurationRequirementInteger"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "configurationRequirementListBox"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "configurationRequirementRelationalInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "configurationRequirementString"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "configurationRequirementTableInput")
+                  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+                  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
               })
 public abstract class ConfigurationRequirement implements IsSerializable {
 
