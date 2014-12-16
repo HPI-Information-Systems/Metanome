@@ -101,7 +101,7 @@ public class ConfigurationRequirementListBoxTest {
 
   /**
    * Test method for {@link ConfigurationRequirementListBox#getSettings()} and {@link
-   * ConfigurationRequirementListBox#setSettings(ConfigurationSettingListBox...)}
+   * ConfigurationRequirementListBox#checkAndSetSettings(ConfigurationSettingListBox...)}
    */
   @Test
   public void testGetSetSpecification() throws AlgorithmConfigurationException {
@@ -119,7 +119,7 @@ public class ConfigurationRequirementListBoxTest {
     ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
 
     // Execute functionality
-    specificationListBox.setSettings(expectedSetting1, expectedSetting2);
+    specificationListBox.checkAndSetSettings(expectedSetting1, expectedSetting2);
     List<ConfigurationSettingListBox>
         actualSettings =
         Arrays.asList(specificationListBox.getSettings());
@@ -130,7 +130,7 @@ public class ConfigurationRequirementListBoxTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox#setSettings(ConfigurationSettingListBox...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox#checkAndSetSettings(ConfigurationSettingListBox...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -144,7 +144,7 @@ public class ConfigurationRequirementListBoxTest {
     ConfigurationSettingListBox expectedValue = mock(ConfigurationSettingListBox.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**

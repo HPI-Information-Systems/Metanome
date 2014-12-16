@@ -66,6 +66,10 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
     return this.settings;
   }
 
+  public void setSettings(ConfigurationSettingTableInput... settings) {
+    this.settings = settings;
+  }
+
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
@@ -73,7 +77,7 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingTableInput... settings)
+  public void checkAndSetSettings(ConfigurationSettingTableInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

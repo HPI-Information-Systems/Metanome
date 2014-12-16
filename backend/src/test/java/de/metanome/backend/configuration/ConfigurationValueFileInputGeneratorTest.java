@@ -119,8 +119,8 @@ public class ConfigurationValueFileInputGeneratorTest {
         "inputData/inputB.csv").getPath();
     ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
         expectedIdentifier, expectedNumberOfValues);
-    requirement.setSettings(new ConfigurationSettingFileInput(expectedFirstFileName),
-                            new ConfigurationSettingFileInput(expectedSecondFileName));
+    requirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedFirstFileName),
+                                    new ConfigurationSettingFileInput(expectedSecondFileName));
 
     // Execute functionality
     ConfigurationValueFileInputGenerator

@@ -66,6 +66,10 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
     return settings;
   }
 
+  public void setSettings(ConfigurationSettingRelationalInput... settings) {
+    this.settings = settings;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -83,7 +87,7 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingRelationalInput... settings)
+  public void checkAndSetSettings(ConfigurationSettingRelationalInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

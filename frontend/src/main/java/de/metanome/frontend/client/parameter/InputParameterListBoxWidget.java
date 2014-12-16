@@ -48,7 +48,7 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
   @Override
   public ConfigurationRequirementListBox getUpdatedSpecification()
       throws AlgorithmConfigurationException {
-    this.specification.setSettings(this.getConfigurationSettings());
+    this.specification.checkAndSetSettings(this.getConfigurationSettings());
     return this.specification;
   }
 

@@ -72,6 +72,10 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
     return this.settings;
   }
 
+  public void setSettings(ConfigurationSettingListBox... settings) {
+    this.settings = settings;
+  }
+
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
@@ -79,7 +83,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingListBox... settings)
+  public void checkAndSetSettings(ConfigurationSettingListBox... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

@@ -49,7 +49,7 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   @Override
   public ConfigurationRequirementInteger getUpdatedSpecification()
       throws InputValidationException, AlgorithmConfigurationException {
-    this.specification.setSettings(this.getConfigurationSettings());
+    this.specification.checkAndSetSettings(this.getConfigurationSettings());
     return this.specification;
   }
 

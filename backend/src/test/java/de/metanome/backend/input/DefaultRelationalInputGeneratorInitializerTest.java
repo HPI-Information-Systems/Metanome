@@ -72,8 +72,8 @@ public class DefaultRelationalInputGeneratorInitializerTest {
     String
         expectedFilePath2 =
         new FileFixture("some other file content").getTestData(expectedFileName2).getPath();
-    requirement.setSettings(new ConfigurationSettingFileInput(expectedFilePath1),
-                            new ConfigurationSettingFileInput(expectedFilePath2));
+    requirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedFilePath1),
+                                    new ConfigurationSettingFileInput(expectedFilePath2));
 
     // Execute functionality
     DefaultRelationalInputGeneratorInitializer

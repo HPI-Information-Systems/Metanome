@@ -62,7 +62,7 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
       values[i] = inputWidgets.get(i).getValues();
     }
 
-    specification.setSettings(values);
+    specification.checkAndSetSettings(values);
 
     return specification;
   }

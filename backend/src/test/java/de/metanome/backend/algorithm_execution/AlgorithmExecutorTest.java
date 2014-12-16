@@ -187,7 +187,7 @@ public class AlgorithmExecutorTest {
         requirementRelationalInput =
         new ConfigurationRequirementRelationalInput(
             RelationalInputAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
-    requirementRelationalInput.setSettings(new ConfigurationSettingFileInput(path));
+    requirementRelationalInput.checkAndSetSettings(new ConfigurationSettingFileInput(path));
     requirements.add(requirementRelationalInput);
 
     Algorithm algorithm = new Algorithm("example_relational_input_algorithm.jar");
@@ -377,7 +377,7 @@ public class AlgorithmExecutorTest {
     when(lastSetting.isAdvanced()).thenReturn(false);
     when(lastSetting.getFileName()).thenReturn(expectedStatisticValue);
     settings[4] = lastSetting;
-    specification.setSettings(settings);
+    specification.checkAndSetSettings(settings);
 
     configurationRequirements.add(specification);
 

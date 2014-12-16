@@ -90,7 +90,7 @@ public class ConfigurationRequirementRelationalInputTest {
 
   /**
    * Test method for {@link ConfigurationRequirementRelationalInput#getSettings()} and {@link
-   * ConfigurationRequirementRelationalInput#setSettings(ConfigurationSettingRelationalInput...)
+   * ConfigurationRequirementRelationalInput#checkAndSetSettings(ConfigurationSettingRelationalInput...)
    */
   @Test
   public void testGetSetValues() throws AlgorithmConfigurationException {
@@ -107,7 +107,7 @@ public class ConfigurationRequirementRelationalInputTest {
         mock(ConfigurationSettingRelationalInput.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedSetting0, expectedSetting1);
+    configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1);
     List<ConfigurationSettingRelationalInput>
         actualSettings =
         Arrays.asList(configSpec.getSettings());
@@ -118,7 +118,7 @@ public class ConfigurationRequirementRelationalInputTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#setSettings(ConfigurationSettingRelationalInput...)}
+   * Test method for {@link ConfigurationRequirementRelationalInput#checkAndSetSettings(ConfigurationSettingRelationalInput...)}
    *
    * When setting the wrong number of settings, false is returned.
    */
@@ -142,19 +142,19 @@ public class ConfigurationRequirementRelationalInputTest {
     // Execute functionality
     // Check result
     try {
-      configSpec.setSettings(expectedSetting0);
+      configSpec.checkAndSetSettings(expectedSetting0);
     } catch (AlgorithmConfigurationException e) {
       // should trow an exception
     }
 
     try {
-      configSpec.setSettings(expectedSetting0, expectedSetting1);
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1);
     } catch (AlgorithmConfigurationException e) {
       fail(); // number of settings is correct
     }
 
     try {
-      configSpec.setSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2);
     } catch (AlgorithmConfigurationException e) {
       // should throw an exception
     }

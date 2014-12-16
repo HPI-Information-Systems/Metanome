@@ -72,6 +72,10 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
     return settings;
   }
 
+  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
+    this.settings = settings;
+  }
+
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
@@ -79,7 +83,7 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingDatabaseConnection... settings)
+  public void checkAndSetSettings(ConfigurationSettingDatabaseConnection... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

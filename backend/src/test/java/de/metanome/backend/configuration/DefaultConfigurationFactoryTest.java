@@ -71,9 +71,9 @@ public class DefaultConfigurationFactoryTest {
     ConfigurationRequirementBoolean
         requirement =
         new ConfigurationRequirementBoolean(expectedIdentifier, 2);
-    requirement.setSettings(new ConfigurationSettingBoolean(expectedValue1),
-                            new ConfigurationSettingBoolean(
-                                expectedValue2));
+    requirement.chackAndSetSettings(new ConfigurationSettingBoolean(expectedValue1),
+                                    new ConfigurationSettingBoolean(
+                                        expectedValue2));
 
     // Execute functionality
     ConfigurationValueBoolean actualConfigValue =
@@ -102,9 +102,9 @@ public class DefaultConfigurationFactoryTest {
     ConfigurationRequirementInteger
         requirement =
         new ConfigurationRequirementInteger(expectedIdentifier, 2);
-    requirement.setSettings(new ConfigurationSettingInteger(expectedValue1),
-                            new ConfigurationSettingInteger(
-                                expectedValue2));
+    requirement.checkAndSetSettings(new ConfigurationSettingInteger(expectedValue1),
+                                    new ConfigurationSettingInteger(
+                                        expectedValue2));
 
     // Execute functionality
     ConfigurationValueInteger actualConfigValue =
@@ -135,8 +135,8 @@ public class DefaultConfigurationFactoryTest {
     ConfigurationRequirementListBox
         requirement =
         new ConfigurationRequirementListBox(expectedIdentifier, possibleValues, 2);
-    requirement.setSettings(new ConfigurationSettingListBox(expectedValue1),
-                            new ConfigurationSettingListBox(expectedValue2));
+    requirement.checkAndSetSettings(new ConfigurationSettingListBox(expectedValue1),
+                                    new ConfigurationSettingListBox(expectedValue2));
 
     // Execute functionality
     ConfigurationValueListBox actualConfigValue = factory.build(requirement);
@@ -168,7 +168,7 @@ public class DefaultConfigurationFactoryTest {
         new ConfigurationRequirementRelationalInput(
             expectedIdentifier);
 
-    configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath));
+    configRequirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedPath));
 
     // Execute functionality
     ConfigurationValueRelationalInputGenerator
@@ -196,7 +196,7 @@ public class DefaultConfigurationFactoryTest {
     ConfigurationRequirementFileInput
         configRequirement =
         new ConfigurationRequirementFileInput(expectedIdentifier);
-    configRequirement.setSettings(new ConfigurationSettingFileInput(expectedPath));
+    configRequirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedPath));
 
     // Execute functionality
     ConfigurationValueFileInputGenerator
@@ -226,8 +226,9 @@ public class DefaultConfigurationFactoryTest {
         requirement =
         new ConfigurationRequirementString(expectedIdentifier, 2);
     requirement
-        .setSettings(new ConfigurationSettingString(expectedValue1), new ConfigurationSettingString(
-            expectedValue2));
+        .checkAndSetSettings(new ConfigurationSettingString(expectedValue1),
+                             new ConfigurationSettingString(
+                                 expectedValue2));
 
     // Execute functionality
     ConfigurationValueString actualConfigValue = factory.build(requirement);

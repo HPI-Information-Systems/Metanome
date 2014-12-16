@@ -67,6 +67,10 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
     return settings;
   }
 
+  public void setSettings(ConfigurationSettingBoolean... settings) {
+    this.settings = settings;
+  }
+
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
@@ -74,7 +78,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingBoolean... settings)
+  public void chackAndSetSettings(ConfigurationSettingBoolean... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

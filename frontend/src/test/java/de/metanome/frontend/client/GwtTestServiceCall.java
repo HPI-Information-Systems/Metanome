@@ -54,7 +54,7 @@ public class GwtTestServiceCall extends GWTTestCase {
 //    List<ConfigurationRequirement> configs = new ArrayList<>();
 //    ConfigurationRequirementString inputParameter =
 //        new ConfigurationRequirementString("pathToInputFile", 2);
-//    inputParameter.setSettings(new ConfigurationSettingString("path/to/file1"),
+//    inputParameter.chackAndSetSettings(new ConfigurationSettingString("path/to/file1"),
 //                               new ConfigurationSettingString("path/to/file2"));
 //    configs.add(inputParameter);
 //

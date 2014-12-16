@@ -97,7 +97,7 @@ public class ConfigurationRequirementFileInputTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput#setSettings(ConfigurationSettingFileInput...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput#checkAndSetSettings(ConfigurationSettingFileInput...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -111,7 +111,7 @@ public class ConfigurationRequirementFileInputTest {
     ConfigurationSettingFileInput expectedValue = mock(ConfigurationSettingFileInput.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**
