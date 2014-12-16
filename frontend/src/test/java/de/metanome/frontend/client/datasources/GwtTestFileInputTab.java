@@ -27,6 +27,9 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
 import java.util.ArrayList;
 
 public class GwtTestFileInputTab extends GWTTestCase {
@@ -97,10 +100,10 @@ public class GwtTestFileInputTab extends GWTTestCase {
     int rowCount = fileInputTab.fileInputList.getRowCount();
 
     // Execute (delete File 2)
-    AsyncCallback<Void>
+    MethodCallback<Void>
         callback =
         fileInputTab.getDeleteCallback(input2);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 1, fileInputTab.fileInputList.getRowCount());
@@ -108,7 +111,7 @@ public class GwtTestFileInputTab extends GWTTestCase {
 
     // Execute (delete File 1)
     callback = fileInputTab.getDeleteCallback(input1);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 2, fileInputTab.fileInputList.getRowCount());

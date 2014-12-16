@@ -14,36 +14,36 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.server;
+package de.metanome.backend.resources;
 
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.HibernateUtil;
+    import de.metanome.backend.results_db.EntityStorageException;
+    import de.metanome.backend.results_db.FileInput;
+    import de.metanome.backend.results_db.HibernateUtil;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.Test;
+    import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+    import org.junit.Test;
 
-import java.util.List;
+    import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+    import static org.junit.Assert.assertEquals;
+    import static org.junit.Assert.assertNull;
+    import static org.junit.Assert.assertThat;
+    import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link de.metanome.frontend.server.FileInputServiceImpl}
+ * Tests for {@link de.metanome.backend.resources.FileInputResource}
  */
-public class FileInputServiceImplTest {
+public class FileInputResourceTest {
 
   /**
-   * Test method for {@link de.metanome.frontend.server.FileInputServiceImpl#listFileInputs()}
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#getAll()}
    */
   @Test
   public void testListFileInputs() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    FileInputServiceImpl fileInputService = new FileInputServiceImpl();
+    FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
     FileInput expectedFileInput1 = new FileInput();
@@ -55,11 +55,11 @@ public class FileInputServiceImplTest {
     FileInput[] expectedFileInputs = {expectedFileInput1, expectedFileInput2};
 
     for (FileInput input : expectedFileInputs) {
-      fileInputService.storeFileInput(input);
+      fileInputResource.store(input);
     }
 
     // Execute functionality
-    List<FileInput> actualFileInputs = fileInputService.listFileInputs();
+    List<FileInput> actualFileInputs = fileInputResource.getAll();
 
     // Check result
     assertThat(actualFileInputs,
@@ -70,25 +70,25 @@ public class FileInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.server.FileInputServiceImpl#getFileInput(long)}
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#get(long)}
    */
   @Test
   public void testGetFileInput() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    FileInputServiceImpl fileInputService = new FileInputServiceImpl();
+    FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
     FileInput expectedFileInput = new FileInput();
     expectedFileInput.setFileName("file");
 
-    fileInputService.storeFileInput(expectedFileInput);
+    fileInputResource.store(expectedFileInput);
 
     long id = expectedFileInput.getId();
 
     // Execute functionality
-    FileInput actualFileInput = fileInputService.getFileInput(id);
+    FileInput actualFileInput = fileInputResource.get(id);
 
     // Check result
     assertEquals(expectedFileInput, actualFileInput);
@@ -98,17 +98,17 @@ public class FileInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.server.FileInputServiceImpl#getFileInput(long)}
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#get(long)}
    */
   @Test
   public void testGetFileInputWithIncorrectId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    FileInputServiceImpl fileInputService = new FileInputServiceImpl();
+    FileInputResource fileInputResource = new FileInputResource();
 
     // Execute functionality
-    FileInput actualFileInput = fileInputService.getFileInput(2);
+    FileInput actualFileInput = fileInputResource.get(2);
 
     // Check result
     assertEquals(null, actualFileInput);
@@ -118,24 +118,24 @@ public class FileInputServiceImplTest {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.server.FileInputServiceImpl#storeFileInput(de.metanome.backend.results_db.FileInput)}
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#store(de.metanome.backend.results_db.FileInput)}
    */
   @Test
   public void testStoreFileInput() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    FileInputServiceImpl fileInputService = new FileInputServiceImpl();
+    FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
     FileInput expectedFileInput = new FileInput();
     expectedFileInput.setFileName("file1");
 
     // Execute functionality
-    expectedFileInput = fileInputService.storeFileInput(expectedFileInput);
+    expectedFileInput = fileInputResource.store(expectedFileInput);
 
     // Finds algorithms of all or no interfaces
-    List<FileInput> inputs = fileInputService.listFileInputs();
+    List<FileInput> inputs = fileInputResource.getAll();
 
     // Check result
     assertTrue(inputs.contains(expectedFileInput));
@@ -147,33 +147,34 @@ public class FileInputServiceImplTest {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.server.FileInputServiceImpl#deleteFileInput(de.metanome.backend.results_db.FileInput)}
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#delete(long)}
    */
   @Test
   public void testDeleteFileInput() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    FileInputServiceImpl service = new FileInputServiceImpl();
+    FileInputResource fileInputResource = new FileInputResource();
 
     FileInput expectedFileInput = new FileInput();
     expectedFileInput.setFileName("file1");
-    expectedFileInput.store();
+    fileInputResource.store(expectedFileInput);
 
     long id = expectedFileInput.getId();
 
     // Check precondition
-    FileInput actualFileInput = FileInput.retrieve(id);
+    FileInput actualFileInput = fileInputResource.get(id);
     assertEquals(expectedFileInput, actualFileInput);
 
     // Execute functionality
-    service.deleteFileInput(expectedFileInput);
+    fileInputResource.delete(expectedFileInput.getId());
 
     // Check result
-    assertNull(FileInput.retrieve(id));
+    assertNull(fileInputResource.get(id));
 
     // Cleanup
     HibernateUtil.clear();
   }
 
 }
+

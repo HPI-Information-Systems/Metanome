@@ -18,7 +18,6 @@ package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -31,8 +30,10 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
-import de.metanome.frontend.client.services.FileInputService;
-import de.metanome.frontend.client.services.FileInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   protected FlexTable fileInputList;
   protected FileInputEditForm editForm;
-  private FileInputServiceAsync fileInputService;
+  private FileInputRestService fileInputService;
   private DataSourcePage parent;
   private TabWrapper messageReceiver;
 
@@ -49,7 +50,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @param parent the parent page
    */
   public FileInputTab(DataSourcePage parent) {
-    this.fileInputService = com.google.gwt.core.shared.GWT.create(FileInputService.class);
+    this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     this.parent = parent;
 
     this.fileInputList = new FlexTable();
@@ -72,18 +73,23 @@ public class FileInputTab extends FlowPanel implements TabContent {
    */
   public void addFileInputsToTable(final FlowPanel panel) {
     fileInputService.listFileInputs(
-        new AsyncCallback<List<FileInput>>() {
+        new MethodCallback<List<FileInput>>() {
           @Override
-          public void onFailure(Throwable throwable) {
-            panel.add(new Label("There are no File Inputs yet."));
+          public void onFailure(Method method, Throwable throwable) {
+            String stackTrace = "";
+            for(StackTraceElement s : throwable.getStackTrace()){
+              stackTrace += s.toString();
+            }
+            panel.add(new Label("There are no File Inputs yet. " + throwable.getCause() + throwable.toString() + stackTrace));
             addEditForm();
           }
 
           @Override
-          public void onSuccess(List<FileInput> fileInputs) {
+          public void onSuccess(Method method, List<FileInput> fileInputs) {
             listFileInputs(fileInputs);
             addEditForm();
           }
+
         });
   }
 
@@ -116,7 +122,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        fileInputService.deleteFileInput(input,
+        fileInputService.deleteFileInput(input.getId(),
                                          getDeleteCallback(input));
       }
     });
@@ -171,15 +177,15 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @param input The file input, which should be deleted.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final FileInput input) {
-    return new AsyncCallback<Void>() {
+  protected MethodCallback<Void> getDeleteCallback(final FileInput input) {
+    return new MethodCallback<Void>() {
       @Override
-      public void onFailure(Throwable throwable) {
+      public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addErrorHTML("Could not delete the file input: " + throwable.getMessage());
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Method method, Void aVoid) {
         fileInputList.removeRow(findRow(input));
       }
     };

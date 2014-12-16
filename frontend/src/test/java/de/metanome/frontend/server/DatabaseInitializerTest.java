@@ -19,6 +19,7 @@ package de.metanome.frontend.server;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -50,6 +51,8 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class DatabaseInitializerTest {
+
+  private FileInputResource fileInputResource = new FileInputResource();
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
 
@@ -182,8 +185,7 @@ public class DatabaseInitializerTest {
 
     DatabaseInitializer initializer = new DatabaseInitializer();
     // Expected values
-    FileInput expectedFileInput = new FileInput()
-        .store();
+    FileInput expectedFileInput = fileInputResource.store(new FileInput());
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
