@@ -18,8 +18,6 @@ package de.metanome.backend.results_db;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -46,6 +44,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents an execution in the database.
@@ -156,12 +155,12 @@ public class Execution implements IsSerializable {
       generator = "sequence"
   )
   @JoinTable
-  @JsonIgnore
+  @XmlTransient
   public Collection<Input> getInputs() {
     return inputs;
   }
 
-  @JsonIgnore
+  @XmlTransient
   public Execution setInputs(List<Input> inputs) {
     this.inputs = inputs;
 
@@ -174,12 +173,12 @@ public class Execution implements IsSerializable {
       cascade = CascadeType.ALL
   )
   @Fetch(value = FetchMode.SELECT)
-  @JsonIgnore
+  @XmlTransient
   public Set<Result> getResults() {
     return results;
   }
 
-  @JsonIgnore
+  @XmlTransient
   public Execution setResults(Set<Result> results) {
     this.results = results;
 

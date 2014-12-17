@@ -18,8 +18,6 @@ package de.metanome.backend.results_db;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
@@ -46,6 +44,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 @NamedQueries(
   @NamedQuery(
@@ -292,13 +291,14 @@ public class Algorithm implements IsSerializable, Comparable<Algorithm> {
     return this;
   }
 
-  @JsonIgnore
+  @XmlTransient
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "algorithm")
   @OnDelete(action = OnDeleteAction.CASCADE)
   public List<Execution> getExecutions() {
     return executions;
   }
 
+  @XmlTransient
   public Algorithm setExecutions(List<Execution> executions) {
     this.executions = executions;
     return this;
