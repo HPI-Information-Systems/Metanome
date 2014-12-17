@@ -58,6 +58,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   private boolean header;
   private boolean skipDifferingLines;
 
+  public String type = "ConfigurationSettingFileInput";
 
   /**
    * Exists for GWT serialization.

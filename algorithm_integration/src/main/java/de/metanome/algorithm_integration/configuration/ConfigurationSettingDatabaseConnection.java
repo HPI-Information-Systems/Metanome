@@ -32,6 +32,8 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
   private String password;
   private DbSystem system;
 
+  public String type = "configurationSettingDatabaseConnection";
+
   /**
    * Exists for GWT serialization.
    */

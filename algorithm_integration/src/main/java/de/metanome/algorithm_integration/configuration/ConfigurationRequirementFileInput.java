@@ -32,8 +32,6 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 @JsonTypeName("ConfigurationRequirementFileInput")
 public class ConfigurationRequirementFileInput extends ConfigurationRequirement {
 
-  private static final long serialVersionUID = 8842139128248338302L;
-
   private ConfigurationSettingFileInput[] settings;
 
   /**

@@ -36,6 +36,8 @@ public class ConfigurationSettingTableInput
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
 
+  public String type = "ConfigurationSettingTableInput";
+
   /**
    * Exists for GWT serialization.
    */
