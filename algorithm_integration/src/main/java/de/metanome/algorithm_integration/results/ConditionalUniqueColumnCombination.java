@@ -19,14 +19,14 @@ package de.metanome.algorithm_integration.results;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 import java.util.List;
 import java.util.Map;

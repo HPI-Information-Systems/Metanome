@@ -19,9 +19,10 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Concrete {@link ConfigurationRequirement} for integers.

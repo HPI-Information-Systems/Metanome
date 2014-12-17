@@ -18,11 +18,11 @@ package de.metanome.algorithm_integration.results;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.

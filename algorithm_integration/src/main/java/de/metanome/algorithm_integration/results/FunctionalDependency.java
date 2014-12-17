@@ -16,12 +16,12 @@
 
 package de.metanome.algorithm_integration.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Represents a functional dependency.

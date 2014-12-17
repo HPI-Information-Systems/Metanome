@@ -18,8 +18,8 @@ package de.metanome.algorithm_integration;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
 import java.util.Map;

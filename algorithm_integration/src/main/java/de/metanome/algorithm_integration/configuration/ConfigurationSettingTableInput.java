@@ -18,10 +18,11 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Stores the configuration settings for a table input.

@@ -17,12 +17,13 @@
 package de.metanome.algorithm_integration.results;
 
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Represents a unique column combination.
@@ -31,8 +32,6 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  */
 @JsonTypeName("uniqueColumnCombination")
 public class UniqueColumnCombination implements Result {
-
-  private static final long serialVersionUID = 6744030409666817339L;
 
   protected ColumnCombination columnCombination;
 

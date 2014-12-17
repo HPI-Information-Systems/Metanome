@@ -16,7 +16,8 @@
 
 package de.metanome.algorithm_integration;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.LinkedList;
 import java.util.List;

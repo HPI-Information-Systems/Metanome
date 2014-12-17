@@ -17,7 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 
-import org.codehaus.jackson.annotate.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * TODO docs

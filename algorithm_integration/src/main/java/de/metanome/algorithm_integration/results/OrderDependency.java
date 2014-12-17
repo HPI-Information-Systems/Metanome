@@ -15,11 +15,12 @@
 package de.metanome.algorithm_integration.results;
 
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  * Represents an order dependency.

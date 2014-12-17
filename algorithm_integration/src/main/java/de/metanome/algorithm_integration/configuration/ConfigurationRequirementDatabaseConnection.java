@@ -18,9 +18,9 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import java.util.ArrayList;
 import java.util.List;
