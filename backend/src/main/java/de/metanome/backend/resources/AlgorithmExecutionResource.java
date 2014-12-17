@@ -33,7 +33,6 @@ import de.metanome.backend.results_db.Algorithm;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -45,10 +44,6 @@ import javax.ws.rs.Produces;
 
 @Path("algorithm_execution")
 public class AlgorithmExecutionResource {
-
-  protected HashMap<String, ResultsCache> currentResultReceiver = new HashMap<>();
-  protected HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
-
 
   /**
    * Executes an algorithm.
@@ -93,7 +88,7 @@ public class AlgorithmExecutionResource {
   @Produces("application/json")
   public List<Result> fetchNewResults(@PathParam("identifier") String executionIdentifier) {
     try {
-      return currentResultReceiver.get(executionIdentifier).getNewResults();
+      return AlgorithmExecutionCache.getResultsCache(executionIdentifier).getNewResults();
     } catch (Exception e) {
       throw new WebException(e);
     }
@@ -104,7 +99,7 @@ public class AlgorithmExecutionResource {
   @Produces("application/json")
   public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
     try {
-      return currentProgressCaches.get(executionIdentifier).getProgress();
+      return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
     } catch (Exception e) {
       throw new WebException(e);
     }
@@ -128,12 +123,11 @@ public class AlgorithmExecutionResource {
     resultsHub.addSubscriber(resultsCache);
 
     FileGenerator fileGenerator = new TempFileGenerator();
-
     ProgressCache progressCache = new ProgressCache();
 
     AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
-    currentResultReceiver.put(executionIdentifier, resultsCache);
-    currentProgressCaches.put(executionIdentifier, progressCache);
+    AlgorithmExecutionCache.add(executionIdentifier, resultsCache, progressCache);
+
     return executor;
   }
 
