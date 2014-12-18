@@ -66,9 +66,9 @@ public class ColumnCombinationTest {
         new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 
     // Check result
-    assertEquals(2, columnCombination.columnCombination.size());
-    assertTrue(columnCombination.columnCombination.contains(expectedColumn1));
-    assertTrue(columnCombination.columnCombination.contains(expectedColumn2));
+    assertEquals(2, columnCombination.columnIdentifiers.size());
+    assertTrue(columnCombination.columnIdentifiers.contains(expectedColumn1));
+    assertTrue(columnCombination.columnIdentifiers.contains(expectedColumn2));
   }
 
   /**

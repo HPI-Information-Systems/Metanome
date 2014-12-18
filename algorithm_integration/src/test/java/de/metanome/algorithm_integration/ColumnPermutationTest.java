@@ -62,10 +62,10 @@ public class ColumnPermutationTest {
     final ColumnPermutation columnPermutation =
         new ColumnPermutation(expectedColumn1, expectedColumn2, expectedColumn2);
 
-    assertEquals(3, columnPermutation.columnPermutation.size());
-    assertTrue(columnPermutation.columnPermutation.get(0).equals(expectedColumn1));
-    assertTrue(columnPermutation.columnPermutation.get(1).equals(expectedColumn2));
-    assertTrue(columnPermutation.columnPermutation.get(2).equals(expectedColumn2));
+    assertEquals(3, columnPermutation.columnIdentifiers.size());
+    assertTrue(columnPermutation.columnIdentifiers.get(0).equals(expectedColumn1));
+    assertTrue(columnPermutation.columnIdentifiers.get(1).equals(expectedColumn2));
+    assertTrue(columnPermutation.columnIdentifiers.get(2).equals(expectedColumn2));
   }
 
   /**
