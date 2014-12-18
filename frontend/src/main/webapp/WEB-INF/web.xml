@@ -36,26 +36,6 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>tableInputServiceImpl</servlet-name>
-        <servlet-class>de.metanome.frontend.server.TableInputServiceImpl
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>tableInputServiceImpl</servlet-name>
-        <url-pattern>/metanome/tableInputService</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>inputServiceImpl</servlet-name>
-        <servlet-class>de.metanome.frontend.server.InputServiceImpl
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>inputServiceImpl</servlet-name>
-        <url-pattern>/metanome/inputService</url-pattern>
-    </servlet-mapping>
-
     <listener>
         <listener-class>de.metanome.frontend.server.DatabaseInitializer
         </listener-class>

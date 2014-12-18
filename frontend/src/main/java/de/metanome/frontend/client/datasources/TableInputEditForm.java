@@ -31,8 +31,8 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
 import de.metanome.frontend.client.services.DatabaseConnectionRestService;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
+import de.metanome.frontend.client.services.TableInputRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -52,7 +52,7 @@ public class TableInputEditForm extends Grid {
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
   protected TextArea commentTextbox;
-  private TableInputServiceAsync tableInputService;
+  private TableInputRestService lemma;
   private TabWrapper messageReceiver;
   private TableInputTab parent;
 
@@ -62,7 +62,7 @@ public class TableInputEditForm extends Grid {
     this.parent = parent;
 
     this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
-    this.tableInputService = GWT.create(TableInputService.class);
+    this.lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
 
     this.dbConnectionListBox = new ListBoxInput(false);
     updateDatabaseConnectionListBox();
@@ -176,19 +176,20 @@ public class TableInputEditForm extends Grid {
   private void saveTableInput() {
     messageReceiver.clearErrors();
     try {
-      this.tableInputService.storeTableInput(this.getValue(), new AsyncCallback<TableInput>() {
+      this.lemma.storeTableInput(this.getValue(), new MethodCallback<TableInput>() {
         @Override
-        public void onFailure(Throwable throwable) {
+        public void onFailure(Method method, Throwable throwable) {
           messageReceiver.addErrorHTML("Table Input could not be stored: " + throwable.getMessage());
         }
 
         @Override
-        public void onSuccess(TableInput input) {
+        public void onSuccess(Method method, TableInput input) {
           reset();
           parent.addTableInputToTable(input);
           parent.setEnableOfDeleteButton(input.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
         }
+
       });
     } catch (InputValidationException e) {
       messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());

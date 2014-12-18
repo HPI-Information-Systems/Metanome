@@ -30,6 +30,9 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
 import java.util.ArrayList;
 
 public class GwtTestTableInputTab extends GWTTestCase {
@@ -152,10 +155,10 @@ public class GwtTestTableInputTab extends GWTTestCase {
     int rowCount = tableInputTab.tableInputList.getRowCount();
 
     // Execute (delete Table Input 2)
-    AsyncCallback<Void>
+    MethodCallback<Void >
         callback =
         tableInputTab.getDeleteCallback(tableInput2);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 1, tableInputTab.tableInputList.getRowCount());
@@ -164,7 +167,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
 
     // Execute (delete Table Input 1)
     callback = tableInputTab.getDeleteCallback(tableInput1);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 2, tableInputTab.tableInputList.getRowCount());

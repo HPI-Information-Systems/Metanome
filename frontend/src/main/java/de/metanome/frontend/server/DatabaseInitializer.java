@@ -19,6 +19,7 @@ package de.metanome.frontend.server;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.InputResource;
 import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -41,6 +42,7 @@ import javax.servlet.ServletContextListener;
 public class DatabaseInitializer implements ServletContextListener {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
+  InputResource inputResource = new InputResource();
 
   /**
    * Initializes the database.
@@ -99,7 +101,7 @@ public class DatabaseInitializer implements ServletContextListener {
    */
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
     // only prefill input table if currently empty
-    if (!Input.retrieveAll().isEmpty()) {
+    if (!inputResource.getAll().isEmpty()) {
       return;
     }
 
@@ -109,11 +111,7 @@ public class DatabaseInitializer implements ServletContextListener {
 
     for (File input : inputs) {
       FileInput fileInput = new FileInput(input.getPath());
-      try {
-        fileInput.store();
-      } catch (EntityStorageException e) {
-        e.printStackTrace();
-      }
+      inputResource.store(fileInput);
     }
   }
 
