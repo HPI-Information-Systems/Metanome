@@ -20,17 +20,9 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
-import de.metanome.frontend.client.services.FileInputRestService;
-import de.metanome.frontend.client.services.ParameterService;
-import de.metanome.frontend.client.services.ParameterServiceAsync;
 import de.metanome.frontend.client.services.TableInputService;
 import de.metanome.frontend.client.services.TableInputServiceAsync;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -83,32 +75,32 @@ public class GwtTestServiceCall extends GWTTestCase {
 //    TestHelper.resetDatabaseSync();
 //  }
 
-  /**
-   * tests the call from client to parameterService.retrieveParameters
-   */
-  public void testParameterService() {
-    // Setup
-    AsyncCallback<List<ConfigurationRequirement>> callback =
-        new AsyncCallback<List<ConfigurationRequirement>>() {
-          public void onFailure(Throwable caught) {
-            fail();
-          }
-
-          public void onSuccess(List<ConfigurationRequirement> result) {
-            assertNotNull(result);
-            finishTest();
-          }
-        };
-
-    ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
-
-    // Set a delay period
-    delayTestFinish(500);
-
-    // Execute
-    parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
-
-  }
+//  /**
+//   * tests the call from client to parameterService.retrieveParameters
+//   */
+//  public void testParameterService() {
+//    // Setup
+//    AsyncCallback<List<ConfigurationRequirement>> callback =
+//        new AsyncCallback<List<ConfigurationRequirement>>() {
+//          public void onFailure(Throwable caught) {
+//            fail();
+//          }
+//
+//          public void onSuccess(List<ConfigurationRequirement> result) {
+//            assertNotNull(result);
+//            finishTest();
+//          }
+//        };
+//
+//    ParameterServiceAsync parameterService = GWT.create(ParameterService.class);
+//
+//    // Set a delay period
+//    delayTestFinish(500);
+//
+//    // Execute
+//    parameterService.retrieveParameters("example_ucc_algorithm.jar", callback);
+//
+//  }
 
 
   /**

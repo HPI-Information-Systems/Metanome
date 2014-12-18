@@ -37,16 +37,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>parameterServiceImpl</servlet-name>
-        <servlet-class>de.metanome.frontend.server.ParameterServiceImpl
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>parameterServiceImpl</servlet-name>
-        <url-pattern>/metanome/parameterService</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>tableInputServiceImpl</servlet-name>
         <servlet-class>de.metanome.frontend.server.TableInputServiceImpl
         </servlet-class>

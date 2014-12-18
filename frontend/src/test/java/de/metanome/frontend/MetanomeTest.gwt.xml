@@ -29,8 +29,6 @@
 
     <source path="client"/>
 
-    <servlet path="/parameterService"
-             class="de.metanome.frontend.server.ParameterServiceImpl"/>
     <servlet path="/tableInputService"
              class="de.metanome.frontend.server.TableInputServiceImpl"/>
     <servlet path="/inputService"

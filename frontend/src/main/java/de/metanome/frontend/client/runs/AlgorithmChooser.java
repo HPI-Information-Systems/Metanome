@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.runs;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -29,8 +28,10 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.ParameterService;
-import de.metanome.frontend.client.services.ParameterServiceAsync;
+import de.metanome.frontend.client.services.ParameterRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,14 +54,14 @@ public class AlgorithmChooser extends FlowPanel {
   protected Map<String, List<String>> categoryMap = new HashMap<>();
   protected String currentCategory;
 
-  protected ParameterServiceAsync parameterService;
+  protected ParameterRestService parameterService;
   protected TabWrapper messageReceiver;
 
   public AlgorithmChooser(List<Algorithm> algorithms, TabWrapper tabWrapper) {
     super();
 
     this.messageReceiver = tabWrapper;
-    this.parameterService = GWT.create(ParameterService.class);
+    this.parameterService = GWT.create(ParameterRestService.class);
 
     this.label = new Label("Choose your algorithm:");
     this.add(label);
@@ -119,16 +120,7 @@ public class AlgorithmChooser extends FlowPanel {
     String selectedValue = getSelectedAlgorithm();
     this.messageReceiver.clearErrors();
 
-    AsyncCallback<List<ConfigurationRequirement>> callback =
-        new AsyncCallback<List<ConfigurationRequirement>>() {
-          public void onFailure(Throwable caught) {
-            messageReceiver.addErrorHTML("Error while retrieving configuration requirements: " + caught.getMessage());
-          }
-
-          public void onSuccess(List<ConfigurationRequirement> result) {
-            forwardParameters(result);
-          }
-        };
+    MethodCallback<List<ConfigurationRequirement>> callback = getParameterCallback();
 
     // Make the call to the parameter service.
     callParameterService(algorithmMap.get(selectedValue).getFileName(), callback);
@@ -142,8 +134,24 @@ public class AlgorithmChooser extends FlowPanel {
    * @param callback      callback object for RPC
    */
   public void callParameterService(String selectedValue,
-                                   AsyncCallback<List<ConfigurationRequirement>> callback) {
+                                   MethodCallback<List<ConfigurationRequirement>> callback) {
     parameterService.retrieveParameters(selectedValue, callback);
+  }
+
+  /**
+   * Creates the callback for calling the parameter service.
+   * @return the callback
+   */
+  protected MethodCallback<List<ConfigurationRequirement>> getParameterCallback() {
+    return new MethodCallback<List<ConfigurationRequirement>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addErrorHTML("Error while retrieving configuration requirements: " + caught.getMessage());
+      }
+
+      public void onSuccess(Method method, List<ConfigurationRequirement> result) {
+        forwardParameters(result);
+      }
+    };
   }
 
   /**
@@ -203,22 +211,22 @@ public class AlgorithmChooser extends FlowPanel {
 
     if (!this.algorithmMap.containsKey(name)) {
       this.algorithmMap.put(name, algorithm);
+
+      this.categoryMap.get(AlgorithmCategory.All.name()).add(name);
+
+      if (algorithm.isCucc())
+        this.categoryMap.get(AlgorithmCategory.Conditional_Unique_Column_Combination.name()).add(name);
+      if (algorithm.isUcc())
+        this.categoryMap.get(AlgorithmCategory.Unique_Column_Combinations.name()).add(name);
+      if (algorithm.isFd())
+        this.categoryMap.get(AlgorithmCategory.Functional_Dependencies.name()).add(name);
+      if (algorithm.isOd())
+        this.categoryMap.get(AlgorithmCategory.Order_Dependencies.name()).add(name);
+      if (algorithm.isInd())
+        this.categoryMap.get(AlgorithmCategory.Inclusion_Dependencies.name()).add(name);
+      if (algorithm.isBasicStat())
+        this.categoryMap.get(AlgorithmCategory.Basic_Statistics.name()).add(name);
     }
-
-    this.categoryMap.get(AlgorithmCategory.All.name()).add(name);
-
-    if (algorithm.isCucc())
-      this.categoryMap.get(AlgorithmCategory.Conditional_Unique_Column_Combination.name()).add(name);
-    if (algorithm.isUcc())
-      this.categoryMap.get(AlgorithmCategory.Unique_Column_Combinations.name()).add(name);
-    if (algorithm.isFd())
-      this.categoryMap.get(AlgorithmCategory.Functional_Dependencies.name()).add(name);
-    if (algorithm.isOd())
-      this.categoryMap.get(AlgorithmCategory.Order_Dependencies.name()).add(name);
-    if (algorithm.isInd())
-      this.categoryMap.get(AlgorithmCategory.Inclusion_Dependencies.name()).add(name);
-    if (algorithm.isBasicStat())
-      this.categoryMap.get(AlgorithmCategory.Basic_Statistics.name()).add(name);
   }
 
   /**

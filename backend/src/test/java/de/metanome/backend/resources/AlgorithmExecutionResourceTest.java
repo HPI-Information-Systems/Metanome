@@ -43,7 +43,7 @@ public class AlgorithmExecutionResourceTest {
     UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
     // Execute functionality
-    executionService.currentResultReceiver.get(expectedExecutionIdentifier).receiveResult(
+    AlgorithmExecutionCache.getResultsCache(expectedExecutionIdentifier).receiveResult(
         expectedUcc);
     List<Result>
         actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
@@ -67,7 +67,7 @@ public class AlgorithmExecutionResourceTest {
     float expectedProgress = 0.42f;
 
     // Execute functionality
-    executionService.currentProgressCaches.get(expectedExecutionIdentifier)
+    AlgorithmExecutionCache.getProgressCache(expectedExecutionIdentifier)
         .updateProgress(expectedProgress);
     float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
 
