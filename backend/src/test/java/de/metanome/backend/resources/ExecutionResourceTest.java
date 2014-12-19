@@ -87,12 +87,14 @@ public class ExecutionResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
-    algorithmResource.store(expectedAlgorithm);
+    Algorithm expectedAlgorithm1 = new Algorithm("example_ind_algorithm.jar");
+    algorithmResource.store(expectedAlgorithm1);
+    Algorithm expectedAlgorithm2 = new Algorithm("example_ucc_algorithm.jar");
+    algorithmResource.store(expectedAlgorithm2);
 
-    Execution expectedExecution1 = new Execution(expectedAlgorithm);
+    Execution expectedExecution1 = new Execution(expectedAlgorithm1);
     executionResource.store(expectedExecution1);
-    Execution expectedExecution2 = new Execution(expectedAlgorithm);
+    Execution expectedExecution2 = new Execution(expectedAlgorithm2);
     executionResource.store(expectedExecution2);
 
     // Execute functionality

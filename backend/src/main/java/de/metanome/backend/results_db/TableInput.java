@@ -17,10 +17,7 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
-
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -34,8 +31,6 @@ import javax.persistence.Transient;
 @Entity
 @GwtCompatible
 public class TableInput extends Input implements IsSerializable {
-
-  private static final long serialVersionUID = 506811774527044153L;
 
   protected String tableName;
   protected DatabaseConnection databaseConnection;

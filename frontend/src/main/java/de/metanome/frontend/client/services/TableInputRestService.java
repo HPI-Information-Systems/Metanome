@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.services;
 
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
 
 import org.fusesource.restygwt.client.MethodCallback;

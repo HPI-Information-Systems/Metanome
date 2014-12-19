@@ -17,7 +17,6 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
 
@@ -27,6 +26,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 @Path("tableInputs")
@@ -57,7 +57,7 @@ public class TableInputResource implements Resource<TableInput> {
   @DELETE
   @Path("/delete/{id}")
   @Override
-  public void delete(long id) {
+  public void delete(@PathParam("id") long id) {
     try {
       TableInput tableInput = (TableInput) HibernateUtil.retrieve(TableInput.class, id);
       HibernateUtil.delete(tableInput);
@@ -75,7 +75,7 @@ public class TableInputResource implements Resource<TableInput> {
   @Path("/get/{id}")
   @Produces("application/json")
   @Override
-  public TableInput get(long id) {
+  public TableInput get(@PathParam("id") long id) {
     try {
       return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
     } catch (EntityStorageException e) {

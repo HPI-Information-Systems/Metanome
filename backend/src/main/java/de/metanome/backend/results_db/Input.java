@@ -17,10 +17,7 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.IsSerializable;
-
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +36,6 @@ import javax.persistence.Transient;
 @GwtCompatible
 public class Input implements IsSerializable {
 
-  private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
 
   @Id
