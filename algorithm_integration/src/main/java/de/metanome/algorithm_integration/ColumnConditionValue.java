@@ -76,6 +76,30 @@ public class ColumnConditionValue implements ColumnCondition {
     this.coverage = coverage;
   }
 
+  public ColumnIdentifier getColumnIdentifier() {
+    return columnIdentifier;
+  }
+
+  public void setColumnIdentifier(ColumnIdentifier columnIdentifier) {
+    this.columnIdentifier = columnIdentifier;
+  }
+
+  public String getColumnValue() {
+    return columnValue;
+  }
+
+  public void setColumnValue(String columnValue) {
+    this.columnValue = columnValue;
+  }
+
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
+    this.isNegated = isNegated;
+  }
+
   @Override
   public TreeSet<ColumnIdentifier> getContainedColumns() {
     TreeSet<ColumnIdentifier> result = new TreeSet<>();

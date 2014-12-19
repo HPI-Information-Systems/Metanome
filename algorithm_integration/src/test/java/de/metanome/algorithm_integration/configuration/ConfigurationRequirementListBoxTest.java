@@ -37,9 +37,9 @@ import static org.mockito.Mockito.mock;
 public class ConfigurationRequirementListBoxTest {
 
   /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String,
-   * java.util.ArrayList)} <p/> The identifier should be set in the constructor and be retrievable
-   * through getIdentifier. The numberOfValues should be set to 1.
+   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List)}
+   * The identifier should be set in the constructor and be retrievable through getIdentifier.
+   * The numberOfValues should be set to 1.
    */
   @Test
   public void testConstructorGetOne() {
@@ -59,7 +59,7 @@ public class ConfigurationRequirementListBoxTest {
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfSettings();
-    ArrayList<String> actualValues = configSpec.getValues();
+    List<String> actualValues = configSpec.getValues();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
@@ -68,9 +68,9 @@ public class ConfigurationRequirementListBoxTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String,
-   * java.util.ArrayList, int)} The identifier should be set in the constructor and be retrievable
-   * through getIdentifier. The numberOfValues should be set to 2.
+   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List, int)}
+   * The identifier should be set in the constructor and be retrievable through getIdentifier.
+   * The numberOfValues should be set to 2.
    */
   @Test
   public void testConstructorGetTwo() {
@@ -91,7 +91,7 @@ public class ConfigurationRequirementListBoxTest {
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
     int actualNumberOfValues = configSpec.getNumberOfSettings();
-    ArrayList<String> actualValues = configSpec.getValues();
+    List<String> actualValues = configSpec.getValues();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);

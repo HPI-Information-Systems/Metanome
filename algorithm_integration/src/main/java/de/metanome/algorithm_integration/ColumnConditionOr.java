@@ -69,8 +69,20 @@ public class ColumnConditionOr implements ColumnCondition {
     }
   }
 
-  public void setIsNegated(boolean isNegated) {
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
     this.isNegated = isNegated;
+  }
+
+  public Set<ColumnCondition> getColumnValues() {
+    return columnValues;
+  }
+
+  public void setColumnValues(Set<ColumnCondition> columnValues) {
+    this.columnValues = columnValues;
   }
 
   @Override
@@ -104,10 +116,6 @@ public class ColumnConditionOr implements ColumnCondition {
       result.addAll(columnCondition.getPatternConditions());
     }
     return result;
-  }
-
-  public Set<ColumnCondition> getColumnValues() {
-    return columnValues;
   }
 
   @Override

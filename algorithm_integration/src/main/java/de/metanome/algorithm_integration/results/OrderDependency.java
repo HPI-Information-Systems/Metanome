@@ -21,13 +21,15 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Represents an order dependency.
  *
  * @author Philipp Langer
  */
-@JsonTypeName("orderDependency")
+@JsonTypeName("OrderDependency")
 public class OrderDependency implements Result {
 
   public static enum ComparisonOperator {
@@ -38,15 +40,14 @@ public class OrderDependency implements Result {
   }
 
   public static final String OD_SEPARATOR = "~~>";
-  private static final long serialVersionUID = 8780488672271071564L;
+
   protected ComparisonOperator comparisonOperator;
   protected ColumnPermutation lhs;
-
   protected OrderType orderType;
   protected ColumnPermutation rhs;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected OrderDependency() {
     this.lhs = new ColumnPermutation();
@@ -61,6 +62,38 @@ public class OrderDependency implements Result {
     this.rhs = rhs;
     this.orderType = orderType;
     this.comparisonOperator = comparisonOperator;
+  }
+
+  public void setLhs(final ColumnPermutation lhs) {
+    this.lhs = lhs;
+  }
+
+  public void setOrderType(final OrderType orderType) {
+    this.orderType = orderType;
+  }
+
+  public void setRhs(final ColumnPermutation rhs) {
+    this.rhs = rhs;
+  }
+
+  public void setComparisonOperator(final ComparisonOperator comparisonOperator) {
+    this.comparisonOperator = comparisonOperator;
+  }
+
+  public ComparisonOperator getComparisonOperator() {
+    return comparisonOperator;
+  }
+
+  public ColumnPermutation getLhs() {
+    return lhs;
+  }
+
+  public OrderType getOrderType() {
+    return orderType;
+  }
+
+  public ColumnPermutation getRhs() {
+    return rhs;
   }
 
   @Override
@@ -98,22 +131,6 @@ public class OrderDependency implements Result {
     return true;
   }
 
-  public ComparisonOperator getComparisonOperator() {
-    return comparisonOperator;
-  }
-
-  public ColumnPermutation getLhs() {
-    return lhs;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
-  }
-
-  public ColumnPermutation getRhs() {
-    return rhs;
-  }
-
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -126,25 +143,10 @@ public class OrderDependency implements Result {
   }
 
   @Override
+  @XmlTransient
   public void sendResultTo(final OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
-  }
-
-  public void setComparisonOperator(final ComparisonOperator comparisonOperator) {
-    this.comparisonOperator = comparisonOperator;
-  }
-
-  public void setLhs(final ColumnPermutation lhs) {
-    this.lhs = lhs;
-  }
-
-  public void setOrderType(final OrderType orderType) {
-    this.orderType = orderType;
-  }
-
-  public void setRhs(final ColumnPermutation rhs) {
-    this.rhs = rhs;
   }
 
   @Override

@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
@@ -39,15 +41,15 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
-              })
+    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
+})
 public abstract class ConfigurationRequirement implements IsSerializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
@@ -59,7 +61,7 @@ public abstract class ConfigurationRequirement implements IsSerializable {
   protected int numberOfSettings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirement() {
   }
@@ -118,6 +120,7 @@ public abstract class ConfigurationRequirement implements IsSerializable {
    * @return the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
    * @throws AlgorithmConfigurationException thrown if the conversion is not successful
    */
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException;
@@ -127,6 +130,7 @@ public abstract class ConfigurationRequirement implements IsSerializable {
    *
    * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
    */
+  @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
     if (this.numberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
         number != this.numberOfSettings) {

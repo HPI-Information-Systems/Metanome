@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Allows initialization of the input through double dispatch. The input can be generated from bot a file or database table.
@@ -36,9 +38,9 @@ import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializ
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
-              })
+    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
+})
 public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
 
   /**
@@ -47,6 +49,7 @@ public interface ConfigurationSettingRelationalInput extends ConfigurationSettin
    * @param initializer the initializer to send the setting to
    * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
+  @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public abstract void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException;

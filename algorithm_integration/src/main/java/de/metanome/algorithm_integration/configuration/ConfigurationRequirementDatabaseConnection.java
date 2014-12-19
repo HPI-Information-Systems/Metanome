@@ -25,6 +25,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * Concrete {@link ConfigurationRequirement} for database connections.
  *
@@ -38,7 +40,7 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   private List<String> acceptedDBSystems = new ArrayList<>();
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementDatabaseConnection() {
   }
@@ -77,19 +79,6 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
     this.settings = settings;
   }
 
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  public void checkAndSetSettings(ConfigurationSettingDatabaseConnection... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
-  }
-
   public void setAcceptedDBSystems(ArrayList<String> dbSystems) {
     this.acceptedDBSystems = dbSystems;
   }
@@ -99,9 +88,24 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   }
 
   /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingDatabaseConnection... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
+    this.settings = settings;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

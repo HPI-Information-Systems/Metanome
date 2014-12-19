@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for strings.
@@ -80,6 +82,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingString... settings)
     throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
@@ -90,6 +93,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

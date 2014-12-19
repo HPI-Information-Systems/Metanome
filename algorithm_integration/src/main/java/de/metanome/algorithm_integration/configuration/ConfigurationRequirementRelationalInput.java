@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for {@link de.metanome.algorithm_integration.input.RelationalInput}s.
@@ -75,25 +77,27 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   }
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
-  public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
-    return factory.build(this);
-  }
-
-  /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
    * @param settings the settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingRelationalInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @XmlTransient
+  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

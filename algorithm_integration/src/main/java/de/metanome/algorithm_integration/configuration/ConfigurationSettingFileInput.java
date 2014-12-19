@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
-
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Stores one file input's configuration settings.
@@ -40,8 +40,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
   public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
-  public final static boolean
-      DEFAULT_IGNORELEADINGWHITESPACE =
+  public final static boolean DEFAULT_IGNORELEADINGWHITESPACE =
       CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
@@ -58,10 +57,11 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   private boolean header;
   private boolean skipDifferingLines;
 
+  // Needed for restful serialization
   public String type = "ConfigurationSettingFileInput";
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingFileInput() {
   }
@@ -191,6 +191,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   }
 
   @Override
+  @XmlTransient
   public String getValueAsString() {
     return fileName;
   }
@@ -199,6 +200,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException {

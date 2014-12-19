@@ -19,12 +19,14 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * TODO docs
  *
  * @author Claudia Exeler
  */
-@JsonTypeName("configurationSettingDatabaseConnection")
+@JsonTypeName("ConfigurationSettingDatabaseConnection")
 public class ConfigurationSettingDatabaseConnection implements ConfigurationSettingDataSource {
 
   private String dbUrl;
@@ -32,10 +34,11 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
   private String password;
   private DbSystem system;
 
+  // Needed for restful serialization
   public String type = "configurationSettingDatabaseConnection";
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected ConfigurationSettingDatabaseConnection() {
   }
@@ -117,6 +120,7 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
   }
 
   @Override
+  @XmlTransient
   public String getValueAsString() {
     return dbUrl + "; " + username + "; " + system.name();
   }

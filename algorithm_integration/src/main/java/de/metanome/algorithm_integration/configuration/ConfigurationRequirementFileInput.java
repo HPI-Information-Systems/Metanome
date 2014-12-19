@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for file inputs.
@@ -35,7 +37,7 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
   private ConfigurationSettingFileInput[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementFileInput() {
   }
@@ -80,6 +82,7 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingFileInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
@@ -90,6 +93,7 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

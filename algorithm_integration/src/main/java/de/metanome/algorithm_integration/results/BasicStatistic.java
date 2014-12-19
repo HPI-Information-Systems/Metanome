@@ -23,44 +23,43 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import javax.xml.bind.annotation.XmlTransient;
 
-@JsonTypeName("basicStatistic")
+
+@JsonTypeName("BasicStatistic")
 public class BasicStatistic implements Result {
 
   public static final String NAME_COLUMN_SEPARATOR = " of ";
   public static final String COLUMN_VALUE_SEPARATOR = ": ";
-  private static final long serialVersionUID = 3334423877877174177L;
-  ColumnCombination columns;
+
+  ColumnCombination columnCombination;
   String statisticName;
   Object statisticValue;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected BasicStatistic() {
-    this.columns = new ColumnCombination();
+    this.columnCombination = new ColumnCombination();
     this.statisticName = "";
   }
 
   public BasicStatistic(String statisticName, Object statisticValue,
                         ColumnIdentifier... columnIdentifier) {
-    this.columns = new ColumnCombination(columnIdentifier);
+    this.columnCombination = new ColumnCombination(columnIdentifier);
     this.statisticName = statisticName;
     this.statisticValue = statisticValue;
   }
 
-
-  @Override
-  public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
-    resultReceiver.receiveResult(this);
-  }
-
   /**
-   * @return the columns
+   * @return the columnCombination
    */
   public ColumnCombination getColumnCombination() {
-    return columns;
+    return columnCombination;
+  }
+
+  public void setColumnCombination(ColumnCombination columnCombination) {
+    this.columnCombination = columnCombination;
   }
 
   /**
@@ -70,16 +69,31 @@ public class BasicStatistic implements Result {
     return statisticName;
   }
 
+  public void setStatisticName(String statisticName) {
+    this.statisticName = statisticName;
+  }
+
   /**
-   * @return the value of the statistic on the columns
+   * @return the value of the statistic on the columnCombination
    */
   public Object getStatisticValue() {
     return statisticValue;
   }
 
+  public void setStatisticValue(Object statisticValue) {
+    this.statisticValue = statisticValue;
+  }
+
+  @Override
+  @XmlTransient
+  public void sendResultTo(OmniscientResultReceiver resultReceiver)
+      throws CouldNotReceiveResultException {
+    resultReceiver.receiveResult(this);
+  }
+
   @Override
   public String toString() {
-    return statisticName + NAME_COLUMN_SEPARATOR + columns.toString() + COLUMN_VALUE_SEPARATOR
+    return statisticName + NAME_COLUMN_SEPARATOR + columnCombination.toString() + COLUMN_VALUE_SEPARATOR
            + statisticValue.toString();
   }
 
@@ -87,7 +101,7 @@ public class BasicStatistic implements Result {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((columns == null) ? 0 : columns.hashCode());
+    result = prime * result + ((columnCombination == null) ? 0 : columnCombination.hashCode());
     result = prime * result
              + ((statisticName == null) ? 0 : statisticName.hashCode());
     result = prime * result
@@ -107,11 +121,11 @@ public class BasicStatistic implements Result {
       return false;
     }
     BasicStatistic other = (BasicStatistic) obj;
-    if (columns == null) {
-      if (other.columns != null) {
+    if (columnCombination == null) {
+      if (other.columnCombination != null) {
         return false;
       }
-    } else if (!columns.equals(other.columns)) {
+    } else if (!columnCombination.equals(other.columnCombination)) {
       return false;
     }
     if (statisticName == null) {

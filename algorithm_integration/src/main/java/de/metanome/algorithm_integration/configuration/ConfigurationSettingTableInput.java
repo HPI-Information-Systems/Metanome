@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Stores the configuration settings for a table input.
@@ -39,7 +41,7 @@ public class ConfigurationSettingTableInput
   public String type = "ConfigurationSettingTableInput";
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingTableInput() {
   }
@@ -95,6 +97,7 @@ public class ConfigurationSettingTableInput
   }
 
   @Override
+  @XmlTransient
   public String getValueAsString() {
     return this.table + "; " + this.databaseConnection.getValueAsString();
   }
@@ -103,6 +106,7 @@ public class ConfigurationSettingTableInput
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException {

@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for integers.
@@ -36,7 +38,7 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
   private ConfigurationSettingInteger[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementInteger() {
   }
@@ -82,6 +84,7 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingInteger... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
@@ -92,6 +95,7 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Concrete {@link ConfigurationRequirement} for list box of strings.
@@ -35,10 +37,10 @@ import java.util.ArrayList;
 public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   private ConfigurationSettingListBox[] settings;
-  private ArrayList<String> values;
+  private List<String> values;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementListBox() {
   }
@@ -49,7 +51,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * @param identifier the specification's identifier
    * @param values     the values, which should be displayed in the list box
    */
-  public ConfigurationRequirementListBox(String identifier, ArrayList<String> values) {
+  public ConfigurationRequirementListBox(String identifier, List<String> values) {
     super(identifier);
     this.values = values;
   }
@@ -61,7 +63,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * @param values           the values, which should be displayed in the list box
    * @param numberOfSettings the number of settings expected
    */
-  public ConfigurationRequirementListBox(String identifier, ArrayList<String> values,
+  public ConfigurationRequirementListBox(String identifier, List<String> values,
                                          int numberOfSettings) {
     super(identifier, numberOfSettings);
     this.values = values;
@@ -79,6 +81,16 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
     this.settings = settings;
   }
 
+
+  /**
+   * @return the values, which should be displayed in the list box
+   */
+  public List<String> getValues() {
+    return this.values;
+  }
+
+  public void setValues(List<String> values) { this.values = values; }
+
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
@@ -86,6 +98,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingListBox... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
@@ -96,16 +109,11 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 
-  /**
-   * @return the values, which should be displayed in the list box
-   */
-  public ArrayList<String> getValues() {
-    return this.values;
-  }
 }

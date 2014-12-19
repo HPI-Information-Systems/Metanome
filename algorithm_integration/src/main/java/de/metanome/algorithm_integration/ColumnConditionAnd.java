@@ -65,7 +65,19 @@ public class ColumnConditionAnd implements ColumnCondition {
     }
   }
 
-  public void setIsNegated(boolean isNegated) {
+  public Set<ColumnCondition> getColumnValues() {
+    return columnValues;
+  }
+
+  public void setColumnValues(Set<ColumnCondition> columnValues) {
+    this.columnValues = columnValues;
+  }
+
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
     this.isNegated = isNegated;
   }
 
@@ -104,10 +116,6 @@ public class ColumnConditionAnd implements ColumnCondition {
     }
     result.add(condition);
     return result;
-  }
-
-  public Set<ColumnCondition> getColumnValues() {
-    return columnValues;
   }
 
   @Override

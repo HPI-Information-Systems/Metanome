@@ -19,7 +19,7 @@ package de.metanome.algorithm_integration.configuration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString}
  *
  * @author Jakob Zwiener
  */
@@ -28,7 +28,7 @@ public class ConfigurationSettingString implements IsSerializable {
   public String value;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingString() {
   }

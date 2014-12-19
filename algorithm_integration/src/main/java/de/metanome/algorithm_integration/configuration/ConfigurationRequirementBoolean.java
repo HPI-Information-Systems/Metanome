@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for booleans.
@@ -36,7 +38,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   public ConfigurationSettingBoolean[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementBoolean() {
   }
@@ -65,6 +67,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   public ConfigurationSettingBoolean[] getSettings() {
     return settings;
   }
+
   /**
    * Exists only for serialization!
    * @param settings the settings
@@ -80,6 +83,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
+  @XmlTransient
   public void checkAndSetSettings(ConfigurationSettingBoolean... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
@@ -90,6 +94,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

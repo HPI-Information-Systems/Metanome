@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
  *
@@ -34,13 +36,13 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = BasicStatistic.class, name = "basicStatistic"),
-                  @JsonSubTypes.Type(value = ConditionalUniqueColumnCombination.class, name = "conditionalUniqueColumnCombination"),
-                  @JsonSubTypes.Type(value = FunctionalDependency.class, name = "functionalDependency"),
-                  @JsonSubTypes.Type(value = InclusionDependency.class, name = "inclusionDependency"),
-                  @JsonSubTypes.Type(value = OrderDependency.class, name = "orderDependency"),
-                  @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "uniqueColumnCombination")
-              })
+    @JsonSubTypes.Type(value = BasicStatistic.class, name = "BasicStatistic"),
+    @JsonSubTypes.Type(value = ConditionalUniqueColumnCombination.class, name = "ConditionalUniqueColumnCombination"),
+    @JsonSubTypes.Type(value = FunctionalDependency.class, name = "FunctionalDependency"),
+    @JsonSubTypes.Type(value = InclusionDependency.class, name = "InclusionDependency"),
+    @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
+    @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination")
+})
 public interface Result extends IsSerializable {
 
   /**
@@ -50,6 +52,7 @@ public interface Result extends IsSerializable {
    *                       the result should send itself to
    * @throws CouldNotReceiveResultException if the result could not be received
    */
+  @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException;
 

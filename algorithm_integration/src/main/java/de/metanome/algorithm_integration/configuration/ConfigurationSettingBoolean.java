@@ -19,13 +19,11 @@ package de.metanome.algorithm_integration.configuration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}
  *
  * @author Jakob Zwiener
  */
 public class ConfigurationSettingBoolean implements IsSerializable {
-
-  private static final long serialVersionUID = 3374302400843066557L;
 
   public boolean value;
 
@@ -33,9 +31,18 @@ public class ConfigurationSettingBoolean implements IsSerializable {
    * Exists for GWT serialization.
    */
   public ConfigurationSettingBoolean() {
+
   }
 
   public ConfigurationSettingBoolean(boolean value) {
+    this.value = value;
+  }
+
+  public boolean isValue() {
+    return value;
+  }
+
+  public void setValue(boolean value) {
     this.value = value;
   }
 }
