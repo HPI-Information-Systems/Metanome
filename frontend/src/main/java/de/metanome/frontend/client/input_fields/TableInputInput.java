@@ -27,8 +27,10 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.TableInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,12 +71,12 @@ public class TableInputInput extends InputField {
    * Get all table inputs from the database and put them into the list box.
    */
   public void updateListBox() {
-    AsyncCallback<List<TableInput>> callback = new AsyncCallback<List<TableInput>>() {
-      public void onFailure(Throwable caught) {
+    MethodCallback<List<TableInput>> callback = new MethodCallback<List<TableInput>>() {
+      public void onFailure(Method method, Throwable caught) {
         messageReceiver.addErrorHTML("There are no file inputs in the database: " + caught.getMessage());
       }
 
-      public void onSuccess(List<TableInput> result) {
+      public void onSuccess(Method method, List<TableInput> result) {
         List<String> tableInputNames = new ArrayList<String>();
         tableInputNames.add("--");
         String preselectedIdentifier = null;
@@ -105,9 +107,9 @@ public class TableInputInput extends InputField {
       }
     };
 
-    TableInputServiceAsync
-        tableInputService = GWT.create(TableInputService.class);
-    tableInputService.listTableInputs(callback);
+    TableInputRestService
+        lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
+    lemma.listTableInputs(callback);
   }
 
   /**

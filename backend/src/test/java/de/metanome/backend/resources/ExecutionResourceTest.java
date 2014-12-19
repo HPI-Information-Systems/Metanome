@@ -45,6 +45,7 @@ public class ExecutionResourceTest {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
   ExecutionResource executionResource = new ExecutionResource();
+  InputResource inputResource = new InputResource();
 
   /**
    * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
@@ -123,10 +124,11 @@ public class ExecutionResourceTest {
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
     algorithmResource.store(algorithm);
 
-    Input input1 = new Input()
-        .store();
-    Input input2 = new Input()
-        .store();
+    Input input1 = new Input();
+    inputResource.store(input1);
+    Input input2 = new Input();
+    inputResource.store(input2);
+
     List<Input> inputs = new ArrayList<>();
     inputs.add(input1);
     inputs.add(input2);
@@ -186,8 +188,9 @@ public class ExecutionResourceTest {
     expectedExecution.addInput(expectedTableInput);
 
     // Execute functionality
-    expectedFileInput.store();
-    expectedTableInput.store();
+    inputResource.store(expectedFileInput);
+    inputResource.store(expectedTableInput);
+
     expectedExecution = executionResource.store(expectedExecution);
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());

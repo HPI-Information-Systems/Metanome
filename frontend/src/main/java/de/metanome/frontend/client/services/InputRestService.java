@@ -16,13 +16,34 @@
 
 package de.metanome.frontend.client.services;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.backend.results_db.Input;
+
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
 
-public interface InputServiceAsync {
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-  void listInputs(AsyncCallback<List<Input>> async);
+public interface InputRestService extends RestService {
+
+  @GET
+  public void listInputs(MethodCallback<List<Input>> callback);
+
+  @GET
+  @Path("/get/{id}")
+  public void getInput(@PathParam("id") long id, MethodCallback<Input> callback);
+
+  @POST
+  @Path("/store")
+  public void storeInput(Input fileInput, MethodCallback<Input> callback);
+
+  @DELETE
+  @Path("/delete/{id}")
+  public void deleteInput(@PathParam("id") long id, MethodCallback<Void> callback);
+
 }

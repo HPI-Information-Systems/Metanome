@@ -33,8 +33,10 @@ import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.InputService;
-import de.metanome.frontend.client.services.InputServiceAsync;
+import de.metanome.frontend.client.services.InputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,13 +73,13 @@ public class RelationalInputInput extends InputField {
    */
   public void updateListBox() {
 
-    AsyncCallback<List<Input>> callback = new AsyncCallback<List<Input>>() {
+    MethodCallback<List<Input>> callback = new MethodCallback<List<Input>>() {
 
-      public void onFailure(Throwable caught) {
+      public void onFailure(Method method, Throwable caught) {
         messageReceiver.addErrorHTML("There are no inputs in the database: " + caught.getMessage());
       }
 
-      public void onSuccess(List<Input> result) {
+      public void onSuccess(Method method, List<Input> result) {
         List<String> inputNames = new ArrayList<String>();
         inputNames.add("--");
         String preselectedIdentifier = null;
@@ -109,10 +111,10 @@ public class RelationalInputInput extends InputField {
           listbox.setSelectedValue(preselectedIdentifier);
         }
       }
+
     };
 
-    InputServiceAsync
-        inputService = GWT.create(InputService.class);
+    InputRestService inputService = com.google.gwt.core.client.GWT.create(InputRestService.class);
     inputService.listInputs(callback);
   }
 

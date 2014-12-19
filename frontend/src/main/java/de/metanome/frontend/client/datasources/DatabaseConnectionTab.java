@@ -16,10 +16,8 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -33,8 +31,7 @@ import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.DatabaseConnectionRestService;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.TableInputRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -47,7 +44,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   protected DatabaseConnectionEditForm editForm;
 
   private DatabaseConnectionRestService databaseConnectionService;
-  private TableInputServiceAsync tableInputService;
+  private TableInputRestService lemma;
 
   private DataSourcePage parent;
   private TabWrapper messageReceiver;
@@ -57,7 +54,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
     this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
-    this.tableInputService = GWT.create(TableInputService.class);
+    this.lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
     this.parent = parent;
 
     this.connectionInputList = new FlexTable();
@@ -92,13 +89,13 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
             addEditForm();
 
             // disable all delete button of database connection which are referenced by a table input
-            tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+            lemma.listTableInputs(new MethodCallback<List<TableInput>>() {
               @Override
-              public void onFailure(Throwable throwable) {
+              public void onFailure(Method method, Throwable throwable) {
               }
 
               @Override
-              public void onSuccess(List<TableInput> tableInputs) {
+              public void onSuccess(Method method, List<TableInput> tableInputs) {
                 for (TableInput input : tableInputs) {
                   setEnableOfDeleteButton(input.getDatabaseConnection(), false);
                 }

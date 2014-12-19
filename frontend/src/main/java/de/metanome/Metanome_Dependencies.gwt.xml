@@ -97,6 +97,9 @@
         <include name="ExecutionResource.java"/>
         <include name="DatabaseConnectionResource.java"/>
         <include name="ResultResource.java"/>
+        <include name="InputResource.java"/>
+        <include name="FileInputtResource.java"/>
+        <include name="TableInputtResource.java"/>
         <include name="WebException.java"/>
         <include name="AlgorithmExecutionResource.java"/>
         <include name="AlgorithmExecutionParams.java"/>

@@ -41,40 +41,6 @@ public class TableInput extends Input implements IsSerializable {
   protected DatabaseConnection databaseConnection;
   protected String comment;
 
-  /**
-   * Retrieves a TableInput from the database.
-   *
-   * @param id the TableInput's id
-   * @return the tableInput
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static TableInput retrieve(long id) throws EntityStorageException {
-    return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
-  }
-
-  /**
-   * Retrieves all table inputs stored in the database.
-   *
-   * @return a list of all table inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(TableInput.class);
-  }
-
-  /**
-   * Stores the TableInput in the database.
-   *
-   * @return the TableInput
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public TableInput store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
-
   public String getTableName() {
     return tableName;
   }
