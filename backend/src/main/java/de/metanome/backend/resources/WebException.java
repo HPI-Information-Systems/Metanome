@@ -30,12 +30,21 @@ public class WebException extends WebApplicationException {
   }
 
   /**
-   * Create a HTTP 400 (Bad Request) exception.
-   *
    * @param throwable the exception, which should be wrapped
+   * @param status    the status of the exception
    */
-  public WebException(Throwable throwable) {
-    super(throwable, Response.Status.BAD_REQUEST);
+  public WebException(Throwable throwable, Response.Status status) {
+    super(Response.status(status).
+        entity(throwable.getMessage()).type("text/plain").build());
+  }
+
+  /**
+   * @param message the exception message
+   * @param status  the status of the exception
+   */
+  public WebException(String message, Response.Status status) {
+    super(Response.status(status).
+        entity(message).type("text/plain").build());
   }
 
 }

@@ -121,7 +121,7 @@ public class AlgorithmEditForm extends Grid {
     return new MethodCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
-        System.out.println(caught.getMessage());
+        messageReceiver.addError(method.getResponse().getText());
       }
 
       @Override

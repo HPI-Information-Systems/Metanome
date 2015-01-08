@@ -30,6 +30,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("fileInputs")
 public class FileInputResource implements Resource<FileInput> {
@@ -64,7 +65,7 @@ public class FileInputResource implements Resource<FileInput> {
     try {
       return HibernateUtil.queryCriteria(FileInput.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -81,7 +82,7 @@ public class FileInputResource implements Resource<FileInput> {
     try {
       return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -115,7 +116,7 @@ public class FileInputResource implements Resource<FileInput> {
       FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
       HibernateUtil.delete(fileInput);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 

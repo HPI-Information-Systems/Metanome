@@ -26,6 +26,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("parameter")
 public class ParameterResource {
@@ -42,14 +43,12 @@ public class ParameterResource {
   @Path("/{algorithmFileName}")
   @Produces("application/json")
   public List<ConfigurationRequirement> retrieveParameters(@PathParam("algorithmFileName") String algorithmFileName) {
-    Algorithm algorithm = null;
-    AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
     try {
-      algorithm = jarLoader.loadAlgorithm(algorithmFileName);
-    } catch (Exception e) {
-      throw new WebException(e);
+      AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
+      Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);
+      return algorithm.getConfigurationRequirements();
+    } catch (Throwable e) {
+      throw new WebException("Could not retrieve Parameters!", Response.Status.BAD_REQUEST);
     }
-
-    return algorithm.getConfigurationRequirements();
   }
 }

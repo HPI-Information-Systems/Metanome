@@ -103,7 +103,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer.cancel();
     this.clear();
 
-    this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
+    this.messageReceiver.addError("The execution was not successful: " + message);
   }
 
   /**
@@ -157,7 +157,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.executionService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addErrorHTML("Could not fetch progress: " + caught.getMessage());
+        messageReceiver.addError(method.getResponse().getText());
       }
 
       @Override

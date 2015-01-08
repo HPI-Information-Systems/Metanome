@@ -145,7 +145,7 @@ public class AlgorithmChooser extends FlowPanel {
   protected MethodCallback<List<ConfigurationRequirement>> getParameterCallback() {
     return new MethodCallback<List<ConfigurationRequirement>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addErrorHTML("Error while retrieving configuration requirements: " + caught.getMessage());
+        messageReceiver.addError("Error while retrieving configuration requirements: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<ConfigurationRequirement> result) {

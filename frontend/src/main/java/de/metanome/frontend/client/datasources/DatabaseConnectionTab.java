@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -79,7 +78,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
         new MethodCallback<List<DatabaseConnection>>() {
           @Override
           public void onFailure(Method method, Throwable throwable) {
-            panel.add(new Label("There are no Database Connections yet. Please restart Metanome after adding a database connection."));
+            messageReceiver.addError("There are no database connection in the database.");
             addEditForm();
           }
 
@@ -92,6 +91,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
             lemma.listTableInputs(new MethodCallback<List<TableInput>>() {
               @Override
               public void onFailure(Method method, Throwable throwable) {
+                messageReceiver.addError(method.getResponse().getText());
               }
 
               @Override
@@ -215,7 +215,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete the database connection: " + throwable.getMessage());
+        messageReceiver.addError("Could not delete database connection: " + method.getResponse().getText());
       }
 
       @Override

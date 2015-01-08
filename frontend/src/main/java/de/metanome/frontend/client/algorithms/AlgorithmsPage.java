@@ -196,7 +196,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete algorithm: " + throwable.getMessage());
+        messageReceiver.addError("Could not delete algorithm: " + method.getResponse().getText());
       }
 
       @Override
@@ -254,7 +254,11 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     return new MethodCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError(throwable.getMessage());
+        if (method != null) {
+          messageReceiver.addError(method.getResponse().getText());
+        } else{
+          messageReceiver.addError(throwable.getMessage());
+        }
       }
 
       @Override
@@ -274,7 +278,11 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     return new MethodCallback<Algorithm>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not add the algorithm: " + throwable.getMessage());
+        if (method != null) {
+          messageReceiver.addError("Could not add algorithm: " + method.getResponse().getText());
+        } else {
+          messageReceiver.addError("Could not add algorithm.");
+        }
       }
 
       @Override

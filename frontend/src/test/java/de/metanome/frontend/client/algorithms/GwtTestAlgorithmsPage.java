@@ -81,7 +81,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
     // Construct and execute failure on the callback
     MethodCallback<List<Algorithm>> callback = algorithmsPage.getRetrieveCallback(new FlexTable());
-    callback.onFailure(new Method(new Resource("api"), "algorithms"), new Throwable());
+
+    callback.onFailure(null, new Throwable("Error"));
 
     assertTrue(tab.isInError());
 
@@ -131,7 +132,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
 
     // Construct and execute failure on the callback
     MethodCallback<Algorithm> callback = algorithmsPage.getAddCallback();
-    callback.onFailure(new Method(new Resource("api"), "algorithms"), new Throwable());
+
+    callback.onFailure(null, new Throwable("Error"));
 
     assertTrue(tab.isInError());
 

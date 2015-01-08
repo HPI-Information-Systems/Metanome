@@ -22,10 +22,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -76,11 +75,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
         new MethodCallback<List<FileInput>>() {
           @Override
           public void onFailure(Method method, Throwable throwable) {
-            String stackTrace = "";
-            for(StackTraceElement s : throwable.getStackTrace()){
-              stackTrace += s.toString();
-            }
-            panel.add(new Label("There are no File Inputs yet. " + throwable.getCause() + throwable.toString() + stackTrace));
+            messageReceiver.addError("There are no file inputs: " + method.getResponse().getText());
             addEditForm();
           }
 
@@ -181,7 +176,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete the file input: " + throwable.getMessage());
+        messageReceiver.addError("Could not delete the file input: " + method.getResponse().getText());
       }
 
       @Override

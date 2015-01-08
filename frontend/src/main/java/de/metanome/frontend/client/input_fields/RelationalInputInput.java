@@ -17,9 +17,6 @@
 package de.metanome.frontend.client.input_fields;
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -76,7 +73,7 @@ public class RelationalInputInput extends InputField {
     MethodCallback<List<Input>> callback = new MethodCallback<List<Input>>() {
 
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addErrorHTML("There are no inputs in the database: " + caught.getMessage());
+        messageReceiver.addError("There are no inputs in the database: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<Input> result) {

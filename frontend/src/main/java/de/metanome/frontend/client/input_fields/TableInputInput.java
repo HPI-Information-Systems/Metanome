@@ -16,9 +16,6 @@
 
 package de.metanome.frontend.client.input_fields;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -73,7 +70,7 @@ public class TableInputInput extends InputField {
   public void updateListBox() {
     MethodCallback<List<TableInput>> callback = new MethodCallback<List<TableInput>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addErrorHTML("There are no file inputs in the database: " + caught.getMessage());
+        messageReceiver.addError("There are no database connections in the database: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<TableInput> result) {
@@ -131,7 +128,7 @@ public class TableInputInput extends InputField {
       ConfigurationSettingTableInput setting = (ConfigurationSettingTableInput) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a csv file setting.");
+      throw new AlgorithmConfigurationException("This is not a table input setting.");
     }
   }
 
@@ -144,7 +141,7 @@ public class TableInputInput extends InputField {
     String selectedValue = this.listbox.getSelectedValue();
 
     if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a Table Input!");
+      throw new InputValidationException("You must choose a table input!");
     }
 
     TableInput currentTableInput = this.tableInputs.get(selectedValue);

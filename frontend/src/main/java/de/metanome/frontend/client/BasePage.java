@@ -144,7 +144,7 @@ public class BasePage extends TabLayoutPanel {
                                                    final String executionIdentifier) {
     return new MethodCallback<Long>() {
       public void onFailure(Method method, Throwable caught) {
-        resultsPage.updateOnError(caught.getMessage());
+        resultsPage.updateOnError(method.getResponse().getText());
       }
 
       public void onSuccess(Method method, Long executionTime) {

@@ -16,12 +16,10 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -170,7 +168,7 @@ public class FileInputEditForm extends Grid {
       this.fileInputService.storeFileInput(this.getValue(), new MethodCallback<FileInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-          messageReceiver.addErrorHTML("File Input could not be stored: " + throwable.getMessage());
+          messageReceiver.addError("File Input could not be stored: " + method.getResponse().getText());
         }
 
         @Override
@@ -185,7 +183,7 @@ public class FileInputEditForm extends Grid {
         }
       });
     } catch (InputValidationException e) {
-      messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
     }
   }
 
@@ -273,6 +271,7 @@ public class FileInputEditForm extends Grid {
   private MethodCallback<List<FileInput>> getDatabaseCallback() {
     return new MethodCallback<List<FileInput>>() {
       public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError(method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<FileInput> result) {
@@ -302,7 +301,7 @@ public class FileInputEditForm extends Grid {
     return new MethodCallback<List<String>>() {
       public void onFailure(Method method, Throwable caught) {
         messageReceiver
-            .addErrorHTML("Could not find CSV files! Please add them to the input folder.");
+            .addError("Could not find CSV files! Please add them to the input folder.");
       }
 
       @Override

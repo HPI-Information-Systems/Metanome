@@ -46,6 +46,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  * Responsible for the database communication for algorithm and for
@@ -71,7 +72,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
     } catch (Exception e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
@@ -88,7 +89,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       HibernateUtil.store(algorithm);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     return algorithm;
@@ -106,7 +107,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
       Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
       HibernateUtil.delete(algorithm);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
   }
@@ -125,7 +126,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -139,7 +140,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return HibernateUtil.queryCriteria(Algorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -153,7 +154,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(InclusionDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -167,7 +168,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -181,7 +182,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -195,7 +196,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(FunctionalDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -209,7 +210,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(OrderDependencyAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -223,7 +224,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       return listAlgorithms(BasicStatisticsAlgorithm.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -291,7 +292,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
       Collections.addAll(files, algorithmFinder.getAvailableAlgorithmFileNames(null));
       return files;
     } catch (ClassNotFoundException | IOException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 }

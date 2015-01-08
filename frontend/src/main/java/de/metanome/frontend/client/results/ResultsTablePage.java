@@ -86,6 +86,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError(method.getResponse().getText());
       }
 
       @Override
@@ -105,7 +106,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
       try {
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
-        this.messageReceiver.addErrorHTML("Could not display results: " + e.getMessage());
+        this.messageReceiver.addError("Could not display results: " + e.getMessage());
       }
     }
   }

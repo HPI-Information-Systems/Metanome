@@ -147,7 +147,7 @@ public class DatabaseConnectionEditForm extends Grid {
             @Override
             public void onFailure(Method method, Throwable throwable) {
               messageReceiver
-                  .addErrorHTML("Database Connection could not be stored:" + throwable.getMessage());
+                  .addError("Database Connection could not be stored:" + method.getResponse().getText());
             }
 
             @Override
@@ -160,7 +160,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
           });
     } catch (InputValidationException e) {
-      messageReceiver.addErrorHTML("Database Connection could not be stored: " + e.getMessage());
+      messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
     }
   }
 

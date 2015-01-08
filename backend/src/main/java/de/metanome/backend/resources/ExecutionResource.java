@@ -30,6 +30,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("executions")
 public class ExecutionResource implements Resource<Execution> {
@@ -48,7 +49,7 @@ public class ExecutionResource implements Resource<Execution> {
     try {
       HibernateUtil.store(execution);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     return execution;
@@ -66,7 +67,7 @@ public class ExecutionResource implements Resource<Execution> {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
       HibernateUtil.delete(execution);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -84,7 +85,7 @@ public class ExecutionResource implements Resource<Execution> {
     try {
       return (Execution) HibernateUtil.retrieve(Execution.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 

@@ -16,15 +16,12 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -79,7 +76,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
     tableInputRestService.listTableInputs(new MethodCallback<List<TableInput>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        panel.add(new Label("There are no Table Inputs yet."));
+        messageReceiver.addError("There are no table inputs in the database: " + method.getResponse().getText());
         addEditForm();
       }
 
@@ -195,7 +192,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete the Table Input: " + throwable.getMessage());
+        messageReceiver.addError("Could not delete table input: " + method.getResponse().getText());
       }
 
       @Override

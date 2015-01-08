@@ -29,6 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("results")
 public class ResultResource implements Resource<Result> {
@@ -47,7 +48,7 @@ public class ResultResource implements Resource<Result> {
     try {
       HibernateUtil.store(result);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     return result;
@@ -65,7 +66,7 @@ public class ResultResource implements Resource<Result> {
       Result result = (Result) HibernateUtil.retrieve(Result.class, id);
       HibernateUtil.delete(result);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -83,7 +84,7 @@ public class ResultResource implements Resource<Result> {
     try {
       return (Result) HibernateUtil.retrieve(Result.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -98,7 +99,7 @@ public class ResultResource implements Resource<Result> {
       results = HibernateUtil.queryCriteria(Result.class);
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     return results;

@@ -28,6 +28,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("tableInputs")
 public class TableInputResource implements Resource<TableInput> {
@@ -62,7 +63,7 @@ public class TableInputResource implements Resource<TableInput> {
       TableInput tableInput = (TableInput) HibernateUtil.retrieve(TableInput.class, id);
       HibernateUtil.delete(tableInput);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -79,7 +80,7 @@ public class TableInputResource implements Resource<TableInput> {
     try {
       return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -93,7 +94,7 @@ public class TableInputResource implements Resource<TableInput> {
     try {
       return HibernateUtil.queryCriteria(TableInput.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 }

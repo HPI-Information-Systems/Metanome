@@ -24,7 +24,6 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultsCache;
 import de.metanome.backend.result_receiver.ResultsHub;
@@ -41,6 +40,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("algorithm_execution")
 public class AlgorithmExecutionResource {
@@ -53,31 +53,31 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public long executeAlgorithm(AlgorithmExecutionParams params)
-      throws AlgorithmLoadingException,
-             AlgorithmExecutionException {
-
+  public long executeAlgorithm(AlgorithmExecutionParams params) {
     AlgorithmExecutor executor;
 
     try {
       executor = buildExecutor(params.executionIdentifier);
     } catch (FileNotFoundException e) {
-      throw new AlgorithmExecutionException(
-          ExceptionParser.parse(e, "Could not generate result file"), e);
+      throw new WebException("Could not generate result file", Response.Status.BAD_REQUEST);
     } catch (UnsupportedEncodingException e) {
-      throw new AlgorithmExecutionException(
-          ExceptionParser.parse(e, "Could not build temporary file generator"), e);
+      throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
     }
 
     AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.algorithmId);
 
-    long executionTime = executor.executeAlgorithm(algorithm, params.requirements);
+    long executionTime = 0;
+    try {
+      executionTime = executor.executeAlgorithm(algorithm, params.requirements);
+    } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+
     try {
       executor.close();
     } catch (IOException e) {
-      throw new AlgorithmExecutionException(
-          ExceptionParser.parse(e, "Could not close algorithm executor"), e);
+      throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
     return executionTime;
@@ -90,7 +90,8 @@ public class AlgorithmExecutionResource {
     try {
       return AlgorithmExecutionCache.getResultsCache(executionIdentifier).getNewResults();
     } catch (Exception e) {
-      throw new WebException(e);
+      throw new WebException("Could not find any results to the given identifier",
+                             Response.Status.BAD_REQUEST);
     }
   }
 
@@ -101,7 +102,8 @@ public class AlgorithmExecutionResource {
     try {
       return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
     } catch (Exception e) {
-      throw new WebException(e);
+      throw new WebException("Could not find any progress to the given identifier",
+                             Response.Status.BAD_REQUEST);
     }
   }
 

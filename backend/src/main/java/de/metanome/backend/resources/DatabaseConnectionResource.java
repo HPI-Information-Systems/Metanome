@@ -28,6 +28,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  * Responsible for the database communication for DatabaseConnection and for
@@ -49,7 +50,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
     try {
       return HibernateUtil.queryCriteria(DatabaseConnection.class);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -66,7 +67,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
     try {
       return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -84,7 +85,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
     try {
       HibernateUtil.store(dbConnection);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
     return dbConnection;
   }
@@ -101,7 +102,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
       DatabaseConnection dbConnection = (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
       HibernateUtil.delete(dbConnection);
     } catch (EntityStorageException e) {
-      throw new WebException(e);
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 
