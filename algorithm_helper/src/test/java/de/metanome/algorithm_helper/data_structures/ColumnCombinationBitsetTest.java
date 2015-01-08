@@ -792,7 +792,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, ImmutableList)}
+   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)}
    * <p/> Only the correct identifiers should be found in the {@link ColumnCombination}.
    */
   @Test
@@ -819,7 +819,7 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, ImmutableList)}
+   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)}
    * <p/> An empty {@link ColumnCombinationBitset} should generate an empty {@link
    * ColumnCombination} with no identifiers.
    */
@@ -987,9 +987,11 @@ public class ColumnCombinationBitsetTest {
     ColumnCombinationBitset set2 = new ColumnCombinationBitset().addColumn(1);
     ColumnCombinationBitset set3 = new ColumnCombinationBitset().addColumn(1).addColumn(3);
     ColumnCombinationBitset set4 = new ColumnCombinationBitset().addColumn(2);
+    ColumnCombinationBitset set5 = new ColumnCombinationBitset().addColumn(1).addColumn(3);
 
     CompareToTester<ColumnCombinationBitset> testerSet1 = new CompareToTester<>(set1);
     CompareToTester<ColumnCombinationBitset> testerSet2 = new CompareToTester<>(set2);
+    CompareToTester<ColumnCombinationBitset> testerSet3 = new CompareToTester<>(set3);
     //Execute functionality
     //Check Result
     testerSet1.performCompareToTestEqual(set1, set4);
@@ -997,5 +999,7 @@ public class ColumnCombinationBitsetTest {
     testerSet1.performCompareToTestSmaller(set2);
 
     testerSet2.performCompareToTestGreater(set3, set4);
+
+    testerSet3.performCompareToTestEqual(set5);
   }
 }
