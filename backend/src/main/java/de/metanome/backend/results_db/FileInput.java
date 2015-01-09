@@ -17,12 +17,14 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -35,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @GwtCompatible
-public class FileInput extends Input implements IsSerializable {
+public class FileInput extends Input implements Serializable {
 
   protected String fileName;
   protected String separator; //Todo: atm needs to be String instead of char for serialization

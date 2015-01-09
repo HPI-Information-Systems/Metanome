@@ -16,13 +16,13 @@
 
 package de.metanome.algorithm_integration.results;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
     @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination")
 })
-public interface Result extends IsSerializable {
+public interface Result extends Serializable {
 
   /**
    * Sends a result to an {@link OmniscientResultReceiver}.

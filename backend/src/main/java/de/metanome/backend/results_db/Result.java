@@ -16,9 +16,10 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @Entity
-public class Result implements IsSerializable {
+public class Result implements Serializable {
 
   protected long id;
   protected String fileName;

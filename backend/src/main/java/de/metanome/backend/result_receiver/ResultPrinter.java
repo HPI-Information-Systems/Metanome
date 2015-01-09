@@ -84,7 +84,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getCuccStream().println(conditionalUniqueColumnCombination.toString());
+    getCuccStream().println(conditionalUniqueColumnCombination.buildPatternTableau());
   }
   
   @Override

@@ -16,12 +16,12 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
 /**
  * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
  */
-public class ConfigurationSettingInteger implements IsSerializable {
+public class ConfigurationSettingInteger implements Serializable {
 
   public int value;
 

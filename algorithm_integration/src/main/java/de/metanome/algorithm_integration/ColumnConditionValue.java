@@ -72,6 +72,7 @@ public class ColumnConditionValue implements ColumnCondition {
     return coverage;
   }
 
+  @Override
   public void setCoverage(float coverage) {
     this.coverage = coverage;
   }

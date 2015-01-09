@@ -16,8 +16,7 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
  * Represents column permutations. In contrast to {@link ColumnCombination}s
  *  the order of the column is not necessarily lexicographically.
  */
-public class ColumnPermutation implements IsSerializable {
+public class ColumnPermutation implements Serializable {
 
   protected List<ColumnIdentifier> columnIdentifiers;
 

@@ -17,7 +17,9 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +36,7 @@ import javax.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @GwtCompatible
-public class Input implements IsSerializable {
+public class Input implements Serializable {
 
   protected long id;
 

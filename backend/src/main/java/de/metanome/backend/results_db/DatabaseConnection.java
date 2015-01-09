@@ -18,10 +18,10 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -36,7 +36,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
-public class DatabaseConnection implements IsSerializable {
+public class DatabaseConnection implements Serializable {
 
   protected long id;
   protected String url;

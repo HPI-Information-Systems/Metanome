@@ -17,13 +17,14 @@
 package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
+
+import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -41,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
 })
-public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
+public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource,
+                                                             Serializable {
 
   /**
    * Sends itself back to the initializer (double dispatch).

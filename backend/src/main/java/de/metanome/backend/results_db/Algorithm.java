@@ -16,7 +16,8 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
@@ -32,6 +33,7 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -46,14 +48,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * Represents an algorithm in the database.
+ *
+ * @author Jakob Zwiener
+ */
 @NamedQueries(
-  @NamedQuery(
-    name = "get all",
-    query = "from Algorithm"
-  )
+    @NamedQuery(
+        name = "get all",
+        query = "from Algorithm"
+    )
 )
 @Entity
-public class Algorithm implements IsSerializable, Comparable<Algorithm> {
+public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   protected long id;
   protected String fileName;

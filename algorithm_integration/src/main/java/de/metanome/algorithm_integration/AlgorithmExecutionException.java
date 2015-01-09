@@ -16,15 +16,14 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
 
 /**
  * An Exception to signal an error while executing the algorithm.
  *
  * @author Jakob Zwiener
  */
-public class AlgorithmExecutionException extends Exception implements IsSerializable {
+public class AlgorithmExecutionException extends Exception implements Serializable {
 
   protected AlgorithmExecutionException() {
     super();

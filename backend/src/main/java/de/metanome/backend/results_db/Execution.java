@@ -16,13 +16,12 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "execution",
        uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
-public class Execution implements IsSerializable {
+public class Execution implements Serializable {
 
   // TODO cascading save to children
   // TODO store proper config

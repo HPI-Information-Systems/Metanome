@@ -16,9 +16,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
@@ -92,14 +89,14 @@ public class ConditionalUniqueColumnCombination implements Result {
     this.condition = condition;
   }
 
-  @Override
   @XmlTransient
+  @Override
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
-  public String buildPatternTableau() {
+  public String buildPatternTableauTable() {
     StringBuilder builder = new StringBuilder();
     TreeSet<ColumnIdentifier> patternTableauHead = condition.getContainedColumns();
     builder.append(patternTableauHead);
@@ -136,42 +133,24 @@ public class ConditionalUniqueColumnCombination implements Result {
     return builder.toString();
   }
 
-  public Widget buildPatternTableauTableHtml() {
-    FlexTable table = new FlexTable();
-
-    //build header
-    TreeSet<ColumnIdentifier> header = condition.getContainedColumns();
-    int i = 0;
-    for (ColumnIdentifier headColumn : header) {
-      table.setText(0, i, headColumn.toString());
-      i++;
-    }
-
-    int rowCount = 1;
-    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
-    for (Map<ColumnIdentifier, String> condition : conditions) {
-      int columnCount = 0;
-      for (ColumnIdentifier column : header) {
-        if (condition.containsKey(column)) {
-          String value = condition.get(column);
-          table.setText(rowCount, columnCount, value);
-        } else {
-          table.setText(rowCount, columnCount, "-");
-        }
-        columnCount++;
-      }
-      rowCount++;
-    }
-    return table;
-  }
 
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(columnCombination.toString());
+    builder.append(CUCC_SEPARATOR);
+    builder.append(condition.toString());
+    builder.append(" Coverage: ");
+    builder.append(this.condition.getCoverage());
+    return builder.toString();
+  }
+
+  public String buildPatternTableau() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(columnCombination.toString());
     builder.append(LINESEPARATOR);
 
-    builder.append(this.buildPatternTableau());
+    builder.append(this.buildPatternTableauTable());
 
     builder.append(LINESEPARATOR);
     builder.append("Coverage: ");

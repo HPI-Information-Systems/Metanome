@@ -24,6 +24,7 @@ import org.apache.lucene.util.OpenBitSet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -592,17 +593,20 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
     return new ColumnCombinationBitset().setColumns(invertedBitset);
   }
 
+  @Override
   public int compareTo(ColumnCombinationBitset other) {
     long sizeComparator = this.bitset.cardinality() - other.bitset.cardinality();
     if (sizeComparator != 0) {
       return (int) sizeComparator;
     } else {
-      for (int thisBit : this.getSetBits()) {
-        for (int otherBit : other.getSetBits()) {
-          int bitComparator = thisBit - otherBit;
-          if (bitComparator != 0) {
-            return bitComparator;
-          }
+      Iterator<Integer> iterator = this.getSetBits().iterator();
+      Iterator<Integer> iterator2 = other.getSetBits().iterator();
+      while (iterator.hasNext()) {
+        int thisBit = iterator.next();
+        int otherBit = iterator2.next();
+        int bitComparator = thisBit - otherBit;
+        if (bitComparator != 0) {
+          return bitComparator;
         }
       }
     }

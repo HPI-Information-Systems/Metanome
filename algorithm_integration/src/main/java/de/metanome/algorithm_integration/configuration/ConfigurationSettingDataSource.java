@@ -16,7 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
     @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
 })
-public interface ConfigurationSettingDataSource extends IsSerializable {
+public interface ConfigurationSettingDataSource extends Serializable {
 
   public abstract String getValueAsString();
 

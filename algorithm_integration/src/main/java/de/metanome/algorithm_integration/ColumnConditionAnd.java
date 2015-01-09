@@ -37,6 +37,7 @@ import java.util.TreeSet;
 public class ColumnConditionAnd implements ColumnCondition {
 
   protected boolean isNegated = false;
+  protected float coverage = Float.NaN;
   protected Set<ColumnCondition> columnValues;
 
   /**
@@ -83,13 +84,22 @@ public class ColumnConditionAnd implements ColumnCondition {
 
   @Override
   public float getCoverage() {
-    float coverage = Float.MAX_VALUE;
-    for (ColumnCondition subCondition : this.columnValues) {
-      if (coverage > subCondition.getCoverage()) {
-        coverage = subCondition.getCoverage();
+    if (Float.isNaN(this.coverage)) {
+      float coverage = Float.MAX_VALUE;
+      for (ColumnCondition subCondition : this.columnValues) {
+        if (coverage > subCondition.getCoverage()) {
+          coverage = subCondition.getCoverage();
+        }
       }
+      return coverage;
+    } else {
+      return this.coverage;
     }
-    return coverage;
+  }
+
+  @Override
+  public void setCoverage(float coverage) {
+    this.coverage = coverage;
   }
 
   @Override

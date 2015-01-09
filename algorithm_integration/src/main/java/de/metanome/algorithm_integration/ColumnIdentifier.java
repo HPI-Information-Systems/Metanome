@@ -16,9 +16,9 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
-public class ColumnIdentifier implements Comparable<ColumnIdentifier>, IsSerializable {
+public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
   protected String tableIdentifier;
   protected String columnIdentifier;
