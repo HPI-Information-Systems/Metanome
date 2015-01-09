@@ -28,19 +28,28 @@ import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgor
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.backend.resources.ExecutionResource;
+import de.metanome.backend.resources.FileInputResource;
+import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.Input;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,13 +98,28 @@ public class AlgorithmExecutor implements Closeable {
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
+    List<Input> inputs = new ArrayList<>();
+
+    FileInputResource fileInputResource = new FileInputResource();
+    TableInputResource tableInputResource = new TableInputResource();
+    DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
     for (ConfigurationRequirement requirement : requirements) {
       parameterValues.add(requirement.build(configurationFactory));
+
+      for (ConfigurationSetting setting : requirement.getSettings()) {
+        if (setting instanceof ConfigurationSettingFileInput) {
+          inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
+          inputs.add(databaseConnectionResource.get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingTableInput) {
+          inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
+        }
+      }
     }
 
     try {
-      return executeAlgorithmWithValues(algorithm, parameterValues);
+      return executeAlgorithmWithValues(algorithm, parameterValues, inputs);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -115,7 +139,8 @@ public class AlgorithmExecutor implements Closeable {
    * @return elapsed time in ns
    */
   public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
-                                         List<ConfigurationValue> parameters)
+                                         List<ConfigurationValue> parameters,
+                                         List<Input> inputs)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -183,6 +208,7 @@ public class AlgorithmExecutor implements Closeable {
     executionResource.store(
         new Execution(storedAlgorithm, beforeWallClockTime)
           .setEnd(beforeWallClockTime + (elapsedNanos / 1000))
+          .setInputs(inputs)
     );
 
     return elapsedNanos;

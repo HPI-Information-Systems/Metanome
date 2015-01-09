@@ -170,10 +170,12 @@ public class DatabaseConnectionInput extends InputField {
 
     DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(selectedValue);
 
-    return new ConfigurationSettingDatabaseConnection(currentDatabaseConnection.getUrl(),
-                                                      currentDatabaseConnection.getUsername(),
-                                                      currentDatabaseConnection.getPassword(),
-                                                      currentDatabaseConnection.getSystem());
+    return new ConfigurationSettingDatabaseConnection()
+        .setDbUrl(currentDatabaseConnection.getUrl())
+        .setPassword(currentDatabaseConnection.getPassword())
+        .setUsername(currentDatabaseConnection.getUsername())
+        .setSystem(currentDatabaseConnection.getSystem())
+        .setId(currentDatabaseConnection.getId());
   }
 
   /**

@@ -23,7 +23,7 @@ import java.io.Serializable;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingBoolean implements Serializable {
+public class ConfigurationSettingBoolean implements ConfigurationSetting, Serializable {
 
   public boolean value;
 

@@ -24,10 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import javax.xml.bind.annotation.XmlTransient;
-
-
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
@@ -109,7 +108,7 @@ public abstract class ConfigurationRequirement implements Serializable {
   /**
    * @return the specification's settings
    */
-  public abstract Object[] getSettings();
+  public abstract ConfigurationSetting[] getSettings();
 
   /**
    * Builds the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}

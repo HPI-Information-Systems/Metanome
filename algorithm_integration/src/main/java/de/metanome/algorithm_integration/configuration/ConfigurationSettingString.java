@@ -23,7 +23,7 @@ import java.io.Serializable;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingString implements Serializable {
+public class ConfigurationSettingString implements ConfigurationSetting, Serializable {
 
   public String value;
 

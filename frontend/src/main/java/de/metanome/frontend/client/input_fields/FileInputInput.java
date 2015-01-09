@@ -173,6 +173,7 @@ public class FileInputInput extends InputField {
    */
   protected ConfigurationSettingFileInput getCurrentSetting(FileInput fileInput) {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput()
+        .setId(fileInput.getId())
         .setFileName(fileInput.getFileName())
         .setEscapeChar(fileInput.getEscapechar())
         .setHeader(fileInput.isHasHeader())

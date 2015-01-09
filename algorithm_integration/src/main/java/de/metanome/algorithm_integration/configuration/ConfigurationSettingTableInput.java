@@ -33,8 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("ConfigurationSettingTableInput")
 public class ConfigurationSettingTableInput
-    implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+    implements ConfigurationSetting, ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
+  // Id of the table input in the database (needed for mapping the setting to the stored table input)
+  private long id;
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
 
@@ -66,6 +68,14 @@ public class ConfigurationSettingTableInput
 
   public void setDatabaseConnection(ConfigurationSettingDatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   @Override
@@ -112,4 +122,5 @@ public class ConfigurationSettingTableInput
       throws AlgorithmConfigurationException {
     initializer.initialize(this);
   }
+
 }

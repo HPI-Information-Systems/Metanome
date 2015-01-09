@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,6 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import java.io.Serializable;
+public interface ConfigurationSetting {
 
-/**
- * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
- */
-public class ConfigurationSettingInteger implements ConfigurationSetting, Serializable {
-
-  public int value;
-
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationSettingInteger() {
-  }
-
-  public ConfigurationSettingInteger(int value) {
-    this.value = value;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-  }
 }
