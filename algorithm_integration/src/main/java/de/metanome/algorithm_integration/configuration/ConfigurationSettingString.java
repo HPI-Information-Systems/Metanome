@@ -16,14 +16,14 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
 /**
  * TODO docs
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingString implements IsSerializable {
+public class ConfigurationSettingString implements Serializable {
 
   private static final long serialVersionUID = 1753877522641977576L;
 

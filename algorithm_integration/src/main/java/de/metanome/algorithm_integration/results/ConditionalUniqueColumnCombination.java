@@ -16,9 +16,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.ColumnConditionValue;
@@ -146,35 +143,6 @@ public class ConditionalUniqueColumnCombination implements Result {
     builder.append(this.condition.getCoverage());
     builder.append(LINESEPARATOR);
     return builder.toString();
-  }
-
-  public Widget buildPatternTableauTableHtml() {
-    FlexTable table = new FlexTable();
-
-    //build header
-    TreeSet<ColumnIdentifier> header = condition.getContainedColumns();
-    int i = 0;
-    for (ColumnIdentifier headColumn : header) {
-      table.setText(0, i, headColumn.toString());
-      i++;
-    }
-
-    int rowCount = 1;
-    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
-    for (Map<ColumnIdentifier, String> condition : conditions) {
-      int columnCount = 0;
-      for (ColumnIdentifier column : header) {
-        if (condition.containsKey(column)) {
-          String value = condition.get(column);
-          table.setText(rowCount, columnCount, value);
-        } else {
-          table.setText(rowCount, columnCount, "-");
-        }
-        columnCount++;
-      }
-      rowCount++;
-    }
-    return table;
   }
 
   @Override

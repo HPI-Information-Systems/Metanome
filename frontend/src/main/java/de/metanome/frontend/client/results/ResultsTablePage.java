@@ -18,7 +18,9 @@ package de.metanome.frontend.client.results;
 
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -35,6 +37,9 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.ExecutionServiceAsync;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 
 /**
@@ -155,10 +160,10 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = cuccTable.getRowCount();
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-    cuccTable.setWidget(row, 2, conditionalUniqueColumnCombination.buildPatternTableauTableHtml());
+    cuccTable.setWidget(row, 2, buildPatternTableauTableHtml(conditionalUniqueColumnCombination));
     cuccTable.setText(row, 3, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
     cuccTable.setText(row, 4, Float.toString(
-        conditionalUniqueColumnCombination.getCondition().getCoverage()));
+conditionalUniqueColumnCombination.getCondition().getCoverage()));
   }
 
   @Override
@@ -192,5 +197,34 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   @Override
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
+  }
+
+  public Widget buildPatternTableauTableHtml(ConditionalUniqueColumnCombination cucc) {
+    FlexTable table = new FlexTable();
+
+    //build header
+    TreeSet<ColumnIdentifier> header = cucc.getCondition().getContainedColumns();
+    int i = 0;
+    for (ColumnIdentifier headColumn : header) {
+      table.setText(0, i, headColumn.toString());
+      i++;
+    }
+
+    int rowCount = 1;
+    List<Map<ColumnIdentifier, String>> conditions = cucc.getCondition().getPatternConditions();
+    for (Map<ColumnIdentifier, String> condition : conditions) {
+      int columnCount = 0;
+      for (ColumnIdentifier column : header) {
+        if (condition.containsKey(column)) {
+          String value = condition.get(column);
+          table.setText(rowCount, columnCount, value);
+        } else {
+          table.setText(rowCount, columnCount, "-");
+        }
+        columnCount++;
+      }
+      rowCount++;
+    }
+    return table;
   }
 }

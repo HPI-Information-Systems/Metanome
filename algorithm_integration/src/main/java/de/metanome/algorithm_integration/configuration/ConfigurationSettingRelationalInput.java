@@ -17,17 +17,19 @@
 package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
+
+import java.io.Serializable;
 
 /**
  * Allows initialization of the input through double dispatch. The input can be generated from bot a file or databse table.
  *
  * @author Jakob Zwiener
  */
-public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
+public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource,
+                                                             Serializable {
 
   /**
    * Sends itself back to the initializer (double dispatch).

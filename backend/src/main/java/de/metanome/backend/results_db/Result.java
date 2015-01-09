@@ -18,7 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @GwtCompatible
-public class Result extends ResultsDbEntity implements IsSerializable {
+public class Result extends ResultsDbEntity implements Serializable {
 
   protected String fileName;
   protected Execution execution;

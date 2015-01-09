@@ -18,8 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -37,7 +37,7 @@ import javax.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @GwtCompatible
-public class Input extends ResultsDbEntity implements IsSerializable {
+public class Input extends ResultsDbEntity implements Serializable {
 
   private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
