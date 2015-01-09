@@ -73,7 +73,8 @@ public class RelationalInputInput extends InputField {
     MethodCallback<List<Input>> callback = new MethodCallback<List<Input>>() {
 
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError("There are no inputs in the database: " + method.getResponse().getText());
+        messageReceiver.addError("There are no relational inputs in the database: " +
+                                 method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<Input> result) {
@@ -97,7 +98,7 @@ public class RelationalInputInput extends InputField {
             }
           }
         } else {
-          messageReceiver.addError("There are no inputs in the database!");
+          messageReceiver.addError("There are no relational inputs in the database!");
         }
 
         listbox.clear();
@@ -112,7 +113,7 @@ public class RelationalInputInput extends InputField {
     };
 
     InputRestService inputService = com.google.gwt.core.client.GWT.create(InputRestService.class);
-    inputService.listInputs(callback);
+    inputService.listRelationalInputs(callback);
   }
 
   /**
