@@ -16,16 +16,33 @@
 
 package de.metanome.algorithm_integration.results;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = BasicStatistic.class, name = "BasicStatistic"),
+    @JsonSubTypes.Type(value = ConditionalUniqueColumnCombination.class, name = "ConditionalUniqueColumnCombination"),
+    @JsonSubTypes.Type(value = FunctionalDependency.class, name = "FunctionalDependency"),
+    @JsonSubTypes.Type(value = InclusionDependency.class, name = "InclusionDependency"),
+    @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
+    @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination")
+})
 public interface Result extends Serializable {
 
   /**
@@ -35,6 +52,7 @@ public interface Result extends Serializable {
    *                       the result should send itself to
    * @throws CouldNotReceiveResultException if the result could not be received
    */
+  @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException;
 

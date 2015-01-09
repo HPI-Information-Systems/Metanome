@@ -47,7 +47,7 @@ public class InputParameterStringWidget extends InputParameterWidget {
   @Override
   public ConfigurationRequirementString getUpdatedSpecification()
       throws AlgorithmConfigurationException {
-    this.specification.setSettings(this.getConfigurationSettings());
+    this.specification.checkAndSetSettings(this.getConfigurationSettings());
     return this.specification;
   }
 

@@ -19,14 +19,14 @@ package de.metanome.algorithm_integration.configuration;
 import java.io.Serializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
  */
 public class ConfigurationSettingInteger implements Serializable {
 
   public int value;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingInteger() {
   }
@@ -35,4 +35,11 @@ public class ConfigurationSettingInteger implements Serializable {
     this.value = value;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
 }

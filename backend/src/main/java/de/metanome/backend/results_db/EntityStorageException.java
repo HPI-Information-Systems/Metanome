@@ -21,6 +21,8 @@ package de.metanome.backend.results_db;
  */
 public class EntityStorageException extends Exception {
 
+  private static final long serialVersionUID = -174040542991104845L;
+
   protected EntityStorageException() {
     super();
   }

@@ -123,14 +123,13 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "testFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
 
     // Execute functionality
     HibernateUtil.store(expectedAlgorithm);
     Algorithm
         actualAlgorithm =
-        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId());
 
     // Check result
     assertEquals(expectedAlgorithm, actualAlgorithm);
@@ -150,20 +149,19 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFileName = "testFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+    Algorithm expectedAlgorithm = new Algorithm("some file");
     HibernateUtil.store(expectedAlgorithm);
 
     // Check precondition
     Algorithm actualAlgorithm =
-        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedFileName);
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId());
     assertEquals(expectedAlgorithm, actualAlgorithm);
 
     // Execute functionality
     HibernateUtil.delete(expectedAlgorithm);
 
     // Check result
-    assertNull(HibernateUtil.retrieve(Algorithm.class, expectedFileName));
+    assertNull(HibernateUtil.retrieve(Algorithm.class, expectedAlgorithm.getId()));
 
     // Cleanup
     HibernateUtil.clear();
@@ -224,10 +222,11 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Expected values
-    Algorithm expectedAlgorithm1 = new Algorithm("some path 1")
-        .store();
-    Algorithm expectedAlgorithm2 = new Algorithm("some path 2")
-        .store();
+    Algorithm expectedAlgorithm1 = new Algorithm("some path 1");
+    Algorithm expectedAlgorithm2 = new Algorithm("some path 2");
+
+    HibernateUtil.store(expectedAlgorithm1);
+    HibernateUtil.store(expectedAlgorithm2);
 
     // Execute functionality
     List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.executeNamedQuery("get all");
@@ -253,7 +252,7 @@ public class HibernateUtilTest {
     // Expected values
     Algorithm[] expectedAlgorithms = {new Algorithm("some path 1"), new Algorithm("some path 2")};
     for (Algorithm expectedAlgorithm : expectedAlgorithms) {
-      expectedAlgorithm.store();
+      HibernateUtil.store(expectedAlgorithm);
     }
 
     // Execute functionality
@@ -278,10 +277,11 @@ public class HibernateUtilTest {
 
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("some path")
-        .setFd(true)
-        .store();
-    Algorithm otherAlgorithm = new Algorithm("some other path")
-        .store();
+        .setFd(true);
+    Algorithm otherAlgorithm = new Algorithm("some other path");
+
+    HibernateUtil.store(expectedAlgorithm);
+    HibernateUtil.store(otherAlgorithm);
 
     // Execute functionality
     Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
@@ -310,11 +310,12 @@ public class HibernateUtilTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("some path")
         .setFd(true)
-        .setUcc(true)
-        .store();
+        .setUcc(true);
     Algorithm otherAlgorithm = new Algorithm("some other path")
-        .setFd(true)
-        .store();
+        .setFd(true);
+
+    HibernateUtil.store(expectedAlgorithm);
+    HibernateUtil.store(otherAlgorithm);
 
     // Execute functionality
     Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
@@ -375,15 +376,16 @@ public class HibernateUtilTest {
   public void testClear() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
-    String expectedAlgorithmId = "some alorithm";
-    Algorithm expectedAlgorithm = new Algorithm(expectedAlgorithmId);
+    long expectedAlgorithmId = 0;
+    Algorithm expectedAlgorithm = new Algorithm("some file");
+    expectedAlgorithm.setId(0);
 
     // Execute functionality
-    expectedAlgorithm.store();
+    HibernateUtil.store(expectedAlgorithm);
     HibernateUtil.clear();
 
     // Check result
-    Algorithm actualAlgorithm = Algorithm.retrieve(expectedAlgorithmId);
+    Algorithm actualAlgorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithmId);
     assertNull(actualAlgorithm);
 
     // Cleanup

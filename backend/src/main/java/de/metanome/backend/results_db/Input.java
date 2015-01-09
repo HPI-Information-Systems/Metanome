@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,44 +36,9 @@ import javax.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @GwtCompatible
-public class Input extends ResultsDbEntity implements Serializable {
+public class Input implements Serializable {
 
-  private static final long serialVersionUID = 7392272000742912206L;
   protected long id;
-
-  /**
-   * Retrieves an Input from the database.
-   *
-   * @param id the Input's id
-   * @return the input
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static Input retrieve(long id) throws EntityStorageException {
-    return (Input) HibernateUtil.retrieve(Input.class, id);
-  }
-
-  /**
-   * Retrieves all inputs and subclasses stored in the database.
-   *
-   * @return a list of all inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(Input.class);
-  }
-
-  /**
-   * Stores the Input in the database.
-   *
-   * @return the Input
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public Input store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
 
   @Id
   @GeneratedValue

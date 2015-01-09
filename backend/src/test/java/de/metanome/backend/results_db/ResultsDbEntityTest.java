@@ -28,54 +28,54 @@ import static org.junit.Assert.assertNull;
  */
 public class ResultsDbEntityTest {
 
-  /**
-   * Test method for {@link ResultsDbEntity#delete()}
-   *
-   * ResultsDbEntities should be deletable. After deletion they should no longer be retrievable.
-   */
-  @Test
-  public void testDelete() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    String expectedFileName = "someFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName)
-        .store();
-
-    // Check precondition
-    Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
-    assertEquals(expectedAlgorithm, actualAlgorithm);
-
-    // Execute functionality
-    expectedAlgorithm.delete();
-
-    // Check result
-    assertNull(Algorithm.retrieve(expectedFileName));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link Algorithm#delete()}
-   *
-   * Calling delete on an ResultsDbEntity that has not yet been stored should be successful with no
-   * result.
-   */
-  @Test
-  public void testDeleteNotStored() {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    String expectedFileName = "someFileName";
-    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
-
-    // Execute functionality
-    expectedAlgorithm.delete();
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+//  /**
+//   * Test method for {@link ResultsDbEntity#delete()}
+//   *
+//   * ResultsDbEntities should be deletable. After deletion they should no longer be retrievable.
+//   */
+//  @Test
+//  public void testDelete() throws EntityStorageException {
+//    // Setup
+//    HibernateUtil.clear();
+//
+//    // Expected values
+//    String expectedFileName = "someFileName";
+//    Algorithm expectedAlgorithm = new Algorithm(expectedFileName)
+//        .store();
+//
+//    // Check precondition
+//    Algorithm actualAlgorithm = Algorithm.retrieve(expectedFileName);
+//    assertEquals(expectedAlgorithm, actualAlgorithm);
+//
+//    // Execute functionality
+//    expectedAlgorithm.delete();
+//
+//    // Check result
+//    assertNull(Algorithm.retrieve(expectedFileName));
+//
+//    // Cleanup
+//    HibernateUtil.clear();
+//  }
+//
+//  /**
+//   * Test method for {@link Algorithm#delete()}
+//   *
+//   * Calling delete on an ResultsDbEntity that has not yet been stored should be successful with no
+//   * result.
+//   */
+//  @Test
+//  public void testDeleteNotStored() {
+//    // Setup
+//    HibernateUtil.clear();
+//
+//    // Expected values
+//    String expectedFileName = "someFileName";
+//    Algorithm expectedAlgorithm = new Algorithm(expectedFileName);
+//
+//    // Execute functionality
+//    expectedAlgorithm.delete();
+//
+//    // Cleanup
+//    HibernateUtil.clear();
+//  }
 }

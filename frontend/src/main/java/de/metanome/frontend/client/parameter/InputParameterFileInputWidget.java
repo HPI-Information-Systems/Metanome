@@ -61,7 +61,7 @@ public class InputParameterFileInputWidget extends InputParameterDataSourceWidge
       values[i] = inputWidgets.get(i).getValues();
     }
 
-    specification.setSettings(values);
+    specification.checkAndSetSettings(values);
 
     return specification;
   }

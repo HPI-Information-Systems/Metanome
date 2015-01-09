@@ -61,7 +61,7 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
       values[i] = inputWidgets.get(i).getValues();
     }
 
-    specification.setSettings(values);
+    specification.checkAndSetSettings(values);
 
     return specification;
   }

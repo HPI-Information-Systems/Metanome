@@ -18,16 +18,20 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for table inputs.
  *
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementTableInput")
 public class ConfigurationRequirementTableInput extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 8842139128248338302L;
 
   private ConfigurationSettingTableInput[] settings;
 
@@ -62,6 +66,13 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
   public ConfigurationSettingTableInput[] getSettings() {
     return this.settings;
   }
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(ConfigurationSettingTableInput... settings) {
+    this.settings = settings;
+  }
 
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
@@ -70,7 +81,8 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingTableInput... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingTableInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
@@ -80,6 +92,7 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

@@ -19,6 +19,7 @@ package de.metanome.frontend.client.runs;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.DbSystem;
@@ -28,6 +29,9 @@ import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,9 +82,9 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
   /**
    * Ensure that when an algorithm is chosen and submitted, the method adding a ParameterTable is
-   * called.
+   * called and a parameter table is present.
    */
-  public void testSubmit() {
+  public void testSuccessfulSubmit() {
     // Set up
     TestHelper.resetDatabaseSync();
 
@@ -91,23 +95,22 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     Algorithm expectedAlgorithm2 = new Algorithm("file name 2");
     expectedAlgorithm2.setName("name 2");
 
+    List<ConfigurationRequirement> paramList = new ArrayList<>();
+    paramList.add(new ConfigurationRequirementInteger());
+
     TabWrapper tabWrapper = new TabWrapper();
-    RunConfigurationPage page = new RunConfigurationPage(new BasePage()) {
-      @Override
-      public void addParameterTable(List<ConfigurationRequirement> paramList) {
-        super.addParameterTable(paramList);
-        finishTest();
-      }
-    };
+    RunConfigurationPage page = new RunConfigurationPage(new BasePage());
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, tabWrapper);
     page.addNorth(jarChooser, 4);
 
     // Execute functionality
     jarChooser.algorithmListBox.setItemSelected(1, true);
-    jarChooser.submit();
 
-    // Set a delay period
-    delayTestFinish(500);
+    MethodCallback<List<ConfigurationRequirement>> callback = jarChooser.getParameterCallback();
+    callback.onSuccess(null, paramList);
+
+    // Check
+    assertNotNull(page.parameterTable);
 
     // Cleanup
     TestHelper.resetDatabaseSync();

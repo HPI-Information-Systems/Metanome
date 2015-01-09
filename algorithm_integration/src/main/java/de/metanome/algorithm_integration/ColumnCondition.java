@@ -17,6 +17,10 @@
 package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -26,6 +30,15 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ColumnConditionAnd.class, name = "ColumnConditionAnd"),
+    @JsonSubTypes.Type(value = ColumnConditionOr.class, name = "ColumnConditionOr"),
+    @JsonSubTypes.Type(value = ColumnConditionValue.class, name = "ColumnConditionValue")
+})
 public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {
 
   public static final String OPEN_BRACKET = "[";

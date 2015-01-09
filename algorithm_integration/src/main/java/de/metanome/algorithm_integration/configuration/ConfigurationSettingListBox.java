@@ -19,7 +19,7 @@ package de.metanome.algorithm_integration.configuration;
 import java.io.Serializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox}
  *
  * @author Tanja Bergmann
  */
@@ -27,6 +27,9 @@ public class ConfigurationSettingListBox implements Serializable {
 
   public String selectedValue;
 
+  /**
+   * Exists for serialization.
+   */
   public ConfigurationSettingListBox() {
   }
 
@@ -34,4 +37,11 @@ public class ConfigurationSettingListBox implements Serializable {
     this.selectedValue = selectedValue;
   }
 
+  public String getSelectedValue() {
+    return selectedValue;
+  }
+
+  public void setSelectedValue(String selectedValue) {
+    this.selectedValue = selectedValue;
+  }
 }

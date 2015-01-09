@@ -19,11 +19,7 @@ package de.metanome.frontend.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Input;
-
-import java.util.List;
+import de.metanome.backend.results_db.EntityStorageException;
 
 /**
  * {@link TestDatabaseHelperServiceAsync}
@@ -34,15 +30,7 @@ public interface TestDatabaseHelperServiceAsync {
 
   void resetDatabase(AsyncCallback<Void> async);
 
-  void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Void> async);
+  void storeAlgorithmInDatabase(Algorithm algorithm, AsyncCallback<Algorithm> async)
+      throws EntityStorageException;
 
-  void storeDatabaseConnection(DatabaseConnection connection, AsyncCallback<Long> async);
-
-  void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> async);
-
-  void getAllTableInputs(AsyncCallback<List<Input>> async);
-
-  void getAllFileInputs(AsyncCallback<List<Input>> async);
-
-  void storeFileInput(FileInput input, AsyncCallback<Long> async);
 }

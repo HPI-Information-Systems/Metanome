@@ -478,7 +478,7 @@ public class ColumnCombinationBitsetTest {
 
   /**
    * Test method for {@link ColumnCombinationBitset#size()} <p/> When setting bits using the
-   * setColumns method with contained column indices the correct size should be computed.
+   * setColumnCombination method with contained column indices the correct size should be computed.
    */
   @Test
   public void testSizeSetColumns() {
@@ -536,7 +536,7 @@ public class ColumnCombinationBitsetTest {
 
   /**
    * Test method for {@link ColumnCombinationBitset#size()} <p/> When setting bits using the raw
-   * bitset setColumns method the correct size should be computed.
+   * bitset setColumnCombination method the correct size should be computed.
    */
   @Test
   public void testSizeBitset() {

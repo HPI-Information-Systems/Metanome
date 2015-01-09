@@ -16,20 +16,25 @@
 
 package de.metanome.algorithm_integration.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a functional dependency.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("FunctionalDependency")
 public class FunctionalDependency implements Result {
 
   public static final String FD_SEPARATOR = "-->";
-  private static final long serialVersionUID = -8530894352049893955L;
+
   protected ColumnCombination determinant;
   protected ColumnIdentifier dependant;
 
@@ -54,6 +59,10 @@ public class FunctionalDependency implements Result {
     return determinant;
   }
 
+  public void setDependant(ColumnIdentifier dependant) {
+    this.dependant = dependant;
+  }
+
   /**
    * @return dependant
    */
@@ -61,7 +70,12 @@ public class FunctionalDependency implements Result {
     return dependant;
   }
 
+  public void setDeterminant(ColumnCombination determinant) {
+    this.determinant = determinant;
+  }
+
   @Override
+  @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);

@@ -20,8 +20,6 @@ import java.io.Serializable;
 
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
-  private static final long serialVersionUID = 6071753577078585888L;
-
   protected String tableIdentifier;
   protected String columnIdentifier;
 
@@ -45,10 +43,12 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   public String getTableIdentifier() {
     return tableIdentifier;
   }
+  public void setTableIdentifier(String tableIdentifier) { this.tableIdentifier = tableIdentifier; }
 
   public String getColumnIdentifier() {
     return columnIdentifier;
   }
+  public void setColumnIdentifier(String columnIdentifier) { this.columnIdentifier = columnIdentifier; }
 
   @Override
   public String toString() {

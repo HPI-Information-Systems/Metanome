@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.results;
 
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
@@ -26,8 +25,6 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
-import de.metanome.frontend.client.services.ExecutionService;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
 
 public class GwtTestResultsPage extends GWTTestCase {
 
@@ -62,8 +59,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    page.setExecutionParameter(executionService, "identifier", "name");
+    page.setExecutionParameter(null, "identifier", "name");
 
     // Expected Values
     // Execute
@@ -119,8 +115,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
 
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    page.setExecutionParameter(executionService, "identifier", "name");
+    page.setExecutionParameter(null, "identifier", "name");
 
     page.startPolling();
 

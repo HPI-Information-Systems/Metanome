@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents file inputs in the database.
@@ -39,13 +39,11 @@ import javax.persistence.Transient;
 @GwtCompatible
 public class FileInput extends Input implements Serializable {
 
-  private static final long serialVersionUID = 2320081610461965426L;
-
   protected String fileName;
-  protected char separator;
-  protected char quotechar;
-  protected char escapechar;
-  protected int skipLines;
+  protected String separator; //Todo: atm needs to be String instead of char for serialization
+  protected String quotechar; //Todo: atm needs to be String instead of char for serialization
+  protected String escapechar; //Todo: atm needs to be String instead of char for serialization
+  protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;
   protected boolean hasHeader;
@@ -56,9 +54,9 @@ public class FileInput extends Input implements Serializable {
    * Constructs a FileInput with default parser settings.
    */
   public FileInput() {
-    this.separator = CSVParser.DEFAULT_SEPARATOR;
-    this.quotechar = CSVParser.DEFAULT_QUOTE_CHARACTER;
-    this.escapechar = CSVParser.DEFAULT_ESCAPE_CHARACTER;
+    this.separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
+    this.quotechar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
+    this.escapechar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
     this.skipLines = CSVReader.DEFAULT_SKIP_LINES;
     this.strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
     this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
@@ -77,40 +75,6 @@ public class FileInput extends Input implements Serializable {
 
   }
 
-  /**
-   * Retrieves a FileInput from the database.
-   *
-   * @param id the FileInput's id
-   * @return the fileInput
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static FileInput retrieve(long id) throws EntityStorageException {
-    return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
-  }
-
-  /**
-   * Retrieves all file inputs stored in the database.
-   *
-   * @return a list of all file inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(FileInput.class);
-  }
-
-  /**
-   * Stores the FileInput in the database.
-   *
-   * @return the FileInput
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public FileInput store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
-
   public String getFileName() {
     return fileName;
   }
@@ -122,40 +86,43 @@ public class FileInput extends Input implements Serializable {
   }
 
   public char getSeparator() {
-    return separator;
+    return separator.charAt(0);
   }
 
+  @XmlTransient
   public FileInput setSeparator(char separator) {
-    this.separator = separator;
+    this.separator = String.valueOf(separator);
 
     return this;
   }
 
   public char getQuotechar() {
-    return quotechar;
+    return quotechar.charAt(0);
   }
 
+  @XmlTransient
   public FileInput setQuotechar(char quotechar) {
-    this.quotechar = quotechar;
+    this.quotechar = String.valueOf(quotechar);
 
     return this;
   }
 
   public char getEscapechar() {
-    return escapechar;
+    return escapechar.charAt(0);
   }
 
+  @XmlTransient
   public FileInput setEscapechar(char escapechar) {
-    this.escapechar = escapechar;
+    this.escapechar = String.valueOf(escapechar);
 
     return this;
   }
 
-  public int getSkipLines() {
+  public Integer getSkipLines() {
     return skipLines;
   }
 
-  public FileInput setSkipLines(int skipLines) {
+  public FileInput setSkipLines(Integer skipLines) {
     this.skipLines = skipLines;
 
     return this;
@@ -222,6 +189,24 @@ public class FileInput extends Input implements Serializable {
   @Transient
   public String getIdentifier() {
     return fileName;
+  }
+
+  public FileInput setSeparator(String separator) {
+    this.separator = String.valueOf(separator.charAt(0));
+
+    return this;
+  }
+
+  public FileInput setQuotechar(String quotechar) {
+    this.quotechar = String.valueOf(quotechar.charAt(0));
+
+    return this;
+  }
+
+  public FileInput setEscapechar(String escapechar) {
+    this.escapechar = String.valueOf(escapechar.charAt(0));
+
+    return this;
   }
 
 }

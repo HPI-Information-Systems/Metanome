@@ -18,6 +18,9 @@ package de.metanome.frontend.server;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.InputResource;
+import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
@@ -37,6 +40,9 @@ import javax.servlet.ServletContextListener;
  * @author Jakob Zwiener
  */
 public class DatabaseInitializer implements ServletContextListener {
+
+  AlgorithmResource algorithmResource = new AlgorithmResource();
+  InputResource inputResource = new InputResource();
 
   /**
    * Initializes the database.
@@ -66,7 +72,7 @@ public class DatabaseInitializer implements ServletContextListener {
   protected void addAlgorithms() throws IOException, ClassNotFoundException,
                                         EntityStorageException {
     // only prefill algorithms table if it is currently empty
-    if (!Algorithm.retrieveAll().isEmpty()) {
+    if (!algorithmResource.getAll().isEmpty()) {
       return;
     }
 
@@ -78,12 +84,11 @@ public class DatabaseInitializer implements ServletContextListener {
 
     for (String filePath : algorithmFileNames) {
       try {
-        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-        new Algorithm(filePath, algorithmInterfaces)
-            .setName(filePath.replaceAll(".jar", ""))
-            .store();
-      } catch (EntityStorageException | IOException | ClassNotFoundException e) {
-        e.printStackTrace();
+          Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+          algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
+                                             .setName(filePath.replaceAll(".jar", "")));
+      } catch (WebException e) {
+        // Do something with this exception
       }
     }
   }
@@ -96,7 +101,7 @@ public class DatabaseInitializer implements ServletContextListener {
    */
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
     // only prefill input table if currently empty
-    if (!Input.retrieveAll().isEmpty()) {
+    if (!inputResource.getAll().isEmpty()) {
       return;
     }
 
@@ -106,11 +111,7 @@ public class DatabaseInitializer implements ServletContextListener {
 
     for (File input : inputs) {
       FileInput fileInput = new FileInput(input.getPath());
-      try {
-        fileInput.store();
-      } catch (EntityStorageException e) {
-        e.printStackTrace();
-      }
+      inputResource.store(fileInput);
     }
   }
 

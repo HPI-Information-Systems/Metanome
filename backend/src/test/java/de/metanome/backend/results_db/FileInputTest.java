@@ -20,17 +20,12 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.FileInput}
@@ -39,31 +34,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class FileInputTest {
 
-  /**
-   * Test method for {@link FileInput#store()} and {@link de.metanome.backend.results_db.FileInput#retrieve(long)}
-   * <p/> FileInputs should be storable and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    FileInput expectedFileInput = new FileInput();
-    expectedFileInput.setHasHeader(true);
-
-    // Execute functionality
-    assertSame(expectedFileInput, expectedFileInput.store());
-    long id = expectedFileInput.getId();
-    FileInput actualFileInput = FileInput.retrieve(id);
-
-    // Check result
-    assertEquals(expectedFileInput, actualFileInput);
-    assertTrue(actualFileInput.isHasHeader());
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+  private FileInputResource fileInputResource = new FileInputResource();
 
   /**
    * Test method for {@link FileInput#FileInput()} <p/> After calling the constructor the default
@@ -100,7 +71,7 @@ public class FileInputTest {
     assertEquals(CSVParser.DEFAULT_SEPARATOR, actualFileInput.getSeparator());
     assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, actualFileInput.getQuotechar());
     assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, actualFileInput.getEscapechar());
-    assertEquals(CSVReader.DEFAULT_SKIP_LINES, actualFileInput.getSkipLines());
+    assertEquals(Integer.valueOf(CSVReader.DEFAULT_SKIP_LINES), actualFileInput.getSkipLines());
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, actualFileInput.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
                  actualFileInput.isIgnoreLeadingWhiteSpace());
@@ -128,30 +99,6 @@ public class FileInputTest {
     // Check result
     new EqualsAndHashCodeTester<FileInput>()
         .performBasicEqualsAndHashCodeChecks(fileInput, equalFileInput, notEqualFileInput);
-  }
-
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.FileInput#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Input expectedInput = new FileInput()
-        .store();
-
-    // Execute functionality
-    List<Input> actualInputs = FileInput.retrieveAll();
-
-    // Check result
-    assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInput));
-
-    // Cleanup
-    HibernateUtil.clear();
   }
 
   @Test

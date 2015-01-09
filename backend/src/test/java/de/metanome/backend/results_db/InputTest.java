@@ -16,6 +16,9 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.resources.FileInputResource;
+import de.metanome.backend.resources.InputResource;
+import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -35,29 +38,9 @@ import static org.junit.Assert.assertThat;
  */
 public class InputTest {
 
-  /**
-   * Test method for {@link Input#store()} and {@link Input#retrieve(long)} <p/> Inputs should be
-   * storable and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Input expectedInput = new Input();
-
-    // Execute functionality
-    assertSame(expectedInput, expectedInput.store());
-    long id = expectedInput.getId();
-    Input actualInput = Input.retrieve(id);
-
-    // Check result
-    assertEquals(expectedInput, actualInput);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+  private InputResource inputResource = new InputResource();
+  private FileInputResource fileInputResource = new FileInputResource();
+  private TableInputResource tableInputResource = new TableInputResource();
 
   /**
    * Every time an input is saved a new id should be generated.
@@ -72,40 +55,11 @@ public class InputTest {
     // Execute functionality
     // Check result
     long oldId = input.getId();
-    input.store();
+    inputResource.store(input);
     assertNotEquals(oldId, input.getId());
     oldId = input.getId();
-    input.store();
+    inputResource.store(input);
     assertNotEquals(oldId, input.getId());
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Input#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Input expectedInput = new Input()
-        .store();
-
-    FileInput expectedFileInput = new FileInput()
-        .store();
-
-    TableInput expectedTableInput = new TableInput()
-        .store();
-
-    // Execute functionality
-    List<Input> actualInputs = Input.retrieveAll();
-
-    // Check result
-    assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInput, expectedFileInput, expectedTableInput));
 
     // Cleanup
     HibernateUtil.clear();

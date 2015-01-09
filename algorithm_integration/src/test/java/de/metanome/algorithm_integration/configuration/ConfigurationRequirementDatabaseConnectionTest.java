@@ -97,7 +97,7 @@ public class ConfigurationRequirementDatabaseConnectionTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementDatabaseConnection#setSettings(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection...)}
+   * Test method for {@link ConfigurationRequirementDatabaseConnection#checkAndSetSettings(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -111,7 +111,7 @@ public class ConfigurationRequirementDatabaseConnectionTest {
     ConfigurationSettingDatabaseConnection expectedValue = mock(ConfigurationSettingDatabaseConnection.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**

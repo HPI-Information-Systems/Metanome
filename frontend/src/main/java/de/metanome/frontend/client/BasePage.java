@@ -18,7 +18,6 @@ package de.metanome.frontend.client;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -27,13 +26,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -51,8 +53,6 @@ public class BasePage extends TabLayoutPanel {
   protected TabWrapper resultPageTabWrapper;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
-
-  protected AlgorithmServiceAsync finderService;
 
   /**
    * Constructor. Initiates creation of subpages.
@@ -103,25 +103,30 @@ public class BasePage extends TabLayoutPanel {
    * Hand control from the Run Configuration to displaying Results. Start algorithm execution.
    *
    * @param executionService  the service instance used for executing the algorithm
-   * @param algorithmFileName the file name of the algorithm to execute
+   * @param algorithm         the algorithm to execute
    * @param parameters        the specification with set settings used to configure the algorithm
    */
-  public void startAlgorithmExecution(ExecutionServiceAsync executionService,
-                                      String algorithmFileName,
+  public void startAlgorithmExecution(AlgorithmExecutionRestService executionService,
+                                      Algorithm algorithm,
                                       List<ConfigurationRequirement> parameters) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
 
-    String executionIdentifier = getExecutionIdentifier(algorithmFileName);
+    String executionIdentifier = getExecutionIdentifier(algorithm.getFileName());
 
     // Execute algorithm
-    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setAlgorithmId(algorithm.getId());
+    params.setExecutionIdentifier(executionIdentifier);
+    params.setRequirements(parameters);
+
+    executionService.executeAlgorithm(params,
                                       this.getExecutionCallback(executionService,
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithmFileName);
+        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName());
     this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
@@ -135,14 +140,14 @@ public class BasePage extends TabLayoutPanel {
    * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private AsyncCallback<Long> getExecutionCallback(final ExecutionServiceAsync executionService,
+  private MethodCallback<Long> getExecutionCallback(final AlgorithmExecutionRestService executionService,
                                                    final String executionIdentifier) {
-    return new AsyncCallback<Long>() {
-      public void onFailure(Throwable caught) {
-        resultsPage.updateOnError(caught.getMessage());
+    return new MethodCallback<Long>() {
+      public void onFailure(Method method, Throwable caught) {
+        resultsPage.updateOnError(method.getResponse().getText());
       }
 
-      public void onSuccess(Long executionTime) {
+      public void onSuccess(Method method, Long executionTime) {
         resultsPage.updateOnSuccess(executionTime);
       }
     };

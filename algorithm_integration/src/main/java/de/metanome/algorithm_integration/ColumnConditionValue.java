@@ -16,6 +16,9 @@
 
 package de.metanome.algorithm_integration;
 
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("ColumnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
 
   protected ColumnIdentifier columnIdentifier;
@@ -71,6 +75,30 @@ public class ColumnConditionValue implements ColumnCondition {
   @Override
   public void setCoverage(float coverage) {
     this.coverage = coverage;
+  }
+
+  public ColumnIdentifier getColumnIdentifier() {
+    return columnIdentifier;
+  }
+
+  public void setColumnIdentifier(ColumnIdentifier columnIdentifier) {
+    this.columnIdentifier = columnIdentifier;
+  }
+
+  public String getColumnValue() {
+    return columnValue;
+  }
+
+  public void setColumnValue(String columnValue) {
+    this.columnValue = columnValue;
+  }
+
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
+    this.isNegated = isNegated;
   }
 
   @Override

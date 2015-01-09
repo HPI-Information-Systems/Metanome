@@ -16,22 +16,22 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -40,35 +40,6 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class ExecutionTest {
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Execution#store()} and {@link
-   * de.metanome.backend.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)} <p/>
-   * Executions should be storable and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Store prerequisite objects in the database.
-    Algorithm algorithm = new Algorithm("some file path");
-    algorithm.store();
-
-    // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
-    Execution expectedExecution = new Execution(algorithm, begin);
-
-    // Execute functionality
-    assertSame(expectedExecution, expectedExecution.store());
-    Execution actualExecution = Execution.retrieve(algorithm, begin);
-
-    // Check result
-    assertEquals(expectedExecution, actualExecution);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
 
   /**
    * Test method for {@link Execution#Execution(Algorithm)} <p/> When constructing an {@link
@@ -81,181 +52,7 @@ public class ExecutionTest {
 
     // Check result
     // The execution should have a timestamp for begin that is not older than 2 seconds.
-    assertTrue(new Date().getTime() - execution.getBegin().getTime() < 2000);
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Execution#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Algorithm expectedAlgorithm = new Algorithm("some file name 1")
-        .store();
-    Execution expectedExecution1 = new Execution(expectedAlgorithm)
-        .store();
-    Execution expectedExecution2 = new Execution(expectedAlgorithm)
-        .store();
-
-    // Execute functionality
-    List<Execution> actualExecutions = Execution.retrieveAll();
-
-    // Check result
-    assertThat(actualExecutions, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedExecution1, expectedExecution2));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Execution#store()} and {@link
-   * de.metanome.backend.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)} <p/> After
-   * roundtripping an execution all its {@link de.metanome.backend.results_db.Input}s should be
-   * retrievable from it.
-   */
-  @Test
-  public void testPersistenceMultipleInputs() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some path")
-        .store();
-    Input input1 = new Input()
-        .store();
-    Input input2 = new Input()
-        .store();
-    Collection<Input> inputs = new ArrayList<>();
-    inputs.add(input1);
-    inputs.add(input2);
-
-    // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
-    Execution expectedExecution = new Execution(algorithm, begin)
-        .setInputs(inputs);
-
-    // Execute functionality
-    expectedExecution.store();
-    Execution actualExecution = Execution.retrieve(algorithm, begin);
-    Collection<Input> actualInputs = actualExecution.getInputs();
-
-    // Check result
-    assertEquals(expectedExecution, actualExecution);
-    assertEquals(inputs, actualInputs);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Execution#store()} and {@link
-   * de.metanome.backend.results_db.Execution#retrieve(Algorithm, java.sql.Timestamp)} <p/> Test the
-   * database roundtrip of an Execution with multiple {@link de.metanome.backend.results_db.Input}s
-   * and {@link de.metanome.backend.results_db.Result}s.
-   */
-  @Test
-  public void testPersistenceWithAlgorithmAndResultAndInputs() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm jar path")
-        .store();
-
-    // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
-    Execution expectedExecution = new Execution(algorithm, begin);
-    // Adding results and inputs
-    // Results
-    Result expectedResult1 = new Result("some result file path");
-    expectedExecution.addResult(expectedResult1);
-    Result expectedResult2 = new Result("some other result file path");
-    expectedExecution.addResult(expectedResult2);
-    // Inputs
-    FileInput expectedFileInput = new FileInput();
-    expectedExecution.addInput(expectedFileInput);
-    // Inputs can be added twice
-    expectedExecution.addInput(expectedFileInput);
-    TableInput expectedTableInput = new TableInput();
-    expectedExecution.addInput(expectedTableInput);
-
-    // Execute functionality
-    expectedFileInput.store();
-    expectedTableInput.store();
-    expectedExecution.store();
-    expectedResult1.store();
-    expectedResult2.store();
-    Execution actualExecution = Execution.retrieve(algorithm, begin);
-
-    Input[] expectedInputs = {expectedTableInput, expectedFileInput, expectedFileInput};
-
-    Set<Result> actualResults = actualExecution.getResults();
-    Collection<Input> actualInputs = actualExecution.getInputs();
-
-    // Check result
-    assertEquals(expectedExecution, actualExecution);
-    // Verify result set
-    assertEquals(2, actualResults.size());
-    assertTrue(actualResults.contains(expectedResult1));
-    assertTrue(actualResults.contains(expectedResult2));
-    // Verify input list
-    assertEquals(3, actualInputs.size());
-    assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInputs));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.results_db.Execution#addResult(Result)} <p/> Results
-   * should be added and a bidirectional association should be created. The results should be
-   * retrievable from the database.
-   */
-  @Test
-  public void testPersistenceGetResults() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm file path")
-        .store();
-
-    // Expected values
-    Timestamp begin = new Timestamp(new Date().getTime());
-    Execution expectedExecution = new Execution(algorithm, begin);
-    Result expectedResult1 = new Result("some result file path");
-    Result expectedResult2 = new Result("some other result file path");
-
-    // Execute functionality
-    expectedExecution.addResult(expectedResult1);
-    expectedExecution.addResult(expectedResult2);
-
-    expectedExecution.store();
-    expectedResult1.store();
-    expectedResult2.store();
-    Execution actualExecution = Execution.retrieve(algorithm, begin);
-
-    Set<Result> actualResults = actualExecution.getResults();
-
-    // Check result
-    assertEquals(expectedExecution, actualExecution);
-    // All results should be properly retrieved
-    assertEquals(2, actualResults.size());
-    assertTrue(actualResults.contains(expectedResult1));
-    assertTrue(actualResults.contains(expectedResult2));
-
-    // All results should be properly attached to the execution
-    for (Result actualResult : actualResults) {
-      assertSame(actualExecution, actualResult.getExecution());
-    }
-
-    // Cleanup
-    HibernateUtil.clear();
+    assertTrue(new Date().getTime() - execution.getBegin() < 2000);
   }
 
   /**
@@ -265,12 +62,12 @@ public class ExecutionTest {
   public void testEqualsAndHashCode() {
     // Setup
     Algorithm algorithm = new Algorithm("some algorithm file name");
-    Timestamp begin = new Timestamp(new Date().getTime());
+    long begin = new Date().getTime();
     Execution execution = new Execution(algorithm, begin);
     Execution equalExecution = new Execution(algorithm, begin);
     Execution
         notEqualExecution =
-        new Execution(new Algorithm("some other file name"), new Timestamp(197));
+        new Execution(new Algorithm("some other file name"), 197);
 
     // Execute functionality
     // Check result
@@ -285,7 +82,7 @@ public class ExecutionTest {
   @Test
   public void testAddInput() {
     // Setup
-    Execution execution = new Execution(mock(Algorithm.class), mock(Timestamp.class));
+    Execution execution = new Execution(mock(Algorithm.class), 123456789);
     // Expected values
     Input input1 = new Input()
         .setId(42);
@@ -306,6 +103,160 @@ public class ExecutionTest {
     assertEquals(2, actualInputs.size());
     assertTrue(actualInputs.contains(input1));
     assertTrue(actualInputs.contains(input2));
+  }
+
+  /**
+   * Test method for {@link Execution#addResult(Result)}
+   *
+   * After adding a result to the execution the list of results should contain the added result.
+   */
+  @Test
+  public void testAddResult() {
+    // Setup
+    Execution execution = new Execution(mock(Algorithm.class), 123456789);
+    // Expected values
+    Result result1 = new Result().setFileName("result1");
+    Result result2 = new Result().setFileName("result2");
+
+    // Execute functionality
+    // Check result
+    Set<Result> actualResults = execution.getResults();
+    assertTrue(actualResults.isEmpty());
+
+    execution.addResult(result1);
+    actualResults = execution.getResults();
+    assertTrue(actualResults.contains(result1));
+
+    execution.addResult(result2);
+    actualResults = execution.getResults();
+    assertEquals(2, actualResults.size());
+    assertTrue(actualResults.contains(result1));
+    assertTrue(actualResults.contains(result2));
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.results_db.Execution#getId()}
+   */
+  @Test
+  public void testGetId() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    ExecutionResource resource = new ExecutionResource();
+    resource.store(new Execution());
+    resource.store(new Execution());
+
+    // Execute functionality
+    List<Execution> actualExecutions = resource.getAll();
+
+    long actualId1 = actualExecutions.get(0).getId();
+    long actualId2 = actualExecutions.get(1).getId();
+
+    // Check result
+    assertEquals(Math.abs(actualId1 - actualId2), 1);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  @Test(expected=EntityStorageException.class)
+  public void testUniqueAlgorithmAndBegin() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    long begin1 = new Date().getTime();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    algorithmResource.store(algorithm);
+    long begin2 = new Date().getTime();
+
+    // Check precondition
+    assertTrue(begin1 != begin2);
+
+    Execution execution1 = new Execution(algorithm, begin1);
+    try {
+      HibernateUtil.store(execution1);
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    Execution execution2 = new Execution(algorithm, begin2);
+    try {
+      HibernateUtil.store(execution2);
+    } catch (EntityStorageException e) {
+      fail();
+    }
+
+    // Check
+    Execution execution3 = new Execution(algorithm, begin1);
+    HibernateUtil.store(execution3);
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+  @Test
+  public void testCascadingSaveOfResults() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    long begin = new Date().getTime();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(algorithm);
+
+    Execution execution = new Execution(algorithm, begin);
+    Result result = new Result("some_file");
+
+    execution.addResult(result);
+
+    // Execute Functionality
+    HibernateUtil.store(execution);
+
+    // Check
+    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+
+    assertFalse(executions.isEmpty());
+    assertFalse(results.isEmpty());
+
+    // Clean up
+    HibernateUtil.clear();
+  }
+
+  @Test
+  public void testCascadingDeleteOfResults() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    long begin = new Date().getTime();
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(algorithm);
+
+    Execution execution = new Execution(algorithm, begin);
+    Result result = new Result("some_file");
+
+    execution.addResult(result);
+
+    HibernateUtil.store(execution);
+
+    // Check precondition
+    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    assertFalse(executions.isEmpty());
+    assertFalse(results.isEmpty());
+
+    // Execute Functionality
+    HibernateUtil.delete(execution);
+
+    // Check
+    executions = HibernateUtil.queryCriteria(Execution.class);
+    results = HibernateUtil.queryCriteria(Result.class);
+    assertTrue(executions.isEmpty());
+    assertTrue(results.isEmpty());
+
+    // Clean up
+    HibernateUtil.clear();
   }
 
 }

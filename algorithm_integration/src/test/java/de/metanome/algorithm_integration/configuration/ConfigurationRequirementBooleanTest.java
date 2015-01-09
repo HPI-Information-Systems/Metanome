@@ -80,7 +80,7 @@ public class ConfigurationRequirementBooleanTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementBoolean#setSettings(ConfigurationSettingBoolean...)}
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
    * The values should be correctly settable on the specification.
    */
@@ -96,7 +96,7 @@ public class ConfigurationRequirementBooleanTest {
 
     // Execute functionality
     try {
-      configSpec.setSettings(expectedValue0, expectedValue1);
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
@@ -107,7 +107,7 @@ public class ConfigurationRequirementBooleanTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementBoolean#setSettings(ConfigurationSettingBoolean...)}
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -121,7 +121,7 @@ public class ConfigurationRequirementBooleanTest {
     ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**

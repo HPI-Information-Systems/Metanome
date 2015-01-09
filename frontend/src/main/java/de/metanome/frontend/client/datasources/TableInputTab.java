@@ -16,15 +16,12 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -33,8 +30,10 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.TableInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   protected FlexTable tableInputList;
   protected TableInputEditForm editForm;
-  private TableInputServiceAsync tableInputService;
+  private TableInputRestService tableInputRestService;
   private DataSourcePage parent;
   private TabWrapper messageReceiver;
 
@@ -50,7 +49,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param parent the parent page
    */
   public TableInputTab(DataSourcePage parent) {
-    this.tableInputService = GWT.create(TableInputService.class);
+    this.tableInputRestService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
     this.parent = parent;
 
     this.tableInputList = new FlexTable();
@@ -74,15 +73,15 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param panel the parent widget of the table
    */
   private void addTableInputsToList(final FlowPanel panel) {
-    tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+    tableInputRestService.listTableInputs(new MethodCallback<List<TableInput>>() {
       @Override
-      public void onFailure(Throwable throwable) {
-        panel.add(new Label("There are no Table Inputs yet."));
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("There are no table inputs in the database: " + method.getResponse().getText());
         addEditForm();
       }
 
       @Override
-      public void onSuccess(List<TableInput> tableInputs) {
+      public void onSuccess(Method method, List<TableInput> tableInputs) {
         listTableInputs(tableInputs);
         addEditForm();
       }
@@ -119,8 +118,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        tableInputService.deleteTableInput(input,
-                                           getDeleteCallback(input));
+        tableInputRestService.deleteTableInput(input.getId(), getDeleteCallback(input));
       }
     });
 
@@ -190,15 +188,15 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param input the table input, which should be deleted.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final TableInput input) {
-    return new AsyncCallback<Void>() {
+  protected MethodCallback<Void> getDeleteCallback(final TableInput input) {
+    return new MethodCallback<Void>() {
       @Override
-      public void onFailure(Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete the Table Input: " + throwable.getMessage());
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not delete table input: " + method.getResponse().getText());
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Method method, Void aVoid) {
         tableInputList.removeRow(findRow(input));
         setEnableOfDeleteButton(input.getDatabaseConnection(), true);
       }

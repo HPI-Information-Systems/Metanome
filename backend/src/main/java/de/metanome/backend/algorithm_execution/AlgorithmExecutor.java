@@ -33,6 +33,7 @@ import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -40,7 +41,6 @@ import de.metanome.backend.results_db.Execution;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,11 +80,11 @@ public class AlgorithmExecutor implements Closeable {
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
-   * @param algorithmFileName the algorithm's file name
-   * @param requirements      list of configuration requirements
+   * @param algorithm    the algorithm
+   * @param requirements list of configuration requirements
    * @return elapsed time in ns
    */
-  public long executeAlgorithm(String algorithmFileName,
+  public long executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
                                List<ConfigurationRequirement> requirements)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
@@ -95,7 +95,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     try {
-      return executeAlgorithmWithValues(algorithmFileName, parameterValues);
+      return executeAlgorithmWithValues(algorithm, parameterValues);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -110,17 +110,17 @@ public class AlgorithmExecutor implements Closeable {
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
-   * @param algorithmFileName the algorithm's file name
-   * @param parameters        list of configuration values
+   * @param storedAlgorithm  the algorithm
+   * @param parameters list of configuration values
    * @return elapsed time in ns
    */
-  public long executeAlgorithmWithValues(String algorithmFileName,
+  public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
                                          List<ConfigurationValue> parameters)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
 
-    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
+    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
     Algorithm algorithm = analyzer.getAlgorithm();
 
     for (ConfigurationValue configValue : parameters) {
@@ -179,10 +179,11 @@ public class AlgorithmExecutor implements Closeable {
     long after = System.nanoTime();
     long elapsedNanos = after - before;
 
-    new Execution(de.metanome.backend.results_db.Algorithm.retrieve(algorithmFileName),
-                  new Timestamp(beforeWallClockTime))
-        .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
-        .store();
+    ExecutionResource executionResource = new ExecutionResource();
+    executionResource.store(
+        new Execution(storedAlgorithm, beforeWallClockTime)
+          .setEnd(beforeWallClockTime + (elapsedNanos / 1000))
+    );
 
     return elapsedNanos;
   }

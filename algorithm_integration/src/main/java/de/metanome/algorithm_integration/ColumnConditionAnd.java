@@ -16,10 +16,14 @@
 
 package de.metanome.algorithm_integration;
 
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -29,12 +33,12 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("ColumnConditionAnd")
 public class ColumnConditionAnd implements ColumnCondition {
 
   protected boolean isNegated = false;
-  protected TreeSet<ColumnCondition> columnValues;
   protected float coverage = Float.NaN;
-  ;
+  protected Set<ColumnCondition> columnValues;
 
   /**
    * Exists for Gwt serialization
@@ -62,7 +66,19 @@ public class ColumnConditionAnd implements ColumnCondition {
     }
   }
 
-  public void setIsNegated(boolean isNegated) {
+  public Set<ColumnCondition> getColumnValues() {
+    return columnValues;
+  }
+
+  public void setColumnValues(Set<ColumnCondition> columnValues) {
+    this.columnValues = columnValues;
+  }
+
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
     this.isNegated = isNegated;
   }
 
@@ -110,10 +126,6 @@ public class ColumnConditionAnd implements ColumnCondition {
     }
     result.add(condition);
     return result;
-  }
-
-  public TreeSet<ColumnCondition> getColumnValues() {
-    return columnValues;
   }
 
   @Override

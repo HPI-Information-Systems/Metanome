@@ -16,19 +16,24 @@
 
 package de.metanome.algorithm_integration.results;
 
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Represents a unique column combination.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("UniqueColumnCombination")
 public class UniqueColumnCombination implements Result {
-
-  private static final long serialVersionUID = 6744030409666817339L;
 
   protected ColumnCombination columnCombination;
 
@@ -57,17 +62,22 @@ public class UniqueColumnCombination implements Result {
     this.columnCombination = columnCombination;
   }
 
-  @Override
-  public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
-    resultReceiver.receiveResult(this);
-  }
-
   /**
    * @return the column combination
    */
   public ColumnCombination getColumnCombination() {
     return columnCombination;
+  }
+
+  public void setColumnCombination(ColumnCombination columnCombination) {
+    this.columnCombination = columnCombination;
+  }
+
+  @Override
+  @XmlTransient
+  public void sendResultTo(OmniscientResultReceiver resultReceiver)
+      throws CouldNotReceiveResultException {
+    resultReceiver.receiveResult(this);
   }
 
   @Override

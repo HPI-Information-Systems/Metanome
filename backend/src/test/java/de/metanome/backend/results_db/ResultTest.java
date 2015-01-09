@@ -16,15 +16,15 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.resources.ResultResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.Result}
@@ -34,55 +34,44 @@ import static org.junit.Assert.assertSame;
 public class ResultTest {
 
   /**
-   * Test method for {@link Result#store()} and {@link Result#retrieve(String)} <p/> Tests
-   * persistence of a Result without attached {@link Execution}.
+   * Test method for {@link Result#getId()}
    */
   @Test
-  public void testPersistence() throws EntityStorageException {
+  public void testGetId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
     // Expected values
-    String expectedFilePath = "some file name";
-    Result expectedResult = new Result(expectedFilePath);
+    ResultResource resultResource = new ResultResource();
+    resultResource.store(new Result("file1"));
+    resultResource.store(new Result("file2"));
 
     // Execute functionality
-    assertSame(expectedResult, expectedResult.store());
-    Result actualResult = Result.retrieve(expectedFilePath);
+    List<Result> actualResults = resultResource.getAll();
+
+    long actualId1 = actualResults.get(0).getId();
+    long actualId2 = actualResults.get(1).getId();
 
     // Check result
-    assertEquals(expectedResult, actualResult);
+    assertEquals(Math.abs(actualId1 - actualId2), 1);
 
     // Cleanup
     HibernateUtil.clear();
   }
 
-  /**
-   * Test method for {@link Result#store()} and {@link Result#retrieve(String)} <p/> Tests
-   * persistence of a Result with an attached {@link Execution}.
-   */
-  @Test
-  public void testPersistenceWithExecution() throws EntityStorageException {
+  @Test(expected = EntityStorageException.class)
+  public void testUniqueFileName() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
 
-    // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("some algorithm file name")
-        .store();
-    Execution execution = new Execution(algorithm, new Timestamp(new Date().getTime()))
-        .store();
-
     // Expected values
-    String filePath = "some file name";
-    Result expectedResult = new Result(filePath);
-    expectedResult.setExecution(execution);
+    try {
+      HibernateUtil.store(new Result("file1"));
+    } catch (EntityStorageException e) {
+      fail();
+    }
 
-    // Execute functionality
-    expectedResult.store();
-    Result actualResult = Result.retrieve(filePath);
-
-    // Check result
-    assertEquals(expectedResult, actualResult);
+    HibernateUtil.store(new Result("file1"));
 
     // Cleanup
     HibernateUtil.clear();

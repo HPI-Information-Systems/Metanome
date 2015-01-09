@@ -16,15 +16,12 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -32,10 +29,11 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
+import de.metanome.frontend.client.services.TableInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   protected FlexTable connectionInputList;
   protected DatabaseConnectionEditForm editForm;
 
-  private DatabaseConnectionServiceAsync databaseConnectionService;
-  private TableInputServiceAsync tableInputService;
+  private DatabaseConnectionRestService databaseConnectionService;
+  private TableInputRestService lemma;
 
   private DataSourcePage parent;
   private TabWrapper messageReceiver;
@@ -54,8 +52,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param parent the parent page
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
-    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
-    this.tableInputService = GWT.create(TableInputService.class);
+    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
+    this.lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
     this.parent = parent;
 
     this.connectionInputList = new FlexTable();
@@ -77,32 +75,34 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   private void addDatabaseConnectionsToList(final FlowPanel panel) {
     this.databaseConnectionService.listDatabaseConnections(
-        new AsyncCallback<List<DatabaseConnection>>() {
+        new MethodCallback<List<DatabaseConnection>>() {
           @Override
-          public void onFailure(Throwable throwable) {
-            panel.add(new Label("There are no Database Connections yet. Please restart Metanome after adding a database connection."));
+          public void onFailure(Method method, Throwable throwable) {
+            messageReceiver.addError("There are no database connection in the database.");
             addEditForm();
           }
 
           @Override
-          public void onSuccess(List<DatabaseConnection> connections) {
+          public void onSuccess(Method method, List<DatabaseConnection> connections) {
             listDatabaseConnections(connections);
             addEditForm();
 
             // disable all delete button of database connection which are referenced by a table input
-            tableInputService.listTableInputs(new AsyncCallback<List<TableInput>>() {
+            lemma.listTableInputs(new MethodCallback<List<TableInput>>() {
               @Override
-              public void onFailure(Throwable throwable) {
+              public void onFailure(Method method, Throwable throwable) {
+                messageReceiver.addError(method.getResponse().getText());
               }
 
               @Override
-              public void onSuccess(List<TableInput> tableInputs) {
+              public void onSuccess(Method method, List<TableInput> tableInputs) {
                 for (TableInput input : tableInputs) {
                   setEnableOfDeleteButton(input.getDatabaseConnection(), false);
                 }
               }
             });
           }
+
         });
   }
 
@@ -137,7 +137,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        databaseConnectionService.deleteDatabaseConnection(input,
+        databaseConnectionService.deleteDatabaseConnection(input.getId(),
                                                            getDeleteCallback(input));
       }
     });
@@ -210,15 +210,16 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param connection The database connection which should be removed from the table input tab.
    * @return The callback
    */
-  protected AsyncCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
-    return new AsyncCallback<Void>() {
+  protected MethodCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
+    return new  MethodCallback<Void>() {
+
       @Override
-      public void onFailure(Throwable throwable) {
-        messageReceiver.addErrorHTML("Could not delete the database connection: " + throwable.getMessage());
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not delete database connection: " + method.getResponse().getText());
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Method method, Void aVoid) {
         connectionInputList.removeRow(findRow(connection));
         parent.removeDatabaseConnectionFromTableInputTab(connection);
       }

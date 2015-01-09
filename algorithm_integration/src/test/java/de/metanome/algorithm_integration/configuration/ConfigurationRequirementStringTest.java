@@ -97,7 +97,7 @@ public class ConfigurationRequirementStringTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#setSettings(ConfigurationSettingString...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#checkAndSetSettings(ConfigurationSettingString...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -111,7 +111,7 @@ public class ConfigurationRequirementStringTest {
     ConfigurationSettingString expectedValue = mock(ConfigurationSettingString.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**

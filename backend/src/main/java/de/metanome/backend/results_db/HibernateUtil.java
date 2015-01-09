@@ -72,8 +72,8 @@ public class HibernateUtil {
     Session session = openNewSession();
 
     session.beginTransaction();
-    session.save(entity);
     try {
+      session.save(entity);
       session.getTransaction().commit();
     } catch (ConstraintViolationException e) {
       session.getTransaction().rollback();

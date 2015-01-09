@@ -18,6 +18,10 @@ package de.metanome.algorithm_integration.configuration;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+
 /**
  * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. It is
  * used for frontend input of the configuration value, so generally, a ConfigurationSpecification
@@ -26,7 +30,17 @@ import java.io.Serializable;
  *
  * @author Claudia Exeler
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
+})
 public interface ConfigurationSettingDataSource extends Serializable {
 
   public abstract String getValueAsString();
+
 }

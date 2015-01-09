@@ -25,11 +25,16 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
+import org.fusesource.restygwt.client.Defaults;
+
 public class MetanomeEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
     System.out.println(GWT.getModuleBaseURL());
+
+    Defaults.setServiceRoot(GWT.getHostPageBaseURL());
+    org.fusesource.restygwt.client.Defaults.setDateFormat(null);
 
     // body panel
     LayoutPanel bodyPanel = new LayoutPanel();

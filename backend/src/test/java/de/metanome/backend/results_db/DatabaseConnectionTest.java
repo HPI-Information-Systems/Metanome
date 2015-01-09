@@ -17,16 +17,14 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.DatabaseConnection}
@@ -35,30 +33,7 @@ import static org.junit.Assert.assertThat;
  */
 public class DatabaseConnectionTest {
 
-  /**
-   * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#store()} and {@link
-   * de.metanome.backend.results_db.DatabaseConnection#retrieve(long)} <p/> DatabaseConnections
-   * should be storable and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    DatabaseConnection expectedDatabaseConnection = new DatabaseConnection();
-
-    // Execute functionality
-    assertSame(expectedDatabaseConnection, expectedDatabaseConnection.store());
-    long id = expectedDatabaseConnection.getId();
-    DatabaseConnection actualDatabaseConnection = DatabaseConnection.retrieve(id);
-
-    // Check result
-    assertEquals(expectedDatabaseConnection, actualDatabaseConnection);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+  private final DatabaseConnectionResource dbResource = new DatabaseConnectionResource();
 
   /**
    * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#equals(Object)} and
@@ -83,30 +58,7 @@ public class DatabaseConnectionTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    DatabaseConnection expectedConnection = new DatabaseConnection()
-        .store();
-
-    // Execute functionality
-    List<DatabaseConnection> actualConnections = DatabaseConnection.retrieveAll();
-
-    // Check result
-    assertThat(actualConnections, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedConnection));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link DatabaseConnection#getId()}
+   * Test method for {@link de.metanome.backend.results_db.DatabaseConnection#getId()}
    */
   @Test
   public void testGetId() throws EntityStorageException {
@@ -115,11 +67,11 @@ public class DatabaseConnectionTest {
 
     // Expected values
 
-    new DatabaseConnection().store();
-    new DatabaseConnection().store();
+    dbResource.store(new DatabaseConnection());
+    dbResource.store(new DatabaseConnection());
 
     // Execute functionality
-    List<DatabaseConnection> actualConnections = DatabaseConnection.retrieveAll();
+    List<DatabaseConnection> actualConnections = dbResource.getAll();
 
     long actualId1 = actualConnections.get(0).getId();
     long actualId2 = actualConnections.get(1).getId();
