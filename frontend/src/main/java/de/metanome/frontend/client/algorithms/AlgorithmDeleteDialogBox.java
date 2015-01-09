@@ -32,10 +32,11 @@ import de.metanome.backend.results_db.Algorithm;
 public class AlgorithmDeleteDialogBox extends DialogBox {
 
   public AlgorithmDeleteDialogBox(final AlgorithmsPage page, final Algorithm algorithm) {
-    this.setTitle("Deleting algorithm");
-    this.setText("If you are going to delete this algorithm, all executions of this algorithm"
-                 + "are going to be deleted too."
-                 + "Do you still want to delete this algorithm?");
+    String algorithmName = algorithm.getName();
+    this.setTitle("Deleting algorithm " + algorithmName);
+    this.setText("Deleting the algorithm '" + algorithmName + "' results in deleting all "
+                 + "executions of this algorithm. "
+                 + "Do you still want to delete the algorithm '" + algorithmName + "'?");
 
     Button deleteButton = new Button("Delete");
     deleteButton.addClickHandler(new ClickHandler() {
