@@ -58,15 +58,14 @@ public class ResultPrinterTest {
 
   @Before
   public void setUp() throws Exception {
-    testResultDirPath = "results/test";
     testAlgoExecutionIdentifier = "testAlgoExecution";
-    printer = new ResultPrinter(testAlgoExecutionIdentifier, testResultDirPath);
+    printer = new ResultPrinter(testAlgoExecutionIdentifier, true);
   }
 
   @After
   public void tearDown() throws Exception {
     printer.close();
-    FileUtils.deleteDirectory(new File(testResultDirPath).getParentFile());
+    FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());
   }
 
   /**

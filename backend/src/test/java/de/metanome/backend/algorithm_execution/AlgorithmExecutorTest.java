@@ -43,6 +43,7 @@ import de.metanome.backend.input.csv.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
+import de.metanome.backend.resources.ResultResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -50,6 +51,7 @@ import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.Result;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -104,6 +106,8 @@ public class AlgorithmExecutorTest {
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
              EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
@@ -113,11 +117,13 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long elapsedTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
+    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
-    assertTrue(0 <= elapsedTime);
+    assertTrue(0 <= executionTime);
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -131,6 +137,8 @@ public class AlgorithmExecutorTest {
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
              EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_od_algorithm.ExampleAlgorithm.FILE_NAME, "path/to/file"));
@@ -138,11 +146,13 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long elapsedTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
+    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
-    assertTrue(0 <= elapsedTime);
+    assertTrue(0 <= executionTime);
+
+    HibernateUtil.clear();
   }
   
   /**
@@ -155,6 +165,8 @@ public class AlgorithmExecutorTest {
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
              EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
@@ -170,6 +182,8 @@ public class AlgorithmExecutorTest {
 
     // Check result
     verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -183,6 +197,8 @@ public class AlgorithmExecutorTest {
   public void testRelationalInputAlgorithm()
       throws AlgorithmExecutionException, AlgorithmLoadingException, EntityStorageException,
              FileNotFoundException, UnsupportedEncodingException {
+    HibernateUtil.clear();
+
     // Setup
     String path = new FileFixture("some file content").getTestData("some file name").getPath();
     List<ConfigurationRequirement> requirements = new ArrayList<>();
@@ -199,6 +215,8 @@ public class AlgorithmExecutorTest {
     // Execute functionality
     // Check result
     executor.executeAlgorithm(algorithm, requirements);
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -211,6 +229,8 @@ public class AlgorithmExecutorTest {
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
              EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
@@ -225,6 +245,8 @@ public class AlgorithmExecutorTest {
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
     // After finishing the progress should be 1;
     verify(progressCache).updateProgress(1);
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -237,6 +259,8 @@ public class AlgorithmExecutorTest {
              SecurityException, IOException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
              EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
@@ -250,6 +274,8 @@ public class AlgorithmExecutorTest {
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -262,6 +288,8 @@ public class AlgorithmExecutorTest {
       throws IllegalAccessException, IOException, InstantiationException,
              AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
              ClassNotFoundException, EntityStorageException, AlgorithmLoadingException {
+    HibernateUtil.clear();
+
     // Setup
     List<ConfigurationValue> configurationValues = new LinkedList<>();
     configurationValues.add(new ConfigurationValueRelationalInputGenerator("identifier", mock(
@@ -275,6 +303,8 @@ public class AlgorithmExecutorTest {
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+
+    HibernateUtil.clear();
   }
 
   /**
@@ -323,6 +353,14 @@ public class AlgorithmExecutorTest {
     assertTrue(actualExecution.getInputs().size() == 1);
     assertTrue(actualExecution.getInputs().contains(expectedInput));
 
+    ResultResource resultResource = new ResultResource();
+    List<Result> results = resultResource.getAll();
+
+    assertTrue(results.size() > 0);
+    assertEquals(results.get(0).getExecution(), actualExecution);
+
+    assertTrue(actualExecution.getResults().size() > 0);
+
     // TODO assert other execution fields
 
     // Cleanup
@@ -359,6 +397,8 @@ public class AlgorithmExecutorTest {
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
       throws AlgorithmExecutionException, AlgorithmLoadingException, FileNotFoundException,
              UnsupportedEncodingException, EntityStorageException {
+    HibernateUtil.clear();
+
     // Setup
     // Build file input specification
     int numberOfInputs = 5;
@@ -404,6 +444,8 @@ public class AlgorithmExecutorTest {
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
     verify(resultReceiver).receiveResult(captor.capture());
     assertEquals(expectedStatisticValue, captor.getValue().getStatisticValue());
+
+    HibernateUtil.clear();
   }
 
   /**

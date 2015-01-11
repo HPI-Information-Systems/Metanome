@@ -264,4 +264,44 @@ public class ExecutionResourceTest {
     HibernateUtil.clear();
   }
 
+  @Test
+  public void testAddResult() {
+    // Setup
+    HibernateUtil.clear();
+
+    // Store prerequisite objects in the database
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    algorithmResource.store(algorithm);
+
+    long begin = new Date().getTime();
+    Execution expectedExecution = new Execution(algorithm, begin);
+    expectedExecution = executionResource.store(expectedExecution);
+
+    // Expected values
+    Result expectedResult1 = new Result("some result file path");
+    Result expectedResult2 = new Result("some other result file path");
+
+    // Execute functionality
+    executionResource.addResult(expectedExecution.getId(), expectedResult1);
+    executionResource.addResult(expectedExecution.getId(), expectedResult2);
+
+    Execution actualExecution = executionResource.get(expectedExecution.getId());
+    Set<Result> actualResults = actualExecution.getResults();
+
+    // Check result
+    assertEquals(expectedExecution, actualExecution);
+    // All results should be properly retrieved
+    assertEquals(2, actualResults.size());
+    assertTrue(actualResults.contains(expectedResult1));
+    assertTrue(actualResults.contains(expectedResult2));
+
+    // All results should be properly attached to the execution
+    for (Result actualResult : actualResults) {
+      assertSame(actualExecution, actualResult.getExecution());
+    }
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

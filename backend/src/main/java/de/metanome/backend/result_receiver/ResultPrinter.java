@@ -36,6 +36,16 @@ import java.io.PrintStream;
  */
 public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
+  public static final String RESULT_TEST_DIR = "results/test";
+  public static final String RESULT_DIR   = "results";
+  public static final String IND_ENDING   = "_inds";
+  public static final String FD_ENDING    = "_fds";
+  public static final String UCC_ENDING   = "_uccs";
+  public static final String OD_ENDING    = "_ods";
+  public static final String STATS_ENDING = "_stats";
+  public static final String CUCC_ENDING  = "_cuccs";
+
+
   protected PrintStream statStream;
   protected PrintStream fdStream;
   protected PrintStream uccStream;
@@ -44,17 +54,27 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   protected PrintStream odStream;
 
   protected String algorithmExecutionIdentifier;
-  protected String directoryName;
+  protected String directory;
 
-  public ResultPrinter(String algorithmExecutionIdentifier, String directoryName)
+  public ResultPrinter(String algorithmExecutionIdentifier)
       throws FileNotFoundException {
-    File directory = new File(directoryName);
+    this(algorithmExecutionIdentifier, false);
+  }
+
+  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean testDirectory)
+      throws FileNotFoundException {
+    if (testDirectory) {
+      this.directory = RESULT_TEST_DIR;
+    } else {
+      this.directory = RESULT_DIR;
+    }
+
+    File directory = new File(this.directory);
     if (!directory.exists()) {
       directory.mkdirs();
     }
 
     this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
-    this.directoryName = directoryName;
   }
 
   @Override
@@ -94,7 +114,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   protected PrintStream getStatStream() throws CouldNotReceiveResultException {
     if (statStream == null) {
-      statStream = openStream("_stats");
+      statStream = openStream(STATS_ENDING);
     }
 
     return statStream;
@@ -102,7 +122,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   protected PrintStream getFdStream() throws CouldNotReceiveResultException {
     if (fdStream == null) {
-      fdStream = openStream("_fds");
+      fdStream = openStream(FD_ENDING);
     }
 
     return fdStream;
@@ -110,7 +130,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   protected PrintStream getIndStream() throws CouldNotReceiveResultException {
     if (indStream == null) {
-      indStream = openStream("_inds");
+      indStream = openStream(IND_ENDING);
     }
 
     return indStream;
@@ -118,7 +138,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   protected PrintStream getUccStream() throws CouldNotReceiveResultException {
     if (uccStream == null) {
-      uccStream = openStream("_uccs");
+      uccStream = openStream(UCC_ENDING);
     }
 
     return uccStream;
@@ -126,7 +146,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   protected PrintStream getCuccStream() throws CouldNotReceiveResultException {
     if (cuccStream == null) {
-      cuccStream = openStream("_cuccs");
+      cuccStream = openStream(CUCC_ENDING);
     }
 
     return cuccStream;
@@ -135,7 +155,7 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   
   protected PrintStream getOdStream() throws CouldNotReceiveResultException {
     if (odStream == null) {
-      odStream = openStream("_ods");
+      odStream = openStream(OD_ENDING);
     }
 
     return odStream;
@@ -152,8 +172,8 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
   }
 
-  protected String getOutputFilePathPrefix() {
-    return directoryName + "/" + algorithmExecutionIdentifier;
+  public String getOutputFilePathPrefix() {
+    return this.directory + "/" + this.algorithmExecutionIdentifier;
   }
 
   @Override

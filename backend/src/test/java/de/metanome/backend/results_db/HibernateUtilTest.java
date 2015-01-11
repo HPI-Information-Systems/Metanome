@@ -392,4 +392,36 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.results_db.HibernateUtil#update(Object)}
+   *
+   * Entities should be updateable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    String oldName = "some name";
+    String newName = "some new name";
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    expectedAlgorithm.setName(oldName);
+
+    // Execute functionality
+    HibernateUtil.store(expectedAlgorithm);
+
+    // Check result
+    assertTrue(expectedAlgorithm.getName().equals(oldName));
+
+    expectedAlgorithm.setName(newName);
+    HibernateUtil.update(expectedAlgorithm);
+
+    // Check result
+    assertTrue(expectedAlgorithm.getName().equals(newName));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

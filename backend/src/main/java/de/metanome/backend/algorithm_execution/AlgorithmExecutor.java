@@ -42,17 +42,21 @@ import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
+import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.Result;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Executes given algorithms.
@@ -65,6 +69,8 @@ public class AlgorithmExecutor implements Closeable {
   protected FileGenerator fileGenerator;
 
   protected DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
+
+  protected String resultPathPrefix;
 
   /**
    * Constructs a new executor with new result receivers and generators.
@@ -148,6 +154,8 @@ public class AlgorithmExecutor implements Closeable {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
     Algorithm algorithm = analyzer.getAlgorithm();
 
+    Set<Result> results = new HashSet<>();
+
     for (ConfigurationValue configValue : parameters) {
       configValue.triggerSetValue(algorithm, analyzer.getInterfaces());
     }
@@ -155,11 +163,15 @@ public class AlgorithmExecutor implements Closeable {
     if (analyzer.isFunctionalDependencyAlgorithm()) {
       FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
       fdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.FD_ENDING).setFd(true));
     }
 
     if (analyzer.isInclusionDependencyAlgorithm()) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.IND_ENDING).setInd(true));
     }
 
     if (analyzer.isUniqueColumnCombinationAlgorithm()) {
@@ -167,6 +179,8 @@ public class AlgorithmExecutor implements Closeable {
           uccAlgorithm =
           (UniqueColumnCombinationsAlgorithm) algorithm;
       uccAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.UCC_ENDING).setUcc(true));
     }
 
     if (analyzer.isConditionalUniqueColumnCombinationAlgorithm()) {
@@ -174,16 +188,22 @@ public class AlgorithmExecutor implements Closeable {
           cuccAlgorithm =
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.CUCC_ENDING).setCucc(true));
     }
 
     if (analyzer.isOrderDependencyAlgorithm()) {
       OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
       odAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.OD_ENDING).setOd(true));
     }
 
     if (analyzer.isBasicStatisticAlgorithm()) {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
       basicStatAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix + ResultPrinter.STATS_ENDING).setBasicStat(true));
     }
 
     if (analyzer.isTempFileAlgorithm()) {
@@ -202,16 +222,25 @@ public class AlgorithmExecutor implements Closeable {
     long before = System.nanoTime();
     algorithm.execute();
     long after = System.nanoTime();
-    long elapsedNanos = after - before;
+    long executionTime = after - before;
 
     ExecutionResource executionResource = new ExecutionResource();
-    executionResource.store(
-        new Execution(storedAlgorithm, beforeWallClockTime)
-          .setEnd(beforeWallClockTime + (elapsedNanos / 1000))
-          .setInputs(inputs)
-    );
+    Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
+        .setEnd(beforeWallClockTime + (executionTime / 1000))
+        .setInputs(inputs)
+        .setResults(results);
 
-    return elapsedNanos;
+    for (Result result : results) {
+      result.setExecution(execution);
+    }
+
+    executionResource.store(execution);
+
+    return executionTime;
+  }
+
+  public void setResultPathPrefix(String prefix) {
+    this.resultPathPrefix = prefix;
   }
 
   @Override

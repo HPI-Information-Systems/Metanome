@@ -67,9 +67,9 @@ public class AlgorithmExecutionResource {
     AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.algorithmId);
 
-    long executionTime = 0;
+    long timeInNanos = 0;
     try {
-      executionTime = executor.executeAlgorithm(algorithm, params.requirements);
+      timeInNanos = executor.executeAlgorithm(algorithm, params.requirements);
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -80,7 +80,7 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
-    return executionTime;
+    return timeInNanos;
   }
 
   @GET
@@ -118,7 +118,7 @@ public class AlgorithmExecutionResource {
    */
   protected AlgorithmExecutor buildExecutor(String executionIdentifier)
       throws FileNotFoundException, UnsupportedEncodingException {
-    ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier, "results");
+    ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier);
     ResultsCache resultsCache = new ResultsCache();
     ResultsHub resultsHub = new ResultsHub();
     resultsHub.addSubscriber(resultPrinter);
@@ -128,6 +128,7 @@ public class AlgorithmExecutionResource {
     ProgressCache progressCache = new ProgressCache();
 
     AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
+    executor.setResultPathPrefix(resultPrinter.getOutputFilePathPrefix());
     AlgorithmExecutionCache.add(executionIdentifier, resultsCache, progressCache);
 
     return executor;
