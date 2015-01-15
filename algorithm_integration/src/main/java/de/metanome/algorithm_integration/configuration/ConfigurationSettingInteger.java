@@ -16,11 +16,14 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.io.Serializable;
 
 /**
  * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
  */
+@JsonTypeName("ConfigurationSettingInteger")
 public class ConfigurationSettingInteger implements ConfigurationSetting, Serializable {
 
   public int value;

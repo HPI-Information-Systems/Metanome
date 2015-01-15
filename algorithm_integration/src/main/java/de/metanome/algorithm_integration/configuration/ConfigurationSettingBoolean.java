@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.io.Serializable;
 
 /**
@@ -23,6 +25,7 @@ import java.io.Serializable;
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("ConfigurationSettingBoolean")
 public class ConfigurationSettingBoolean implements ConfigurationSetting, Serializable {
 
   public boolean value;
