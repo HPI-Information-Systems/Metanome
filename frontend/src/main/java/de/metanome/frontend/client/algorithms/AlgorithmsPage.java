@@ -169,12 +169,22 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         }
       });
 
+      Button editButton = new Button("Edit");
+      editButton.setTitle(algorithm.getName());
+      editButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          editForm.updateAlgorithm(algorithm);
+        }
+      });
+
       table.setWidget(row, 0, new HTML("<b>" + algorithm.getName() + "</b>"));
       table.setText(row, 1, "Author: " + algorithm.getAuthor());
       table.setText(row, 2, "File: " + algorithm.getFileName());
       table.setText(row, 3, "Description: " + algorithm.getDescription());
       table.setWidget(row, 4, runButton);
       table.setWidget(row, 5, deleteButton);
+      table.setWidget(row, 6, editButton);
       row++;
     }
   }
@@ -232,6 +242,16 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    */
   public void callAddAlgorithm(final Algorithm algorithm) {
     this.restService.storeAlgorithm(algorithm, getAddCallback());
+  }
+
+  /**
+   * Initiates a service call to update the given algorithm in the database.
+   *
+   * @param algorithm algorithm, which should be updated
+   * @param oldName   the old algorithm name
+   */
+  public void callUpdateAlgorithm(Algorithm algorithm, String oldName) {
+    this.restService.updateAlgorithm(algorithm, getUpdateCallback(oldName));
   }
 
   /**
@@ -314,6 +334,52 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   }
 
   /**
+   * Constructs a callback that will update the given algorithm in all matching tables
+   *
+   * @return the desired callback instance
+   */
+  protected MethodCallback<Algorithm> getUpdateCallback(final String oldName) {
+    return new MethodCallback<Algorithm>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        if (method != null) {
+          messageReceiver.addError("Could not update algorithm: " + method.getResponse().getText());
+        } else {
+          messageReceiver.addError("Could not update algorithm.");
+        }
+        editForm.updateFileListBox();
+        editForm.reset();
+        editForm.showSaveButton();
+      }
+
+      @Override
+      public void onSuccess(Method method, Algorithm algorithm) {
+        basePage.updateAlgorithmOnRunConfigurations(algorithm, oldName);
+
+        if (algorithm.isInd()) {
+          updateRow(indList, algorithm, oldName);
+        }
+        if (algorithm.isFd()) {
+          updateRow(fdList, algorithm, oldName);
+        }
+        if (algorithm.isUcc()) {
+          updateRow(uccList, algorithm, oldName);
+        }
+        if (algorithm.isOd()) {
+          updateRow(odList, algorithm, oldName);
+        }
+        if (algorithm.isBasicStat()) {
+          updateRow(statsList, algorithm, oldName);
+        }
+
+        editForm.updateFileListBox();
+        editForm.reset();
+        editForm.showSaveButton();
+      }
+    };
+  }
+
+  /**
    * Removes the row, which contains the given algorithm Name, from the given table
    *
    * @param table         the table
@@ -332,6 +398,28 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   }
 
   /**
+   * Update the row, which contains the given algorithm, from the given table
+   *
+   * @param table     the table
+   * @param algorithm the algorithm
+   */
+  protected void updateRow(FlexTable table, Algorithm algorithm, String oldName) {
+    int row = 0;
+    while (row < table.getRowCount()) {
+      // Check if the file name cell contains the given algorithm name
+      if (((HTML) table.getWidget(row, 0)).getText().equals(oldName)) {
+        table.setWidget(row, 0, new HTML("<b>" + algorithm.getName() + "</b>"));
+        table.setText(row, 1, "Author: " + algorithm.getAuthor());
+        table.setText(row, 2, "File: " + algorithm.getFileName());
+        table.setText(row, 3, "Description: " + algorithm.getDescription());
+
+        return;
+      }
+      row++;
+    }
+  }
+
+  /**
    * (non-Javadoc)
    *
    * @see de.metanome.frontend.client.TabContent#setMessageReceiver(de.metanome.frontend.client.TabWrapper)
@@ -341,5 +429,4 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.editForm.messageReceiver = tab;
     this.messageReceiver = tab;
   }
-
 }

@@ -75,4 +75,8 @@ public interface AlgorithmRestService extends RestService {
   @DELETE
   @Path("/delete/{id}")
   public void deleteAlgorithm(@PathParam("id") long id, MethodCallback<Void> callback);
+
+  @POST
+  @Path("/update")
+  public void updateAlgorithm(Algorithm algorithm, MethodCallback<Algorithm> callback);
 }

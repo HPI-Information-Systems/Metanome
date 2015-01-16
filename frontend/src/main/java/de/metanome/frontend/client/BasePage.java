@@ -208,6 +208,17 @@ public class BasePage extends TabLayoutPanel {
     this.runConfigurationsPage.removeAlgorithm(algorithmName);
   }
 
+  /**
+   * Forwards an algorithm, which was updated, from the AlgorithmPage to the
+   * RunConfigurations
+   *
+   * @param algorithm the algorithm, which was updated
+   * @param oldName   the old name of the algorithm
+   */
+  public void updateAlgorithmOnRunConfigurations(Algorithm algorithm, String oldName) {
+    this.runConfigurationsPage.updateAlgorithm(algorithm, oldName);
+  }
+
   public enum Tabs {
     DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
   }
