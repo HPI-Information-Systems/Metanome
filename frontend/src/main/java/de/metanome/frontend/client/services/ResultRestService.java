@@ -46,4 +46,9 @@ public interface ResultRestService extends RestService {
   @DELETE
   @Path("/delete/{id}")
   public void deleteResult(@PathParam("id") long id, MethodCallback<Void> callback);
+
+  @POST
+  @Path("/update")
+  public void updateResult(Result result, MethodCallback<Result> callback);
+
 }

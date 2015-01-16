@@ -142,6 +142,14 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
       }
     });
 
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateDatabaseConnection(input);
+      }
+    });
+
     Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
@@ -157,6 +165,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     this.connectionInputList.setText(row, 3, input.getComment());
     this.connectionInputList.setWidget(row, 4, runButton);
     this.connectionInputList.setWidget(row, 5, deleteButton);
+    this.connectionInputList.setWidget(row, 6, editButton);
   }
 
   /**
@@ -179,6 +188,16 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    */
   public void updateTableInputTab(DatabaseConnection connection) {
     this.parent.addDatabaseConnectionToTableInputTab(connection);
+  }
+
+  /**
+   * Forwards the update-table-input-tab-command to its parent.
+   *
+   * @param connection    the new database connection
+   * @param oldConnection the old database connection
+   */
+  public void updateTableInputTab(DatabaseConnection connection, DatabaseConnection oldConnection) {
+    this.parent.addDatabaseConnectionToTableInputTab(connection, oldConnection);
   }
 
   /**
@@ -247,6 +266,20 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
       row++;
     }
     return -1;
+  }
+
+  /**
+   * Find the row of the old database connection and updates the values.
+   * @param updatedDatabaseConnection the updated database connection
+   * @param oldDatabaseConnection     the old database connection
+   */
+  public void updateDatabaseConnectionInTable(DatabaseConnection updatedDatabaseConnection, DatabaseConnection oldDatabaseConnection) {
+    int row = this.findRow(oldDatabaseConnection);
+
+    this.connectionInputList.setWidget(row, 0, new HTML(updatedDatabaseConnection.getUrl()));
+    this.connectionInputList.setWidget(row, 1, new HTML(updatedDatabaseConnection.getUsername()));
+    this.connectionInputList.setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
+    this.connectionInputList.setText(row, 3, updatedDatabaseConnection.getComment());
   }
 
   @Override

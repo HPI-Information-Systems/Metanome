@@ -52,4 +52,8 @@ public interface ExecutionRestService extends RestService {
   @Path("/algorithm/{name}")
   public void getExecutionsForAlgorithm(@PathParam("name") String name, MethodCallback<List<Execution>> callback);
 
+  @POST
+  @Path("/update")
+  public void updateExecution(Execution execution, MethodCallback<Execution> callback);
+
 }

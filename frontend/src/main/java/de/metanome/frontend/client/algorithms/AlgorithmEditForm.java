@@ -245,7 +245,7 @@ public class AlgorithmEditForm extends Grid {
   }
 
   /**
-   * Switch to update modus: Fill the edit form with the algorithm values.
+   * Fills the edit form with the algorithm's values.
    * @param algorithm the algorithm, which should be updated
    */
   public void updateAlgorithm(Algorithm algorithm) {

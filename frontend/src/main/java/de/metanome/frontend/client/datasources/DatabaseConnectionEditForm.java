@@ -36,6 +36,8 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Arrays;
 
+import javax.activation.DataContentHandler;
+
 /**
  * Input field to configure a database connection.
  */
@@ -49,6 +51,9 @@ public class DatabaseConnectionEditForm extends Grid {
   private DatabaseConnectionRestService databaseConnectionService;
   private DatabaseConnectionTab parent;
   private TabWrapper messageReceiver;
+  private Button saveButton;
+  private Button updateButton;
+  private DatabaseConnection oldDatabaseConnection;
 
   public DatabaseConnectionEditForm(DatabaseConnectionTab parent) {
     super(6, 2);
@@ -79,6 +84,18 @@ public class DatabaseConnectionEditForm extends Grid {
     this.setText(4, 0, "Comment");
     this.setWidget(4, 1, this.commentTextbox);
 
+    this.saveButton = new Button("Save", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        saveDatabaseConnection();
+      }
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submitUpdate();
+      }
+    });
     this.setWidget(5, 1, new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -165,7 +182,55 @@ public class DatabaseConnectionEditForm extends Grid {
   }
 
   /**
-   * Reset all values in the url, username and password text boxes.
+   * Updates the current database connection in the database.
+   */
+  private void submitUpdate() {
+    messageReceiver.clearErrors();
+    try {
+      final DatabaseConnection currentConnection = this.getValue();
+
+      this.databaseConnectionService
+          .updateDatabaseConnection(currentConnection, new MethodCallback<DatabaseConnection>() {
+            @Override
+            public void onFailure(Method method, Throwable throwable) {
+              messageReceiver
+                  .addError("Database Connection could not be stored:" + method.getResponse().getText());
+              reset();
+              showSaveButton();
+            }
+
+            @Override
+            public void onSuccess(Method method, DatabaseConnection connection) {
+              reset();
+              showSaveButton();
+              parent.updateDatabaseConnectionInTable(connection, oldDatabaseConnection);
+              parent.updateTableInputTab(connection, oldDatabaseConnection);
+              parent.updateDataSourcesOnRunConfiguration();
+            }
+
+          });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Database Connection could not be stored: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Fills the form with the values of the database connection, which should be updated.
+   * @param databaseConnection the database connection
+   */
+  public void updateDatabaseConnection(DatabaseConnection databaseConnection) {
+    this.dbUrlTextbox.setText(databaseConnection.getUrl());
+    this.usernameTextbox.setText(databaseConnection.getUsername());
+    this.passwordTextbox.setText(databaseConnection.getPassword());
+    this.systemListBox.setSelectedValue(databaseConnection.getSystem().name());
+    this.commentTextbox.setText(databaseConnection.getComment());
+
+    this.setWidget(5, 1, updateButton);
+    this.oldDatabaseConnection = databaseConnection;
+  }
+
+  /**
+   * Resets all values in the url, username and password text boxes.
    */
   public void reset() {
     this.dbUrlTextbox.setText("");
@@ -173,6 +238,13 @@ public class DatabaseConnectionEditForm extends Grid {
     this.passwordTextbox.setText("");
     this.systemListBox.reset();
     this.commentTextbox.setText("");
+  }
+
+  /**
+   * Shows the save button.
+   */
+  public void showSaveButton() {
+    this.setWidget(5, 1, saveButton);
   }
 
   /**

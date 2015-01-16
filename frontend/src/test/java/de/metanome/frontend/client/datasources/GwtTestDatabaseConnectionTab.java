@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -183,6 +182,50 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
+
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#updateDatabaseConnectionInTable(de.metanome.backend.results_db.DatabaseConnection, de.metanome.backend.results_db.DatabaseConnection)}
+   */
+  public void testUpdateDatabaseConnection() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnection oldDatabaseConnection = new DatabaseConnection();
+    oldDatabaseConnection.setUrl("url");
+    oldDatabaseConnection.setPassword("password");
+    oldDatabaseConnection.setUsername("user");
+    oldDatabaseConnection.setSystem(DbSystem.DB2);
+    ArrayList<DatabaseConnection> connections = new ArrayList<DatabaseConnection>();
+    connections.add(oldDatabaseConnection);
+
+    DatabaseConnectionTab connectionTab = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+    connectionTab.listDatabaseConnections(connections);
+
+    // Expected Values
+    String expectedValue = "updated";
+    DatabaseConnection updatedDatabaseConnection = new DatabaseConnection()
+        .setUrl(expectedValue)
+        .setComment(expectedValue)
+        .setUsername(expectedValue)
+        .setPassword(expectedValue)
+        .setSystem(DbSystem.HANA);
+
+    // Execute
+    connectionTab.updateDatabaseConnectionInTable(updatedDatabaseConnection, oldDatabaseConnection);
+
+    // Check
+    assertEquals(2, connectionTab.connectionInputList.getRowCount());
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 1))).getText().contains(expectedValue));
+    assertEquals(((HTML) (connectionTab.connectionInputList.getWidget(1, 2))).getText(),
+                 DbSystem.HANA.name());
+    assertTrue(connectionTab.connectionInputList.getText(1, 3).contains(expectedValue));
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
 
   @Override
   public String getModuleName() {

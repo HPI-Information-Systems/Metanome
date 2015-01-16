@@ -89,6 +89,17 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
+   * Updates the table input tab. Updates database connection in the list of available database
+   * connections.
+   *
+   * @param connection    the connection which was updated
+   * @param oldConnection the old connection
+   */
+  public void addDatabaseConnectionToTableInputTab(DatabaseConnection connection, DatabaseConnection oldConnection) {
+    this.tableInputTab.updateDatabaseConnection(connection, oldConnection);
+  }
+
+  /**
    * Forwards the command to update the data sources on the run configuration page to the base
    * page.
    */

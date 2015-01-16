@@ -166,6 +166,17 @@ public class TableInputTab extends FlowPanel implements TabContent {
   }
 
   /**
+   * Updates a database connection.
+   *
+   * @param connection    the updated database connection
+   * @param oldConnection the old database connection
+   */
+  public void updateDatabaseConnection(DatabaseConnection connection, DatabaseConnection oldConnection) {
+    this.editForm.removeDatabaseConnection(oldConnection);
+    this.editForm.addDatabaseConnection(connection);
+  }
+
+  /**
    * Forwards the remove-database-connection-command to the edit form.
    *
    * @param connection the database connection

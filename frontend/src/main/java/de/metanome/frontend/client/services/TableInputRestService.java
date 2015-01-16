@@ -47,4 +47,8 @@ public interface TableInputRestService extends RestService {
   @Path("/delete/{id}")
   public void deleteTableInput(@PathParam("id") long id, MethodCallback<Void> callback);
 
+  @POST
+  @Path("/update")
+  public void updateTableInput(TableInput tableInput, MethodCallback<TableInput> callback);
+
 }

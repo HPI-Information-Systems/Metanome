@@ -16,6 +16,8 @@
 
 package de.metanome.frontend.client.services;
 
+import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
+
 import de.metanome.backend.results_db.FileInput;
 
 import org.fusesource.restygwt.client.MethodCallback;
@@ -50,5 +52,9 @@ public interface FileInputRestService extends RestService {
   @DELETE
   @Path("/delete/{id}")
   public void deleteFileInput(@PathParam("id") long id, MethodCallback<Void> callback);
+
+  @POST
+  @Path("/update")
+  public void updateFileInput(FileInput fileInput, MethodCallback<FileInput> callback);
 
 }
