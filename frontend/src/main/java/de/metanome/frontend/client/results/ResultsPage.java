@@ -73,9 +73,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param executionTimeNanoSecs the execution time in nanoseconds
+   * @param executionTimeInNanos the execution time in nanoseconds
    */
-  public void updateOnSuccess(Long executionTimeNanoSecs) {
+  public void updateOnSuccess(Long executionTimeInNanos) {
     this.timer.cancel();
 
     // Fetch the last results
@@ -87,10 +87,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
+    Date date = new Date(Math.round(executionTimeInNanos / 1000000d));
     String timeString = "Algorithm " + this.algorithmFileName + " executed in " +
                         format.format(date, TimeZone.createTimeZone(0)) +
-                        " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms.";
+                        " (HH:mm:ss.SSS) or " + executionTimeInNanos / 1000000d + " ms.";
     this.insert(new Label(timeString), 0);
   }
 

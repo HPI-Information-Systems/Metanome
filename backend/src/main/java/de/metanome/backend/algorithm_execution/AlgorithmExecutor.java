@@ -222,11 +222,11 @@ public class AlgorithmExecutor implements Closeable {
     long before = System.nanoTime();
     algorithm.execute();
     long after = System.nanoTime();
-    long executionTime = after - before;
+    long executionTimeInNanos = after - before;
 
     ExecutionResource executionResource = new ExecutionResource();
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
-        .setEnd(beforeWallClockTime + (executionTime / 1000))
+        .setEnd(beforeWallClockTime + (executionTimeInNanos / 1000))
         .setInputs(inputs)
         .setResults(results);
 
@@ -236,7 +236,7 @@ public class AlgorithmExecutor implements Closeable {
 
     executionResource.store(execution);
 
-    return executionTime;
+    return executionTimeInNanos;
   }
 
   public void setResultPathPrefix(String prefix) {

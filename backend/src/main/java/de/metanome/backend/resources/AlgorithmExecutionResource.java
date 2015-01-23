@@ -67,9 +67,9 @@ public class AlgorithmExecutionResource {
     AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.algorithmId);
 
-    long timeInNanos = 0;
+    long executionTimeInNanos = 0;
     try {
-      timeInNanos = executor.executeAlgorithm(algorithm, params.requirements);
+      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.requirements);
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -80,7 +80,7 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
-    return timeInNanos;
+    return executionTimeInNanos;
   }
 
   @GET

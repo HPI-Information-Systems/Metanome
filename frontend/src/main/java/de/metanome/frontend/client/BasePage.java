@@ -147,8 +147,8 @@ public class BasePage extends TabLayoutPanel {
         resultsPage.updateOnError(method.getResponse().getText());
       }
 
-      public void onSuccess(Method method, Long executionTime) {
-        resultsPage.updateOnSuccess(executionTime);
+      public void onSuccess(Method method, Long executionTimeInNanos) {
+        resultsPage.updateOnSuccess(executionTimeInNanos);
       }
     };
   }
