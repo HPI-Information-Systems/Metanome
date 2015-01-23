@@ -177,15 +177,21 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    *
    * @param parameters    parameters to use for the algorithm execution
    * @param configuration the configuration to start executing with
+   * @param cacheResults  true, if if true, the results should be cached and written to disk after the algorithm is finished
+   * @param writeResults  true, if the results should be written to disk immediately
+   * @param countResults  true, if the results should be counted
    */
   public void startExecution(List<ConfigurationRequirement> parameters,
-                             List<ConfigurationRequirement> configuration) {
+                             List<ConfigurationRequirement> configuration,
+                             Boolean cacheResults,
+                             Boolean writeResults,
+                             Boolean countResults) {
 
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
 
-    basePage.startAlgorithmExecution(executionService, algorithm, parameters);
+    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,writeResults, countResults);
   }
 
   /**
