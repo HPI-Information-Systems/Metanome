@@ -194,7 +194,7 @@ public class DatabaseConnectionEditForm extends Grid {
             @Override
             public void onFailure(Method method, Throwable throwable) {
               messageReceiver
-                  .addError("Database Connection could not be stored:" + method.getResponse().getText());
+                  .addError("Database Connection could not be updated:" + method.getResponse().getText());
               reset();
               showSaveButton();
             }

@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.backend.results_db.EntityStorageException;
@@ -27,7 +26,6 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
-import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
@@ -120,6 +118,42 @@ public class GwtTestFileInputTab extends GWTTestCase {
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
+
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#updateFileInputInTable(de.metanome.backend.results_db.FileInput, de.metanome.backend.results_db.FileInput)}
+   */
+  public void testUpdateFileInput() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    FileInput oldFileInput = new FileInput("old").setComment("comment");
+    ArrayList<FileInput> inputs = new ArrayList<FileInput>();
+    inputs.add(oldFileInput);
+
+    BasePage parent = new BasePage();
+    DataSourcePage page = new DataSourcePage(parent);
+    FileInputTab fileInputTab = new FileInputTab(page);
+    page.setMessageReceiver(new TabWrapper());
+    fileInputTab.listFileInputs(inputs);
+
+    // Expected Values
+    String expectedValue = "updated";
+    FileInput updatedFileInput = new FileInput(expectedValue)
+        .setComment(expectedValue);
+
+    // Execute
+    fileInputTab.updateFileInputInTable(updatedFileInput, oldFileInput);
+
+    // Check
+    assertEquals(2, fileInputTab.fileInputList.getRowCount());
+    assertTrue(((HTML) (fileInputTab.fileInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(fileInputTab.fileInputList.getText(1, 1).contains(expectedValue));
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
 
   @Override
   public String getModuleName() {

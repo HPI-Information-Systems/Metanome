@@ -197,7 +197,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param oldConnection the old database connection
    */
   public void updateTableInputTab(DatabaseConnection connection, DatabaseConnection oldConnection) {
-    this.parent.addDatabaseConnectionToTableInputTab(connection, oldConnection);
+    this.parent.updateDatabaseConnectionToTableInputTab(connection, oldConnection);
   }
 
   /**

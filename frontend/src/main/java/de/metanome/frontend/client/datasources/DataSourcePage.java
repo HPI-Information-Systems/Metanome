@@ -95,7 +95,8 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
    * @param connection    the connection which was updated
    * @param oldConnection the old connection
    */
-  public void addDatabaseConnectionToTableInputTab(DatabaseConnection connection, DatabaseConnection oldConnection) {
+  public void updateDatabaseConnectionToTableInputTab(DatabaseConnection connection,
+                                                      DatabaseConnection oldConnection) {
     this.tableInputTab.updateDatabaseConnection(connection, oldConnection);
   }
 

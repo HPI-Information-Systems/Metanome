@@ -17,6 +17,7 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
@@ -25,6 +26,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.backend.input.csv.FileIterator;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
+import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
 
@@ -212,6 +214,67 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     assertEquals("--", actualFile);
     assertEquals("", actualComment);
   }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputEditForm#updateFileInput(de.metanome.backend.results_db.FileInput)}
+   * and test method for {@link FileInputEditForm#showSaveButton()}
+   *
+   * If the edit button for a file input is clicked, the edit form should contain the values
+   * of that file input and the edit form should show a update button instead of an save button.
+   * If the method 'show save button' is called, the save button should be visible again.
+   */
+  public void testEditButtonClicked() throws InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    FileInputEditForm
+        editForm =
+        new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
+
+    // Expected Values
+    String expectedFileName = "file name";
+    char separator = ';';
+    char quotechar = '"';
+    char escapechar = '\\';
+    int skipLines = 0;
+    boolean strictQuotes = true;
+    boolean ignoreLeadingWhiteSpace = false;
+    boolean hasHeader = true;
+    boolean skipDifferingLines = false;
+
+    FileInput fileInput = new FileInput(expectedFileName)
+        .setSeparator(separator)
+        .setQuotechar(quotechar)
+        .setEscapechar(escapechar)
+        .setSkipLines(skipLines)
+        .setStrictQuotes(strictQuotes)
+        .setIgnoreLeadingWhiteSpace(ignoreLeadingWhiteSpace)
+        .setHasHeader(hasHeader)
+        .setSkipDifferingLines(skipDifferingLines);
+
+    // Execute
+    editForm.updateFileInput(fileInput);
+
+    // Check results
+    assertEquals(expectedFileName, editForm.fileListBox.getSelectedValue());
+    assertEquals(separator, editForm.getChar(editForm.separatorTextbox));
+    assertEquals(quotechar, editForm.getChar(editForm.quoteTextbox));
+    assertEquals(escapechar, editForm.getChar(editForm.escapeTextbox));
+    assertEquals(skipLines, (int) editForm.skiplinesIntegerbox.getValue());
+    assertEquals(strictQuotes, (boolean) editForm.strictQuotesCheckbox.getValue());
+    assertEquals(hasHeader, (boolean) editForm.headerCheckbox.getValue());
+    assertEquals(ignoreLeadingWhiteSpace, (boolean) editForm.ignoreLeadingWhiteSpaceCheckbox.getValue());
+    assertEquals(skipDifferingLines, (boolean) editForm.skipDifferingLinesCheckbox.getValue());
+
+    assertEquals(((Button) editForm.getWidget(2, 0)).getText(), "Update");
+
+    // Execute
+    editForm.showSaveButton();
+
+    // Check results
+    assertEquals(((Button) editForm.getWidget(2, 0)).getText(), "Save");
+  }
+
 
   @Override
   public String getModuleName() {

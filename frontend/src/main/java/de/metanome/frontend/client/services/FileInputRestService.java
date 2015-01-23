@@ -16,8 +16,6 @@
 
 package de.metanome.frontend.client.services;
 
-import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
-
 import de.metanome.backend.results_db.FileInput;
 
 import org.fusesource.restygwt.client.MethodCallback;
