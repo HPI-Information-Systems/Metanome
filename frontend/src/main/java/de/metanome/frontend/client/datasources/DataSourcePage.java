@@ -108,8 +108,8 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
     this.basePage.updateDataSourcesOnRunConfiguration();
   }
 
-  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
-    this.databaseConnectionTab.setEnableOfDeleteButton(databaseConnection, enabled);
+  public void setEnableOfButtons(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.databaseConnectionTab.setEnableOfButtons(databaseConnection, enabled);
   }
 
   @Override

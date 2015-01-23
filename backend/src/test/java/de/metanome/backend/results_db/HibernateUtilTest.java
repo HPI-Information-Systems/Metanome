@@ -398,7 +398,7 @@ public class HibernateUtilTest {
    * Entities should be updateable.
    */
   @Test
-  public void testUpdate() throws EntityStorageException {
+  public void testUpdate() throws Exception {
     // Setup
     HibernateUtil.clear();
 

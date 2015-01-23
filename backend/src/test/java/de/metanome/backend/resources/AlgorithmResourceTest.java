@@ -310,12 +310,40 @@ public class AlgorithmResourceTest {
     assertEquals(algorithm, actualAlgorithm);
 
     // Execute functionality
-    algorithm.setFileName("new file").setAuthor("author");
+    algorithm.setFileName("example_ucc_algorithm.jar").setAuthor("author");
     resource.update(algorithm);
 
     // Check result
     actualAlgorithm = resource.get(algorithm.getId());
     assertEquals(algorithm, actualAlgorithm);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#update(de.metanome.backend.results_db.Algorithm)}
+   * Updating algorithms with a not loadable jar file should not be possible
+   */
+  @Test(expected = WebException.class)
+  public void testUpdateFailure() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+
+    // Execute functionality
+    Algorithm actualAlgorithm = resource.store(algorithm);
+
+    // Check result
+    assertEquals(algorithm, actualAlgorithm);
+
+    // Execute functionality
+    algorithm.setFileName("example_wrong_bootstrap_algorithm.jar").setAuthor("author");
+
+    // Check result
+    resource.update(algorithm);
 
     // Cleanup
     HibernateUtil.clear();

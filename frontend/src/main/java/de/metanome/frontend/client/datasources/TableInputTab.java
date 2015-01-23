@@ -155,12 +155,21 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param updatedInput the updated table input
    * @param oldInput     the old table input
    */
-  public void updateTableInputInTable(TableInput updatedInput, TableInput oldInput) {
+  public void updateTableInputInTable(final TableInput updatedInput, TableInput oldInput) {
     int row = findRow(oldInput);
 
     this.tableInputList.setWidget(row, 0, new HTML(updatedInput.getIdentifier()));
     this.tableInputList.setWidget(row, 1, new HTML(updatedInput.getTableName()));
     this.tableInputList.setText(row, 2, updatedInput.getComment());
+
+    final Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateTableInput(updatedInput);
+      }
+    });
+    this.tableInputList.setWidget(row, 5, editButton);
   }
 
   /**
@@ -237,8 +246,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
     };
   }
 
-  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
-    this.parent.setEnableOfDeleteButton(databaseConnection, enabled);
+  public void setEnableOfButtons(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.parent.setEnableOfButtons(databaseConnection, enabled);
   }
 
   /**

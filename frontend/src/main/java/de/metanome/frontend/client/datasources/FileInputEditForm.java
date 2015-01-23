@@ -498,6 +498,8 @@ public class FileInputEditForm extends Grid {
    * @param fileInput the file input
    */
   public void updateFileInput(FileInput fileInput) {
+    this.updateListbox();
+
     setFileName(FilePathHelper.getFileName(fileInput.getFileName()));
 
     commentTextArea.setText(fileInput.getComment());

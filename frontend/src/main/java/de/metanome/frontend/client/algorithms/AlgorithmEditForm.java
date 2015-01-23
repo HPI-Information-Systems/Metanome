@@ -251,6 +251,8 @@ public class AlgorithmEditForm extends Grid {
    * @param algorithm the algorithm, which should be updated
    */
   public void updateAlgorithm(final Algorithm algorithm) {
+    this.updateFileListBox();
+
     this.fileListBox.addValue(algorithm.getFileName());
     this.fileListBox.setSelectedValue(algorithm.getFileName());
     this.nameTextBox.setText(algorithm.getName());

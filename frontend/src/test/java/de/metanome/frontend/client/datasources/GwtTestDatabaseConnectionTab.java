@@ -90,7 +90,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.metanome.backend.results_db.DatabaseConnection,
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfButtons(de.metanome.backend.results_db.DatabaseConnection,
    * boolean)}
    */
   public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
@@ -116,7 +116,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     assertTrue(actualButton.isEnabled());
 
     // Execute
-    page.setEnableOfDeleteButton(connection, false);
+    page.setEnableOfButtons(connection, false);
 
     // Check
     assertFalse(actualButton.isEnabled());

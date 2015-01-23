@@ -252,7 +252,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm, String)}
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm, Algorithm)}
    */
   public void testFailureOfUpdateCallbackAlgorithm() {
     // Setup
@@ -268,7 +268,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     // Expected Values
 
     // Execute
-    algorithmsPage.getUpdateCallback("old file").onFailure(null, new Throwable("error"));
+    algorithmsPage.getUpdateCallback(new Algorithm("old file")).onFailure(null, new Throwable("error"));
 
     // Check
     assertEquals(1, algorithmsPage.editForm.fileListBox.getValues().size());

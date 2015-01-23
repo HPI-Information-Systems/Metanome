@@ -68,23 +68,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @Override
   public Algorithm store(Algorithm algorithm) {
-    AlgorithmAnalyzer analyzer = null;
-    try {
-      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-
-    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
-    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
-    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
-    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
-    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
-    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
-    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
-    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
-    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+    algorithm = setAlgorithmTypes(algorithm);
 
     try {
       HibernateUtil.store(algorithm);
@@ -307,11 +291,35 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @Override
   public Algorithm update(Algorithm algorithm) {
+    algorithm = setAlgorithmTypes(algorithm);
+
     try {
       HibernateUtil.update(algorithm);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+    return algorithm;
+  }
+
+  private Algorithm setAlgorithmTypes(Algorithm algorithm) {
+    AlgorithmAnalyzer analyzer = null;
+    try {
+      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+
+    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
+    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
+    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
+    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
+    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
+    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
+    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
+    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
+    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
+    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+
     return algorithm;
   }
 }

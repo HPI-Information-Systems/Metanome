@@ -404,7 +404,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    * @param table     the table
    * @param algorithm the algorithm
    */
-  protected void updateRow(FlexTable table, Algorithm algorithm, String oldName) {
+  protected void updateRow(FlexTable table, final Algorithm algorithm, String oldName) {
     int row = 0;
     while (row < table.getRowCount()) {
       // Check if the file name cell contains the given algorithm name
@@ -413,6 +413,16 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
         table.setText(row, 1, "Author: " + algorithm.getAuthor());
         table.setText(row, 2, "File: " + algorithm.getFileName());
         table.setText(row, 3, "Description: " + algorithm.getDescription());
+
+        Button editButton = new Button("Edit");
+        editButton.setTitle(algorithm.getName());
+        editButton.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            editForm.updateAlgorithm(algorithm);
+          }
+        });
+        table.setWidget(row, 6, editButton);
 
         return;
       }

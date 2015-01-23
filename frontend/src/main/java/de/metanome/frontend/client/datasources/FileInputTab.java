@@ -226,11 +226,20 @@ public class FileInputTab extends FlowPanel implements TabContent {
    * @param updatedInput the updated file input
    * @param oldInput     the old file input
    */
-  public void updateFileInputInTable(FileInput updatedInput, FileInput oldInput) {
+  public void updateFileInputInTable(final FileInput updatedInput, FileInput oldInput) {
     int row = findRow(oldInput);
 
     this.fileInputList.setWidget(row, 0, new HTML(FilePathHelper.getFileName(updatedInput.getFileName())));
     this.fileInputList.setText(row, 1, updatedInput.getComment());
 
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateFileInput(updatedInput);
+      }
+    });
+
+    this.fileInputList.setWidget(row, 4, editButton);
   }
 }

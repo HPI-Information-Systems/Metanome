@@ -198,7 +198,7 @@ public class TableInputEditForm extends Grid {
           reset();
           increaseDatabaseConnectionUsage(input.getDatabaseConnection().getIdentifier());
           parent.addTableInputToTable(input);
-          parent.setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+          parent.setEnableOfButtons(input.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
         }
 
@@ -216,12 +216,12 @@ public class TableInputEditForm extends Grid {
     if (dbUsageMap.containsKey(identifier)) {
       Integer usage = dbUsageMap.get(identifier) + 1;
       if (usage == 1)  {
-        parent.setEnableOfDeleteButton(dbMap.get(identifier), false);
+        parent.setEnableOfButtons(dbMap.get(identifier), false);
       }
       dbUsageMap.put(identifier, usage);
     } else {
       dbUsageMap.put(identifier, 1);
-      parent.setEnableOfDeleteButton(dbMap.get(identifier), false);
+      parent.setEnableOfButtons(dbMap.get(identifier), false);
     }
   }
 
@@ -232,7 +232,7 @@ public class TableInputEditForm extends Grid {
   public void decreaseDatabaseConnectionUsage(String identifier) {
     Integer usage = Math.max(dbUsageMap.get(identifier) - 1, 0);
     if (usage == 0) {
-      parent.setEnableOfDeleteButton(dbMap.get(identifier), true);
+      parent.setEnableOfButtons(dbMap.get(identifier), true);
     }
     dbUsageMap.put(identifier, usage);
   }
