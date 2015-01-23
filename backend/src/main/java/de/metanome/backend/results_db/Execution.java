@@ -19,6 +19,8 @@ package de.metanome.backend.results_db;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
@@ -171,13 +173,11 @@ public class Execution implements Serializable {
       mappedBy = "execution",
       cascade = CascadeType.ALL
   )
-  @Fetch(value = FetchMode.SELECT)
-  @XmlTransient
+  @OnDelete(action = OnDeleteAction.CASCADE)
   public Set<Result> getResults() {
     return results;
   }
 
-  @XmlTransient
   public Execution setResults(Set<Result> results) {
     this.results = results;
 

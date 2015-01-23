@@ -19,6 +19,7 @@ package de.metanome.backend.resources;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +133,25 @@ public class ExecutionResource implements Resource<Execution> {
     }
 
     return executions;
+  }
+
+  /**
+   * Adds a result to the execution.
+   * @param id     the id of the execution
+   * @param result the result, which should be added to the execution
+   */
+  @POST
+  @Path("/addResult/{id}")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public void addResult(@PathParam("id") long id, Result result) {
+    try {
+      Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
+      execution.addResult(result);
+      HibernateUtil.update(execution);
+    } catch (EntityStorageException e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
   }
 
 }

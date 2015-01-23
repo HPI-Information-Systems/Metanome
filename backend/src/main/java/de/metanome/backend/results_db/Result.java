@@ -17,12 +17,13 @@
 package de.metanome.backend.results_db;
 
 
-import javax.persistence.Column;
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,12 +38,12 @@ public class Result implements Serializable {
   protected long id;
   protected String fileName;
   protected Execution execution;
-  protected boolean isInd;
-  protected boolean isFd;
-  protected boolean isUcc;
-  protected boolean isCucc;
-  protected boolean isOd;
-  protected boolean isBasicStat;
+  protected boolean ind;
+  protected boolean fd;
+  protected boolean ucc;
+  protected boolean cucc;
+  protected boolean od;
+  protected boolean basicStat;
 
   /**
    * Exists for hibernate serialization
@@ -81,7 +82,9 @@ public class Result implements Serializable {
     return this;
   }
 
-  @ManyToOne(targetEntity = Execution.class)
+
+  @ManyToOne
+  @JoinColumn(name = "execution")
   @XmlTransient
   public Execution getExecution() {
     return execution;
@@ -102,61 +105,61 @@ public class Result implements Serializable {
   }
 
   public boolean isInd() {
-    return isInd;
+    return ind;
   }
 
   public Result setInd(boolean isInd) {
-    this.isInd = isInd;
+    this.ind = isInd;
 
     return this;
   }
 
   public boolean isFd() {
-    return isFd;
+    return fd;
   }
 
   public Result setFd(boolean isFd) {
-    this.isFd = isFd;
+    this.fd = isFd;
 
     return this;
   }
 
   public boolean isUcc() {
-    return isUcc;
+    return ucc;
   }
 
   public Result setUcc(boolean isUcc) {
-    this.isUcc = isUcc;
+    this.ucc = isUcc;
 
     return this;
   }
 
   public boolean isCucc() {
-    return isCucc;
+    return cucc;
   }
 
   public Result setCucc(boolean isCucc) {
-    this.isCucc = isCucc;
+    this.cucc = isCucc;
 
     return this;
   }
   
   public boolean isOd() {
-    return isOd;
+    return od;
   }
 
   public Result setOd(boolean isOd) {
-    this.isOd = isOd;
+    this.od = isOd;
 
     return this;
   }
 
   public boolean isBasicStat() {
-    return isBasicStat;
+    return basicStat;
   }
 
   public Result setBasicStat(boolean isBasicStat) {
-    this.isBasicStat = isBasicStat;
+    this.basicStat = isBasicStat;
 
     return this;
   }

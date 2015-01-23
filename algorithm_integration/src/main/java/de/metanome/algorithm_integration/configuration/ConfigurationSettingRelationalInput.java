@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
 })
 public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource,
-                                                             Serializable {
+                                                             Serializable,
+                                                             ConfigurationSetting {
 
   /**
    * Sends itself back to the initializer (double dispatch).

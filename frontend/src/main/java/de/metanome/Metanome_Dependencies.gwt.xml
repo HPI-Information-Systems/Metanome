@@ -32,6 +32,7 @@
         <include name="ColumnConditionValue.java"/>
     </source>
     <source path="algorithm_integration/configuration">
+        <include name="ConfigurationSetting.java"/>
         <include name="ConfigurationSettingBoolean.java"/>
         <include name="ConfigurationSettingFileInput.java"/>
         <include name="ConfigurationSettingTableInput.java"/>

@@ -18,6 +18,7 @@ package de.metanome.frontend.client.services;
 
 
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.Result;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
@@ -52,8 +53,9 @@ public interface ExecutionRestService extends RestService {
   @Path("/algorithm/{name}")
   public void getExecutionsForAlgorithm(@PathParam("name") String name, MethodCallback<List<Execution>> callback);
 
-  @POST
   @Path("/update")
   public void updateExecution(Execution execution, MethodCallback<Execution> callback);
 
+  @Path("/addResult/{id}")
+  public void addResult(@PathParam("id") long id, Result result, MethodCallback<Void> callback);
 }

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @JsonTypeName("ConfigurationSettingFileInput")
-public class ConfigurationSettingFileInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+public class ConfigurationSettingFileInput implements ConfigurationSetting, ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
@@ -46,6 +46,8 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
+  // Id of the file input in the database (needed for mapping the setting to the stored file input)
+  private long id;
   private String fileName;
   private boolean advanced;
   private String separatorChar; //Todo: atm needs to be String instead of char for serialization
@@ -190,6 +192,15 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
     return this;
   }
 
+  public long getId() {
+    return id;
+  }
+
+  public ConfigurationSettingFileInput setId(long id) {
+    this.id = id;
+    return this;
+  }
+
   @Override
   @XmlTransient
   public String getValueAsString() {
@@ -206,4 +217,5 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
       throws AlgorithmConfigurationException {
     initializer.initialize(this);
   }
+
 }

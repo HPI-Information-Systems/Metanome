@@ -103,6 +103,25 @@ public class HibernateUtil {
   }
 
   /**
+   * Update an entity from the database.
+   *
+   * @param entity the entity to update
+   */
+  public static void update(Object entity) throws EntityStorageException {
+    if (!entity.getClass().isAnnotationPresent(Entity.class)) {
+      throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
+    }
+
+    Session session = openNewSession();
+
+    session.beginTransaction();
+    session.update(entity);
+    session.getTransaction().commit();
+
+    session.close();
+  }
+
+  /**
    * Retrieves an entity of the given class and with the given id from the database.
    *
    * @param clazz the class of the entity to retrieve

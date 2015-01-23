@@ -114,7 +114,6 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-
     page.setExecutionParameter(null, "identifier", "name");
 
     page.startPolling();

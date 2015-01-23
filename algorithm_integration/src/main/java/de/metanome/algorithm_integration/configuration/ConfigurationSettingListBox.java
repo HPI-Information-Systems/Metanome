@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.io.Serializable;
 
 /**
@@ -23,7 +25,8 @@ import java.io.Serializable;
  *
  * @author Tanja Bergmann
  */
-public class ConfigurationSettingListBox implements Serializable {
+@JsonTypeName("ConfigurationSettingListBox")
+public class ConfigurationSettingListBox implements ConfigurationSetting, Serializable {
 
   public String selectedValue;
 

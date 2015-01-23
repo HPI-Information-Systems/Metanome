@@ -16,6 +16,7 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -25,12 +26,12 @@ import de.metanome.backend.results_db.TableInput;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertEquals;
-
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.resources.InputResource}
@@ -40,6 +41,7 @@ public class InputResourceTest {
   private InputResource inputResource = new InputResource();
   private TableInputResource tableInputResource = new TableInputResource();
   private FileInputResource fileInputResource = new FileInputResource();
+  private DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
   /**
    * Test method for {@link de.metanome.backend.resources.InputResource#getAll()}
@@ -119,5 +121,29 @@ public class InputResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link InputResource#listRelationalInputs()}
+   */
+  @Test
+  public void testListRelationalInputs() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Input expectedInput = inputResource.store(new Input());
+    FileInput expectedFileInput = fileInputResource.store(new FileInput());
+    TableInput expectedTableInput = tableInputResource.store(new TableInput());
+    DatabaseConnection expectedDatabaseConnection = databaseConnectionResource.store(new DatabaseConnection());
+
+    // Execute functionality
+    List<Input> actualInputs = inputResource.listRelationalInputs();
+
+    // Check result
+    assertThat(actualInputs, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedFileInput, expectedTableInput));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
 }
