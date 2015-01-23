@@ -20,14 +20,9 @@ import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.TableInput}
@@ -74,7 +69,7 @@ public class TableInputTest {
     String expectedIdentifier = "tableName; url; user; DB2";
 
     TableInput input = new TableInput();
-    input.setDatabaseConnection(connection);
+    input = input.setDatabaseConnection(connection);
     input.setTableName("tableName");
 
     // Execute
