@@ -24,6 +24,7 @@ import de.metanome.backend.results_db.TableInput;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,6 +43,7 @@ public class InputResource implements Resource<Input> {
   @POST
   @Path("/store")
   @Produces("application/json")
+  @Consumes("application/json")
   @Override
   public Input store(Input input) {
     try {
@@ -97,6 +99,25 @@ public class InputResource implements Resource<Input> {
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+  }
+
+  /**
+   * Updates an input in the database.
+   * @param input the input
+   * @return the updated input
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Input update(Input input) {
+    try {
+      HibernateUtil.update(input);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return input;
   }
 
   /**

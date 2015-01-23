@@ -247,11 +247,11 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   /**
    * Initiates a service call to update the given algorithm in the database.
    *
-   * @param algorithm algorithm, which should be updated
-   * @param oldName   the old algorithm name
+   * @param algorithm    algorithm, which should be updated
+   * @param oldAlgorithm the old algorithm
    */
-  public void callUpdateAlgorithm(Algorithm algorithm, String oldName) {
-    this.restService.updateAlgorithm(algorithm, getUpdateCallback(oldName));
+  public void callUpdateAlgorithm(Algorithm algorithm, Algorithm oldAlgorithm) {
+    this.restService.updateAlgorithm(algorithm, getUpdateCallback(oldAlgorithm));
   }
 
   /**
@@ -338,7 +338,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
    *
    * @return the desired callback instance
    */
-  protected MethodCallback<Algorithm> getUpdateCallback(final String oldName) {
+  protected MethodCallback<Algorithm> getUpdateCallback(final Algorithm oldAlgorithm) {
     return new MethodCallback<Algorithm>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
@@ -354,6 +354,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
       @Override
       public void onSuccess(Method method, Algorithm algorithm) {
+        String oldName = oldAlgorithm.getName();
         basePage.updateAlgorithmOnRunConfigurations(algorithm, oldName);
 
         if (algorithm.isInd()) {

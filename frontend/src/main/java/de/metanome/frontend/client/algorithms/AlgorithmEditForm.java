@@ -51,7 +51,7 @@ public class AlgorithmEditForm extends Grid {
   private List<String> algorithmsInDatabase;
   private List<String> algorithmsOnStorage;
 
-  private String oldAlgorithmName = "";
+  private Algorithm oldAlgorithm;
   private Button submitButton;
   private Button updateButton;
 
@@ -208,7 +208,9 @@ public class AlgorithmEditForm extends Grid {
   protected void updateSubmit() {
     messageReceiver.clearErrors();
     try {
-      algorithmsPage.callUpdateAlgorithm(retrieveInputValues(), oldAlgorithmName);
+      Algorithm updatedAlgorithm = retrieveInputValues();
+      updatedAlgorithm.setId(oldAlgorithm.getId());
+      algorithmsPage.callUpdateAlgorithm(updatedAlgorithm, oldAlgorithm);
     } catch (InputValidationException e) {
       messageReceiver.addError(e.getMessage());
     }
@@ -248,14 +250,14 @@ public class AlgorithmEditForm extends Grid {
    * Fills the edit form with the algorithm's values.
    * @param algorithm the algorithm, which should be updated
    */
-  public void updateAlgorithm(Algorithm algorithm) {
+  public void updateAlgorithm(final Algorithm algorithm) {
     this.fileListBox.addValue(algorithm.getFileName());
     this.fileListBox.setSelectedValue(algorithm.getFileName());
     this.nameTextBox.setText(algorithm.getName());
     this.authorTextBox.setText(algorithm.getAuthor());
     this.descriptionTextArea.setText(algorithm.getDescription());
 
-    this.oldAlgorithmName = algorithm.getName();
+    this.oldAlgorithm = algorithm;
     this.setWidget(4, 1, this.updateButton);
   }
 

@@ -149,9 +149,28 @@ public class ExecutionResource implements Resource<Execution> {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
       execution.addResult(result);
       HibernateUtil.update(execution);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+  }
+
+  /**
+   * Updates an execution in the database.
+   * @param execution the execution
+   * @return the updated execution
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Execution update(Execution execution) {
+    try {
+      HibernateUtil.update(execution);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return execution;
   }
 
 }

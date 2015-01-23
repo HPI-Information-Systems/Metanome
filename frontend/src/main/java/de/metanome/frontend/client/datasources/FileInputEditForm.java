@@ -174,7 +174,7 @@ public class FileInputEditForm extends Grid {
   private void submitUpdate() {
     messageReceiver.clearErrors();
     try {
-      this.fileInputService.updateFileInput(this.getValue(), new MethodCallback<FileInput>() {
+      this.fileInputService.updateFileInput(this.getValue().setId(oldFileInput.getId()), new MethodCallback<FileInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
           messageReceiver.addError("File Input could not be updated: " + method.getResponse().getText());

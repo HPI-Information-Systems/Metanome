@@ -295,4 +295,23 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
+
+  /**
+   * Updates an algorithm in the database.
+   * @param algorithm the algorithm
+   * @return the updated algorithm
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Algorithm update(Algorithm algorithm) {
+    try {
+      HibernateUtil.update(algorithm);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return algorithm;
+  }
 }

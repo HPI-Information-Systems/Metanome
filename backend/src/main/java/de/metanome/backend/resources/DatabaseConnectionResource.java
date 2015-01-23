@@ -106,4 +106,23 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
     }
   }
 
+  /**
+   * Updates a database connection in the database.
+   * @param databaseConnection the database connection
+   * @return the updated database connection
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public DatabaseConnection update(DatabaseConnection databaseConnection) {
+    try {
+      HibernateUtil.update(databaseConnection);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return databaseConnection;
+  }
+
 }

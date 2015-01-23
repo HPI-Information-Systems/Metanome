@@ -187,7 +187,7 @@ public class DatabaseConnectionEditForm extends Grid {
   private void submitUpdate() {
     messageReceiver.clearErrors();
     try {
-      final DatabaseConnection currentConnection = this.getValue();
+      final DatabaseConnection currentConnection = this.getValue().setId(oldDatabaseConnection.getId());
 
       this.databaseConnectionService
           .updateDatabaseConnection(currentConnection, new MethodCallback<DatabaseConnection>() {

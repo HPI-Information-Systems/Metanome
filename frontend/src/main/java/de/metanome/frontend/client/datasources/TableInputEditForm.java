@@ -243,7 +243,7 @@ public class TableInputEditForm extends Grid {
   private void submitUpdate() {
     messageReceiver.clearErrors();
     try {
-      this.tableInputService.updateTableInput(this.getValue(), new MethodCallback<TableInput>() {
+      this.tableInputService.updateTableInput(this.getValue().setId(oldTableInput.getId()), new MethodCallback<TableInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
           messageReceiver

@@ -291,4 +291,34 @@ public class AlgorithmResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmResource#update(de.metanome.backend.results_db.Algorithm)}
+   * Algorithm should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+
+    // Execute functionality
+    Algorithm actualAlgorithm = resource.store(algorithm);
+
+    // Check result
+    assertEquals(algorithm, actualAlgorithm);
+
+    // Execute functionality
+    algorithm.setFileName("new file").setAuthor("author");
+    resource.update(algorithm);
+
+    // Check result
+    actualAlgorithm = resource.get(algorithm.getId());
+    assertEquals(algorithm, actualAlgorithm);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

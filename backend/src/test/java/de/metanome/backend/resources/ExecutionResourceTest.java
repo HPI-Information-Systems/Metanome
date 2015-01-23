@@ -304,4 +304,39 @@ public class ExecutionResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#update(de.metanome.backend.results_db.Execution)}
+   * Executions should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    Algorithm oldAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    Algorithm newAlgorithm = new Algorithm("example_ucc_algorithm.jar");
+
+    algorithmResource.store(oldAlgorithm);
+    algorithmResource.store(newAlgorithm);
+
+    // Expected values
+    Execution execution = new Execution(oldAlgorithm);
+
+    // Execute functionality
+    Execution actualExecution = executionResource.store(execution);
+
+    // Check result
+    assertEquals(execution, actualExecution);
+
+    // Execute functionality
+    execution.setAlgorithm(newAlgorithm);
+    executionResource.update(execution);
+
+    // Check result
+    actualExecution = executionResource.get(execution.getId());
+    assertEquals(execution, actualExecution);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
 }

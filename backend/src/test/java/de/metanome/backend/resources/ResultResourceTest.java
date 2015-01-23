@@ -146,4 +146,34 @@ public class ResultResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.ResultResource#update(de.metanome.backend.results_db.Result)}
+   * Results should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Result result = new Result("old file");
+
+    // Execute functionality
+    Result actualResult = resultResource.store(result);
+
+    // Check result
+    assertEquals(result, actualResult);
+
+    // Execute functionality
+    result.setFileName("new file").setOd(true);
+    resultResource.update(result);
+
+    // Check result
+    actualResult = resultResource.get(result.getId());
+    assertEquals(result, actualResult);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

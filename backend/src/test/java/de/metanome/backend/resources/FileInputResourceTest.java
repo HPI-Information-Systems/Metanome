@@ -176,5 +176,36 @@ public class FileInputResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.FileInputResource#update(de.metanome.backend.results_db.FileInput)}
+   * FileInputs should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+    FileInputResource fileInputResource = new FileInputResource();
+
+    // Expected values
+    FileInput fileInput = new FileInput("old file");
+
+    // Execute functionality
+    FileInput actualFileInput = fileInputResource.store(fileInput);
+
+    // Check result
+    assertEquals(fileInput, actualFileInput);
+
+    // Execute functionality
+    fileInput.setComment("new comment").setFileName("new file");
+    fileInputResource.update(fileInput);
+
+    // Check result
+    actualFileInput = fileInputResource.get(fileInput.getId());
+    assertEquals(fileInput, actualFileInput);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }
 
