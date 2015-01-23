@@ -182,9 +182,11 @@ public class TableInputInput extends InputField {
         databaseConnection.getUsername(),
         databaseConnection.getPassword(),
         databaseConnection.getSystem());
+    databaseConnectionSetting.setId(databaseConnection.getId());
 
     setting.setTable(tableInput.getTableName());
     setting.setDatabaseConnection(databaseConnectionSetting);
+    setting.setId(tableInput.getId());
 
     return setting;
   }

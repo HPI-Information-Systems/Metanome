@@ -17,8 +17,10 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.TableInput;
 
 import java.util.List;
 
@@ -97,4 +99,19 @@ public class InputResource implements Resource<Input> {
     }
   }
 
+  /**
+   * @return all relational inputs (table and file inputs) in the database
+   */
+  @GET
+  @Path("/get/relationalInputs")
+  @Produces("application/json")
+  public List<Input> listRelationalInputs() {
+    try {
+      List<Input> inputs = HibernateUtil.queryCriteria(TableInput.class);
+      inputs.addAll(HibernateUtil.queryCriteria(FileInput.class));
+      return inputs;
+    } catch (EntityStorageException e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
 }

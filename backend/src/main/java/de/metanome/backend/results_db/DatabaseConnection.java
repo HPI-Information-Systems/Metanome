@@ -17,16 +17,12 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 /**
@@ -36,23 +32,17 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
-public class DatabaseConnection implements Serializable {
+public class DatabaseConnection extends Input implements Serializable {
 
-  protected long id;
   protected String url;
   protected String username;
   protected String password;
   protected DbSystem system;
   protected String comment;
 
-  @Id
-  @GeneratedValue
-  public long getId() {
-    return id;
-  }
-
+  @Override
   public DatabaseConnection setId(long id) {
-    this.id = id;
+    super.setId(id);
 
     return this;
   }

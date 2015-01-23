@@ -184,6 +184,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
+
     basePage.startAlgorithmExecution(executionService, algorithm, parameters);
   }
 

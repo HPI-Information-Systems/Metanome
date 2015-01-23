@@ -35,6 +35,10 @@ public interface InputRestService extends RestService {
   public void listInputs(MethodCallback<List<Input>> callback);
 
   @GET
+  @Path("/get/relationalInputs")
+  public void listRelationalInputs(MethodCallback<List<Input>> callback);
+
+  @GET
   @Path("/get/{id}")
   public void getInput(@PathParam("id") long id, MethodCallback<Input> callback);
 
