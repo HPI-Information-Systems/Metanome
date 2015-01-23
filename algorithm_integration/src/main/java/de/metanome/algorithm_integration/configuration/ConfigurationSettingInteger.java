@@ -27,6 +27,8 @@ import java.io.Serializable;
 public class ConfigurationSettingInteger implements ConfigurationSetting, Serializable {
 
   public int value;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingInteger";
 
   /**
    * Exists for serialization.

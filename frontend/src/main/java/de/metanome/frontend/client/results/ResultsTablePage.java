@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.results;
 
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,12 +37,10 @@ import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-
-import java.util.List;
 
 
 /**
@@ -93,7 +90,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError(method.getResponse().getText());
+
       }
 
       @Override

@@ -39,7 +39,7 @@ import java.io.Serializable;
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
     @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
 })
-public interface ConfigurationSettingDataSource extends Serializable {
+public interface ConfigurationSettingDataSource extends ConfigurationSetting, Serializable {
 
   public abstract String getValueAsString();
 
