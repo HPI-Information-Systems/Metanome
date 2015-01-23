@@ -46,12 +46,16 @@ public class TableInputEditForm extends Grid {
 
   private final DatabaseConnectionRestService databaseConnectionService;
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
+  protected Map<String, Integer> dbUsageMap = new HashMap<>();
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
   protected TextArea commentTextbox;
   private TableInputRestService tableInputService;
   private TabWrapper messageReceiver;
   private TableInputTab parent;
+  private Button saveButton;
+  private Button updateButton;
+  private TableInput oldTableInput;
 
   public TableInputEditForm(TableInputTab parent) {
     super(4, 2);
@@ -75,12 +79,19 @@ public class TableInputEditForm extends Grid {
     this.setText(2, 0, "Comment");
     this.setWidget(2, 1, this.commentTextbox);
 
-    this.setWidget(3, 1, new Button("Save", new ClickHandler() {
+    this.saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveTableInput();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submitUpdate();
+      }
+    });
+    this.setWidget(3, 1, saveButton);
   }
 
   /**
@@ -185,6 +196,7 @@ public class TableInputEditForm extends Grid {
         @Override
         public void onSuccess(Method method, TableInput input) {
           reset();
+          increaseDatabaseConnectionUsage(input.getDatabaseConnection().getIdentifier());
           parent.addTableInputToTable(input);
           parent.setEnableOfDeleteButton(input.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
@@ -195,6 +207,83 @@ public class TableInputEditForm extends Grid {
       messageReceiver.addError("Invalid Input: " + e.getMessage());
     }
   }
+
+  /**
+   * Increase the number of references a database connection has to table inputs.
+   * @param identifier the identifier of the database connection
+   */
+  public void increaseDatabaseConnectionUsage(String identifier) {
+    if (dbUsageMap.containsKey(identifier)) {
+      Integer usage = dbUsageMap.get(identifier) + 1;
+      if (usage == 1)  {
+        parent.setEnableOfDeleteButton(dbMap.get(identifier), false);
+      }
+      dbUsageMap.put(identifier, usage);
+    } else {
+      dbUsageMap.put(identifier, 1);
+      parent.setEnableOfDeleteButton(dbMap.get(identifier), false);
+    }
+  }
+
+  /**
+   * Decreases the number of references a database connection has to table inputs.
+   * @param identifier the identifier of the database connection
+   */
+  public void decreaseDatabaseConnectionUsage(String identifier) {
+    Integer usage = Math.max(dbUsageMap.get(identifier) - 1, 0);
+    if (usage == 0) {
+      parent.setEnableOfDeleteButton(dbMap.get(identifier), true);
+    }
+    dbUsageMap.put(identifier, usage);
+  }
+
+  /**
+   * Updates the current table input in the database.
+   */
+  private void submitUpdate() {
+    messageReceiver.clearErrors();
+    try {
+      this.tableInputService.updateTableInput(this.getValue(), new MethodCallback<TableInput>() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver
+              .addError("Table Input could not be updated: " + method.getResponse().getText());
+          reset();
+          showSaveButton();
+        }
+
+        @Override
+        public void onSuccess(Method method, TableInput input) {
+          reset();
+          showSaveButton();
+          if (!input.getIdentifier().equals(oldTableInput.getIdentifier())) {
+            increaseDatabaseConnectionUsage(input.getIdentifier());
+            decreaseDatabaseConnectionUsage(oldTableInput.getIdentifier());
+          }
+          parent.updateTableInputInTable(input, oldTableInput);
+          parent.updateDataSourcesOnRunConfiguration();
+        }
+
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
+  }
+
+
+  /**
+   * Fills the form with the values of the current table input, which should be updated.
+   * @param tableInput the table input
+   */
+  public void updateTableInput(TableInput tableInput) {
+    setValues(tableInput.getDatabaseConnection().getIdentifier(),
+              tableInput.getTableName(),
+              tableInput.getComment());
+
+    this.setWidget(3, 1, updateButton);
+    this.oldTableInput = tableInput;
+  }
+
 
   public void addDatabaseConnection(DatabaseConnection connection) {
     String
@@ -208,6 +297,13 @@ public class TableInputEditForm extends Grid {
         identifier = connection.getIdentifier();
     this.dbConnectionListBox.removeValue(identifier);
     this.dbMap.remove(connection);
+  }
+
+  /**
+   * Shows the save button.
+   */
+  protected void showSaveButton() {
+    this.setWidget(3, 1, saveButton);
   }
 
   /**

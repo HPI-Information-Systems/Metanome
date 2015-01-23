@@ -492,6 +492,7 @@ public class FileInputEditForm extends Grid {
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
   }
+
   /**
    * Fills the form with the values of the file input, which should be updated.
    * @param fileInput the file input

@@ -17,6 +17,7 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -121,6 +122,59 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
     // Check
     assertFalse(input.dbConnectionListBox.containsValues());
   }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#updateTableInput(TableInput tableInput)}
+   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#showSaveButton}
+   *
+   * If the edit button for a table input is clicked, the edit form should contain the values
+   * of that table input and the edit form should show a update button instead of an save button.
+   * If the method 'show save button' is called, the save button should be visible again.
+   */
+  public void testEditButtonClicked() throws InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    TableInputEditForm
+        editForm =
+        new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
+
+    DatabaseConnection databaseConnection = new DatabaseConnection()
+        .setUrl("url")
+        .setPassword("password")
+        .setUsername("user")
+        .setSystem(DbSystem.DB2);
+
+    String expectedDatabaseIdentifier = databaseConnection.getIdentifier();
+    String expectedTableName = "name";
+    String expectedComment = "comment";
+
+    editForm.dbConnectionListBox.addValue("--");
+    editForm.dbConnectionListBox.addValue(expectedDatabaseIdentifier);
+    editForm.dbConnectionListBox.addValue("1");
+
+    TableInput tableInput = new TableInput()
+        .setDatabaseConnection(databaseConnection)
+        .setTableName(expectedTableName)
+        .setComment(expectedComment);
+
+    // Execute
+    editForm.updateTableInput(tableInput);
+
+    // Check results
+    assertEquals(expectedDatabaseIdentifier, editForm.dbConnectionListBox.getSelectedValue());
+    assertEquals(expectedTableName, editForm.tableNameTextbox.getValue());
+    assertEquals(expectedComment, editForm.commentTextbox.getValue());
+
+    assertEquals(((Button) editForm.getWidget(3, 1)).getText(), "Update");
+
+    // Execute
+    editForm.showSaveButton();
+
+    // Check results
+    assertEquals(((Button) editForm.getWidget(3, 1)).getText(), "Save");
+  }
+
 
   @Override
   public String getModuleName() {
