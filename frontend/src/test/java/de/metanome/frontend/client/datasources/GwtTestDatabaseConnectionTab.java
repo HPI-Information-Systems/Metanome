@@ -123,7 +123,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Check
     assertFalse(actualButton1.isEnabled());
-    assertTrue(actualButton2.isEnabled());
+    assertFalse(actualButton2.isEnabled());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
