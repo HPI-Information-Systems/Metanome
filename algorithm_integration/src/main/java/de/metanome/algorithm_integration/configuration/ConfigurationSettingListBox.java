@@ -29,6 +29,8 @@ import java.io.Serializable;
 public class ConfigurationSettingListBox implements ConfigurationSetting, Serializable {
 
   public String selectedValue;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingListBox";
 
   /**
    * Exists for serialization.
