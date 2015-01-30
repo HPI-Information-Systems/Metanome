@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * Stores all received Results in a list and returns the new results on call to {@link
- * ResultCache#getResults()}. When all results were received, they are written to disk.
+ * ResultCache#fetchNewResults()}. When all results were received, they are written to disk.
  *
  * @author Jakob Zwiener
  */
@@ -84,7 +84,7 @@ public class ResultCache extends ResultReceiver {
    *
    * @return new results
    */
-  public List<Result> getResults() {
+  public List<Result> fetchNewResults() {
     int toIndex = this.results.size();
     List<Result> newResults = results.subList(this.fromIndex, toIndex);
     this.fromIndex = toIndex;
@@ -97,7 +97,7 @@ public class ResultCache extends ResultReceiver {
    */
   @Override
   public void close() throws IOException {
-    ResultPrinter printer = new ResultPrinter(this.algorithmExecutionIdentifier);
+    ResultPrinter printer = new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
     for (Result result: results) {
       try {
         if (result instanceof FunctionalDependency)
@@ -116,6 +116,7 @@ public class ResultCache extends ResultReceiver {
 
       }
     }
+    printer.close();
   }
 
 }

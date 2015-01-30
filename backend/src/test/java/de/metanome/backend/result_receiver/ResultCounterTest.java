@@ -16,13 +16,20 @@
 
 package de.metanome.backend.result_receiver;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -46,8 +53,8 @@ public class ResultCounterTest{
     resultCounter.receiveResult(basicStatistic);
 
     // Check result
-    assertTrue(resultCounter.getStatsCount() == 1);
-    assertTrue(resultCounter.getIndCount() == 0);
+    assertTrue(resultCounter.getResults().get(ResultCounter.STAT_KEY) == 1);
+    assertTrue(resultCounter.getResults().get(ResultCounter.IND_KEY) == 0);
 
 
     // Execute functionality
@@ -55,7 +62,32 @@ public class ResultCounterTest{
     resultCounter.receiveResult(inclusionDependency);
 
     // Check result
-    assertTrue(resultCounter.getStatsCount() == 2);
-    assertTrue(resultCounter.getIndCount() == 1);
+    assertTrue(resultCounter.getResults().get(ResultCounter.STAT_KEY) == 2);
+    assertTrue(resultCounter.getResults().get(ResultCounter.IND_KEY) == 1);
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.result_receiver.ResultCounter#close()}
+   */
+  @Test
+  public void testClose() throws IOException, CouldNotReceiveResultException {
+    // Set up
+    ResultCounter resultCounter = new ResultCounter("identifier");
+    resultCounter.setResultTestDir();
+    resultCounter.receiveResult(mock(UniqueColumnCombination.class));
+
+    // Execute functionality
+    resultCounter.close();
+
+    // Check result
+    File actualFile = new File(resultCounter.getOutputFilePathPrefix() + ResultReceiver.UCC_ENDING);
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    assertTrue(fileContent.contains("Unique Column Combination: 1"));
+
+    // Cleanup
+    FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());
   }
 }

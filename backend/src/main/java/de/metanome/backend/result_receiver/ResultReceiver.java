@@ -32,6 +32,7 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
 
   protected String algorithmExecutionIdentifier;
   protected String directory;
+  protected Boolean testDirectory;
 
   public ResultReceiver(String algorithmExecutionIdentifier)
       throws FileNotFoundException {
@@ -40,6 +41,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
 
   protected ResultReceiver(String algorithmExecutionIdentifier, Boolean testDirectory)
       throws FileNotFoundException {
+    this.testDirectory = testDirectory;
+
     if (testDirectory) {
       this.directory = RESULT_TEST_DIR;
     } else {
@@ -52,6 +55,16 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     }
 
     this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
+  }
+
+  public void setResultTestDir() {
+    this.testDirectory = true;
+    this.directory = RESULT_TEST_DIR;
+
+    File directory = new File(this.directory);
+    if (!directory.exists()) {
+      directory.mkdirs();
+    }
   }
 
   public String getOutputFilePathPrefix() {

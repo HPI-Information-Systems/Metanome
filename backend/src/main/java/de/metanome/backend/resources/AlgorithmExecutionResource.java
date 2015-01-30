@@ -24,16 +24,17 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
-import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.results_db.Algorithm;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -85,11 +86,11 @@ public class AlgorithmExecutionResource {
   }
 
   @GET
-  @Path("/fetch_results/{identifier}")
+  @Path("/result_cache/{identifier}")
   @Produces("application/json")
   public List<Result> fetchNewResults(@PathParam("identifier") String executionIdentifier) {
     try {
-      return AlgorithmExecutionCache.getResultsCache(executionIdentifier).getResults();
+      return AlgorithmExecutionCache.getResultCache(executionIdentifier).fetchNewResults();
     } catch (Exception e) {
       throw new WebException("Could not find any results to the given identifier",
                              Response.Status.BAD_REQUEST);
@@ -102,6 +103,30 @@ public class AlgorithmExecutionResource {
   public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
     try {
       return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
+    } catch (Exception e) {
+      throw new WebException("Could not find any progress to the given identifier",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
+
+  @GET
+  @Path("/result_counter/{identifier}")
+  @Produces("application/json")
+  public Map<String, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
+    try {
+      return AlgorithmExecutionCache.getResultCounter(executionIdentifier).getResults();
+    } catch (Exception e) {
+      throw new WebException("Could not find any progress to the given identifier",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
+
+  @GET
+  @Path("/result_printer/{identifier}")
+  @Produces("application/json")
+  public List<Result> getPrinterResults(@PathParam("identifier") String executionIdentifier) {
+    try {
+      return AlgorithmExecutionCache.getResultPrinter(executionIdentifier).getResults();
     } catch (Exception e) {
       throw new WebException("Could not find any progress to the given identifier",
                              Response.Status.BAD_REQUEST);
@@ -126,14 +151,16 @@ public class AlgorithmExecutionResource {
     ResultReceiver resultReceiver = null;
     if (params.getCacheResults()) {
       resultReceiver = new ResultCache(identifier);
-      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver, progressCache);
+      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);
     } else if (params.getCountResults()) {
       resultReceiver = new ResultCounter(identifier);
-      AlgorithmExecutionCache.add(identifier, progressCache);
+      AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
     } else if (params.getWriteResults()) {
       resultReceiver = new ResultPrinter(identifier);
-      AlgorithmExecutionCache.add(identifier, progressCache);
+      AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
     }
+
+    AlgorithmExecutionCache.add(identifier, progressCache);
 
     AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());

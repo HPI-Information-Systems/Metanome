@@ -22,17 +22,23 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResultCounter extends ResultReceiver {
-  
+
+  public static final String UCC_KEY = "ucc";
+  public static final String IND_KEY = "ind";
+  public static final String FD_KEY = "fd";
+  public static final String CUCC_KEY = "cucc";
+  public static final String OD_KEY = "od";
+  public static final String STAT_KEY = "stat";
+
   private int statsCount = 0;
   private int indCount = 0;
   private int fdCount = 0;
@@ -81,11 +87,6 @@ public class ResultCounter extends ResultReceiver {
     this.uccCount++;
   }
 
-
-  public List<Result> getResults() {
-    return new ArrayList<Result>();
-  }
-
   /**
    * When the result receiver is closed, the results are written to disk.
    * @throws IOException
@@ -113,27 +114,15 @@ public class ResultCounter extends ResultReceiver {
     writer.close();
   }
 
-  public int getStatsCount() {
-    return statsCount;
+  public Map<String, Integer> getResults() {
+    Map<String, Integer> resultMap = new HashMap<>();
+    resultMap.put(IND_KEY, this.indCount);
+    resultMap.put(UCC_KEY, this.uccCount);
+    resultMap.put(FD_KEY, this.fdCount);
+    resultMap.put(CUCC_KEY, this.cuccCount);
+    resultMap.put(OD_KEY, this.odCount);
+    resultMap.put(STAT_KEY, this.statsCount);
+    return resultMap;
   }
 
-  public int getIndCount() {
-    return indCount;
-  }
-
-  public int getFdCount() {
-    return fdCount;
-  }
-
-  public int getUccCount() {
-    return uccCount;
-  }
-
-  public int getCuccCount() {
-    return cuccCount;
-  }
-
-  public int getOdCount() {
-    return odCount;
-  }
 }

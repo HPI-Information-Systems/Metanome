@@ -19,12 +19,14 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_receiver.ResultCounter;
 
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -48,7 +50,7 @@ public class AlgorithmExecutionResourceTest {
     UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
     // Execute functionality
-    AlgorithmExecutionCache.getResultsCache(expectedExecutionIdentifier).receiveResult(
+    AlgorithmExecutionCache.getResultCache(expectedExecutionIdentifier).receiveResult(
         expectedUcc);
     List<Result>
         actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
@@ -101,6 +103,53 @@ public class AlgorithmExecutionResourceTest {
     // Check
     List<Result>
         actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
+  }
+
+  @Test
+  public void testGetCounterResults() throws Exception {
+    // Setup
+    String expectedExecutionIdentifier = "executionIdentifier";
+
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setExecutionIdentifier(expectedExecutionIdentifier)
+        .setCountResults(true);
+
+    // Expected values
+    executionService.buildExecutor(params);
+    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+
+    // Execute functionality
+    AlgorithmExecutionCache.getResultCounter(expectedExecutionIdentifier).receiveResult(
+        expectedUcc);
+    Map<String, Integer> results = executionService.getCounterResults(expectedExecutionIdentifier);
+
+    // Check result
+    assertFalse(results.isEmpty());
+    assertTrue(results.get(ResultCounter.UCC_KEY) == 1);
+  }
+
+  @Test
+  public void testGetPrinterResults() throws Exception {
+    // Setup
+    String expectedExecutionIdentifier = "executionIdentifier";
+
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setExecutionIdentifier(expectedExecutionIdentifier)
+        .setWriteResults(true);
+
+    // Expected values
+    executionService.buildExecutor(params);
+    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).setResultTestDir();
+
+    // Execute functionality
+    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).receiveResult(
+        expectedUcc);
+    List<Result> results = executionService.getPrinterResults(expectedExecutionIdentifier);
+
+    // Check result
+    assertFalse(results.isEmpty());
+    assertTrue(results.contains(expectedUcc));
   }
 
 }
