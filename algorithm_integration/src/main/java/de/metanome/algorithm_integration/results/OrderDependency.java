@@ -21,8 +21,6 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
-import java.util.regex.Pattern;
-
 import javax.xml.bind.annotation.XmlTransient;
 
 
@@ -181,8 +179,10 @@ public class OrderDependency implements Result {
   }
 
   public static OrderDependency fromString(String str) {
-    String lhsStr = str.split(Pattern.quote(OD_SEPARATOR))[0].trim();
-    str = str.substring(lhsStr.length() + OD_SEPARATOR.length() + 1);
+    String splitMarker = "#####";
+    str = str.replace(OD_SEPARATOR, splitMarker);
+    String lhsStr = str.split(splitMarker)[0].trim();
+    str = str.substring(lhsStr.length() + splitMarker.length() + 1);
     String comparisonOperatorStr = str.split(",")[0].trim();
     String orderTypeStr = str.split(",")[1].split("\\]")[0].trim();
     String rhsStr = str.substring(comparisonOperatorStr.length() + 1 + orderTypeStr.length() + 1).trim();
