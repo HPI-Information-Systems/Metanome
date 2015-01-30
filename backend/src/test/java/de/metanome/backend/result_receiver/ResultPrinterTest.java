@@ -30,6 +30,7 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;

@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.results_db.ResultType;
 
 import java.io.File;
 import java.io.FileNotFoundException;

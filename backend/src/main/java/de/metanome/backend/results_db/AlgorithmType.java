@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.algorithm_loading;
+package de.metanome.backend.results_db;
 
-import de.metanome.backend.result_receiver.ResultType;
+import de.metanome.backend.results_db.ResultType;
 
 import java.io.Serializable;
 
@@ -36,6 +36,8 @@ public enum AlgorithmType implements Serializable {
   databaseConnection(null);
 
   private ResultType resultType;
+
+  AlgorithmType(){} // For Gwt
 
   AlgorithmType(ResultType resultType){
     this.resultType = resultType;

@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_receiver;
-
-import de.metanome.backend.algorithm_loading.AlgorithmType;
+package de.metanome.backend.results_db;
 
 import java.io.Serializable;
 
@@ -30,6 +28,8 @@ public enum ResultType implements Serializable {
     od("_ods");
 
     private String ending;
+
+    ResultType(){} // For GWT
 
     ResultType(String ending){
       this.ending = ending;

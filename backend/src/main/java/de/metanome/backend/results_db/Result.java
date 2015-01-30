@@ -17,8 +17,6 @@
 package de.metanome.backend.results_db;
 
 
-import de.metanome.backend.result_receiver.ResultType;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;

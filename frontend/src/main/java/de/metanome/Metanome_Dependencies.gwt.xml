@@ -118,5 +118,6 @@
         <include name="Input.java"/>
         <include name="ResultsDbEntity.java"/>
         <include name="EntityStorageException.java"/>
+        <include name="ResultType.java"/>
     </source>
 </module>

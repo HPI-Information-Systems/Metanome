@@ -16,6 +16,8 @@
 
 package de.metanome.backend.algorithm_loading;
 
+import de.metanome.backend.results_db.AlgorithmType;
+
 import org.junit.Test;
 
 import java.io.IOException;
