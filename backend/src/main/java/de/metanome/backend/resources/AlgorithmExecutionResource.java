@@ -24,9 +24,10 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
-import de.metanome.backend.result_receiver.ResultsCache;
-import de.metanome.backend.result_receiver.ResultsHub;
+import de.metanome.backend.result_receiver.ResultReceiver;
+import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.results_db.Algorithm;
 
 import java.io.FileNotFoundException;
@@ -57,7 +58,7 @@ public class AlgorithmExecutionResource {
     AlgorithmExecutor executor;
 
     try {
-      executor = buildExecutor(params.executionIdentifier);
+      executor = buildExecutor(params);
     } catch (FileNotFoundException e) {
       throw new WebException("Could not generate result file", Response.Status.BAD_REQUEST);
     } catch (UnsupportedEncodingException e) {
@@ -65,11 +66,11 @@ public class AlgorithmExecutionResource {
     }
 
     AlgorithmResource algorithmResource = new AlgorithmResource();
-    Algorithm algorithm = algorithmResource.get(params.algorithmId);
+    Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
     long executionTimeInNanos = 0;
     try {
-      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.requirements);
+      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -88,7 +89,7 @@ public class AlgorithmExecutionResource {
   @Produces("application/json")
   public List<Result> fetchNewResults(@PathParam("identifier") String executionIdentifier) {
     try {
-      return AlgorithmExecutionCache.getResultsCache(executionIdentifier).getNewResults();
+      return AlgorithmExecutionCache.getResultsCache(executionIdentifier).getResults();
     } catch (Exception e) {
       throw new WebException("Could not find any results to the given identifier",
                              Response.Status.BAD_REQUEST);
@@ -111,25 +112,31 @@ public class AlgorithmExecutionResource {
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
    *
-   * @param executionIdentifier the identifier associated with this execution
+   * @param params all parameters for executing the algorithm
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-  protected AlgorithmExecutor buildExecutor(String executionIdentifier)
+  protected AlgorithmExecutor buildExecutor(AlgorithmExecutionParams params)
       throws FileNotFoundException, UnsupportedEncodingException {
-    ResultPrinter resultPrinter = new ResultPrinter(executionIdentifier);
-    ResultsCache resultsCache = new ResultsCache();
-    ResultsHub resultsHub = new ResultsHub();
-    resultsHub.addSubscriber(resultPrinter);
-    resultsHub.addSubscriber(resultsCache);
-
+    String identifier = params.getExecutionIdentifier();
     FileGenerator fileGenerator = new TempFileGenerator();
     ProgressCache progressCache = new ProgressCache();
 
-    AlgorithmExecutor executor = new AlgorithmExecutor(resultsHub, progressCache, fileGenerator);
-    executor.setResultPathPrefix(resultPrinter.getOutputFilePathPrefix());
-    AlgorithmExecutionCache.add(executionIdentifier, resultsCache, progressCache);
+    ResultReceiver resultReceiver = null;
+    if (params.getCacheResults()) {
+      resultReceiver = new ResultCache(identifier);
+      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver, progressCache);
+    } else if (params.getCountResults()) {
+      resultReceiver = new ResultCounter(identifier);
+      AlgorithmExecutionCache.add(identifier, progressCache);
+    } else if (params.getWriteResults()) {
+      resultReceiver = new ResultPrinter(identifier);
+      AlgorithmExecutionCache.add(identifier, progressCache);
+    }
+
+    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
 
     return executor;
   }

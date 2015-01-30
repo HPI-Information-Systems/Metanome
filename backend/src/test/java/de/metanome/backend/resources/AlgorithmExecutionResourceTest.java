@@ -26,9 +26,9 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionResourceTest {
 
@@ -37,9 +37,14 @@ public class AlgorithmExecutionResourceTest {
   @Test
   public void testFetchNewResults() throws Exception {
     // Setup
-    // Expected values
     String expectedExecutionIdentifier = "executionIdentifier";
-    executionService.buildExecutor(expectedExecutionIdentifier);
+
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setExecutionIdentifier(expectedExecutionIdentifier)
+        .setCacheResults(true);
+
+    // Expected values
+    executionService.buildExecutor(params);
     UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
     // Execute functionality
@@ -61,9 +66,14 @@ public class AlgorithmExecutionResourceTest {
   @Test
   public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
     // Setup
-    // Expected values
     String expectedExecutionIdentifier = "executionIdentifier";
-    executionService.buildExecutor(expectedExecutionIdentifier);
+
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setExecutionIdentifier(expectedExecutionIdentifier)
+        .setCountResults(true);
+
+    // Expected values
+    executionService.buildExecutor(params);
     float expectedProgress = 0.42f;
 
     // Execute functionality
@@ -72,7 +82,25 @@ public class AlgorithmExecutionResourceTest {
     float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
 
     // Check result
-    assertEquals(expectedProgress, actualProgress);
+    assertEquals(expectedProgress, actualProgress, 0.0);
+  }
+
+
+  @Test(expected = WebException.class)
+  public void testFetchResultsNotPossible() throws FileNotFoundException, UnsupportedEncodingException {
+    // Setup
+    String expectedExecutionIdentifier = "executionIdentifier";
+
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
+    params.setExecutionIdentifier(expectedExecutionIdentifier)
+        .setCountResults(true);
+
+    // Expected values
+    executionService.buildExecutor(params);
+
+    // Check
+    List<Result>
+        actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
   }
 
 }

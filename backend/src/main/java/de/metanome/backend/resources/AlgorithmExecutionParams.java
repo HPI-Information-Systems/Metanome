@@ -26,9 +26,9 @@ public class AlgorithmExecutionParams {
   private long algorithmId;
   private String executionIdentifier;
   private List<ConfigurationRequirement> requirements;
-  private Boolean cacheResults;
-  private Boolean writeResults;
-  private Boolean countResults;
+  private Boolean cacheResults = false;
+  private Boolean writeResults = false;
+  private Boolean countResults = false;
 
   public long getAlgorithmId() {
     return algorithmId;

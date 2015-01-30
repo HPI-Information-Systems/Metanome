@@ -89,31 +89,31 @@ public class GwtTestParameterTable extends GWTTestCase {
     ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
     //Check
-    assertEquals(6, pt.getRowCount());
+    assertEquals(6, pt.table.getRowCount());
 
     // - STRING row
-    assertEquals(2, pt.getCellCount(0));
-    assertEquals(InputParameterStringWidget.class, pt.getWidget(0, 1).getClass());
+    assertEquals(2, pt.table.getCellCount(0));
+    assertEquals(InputParameterStringWidget.class, pt.table.getWidget(0, 1).getClass());
 
     // - BOOL row
-    assertEquals(2, pt.getCellCount(1));
-    assertEquals(InputParameterBooleanWidget.class, pt.getWidget(1, 1).getClass());
+    assertEquals(2, pt.table.getCellCount(1));
+    assertEquals(InputParameterBooleanWidget.class, pt.table.getWidget(1, 1).getClass());
 
     // - CSV FILE row
-    assertEquals(2, pt.getCellCount(2));
-    assertEquals(InputParameterFileInputWidget.class, pt.getWidget(2, 1).getClass());
+    assertEquals(2, pt.table.getCellCount(2));
+    assertEquals(InputParameterFileInputWidget.class, pt.table.getWidget(2, 1).getClass());
 
     // - LIST BOX row
-    assertEquals(2, pt.getCellCount(3));
-    assertEquals(InputParameterListBoxWidget.class, pt.getWidget(3, 1).getClass());
+    assertEquals(2, pt.table.getCellCount(3));
+    assertEquals(InputParameterListBoxWidget.class, pt.table.getWidget(3, 1).getClass());
 
     // - INTEGER row
-    assertEquals(2, pt.getCellCount(4));
-    assertEquals(InputParameterIntegerWidget.class, pt.getWidget(4, 1).getClass());
+    assertEquals(2, pt.table.getCellCount(4));
+    assertEquals(InputParameterIntegerWidget.class, pt.table.getWidget(4, 1).getClass());
 
     // - Submit button row
-    assertEquals(1, pt.getCellCount(5));
-    assertEquals(Button.class, pt.getWidget(5, 0).getClass());
+    assertEquals(1, pt.table.getCellCount(5));
+    assertEquals(Button.class, pt.table.getWidget(5, 0).getClass());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -170,11 +170,11 @@ public class GwtTestParameterTable extends GWTTestCase {
     paramList.add(ConfigurationSpecificationTableInput);
 
     final ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
-    enterNumber((InputParameterIntegerWidget) pt.getWidget(4, 1));
-    setDatabaseConnection((InputParameterDatabaseConnectionWidget) pt.getWidget(3, 1));
-    setFileInput((InputParameterFileInputWidget) pt.getWidget(2, 1));
-    setRelationalInput((InputParameterRelationalInputWidget) pt.getWidget(6, 1));
-    setTableInput((InputParameterTableInputWidget) pt.getWidget(7, 1));
+    enterNumber((InputParameterIntegerWidget) pt.table.getWidget(4, 1));
+    setDatabaseConnection((InputParameterDatabaseConnectionWidget) pt.table.getWidget(3, 1));
+    setFileInput((InputParameterFileInputWidget) pt.table.getWidget(2, 1));
+    setRelationalInput((InputParameterRelationalInputWidget) pt.table.getWidget(6, 1));
+    setTableInput((InputParameterTableInputWidget) pt.table.getWidget(7, 1));
 
     //Execute
     List<ConfigurationRequirement> retrievedParams = null;

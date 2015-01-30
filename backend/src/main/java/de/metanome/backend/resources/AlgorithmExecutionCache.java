@@ -17,26 +17,30 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.algorithm_execution.ProgressCache;
-import de.metanome.backend.result_receiver.ResultsCache;
+import de.metanome.backend.result_receiver.ResultCache;
 
 import java.util.HashMap;
 
 public class AlgorithmExecutionCache {
 
-    static public HashMap<String, ResultsCache> currentResultReceiver = new HashMap<>();
-    static public HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
+  static public HashMap<String, ResultCache> currentResultReceiver = new HashMap<>();
+  static public HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
 
-    static void add(String identifier, ResultsCache resultsCache, ProgressCache progressCache) {
-      currentResultReceiver.put(identifier, resultsCache);
-      currentProgressCaches.put(identifier, progressCache);
-    }
+  static void add(String identifier, ResultCache resultCache, ProgressCache progressCache) {
+    currentResultReceiver.put(identifier, resultCache);
+    currentProgressCaches.put(identifier, progressCache);
+  }
 
-    static ResultsCache getResultsCache(String identifier) {
-      return currentResultReceiver.get(identifier);
-    }
+  static void add(String identifier, ProgressCache progressCache) {
+    currentProgressCaches.put(identifier, progressCache);
+  }
 
-    static ProgressCache getProgressCache(String identifier) {
-      return currentProgressCaches.get(identifier);
-    }
+  static ResultCache getResultsCache(String identifier) {
+    return currentResultReceiver.get(identifier);
+  }
+
+  static ProgressCache getProgressCache(String identifier) {
+    return currentProgressCaches.get(identifier);
+  }
 
 }

@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
+import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 import org.apache.commons.io.FileUtils;
@@ -39,6 +40,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -52,7 +54,6 @@ import static org.mockito.Mockito.verify;
  */
 public class ResultPrinterTest {
 
-  protected String testResultDirPath;
   protected String testAlgoExecutionIdentifier;
   protected ResultPrinter printer;
 
@@ -93,6 +94,9 @@ public class ResultPrinterTest {
 
     assertTrue(fileContent.contains(expectedStat.toString()));
 
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedStat));
+
     // Cleanup
     actualFile.delete();
   }
@@ -123,6 +127,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedFd.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedFd));
 
     // Cleanup
     actualFile.delete();
@@ -156,6 +163,9 @@ public class ResultPrinterTest {
 
     assertTrue(fileContent.contains(expectedInd.toString()));
 
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedInd));
+
     // Cleanup
     actualFile.delete();
   }
@@ -185,6 +195,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedUcc.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedUcc));
 
     // Cleanup
     actualFile.delete();
@@ -218,6 +231,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedOd.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedOd));
 
     // Cleanup
     actualFile.delete();

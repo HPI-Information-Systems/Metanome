@@ -17,9 +17,14 @@
 package de.metanome.backend.result_receiver;
 
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.Result;
 
 import java.io.Closeable;
+import java.io.IOException;
+import java.util.List;
 
 public interface CloseableOmniscientResultReceiver extends OmniscientResultReceiver, Closeable {
+
+  public List<Result> getResults() throws IOException;
 
 }

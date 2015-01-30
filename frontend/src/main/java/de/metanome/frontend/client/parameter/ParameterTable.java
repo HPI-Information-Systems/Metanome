@@ -46,6 +46,7 @@ public class ParameterTable extends FlowPanel {
   private RadioButton rbCache;
   private RadioButton rbDisk;
   private RadioButton rbCount;
+  protected FlexTable table;
 
   /**
    * Creates a ParameterTable for user input for the given parameters. Prompt and type specific
@@ -62,7 +63,7 @@ public class ParameterTable extends FlowPanel {
     super();
     this.messageReceiver = messageReceiver;
 
-    FlexTable table = new FlexTable();
+    table = new FlexTable();
     int row = 0;
     for (ConfigurationRequirement param : paramList) {
       table.setText(row, 0, param.getIdentifier());

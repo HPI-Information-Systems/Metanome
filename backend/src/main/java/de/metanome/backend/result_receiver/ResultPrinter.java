@@ -22,29 +22,25 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.helper.ExceptionParser;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * TODO docs
+ * Writes all received Results to disk. When all results were received, the results are
+ * read again and returned.
  */
-public class ResultPrinter implements CloseableOmniscientResultReceiver {
-
-  public static final String RESULT_TEST_DIR = "results/test";
-  public static final String RESULT_DIR   = "results";
-  public static final String IND_ENDING   = "_inds";
-  public static final String FD_ENDING    = "_fds";
-  public static final String UCC_ENDING   = "_uccs";
-  public static final String OD_ENDING    = "_ods";
-  public static final String STATS_ENDING = "_stats";
-  public static final String CUCC_ENDING  = "_cuccs";
-
+public class ResultPrinter extends ResultReceiver {
 
   protected PrintStream statStream;
   protected PrintStream fdStream;
@@ -53,28 +49,13 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   protected PrintStream indStream;
   protected PrintStream odStream;
 
-  protected String algorithmExecutionIdentifier;
-  protected String directory;
-
   public ResultPrinter(String algorithmExecutionIdentifier)
       throws FileNotFoundException {
-    this(algorithmExecutionIdentifier, false);
+    super(algorithmExecutionIdentifier);
   }
-
-  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean testDirectory)
+  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
       throws FileNotFoundException {
-    if (testDirectory) {
-      this.directory = RESULT_TEST_DIR;
-    } else {
-      this.directory = RESULT_DIR;
-    }
-
-    File directory = new File(this.directory);
-    if (!directory.exists()) {
-      directory.mkdirs();
-    }
-
-    this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
+    super(algorithmExecutionIdentifier, test);
   }
 
   @Override
@@ -161,7 +142,6 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     return odStream;
 
   }
-  
 
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
     try {
@@ -170,10 +150,6 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
       throw new CouldNotReceiveResultException(
           ExceptionParser.parse(e, "Could not open result file for writing"), e);
     }
-  }
-
-  public String getOutputFilePathPrefix() {
-    return this.directory + "/" + this.algorithmExecutionIdentifier;
   }
 
   @Override
@@ -198,4 +174,84 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
   }
 
+  /**
+   * Reads the results from disk and returns them.
+   * @return all results
+   */
+  public List<Result> getResults() throws IOException {
+    List<Result> results = new ArrayList<>();
+
+    if (existsFile(IND_ENDING)) {
+      results.addAll(readResult(IND_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return InclusionDependency.fromString(str);
+        }
+      }));
+    }
+    if (existsFile(FD_ENDING)) {
+      results.addAll(readResult(FD_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return FunctionalDependency.fromString(str);
+        }
+      }));
+    }
+    if (existsFile(UCC_ENDING)) {
+      results.addAll(readResult(UCC_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return UniqueColumnCombination.fromString(str);
+        }
+      }));
+    }
+    if (existsFile(CUCC_ENDING)) {
+      results.addAll(readResult(CUCC_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return ConditionalUniqueColumnCombination.fromString(str);
+        }
+      }));
+    }
+    if (existsFile(OD_ENDING)) {
+      results.addAll(readResult(OD_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return OrderDependency.fromString(str);
+        }
+      }));
+    }
+    if (existsFile(STATS_ENDING)) {
+      results.addAll(readResult(STATS_ENDING, new ResultHandler() {
+        @Override
+        public Result convert(String str) {
+          return BasicStatistic.fromString(str);
+        }
+      }));
+    }
+
+    return results;
+  }
+
+  private Boolean existsFile(String fileSuffix) {
+    return new File(getOutputFilePathPrefix() + fileSuffix).exists();
+  }
+
+  private List<Result> readResult(String fileSuffix, ResultHandler handler) throws IOException {
+    List<Result> results = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(
+        new FileReader(getOutputFilePathPrefix() + fileSuffix))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        results.add(handler.convert(line));
+        line = br.readLine();
+      }
+    }
+    return results;
+  }
+
+  public interface ResultHandler {
+    public Result convert(String str);
+  }
 }
