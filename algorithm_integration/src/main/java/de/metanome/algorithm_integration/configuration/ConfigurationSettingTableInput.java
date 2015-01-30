@@ -40,6 +40,7 @@ public class ConfigurationSettingTableInput
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
 
+  // Needed for restful serialization
   public String type = "ConfigurationSettingTableInput";
 
   /**

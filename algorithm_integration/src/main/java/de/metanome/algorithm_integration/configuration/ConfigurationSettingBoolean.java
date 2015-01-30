@@ -29,6 +29,8 @@ import java.io.Serializable;
 public class ConfigurationSettingBoolean implements ConfigurationSetting, Serializable {
 
   public boolean value;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingBoolean";
 
   /**
    * Exists for GWT serialization.
