@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorith
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmType;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -75,16 +76,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
-    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
-    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
-    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
-    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
-    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
-    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
-    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
-    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
-    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+    algorithm.setFd(analyzer.hasType(AlgorithmType.functionalDependency));
+    algorithm.setInd(analyzer.hasType(AlgorithmType.inclusionDependency));
+    algorithm.setUcc(analyzer.hasType(AlgorithmType.uniqueColumnCombination));
+    algorithm.setCucc(analyzer.hasType(AlgorithmType.conditionalUniqueColumnCombination));
+    algorithm.setOd(analyzer.hasType(AlgorithmType.orderDependency));
+    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.basicStatistic));
+    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.databaseConnection));
+    algorithm.setFileInput(analyzer.hasType(AlgorithmType.fileInput));
+    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.relationalInput));
+    algorithm.setTableInput(analyzer.hasType(AlgorithmType.tableInput));
 
     try {
       HibernateUtil.store(algorithm);

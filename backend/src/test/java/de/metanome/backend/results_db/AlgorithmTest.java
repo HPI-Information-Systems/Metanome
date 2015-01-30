@@ -27,6 +27,7 @@ import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgor
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;

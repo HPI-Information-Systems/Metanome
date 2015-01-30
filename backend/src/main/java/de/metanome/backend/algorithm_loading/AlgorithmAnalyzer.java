@@ -45,19 +45,7 @@ public class AlgorithmAnalyzer {
 
   private Algorithm algorithm;
 
-  private boolean functionalDependencyAlgorithm = false;
-  private boolean inclusionDependencyAlgorithm = false;
-  private boolean uniqueColumnCombinationAlgorithm = false;
-  private boolean conditionalUniqueColumnCombinationAlgorithm = false;
-  private boolean orderDependencyAlgorithm = false;
-  private boolean basicStatisticAlgorithm = false;
-  private boolean tempFileAlgorithm = false;
-  private boolean progressEstimatingAlgorithm = false;
-
-  private boolean relationalInputAlgorithm = false;
-  private boolean fileInputAlgorithm = false;
-  private boolean tableInputAlgorithm = false;
-  private boolean databaseConnectionAlgorithm = false;
+  private HashSet<AlgorithmType> types;
 
   Set<Class<?>> interfaces;
 
@@ -78,6 +66,8 @@ public class AlgorithmAnalyzer {
 
     this.algorithm = loader.loadAlgorithm(algorithmPath);
 
+    this.types = new HashSet<>();
+
     analyzerInterfaces();
   }
 
@@ -85,70 +75,38 @@ public class AlgorithmAnalyzer {
     this.interfaces = extractInterfaces(algorithm);
 
     if (interfaces.contains(FunctionalDependencyAlgorithm.class))
-      functionalDependencyAlgorithm = true;
+      types.add(AlgorithmType.functionalDependency);
     if (interfaces.contains(InclusionDependencyAlgorithm.class))
-      inclusionDependencyAlgorithm = true;
+      types.add(AlgorithmType.inclusionDependency);
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class))
-      uniqueColumnCombinationAlgorithm = true;
+      types.add(AlgorithmType.uniqueColumnCombination);
     if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class))
-      conditionalUniqueColumnCombinationAlgorithm = true;
+      types.add(AlgorithmType.conditionalUniqueColumnCombination);
     if (interfaces.contains(OrderDependencyAlgorithm.class))
-      orderDependencyAlgorithm = true;
+      types.add(AlgorithmType.orderDependency);
     if (interfaces.contains(BasicStatisticsAlgorithm.class))
-      basicStatisticAlgorithm = true;
+      types.add(AlgorithmType.basicStatistic);
     if (interfaces.contains(TempFileAlgorithm.class))
-      tempFileAlgorithm = true;
+      types.add(AlgorithmType.tempFile);
     if (interfaces.contains(ProgressEstimatingAlgorithm.class))
-      progressEstimatingAlgorithm = true;
+      types.add(AlgorithmType.progressEstimating);
     if (interfaces.contains(RelationalInputParameterAlgorithm.class))
-      relationalInputAlgorithm = true;
+      types.add(AlgorithmType.relationalInput);
     if (interfaces.contains(FileInputParameterAlgorithm.class))
-      fileInputAlgorithm = true;
+      types.add(AlgorithmType.fileInput);
     if (interfaces.contains(TableInputParameterAlgorithm.class))
-      tableInputAlgorithm = true;
+      types.add(AlgorithmType.tableInput);
     if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class))
-      databaseConnectionAlgorithm = true;
+      types.add(AlgorithmType.databaseConnection);
   }
 
-  public boolean isFunctionalDependencyAlgorithm() {
-    return functionalDependencyAlgorithm;
+  public boolean hasType(AlgorithmType type){
+    return types.contains(type);
   }
 
-  public boolean isInclusionDependencyAlgorithm() {
-    return inclusionDependencyAlgorithm;
+  public HashSet getTypes(){
+    return this.types;
   }
-
-  public boolean isUniqueColumnCombinationAlgorithm() {
-    return uniqueColumnCombinationAlgorithm;
-  }
-
-  public boolean isConditionalUniqueColumnCombinationAlgorithm() {
-    return conditionalUniqueColumnCombinationAlgorithm;
-  }
-
-  public boolean isOrderDependencyAlgorithm() {
-    return orderDependencyAlgorithm;
-  }
-  
-  public boolean isBasicStatisticAlgorithm() {
-    return basicStatisticAlgorithm;
-  }
-
-  public boolean isTempFileAlgorithm() {
-    return tempFileAlgorithm;
-  }
-
-  public boolean isProgressEstimatingAlgorithm() {
-    return progressEstimatingAlgorithm;
-  }
-
-  public boolean isRelationalInputAlgorithm() { return relationalInputAlgorithm; }
-
-  public boolean isFileInputAlgorithm() { return fileInputAlgorithm; }
-
-  public boolean isTableInputAlgorithm() { return tableInputAlgorithm; }
-
-  public boolean isDatabaseConnectionAlgorithm() { return databaseConnectionAlgorithm; }
 
   public Algorithm getAlgorithm() {
     return algorithm;

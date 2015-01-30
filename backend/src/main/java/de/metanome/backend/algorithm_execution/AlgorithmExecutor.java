@@ -35,6 +35,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.algorithm_loading.AlgorithmType;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.resources.DatabaseConnectionResource;
@@ -43,6 +44,7 @@ import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.result_receiver.ResultPrinter;
+import de.metanome.backend.result_receiver.ResultType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.Input;
@@ -84,7 +86,6 @@ public class AlgorithmExecutor implements Closeable {
       FileGenerator fileGenerator) {
     this.resultReceiver = resultReceiver;
     this.progressCache = progressCache;
-
     this.fileGenerator = fileGenerator;
   }
 
@@ -117,7 +118,8 @@ public class AlgorithmExecutor implements Closeable {
         if (setting instanceof ConfigurationSettingFileInput) {
           inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
         } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
-          inputs.add(databaseConnectionResource.get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+          inputs.add(databaseConnectionResource
+                         .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
         } else if (setting instanceof ConfigurationSettingTableInput) {
           inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
         }
@@ -131,7 +133,8 @@ public class AlgorithmExecutor implements Closeable {
         NoSuchMethodException e) {
       throw new AlgorithmLoadingException(ExceptionParser.parse(e), e);
     } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException(ExceptionParser.parse(e, "Algorithm not found in database"), e);
+      throw new AlgorithmLoadingException(
+          ExceptionParser.parse(e, "Algorithm not found in database"), e);
     }
   }
 
@@ -140,8 +143,8 @@ public class AlgorithmExecutor implements Closeable {
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
-   * @param storedAlgorithm  the algorithm
-   * @param parameters list of configuration values
+   * @param storedAlgorithm the algorithm
+   * @param parameters      list of configuration values
    * @return elapsed time in ns
    */
   public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
@@ -160,58 +163,60 @@ public class AlgorithmExecutor implements Closeable {
       configValue.triggerSetValue(algorithm, analyzer.getInterfaces());
     }
 
-    if (analyzer.isFunctionalDependencyAlgorithm()) {
+    //Todo: for AlgorithmType type : AlgorithmType.values() ...
+
+    if (analyzer.hasType(AlgorithmType.functionalDependency)) {
       FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
       fdAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.FD_ENDING).setFd(true));
+      results.add(new Result(resultPathPrefix, ResultType.fd));
     }
 
-    if (analyzer.isInclusionDependencyAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.inclusionDependency)) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.IND_ENDING).setInd(true));
+      results.add(new Result(resultPathPrefix, ResultType.ind));
     }
 
-    if (analyzer.isUniqueColumnCombinationAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.uniqueColumnCombination)) {
       UniqueColumnCombinationsAlgorithm
           uccAlgorithm =
           (UniqueColumnCombinationsAlgorithm) algorithm;
       uccAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.UCC_ENDING).setUcc(true));
+      results.add(new Result(resultPathPrefix, ResultType.ucc));
     }
 
-    if (analyzer.isConditionalUniqueColumnCombinationAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.conditionalUniqueColumnCombination)) {
       ConditionalUniqueColumnCombinationAlgorithm
           cuccAlgorithm =
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.CUCC_ENDING).setCucc(true));
+      results.add(new Result(resultPathPrefix, ResultType.cucc));
     }
 
-    if (analyzer.isOrderDependencyAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.orderDependency)) {
       OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
       odAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.OD_ENDING).setOd(true));
+      results.add(new Result(resultPathPrefix, ResultType.od));
     }
 
-    if (analyzer.isBasicStatisticAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.basicStatistic)) {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
       basicStatAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix + ResultPrinter.STATS_ENDING).setBasicStat(true));
+      results.add(new Result(resultPathPrefix, ResultType.stat));
     }
 
-    if (analyzer.isTempFileAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.tempFile)) {
       TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
       tempFileAlgorithm.setTempFileGenerator(fileGenerator);
     }
 
-    if (analyzer.isProgressEstimatingAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.progressEstimating)) {
       ProgressEstimatingAlgorithm
           progressEstimatingAlgorithm =
           (ProgressEstimatingAlgorithm) algorithm;

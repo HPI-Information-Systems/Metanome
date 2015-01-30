@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.EnumMap;
 
 /**
  * TODO docs
@@ -38,20 +39,8 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   public static final String RESULT_TEST_DIR = "results/test";
   public static final String RESULT_DIR   = "results";
-  public static final String IND_ENDING   = "_inds";
-  public static final String FD_ENDING    = "_fds";
-  public static final String UCC_ENDING   = "_uccs";
-  public static final String OD_ENDING    = "_ods";
-  public static final String STATS_ENDING = "_stats";
-  public static final String CUCC_ENDING  = "_cuccs";
 
-
-  protected PrintStream statStream;
-  protected PrintStream fdStream;
-  protected PrintStream uccStream;
-  protected PrintStream cuccStream;
-  protected PrintStream indStream;
-  protected PrintStream odStream;
+  protected EnumMap<ResultType, PrintStream> openStreams;
 
   protected String algorithmExecutionIdentifier;
   protected String directory;
@@ -75,93 +64,51 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
 
     this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
+
+    this.openStreams = new EnumMap<>(ResultType.class);
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic)
       throws CouldNotReceiveResultException {
-    getStatStream().println(statistic.toString());
+    getStream(ResultType.stat).println(statistic.toString());
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
       throws CouldNotReceiveResultException {
-    getFdStream().println(functionalDependency.toString());
+    getStream(ResultType.fd).println(functionalDependency.toString());
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
       throws CouldNotReceiveResultException {
-    getIndStream().println(inclusionDependency.toString());
+    getStream(ResultType.ind).println(inclusionDependency.toString());
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getUccStream().println(uniqueColumnCombination.toString());
+    getStream(ResultType.ucc).println(uniqueColumnCombination.toString());
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getCuccStream().println(conditionalUniqueColumnCombination.buildPatternTableau());
+    getStream(ResultType.cucc).println(conditionalUniqueColumnCombination.buildPatternTableau());
   }
   
   @Override
   public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    getOdStream().println(orderDependency.toString());
+    getStream(ResultType.od).println(orderDependency.toString());
   }
 
-  protected PrintStream getStatStream() throws CouldNotReceiveResultException {
-    if (statStream == null) {
-      statStream = openStream(STATS_ENDING);
+  protected PrintStream getStream(ResultType type) throws CouldNotReceiveResultException {
+    if(!openStreams.containsKey(type)){
+      openStreams.put(type, openStream(type.getEnding()));
     }
-
-    return statStream;
+    return openStreams.get(type);
   }
-
-  protected PrintStream getFdStream() throws CouldNotReceiveResultException {
-    if (fdStream == null) {
-      fdStream = openStream(FD_ENDING);
-    }
-
-    return fdStream;
-  }
-
-  protected PrintStream getIndStream() throws CouldNotReceiveResultException {
-    if (indStream == null) {
-      indStream = openStream(IND_ENDING);
-    }
-
-    return indStream;
-  }
-
-  protected PrintStream getUccStream() throws CouldNotReceiveResultException {
-    if (uccStream == null) {
-      uccStream = openStream(UCC_ENDING);
-    }
-
-    return uccStream;
-  }
-
-  protected PrintStream getCuccStream() throws CouldNotReceiveResultException {
-    if (cuccStream == null) {
-      cuccStream = openStream(CUCC_ENDING);
-    }
-
-    return cuccStream;
-
-  }
-  
-  protected PrintStream getOdStream() throws CouldNotReceiveResultException {
-    if (odStream == null) {
-      odStream = openStream(OD_ENDING);
-    }
-
-    return odStream;
-
-  }
-  
 
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
     try {
@@ -178,23 +125,8 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
 
   @Override
   public void close() throws IOException {
-    if (statStream != null) {
-      statStream.close();
-    }
-    if (fdStream != null) {
-      fdStream.close();
-    }
-    if (indStream != null) {
-      indStream.close();
-    }
-    if (uccStream != null) {
-      uccStream.close();
-    }
-    if (cuccStream != null) {
-      cuccStream.close();
-    }
-    if (odStream != null) {
-      odStream.close();
+    for(PrintStream stream : openStreams.values()){
+      stream.close();
     }
   }
 

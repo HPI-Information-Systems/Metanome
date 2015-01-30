@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -37,18 +38,12 @@ public class AlgorithmAnalyzerTest {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
 
     // Check
-    assertTrue(analyzer.isInclusionDependencyAlgorithm());
-    assertFalse(analyzer.isBasicStatisticAlgorithm());
-    assertFalse(analyzer.isFunctionalDependencyAlgorithm());
-    assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
-    assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    assertFalse(analyzer.isOrderDependencyAlgorithm());
-    assertTrue(analyzer.isTempFileAlgorithm());
-    assertFalse(analyzer.isProgressEstimatingAlgorithm());
-    assertTrue(analyzer.isFileInputAlgorithm());
-    assertFalse(analyzer.isRelationalInputAlgorithm());
-    assertFalse(analyzer.isTableInputAlgorithm());
-    assertFalse(analyzer.isDatabaseConnectionAlgorithm());
+    HashSet<AlgorithmType> expectedTypes = new HashSet<>();
+    expectedTypes.add(AlgorithmType.inclusionDependency);
+    expectedTypes.add(AlgorithmType.tempFile);
+    expectedTypes.add(AlgorithmType.fileInput);
+
+    testTypes(expectedTypes, analyzer);
   }
 
   @Test
@@ -62,20 +57,14 @@ public class AlgorithmAnalyzerTest {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
 
     // Check
-    assertFalse(analyzer.isInclusionDependencyAlgorithm());
-    assertFalse(analyzer.isBasicStatisticAlgorithm());
-    assertTrue(analyzer.isFunctionalDependencyAlgorithm());
-    assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
-    assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    assertFalse(analyzer.isOrderDependencyAlgorithm());
-    assertFalse(analyzer.isTempFileAlgorithm());
-    assertFalse(analyzer.isProgressEstimatingAlgorithm());
-    assertTrue(analyzer.isFileInputAlgorithm());
-    assertFalse(analyzer.isRelationalInputAlgorithm());
-    assertFalse(analyzer.isTableInputAlgorithm());
-    assertTrue(analyzer.isDatabaseConnectionAlgorithm());
+    HashSet<AlgorithmType> expectedTypes = new HashSet<>();
+    expectedTypes.add(AlgorithmType.functionalDependency);
+    expectedTypes.add(AlgorithmType.fileInput);
+    expectedTypes.add(AlgorithmType.databaseConnection);
+
+    testTypes(expectedTypes, analyzer);
   }
-  
+
   @Test
   public void analyzeOrderDependencyAlgorithmTest()
       throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
@@ -87,18 +76,21 @@ public class AlgorithmAnalyzerTest {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
 
     // Check
-    assertFalse(analyzer.isInclusionDependencyAlgorithm());
-    assertFalse(analyzer.isBasicStatisticAlgorithm());
-    assertFalse(analyzer.isFunctionalDependencyAlgorithm());
-    assertFalse(analyzer.isUniqueColumnCombinationAlgorithm());
-    assertFalse(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    assertTrue(analyzer.isOrderDependencyAlgorithm());
-    assertFalse(analyzer.isTempFileAlgorithm());
-    assertFalse(analyzer.isProgressEstimatingAlgorithm());
-    assertFalse(analyzer.isFileInputAlgorithm());
-    assertFalse(analyzer.isRelationalInputAlgorithm());
-    assertFalse(analyzer.isTableInputAlgorithm());
-    assertFalse(analyzer.isDatabaseConnectionAlgorithm());
+    HashSet<AlgorithmType> expectedTypes = new HashSet<>();
+    expectedTypes.add(AlgorithmType.orderDependency);
+
+    testTypes(expectedTypes, analyzer);
+  }
+
+  private void testTypes(HashSet<AlgorithmType> expectedTypes,
+                         AlgorithmAnalyzer analyzer) {
+    for (AlgorithmType type : AlgorithmType.values()) {
+      if (expectedTypes.contains(type)) {
+        assertTrue(analyzer.hasType(type));
+      } else {
+        assertFalse(analyzer.hasType(type));
+      }
+    }
   }
 
 }
