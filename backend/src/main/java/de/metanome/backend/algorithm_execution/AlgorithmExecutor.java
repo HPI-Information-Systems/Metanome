@@ -43,7 +43,6 @@ import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
-import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
