@@ -72,36 +72,36 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
   @Override
   public void receiveResult(BasicStatistic statistic)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.stat).println(statistic.toString());
+    getStream(ResultType.STAT).println(statistic.toString());
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.fd).println(functionalDependency.toString());
+    getStream(ResultType.FD).println(functionalDependency.toString());
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.ind).println(inclusionDependency.toString());
+    getStream(ResultType.IND).println(inclusionDependency.toString());
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.ucc).println(uniqueColumnCombination.toString());
+    getStream(ResultType.UCC).println(uniqueColumnCombination.toString());
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.cucc).println(conditionalUniqueColumnCombination.buildPatternTableau());
+    getStream(ResultType.CUCC).println(conditionalUniqueColumnCombination.buildPatternTableau());
   }
   
   @Override
   public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    getStream(ResultType.od).println(orderDependency.toString());
+    getStream(ResultType.OD).println(orderDependency.toString());
   }
 
   protected PrintStream getStream(ResultType type) throws CouldNotReceiveResultException {

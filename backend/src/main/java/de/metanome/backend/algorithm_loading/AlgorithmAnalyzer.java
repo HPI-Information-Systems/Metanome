@@ -76,29 +76,29 @@ public class AlgorithmAnalyzer {
     this.interfaces = extractInterfaces(algorithm);
 
     if (interfaces.contains(FunctionalDependencyAlgorithm.class))
-      types.add(AlgorithmType.functionalDependency);
+      types.add(AlgorithmType.FD);
     if (interfaces.contains(InclusionDependencyAlgorithm.class))
-      types.add(AlgorithmType.inclusionDependency);
+      types.add(AlgorithmType.IND);
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class))
-      types.add(AlgorithmType.uniqueColumnCombination);
+      types.add(AlgorithmType.UCC);
     if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class))
-      types.add(AlgorithmType.conditionalUniqueColumnCombination);
+      types.add(AlgorithmType.CUCC);
     if (interfaces.contains(OrderDependencyAlgorithm.class))
-      types.add(AlgorithmType.orderDependency);
+      types.add(AlgorithmType.OD);
     if (interfaces.contains(BasicStatisticsAlgorithm.class))
-      types.add(AlgorithmType.basicStatistic);
+      types.add(AlgorithmType.BASIC_STAT);
     if (interfaces.contains(TempFileAlgorithm.class))
-      types.add(AlgorithmType.tempFile);
+      types.add(AlgorithmType.TEMP_FILE);
     if (interfaces.contains(ProgressEstimatingAlgorithm.class))
-      types.add(AlgorithmType.progressEstimating);
+      types.add(AlgorithmType.PROGRESS_EST);
     if (interfaces.contains(RelationalInputParameterAlgorithm.class))
-      types.add(AlgorithmType.relationalInput);
+      types.add(AlgorithmType.RELATIONAL_INPUT);
     if (interfaces.contains(FileInputParameterAlgorithm.class))
-      types.add(AlgorithmType.fileInput);
+      types.add(AlgorithmType.FILE_INPUT);
     if (interfaces.contains(TableInputParameterAlgorithm.class))
-      types.add(AlgorithmType.tableInput);
+      types.add(AlgorithmType.TABLE_INPUT);
     if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class))
-      types.add(AlgorithmType.databaseConnection);
+      types.add(AlgorithmType.DB_CONNECTION);
   }
 
   public boolean hasType(AlgorithmType type){

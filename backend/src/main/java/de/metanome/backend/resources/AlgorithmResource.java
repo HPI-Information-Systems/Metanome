@@ -76,16 +76,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
-    algorithm.setFd(analyzer.hasType(AlgorithmType.functionalDependency));
-    algorithm.setInd(analyzer.hasType(AlgorithmType.inclusionDependency));
-    algorithm.setUcc(analyzer.hasType(AlgorithmType.uniqueColumnCombination));
-    algorithm.setCucc(analyzer.hasType(AlgorithmType.conditionalUniqueColumnCombination));
-    algorithm.setOd(analyzer.hasType(AlgorithmType.orderDependency));
-    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.basicStatistic));
-    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.databaseConnection));
-    algorithm.setFileInput(analyzer.hasType(AlgorithmType.fileInput));
-    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.relationalInput));
-    algorithm.setTableInput(analyzer.hasType(AlgorithmType.tableInput));
+    algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
+    algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
+    algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
+    algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
+    algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
+    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
+    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
+    algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
+    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
+    algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));
 
     try {
       HibernateUtil.store(algorithm);

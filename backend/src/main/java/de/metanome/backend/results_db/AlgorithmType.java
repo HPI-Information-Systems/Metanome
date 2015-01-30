@@ -16,33 +16,34 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.backend.results_db.ResultType;
-
 import java.io.Serializable;
 
 public enum AlgorithmType implements Serializable {
 
-  functionalDependency(ResultType.fd),
-  inclusionDependency(ResultType.ind),
-  uniqueColumnCombination(ResultType.ucc),
-  conditionalUniqueColumnCombination(ResultType.cucc),
-  orderDependency(ResultType.od),
-  basicStatistic(ResultType.stat),
-  tempFile(null),
-  progressEstimating(null),
-  relationalInput(null),
-  fileInput(null),
-  tableInput(null),
-  databaseConnection(null);
+  FD(ResultType.FD), // Functional Dependency Algorithm
+  IND(ResultType.IND), // Inclusion Dependency Algorithm
+  UCC(ResultType.UCC), // Unique Column Combination Algorithm
+  CUCC(ResultType.CUCC), //Conditional Unique Column Combination Algorithm
+  OD(ResultType.OD), //Order Dependency Algorithm
+  BASIC_STAT(ResultType.STAT), //Basic Statistic Algorithm
+  TEMP_FILE(null), // Temporary File Algorithm
+  PROGRESS_EST(null), // Progress Estimating Algorithm
+  RELATIONAL_INPUT(null), // Relational Input Algorithm
+  FILE_INPUT(null), // File Input Algorithm
+  TABLE_INPUT(null), // Table Input Algorithm
+  DB_CONNECTION(null); // Database Connection Algorithm
 
   private ResultType resultType;
 
-  AlgorithmType(){} // For Gwt
+  AlgorithmType() {
+  } // For Gwt
 
-  AlgorithmType(ResultType resultType){
+  AlgorithmType(ResultType resultType) {
     this.resultType = resultType;
   }
 
-  public ResultType getResultType(){ return this.resultType; }
+  public ResultType getResultType() {
+    return this.resultType;
+  }
 
 }

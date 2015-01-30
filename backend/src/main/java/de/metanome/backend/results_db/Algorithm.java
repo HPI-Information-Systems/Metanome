@@ -334,7 +334,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
            + ", description=" + description
            + ", ind=" + ind
            + ", fd=" + fd
-           + ", ucc=" + ucc
+           + ", Ucc=" + ucc
            + ", cucc=" + cucc
            + ", od=" + od
            + ", relationalInput=" + relationalInput

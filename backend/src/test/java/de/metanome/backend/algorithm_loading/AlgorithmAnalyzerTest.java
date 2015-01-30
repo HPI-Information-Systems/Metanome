@@ -41,9 +41,9 @@ public class AlgorithmAnalyzerTest {
 
     // Check
     HashSet<AlgorithmType> expectedTypes = new HashSet<>();
-    expectedTypes.add(AlgorithmType.inclusionDependency);
-    expectedTypes.add(AlgorithmType.tempFile);
-    expectedTypes.add(AlgorithmType.fileInput);
+    expectedTypes.add(AlgorithmType.IND);
+    expectedTypes.add(AlgorithmType.TEMP_FILE);
+    expectedTypes.add(AlgorithmType.FILE_INPUT);
 
     testTypes(expectedTypes, analyzer);
   }
@@ -60,9 +60,9 @@ public class AlgorithmAnalyzerTest {
 
     // Check
     HashSet<AlgorithmType> expectedTypes = new HashSet<>();
-    expectedTypes.add(AlgorithmType.functionalDependency);
-    expectedTypes.add(AlgorithmType.fileInput);
-    expectedTypes.add(AlgorithmType.databaseConnection);
+    expectedTypes.add(AlgorithmType.FD);
+    expectedTypes.add(AlgorithmType.FILE_INPUT);
+    expectedTypes.add(AlgorithmType.DB_CONNECTION);
 
     testTypes(expectedTypes, analyzer);
   }
@@ -79,7 +79,7 @@ public class AlgorithmAnalyzerTest {
 
     // Check
     HashSet<AlgorithmType> expectedTypes = new HashSet<>();
-    expectedTypes.add(AlgorithmType.orderDependency);
+    expectedTypes.add(AlgorithmType.OD);
 
     testTypes(expectedTypes, analyzer);
   }

@@ -81,7 +81,7 @@ public class ResultPrinterTest {
         new BasicStatistic("Min", "minValue", new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.stat));
+    assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
 
     // Execute functionality
     printer.receiveResult(expectedStat);
@@ -112,7 +112,7 @@ public class ResultPrinterTest {
     );
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.fd));
+    assertTrue(!printer.openStreams.containsKey(ResultType.FD));
 
     // Execute functionality
     printer.receiveResult(expectedFd);
@@ -144,7 +144,7 @@ public class ResultPrinterTest {
     );
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.ind));
+    assertTrue(!printer.openStreams.containsKey(ResultType.IND));
 
     // Execute functionality
     printer.receiveResult(expectedInd);
@@ -174,7 +174,7 @@ public class ResultPrinterTest {
         new UniqueColumnCombination(new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.ucc));
+    assertTrue(!printer.openStreams.containsKey(ResultType.UCC));
 
     // Execute functionality
     printer.receiveResult(expectedUcc);
@@ -207,7 +207,7 @@ public class ResultPrinterTest {
         ComparisonOperator.SMALLER_EQUAL);
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.od));
+    assertTrue(!printer.openStreams.containsKey(ResultType.OD));
 
     // Execute functionality
     printer.receiveResult(expectedOd);
@@ -243,7 +243,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream statStream = mock(PrintStream.class);
-    printer.openStreams.put(ResultType.stat, statStream);
+    printer.openStreams.put(ResultType.STAT, statStream);
 
     // Execute functionality
     printer.close();
@@ -261,7 +261,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream fdStream = mock(PrintStream.class);
-    printer.openStreams.put(ResultType.fd, fdStream);
+    printer.openStreams.put(ResultType.FD, fdStream);
 
     // Execute functionality
     printer.close();
@@ -279,7 +279,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream indStream = mock(PrintStream.class);
-    printer.openStreams.put(ResultType.ind, indStream);
+    printer.openStreams.put(ResultType.IND, indStream);
 
     // Execute functionality
     printer.close();
@@ -297,7 +297,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream uccStream = mock(PrintStream.class);
-    printer.openStreams.put(ResultType.ucc, uccStream);
+    printer.openStreams.put(ResultType.UCC, uccStream);
 
     // Execute functionality
     printer.close();

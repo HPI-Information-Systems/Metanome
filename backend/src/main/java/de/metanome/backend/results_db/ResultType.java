@@ -20,21 +20,24 @@ import java.io.Serializable;
 
 public enum ResultType implements Serializable {
 
-    stat("_stats"),
-    fd("_fds"),
-    ucc("_uccs"),
-    cucc("_cuccs"),
-    ind("_inds"),
-    od("_ods");
+  STAT("_stats"), // Basic Statistic
+  FD("_fds"), // Functional Dependency
+  UCC("_uccs"), // Unique Column Combination
+  CUCC("_cuccs"), // Conditional Unique Column Combination
+  IND("_inds"), // Inclusion Dependency
+  OD("_ods"); // Order Dependency
 
-    private String ending;
+  private String ending;
 
-    ResultType(){} // For GWT
+  ResultType() {
+  } // For GWT
 
-    ResultType(String ending){
-      this.ending = ending;
-    }
+  ResultType(String ending) {
+    this.ending = ending;
+  }
 
-    public String getEnding() { return this.ending; }
- }
+  public String getEnding() {
+    return this.ending;
+  }
+}
 
