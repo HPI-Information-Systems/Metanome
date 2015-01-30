@@ -24,6 +24,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,11 +39,19 @@ public interface AlgorithmExecutionRestService extends RestService {
                                MethodCallback<Long> callback);
 
   @GET
-  @Path("/fetch_results/{identifier}")
+  @Path("/result_cache/{identifier}")
   public void fetchNewResults(@PathParam("identifier") String algorithmName, MethodCallback<List<Result>> callback);
 
   @GET
   @Path("/fetch_progress/{identifier}")
   public void fetchProgress(@PathParam("identifier") String executionIdentifier, MethodCallback<Float> callback);
+
+  @GET
+  @Path("/result_counter/{identifier}")
+  public void getCounterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<Map<String, Integer>> callback);
+
+  @GET
+  @Path("/result_printer/{identifier}")
+  public void getPrinterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<List<Result>> callback);
 
 }

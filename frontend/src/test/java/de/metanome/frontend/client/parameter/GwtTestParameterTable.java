@@ -18,6 +18,7 @@ package de.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -89,7 +90,7 @@ public class GwtTestParameterTable extends GWTTestCase {
     ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
     //Check
-    assertEquals(6, pt.table.getRowCount());
+    assertEquals(5, pt.table.getRowCount());
 
     // - STRING row
     assertEquals(2, pt.table.getCellCount(0));
@@ -111,9 +112,11 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(2, pt.table.getCellCount(4));
     assertEquals(InputParameterIntegerWidget.class, pt.table.getWidget(4, 1).getClass());
 
+    // - Radio buttons
+    assertEquals(FlowPanel.class, pt.getWidget(1).getClass());
+
     // - Submit button row
-    assertEquals(1, pt.table.getCellCount(5));
-    assertEquals(Button.class, pt.table.getWidget(5, 0).getClass());
+    assertEquals(Button.class, pt.getWidget(2).getClass());
 
     // Cleanup
     TestHelper.resetDatabaseSync();

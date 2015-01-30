@@ -31,6 +31,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
@@ -76,8 +77,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable = new ResultTable("Functional Dependencies");
     odTable = new ResultTable("Order Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
-
-    fetchResults();
   }
 
   /**
@@ -90,7 +89,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
-
       }
 
       @Override
@@ -98,6 +96,70 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
         displayResults(result);
       }
     });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getPrinterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getPrinterResults(executionIdentifier, new MethodCallback<List<Result>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Result> result) {
+        displayResults(result);
+      }
+    });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getCounterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getCounterResults(executionIdentifier, new MethodCallback<Map<String, Integer>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, Map<String, Integer> result) {
+        Integer count = result.get(ResultCounter.UCC_KEY);
+        if (count > 0) displayCountResult(count, uccTable);
+
+        count = result.get(ResultCounter.IND_KEY);
+        if (count > 0) displayCountResult(count, indTable);
+
+        count = result.get(ResultCounter.FD_KEY);
+        if (count > 0) displayCountResult(count, fdTable);
+
+        count = result.get(ResultCounter.CUCC_KEY);
+        if (count > 0) displayCountResult(count, cuccTable);
+
+        count = result.get(ResultCounter.OD_KEY);
+        if (count > 0) displayCountResult(count, odTable);
+
+        count = result.get(ResultCounter.STAT_KEY);
+        if (count > 0) displayCountResult(count, basicsTable);
+      }
+    });
+  }
+
+  private void displayCountResult(Integer count, ResultTable table) {
+    if (this.resultsPanel.getWidgetIndex(table) < 0) {
+      this.resultsPanel.add(table);
+    }
+
+    int row = table.getRowCount();
+    table.setText(row, 0, "#");
+    table.setText(row, 1, String.valueOf(count));
   }
 
   /**

@@ -53,11 +53,15 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected Label algorithmLabel;
 
-  private ResultsTablePage tablePage;
+  protected ResultsTablePage tablePage;
 
   protected String executionIdentifier;
   private String algorithmFileName;
   private AlgorithmExecutionRestService executionService;
+
+  private Boolean cacheResults;
+  private Boolean writeResults;
+  private Boolean countResults;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -78,8 +82,13 @@ public class ResultsPage extends FlowPanel implements TabContent {
   public void updateOnSuccess(Long executionTimeInNanos) {
     this.timer.cancel();
 
-    // Fetch the last results
-    this.tablePage.fetchResults();
+    // Fetch the last results or get all results depending on the used result receiver
+    if (cacheResults)
+      this.tablePage.fetchResults();
+    else if (writeResults)
+      this.tablePage.getPrinterResults();
+    else if (countResults)
+      this.tablePage.getCounterResults();
 
     this.remove(this.algorithmLabel);
     this.remove(this.progressBar);
@@ -143,7 +152,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer = new Timer() {
       public void run() {
         updateProgress();
-        resultsTab.fetchResults();
+        if (cacheResults) resultsTab.fetchResults();
       }
     };
 
@@ -186,10 +195,17 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param algorithmFileName   the algorithm file name
    */
   public void setExecutionParameter(AlgorithmExecutionRestService executionService,
-                                    String executionIdentifier, String algorithmFileName) {
+                                    String executionIdentifier,
+                                    String algorithmFileName,
+                                    Boolean cacheResults,
+                                    Boolean writeResults,
+                                    Boolean countResults) {
     this.executionService = executionService;
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
+    this.cacheResults = cacheResults;
+    this.writeResults = writeResults;
+    this.countResults = countResults;
   }
 
   /* (non-Javadoc)

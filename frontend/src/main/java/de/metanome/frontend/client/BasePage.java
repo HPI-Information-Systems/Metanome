@@ -135,7 +135,8 @@ public class BasePage extends TabLayoutPanel {
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName());
+        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
+                               cacheResults, writeResults, countResults);
     this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
