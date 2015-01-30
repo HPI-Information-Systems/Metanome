@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.condition_parser.ColumnConditionParser;
 
 import java.util.List;
 import java.util.Map;
@@ -144,18 +145,11 @@ public class ConditionalUniqueColumnCombination implements Result {
 
     ColumnCombination combination = ColumnCombination.fromString(combinationStr);
     Float coverage = Float.valueOf(coverageStr);
-    ColumnCondition columnCondition = parseConditionStr(conditionStr);
+    ColumnCondition columnCondition = new ColumnConditionParser().parse(conditionStr);
 
-    return null;
+    columnCondition.setCoverage(coverage);
+    return new ConditionalUniqueColumnCombination(combination, columnCondition);
   }
-
-  private static ColumnCondition parseConditionStr(String conditionStr) {
-    // TODO
-    // [table1.column1= condition3 v [table1.column1= condition1 ^ table2.column2= condition2]]
-
-    return new ColumnConditionValue(new ColumnIdentifier("", ""), "");
-  }
-
 
   @Override
   public String toString() {

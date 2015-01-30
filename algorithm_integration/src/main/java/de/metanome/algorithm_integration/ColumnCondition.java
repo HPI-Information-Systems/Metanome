@@ -93,4 +93,9 @@ public interface ColumnCondition extends Serializable, Comparable<ColumnConditio
    * @return pattern tableau
    */
   public List<Map<ColumnIdentifier, String>> getPatternConditions();
+
+  public boolean isNegated();
+
+  public void setNegated(boolean isNegated);
+
 }
