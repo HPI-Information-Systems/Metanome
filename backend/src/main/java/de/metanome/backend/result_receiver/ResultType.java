@@ -18,7 +18,9 @@ package de.metanome.backend.result_receiver;
 
 import de.metanome.backend.algorithm_loading.AlgorithmType;
 
-public enum ResultType {
+import java.io.Serializable;
+
+public enum ResultType implements Serializable {
 
     stat("_stats"),
     fd("_fds"),

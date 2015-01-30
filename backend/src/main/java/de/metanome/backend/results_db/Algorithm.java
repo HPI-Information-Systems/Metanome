@@ -67,6 +67,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected String name;
   protected String author;
   protected String description;
+  //Todo: Introduce types Hashset instead of booleans - after finding way around Hibernate problems
   protected boolean ind;
   protected boolean fd;
   protected boolean ucc;

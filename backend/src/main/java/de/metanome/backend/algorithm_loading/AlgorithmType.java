@@ -18,7 +18,9 @@ package de.metanome.backend.algorithm_loading;
 
 import de.metanome.backend.result_receiver.ResultType;
 
-public enum AlgorithmType {
+import java.io.Serializable;
+
+public enum AlgorithmType implements Serializable {
 
   functionalDependency(ResultType.fd),
   inclusionDependency(ResultType.ind),
