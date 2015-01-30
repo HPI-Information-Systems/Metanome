@@ -16,11 +16,10 @@
 
 package de.metanome.algorithm_integration;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;

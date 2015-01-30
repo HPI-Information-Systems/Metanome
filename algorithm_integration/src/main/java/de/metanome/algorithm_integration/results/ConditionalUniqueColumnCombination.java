@@ -28,6 +28,7 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -131,6 +132,27 @@ public class ConditionalUniqueColumnCombination implements Result {
       }
     }
     return builder.toString();
+  }
+
+  public static ConditionalUniqueColumnCombination fromString(String str) {
+    String combinationStr = str.split(Pattern.quote(CUCC_SEPARATOR))[0].trim();
+    str = str.substring(combinationStr.length() + CUCC_SEPARATOR.length());
+    String[] parts = str.split(" Coverage: ");
+    String conditionStr = parts[0].trim();
+    String coverageStr = parts[1].trim();
+
+    ColumnCombination combination = ColumnCombination.fromString(combinationStr);
+    Float coverage = Float.valueOf(coverageStr);
+    ColumnCondition columnCondition = parseConditionStr(conditionStr);
+
+    return null;
+  }
+
+  private static ColumnCondition parseConditionStr(String conditionStr) {
+    // TODO
+    // [table1.column1= condition3 v [table1.column1= condition1 ^ table2.column2= condition2]]
+
+    return new ColumnConditionValue(new ColumnIdentifier("", ""), "");
   }
 
 

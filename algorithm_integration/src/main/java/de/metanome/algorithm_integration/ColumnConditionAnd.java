@@ -66,6 +66,7 @@ public class ColumnConditionAnd implements ColumnCondition {
     }
   }
 
+
   public Set<ColumnCondition> getColumnValues() {
     return columnValues;
   }

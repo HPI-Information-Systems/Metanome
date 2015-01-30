@@ -23,6 +23,8 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.regex.Pattern;
+
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -50,6 +52,13 @@ public class FunctionalDependency implements Result {
                               ColumnIdentifier dependant) {
     this.determinant = determinant;
     this.dependant = dependant;
+  }
+
+  public static FunctionalDependency fromString(String str) {
+    String[] parts = str.split(Pattern.quote(FD_SEPARATOR));
+    ColumnCombination determinant = ColumnCombination.fromString(parts[0].trim());
+    ColumnIdentifier dependant = ColumnIdentifier.fromString(parts[1].trim());
+    return new FunctionalDependency(determinant, dependant);
   }
 
   /**
@@ -132,5 +141,4 @@ public class FunctionalDependency implements Result {
     }
     return true;
   }
-
 }

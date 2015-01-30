@@ -22,6 +22,8 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import java.util.regex.Pattern;
+
 import javax.xml.bind.annotation.XmlTransient;
 
 
@@ -50,6 +52,13 @@ public class InclusionDependency implements Result {
 		  ColumnPermutation referenced) {
     this.dependant = dependant;
     this.referenced = referenced;
+  }
+
+  public static InclusionDependency fromString(String str) {
+    String[] parts = str.split(Pattern.quote(IND_SEPARATOR));
+    ColumnPermutation d = ColumnPermutation.fromString(parts[0]);
+    ColumnPermutation r = ColumnPermutation.fromString(parts[1]);
+    return new InclusionDependency(d, r);
   }
 
   /**
