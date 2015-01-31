@@ -38,12 +38,7 @@ public class Result implements Serializable {
   protected long id;
   protected String fileName;
   protected Execution execution;
-  protected boolean ind;
-  protected boolean fd;
-  protected boolean ucc;
-  protected boolean cucc;
-  protected boolean od;
-  protected boolean basicStat;
+  protected ResultType type;
 
   /**
    * Exists for hibernate serialization
@@ -51,12 +46,14 @@ public class Result implements Serializable {
   protected Result() {
 
   }
+  public Result(String fileName){ this.fileName = fileName; }
 
   /**
-   * @param fileName the path to the result file
+   * @param resultPathPrefix the path to the result file
    */
-  public Result(String fileName) {
-    this.fileName = fileName;
+  public Result(String resultPathPrefix, ResultType type) {
+    this.fileName = resultPathPrefix + type.getEnding();
+    this.type = type;
   }
 
   @Id
@@ -82,7 +79,6 @@ public class Result implements Serializable {
     return this;
   }
 
-
   @ManyToOne
   @JoinColumn(name = "execution")
   @XmlTransient
@@ -104,64 +100,12 @@ public class Result implements Serializable {
     return this;
   }
 
-  public boolean isInd() {
-    return ind;
+  public ResultType getType(){
+    return type;
   }
 
-  public Result setInd(boolean isInd) {
-    this.ind = isInd;
-
-    return this;
-  }
-
-  public boolean isFd() {
-    return fd;
-  }
-
-  public Result setFd(boolean isFd) {
-    this.fd = isFd;
-
-    return this;
-  }
-
-  public boolean isUcc() {
-    return ucc;
-  }
-
-  public Result setUcc(boolean isUcc) {
-    this.ucc = isUcc;
-
-    return this;
-  }
-
-  public boolean isCucc() {
-    return cucc;
-  }
-
-  public Result setCucc(boolean isCucc) {
-    this.cucc = isCucc;
-
-    return this;
-  }
-  
-  public boolean isOd() {
-    return od;
-  }
-
-  public Result setOd(boolean isOd) {
-    this.od = isOd;
-
-    return this;
-  }
-
-  public boolean isBasicStat() {
-    return basicStat;
-  }
-
-  public Result setBasicStat(boolean isBasicStat) {
-    this.basicStat = isBasicStat;
-
-    return this;
+  public void setType(ResultType type) {
+    this.type = type;
   }
 
   @Override

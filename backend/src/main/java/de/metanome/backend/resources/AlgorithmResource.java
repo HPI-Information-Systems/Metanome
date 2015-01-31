@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorith
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -75,16 +76,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
-    algorithm.setFd(analyzer.isFunctionalDependencyAlgorithm());
-    algorithm.setInd(analyzer.isInclusionDependencyAlgorithm());
-    algorithm.setUcc(analyzer.isUniqueColumnCombinationAlgorithm());
-    algorithm.setCucc(analyzer.isConditionalUniqueColumnCombinationAlgorithm());
-    algorithm.setOd(analyzer.isOrderDependencyAlgorithm());
-    algorithm.setBasicStat(analyzer.isBasicStatisticAlgorithm());
-    algorithm.setDatabaseConnection(analyzer.isDatabaseConnectionAlgorithm());
-    algorithm.setFileInput(analyzer.isFileInputAlgorithm());
-    algorithm.setRelationalInput(analyzer.isRelationalInputAlgorithm());
-    algorithm.setTableInput(analyzer.isTableInputAlgorithm());
+    algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
+    algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
+    algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
+    algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
+    algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
+    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
+    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
+    algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
+    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
+    algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));
 
     try {
       HibernateUtil.store(algorithm);
