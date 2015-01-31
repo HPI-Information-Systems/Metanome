@@ -22,6 +22,7 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
+import de.metanome.backend.results_db.ResultType;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -165,7 +166,7 @@ public class ResultResourceTest {
     assertEquals(result, actualResult);
 
     // Execute functionality
-    result.setFileName("new file").setOd(true);
+    result.setFileName("new file").setType(ResultType.OD);
     resultResource.update(result);
 
     // Check result

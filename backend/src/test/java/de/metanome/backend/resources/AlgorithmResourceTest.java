@@ -114,7 +114,7 @@ public class AlgorithmResourceTest {
 
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_ucc_algorithm.jar")
-        .setName("ucc")
+        .setName("Ucc")
         .setUcc(true);
     HibernateUtil.store(expectedAlgorithm);
 

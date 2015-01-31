@@ -221,7 +221,7 @@ public class AlgorithmExecutorTest {
 
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List)}
-   * Tests the execution of an ucc algorithm.
+   * Tests the execution of an Ucc algorithm.
    */
   @Test
   public void testExecuteUniqueColumnCombinationsAlgorithm()
