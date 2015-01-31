@@ -73,7 +73,7 @@ public class ResultCache extends ResultReceiver {
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) {
     results.add(conditionalUniqueColumnCombination);
   }
-  
+
   @Override
   public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
     results.add(orderDependency);

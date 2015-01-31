@@ -67,6 +67,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected String name;
   protected String author;
   protected String description;
+  //Todo: Introduce types Hashset instead of booleans - after finding way around Hibernate problems
   protected boolean ind;
   protected boolean fd;
   protected boolean ucc;
@@ -104,36 +105,16 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   public Algorithm(String fileName, Set<Class<?>> algorithmInterfaces) {
     this(fileName);
 
-    if (algorithmInterfaces.contains(InclusionDependencyAlgorithm.class)) {
-      setInd(true);
-    }
-    if (algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class)) {
-      setFd(true);
-    }
-    if (algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-      setUcc(true);
-    }
-    if (algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-      setCucc(true);
-    }
-    if (algorithmInterfaces.contains(OrderDependencyAlgorithm.class)) {
-      setOd(true);
-    }
-    if (algorithmInterfaces.contains(BasicStatisticsAlgorithm.class)) {
-      setBasicStat(true);
-    }
-    if (algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
-      setFileInput(true);
-    }
-    if (algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
-      setTableInput(true);
-    }
-    if (algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
-      setRelationalInput(true);
-    }
-    if (algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
-      setDatabaseConnection(true);
-    }
+    this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
+    this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
+    this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
+    this.cucc = algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class);
+    this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
+    this.basicStat = algorithmInterfaces.contains(BasicStatisticsAlgorithm.class);
+    this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
+    this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
+    this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
+    this.databaseConnection = algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
   }
 
   /**
@@ -353,7 +334,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
            + ", description=" + description
            + ", ind=" + ind
            + ", fd=" + fd
-           + ", ucc=" + ucc
+           + ", Ucc=" + ucc
            + ", cucc=" + cucc
            + ", od=" + od
            + ", relationalInput=" + relationalInput
