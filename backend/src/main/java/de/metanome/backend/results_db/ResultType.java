@@ -22,6 +22,8 @@ import de.metanome.backend.result_receiver.ResultHandler;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public enum ResultType implements Serializable {
 
   STAT("_stats", "Basic Statistic", new ResultHandler() {
@@ -63,6 +65,7 @@ public enum ResultType implements Serializable {
 
   private String ending;
   private String name;
+  @XmlTransient
   private ResultHandler resultHandler;
 
   ResultType() {
@@ -82,6 +85,7 @@ public enum ResultType implements Serializable {
     return this.name;
   }
 
+  @XmlTransient
   public ResultHandler getResultHandler() {
     return this.resultHandler;
   }

@@ -39,7 +39,6 @@ import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -125,13 +124,13 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     if (executionService == null)
       return;
 
-    executionService.getCounterResults(executionIdentifier, new MethodCallback<EnumMap<ResultType, Integer>>() {
+    executionService.getCounterResults(executionIdentifier, new MethodCallback<Map<ResultType, Integer>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
       }
 
       @Override
-      public void onSuccess(Method method, EnumMap<ResultType, Integer> result) {
+      public void onSuccess(Method method, Map<ResultType, Integer> result) {
         if (result.containsKey(ResultType.UCC))
           displayCountResult(result.get(ResultType.UCC), uccTable);
 
