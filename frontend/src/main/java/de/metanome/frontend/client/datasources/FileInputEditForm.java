@@ -77,9 +77,11 @@ public class FileInputEditForm extends Grid {
   private FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
-
   private List<String> filesOnStorage;
   private List<String> filesInDatabase;
+  private Button saveButton;
+  private Button updateButton;
+  private FileInput oldFileInput;
 
   /**
    * Constructor. Set up all UI elements.
@@ -151,12 +153,54 @@ public class FileInputEditForm extends Grid {
 
     setDefaultAdvancedSettings();
 
-    this.setWidget(2, 0, new Button("Save", new ClickHandler() {
+    this.saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveFileInput();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submitUpdate();
+      }
+    });
+    this.setWidget(2, 0, saveButton);
+  }
+
+  /**
+   * Updates the current file input in the database.
+   */
+  private void submitUpdate() {
+    messageReceiver.clearErrors();
+    try {
+      this.fileInputService.updateFileInput(this.getValue().setId(oldFileInput.getId()), new MethodCallback<FileInput>() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver.addError("File Input could not be updated: " + method.getResponse().getText());
+          reset();
+          showSaveButton();
+          advancedTable.setVisible(false);
+          advancedCheckbox.setValue(false);
+          setDefaultAdvancedSettings();
+          updateListbox();
+        }
+
+        @Override
+        public void onSuccess(Method method, FileInput input) {
+          reset();
+          showSaveButton();
+          parent.updateFileInputInTable(input, oldFileInput);
+          parent.updateDataSourcesOnRunConfiguration();
+          advancedTable.setVisible(false);
+          advancedCheckbox.setValue(false);
+          setDefaultAdvancedSettings();
+          updateListbox();
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
   }
 
   /**
@@ -168,7 +212,8 @@ public class FileInputEditForm extends Grid {
       this.fileInputService.storeFileInput(this.getValue(), new MethodCallback<FileInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-          messageReceiver.addError("File Input could not be stored: " + method.getResponse().getText());
+          messageReceiver
+              .addError("File Input could not be stored: " + method.getResponse().getText());
         }
 
         @Override
@@ -378,7 +423,7 @@ public class FileInputEditForm extends Grid {
    *
    * @return the character of the text box
    */
-  private char getChar(TextBox textBox) throws InputValidationException {
+  protected char getChar(TextBox textBox) throws InputValidationException {
     String value = textBox.getValue();
 
     if (value.length() != 1) {
@@ -446,6 +491,37 @@ public class FileInputEditForm extends Grid {
     this.commentTextArea.setText("");
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
+  }
+
+  /**
+   * Fills the form with the values of the file input, which should be updated.
+   * @param fileInput the file input
+   */
+  public void updateFileInput(FileInput fileInput) {
+    this.updateListbox();
+
+    setFileName(FilePathHelper.getFileName(fileInput.getFileName()));
+
+    commentTextArea.setText(fileInput.getComment());
+
+    setSeparator(fileInput.getSeparator());
+    setQuotechar(fileInput.getQuotechar());
+    setEscapechar(fileInput.getEscapechar());
+    setSkipLines(fileInput.getSkipLines());
+    setStrictQuotes(fileInput.isStrictQuotes());
+    setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace());
+    setHasHeader(fileInput.isHasHeader());
+    setSkipDifferingLines(fileInput.isSkipDifferingLines());
+
+    this.setWidget(2, 0, updateButton);
+    this.oldFileInput = fileInput;
+  }
+
+  /**
+   * Shows the save button.
+   */
+  public void showSaveButton() {
+    this.setWidget(2, 0, saveButton);
   }
 
   /**

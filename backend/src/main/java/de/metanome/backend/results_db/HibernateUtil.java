@@ -107,7 +107,7 @@ public class HibernateUtil {
    *
    * @param entity the entity to update
    */
-  public static void update(Object entity) throws EntityStorageException {
+  public static void update(Object entity) throws Exception {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
     }

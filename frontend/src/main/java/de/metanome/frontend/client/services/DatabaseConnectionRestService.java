@@ -46,6 +46,10 @@ public interface DatabaseConnectionRestService extends RestService {
   @DELETE
   @Path("/delete/{id}")
   public void deleteDatabaseConnection(@PathParam("id") long id, MethodCallback<Void> callback);
+
+  @POST
+  @Path("/update")
+  public void updateDatabaseConnection(DatabaseConnection databaseConnection, MethodCallback<DatabaseConnection> callback);
 }
 
 

@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -30,7 +29,6 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
-import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
@@ -104,6 +102,8 @@ public class GwtTestTableInputTab extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#getDeleteCallback(de.metanome.backend.results_db.TableInput)}
+   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#increaseDatabaseConnectionUsage(String identifier)}
+   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#decreaseDatabaseConnectionUsage(String identifier)}
    */
   public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
@@ -127,30 +127,26 @@ public class GwtTestTableInputTab extends GWTTestCase {
     tableInput2.setTableName("table2");
     tableInput2.setDatabaseConnection(databaseConnection2);
 
+    TableInput tableInput3 = new TableInput();
+    tableInput3.setTableName("table3");
+    tableInput3.setDatabaseConnection(databaseConnection2);
+
     BasePage parent = new BasePage();
     DataSourcePage page = new DataSourcePage(parent);
     TableInputTab tableInputTab = new TableInputTab(page);
     page.setMessageReceiver(new TabWrapper());
 
-    Button deleteButton1 = new Button();
-    Button deleteButton2 = new Button();
+    page.databaseConnectionTab.addDatabaseConnectionToTable(databaseConnection1);
+    page.databaseConnectionTab.addDatabaseConnectionToTable(databaseConnection2);
 
-    page.databaseConnectionTab.connectionInputList.setWidget(0, 0, new HTML("url1"));
-    page.databaseConnectionTab.connectionInputList.setWidget(0, 1, new HTML("user1"));
-    page.databaseConnectionTab.connectionInputList.setWidget(0, 2, new HTML("DB2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(0, 5, deleteButton1);
-
-    page.databaseConnectionTab.connectionInputList.setWidget(1, 0, new HTML("url2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(1, 1, new HTML("user2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(1, 2, new HTML("DB2"));
-    page.databaseConnectionTab.connectionInputList.setWidget(1, 5, deleteButton2);
-
-    tableInputTab.tableInputList.setWidget(0, 0, new HTML(databaseConnection1.getIdentifier()));
-    tableInputTab.tableInputList.setWidget(0, 1, new HTML("table1"));
-    tableInputTab.tableInputList.setWidget(1, 0, new HTML(databaseConnection2.getIdentifier()));
-    tableInputTab.tableInputList.setWidget(1, 1, new HTML("table2"));
-    tableInputTab.tableInputList.setWidget(2, 0, new HTML("url3; user3; DB2"));
-    tableInputTab.tableInputList.setWidget(2, 1, new HTML("table3"));
+    tableInputTab.addTableInputToTable(tableInput1);
+    tableInputTab.addTableInputToTable(tableInput2);
+    tableInputTab.addTableInputToTable(tableInput3);
+    tableInputTab.editForm.dbMap.put(databaseConnection1.getIdentifier(), databaseConnection1);
+    tableInputTab.editForm.dbMap.put(databaseConnection2.getIdentifier(), databaseConnection2);
+    tableInputTab.editForm.increaseDatabaseConnectionUsage(databaseConnection1.getIdentifier());
+    tableInputTab.editForm.increaseDatabaseConnectionUsage(databaseConnection2.getIdentifier());
+    tableInputTab.editForm.increaseDatabaseConnectionUsage(databaseConnection2.getIdentifier());
 
     int rowCount = tableInputTab.tableInputList.getRowCount();
 
@@ -163,7 +159,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
     // Check
     assertEquals(rowCount - 1, tableInputTab.tableInputList.getRowCount());
     assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(1, 1)).getText());
-    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 5)).isEnabled());
+    assertFalse(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 5)).isEnabled());
 
     // Execute (delete Table Input 1)
     callback = tableInputTab.getDeleteCallback(tableInput1);
@@ -175,6 +171,55 @@ public class GwtTestTableInputTab extends GWTTestCase {
     assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 5)).isEnabled());
 
     // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#updateTableInputInTable(TableInput updatedInput, TableInput oldInput)}
+   */
+  public void testUpdateTableInput() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnection databaseConnection1 = new DatabaseConnection();
+    databaseConnection1.setUrl("url");
+    databaseConnection1.setPassword("password");
+    databaseConnection1.setUsername("user");
+    databaseConnection1.setSystem(DbSystem.DB2);
+
+    TableInput oldTableInput = new TableInput();
+    oldTableInput.setDatabaseConnection(databaseConnection1);
+    oldTableInput.setTableName("table");
+
+    ArrayList<TableInput> inputs = new ArrayList<TableInput>();
+    inputs.add(oldTableInput);
+
+    TableInputTab tableInputTab = new TableInputTab(new DataSourcePage(new BasePage()));
+    tableInputTab.listTableInputs(inputs);
+
+    // Expected Values
+    String expectedValue = "updated";
+    DatabaseConnection databaseConnection2 = new DatabaseConnection();
+    databaseConnection2.setUrl(expectedValue);
+    databaseConnection2.setPassword(expectedValue);
+    databaseConnection2.setUsername(expectedValue);
+    databaseConnection2.setSystem(DbSystem.DB2);
+
+    TableInput updatedTableInput = new TableInput();
+    updatedTableInput.setDatabaseConnection(databaseConnection2);
+    updatedTableInput.setTableName(expectedValue);
+    updatedTableInput.setComment(expectedValue);
+
+    // Execute
+    tableInputTab.updateTableInputInTable(updatedTableInput, oldTableInput);
+
+    // Check
+    assertEquals(2, tableInputTab.tableInputList.getRowCount());
+    assertTrue(((HTML) (tableInputTab.tableInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(tableInputTab.tableInputList.getText(1, 1).contains(expectedValue));
+    assertTrue(tableInputTab.tableInputList.getText(1, 2).contains(expectedValue));
+
+    // Clean up
     TestHelper.resetDatabaseSync();
   }
 

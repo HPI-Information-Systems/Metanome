@@ -146,4 +146,34 @@ public class InputResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.InputResource#update(de.metanome.backend.results_db.Input)}
+   * Inputs should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Input tableInput = new TableInput().setTableName("old name");
+
+    // Execute functionality
+    Input actualTableInput = inputResource.store(tableInput);
+
+    // Check result
+    assertEquals(tableInput, actualTableInput);
+
+    // Execute functionality
+    ((TableInput) tableInput).setComment("new comment").setTableName("new name");
+    inputResource.update(tableInput);
+
+    // Check result
+    actualTableInput = inputResource.get(tableInput.getId());
+    assertEquals(tableInput, actualTableInput);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

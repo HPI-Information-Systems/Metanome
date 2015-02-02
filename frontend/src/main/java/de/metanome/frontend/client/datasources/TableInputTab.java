@@ -76,7 +76,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
     tableInputRestService.listTableInputs(new MethodCallback<List<TableInput>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("There are no table inputs in the database: " + method.getResponse().getText());
+        messageReceiver.addError(
+            "There are no table inputs in the database: " + method.getResponse().getText());
         addEditForm();
       }
 
@@ -122,6 +123,14 @@ public class TableInputTab extends FlowPanel implements TabContent {
       }
     });
 
+    final Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateTableInput(input);
+      }
+    });
+
     Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
@@ -138,6 +147,29 @@ public class TableInputTab extends FlowPanel implements TabContent {
     this.tableInputList.setText(row, 2, input.getComment());
     this.tableInputList.setWidget(row, 3, runButton);
     this.tableInputList.setWidget(row, 4, deleteButton);
+    this.tableInputList.setWidget(row, 5, editButton);
+  }
+
+  /**
+   * Find the row of the old table input and updates the values.
+   * @param updatedInput the updated table input
+   * @param oldInput     the old table input
+   */
+  public void updateTableInputInTable(final TableInput updatedInput, TableInput oldInput) {
+    int row = findRow(oldInput);
+
+    this.tableInputList.setWidget(row, 0, new HTML(updatedInput.getIdentifier()));
+    this.tableInputList.setWidget(row, 1, new HTML(updatedInput.getTableName()));
+    this.tableInputList.setText(row, 2, updatedInput.getComment());
+
+    final Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateTableInput(updatedInput);
+      }
+    });
+    this.tableInputList.setWidget(row, 5, editButton);
   }
 
   /**
@@ -162,6 +194,17 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param connection the new database connection
    */
   public void addDatabaseConnection(DatabaseConnection connection) {
+    this.editForm.addDatabaseConnection(connection);
+  }
+
+  /**
+   * Updates a database connection.
+   *
+   * @param connection    the updated database connection
+   * @param oldConnection the old database connection
+   */
+  public void updateDatabaseConnection(DatabaseConnection connection, DatabaseConnection oldConnection) {
+    this.editForm.removeDatabaseConnection(oldConnection);
     this.editForm.addDatabaseConnection(connection);
   }
 
@@ -198,13 +241,13 @@ public class TableInputTab extends FlowPanel implements TabContent {
       @Override
       public void onSuccess(Method method, Void aVoid) {
         tableInputList.removeRow(findRow(input));
-        setEnableOfDeleteButton(input.getDatabaseConnection(), true);
+        editForm.decreaseDatabaseConnectionUsage(input.getDatabaseConnection().getIdentifier());
       }
     };
   }
 
-  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
-    this.parent.setEnableOfDeleteButton(databaseConnection, enabled);
+  public void setEnableOfButtons(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.parent.setEnableOfButtons(databaseConnection, enabled);
   }
 
   /**

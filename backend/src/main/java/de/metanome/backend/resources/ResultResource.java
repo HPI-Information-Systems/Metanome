@@ -104,4 +104,23 @@ public class ResultResource implements Resource<Result> {
 
     return results;
   }
+
+  /**
+   * Updates an result in the database.
+   * @param result the result
+   * @return the updated result
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Result update(Result result) {
+    try {
+      HibernateUtil.update(result);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return result;
+  }
 }

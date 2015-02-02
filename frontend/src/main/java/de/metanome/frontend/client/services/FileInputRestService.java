@@ -51,4 +51,8 @@ public interface FileInputRestService extends RestService {
   @Path("/delete/{id}")
   public void deleteFileInput(@PathParam("id") long id, MethodCallback<Void> callback);
 
+  @POST
+  @Path("/update")
+  public void updateFileInput(FileInput fileInput, MethodCallback<FileInput> callback);
+
 }

@@ -17,7 +17,9 @@
 package de.metanome.frontend.client.algorithms;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
 
+import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
@@ -95,7 +97,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     try {
       form.retrieveInputValues();
     } catch (InputValidationException e) {
-      form.submit();
+      form.saveSubmit();
       assertTrue(tab.isInError());
     }
 
@@ -125,7 +127,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     try {
       form.retrieveInputValues();
     } catch (InputValidationException e) {
-      form.submit();
+      form.saveSubmit();
       assertTrue(tab.isInError());
     }
 
@@ -161,6 +163,52 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
 
     // Clean up
     TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmEditForm#updateAlgorithm(de.metanome.backend.results_db.Algorithm)}
+   * and test method for {@link AlgorithmEditForm#showSaveButton()}
+   *
+   * If the edit button for an algorithm is clicked, the edit form should contain the values
+   * of that algorithm and the edit form should show a update button instead of an save button.
+   * If the method 'show save button' is called, the save button should be visible again.
+   */
+  public void testEditButtonClicked() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    TabWrapper tab = new TabWrapper();
+    AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
+
+    // Expected Values
+    String expectedFileName = "some file name";
+    String expectedName = "some name";
+    String expectedAuthor = "some author";
+    String expectedDescription = "some description";
+    Algorithm algorithm = new Algorithm(expectedFileName)
+        .setAuthor(expectedAuthor)
+        .setName(expectedName)
+        .setDescription(expectedDescription);
+
+    // Execute
+    form.updateAlgorithm(algorithm);
+
+    // Check results
+    assertEquals(expectedAuthor, form.authorTextBox.getText());
+    assertEquals(expectedDescription, form.descriptionTextArea.getText());
+    assertEquals(expectedName, form.nameTextBox.getText());
+    assertEquals(expectedFileName, form.fileListBox.getSelectedValue());
+    assertEquals(2, form.fileListBox.getValues().size());
+
+    assertEquals(((Button) form.getWidget(4, 1)).getText(), "Update");
+
+    // Execute
+    form.showSaveButton();
+
+    // Check results
+    assertEquals(((Button) form.getWidget(4, 1)).getText(), "Save");
+    assertEquals(1, form.fileListBox.getValues().size());
+
   }
 
   @Override

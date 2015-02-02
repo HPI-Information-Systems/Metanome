@@ -28,4 +28,6 @@ public interface Resource<T> {
 
   public List<T> getAll();
 
+  public T update(T type);
+
 }

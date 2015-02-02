@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -70,6 +71,25 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   /**
+   * Updates a file input in the database.
+   * @param fileInput the file input
+   * @return the updated file input
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public FileInput update(FileInput fileInput) {
+    try {
+      HibernateUtil.update(fileInput);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return fileInput;
+  }
+
+  /**
    * retrieves a FileInput from the Database
    * @param id the id of the FileInput
    * @return the retrieved FileInput
@@ -93,6 +113,7 @@ public class FileInputResource implements Resource<FileInput> {
    */
   @POST
   @Path("/store")
+  @Consumes("application/json")
   @Produces("application/json")
   @Override
   public FileInput store(FileInput file) {

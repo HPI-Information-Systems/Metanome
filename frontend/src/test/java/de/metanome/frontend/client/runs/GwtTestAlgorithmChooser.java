@@ -184,6 +184,28 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertEquals("Algorithm 1", jarChooser.algorithmListBox.getItemText(1));
   }
 
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#update(de.metanome.backend.results_db.Algorithm, String)}
+   */
+  public void testUpdateAlgorithm() {
+    LinkedList<Algorithm> algorithms = new LinkedList<>();
+    algorithms.add(new Algorithm("Algorithm 1"));
+    algorithms.add(new Algorithm("Algorithm 2"));
+
+    AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
+
+    assertEquals(3, jarChooser.algorithmListBox.getItemCount());
+
+    // Execute
+    jarChooser.update(new Algorithm("Algorithm-NEW"), "Algorithm 2");
+
+    assertEquals(3, jarChooser.algorithmListBox.getItemCount());
+    assertEquals("--", jarChooser.algorithmListBox.getItemText(0));
+    assertEquals("Algorithm 1", jarChooser.algorithmListBox.getItemText(1));
+    assertEquals("Algorithm-NEW", jarChooser.algorithmListBox.getItemText(2));
+  }
+
   /**
    * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#filterForPrimaryDataSource(de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)}
    */
