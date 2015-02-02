@@ -19,14 +19,14 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.backend.result_receiver.ResultCounter;
+import de.metanome.backend.results_db.ResultType;
 
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -121,11 +121,12 @@ public class AlgorithmExecutionResourceTest {
     // Execute functionality
     AlgorithmExecutionCache.getResultCounter(expectedExecutionIdentifier).receiveResult(
         expectedUcc);
-    Map<String, Integer> results = executionService.getCounterResults(expectedExecutionIdentifier);
+    EnumMap<ResultType, Integer>
+        results = executionService.getCounterResults(expectedExecutionIdentifier);
 
     // Check result
     assertFalse(results.isEmpty());
-    assertTrue(results.get(ResultCounter.UCC_KEY) == 1);
+    assertTrue(results.get(ResultType.UCC) == 1);
   }
 
   @Test

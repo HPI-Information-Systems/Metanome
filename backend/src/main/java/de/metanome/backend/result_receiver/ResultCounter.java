@@ -23,68 +23,67 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class ResultCounter extends ResultReceiver {
 
-  public static final String UCC_KEY = "ucc";
-  public static final String IND_KEY = "ind";
-  public static final String FD_KEY = "fd";
-  public static final String CUCC_KEY = "cucc";
-  public static final String OD_KEY = "od";
-  public static final String STAT_KEY = "stat";
-
-  private int statsCount = 0;
-  private int indCount = 0;
-  private int fdCount = 0;
-  private int uccCount = 0;
-  private int cuccCount = 0;
-  private int odCount = 0;
+  protected EnumMap<ResultType, Integer> resultCounts;
 
   public ResultCounter(String algorithmExecutionIdentifier) throws FileNotFoundException {
     super(algorithmExecutionIdentifier);
+    this.resultCounts = new EnumMap<>(ResultType.class);
   }
   protected ResultCounter(String algorithmExecutionIdentifier, Boolean test) throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
+    this.resultCounts = new EnumMap<>(ResultType.class);
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException {
-    this.statsCount++;
+    this.addCount(ResultType.STAT);
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    this.cuccCount++;
+    this.addCount(ResultType.CUCC);
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
       throws CouldNotReceiveResultException {
-    this.fdCount++;
+    this.addCount(ResultType.FD);
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
       throws CouldNotReceiveResultException {
-    this.indCount++;
+    this.addCount(ResultType.IND);
   }
 
   @Override
   public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    this.odCount++;
+    this.addCount(ResultType.OD);
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    this.uccCount++;
+    this.addCount(ResultType.UCC);
+  }
+
+  protected void addCount(ResultType type) throws CouldNotReceiveResultException {
+    if (!resultCounts.containsKey(type)) {
+      resultCounts.put(type, 1);
+    } else {
+      resultCounts.put(type, resultCounts.get(type) + 1);
+    }
   }
 
   /**
@@ -93,18 +92,11 @@ public class ResultCounter extends ResultReceiver {
    */
   @Override
   public void close() throws IOException {
-    if (statsCount > 0)
-      write(STATS_ENDING, "Basic Statistic", statsCount);
-    if (uccCount > 0)
-      write(UCC_ENDING, "Unique Column Combination", uccCount);
-    if (fdCount > 0)
-      write(FD_ENDING, "Functional Dependency", fdCount);
-    if (indCount > 0)
-      write(IND_ENDING, "Inclusion Dependency", indCount);
-    if (odCount > 0)
-      write(OD_ENDING, "Order Dependency", odCount);
-    if (cuccCount > 0)
-      write(CUCC_ENDING, "Conditional Unique Column Combination", cuccCount);
+    for (Map.Entry<ResultType, Integer> entry : resultCounts.entrySet()) {
+      ResultType type = entry.getKey();
+      Integer count = entry.getValue();
+      write(type.getEnding(), type.getName(), count);
+    }
   }
 
   private void write(String fileSuffix, String name, int count) throws FileNotFoundException {
@@ -114,15 +106,8 @@ public class ResultCounter extends ResultReceiver {
     writer.close();
   }
 
-  public Map<String, Integer> getResults() {
-    Map<String, Integer> resultMap = new HashMap<>();
-    resultMap.put(IND_KEY, this.indCount);
-    resultMap.put(UCC_KEY, this.uccCount);
-    resultMap.put(FD_KEY, this.fdCount);
-    resultMap.put(CUCC_KEY, this.cuccCount);
-    resultMap.put(OD_KEY, this.odCount);
-    resultMap.put(STAT_KEY, this.statsCount);
-    return resultMap;
+  public EnumMap<ResultType, Integer> getResults() {
+    return resultCounts;
   }
 
 }

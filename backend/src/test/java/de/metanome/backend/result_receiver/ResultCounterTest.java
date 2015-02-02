@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -53,8 +55,8 @@ public class ResultCounterTest{
     resultCounter.receiveResult(basicStatistic);
 
     // Check result
-    assertTrue(resultCounter.getResults().get(ResultCounter.STAT_KEY) == 1);
-    assertTrue(resultCounter.getResults().get(ResultCounter.IND_KEY) == 0);
+    assertTrue(resultCounter.getResults().get(ResultType.STAT) == 1);
+    assertNull(resultCounter.getResults().get(ResultType.IND));
 
 
     // Execute functionality
@@ -62,8 +64,8 @@ public class ResultCounterTest{
     resultCounter.receiveResult(inclusionDependency);
 
     // Check result
-    assertTrue(resultCounter.getResults().get(ResultCounter.STAT_KEY) == 2);
-    assertTrue(resultCounter.getResults().get(ResultCounter.IND_KEY) == 1);
+    assertTrue(resultCounter.getResults().get(ResultType.STAT) == 2);
+    assertTrue(resultCounter.getResults().get(ResultType.IND) == 1);
   }
 
   /**
@@ -80,7 +82,7 @@ public class ResultCounterTest{
     resultCounter.close();
 
     // Check result
-    File actualFile = new File(resultCounter.getOutputFilePathPrefix() + ResultReceiver.UCC_ENDING);
+    File actualFile = new File(resultCounter.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);

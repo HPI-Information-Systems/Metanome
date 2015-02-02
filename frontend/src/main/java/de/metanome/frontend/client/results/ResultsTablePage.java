@@ -31,7 +31,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.backend.result_receiver.ResultCounter;
+import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
@@ -39,6 +39,7 @@ import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -124,30 +125,31 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     if (executionService == null)
       return;
 
-    executionService.getCounterResults(executionIdentifier, new MethodCallback<Map<String, Integer>>() {
+    executionService.getCounterResults(executionIdentifier, new MethodCallback<EnumMap<ResultType, Integer>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
       }
 
       @Override
-      public void onSuccess(Method method, Map<String, Integer> result) {
-        Integer count = result.get(ResultCounter.UCC_KEY);
-        if (count > 0) displayCountResult(count, uccTable);
+      public void onSuccess(Method method, EnumMap<ResultType, Integer> result) {
+        if (result.containsKey(ResultType.UCC))
+          displayCountResult(result.get(ResultType.UCC), uccTable);
 
-        count = result.get(ResultCounter.IND_KEY);
-        if (count > 0) displayCountResult(count, indTable);
+        if (result.containsKey(ResultType.FD))
+          displayCountResult(result.get(ResultType.FD), fdTable);
 
-        count = result.get(ResultCounter.FD_KEY);
-        if (count > 0) displayCountResult(count, fdTable);
+        if (result.containsKey(ResultType.IND))
+          displayCountResult(result.get(ResultType.IND), indTable);
 
-        count = result.get(ResultCounter.CUCC_KEY);
-        if (count > 0) displayCountResult(count, cuccTable);
+        if (result.containsKey(ResultType.CUCC))
+          displayCountResult(result.get(ResultType.CUCC), cuccTable);
 
-        count = result.get(ResultCounter.OD_KEY);
-        if (count > 0) displayCountResult(count, odTable);
+        if (result.containsKey(ResultType.OD))
+          displayCountResult(result.get(ResultType.OD), odTable);
 
-        count = result.get(ResultCounter.STAT_KEY);
-        if (count > 0) displayCountResult(count, basicsTable);
+        if (result.containsKey(ResultType.STAT))
+          displayCountResult(result.get(ResultType.STAT), basicsTable);
+
       }
     });
   }

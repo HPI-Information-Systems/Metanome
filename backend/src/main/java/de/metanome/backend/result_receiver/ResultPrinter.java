@@ -43,13 +43,6 @@ import java.util.EnumMap;
  * read again and returned.
  */
 public class ResultPrinter extends ResultReceiver {
-
-  protected PrintStream statStream;
-  protected PrintStream fdStream;
-  protected PrintStream uccStream;
-  protected PrintStream cuccStream;
-  protected PrintStream indStream;
-  protected PrintStream odStream;
   
   protected EnumMap<ResultType, PrintStream> openStreams;
 
@@ -117,7 +110,7 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void close() throws IOException {
-    for(PrintStream stream : openStreams.values()){
+    for (PrintStream stream : openStreams.values()) {
       stream.close();
     }
   }
@@ -129,53 +122,10 @@ public class ResultPrinter extends ResultReceiver {
   public List<Result> getResults() throws IOException {
     List<Result> results = new ArrayList<>();
 
-    if (existsFile(IND_ENDING)) {
-      results.addAll(readResult(IND_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return InclusionDependency.fromString(str);
-        }
-      }));
-    }
-    if (existsFile(FD_ENDING)) {
-      results.addAll(readResult(FD_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return FunctionalDependency.fromString(str);
-        }
-      }));
-    }
-    if (existsFile(UCC_ENDING)) {
-      results.addAll(readResult(UCC_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return UniqueColumnCombination.fromString(str);
-        }
-      }));
-    }
-    if (existsFile(CUCC_ENDING)) {
-      results.addAll(readResult(CUCC_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return ConditionalUniqueColumnCombination.fromString(str);
-        }
-      }));
-    }
-    if (existsFile(OD_ENDING)) {
-      results.addAll(readResult(OD_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return OrderDependency.fromString(str);
-        }
-      }));
-    }
-    if (existsFile(STATS_ENDING)) {
-      results.addAll(readResult(STATS_ENDING, new ResultHandler() {
-        @Override
-        public Result convert(String str) {
-          return BasicStatistic.fromString(str);
-        }
-      }));
+    for (ResultType type : openStreams.keySet()) {
+      if (existsFile(type.getEnding())) {
+        results.addAll(readResult(type.getEnding(), type.getResultHandler()));
+      }
     }
 
     return results;
@@ -197,9 +147,5 @@ public class ResultPrinter extends ResultReceiver {
       }
     }
     return results;
-  }
-
-  public interface ResultHandler {
-    public Result convert(String str);
   }
 }

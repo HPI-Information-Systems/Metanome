@@ -112,7 +112,7 @@ public class ResultCache extends ResultReceiver {
           printer.receiveResult((OrderDependency) result);
         else if (result instanceof BasicStatistic)
           printer.receiveResult((BasicStatistic) result);
-      } catch (CouldNotReceiveResultException e) {
+      } catch (CouldNotReceiveResultException ignored) {
 
       }
     }

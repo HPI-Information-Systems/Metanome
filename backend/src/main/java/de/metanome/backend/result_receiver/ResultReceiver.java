@@ -23,12 +23,6 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
 
   public static final String RESULT_TEST_DIR = "results/test";
   public static final String RESULT_DIR   = "results";
-  public static final String IND_ENDING   = "_inds";
-  public static final String FD_ENDING    = "_fds";
-  public static final String UCC_ENDING   = "_uccs";
-  public static final String OD_ENDING    = "_ods";
-  public static final String STATS_ENDING = "_stats";
-  public static final String CUCC_ENDING  = "_cuccs";
 
   protected String algorithmExecutionIdentifier;
   protected String directory;

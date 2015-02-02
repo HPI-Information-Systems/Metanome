@@ -19,12 +19,13 @@ package de.metanome.frontend.client.services;
 
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.resources.AlgorithmExecutionParams;
+import de.metanome.backend.results_db.ResultType;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,7 +49,7 @@ public interface AlgorithmExecutionRestService extends RestService {
 
   @GET
   @Path("/result_counter/{identifier}")
-  public void getCounterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<Map<String, Integer>> callback);
+  public void getCounterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<EnumMap<ResultType, Integer>> callback);
 
   @GET
   @Path("/result_printer/{identifier}")

@@ -29,12 +29,13 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -112,7 +113,7 @@ public class AlgorithmExecutionResource {
   @GET
   @Path("/result_counter/{identifier}")
   @Produces("application/json")
-  public Map<String, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
+  public EnumMap<ResultType, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
     try {
       return AlgorithmExecutionCache.getResultCounter(executionIdentifier).getResults();
     } catch (Exception e) {

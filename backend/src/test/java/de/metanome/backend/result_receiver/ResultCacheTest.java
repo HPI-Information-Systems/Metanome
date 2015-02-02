@@ -27,6 +27,7 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -123,7 +124,7 @@ public class ResultCacheTest {
     resultCache.close();
 
     // Check result
-    File actualFile = new File(resultCache.getOutputFilePathPrefix() + ResultReceiver.FD_ENDING);
+    File actualFile = new File(resultCache.getOutputFilePathPrefix() + ResultType.FD.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);

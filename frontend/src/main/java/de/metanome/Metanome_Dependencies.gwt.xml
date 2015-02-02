@@ -109,6 +109,9 @@
         <include name="AlgorithmExecutionParams.java"/>
         <include name="ParameterResource"/>
     </source>
+    <source path="backend/result_receiver">
+        <include name="ResultHandler.java"/>
+    </source>
     <source path="backend/results_db">
         <include name="Execution.java"/>
         <include name="Result.java"/>
