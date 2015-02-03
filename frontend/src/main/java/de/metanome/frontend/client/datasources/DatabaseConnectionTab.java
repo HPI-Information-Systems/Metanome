@@ -97,7 +97,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
               @Override
               public void onSuccess(Method method, List<TableInput> tableInputs) {
                 for (TableInput input : tableInputs) {
-                  setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+                  setEnableOfButtons(input.getDatabaseConnection(), false);
                 }
               }
             });
@@ -142,6 +142,14 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
       }
     });
 
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateDatabaseConnection(input);
+      }
+    });
+
     Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
@@ -157,6 +165,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
     this.connectionInputList.setText(row, 3, input.getComment());
     this.connectionInputList.setWidget(row, 4, runButton);
     this.connectionInputList.setWidget(row, 5, deleteButton);
+    this.connectionInputList.setWidget(row, 6, editButton);
   }
 
   /**
@@ -182,6 +191,16 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   }
 
   /**
+   * Forwards the update-table-input-tab-command to its parent.
+   *
+   * @param connection    the new database connection
+   * @param oldConnection the old database connection
+   */
+  public void updateTableInputTab(DatabaseConnection connection, DatabaseConnection oldConnection) {
+    this.parent.updateDatabaseConnectionToTableInputTab(connection, oldConnection);
+  }
+
+  /**
    * Forwards the command to update the data sources on the run configuration page to the data
    * source page.
    */
@@ -197,11 +216,13 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param connection the database connection, which delete button should be enabled/disabled
    * @param enabled    true, if the button should be enabled, false otherwise
    */
-  protected void setEnableOfDeleteButton(DatabaseConnection connection, boolean enabled) {
+  protected void setEnableOfButtons(DatabaseConnection connection, boolean enabled) {
     int row = findRow(connection);
 
     Button deleteButton = (Button) this.connectionInputList.getWidget(row, 5);
     deleteButton.setEnabled(enabled);
+    Button editButton = (Button) this.connectionInputList.getWidget(row, 6);
+    editButton.setEnabled(enabled);
   }
 
   /**
@@ -247,6 +268,29 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
       row++;
     }
     return -1;
+  }
+
+  /**
+   * Find the row of the old database connection and updates the values.
+   * @param updatedDatabaseConnection the updated database connection
+   * @param oldDatabaseConnection     the old database connection
+   */
+  public void updateDatabaseConnectionInTable(final DatabaseConnection updatedDatabaseConnection, DatabaseConnection oldDatabaseConnection) {
+    int row = this.findRow(oldDatabaseConnection);
+
+    this.connectionInputList.setWidget(row, 0, new HTML(updatedDatabaseConnection.getUrl()));
+    this.connectionInputList.setWidget(row, 1, new HTML(updatedDatabaseConnection.getUsername()));
+    this.connectionInputList.setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
+    this.connectionInputList.setText(row, 3, updatedDatabaseConnection.getComment());
+
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateDatabaseConnection(updatedDatabaseConnection);
+      }
+    });
+    this.connectionInputList.setWidget(row, 6, editButton);
   }
 
   @Override

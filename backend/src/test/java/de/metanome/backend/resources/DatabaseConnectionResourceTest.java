@@ -174,4 +174,36 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.DatabaseConnectionResource#update(de.metanome.backend.results_db.DatabaseConnection)}
+   * Database Connection should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    DatabaseConnection databaseConnection = new DatabaseConnection()
+        .setUsername("old user")
+        .setPassword("old password");
+
+    // Execute functionality
+    DatabaseConnection actualDatabaseConnection = dbResource.store(databaseConnection);
+
+    // Check result
+    assertEquals(databaseConnection, actualDatabaseConnection);
+
+    // Execute functionality
+    databaseConnection.setComment("new comment").setPassword("new password").setUsername("new user");
+    dbResource.update(databaseConnection);
+
+    // Check result
+    actualDatabaseConnection = dbResource.get(databaseConnection.getId());
+    assertEquals(databaseConnection, actualDatabaseConnection);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

@@ -17,10 +17,12 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Button;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.frontend.client.BasePage;
+import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.Arrays;
@@ -110,6 +112,54 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
     assertEquals("", actualComment);
   }
 
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#updateDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
+   * and test method for {@link DatabaseConnectionEditForm#showSaveButton()}
+   *
+   * If the edit button for a database connection is clicked, the edit form should contain the values
+   * of that database connection and the edit form should show a update button instead of an save button.
+   * If the method 'show save button' is called, the save button should be visible again.
+   */
+  public void testEditButtonClicked() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnectionEditForm
+        editForm =
+        new DatabaseConnectionEditForm(
+            new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
+
+    // Expected Values
+    String expectedUrl = "url";
+    String expectedUser = "user";
+    String expectedPassword = "password";
+    DbSystem expectedSystem = DbSystem.DB2;
+    String expectedComment = "comment";
+    DatabaseConnection connection = new DatabaseConnection()
+        .setUrl(expectedUrl)
+        .setComment(expectedComment)
+        .setPassword(expectedPassword)
+        .setSystem(expectedSystem)
+        .setUsername(expectedUser);
+
+    // Execute
+    editForm.updateDatabaseConnection(connection);
+
+    // Check results
+    assertEquals(expectedComment, editForm.commentTextbox.getText());
+    assertEquals(expectedPassword, editForm.passwordTextbox.getText());
+    assertEquals(expectedSystem.name(), editForm.systemListBox.getSelectedValue());
+    assertEquals(expectedUrl, editForm.dbUrlTextbox.getText());
+    assertEquals(expectedUser, editForm.usernameTextbox.getText());
+
+    assertEquals(((Button) editForm.getWidget(5, 1)).getText(), "Update");
+
+    // Execute
+    editForm.showSaveButton();
+
+    // Check results
+    assertEquals(((Button) editForm.getWidget(5, 1)).getText(), "Save");
+  }
 
   @Override
   public String getModuleName() {

@@ -225,4 +225,15 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     return this.algorithmChooser.algorithmMap.get(name);
   }
 
+  /**
+   * Updates an algorithm on the algorithm chooser.
+   * Removes the old algorithm and add the new one.
+   *
+   * @param algorithm the algorithm name, which was updated
+   * @param oldName   the old algorithm name
+   */
+  public void updateAlgorithm(Algorithm algorithm, String oldName) {
+    this.algorithmChooser.update(algorithm, oldName);
+    this.algorithmChooser.updateAlgorithmListBox();
+  }
 }

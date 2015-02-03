@@ -22,6 +22,7 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
+import de.metanome.backend.results_db.ResultType;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -141,6 +142,36 @@ public class ResultResourceTest {
 
     // Check result
     assertEquals(expectedResult, actualResult);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.ResultResource#update(de.metanome.backend.results_db.Result)}
+   * Results should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Result result = new Result("old file");
+
+    // Execute functionality
+    Result actualResult = resultResource.store(result);
+
+    // Check result
+    assertEquals(result, actualResult);
+
+    // Execute functionality
+    result.setFileName("new file").setType(ResultType.OD);
+    resultResource.update(result);
+
+    // Check result
+    actualResult = resultResource.get(result.getId());
+    assertEquals(result, actualResult);
 
     // Cleanup
     HibernateUtil.clear();

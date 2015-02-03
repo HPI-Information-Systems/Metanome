@@ -122,6 +122,14 @@ public class FileInputTab extends FlowPanel implements TabContent {
       }
     });
 
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateFileInput(input);
+      }
+    });
+
     Button runButton = new Button("Analyze");
     runButton.setTitle(String.valueOf(input.getId()));
     runButton.addClickHandler(new ClickHandler() {
@@ -135,6 +143,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     this.fileInputList.setText(row, 1, input.getComment());
     this.fileInputList.setWidget(row, 2, runButton);
     this.fileInputList.setWidget(row, 3, deleteButton);
+    this.fileInputList.setWidget(row, 4, editButton);
   }
 
   /**
@@ -210,5 +219,27 @@ public class FileInputTab extends FlowPanel implements TabContent {
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
     this.editForm.setMessageReceiver(tab);
+  }
+
+  /**
+   * Find the row of the old file input and updates the values.
+   * @param updatedInput the updated file input
+   * @param oldInput     the old file input
+   */
+  public void updateFileInputInTable(final FileInput updatedInput, FileInput oldInput) {
+    int row = findRow(oldInput);
+
+    this.fileInputList.setWidget(row, 0, new HTML(FilePathHelper.getFileName(updatedInput.getFileName())));
+    this.fileInputList.setText(row, 1, updatedInput.getComment());
+
+    Button editButton = new Button("Edit");
+    editButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        editForm.updateFileInput(updatedInput);
+      }
+    });
+
+    this.fileInputList.setWidget(row, 4, editButton);
   }
 }

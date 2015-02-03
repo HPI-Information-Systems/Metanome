@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -42,8 +41,9 @@ public class TableInput extends Input implements Serializable {
     return tableName;
   }
 
-  public void setTableName(String tableName) {
+  public TableInput setTableName(String tableName) {
     this.tableName = tableName;
+    return this;
   }
 
   @ManyToOne(targetEntity = DatabaseConnection.class)
@@ -51,8 +51,9 @@ public class TableInput extends Input implements Serializable {
     return databaseConnection;
   }
 
-  public void setDatabaseConnection(DatabaseConnection databaseConnection) {
+  public TableInput setDatabaseConnection(DatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
+    return this;
   }
 
   public String getComment() {

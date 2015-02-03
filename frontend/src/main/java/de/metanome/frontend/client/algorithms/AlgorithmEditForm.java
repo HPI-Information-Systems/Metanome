@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
@@ -51,6 +50,10 @@ public class AlgorithmEditForm extends Grid {
 
   private List<String> algorithmsInDatabase;
   private List<String> algorithmsOnStorage;
+
+  private Algorithm oldAlgorithm;
+  private Button submitButton;
+  private Button updateButton;
 
   public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
     super(5, 3);
@@ -82,13 +85,21 @@ public class AlgorithmEditForm extends Grid {
     this.setText(3, 0, "Description");
     this.setWidget(3, 1, this.descriptionTextArea);
 
-    this.setWidget(4, 1, (Widget) new Button("Save", new ClickHandler() {
+    this.submitButton = new Button("Save", new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        submit();
+        saveSubmit();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        updateSubmit();
+      }
+    });
+    this.setWidget(4, 1, this.submitButton);
   }
 
   /**
@@ -182,10 +193,24 @@ public class AlgorithmEditForm extends Grid {
   /**
    * Add the algorithm to the list of algorithms and store the algorithm in the database.
    */
-  protected void submit() {
+  protected void saveSubmit() {
     messageReceiver.clearErrors();
     try {
-      algorithmsPage.callAddAlgorithm(retrieveInputValues());
+        algorithmsPage.callAddAlgorithm(retrieveInputValues());
+    } catch (InputValidationException e) {
+      messageReceiver.addError(e.getMessage());
+    }
+  }
+
+  /**
+   * Add the algorithm to the list of algorithms and store the algorithm in the database.
+   */
+  protected void updateSubmit() {
+    messageReceiver.clearErrors();
+    try {
+      Algorithm updatedAlgorithm = retrieveInputValues();
+      updatedAlgorithm.setId(oldAlgorithm.getId());
+      algorithmsPage.callUpdateAlgorithm(updatedAlgorithm, oldAlgorithm);
     } catch (InputValidationException e) {
       messageReceiver.addError(e.getMessage());
     }
@@ -221,4 +246,28 @@ public class AlgorithmEditForm extends Grid {
     this.descriptionTextArea.setText("");
   }
 
+  /**
+   * Fills the edit form with the algorithm's values.
+   * @param algorithm the algorithm, which should be updated
+   */
+  public void updateAlgorithm(final Algorithm algorithm) {
+    this.updateFileListBox();
+
+    this.fileListBox.addValue(algorithm.getFileName());
+    this.fileListBox.setSelectedValue(algorithm.getFileName());
+    this.nameTextBox.setText(algorithm.getName());
+    this.authorTextBox.setText(algorithm.getAuthor());
+    this.descriptionTextArea.setText(algorithm.getDescription());
+
+    this.oldAlgorithm = algorithm;
+    this.setWidget(4, 1, this.updateButton);
+  }
+
+  /**
+   * Shows the save button.
+   */
+  public void showSaveButton() {
+    this.setWidget(4, 1, this.submitButton);
+    this.updateFileListBox();
+  }
 }

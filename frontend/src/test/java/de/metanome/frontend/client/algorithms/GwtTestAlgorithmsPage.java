@@ -18,6 +18,7 @@ package de.metanome.frontend.client.algorithms;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.backend.results_db.Algorithm;
@@ -205,6 +206,77 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     // Check
     assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
     assertEquals(fdCount, algorithmsPage.fdList.getRowCount());
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#updateRow(com.google.gwt.user.client.ui.FlexTable, de.metanome.backend.results_db.Algorithm, String)}
+   */
+  public void testUpdateAlgorithm() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    final int uccCount = algorithmsPage.uccList.getRowCount();
+
+    // Create a list of algorithms as result
+    LinkedList<Algorithm> uccAlgorithms = new LinkedList<Algorithm>();
+    Algorithm a1 = new Algorithm("old");
+    a1.setName("old");
+    a1.setUcc(true);
+    uccAlgorithms.add(a1);
+
+    algorithmsPage.addAlgorithmsToTable(uccAlgorithms, algorithmsPage.uccList);
+
+    // Expected Values
+    String expectedValue = "updated";
+    Algorithm updatedAlgorithm = new Algorithm(expectedValue)
+        .setName(expectedValue)
+        .setDescription(expectedValue)
+        .setAuthor(expectedValue);
+
+    // Execute
+    algorithmsPage.updateRow(algorithmsPage.uccList, updatedAlgorithm, "old");
+
+    // Check
+    assertEquals(uccCount + 1, algorithmsPage.uccList.getRowCount());
+    assertTrue(((HTML) (algorithmsPage.uccList.getWidget(0, 0))).getText().contains(expectedValue));
+    assertTrue(algorithmsPage.uccList.getText(0, 1).contains(expectedValue));
+    assertTrue(algorithmsPage.uccList.getText(0, 2).contains(expectedValue));
+    assertTrue(algorithmsPage.uccList.getText(0, 3).contains(expectedValue));
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm, Algorithm)}
+   */
+  public void testFailureOfUpdateCallbackAlgorithm() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    final AlgorithmsPage algorithmsPage = new AlgorithmsPage(new BasePage());
+    algorithmsPage.setMessageReceiver(new TabWrapper());
+
+    // Create a list of algorithms as result
+    Algorithm algorithm = new Algorithm("some file");
+    algorithmsPage.editForm.updateAlgorithm(algorithm);
+
+    // Expected Values
+
+    // Execute
+    algorithmsPage.getUpdateCallback(new Algorithm("old file")).onFailure(null, new Throwable("error"));
+
+    // Check
+    assertEquals(1, algorithmsPage.editForm.fileListBox.getValues().size());
+    assertEquals("--", algorithmsPage.editForm.fileListBox.getSelectedValue());
+    assertEquals("", algorithmsPage.editForm.nameTextBox.getText());
+    assertEquals("", algorithmsPage.editForm.descriptionTextArea.getText());
+    assertEquals("", algorithmsPage.editForm.authorTextBox.getText());
+
 
     // Clean up
     TestHelper.resetDatabaseSync();

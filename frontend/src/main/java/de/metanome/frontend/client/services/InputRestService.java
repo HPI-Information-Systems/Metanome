@@ -50,4 +50,8 @@ public interface InputRestService extends RestService {
   @Path("/delete/{id}")
   public void deleteInput(@PathParam("id") long id, MethodCallback<Void> callback);
 
+  @POST
+  @Path("/update")
+  public void updateInput(Input input, MethodCallback<Input> callback);
+
 }

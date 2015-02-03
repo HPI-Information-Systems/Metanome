@@ -329,6 +329,19 @@ public class AlgorithmChooser extends FlowPanel {
   }
 
   /**
+   * Updates an algorithm.
+   * @param algorithm the algorithm
+   * @param oldName   the old name of the algorithm
+   */
+  public void update(Algorithm algorithm, String oldName) {
+    if (this.algorithmMap.containsKey(oldName)) {
+      this.removeAlgorithm(oldName);
+      this.addAlgorithm(algorithm);
+      updateAlgorithmListBox();
+    }
+  }
+
+  /**
    * Enum that holds all available algorithm categories.
    */
   public enum AlgorithmCategory {

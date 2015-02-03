@@ -58,6 +58,7 @@ import javax.ws.rs.core.Response;
 @Path("algorithms")
 public class AlgorithmResource implements Resource<Algorithm> {
 
+
   /**
    * Adds a algorithm to the database.
    * @param algorithm the algorithm
@@ -69,24 +70,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @Override
   public Algorithm store(Algorithm algorithm) {
-    AlgorithmAnalyzer analyzer = null;
-    try {
-      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-
-    algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
-    algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
-    algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
-    algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
-    algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
-    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
-    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
-    algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
-    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
-    algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));
-
+    algorithm = setAlgorithmTypes(algorithm);
+    
     try {
       HibernateUtil.store(algorithm);
     } catch (EntityStorageException e) {
@@ -295,5 +280,48 @@ public class AlgorithmResource implements Resource<Algorithm> {
     } catch (ClassNotFoundException | IOException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+  }
+
+  /**
+   * Updates an algorithm in the database.
+   * @param algorithm the algorithm
+   * @return the updated algorithm
+   */
+  @POST
+  @Path("/update")
+  @Consumes("application/json")
+  @Produces("application/json")
+  @Override
+  public Algorithm update(Algorithm algorithm) {
+    algorithm = setAlgorithmTypes(algorithm);
+
+    try {
+      HibernateUtil.update(algorithm);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return algorithm;
+  }
+
+  private Algorithm setAlgorithmTypes(Algorithm algorithm) {
+    AlgorithmAnalyzer analyzer = null;
+    try {
+      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+
+    algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
+    algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
+    algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
+    algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
+    algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
+    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
+    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
+    algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
+    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
+    algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));
+
+    return algorithm;
   }
 }

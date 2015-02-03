@@ -21,15 +21,15 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertSame;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.resources.TableInputResource}
@@ -127,5 +127,34 @@ public class TableInputResourceTest {
     HibernateUtil.clear();
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.TableInputResource#update(TableInput)}
+   * TableInputs should be storable and updatable.
+   */
+  @Test
+  public void testUpdate() throws EntityStorageException {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    TableInput tableInput = new TableInput().setTableName("old name");
+
+    // Execute functionality
+    TableInput actualTableInput = tableInputResource.store(tableInput);
+
+    // Check result
+    assertEquals(tableInput, actualTableInput);
+
+    // Execute functionality
+    tableInput.setComment("new comment").setTableName("new name");
+    tableInputResource.update(tableInput);
+
+    // Check result
+    actualTableInput = tableInputResource.get(tableInput.getId());
+    assertEquals(tableInput, actualTableInput);
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
 
 }
