@@ -59,7 +59,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
-    page.setExecutionParameter(null, "identifier", "name");
+    page.setExecutionParameter(null, "identifier", "name", true, false, false);
 
     // Expected Values
     // Execute
@@ -114,7 +114,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-    page.setExecutionParameter(null, "identifier", "name");
+    page.setExecutionParameter(null, "identifier", "name", true, false, false);
 
     page.startPolling();
 

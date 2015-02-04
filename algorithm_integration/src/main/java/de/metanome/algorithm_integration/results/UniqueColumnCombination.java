@@ -62,6 +62,10 @@ public class UniqueColumnCombination implements Result {
     this.columnCombination = columnCombination;
   }
 
+  public static UniqueColumnCombination fromString(String str) {
+    return new UniqueColumnCombination(ColumnCombination.fromString(str));
+  }
+
   /**
    * @return the column combination
    */

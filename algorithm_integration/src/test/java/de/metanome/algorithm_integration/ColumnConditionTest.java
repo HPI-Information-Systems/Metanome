@@ -54,6 +54,29 @@ public class ColumnConditionTest {
   }
 
   /**
+   * Test method for {@link ColumnConditionValue#fromString(String str)}
+   * A {@link ColumnCondition} should be creatable from a string.
+   */
+  @Test
+  public void testFromString() {
+    //Setup
+    ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
+    ColumnIdentifier column12 = new ColumnIdentifier("table1", "column2");
+    ColumnIdentifier column21 = new ColumnIdentifier("table2", "column1");
+
+    ColumnCondition
+        expectedCondition = new ColumnConditionValue(column11, "A");
+
+    String str = expectedCondition.toString();
+
+    // Execute functionality
+    ColumnCondition actualColumnCondition = ColumnConditionValue.fromString(str);
+
+    //check result
+    assertEquals(expectedCondition, actualColumnCondition);
+  }
+
+  /**
    * Tests that the instances of {@link ColumnIdentifier} are serializable in GWT.
    */
   @Test

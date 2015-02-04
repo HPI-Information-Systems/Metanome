@@ -112,6 +112,11 @@
             <artifactId>jersey-container-servlet-core</artifactId>
             <version>2.14</version>
         </dependency>
+        <dependency>
+            <groupId>org.jparsec</groupId>
+            <artifactId>jparsec</artifactId>
+            <version>2.2.1</version>
+        </dependency>
 
     </dependencies>
 </project>

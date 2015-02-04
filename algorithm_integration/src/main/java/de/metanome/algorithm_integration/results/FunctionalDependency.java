@@ -52,6 +52,15 @@ public class FunctionalDependency implements Result {
     this.dependant = dependant;
   }
 
+  public static FunctionalDependency fromString(String str) {
+    String splitMarker = "#####";
+    str = str.replace(FD_SEPARATOR, splitMarker);
+    String[] parts = str.split(splitMarker);
+    ColumnCombination determinant = ColumnCombination.fromString(parts[0].trim());
+    ColumnIdentifier dependant = ColumnIdentifier.fromString(parts[1].trim());
+    return new FunctionalDependency(determinant, dependant);
+  }
+
   /**
    * @return determinant
    */
@@ -132,5 +141,4 @@ public class FunctionalDependency implements Result {
     }
     return true;
   }
-
 }

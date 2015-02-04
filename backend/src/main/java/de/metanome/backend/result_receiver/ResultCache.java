@@ -25,20 +25,30 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Stores all received Results in a list and returns the new results on call to {@link
- * ResultsCache#getNewResults()}.
+ * ResultCache#fetchNewResults()}. When all results were received, they are written to disk.
  *
  * @author Jakob Zwiener
  */
-public class ResultsCache implements CloseableOmniscientResultReceiver {
+public class ResultCache extends ResultReceiver {
 
   protected List<Result> results = new LinkedList<>();
+  protected int fromIndex = 0;
+
+  public ResultCache(String algorithmExecutionIdentifier)
+      throws FileNotFoundException {
+    super(algorithmExecutionIdentifier);
+  }
+  protected ResultCache(String algorithmExecutionIdentifier, Boolean test)
+      throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, test);
+  }
 
   @Override
   public void receiveResult(BasicStatistic statistic) {
@@ -70,21 +80,43 @@ public class ResultsCache implements CloseableOmniscientResultReceiver {
   }
 
   /**
-   * Should return all results once. After receiving the list it should be cleared and only filled
-   * by new results.
+   * Should return all results once. Copies the new received results and returns them.
    *
    * @return new results
    */
-  public ArrayList<Result> getNewResults() {
-    // FIXME synchronization
-    ArrayList<Result> currentResults = new ArrayList<>(results);
-    results.clear();
-    return currentResults;
+  public List<Result> fetchNewResults() {
+    int toIndex = this.results.size();
+    List<Result> newResults = results.subList(this.fromIndex, toIndex);
+    this.fromIndex = toIndex;
+    return newResults;
   }
 
+  /**
+   * When the result receiver is closed, the results are written to disk.
+   * @throws IOException
+   */
   @Override
   public void close() throws IOException {
+    ResultPrinter printer = new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
+    for (Result result: results) {
+      try {
+        if (result instanceof FunctionalDependency)
+          printer.receiveResult((FunctionalDependency) result);
+        else if (result instanceof InclusionDependency)
+          printer.receiveResult((InclusionDependency) result);
+        else if (result instanceof UniqueColumnCombination)
+          printer.receiveResult((UniqueColumnCombination) result);
+        else if (result instanceof ConditionalUniqueColumnCombination)
+          printer.receiveResult((ConditionalUniqueColumnCombination) result);
+        else if (result instanceof OrderDependency)
+          printer.receiveResult((OrderDependency) result);
+        else if (result instanceof BasicStatistic)
+          printer.receiveResult((BasicStatistic) result);
+      } catch (CouldNotReceiveResultException ignored) {
 
+      }
+    }
+    printer.close();
   }
 
 }

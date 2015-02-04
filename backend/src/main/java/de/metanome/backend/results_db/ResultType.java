@@ -16,28 +16,79 @@
 
 package de.metanome.backend.results_db;
 
+import de.metanome.algorithm_integration.results.*;
+import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_receiver.ResultHandler;
+
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 public enum ResultType implements Serializable {
 
-  STAT("_stats"), // Basic Statistic
-  FD("_fds"), // Functional Dependency
-  UCC("_uccs"), // Unique Column Combination
-  CUCC("_cuccs"), // Conditional Unique Column Combination
-  IND("_inds"), // Inclusion Dependency
-  OD("_ods"); // Order Dependency
+  STAT("_stats", "Basic Statistic", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return BasicStatistic.fromString(str);
+    }
+  }),
+  FD("_fds", "Functional Dependency", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return FunctionalDependency.fromString(str);
+    }
+  }),
+  UCC("_uccs", "Unique Column Combination", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return UniqueColumnCombination.fromString(str);
+    }
+  }),
+  CUCC("_cuccs", "Conditional Unique Column Combination", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return ConditionalUniqueColumnCombination.fromString(str);
+    }
+  }),
+  IND("_inds", "Inclusion Dependency", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return InclusionDependency.fromString(str);
+    }
+  }),
+  OD("_ods", "Order Dependency", new ResultHandler() {
+    @Override
+    public Result convert(String str) {
+      return OrderDependency.fromString(str);
+    }
+  });
 
   private String ending;
+  private String name;
+  @XmlTransient
+  private ResultHandler resultHandler;
 
   ResultType() {
   } // For GWT
 
-  ResultType(String ending) {
+  ResultType(String ending, String name, ResultHandler resultHandler) {
+    this.name = name;
     this.ending = ending;
+    this.resultHandler = resultHandler;
   }
 
   public String getEnding() {
     return this.ending;
   }
+
+  public String getName() {
+    return this.name;
+  }
+
+  @XmlTransient
+  public ResultHandler getResultHandler() {
+    return this.resultHandler;
+  }
+
 }
 

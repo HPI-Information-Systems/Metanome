@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package de.metanome.frontend.client.parameter;
+package de.metanome.backend.result_receiver;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import de.metanome.algorithm_integration.results.Result;
 
-public class ParameterTableSubmitHandler implements ClickHandler {
 
-  @Override
-  public void onClick(ClickEvent event) {
-    ParameterTable paramTable = (ParameterTable) ((Button) event.getSource()).getParent();
-    paramTable.submit();
-  }
+public interface ResultHandler {
+
+  public Result convert(String str);
 
 }

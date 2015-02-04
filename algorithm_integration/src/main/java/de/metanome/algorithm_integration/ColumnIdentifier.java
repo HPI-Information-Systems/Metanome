@@ -39,6 +39,11 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
     this.tableIdentifier = tableIdentifier;
     this.columnIdentifier = columnIdentifier;
   }
+
+  public static ColumnIdentifier fromString(String str) {
+    String[] parts = str.split("\\.");
+    return new ColumnIdentifier(parts[0], parts[1]);
+  }
   
   public String getTableIdentifier() {
     return tableIdentifier;

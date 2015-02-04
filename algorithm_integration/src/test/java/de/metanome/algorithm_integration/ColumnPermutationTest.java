@@ -14,17 +14,17 @@
 
 package de.metanome.algorithm_integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
+import de.metanome.test_helper.EqualsAndHashCodeTester;
+import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.metanome.test_helper.EqualsAndHashCodeTester;
-import de.metanome.test_helper.GwtSerializationTester;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link de.metanome.algorithm_integration.ColumnPermutation}
@@ -66,6 +66,26 @@ public class ColumnPermutationTest {
     assertTrue(columnPermutation.columnIdentifiers.get(0).equals(expectedColumn1));
     assertTrue(columnPermutation.columnIdentifiers.get(1).equals(expectedColumn2));
     assertTrue(columnPermutation.columnIdentifiers.get(2).equals(expectedColumn2));
+  }
+
+  /**
+   * Test method for {@link ColumnPermutation#fromString(String str)}
+   * A {@link ColumnPermutation} should be creatable from a string.
+   */
+  @Test
+  public void testFromString() {
+    // Expected column identifiers
+    final ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
+    final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
+    final ColumnPermutation expectedPermutation =
+        new ColumnPermutation(expectedColumn1, expectedColumn2, expectedColumn2);
+
+    String str = expectedPermutation.toString();
+
+    // Execute functionality
+    ColumnPermutation actualPermutation = ColumnPermutation.fromString(str);
+
+    assertEquals(expectedPermutation, actualPermutation);
   }
 
   /**

@@ -97,6 +97,11 @@ h3 {
     font-weight: bold;
 }
 
+.radioBoxPanel {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
 .gwt-TabLayoutPanel {
     height: 100%;
 }

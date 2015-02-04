@@ -105,10 +105,16 @@ public class BasePage extends TabLayoutPanel {
    * @param executionService  the service instance used for executing the algorithm
    * @param algorithm         the algorithm to execute
    * @param parameters        the specification with set settings used to configure the algorithm
+   * @param cacheResults      true, if the results should be cached and written to disk after the algorithm is finished
+   * @param writeResults      true, if the results should be written to disk immediately
+   * @param countResults      true, if the results should be counted
    */
   public void startAlgorithmExecution(AlgorithmExecutionRestService executionService,
                                       Algorithm algorithm,
-                                      List<ConfigurationRequirement> parameters) {
+                                      List<ConfigurationRequirement> parameters,
+                                      Boolean cacheResults,
+                                      Boolean writeResults,
+                                      Boolean countResults) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
@@ -116,17 +122,21 @@ public class BasePage extends TabLayoutPanel {
     String executionIdentifier = getExecutionIdentifier(algorithm.getFileName());
 
     // Execute algorithm
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setAlgorithmId(algorithm.getId());
-    params.setExecutionIdentifier(executionIdentifier);
-    params.setRequirements(parameters);
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams()
+        .setAlgorithmId(algorithm.getId())
+        .setExecutionIdentifier(executionIdentifier)
+        .setRequirements(parameters)
+        .setCacheResults(cacheResults)
+        .setWriteResults(writeResults)
+        .setCountResults(countResults);
 
     executionService.executeAlgorithm(params,
                                       this.getExecutionCallback(executionService,
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName());
+        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
+                               cacheResults, writeResults, countResults);
     this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
