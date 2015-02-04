@@ -72,12 +72,14 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean, int)}
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
+    String expectedValue = "test";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
                                                                                           ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+    specification.checkAndSetDefaultValues(expectedValue);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());
@@ -85,11 +87,12 @@ public class GwtTestStringParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     //Execute
-    widget.addInputField(true);
+    widget.addInputField(true, 0);
 
     //Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
+    assertEquals(expectedValue, widget.inputWidgets.get(0).getValue());
   }
 
   /**

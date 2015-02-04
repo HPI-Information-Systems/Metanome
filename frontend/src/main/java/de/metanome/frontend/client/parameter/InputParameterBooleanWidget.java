@@ -39,8 +39,13 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional) {
+  protected void addInputField(boolean optional, int settingIndex) {
+    // Create the field with the default value, if one is set
+    Boolean defaultValue = this.specification.getDefaultValue(settingIndex);
     BooleanInput field = new BooleanInput(optional);
+    if (defaultValue != null) field.setValue(defaultValue);
+
+    // Add the field at the correct position
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(field, index);

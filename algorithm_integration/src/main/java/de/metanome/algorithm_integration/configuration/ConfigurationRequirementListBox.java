@@ -38,6 +38,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
 
   private ConfigurationSettingListBox[] settings;
   private List<String> values;
+  private String[] defaultValues;
 
   /**
    * Exists for serialization.
@@ -96,7 +97,19 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   public void setSettings(ConfigurationSettingListBox... settings) {
     this.settings = settings;
   }
-
+  /**
+   * Exists only for serialization!
+   */
+  public String[] getDefaultValues() {
+    return defaultValues;
+  }
+  /**
+   * Exists only for serialization!
+   * @param defaultValues the default values
+   */
+  public void setDefaultValues(String[] defaultValues) {
+    this.defaultValues = defaultValues;
+  }
 
   /**
    * @return the values, which should be displayed in the list box
@@ -119,6 +132,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+    applyDefaultValues();
   }
 
   /**
@@ -130,6 +144,48 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
+  }
+
+  /**
+   * Sets the default values.
+   * @throws AlgorithmConfigurationException if the number of default values does not match with the number of settings
+   */
+  @XmlTransient
+  public void checkAndSetDefaultValues(String... values) throws AlgorithmConfigurationException {
+    try {
+      checkNumberOfSettings(values.length);
+    } catch (AlgorithmConfigurationException e) {
+      throw new AlgorithmConfigurationException(
+          "The number of default values does not match with the number of settings.");
+    }
+
+    this.defaultValues = values;
+    applyDefaultValues();
+  }
+
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @XmlTransient
+  private void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setSelectedValue(this.defaultValues[i]);
+    }
+  }
+
+  /**
+   * @param index the index of the setting
+   * @return the default value of the specific setting
+   */
+  @XmlTransient
+  public String getDefaultValue(int index) {
+    if (defaultValues != null && defaultValues.length > index)
+      return this.defaultValues[index];
+    return null;
   }
 
 }

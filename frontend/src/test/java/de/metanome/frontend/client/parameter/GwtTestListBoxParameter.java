@@ -78,7 +78,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean, int)}
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     // Setup
@@ -86,10 +86,12 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
+    String expectedValue = "Column 1";
 
     ConfigurationRequirementListBox specification =
         new ConfigurationRequirementListBox("enum", values,
                                               ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+    specification.checkAndSetDefaultValues(expectedValue);
     InputParameterListBoxWidget
         widget =
         new InputParameterListBoxWidget(specification, new TabWrapper());
@@ -97,11 +99,12 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     // Execute
-    widget.addInputField(true);
+    widget.addInputField(true, 0);
 
     // Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
+    assertEquals(expectedValue, widget.inputWidgets.get(0).getSelectedValue());
   }
 
   /**

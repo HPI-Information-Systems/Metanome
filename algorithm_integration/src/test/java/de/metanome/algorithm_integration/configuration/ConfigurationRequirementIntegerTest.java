@@ -30,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -138,6 +139,58 @@ public class ConfigurationRequirementIntegerTest {
     // Check results
     assertThat(actualSettings, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedSetting1, expectedSetting2));
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementInteger#checkAndSetDefaultValues(Integer...)}
+   */
+  @Test
+  public void testSetDefaultValues() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementInteger
+        specificationInteger =
+        new ConfigurationRequirementInteger("parameter1", 2);
+
+    ConfigurationSettingInteger expectedSetting1 = new ConfigurationSettingInteger();
+    ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
+    specificationInteger.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    int expectedNumber1 = 8;
+    int expectedNumber2 = 5;
+
+    // Execute functionality
+    specificationInteger.checkAndSetDefaultValues(expectedNumber1, expectedNumber2);
+    ConfigurationSettingInteger[] actualSettings = specificationInteger.getSettings();
+
+    // Check results
+    assertEquals(expectedNumber1, actualSettings[0].getValue());
+    assertEquals(expectedNumber2, actualSettings[1].getValue());
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementInteger#getDefaultValue(int)}
+   *
+   * The default values should be accessible via an index.
+   */
+  @Test
+  public void testGetDefaultValues() {
+    // Setup
+    ConfigurationRequirementInteger
+        configSpec =
+        new ConfigurationRequirementInteger("parameter1", 2);
+    Integer expectedValue = 5;
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(expectedValue, 9);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(expectedValue, configSpec.getDefaultValue(0));
+    assertEquals(null, configSpec.getDefaultValue(2));
   }
 
   /**

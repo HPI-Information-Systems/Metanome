@@ -27,6 +27,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -163,6 +164,78 @@ public class ConfigurationRequirementStringTest {
 
     // Execute functionality
     configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementString#checkAndSetDefaultValues(String...)}
+   */
+  @Test
+  public void testSetDefaultValues() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementString
+        specificationString =
+        new ConfigurationRequirementString("parameter1", 2);
+
+    ConfigurationSettingString expectedSetting1 = new ConfigurationSettingString();
+    ConfigurationSettingString expectedSetting2 = new ConfigurationSettingString();
+    specificationString.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    String expectedString1 = "first";
+    String expectedString2 = "second";
+
+    // Execute functionality
+    specificationString.checkAndSetDefaultValues(expectedString1, expectedString2);
+    ConfigurationSettingString[] actualSettings = specificationString.getSettings();
+
+    // Check results
+    assertEquals(expectedString1, actualSettings[0].getValue());
+    assertEquals(expectedString2, actualSettings[1].getValue());
+  }
+
+
+
+  /**
+   * Test method for {@link ConfigurationRequirementString#checkAndSetDefaultValues(String...)}
+   */
+  @Test(expected = AlgorithmConfigurationException.class)
+  public void testSetDefaultValuesException() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementString
+        specificationString =
+        new ConfigurationRequirementString("parameter1", 2);
+
+    ConfigurationSettingString expectedSetting1 = new ConfigurationSettingString();
+    ConfigurationSettingString expectedSetting2 = new ConfigurationSettingString();
+    specificationString.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Execute functionality
+    specificationString.checkAndSetDefaultValues("test");
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementString#getDefaultValue(int)}
+   *
+   * The default values should be accessible via an index.
+   */
+  @Test
+  public void testGetDefaultValues() {
+    // Setup
+    ConfigurationRequirementString
+        configSpec =
+        new ConfigurationRequirementString("parameter1", 2);
+    String expectedValue = "second";
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(expectedValue, "some");
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(expectedValue, configSpec.getDefaultValue(0));
+    assertEquals(null, configSpec.getDefaultValue(2));
   }
 
   /**

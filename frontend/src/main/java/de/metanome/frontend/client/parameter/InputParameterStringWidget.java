@@ -17,9 +17,9 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.StringInput;
@@ -37,8 +37,13 @@ public class InputParameterStringWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional) {
+  protected void addInputField(boolean optional, int settingIndex) {
+    // Create the field with the default value, if one is set
+    String defaultValue = this.specification.getDefaultValue(settingIndex);
     StringInput field = new StringInput(optional);
+    if (defaultValue != null) field.setValue(defaultValue);
+
+    // Add the field at the correct position
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(field, index);

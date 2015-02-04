@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.InclusionDependency;
@@ -78,6 +79,7 @@ public class ExampleAlgorithmTest {
 
     // Check result
     assertEquals(3, actualConfigurationRequirements.size());
+    assertEquals("test", ((ConfigurationRequirementString) actualConfigurationRequirements.get(1)).getDefaultValue(0));
   }
 
   /**

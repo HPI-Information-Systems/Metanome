@@ -140,6 +140,63 @@ public class ConfigurationRequirementBooleanTest {
   }
 
   /**
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetDefaultValues(Boolean...)}
+   *
+   * The default values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetDefaultValues() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue0 = new ConfigurationSettingBoolean();
+    ConfigurationSettingBoolean expectedValue1 = new ConfigurationSettingBoolean();
+
+    try {
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(true, false);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(true, configSpec.settings[0].value);
+    assertEquals(false, configSpec.settings[1].value);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#getDefaultValue(int)}
+   *
+   * The default values should be accessible via an index.
+   */
+  @Test
+  public void testGetDefaultValues() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2);
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(true, false);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(true, configSpec.getDefaultValue(0));
+    assertEquals(null, configSpec.getDefaultValue(2));
+  }
+
+  /**
    * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
    * The values should be correctly settable on the specification.

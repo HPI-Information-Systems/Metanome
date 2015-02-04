@@ -69,10 +69,12 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   }
 
   @Test
-  public void testAddInput() throws AlgorithmConfigurationException {
+  public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
     //Setup
     ConfigurationRequirementInteger specification = new ConfigurationRequirementInteger("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+    Integer expectedValue = 5;
+    specification.checkAndSetDefaultValues(expectedValue);
     InputParameterIntegerWidget
         widget =
         new InputParameterIntegerWidget(specification, new TabWrapper());
@@ -80,11 +82,12 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     //Execute
-    widget.addInputField(true);
+    widget.addInputField(true, 0);
 
     //Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
+    assertEquals(expectedValue, (Integer) widget.inputWidgets.get(0).getValue());
   }
 
   @Test

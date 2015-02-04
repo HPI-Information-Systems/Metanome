@@ -124,4 +124,5 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
       throws AlgorithmConfigurationException {
     return factory.build(this);
   }
+
 }

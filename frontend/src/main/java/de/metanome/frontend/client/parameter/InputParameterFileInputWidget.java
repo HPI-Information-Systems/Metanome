@@ -44,7 +44,7 @@ public class InputParameterFileInputWidget extends InputParameterDataSourceWidge
   }
 
   @Override
-  protected void addInputField(boolean optional) {
+  protected void addInputField(boolean optional, int settingIndex) {
     FileInputInput widget = new FileInputInput(optional, messageReceiver);
     this.inputWidgets.add(widget);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);

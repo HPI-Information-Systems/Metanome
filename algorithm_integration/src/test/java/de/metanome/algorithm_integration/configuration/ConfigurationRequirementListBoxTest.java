@@ -31,6 +31,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -166,6 +167,67 @@ public class ConfigurationRequirementListBoxTest {
     // Check results
     assertThat(actualSettings, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedSetting1, expectedSetting2));
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementListBox#getDefaultValue(int)}
+   *
+   * The default values should be accessible via an index.
+   */
+  @Test
+  public void testGetDefaultValues() {
+    // Setup
+    ArrayList<String> expectedValues = new ArrayList<>();
+    expectedValues.add("first");
+    expectedValues.add("second");
+    expectedValues.add("third");
+    ConfigurationRequirementListBox
+        configSpec =
+        new ConfigurationRequirementListBox("parameter1", expectedValues, 1, 3);
+    String expectedValue = "second";
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(expectedValue);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(expectedValue, configSpec.getDefaultValue(0));
+    assertEquals(null, configSpec.getDefaultValue(2));
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementListBox#checkAndSetDefaultValues(String...)}
+   */
+  @Test
+  public void testSetDefaultValues() throws AlgorithmConfigurationException {
+    // Setup
+    ArrayList<String> listValues = new ArrayList<>();
+    listValues.add("first");
+    listValues.add("second");
+    listValues.add("third");
+
+    ConfigurationRequirementListBox
+        specificationListBox =
+        new ConfigurationRequirementListBox("parameter1", listValues, 2);
+
+    ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
+    ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
+    specificationListBox.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    String expectedString1 = "second";
+    String expectedString2 = "third";
+
+    // Execute functionality
+    specificationListBox.checkAndSetDefaultValues(expectedString1, expectedString2);
+    ConfigurationSettingListBox[] actualSettings = specificationListBox.getSettings();
+
+    // Check results
+    assertEquals(expectedString1, actualSettings[0].getSelectedValue());
+    assertEquals(expectedString2, actualSettings[1].getSelectedValue());
   }
 
   /**

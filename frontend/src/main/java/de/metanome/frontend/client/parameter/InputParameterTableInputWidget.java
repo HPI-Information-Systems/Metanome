@@ -44,7 +44,7 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
   }
 
   @Override
-  protected void addInputField(boolean optional) {
+  protected void addInputField(boolean optional, int settingIndex) {
     TableInputInput widget = new TableInputInput(optional, messageReceiver);
     this.inputWidgets.add(widget);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
