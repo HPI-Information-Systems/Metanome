@@ -14,14 +14,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -30,6 +22,14 @@ import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOpera
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import de.metanome.test_helper.GwtSerializationTester;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test for {@link OrderDependency}
@@ -160,5 +160,31 @@ public class OrderDependencyTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, orderDependency.toString());
+  }
+
+  /**
+   * Test method for {@link OrderDependency#fromString(String str)}
+   * A {@link OrderDependency} should be creatable from a string.
+   */
+  @Test
+  public void testFromString() {
+    // Setup
+    final ColumnPermutation expectedLhs =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
+            "table1", "column2"));
+    final ColumnPermutation expectedRhs =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column3"), new ColumnIdentifier(
+            "table1", "column4"));
+    final OrderDependency expectedOD =
+        new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
+                            ComparisonOperator.SMALLER_EQUAL);
+
+    String str = expectedOD.toString();
+
+    // Execute functionality
+    OrderDependency actualOD = OrderDependency.fromString(str);
+
+    // Check result
+    assertEquals(expectedOD, actualOD);
   }
 }

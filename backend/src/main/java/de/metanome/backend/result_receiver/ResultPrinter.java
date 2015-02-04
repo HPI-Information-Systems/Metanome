@@ -22,50 +22,38 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.helper.ExceptionParser;
 import de.metanome.backend.results_db.ResultType;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.EnumMap;
 
 /**
- * TODO docs
+ * Writes all received Results to disk. When all results were received, the results are
+ * read again and returned.
  */
-public class ResultPrinter implements CloseableOmniscientResultReceiver {
-
-  public static final String RESULT_TEST_DIR = "results/test";
-  public static final String RESULT_DIR   = "results";
-
+public class ResultPrinter extends ResultReceiver {
+  
   protected EnumMap<ResultType, PrintStream> openStreams;
-
-  protected String algorithmExecutionIdentifier;
-  protected String directory;
 
   public ResultPrinter(String algorithmExecutionIdentifier)
       throws FileNotFoundException {
-    this(algorithmExecutionIdentifier, false);
+    super(algorithmExecutionIdentifier);
+    this.openStreams = new EnumMap<>(ResultType.class);
   }
-
-  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean testDirectory)
+  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
       throws FileNotFoundException {
-    if (testDirectory) {
-      this.directory = RESULT_TEST_DIR;
-    } else {
-      this.directory = RESULT_DIR;
-    }
-
-    File directory = new File(this.directory);
-    if (!directory.exists()) {
-      directory.mkdirs();
-    }
-
-    this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
-
+    super(algorithmExecutionIdentifier, test);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
 
@@ -120,15 +108,44 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
   }
 
-  public String getOutputFilePathPrefix() {
-    return this.directory + "/" + this.algorithmExecutionIdentifier;
-  }
-
   @Override
   public void close() throws IOException {
-    for(PrintStream stream : openStreams.values()){
+    for (PrintStream stream : openStreams.values()) {
       stream.close();
     }
   }
 
+  /**
+   * Reads the results from disk and returns them.
+   * @return all results
+   */
+  public List<Result> getResults() throws IOException {
+    List<Result> results = new ArrayList<>();
+
+    for (ResultType type : openStreams.keySet()) {
+      if (existsFile(type.getEnding())) {
+        results.addAll(readResult(type.getEnding(), type.getResultHandler()));
+      }
+    }
+
+    return results;
+  }
+
+  private Boolean existsFile(String fileSuffix) {
+    return new File(getOutputFilePathPrefix() + fileSuffix).exists();
+  }
+
+  private List<Result> readResult(String fileSuffix, ResultHandler handler) throws IOException {
+    List<Result> results = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(
+        new FileReader(getOutputFilePathPrefix() + fileSuffix))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        results.add(handler.convert(line));
+        line = br.readLine();
+      }
+    }
+    return results;
+  }
 }

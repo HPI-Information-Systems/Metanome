@@ -23,9 +23,12 @@ import java.util.List;
 
 public class AlgorithmExecutionParams {
 
-  long algorithmId;
-  String executionIdentifier;
-  List<ConfigurationRequirement> requirements;
+  private long algorithmId;
+  private String executionIdentifier;
+  private List<ConfigurationRequirement> requirements;
+  private Boolean cacheResults = false;
+  private Boolean writeResults = false;
+  private Boolean countResults = false;
 
   public long getAlgorithmId() {
     return algorithmId;
@@ -51,6 +54,33 @@ public class AlgorithmExecutionParams {
 
   public AlgorithmExecutionParams setRequirements(List<ConfigurationRequirement> requirements) {
     this.requirements = requirements;
+    return this;
+  }
+
+  public Boolean getCacheResults() {
+    return cacheResults;
+  }
+
+  public AlgorithmExecutionParams setCacheResults(Boolean cacheResults) {
+    this.cacheResults = cacheResults;
+    return this;
+  }
+
+  public Boolean getWriteResults() {
+    return writeResults;
+  }
+
+  public AlgorithmExecutionParams setWriteResults(Boolean writeResults) {
+    this.writeResults = writeResults;
+    return this;
+  }
+
+  public Boolean getCountResults() {
+    return countResults;
+  }
+
+  public AlgorithmExecutionParams setCountResults(Boolean countResults) {
+    this.countResults = countResults;
     return this;
   }
 }

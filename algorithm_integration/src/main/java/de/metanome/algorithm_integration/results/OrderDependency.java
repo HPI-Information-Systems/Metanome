@@ -151,7 +151,6 @@ public class OrderDependency implements Result {
 
   @Override
   public String toString() {
-
     String orderTypeStringified = "";
     String comparisonOperatorStringified = "";
 
@@ -179,6 +178,41 @@ public class OrderDependency implements Result {
     + orderTypeStringified + "]" + rhs;
   }
 
+  public static OrderDependency fromString(String str) {
+    String splitMarker = "#####";
+    str = str.replace(OD_SEPARATOR, splitMarker);
+    String lhsStr = str.split(splitMarker)[0].trim();
+    str = str.substring(lhsStr.length() + splitMarker.length() + 1);
+    String comparisonOperatorStr = str.split(",")[0].trim();
+    String orderTypeStr = str.split(",")[1].split("\\]")[0].trim();
+    String rhsStr = str.substring(comparisonOperatorStr.length() + 1 + orderTypeStr.length() + 1).trim();
 
+    OrderType orderType = null;
+    switch (orderTypeStr) {
+      case "lex":
+        orderType = OrderType.LEXICOGRAPHICAL;
+        break;
+      case "pnt":
+        orderType = OrderType.POINTWISE;
+        break;
+      default:
+    }
+
+    ComparisonOperator comparisonOperator = null;
+    switch (comparisonOperatorStr) {
+      case "<=":
+        comparisonOperator = ComparisonOperator.SMALLER_EQUAL;
+        break;
+      case "<":
+        comparisonOperator = ComparisonOperator.STRICTLY_SMALLER;
+        break;
+      default:
+    }
+
+    return new OrderDependency(ColumnPermutation.fromString(lhsStr),
+                        ColumnPermutation.fromString(rhsStr),
+                        orderType,
+                        comparisonOperator);
+  }
 
 }

@@ -31,6 +31,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
@@ -76,8 +77,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable = new ResultTable("Functional Dependencies");
     odTable = new ResultTable("Order Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
-
-    fetchResults();
   }
 
   /**
@@ -90,7 +89,6 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
-
       }
 
       @Override
@@ -98,6 +96,71 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
         displayResults(result);
       }
     });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getPrinterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getPrinterResults(executionIdentifier, new MethodCallback<List<Result>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Result> result) {
+        displayResults(result);
+      }
+    });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getCounterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getCounterResults(executionIdentifier, new MethodCallback<Map<ResultType, Integer>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, Map<ResultType, Integer> result) {
+        if (result.containsKey(ResultType.UCC))
+          displayCountResult(result.get(ResultType.UCC), uccTable);
+
+        if (result.containsKey(ResultType.FD))
+          displayCountResult(result.get(ResultType.FD), fdTable);
+
+        if (result.containsKey(ResultType.IND))
+          displayCountResult(result.get(ResultType.IND), indTable);
+
+        if (result.containsKey(ResultType.CUCC))
+          displayCountResult(result.get(ResultType.CUCC), cuccTable);
+
+        if (result.containsKey(ResultType.OD))
+          displayCountResult(result.get(ResultType.OD), odTable);
+
+        if (result.containsKey(ResultType.STAT))
+          displayCountResult(result.get(ResultType.STAT), basicsTable);
+
+      }
+    });
+  }
+
+  private void displayCountResult(Integer count, ResultTable table) {
+    if (this.resultsPanel.getWidgetIndex(table) < 0) {
+      this.resultsPanel.add(table);
+    }
+
+    int row = table.getRowCount();
+    table.setText(row, 0, "#");
+    table.setText(row, 1, String.valueOf(count));
   }
 
   /**

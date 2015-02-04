@@ -51,6 +51,17 @@ public class BasicStatistic implements Result {
     this.statisticValue = statisticValue;
   }
 
+  public static BasicStatistic fromString(String str) {
+    String statisticName = str.split(NAME_COLUMN_SEPARATOR)[0].trim();
+    String statisticValue = str.split(COLUMN_VALUE_SEPARATOR)[1].trim();
+    ColumnIdentifier identifier = ColumnIdentifier.fromString(str.substring(
+        statisticName.length() + NAME_COLUMN_SEPARATOR.length() + 1,
+        str.length() - statisticValue.length() - COLUMN_VALUE_SEPARATOR.length() - 1
+    ).trim());
+
+    return new BasicStatistic(statisticName, statisticValue, identifier);
+  }
+
   /**
    * @return the columnCombination
    */
@@ -144,5 +155,6 @@ public class BasicStatistic implements Result {
     }
     return true;
   }
+
 
 }

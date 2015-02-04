@@ -72,6 +72,9 @@
         <include name="OrderDependency.java"/>
         <include name="BasicStatistic.java"/>
     </source>
+    <source path="algorithm_integration/results/condition_parser">
+        <include name="ColumnConditionParser.java"/>
+    </source>
     <source path="algorithm_integration/input">
         <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
@@ -105,6 +108,9 @@
         <include name="AlgorithmExecutionResource.java"/>
         <include name="AlgorithmExecutionParams.java"/>
         <include name="ParameterResource"/>
+    </source>
+    <source path="backend/result_receiver">
+        <include name="ResultHandler.java"/>
     </source>
     <source path="backend/results_db">
         <include name="Execution.java"/>
