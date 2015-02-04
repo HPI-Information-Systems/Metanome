@@ -20,30 +20,36 @@ import java.io.Serializable;
 
 public enum AlgorithmType implements Serializable {
 
-  FD(ResultType.FD), // Functional Dependency Algorithm
-  IND(ResultType.IND), // Inclusion Dependency Algorithm
-  UCC(ResultType.UCC), // Unique Column Combination Algorithm
-  CUCC(ResultType.CUCC), //Conditional Unique Column Combination Algorithm
-  OD(ResultType.OD), //Order Dependency Algorithm
-  BASIC_STAT(ResultType.STAT), //Basic Statistic Algorithm
-  TEMP_FILE(null), // Temporary File Algorithm
-  PROGRESS_EST(null), // Progress Estimating Algorithm
-  RELATIONAL_INPUT(null), // Relational Input Algorithm
-  FILE_INPUT(null), // File Input Algorithm
-  TABLE_INPUT(null), // Table Input Algorithm
-  DB_CONNECTION(null); // Database Connection Algorithm
+  FD("Functional Dependency Algorithm", ResultType.FD),
+  IND("Inclusion Dependency Algorithm", ResultType.IND),
+  UCC("Unique Column Combination Algorithm", ResultType.UCC),
+  CUCC("Conditional Unique Column Combination Algorithm", ResultType.CUCC),
+  OD("Order Dependency Algorithm", ResultType.OD),
+  BASIC_STAT("Basic Statistic Algorithm", ResultType.STAT),
+  TEMP_FILE("Temporary File Algorithm", null),
+  PROGRESS_EST("Progress Estimating Algorithm", null),
+  RELATIONAL_INPUT("Relational Input Algorithm", null),
+  FILE_INPUT("File Input Algorithm", null),
+  TABLE_INPUT("Table Input Algorithm", null),
+  DB_CONNECTION("Database Connection Algorithm", null);
 
+  private String name;
   private ResultType resultType;
 
   AlgorithmType() {
   } // For Gwt
 
-  AlgorithmType(ResultType resultType) {
+  AlgorithmType(String name, ResultType resultType) {
+    this.name = name;
     this.resultType = resultType;
   }
 
   public ResultType getResultType() {
     return this.resultType;
+  }
+
+  public String getName() {
+    return this.name;
   }
 
 }
