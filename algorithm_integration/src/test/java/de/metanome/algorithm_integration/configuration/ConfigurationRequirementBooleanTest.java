@@ -23,6 +23,8 @@ import de.metanome.test_helper.GwtSerializationTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
@@ -48,11 +50,12 @@ public class ConfigurationRequirementBooleanTest {
         configSpec =
         new ConfigurationRequirementBoolean(expectedIdentifier);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -72,11 +75,41 @@ public class ConfigurationRequirementBooleanTest {
         configSpec =
         new ConfigurationRequirementBoolean(expectedIdentifier, expectedNumberOfValues);
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
+  }
+
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#ConfigurationRequirementBoolean(String,
+   * int)} <p/> The identifier should be set in the constructor and be retrievable through
+   * getIdentifier. The numberOfValues should be set to the range (2, 4).
+   */
+  @Test
+  public void testConstructorGetRange() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "parameter1";
+    int expectedMinNumberOfValues = 2;
+    int expectedMaxNumberOfValues = 4;
+
+    // Execute functionality
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean(expectedIdentifier, expectedMinNumberOfValues, expectedMaxNumberOfValues);
+    String actualIdentifier = configSpec.getIdentifier();
+    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
+    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
+
+    // Check result
+    assertEquals(expectedIdentifier, actualIdentifier);
+    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
+    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
+    assertFalse(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -109,6 +142,35 @@ public class ConfigurationRequirementBooleanTest {
   /**
    * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
+   * The values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetValuesRange() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue2 = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(expectedValue0, configSpec.settings[0]);
+    assertEquals(expectedValue1, configSpec.settings[1]);
+    assertEquals(expectedValue2, configSpec.settings[2]);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
+   *
    * Setting a wrong number of settings should throw an Exception.
    */
   @Test(expected=AlgorithmExecutionException.class)
@@ -117,6 +179,24 @@ public class ConfigurationRequirementBooleanTest {
     ConfigurationRequirementBoolean
         configSpec =
         new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetValuesWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
 

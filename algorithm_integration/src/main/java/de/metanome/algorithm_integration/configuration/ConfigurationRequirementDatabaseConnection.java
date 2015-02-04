@@ -67,6 +67,19 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
     super(identifier, numberOfSettings);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementDatabaseConnection}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementDatabaseConnection(String identifier,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
   @Override
   public ConfigurationSettingDatabaseConnection[] getSettings() {
     return settings;

@@ -48,7 +48,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));
     configurationRequirement.add(new ConfigurationRequirementFileInput(
-        "input file", 2));
+        "input file", 1, 4));
 
     return configurationRequirement;
   }

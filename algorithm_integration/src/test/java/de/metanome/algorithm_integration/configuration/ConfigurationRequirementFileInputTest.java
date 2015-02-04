@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -65,11 +66,12 @@ public class ConfigurationRequirementFileInputTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -89,11 +91,40 @@ public class ConfigurationRequirementFileInputTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOFValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementFileInput#ConfigurationRequirementFileInput(String,
+   * int)} <p/> The identifier should be set in the constructor and be retrievable through
+   * getIdentifier. The numberOfValues should be set to the range (2, 4).
+   */
+  @Test
+  public void testConstructorGetRange() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "parameter1";
+    int expectedMinNumberOFValues = 2;
+    int expectedMaxNumberOFValues = 2;
+    ConfigurationRequirementFileInput
+        configSpec =
+        new ConfigurationRequirementFileInput(expectedIdentifier, expectedMinNumberOFValues, expectedMaxNumberOFValues);
+
+    // Execute functionality
+    String actualIdentifier = configSpec.getIdentifier();
+    int actualMinNumberOfValues = configSpec.getMaxNumberOfSettings();
+    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
+
+    // Check result
+    assertEquals(expectedIdentifier, actualIdentifier);
+    assertEquals(expectedMaxNumberOFValues, actualMaxNumberOfValues);
+    assertEquals(expectedMinNumberOFValues, actualMinNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -107,6 +138,24 @@ public class ConfigurationRequirementFileInputTest {
     ConfigurationRequirementFileInput
         configSpec =
         new ConfigurationRequirementFileInput("parameter1", 2);
+    // Expected values
+    ConfigurationSettingFileInput expectedValue = mock(ConfigurationSettingFileInput.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput#checkAndSetSettings(ConfigurationSettingFileInput...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementFileInput
+        configSpec =
+        new ConfigurationRequirementFileInput("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingFileInput expectedValue = mock(ConfigurationSettingFileInput.class);
 

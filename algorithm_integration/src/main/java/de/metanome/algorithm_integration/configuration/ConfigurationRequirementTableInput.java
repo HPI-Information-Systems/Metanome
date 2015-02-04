@@ -62,6 +62,19 @@ public class ConfigurationRequirementTableInput extends ConfigurationRequirement
     super(identifier, numberOfValues);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementTableInput}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementTableInput(String identifier,
+                                        int minNumberOfSetting,
+                                        int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
   @Override
   public ConfigurationSettingTableInput[] getSettings() {
     return this.settings;

@@ -27,7 +27,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -52,11 +54,12 @@ public class ConfigurationRequirementIntegerTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -76,11 +79,40 @@ public class ConfigurationRequirementIntegerTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String,
+   * int, int)} <p/> The identifier should be set in the constructor and be retrievable through
+   * getIdentifier. The numberOfValues should be set to the range (2, 4).
+   */
+  @Test
+  public void testConstructorGetRange() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "parameter1";
+    int expectedMinNumberOfValues = 2;
+    int expectedMaxNumberOfValues = 4;
+    ConfigurationRequirementInteger
+        configSpec =
+        new ConfigurationRequirementInteger(expectedIdentifier, expectedMinNumberOfValues, expectedMaxNumberOfValues);
+
+    // Execute functionality
+    String actualIdentifier = configSpec.getIdentifier();
+    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
+    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
+
+    // Check result
+    assertEquals(expectedIdentifier, actualIdentifier);
+    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
+    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
+    assertFalse(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -109,6 +141,32 @@ public class ConfigurationRequirementIntegerTest {
   }
 
   /**
+   * Test method for {@link ConfigurationRequirementInteger#getSettings()}
+   * and {@link ConfigurationRequirementInteger#checkAndSetSettings(ConfigurationSettingInteger...)}
+   */
+  @Test
+  public void testGetSetSpecificationRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementInteger
+        specificationInteger =
+        new ConfigurationRequirementInteger("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingInteger expectedSetting1 = new ConfigurationSettingInteger();
+    ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
+    ConfigurationSettingInteger expectedSetting3 = new ConfigurationSettingInteger();
+
+    // Execute functionality
+    specificationInteger.checkAndSetSettings(expectedSetting1, expectedSetting2, expectedSetting3);
+    List<ConfigurationSettingInteger>
+        actualSettings =
+        Arrays.asList(specificationInteger.getSettings());
+
+    // Check results
+    assertThat(actualSettings, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedSetting1, expectedSetting2, expectedSetting3));
+  }
+
+  /**
    * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger#checkAndSetSettings(ConfigurationSettingInteger...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -119,6 +177,24 @@ public class ConfigurationRequirementIntegerTest {
     ConfigurationRequirementInteger
         configSpec =
         new ConfigurationRequirementInteger("parameter1", 2);
+    // Expected values
+    ConfigurationSettingInteger expectedValue = mock(ConfigurationSettingInteger.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger#checkAndSetSettings(ConfigurationSettingInteger...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementInteger
+        configSpec =
+        new ConfigurationRequirementInteger("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingInteger expectedValue = mock(ConfigurationSettingInteger.class);
 

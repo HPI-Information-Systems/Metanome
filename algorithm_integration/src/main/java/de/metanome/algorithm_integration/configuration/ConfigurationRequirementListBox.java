@@ -69,6 +69,22 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
     this.values = values;
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementListBox}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param values           the values, which should be displayed in the list box
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementListBox(String identifier,
+                                         List<String> values,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+    this.values = values;
+  }
+
   @Override
   public ConfigurationSettingListBox[] getSettings() {
     return this.settings;

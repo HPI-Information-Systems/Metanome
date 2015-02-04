@@ -25,6 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -65,11 +67,12 @@ public class ConfigurationRequirementDatabaseConnectionTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -89,11 +92,40 @@ public class ConfigurationRequirementDatabaseConnectionTest {
 
     // Execute functionality
     String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
+    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
 
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
+    assertTrue(configSpec.hasFixNumberOfSettings());
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementDatabaseConnection#ConfigurationRequirementDatabaseConnection(String)}
+   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
+   * The numberOfValues should be set to the range (2, 4).
+   */
+  @Test
+  public void testConstructorGetRange() {
+    // Setup
+    // Expected values
+    String expectedIdentifier = "parameter1";
+    int expectedMinNumberOfValues = 2;
+    int expectedMaxNumberOfValues = 4;
+    ConfigurationRequirementDatabaseConnection
+        configSpec =
+        new ConfigurationRequirementDatabaseConnection(expectedIdentifier, expectedMinNumberOfValues, expectedMaxNumberOfValues);
+
+    // Execute functionality
+    String actualIdentifier = configSpec.getIdentifier();
+    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
+    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
+
+    // Check result
+    assertEquals(expectedIdentifier, actualIdentifier);
+    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
+    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
+    assertFalse(configSpec.hasFixNumberOfSettings());
   }
 
   /**
@@ -107,6 +139,24 @@ public class ConfigurationRequirementDatabaseConnectionTest {
     ConfigurationRequirementDatabaseConnection
         configSpec =
         new ConfigurationRequirementDatabaseConnection("parameter1", 2);
+    // Expected values
+    ConfigurationSettingDatabaseConnection expectedValue = mock(ConfigurationSettingDatabaseConnection.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementDatabaseConnection#checkAndSetSettings(de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementDatabaseConnection
+        configSpec =
+        new ConfigurationRequirementDatabaseConnection("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingDatabaseConnection expectedValue = mock(ConfigurationSettingDatabaseConnection.class);
 

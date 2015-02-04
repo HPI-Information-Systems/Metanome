@@ -63,6 +63,19 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
     super(identifier, numberOfSettings);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementString}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementString(String identifier,
+                                                 int minNumberOfSetting,
+                                                 int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
   @Override
   public ConfigurationSettingString[] getSettings() {
     return this.settings;

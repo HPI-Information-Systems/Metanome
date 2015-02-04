@@ -58,7 +58,8 @@ public abstract class ConfigurationRequirement implements Serializable {
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
    * frontend
    */
-  protected int numberOfSettings;
+  protected int minNumberOfSettings;
+  protected int maxNumberOfSettings;
 
   /**
    * Exists for serialization.
@@ -87,8 +88,22 @@ public abstract class ConfigurationRequirement implements Serializable {
    * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirement(String identifier, int numberOfSettings) {
+    this(identifier, numberOfSettings, numberOfSettings);
+  }
+
+  /**
+   * Construct a configuration specification. A string identifier is stored to identify
+   * configuration parameter. The identifier should be unique among all parameters of one algorithm.
+   * The min and max number of requested values is set.
+   *
+   * @param identifier          the specification's identifier
+   * @param minNumberOfSettings the minimum number of settings expected
+   * @param maxNumberOfSettings the maximum number of settings expected
+   */
+  public ConfigurationRequirement(String identifier, int minNumberOfSettings, int maxNumberOfSettings) {
     this.identifier = identifier;
-    this.numberOfSettings = numberOfSettings;
+    this.minNumberOfSettings = minNumberOfSettings;
+    this.maxNumberOfSettings = maxNumberOfSettings;
   }
 
   /**
@@ -99,10 +114,41 @@ public abstract class ConfigurationRequirement implements Serializable {
   }
 
   /**
-   * @return number of settings
+   *
+   * @return true, if a fix number of settings is required, false, otherwise
    */
-  public int getNumberOfSettings() {
-    return numberOfSettings;
+  public Boolean hasFixNumberOfSettings() {
+    return this.maxNumberOfSettings == this.minNumberOfSettings;
+  }
+
+  /**
+   * @return min number of settings
+   */
+  public int getMinNumberOfSettings() {
+    return this.minNumberOfSettings;
+  }
+
+  /**
+   * @return max number of settings
+   */
+  public int getMaxNumberOfSettings() {
+    return this.maxNumberOfSettings;
+  }
+
+  /**
+   * @return get the range
+   */
+  public int getRange() {
+    return this.maxNumberOfSettings - this.minNumberOfSettings;
+  }
+
+  /**
+   * @return the fix number if min and max are equal
+   */
+  public int getFixNumber() {
+    if (this.hasFixNumberOfSettings())
+      return minNumberOfSettings;
+    return 0;
   }
 
   /**
@@ -132,9 +178,11 @@ public abstract class ConfigurationRequirement implements Serializable {
    */
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
-    if (this.numberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        number != this.numberOfSettings) {
+    if (hasFixNumberOfSettings() && this.minNumberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
+        number != this.minNumberOfSettings) {
       throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+    } else if (!hasFixNumberOfSettings() && (number < this.minNumberOfSettings || number >= this.maxNumberOfSettings)) {
+      throw new AlgorithmConfigurationException("The number of settings is not in the expected range!");
     }
   }
 

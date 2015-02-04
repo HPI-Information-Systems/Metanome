@@ -48,14 +48,20 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
     this.setMessageReceiver(wrapper);
     this.setSpecification(config);
 
-    if (this.getSpecification().getNumberOfSettings()
-        == ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES) {
+    int numberOfSettings;
+    if (this.getSpecification().hasFixNumberOfSettings()) {
+      numberOfSettings = this.getSpecification().getFixNumber();
+    } else {
+      numberOfSettings = this.getSpecification().getRange();
+    }
+
+    if (numberOfSettings == ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES) {
       this.setInputWidgets(new ArrayList<InputField>(1));
       this.addInputField(true);    //one default input field
       createAddOneButton();
     } else {
-      this.setInputWidgets(new ArrayList<InputField>(this.getSpecification().getNumberOfSettings()));
-      for (int i = 0; i < this.getSpecification().getNumberOfSettings(); i++) {
+      this.setInputWidgets(new ArrayList<InputField>(numberOfSettings));
+      for (int i = 0; i < numberOfSettings; i++) {
         this.addInputField(false);
       }
     }
