@@ -16,18 +16,25 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox}
  *
  * @author Tanja Bergmann
  */
-public class ConfigurationSettingListBox implements IsSerializable {
+@JsonTypeName("ConfigurationSettingListBox")
+public class ConfigurationSettingListBox implements ConfigurationSetting, Serializable {
 
   public String selectedValue;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingListBox";
 
+  /**
+   * Exists for serialization.
+   */
   public ConfigurationSettingListBox() {
   }
 
@@ -35,4 +42,11 @@ public class ConfigurationSettingListBox implements IsSerializable {
     this.selectedValue = selectedValue;
   }
 
+  public String getSelectedValue() {
+    return selectedValue;
+  }
+
+  public void setSelectedValue(String selectedValue) {
+    this.selectedValue = selectedValue;
+  }
 }

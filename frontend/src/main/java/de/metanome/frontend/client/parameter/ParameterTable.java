@@ -16,12 +16,17 @@
 
 package de.metanome.frontend.client.parameter;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
@@ -33,11 +38,15 @@ import java.util.List;
  * Depending on the currently selected algorithm this widget displays the needed parameters. The
  * parameters can be configured and the algorithm can be executed.
  */
-public class ParameterTable extends FlexTable {
+public class ParameterTable extends FlowPanel {
 
   protected List<InputParameterDataSourceWidget> dataSourceChildWidgets = new LinkedList<>();
   private List<InputParameterWidget> childWidgets = new LinkedList<>();
   private TabWrapper messageReceiver;
+  private RadioButton rbCache;
+  private RadioButton rbDisk;
+  private RadioButton rbCount;
+  protected FlexTable table;
 
   /**
    * Creates a ParameterTable for user input for the given parameters. Prompt and type specific
@@ -54,12 +63,13 @@ public class ParameterTable extends FlexTable {
     super();
     this.messageReceiver = messageReceiver;
 
+    table = new FlexTable();
     int row = 0;
     for (ConfigurationRequirement param : paramList) {
-      this.setText(row, 0, param.getIdentifier());
+      table.setText(row, 0, param.getIdentifier());
 
       InputParameterWidget currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
-      this.setWidget(row, 1, currentWidget);
+      table.setWidget(row, 1, currentWidget);
 
       if (currentWidget.isDataSource()) {
         InputParameterDataSourceWidget dataSourceWidget =
@@ -79,10 +89,29 @@ public class ParameterTable extends FlexTable {
       row++;
     }
 
-    Button executeButton = new Button("Run");
-    executeButton.addClickHandler(new ParameterTableSubmitHandler());
+    FlowPanel radioBoxPanel = new FlowPanel();
+    radioBoxPanel.addStyleName("radioBoxPanel");
+    Label label = new Label("How to handle results?");
+    this.rbCache = new RadioButton("resultReceiver", "Cache result and write it to disk when the algorithm is finished.");
+    this.rbDisk = new RadioButton("resultReceiver", "Write result immediately to disk.");
+    this.rbCount = new RadioButton("resultReceiver", "Just count the results.");
+    this.rbCache.setValue(true);
+    radioBoxPanel.add(label);
+    radioBoxPanel.add(this.rbCache);
+    radioBoxPanel.add(this.rbDisk);
+    radioBoxPanel.add(this.rbCount);
 
-    this.setWidget(row, 0, executeButton);
+    Button executeButton = new Button("Run");
+    executeButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submit();
+      }
+    });
+
+    this.add(table);
+    this.add(radioBoxPanel);
+    this.add(executeButton);
   }
 
   /**
@@ -90,11 +119,15 @@ public class ParameterTable extends FlexTable {
    * service corresponding to the current tab.
    */
   public void submit() {
+    Boolean cacheResult = this.rbCache.getValue();
+    Boolean writeResult = this.rbDisk.getValue();
+    Boolean countResult = this.rbCount.getValue();
+
     try {
       List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
       List<ConfigurationRequirement> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
-      getAlgorithmTab().startExecution(parameters, dataSources);
+      getAlgorithmTab().startExecution(parameters, dataSources, cacheResult, writeResult, countResult);
     } catch (InputValidationException | AlgorithmConfigurationException e) {
       this.messageReceiver.clearErrors();
       this.messageReceiver.addError(e.getMessage());

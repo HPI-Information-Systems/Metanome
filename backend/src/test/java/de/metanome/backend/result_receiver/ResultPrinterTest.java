@@ -29,7 +29,9 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
+import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -39,6 +41,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -52,21 +55,19 @@ import static org.mockito.Mockito.verify;
  */
 public class ResultPrinterTest {
 
-  protected String testResultDirPath;
   protected String testAlgoExecutionIdentifier;
   protected ResultPrinter printer;
 
   @Before
   public void setUp() throws Exception {
-    testResultDirPath = "results/test";
     testAlgoExecutionIdentifier = "testAlgoExecution";
-    printer = new ResultPrinter(testAlgoExecutionIdentifier, testResultDirPath);
+    printer = new ResultPrinter(testAlgoExecutionIdentifier, true);
   }
 
   @After
   public void tearDown() throws Exception {
     printer.close();
-    FileUtils.deleteDirectory(new File(testResultDirPath).getParentFile());
+    FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());
   }
 
   /**
@@ -81,7 +82,7 @@ public class ResultPrinterTest {
         new BasicStatistic("Min", "minValue", new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
-    assertNull(printer.statStream);
+    assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
 
     // Execute functionality
     printer.receiveResult(expectedStat);
@@ -93,6 +94,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedStat.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedStat));
 
     // Cleanup
     actualFile.delete();
@@ -112,7 +116,7 @@ public class ResultPrinterTest {
     );
 
     // Check precondition
-    assertNull(printer.fdStream);
+    assertTrue(!printer.openStreams.containsKey(ResultType.FD));
 
     // Execute functionality
     printer.receiveResult(expectedFd);
@@ -124,6 +128,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedFd.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedFd));
 
     // Cleanup
     actualFile.delete();
@@ -144,7 +151,7 @@ public class ResultPrinterTest {
     );
 
     // Check precondition
-    assertNull(printer.indStream);
+    assertTrue(!printer.openStreams.containsKey(ResultType.IND));
 
     // Execute functionality
     printer.receiveResult(expectedInd);
@@ -156,6 +163,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedInd.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedInd));
 
     // Cleanup
     actualFile.delete();
@@ -174,7 +184,7 @@ public class ResultPrinterTest {
         new UniqueColumnCombination(new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
-    assertNull(printer.uccStream);
+    assertTrue(!printer.openStreams.containsKey(ResultType.UCC));
 
     // Execute functionality
     printer.receiveResult(expectedUcc);
@@ -186,6 +196,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedUcc.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedUcc));
 
     // Cleanup
     actualFile.delete();
@@ -207,7 +220,7 @@ public class ResultPrinterTest {
         ComparisonOperator.SMALLER_EQUAL);
 
     // Check precondition
-    assertNull(printer.odStream);
+    assertTrue(!printer.openStreams.containsKey(ResultType.OD));
 
     // Execute functionality
     printer.receiveResult(expectedOd);
@@ -219,6 +232,9 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     assertTrue(fileContent.contains(expectedOd.toString()));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedOd));
 
     // Cleanup
     actualFile.delete();
@@ -243,7 +259,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream statStream = mock(PrintStream.class);
-    printer.statStream = statStream;
+    printer.openStreams.put(ResultType.STAT, statStream);
 
     // Execute functionality
     printer.close();
@@ -261,7 +277,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream fdStream = mock(PrintStream.class);
-    printer.fdStream = fdStream;
+    printer.openStreams.put(ResultType.FD, fdStream);
 
     // Execute functionality
     printer.close();
@@ -279,7 +295,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream indStream = mock(PrintStream.class);
-    printer.indStream = indStream;
+    printer.openStreams.put(ResultType.IND, indStream);
 
     // Execute functionality
     printer.close();
@@ -297,7 +313,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream uccStream = mock(PrintStream.class);
-    printer.uccStream = uccStream;
+    printer.openStreams.put(ResultType.UCC, uccStream);
 
     // Execute functionality
     printer.close();

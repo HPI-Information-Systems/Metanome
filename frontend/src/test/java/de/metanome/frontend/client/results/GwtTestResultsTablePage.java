@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.results;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.ColumnCombination;
@@ -27,25 +26,20 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.frontend.client.services.ExecutionService;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
 
 public class GwtTestResultsTablePage extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.results.ResultsTablePage#ResultsTablePage(de.metanome.frontend.client.services.ExecutionServiceAsync,
-   * String)}
+   * Test method for {@link de.metanome.frontend.client.results.ResultsTablePage#ResultsTablePage(de.metanome.frontend.client.services.AlgorithmExecutionRestService, String)}
    */
   public void testResultsTablePage() {
     // Setup
     // Execute functionality
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+    ResultsTablePage resultsTab = new ResultsTablePage(null, "TestAlgorithm");
 
     // Check result
     assertNotNull(resultsTab.resultsPanel);
     assertNotNull(resultsTab.executionIdentifier);
-    assertNotNull(resultsTab.executionService);
     assertNotNull(resultsTab.indTable);
     assertNotNull(resultsTab.uccTable);
     assertNotNull(resultsTab.cuccTable);
@@ -60,8 +54,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    */
   public void testReceiveResultBasicStatistic() {
     // Setup
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+    ResultsTablePage resultsTab = new ResultsTablePage(null, "TestAlgorithm");
 
     // Execute functionality
     // Check result
@@ -77,8 +70,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    */
   public void testReceiveResultUniqueColumnCombinations() throws CouldNotReceiveResultException {
     // Setup
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+    ResultsTablePage resultsTab = new ResultsTablePage(null, "TestAlgorithm");
 
     // Execute functionality
     // Check result
@@ -94,8 +86,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    */
   public void testReceiveResultInclusionDependency() {
     // Setup
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+    ResultsTablePage resultsTab = new ResultsTablePage(null, "TestAlgorithm");
 
     // Execute functionality
     // Check result
@@ -115,8 +106,7 @@ public class GwtTestResultsTablePage extends GWTTestCase {
    */
   public void testReceiveResultFunctionalDependency() {
     // Setup
-    ExecutionServiceAsync executionService = GWT.create(ExecutionService.class);
-    ResultsTablePage resultsTab = new ResultsTablePage(executionService, "TestAlgorithm");
+    ResultsTablePage resultsTab = new ResultsTablePage(null, "TestAlgorithm");
 
     // Execute functionality
     // Check result

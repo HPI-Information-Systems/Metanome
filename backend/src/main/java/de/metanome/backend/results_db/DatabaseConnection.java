@@ -17,16 +17,12 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
 
-import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 /**
@@ -36,57 +32,17 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
-public class DatabaseConnection extends ResultsDbEntity implements IsSerializable {
+public class DatabaseConnection extends Input implements Serializable {
 
-  protected long id;
   protected String url;
   protected String username;
   protected String password;
   protected DbSystem system;
   protected String comment;
 
-  /**
-   * Retrieves a DatabaseConnection from the database.
-   *
-   * @param id the DatabaseConnection's id
-   * @return the databaseConnection
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static DatabaseConnection retrieve(long id) throws EntityStorageException {
-    return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
-  }
-
-  /**
-   * Retrieves all database connections stored in the database.
-   *
-   * @return a list of all database connections
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<DatabaseConnection> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(DatabaseConnection.class);
-  }
-
-  /**
-   * Stores the DatabaseConnection in the database.
-   *
-   * @return the DatabaseConnection
-   */
   @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public DatabaseConnection store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
-
-  @Id
-  @GeneratedValue
-  public long getId() {
-    return id;
-  }
-
   public DatabaseConnection setId(long id) {
-    this.id = id;
+    super.setId(id);
 
     return this;
   }

@@ -19,7 +19,12 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for booleans.
@@ -27,14 +32,13 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementBoolean")
 public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = -8167469173057966270L;
 
   public ConfigurationSettingBoolean[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementBoolean() {
   }
@@ -65,13 +69,22 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   }
 
   /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(ConfigurationSettingBoolean... settings) {
+    this.settings = settings;
+  }
+
+  /**
    * Sets the actual settings on the requirement if the number of settings is correct.
    *
    * @param settings the settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingBoolean... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingBoolean... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
@@ -81,6 +94,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

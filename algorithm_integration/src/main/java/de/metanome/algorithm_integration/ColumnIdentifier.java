@@ -16,11 +16,9 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
-public class ColumnIdentifier implements Comparable<ColumnIdentifier>, IsSerializable {
-
-  private static final long serialVersionUID = 6071753577078585888L;
+public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
   protected String tableIdentifier;
   protected String columnIdentifier;
@@ -41,14 +39,21 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, IsSeriali
     this.tableIdentifier = tableIdentifier;
     this.columnIdentifier = columnIdentifier;
   }
+
+  public static ColumnIdentifier fromString(String str) {
+    String[] parts = str.split("\\.");
+    return new ColumnIdentifier(parts[0], parts[1]);
+  }
   
   public String getTableIdentifier() {
     return tableIdentifier;
   }
+  public void setTableIdentifier(String tableIdentifier) { this.tableIdentifier = tableIdentifier; }
 
   public String getColumnIdentifier() {
     return columnIdentifier;
   }
+  public void setColumnIdentifier(String columnIdentifier) { this.columnIdentifier = columnIdentifier; }
 
   @Override
   public String toString() {

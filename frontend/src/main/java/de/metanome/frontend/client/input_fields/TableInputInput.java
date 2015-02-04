@@ -16,9 +16,6 @@
 
 package de.metanome.frontend.client.input_fields;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -27,8 +24,10 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.TableInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,12 +68,12 @@ public class TableInputInput extends InputField {
    * Get all table inputs from the database and put them into the list box.
    */
   public void updateListBox() {
-    AsyncCallback<List<TableInput>> callback = new AsyncCallback<List<TableInput>>() {
-      public void onFailure(Throwable caught) {
-        messageReceiver.addErrorHTML("There are no file inputs in the database: " + caught.getMessage());
+    MethodCallback<List<TableInput>> callback = new MethodCallback<List<TableInput>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError("There are no database connections in the database: " + method.getResponse().getText());
       }
 
-      public void onSuccess(List<TableInput> result) {
+      public void onSuccess(Method method, List<TableInput> result) {
         List<String> tableInputNames = new ArrayList<String>();
         tableInputNames.add("--");
         String preselectedIdentifier = null;
@@ -105,9 +104,9 @@ public class TableInputInput extends InputField {
       }
     };
 
-    TableInputServiceAsync
-        tableInputService = GWT.create(TableInputService.class);
-    tableInputService.listTableInputs(callback);
+    TableInputRestService
+        lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
+    lemma.listTableInputs(callback);
   }
 
   /**
@@ -129,7 +128,7 @@ public class TableInputInput extends InputField {
       ConfigurationSettingTableInput setting = (ConfigurationSettingTableInput) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a csv file setting.");
+      throw new AlgorithmConfigurationException("This is not a table input setting.");
     }
   }
 
@@ -142,7 +141,7 @@ public class TableInputInput extends InputField {
     String selectedValue = this.listbox.getSelectedValue();
 
     if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a Table Input!");
+      throw new InputValidationException("You must choose a table input!");
     }
 
     TableInput currentTableInput = this.tableInputs.get(selectedValue);
@@ -183,9 +182,11 @@ public class TableInputInput extends InputField {
         databaseConnection.getUsername(),
         databaseConnection.getPassword(),
         databaseConnection.getSystem());
+    databaseConnectionSetting.setId(databaseConnection.getId());
 
     setting.setTable(tableInput.getTableName());
     setting.setDatabaseConnection(databaseConnectionSetting);
+    setting.setId(tableInput.getId());
 
     return setting;
   }

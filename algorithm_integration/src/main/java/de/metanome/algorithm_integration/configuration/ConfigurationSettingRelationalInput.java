@@ -17,17 +17,34 @@
 package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlTransient;
+
+
 /**
- * Allows initialization of the input through double dispatch. The input can be generated from bot a file or databse table.
+ * Allows initialization of the input through double dispatch. The input can be generated from bot a file or database table.
  *
  * @author Jakob Zwiener
  */
-public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource, IsSerializable {
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
+})
+public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource,
+                                                             Serializable,
+                                                             ConfigurationSetting {
 
   /**
    * Sends itself back to the initializer (double dispatch).
@@ -35,6 +52,7 @@ public interface ConfigurationSettingRelationalInput extends ConfigurationSettin
    * @param initializer the initializer to send the setting to
    * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
+  @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public abstract void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException;

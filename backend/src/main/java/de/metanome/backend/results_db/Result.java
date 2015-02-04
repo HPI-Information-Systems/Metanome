@@ -16,13 +16,16 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a Result in the database.
@@ -30,17 +33,12 @@ import javax.persistence.ManyToOne;
  * @author Jakob Zwiener
  */
 @Entity
-@GwtCompatible
-public class Result extends ResultsDbEntity implements IsSerializable {
+public class Result implements Serializable {
 
+  protected long id;
   protected String fileName;
   protected Execution execution;
-  protected boolean isInd;
-  protected boolean isFd;
-  protected boolean isUcc;
-  protected boolean isCucc;
-  protected boolean isOd;
-  protected boolean isBasicStat;
+  protected ResultType type;
 
   /**
    * Exists for hibernate serialization
@@ -48,38 +46,29 @@ public class Result extends ResultsDbEntity implements IsSerializable {
   protected Result() {
 
   }
+  public Result(String fileName){ this.fileName = fileName; }
 
   /**
-   * @param fileName the path to the result file
+   * @param resultPathPrefix the path to the result file
    */
-  public Result(String fileName) {
-    this.fileName = fileName;
+  public Result(String resultPathPrefix, ResultType type) {
+    this.fileName = resultPathPrefix + type.getEnding();
+    this.type = type;
   }
 
-  /**
-   * Retrieves a result from the databse.
-   *
-   * @param filePath the result's file path.
-   * @return the result
-   */
-  public static Result retrieve(String filePath) throws EntityStorageException {
-    return (Result) HibernateUtil.retrieve(Result.class, filePath);
+  @Id
+  @GeneratedValue
+  public long getId() {
+    return this.id;
   }
 
-  /**
-   * Stores the Result in the database.
-   *
-   * @return the Result
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public Result store() throws EntityStorageException {
-    HibernateUtil.store(this);
+  public Result setId(long id) {
+    this.id = id;
 
     return this;
   }
 
-  @Id
+  @Column(name = "fileName", unique = true)
   public String getFileName() {
     return fileName;
   }
@@ -90,7 +79,9 @@ public class Result extends ResultsDbEntity implements IsSerializable {
     return this;
   }
 
-  @ManyToOne(targetEntity = Execution.class)
+  @ManyToOne
+  @JoinColumn(name = "execution")
+  @XmlTransient
   public Execution getExecution() {
     return execution;
   }
@@ -102,70 +93,19 @@ public class Result extends ResultsDbEntity implements IsSerializable {
    *
    * @param execution the Execution to add
    */
+  @XmlTransient
   public Result setExecution(Execution execution) {
     this.execution = execution;
 
     return this;
   }
 
-  public boolean isInd() {
-    return isInd;
+  public ResultType getType(){
+    return type;
   }
 
-  public Result setInd(boolean isInd) {
-    this.isInd = isInd;
-
-    return this;
-  }
-
-  public boolean isFd() {
-    return isFd;
-  }
-
-  public Result setFd(boolean isFd) {
-    this.isFd = isFd;
-
-    return this;
-  }
-
-  public boolean isUcc() {
-    return isUcc;
-  }
-
-  public Result setUcc(boolean isUcc) {
-    this.isUcc = isUcc;
-
-    return this;
-  }
-
-  public boolean isCucc() {
-    return isCucc;
-  }
-
-  public Result setCucc(boolean isCucc) {
-    this.isCucc = isCucc;
-
-    return this;
-  }
-  
-  public boolean isOd() {
-    return isOd;
-  }
-
-  public Result setOd(boolean isOd) {
-    this.isOd = isOd;
-
-    return this;
-  }
-
-  public boolean isBasicStat() {
-    return isBasicStat;
-  }
-
-  public Result setBasicStat(boolean isBasicStat) {
-    this.isBasicStat = isBasicStat;
-
-    return this;
+  public void setType(ResultType type) {
+    this.type = type;
   }
 
   @Override

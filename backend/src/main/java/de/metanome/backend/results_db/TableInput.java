@@ -17,10 +17,8 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -33,54 +31,19 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
-public class TableInput extends Input implements IsSerializable {
-
-  private static final long serialVersionUID = 506811774527044153L;
+public class TableInput extends Input implements Serializable {
 
   protected String tableName;
   protected DatabaseConnection databaseConnection;
   protected String comment;
 
-  /**
-   * Retrieves a TableInput from the database.
-   *
-   * @param id the TableInput's id
-   * @return the tableInput
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static TableInput retrieve(long id) throws EntityStorageException {
-    return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
-  }
-
-  /**
-   * Retrieves all table inputs stored in the database.
-   *
-   * @return a list of all table inputs
-   */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public static List<Input> retrieveAll() throws EntityStorageException {
-    return HibernateUtil.queryCriteria(TableInput.class);
-  }
-
-  /**
-   * Stores the TableInput in the database.
-   *
-   * @return the TableInput
-   */
-  @Override
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
-  public TableInput store() throws EntityStorageException {
-    HibernateUtil.store(this);
-
-    return this;
-  }
-
   public String getTableName() {
     return tableName;
   }
 
-  public void setTableName(String tableName) {
+  public TableInput setTableName(String tableName) {
     this.tableName = tableName;
+    return this;
   }
 
   @ManyToOne(targetEntity = DatabaseConnection.class)
@@ -88,8 +51,9 @@ public class TableInput extends Input implements IsSerializable {
     return databaseConnection;
   }
 
-  public void setDatabaseConnection(DatabaseConnection databaseConnection) {
+  public TableInput setDatabaseConnection(DatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
+    return this;
   }
 
   public String getComment() {

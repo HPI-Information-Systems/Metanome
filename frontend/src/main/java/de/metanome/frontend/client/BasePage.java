@@ -18,7 +18,6 @@ package de.metanome.frontend.client;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -27,13 +26,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
+import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -51,8 +53,6 @@ public class BasePage extends TabLayoutPanel {
   protected TabWrapper resultPageTabWrapper;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
-
-  protected AlgorithmServiceAsync finderService;
 
   /**
    * Constructor. Initiates creation of subpages.
@@ -103,25 +103,40 @@ public class BasePage extends TabLayoutPanel {
    * Hand control from the Run Configuration to displaying Results. Start algorithm execution.
    *
    * @param executionService  the service instance used for executing the algorithm
-   * @param algorithmFileName the file name of the algorithm to execute
+   * @param algorithm         the algorithm to execute
    * @param parameters        the specification with set settings used to configure the algorithm
+   * @param cacheResults      true, if the results should be cached and written to disk after the algorithm is finished
+   * @param writeResults      true, if the results should be written to disk immediately
+   * @param countResults      true, if the results should be counted
    */
-  public void startAlgorithmExecution(ExecutionServiceAsync executionService,
-                                      String algorithmFileName,
-                                      List<ConfigurationRequirement> parameters) {
+  public void startAlgorithmExecution(AlgorithmExecutionRestService executionService,
+                                      Algorithm algorithm,
+                                      List<ConfigurationRequirement> parameters,
+                                      Boolean cacheResults,
+                                      Boolean writeResults,
+                                      Boolean countResults) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
 
-    String executionIdentifier = getExecutionIdentifier(algorithmFileName);
+    String executionIdentifier = getExecutionIdentifier(algorithm.getFileName());
 
     // Execute algorithm
-    executionService.executeAlgorithm(algorithmFileName, executionIdentifier, parameters,
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams()
+        .setAlgorithmId(algorithm.getId())
+        .setExecutionIdentifier(executionIdentifier)
+        .setRequirements(parameters)
+        .setCacheResults(cacheResults)
+        .setWriteResults(writeResults)
+        .setCountResults(countResults);
+
+    executionService.executeAlgorithm(params,
                                       this.getExecutionCallback(executionService,
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithmFileName);
+        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
+                               cacheResults, writeResults, countResults);
     this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
@@ -135,15 +150,15 @@ public class BasePage extends TabLayoutPanel {
    * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private AsyncCallback<Long> getExecutionCallback(final ExecutionServiceAsync executionService,
+  private MethodCallback<Long> getExecutionCallback(final AlgorithmExecutionRestService executionService,
                                                    final String executionIdentifier) {
-    return new AsyncCallback<Long>() {
-      public void onFailure(Throwable caught) {
-        resultsPage.updateOnError(caught.getMessage());
+    return new MethodCallback<Long>() {
+      public void onFailure(Method method, Throwable caught) {
+        resultsPage.updateOnError(method.getResponse().getText());
       }
 
-      public void onSuccess(Long executionTime) {
-        resultsPage.updateOnSuccess(executionTime);
+      public void onSuccess(Method method, Long executionTimeInNanos) {
+        resultsPage.updateOnSuccess(executionTimeInNanos);
       }
     };
   }
@@ -201,6 +216,17 @@ public class BasePage extends TabLayoutPanel {
    */
   public void removeAlgorithmFromRunConfigurations(String algorithmName) {
     this.runConfigurationsPage.removeAlgorithm(algorithmName);
+  }
+
+  /**
+   * Forwards an algorithm, which was updated, from the AlgorithmPage to the
+   * RunConfigurations
+   *
+   * @param algorithm the algorithm, which was updated
+   * @param oldName   the old name of the algorithm
+   */
+  public void updateAlgorithmOnRunConfigurations(Algorithm algorithm, String oldName) {
+    this.runConfigurationsPage.updateAlgorithm(algorithm, oldName);
   }
 
   public enum Tabs {

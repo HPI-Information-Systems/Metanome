@@ -21,11 +21,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Input;
-
-import java.util.List;
+import de.metanome.backend.results_db.EntityStorageException;
 
 /**
  * Helper that performs database interaction synchronously. To be used in tests.
@@ -77,8 +73,10 @@ public class TestHelper {
    *
    * @param algorithm the {@link de.metanome.backend.results_db.Algorithm} to store
    */
-  public static void storeAlgorithmSync(Algorithm algorithm) {
-    testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Void>() {
+  public static Algorithm storeAlgorithmSync(Algorithm algorithm) throws EntityStorageException {
+    final Algorithm[] returnAlgorithm = {algorithm};
+
+    testDatabaseHelperService.storeAlgorithmInDatabase(algorithm, new AsyncCallback<Algorithm>() {
       @Override
       public void onFailure(Throwable caught) {
         algorithm_blocked[0] = false;
@@ -87,8 +85,9 @@ public class TestHelper {
       }
 
       @Override
-      public void onSuccess(Void aVoid) {
+      public void onSuccess(Algorithm a) {
         algorithm_blocked[0] = false;
+        returnAlgorithm[0] = a;
       }
     });
 
@@ -101,96 +100,7 @@ public class TestHelper {
       }
     };
     rpcCheck.schedule(100);
-  }
 
-  /**
-   * Stores a database connection.
-   *
-   * @param connection the {@link de.metanome.backend.results_db.DatabaseConnection} to store
-   */
-  public static void storeDatabaseConnectionSync(DatabaseConnection connection) {
-    testDatabaseHelperService.storeDatabaseConnection(connection, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        database_connection_blocked[0] = false;
-        System.out.println("Database Connection could not be saved!");
-        System.out.println(caught.getMessage());
-      }
-
-      @Override
-      public void onSuccess(Long result) {
-        database_connection_blocked[0] = false;
-        System.out.println("Database Connection saved!");
-      }
-    });
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (database_connection_blocked[0]) {
-          this.schedule(100);
-        }
-      }
-    };
-    rpcCheck.schedule(100);
-  }
-
-  /**
-   * Stores a file input.
-   *
-   * @param fileInput the {@link de.metanome.backend.results_db.FileInput} to store
-   */
-  public static void storeFileInputSync(FileInput fileInput) {
-    testDatabaseHelperService.storeFileInput(fileInput, new AsyncCallback<Long>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        file_input_blocked[0] = false;
-        System.out.println("File Input could not be saved!");
-        System.out.println(caught.getMessage());
-      }
-
-      @Override
-      public void onSuccess(Long result) {
-        file_input_blocked[0] = false;
-        System.out.println("File Input saved!");
-      }
-    });
-
-    Timer rpcCheck = new Timer() {
-      @Override
-      public void run() {
-        if (file_input_blocked[0]) {
-          this.schedule(100);
-        }
-      }
-    };
-    rpcCheck.schedule(100);
-  }
-
-  /**
-   * Get all database connections synchronously.
-   *
-   * @param callback the async callback
-   */
-  public static void getAllDatabaseConnections(AsyncCallback<List<DatabaseConnection>> callback) {
-    testDatabaseHelperService.getAllDatabaseConnections(callback);
-  }
-
-  /**
-   * Get all file inputs synchronously.
-   *
-   * @param callback the async callback
-   */
-  public static void getAllFileInputs(AsyncCallback<List<Input>> callback) {
-    testDatabaseHelperService.getAllFileInputs(callback);
-  }
-
-  /**
-   * Get all table inputs synchronously.
-   *
-   * @param callback the async callback
-   */
-  public static void getAllTableInputs(AsyncCallback<List<Input>> callback) {
-    testDatabaseHelperService.getAllTableInputs(callback);
+    return returnAlgorithm[0];
   }
 }

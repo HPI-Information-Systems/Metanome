@@ -18,10 +18,14 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Concrete {@link ConfigurationRequirement} for database connections.
@@ -29,15 +33,14 @@ import java.util.List;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementDatabaseConnection")
 public class ConfigurationRequirementDatabaseConnection extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 6601202469601881851L;
 
   private ConfigurationSettingDatabaseConnection[] settings;
   private List<String> acceptedDBSystems = new ArrayList<>();
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementDatabaseConnection() {
   }
@@ -68,17 +71,11 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   public ConfigurationSettingDatabaseConnection[] getSettings() {
     return settings;
   }
-
   /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
+   * Exists only for serialization!
    * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingDatabaseConnection... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
+  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
     this.settings = settings;
   }
 
@@ -91,9 +88,24 @@ public class ConfigurationRequirementDatabaseConnection extends ConfigurationReq
   }
 
   /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingDatabaseConnection... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
+    this.settings = settings;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

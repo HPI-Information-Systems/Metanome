@@ -16,7 +16,10 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import java.io.Serializable;
 
 
 /**
@@ -27,7 +30,17 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  *
  * @author Claudia Exeler
  */
-public interface ConfigurationSettingDataSource extends IsSerializable {
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
+})
+public interface ConfigurationSettingDataSource extends ConfigurationSetting, Serializable {
 
   public abstract String getValueAsString();
+
 }

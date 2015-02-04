@@ -89,6 +89,18 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
   }
 
   /**
+   * Updates the table input tab. Updates database connection in the list of available database
+   * connections.
+   *
+   * @param connection    the connection which was updated
+   * @param oldConnection the old connection
+   */
+  public void updateDatabaseConnectionToTableInputTab(DatabaseConnection connection,
+                                                      DatabaseConnection oldConnection) {
+    this.tableInputTab.updateDatabaseConnection(connection, oldConnection);
+  }
+
+  /**
    * Forwards the command to update the data sources on the run configuration page to the base
    * page.
    */
@@ -96,8 +108,8 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
     this.basePage.updateDataSourcesOnRunConfiguration();
   }
 
-  public void setEnableOfDeleteButton(DatabaseConnection databaseConnection, Boolean enabled) {
-    this.databaseConnectionTab.setEnableOfDeleteButton(databaseConnection, enabled);
+  public void setEnableOfButtons(DatabaseConnection databaseConnection, Boolean enabled) {
+    this.databaseConnectionTab.setEnableOfButtons(databaseConnection, enabled);
   }
 
   @Override

@@ -70,7 +70,7 @@ public class ConfigurationValueIntegerTest {
     ConfigurationRequirementInteger
         requirement =
         new ConfigurationRequirementInteger(expectedIdentifier, 3);
-    requirement.setSettings(buildSettings(expectedValues));
+    requirement.checkAndSetSettings(buildSettings(expectedValues));
 
     // Execute functionality
     ConfigurationValueInteger actualConfigValue = new ConfigurationValueInteger(requirement);

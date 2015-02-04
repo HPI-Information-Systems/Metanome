@@ -85,7 +85,7 @@ public class ConfigurationRequirementIntegerTest {
 
   /**
    * Test method for {@link ConfigurationRequirementInteger#getSettings()}
-   * and {@link ConfigurationRequirementInteger#setSettings(ConfigurationSettingInteger...)}
+   * and {@link ConfigurationRequirementInteger#checkAndSetSettings(ConfigurationSettingInteger...)}
    */
   @Test
   public void testGetSetSpecification() throws AlgorithmConfigurationException {
@@ -98,7 +98,7 @@ public class ConfigurationRequirementIntegerTest {
     ConfigurationSettingInteger expectedSetting2 = new ConfigurationSettingInteger();
 
     // Execute functionality
-    specificationInteger.setSettings(expectedSetting1, expectedSetting2);
+    specificationInteger.checkAndSetSettings(expectedSetting1, expectedSetting2);
     List<ConfigurationSettingInteger>
         actualSettings =
         Arrays.asList(specificationInteger.getSettings());
@@ -109,7 +109,7 @@ public class ConfigurationRequirementIntegerTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger#setSettings(ConfigurationSettingInteger...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger#checkAndSetSettings(ConfigurationSettingInteger...)}
    *
    * Setting a wrong number of settings should throw an Exception.
    */
@@ -123,7 +123,7 @@ public class ConfigurationRequirementIntegerTest {
     ConfigurationSettingInteger expectedValue = mock(ConfigurationSettingInteger.class);
 
     // Execute functionality
-    configSpec.setSettings(expectedValue);
+    configSpec.checkAndSetSettings(expectedValue);
   }
 
   /**

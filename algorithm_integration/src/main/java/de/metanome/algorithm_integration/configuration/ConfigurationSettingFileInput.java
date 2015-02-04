@@ -21,42 +21,49 @@ import com.google.common.annotations.GwtIncompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Stores one file input's configuration settings.
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingFileInput implements ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+@JsonTypeName("ConfigurationSettingFileInput")
+public class ConfigurationSettingFileInput implements ConfigurationSetting, ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
   public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
-  public final static boolean
-      DEFAULT_IGNORELEADINGWHITESPACE =
+  public final static boolean DEFAULT_IGNORELEADINGWHITESPACE =
       CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
 
+  // Id of the file input in the database (needed for mapping the setting to the stored file input)
+  private long id;
   private String fileName;
   private boolean advanced;
-  private char separatorChar;
-  private char quoteChar;
-  private char escapeChar;
+  private String separatorChar; //Todo: atm needs to be String instead of char for serialization
+  private String quoteChar;     //Todo: atm needs to be String instead of char for serialization
+  private String escapeChar;    //Todo: atm needs to be String instead of char for serialization
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
   private int skipLines;
   private boolean header;
   private boolean skipDifferingLines;
 
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingFileInput";
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingFileInput() {
   }
@@ -86,9 +93,9 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
                                        boolean header, boolean skipDifferingLines) {
     this.fileName = fileName;
     this.advanced = advanced;
-    this.separatorChar = separator;
-    this.quoteChar = quote;
-    this.escapeChar = escape;
+    this.separatorChar = String.valueOf(separator);
+    this.quoteChar = String.valueOf(quote);
+    this.escapeChar = String.valueOf(escape);
     this.strictQuotes = strictQuotes;
     this.ignoreLeadingWhiteSpace = ignoreLeadingWhiteSpace;
     this.skipLines = line;
@@ -114,29 +121,29 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
   }
 
   public char getSeparatorChar() {
-    return separatorChar;
+    return separatorChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setSeparatorChar(char value) {
-    this.separatorChar = value;
+    this.separatorChar = String.valueOf(value);
     return this;
   }
 
   public char getQuoteChar() {
-    return quoteChar;
+    return quoteChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setQuoteChar(char value) {
-    this.quoteChar = value;
+    this.quoteChar = String.valueOf(value);
     return this;
   }
 
   public char getEscapeChar() {
-    return escapeChar;
+    return escapeChar.charAt(0);
   }
 
   public ConfigurationSettingFileInput setEscapeChar(char value) {
-    this.escapeChar = value;
+    this.escapeChar = String.valueOf(value);
     return this;
   }
 
@@ -185,7 +192,17 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
     return this;
   }
 
+  public long getId() {
+    return id;
+  }
+
+  public ConfigurationSettingFileInput setId(long id) {
+    this.id = id;
+    return this;
+  }
+
   @Override
+  @XmlTransient
   public String getValueAsString() {
     return fileName;
   }
@@ -194,9 +211,11 @@ public class ConfigurationSettingFileInput implements ConfigurationSettingDataSo
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException {
     initializer.initialize(this);
   }
+
 }

@@ -28,22 +28,36 @@ import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgor
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.resources.DatabaseConnectionResource;
+import de.metanome.backend.resources.ExecutionResource;
+import de.metanome.backend.resources.FileInputResource;
+import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
+import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.Result;
+import de.metanome.backend.results_db.ResultType;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Executes given algorithms.
@@ -57,6 +71,8 @@ public class AlgorithmExecutor implements Closeable {
 
   protected DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
 
+  protected String resultPathPrefix;
+
   /**
    * Constructs a new executor with new result receivers and generators.
    *
@@ -69,7 +85,6 @@ public class AlgorithmExecutor implements Closeable {
       FileGenerator fileGenerator) {
     this.resultReceiver = resultReceiver;
     this.progressCache = progressCache;
-
     this.fileGenerator = fileGenerator;
   }
 
@@ -80,28 +95,45 @@ public class AlgorithmExecutor implements Closeable {
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
-   * @param algorithmFileName the algorithm's file name
-   * @param requirements      list of configuration requirements
+   * @param algorithm    the algorithm
+   * @param requirements list of configuration requirements
    * @return elapsed time in ns
    */
-  public long executeAlgorithm(String algorithmFileName,
+  public long executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
                                List<ConfigurationRequirement> requirements)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
+    List<Input> inputs = new ArrayList<>();
+
+    FileInputResource fileInputResource = new FileInputResource();
+    TableInputResource tableInputResource = new TableInputResource();
+    DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
     for (ConfigurationRequirement requirement : requirements) {
       parameterValues.add(requirement.build(configurationFactory));
+
+      for (ConfigurationSetting setting : requirement.getSettings()) {
+        if (setting instanceof ConfigurationSettingFileInput) {
+          inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
+          inputs.add(databaseConnectionResource
+                         .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingTableInput) {
+          inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
+        }
+      }
     }
 
     try {
-      return executeAlgorithmWithValues(algorithmFileName, parameterValues);
+      return executeAlgorithmWithValues(algorithm, parameterValues, inputs);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
       throw new AlgorithmLoadingException(ExceptionParser.parse(e), e);
     } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException(ExceptionParser.parse(e, "Algorithm not found in database"), e);
+      throw new AlgorithmLoadingException(
+          ExceptionParser.parse(e, "Algorithm not found in database"), e);
     }
   }
 
@@ -110,63 +142,80 @@ public class AlgorithmExecutor implements Closeable {
    * generators are set before execution. The elapsed time while executing the algorithm in nano
    * seconds is returned as long.
    *
-   * @param algorithmFileName the algorithm's file name
-   * @param parameters        list of configuration values
+   * @param storedAlgorithm the algorithm
+   * @param parameters      list of configuration values
    * @return elapsed time in ns
    */
-  public long executeAlgorithmWithValues(String algorithmFileName,
-                                         List<ConfigurationValue> parameters)
+  public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
+                                         List<ConfigurationValue> parameters,
+                                         List<Input> inputs)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
 
-    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithmFileName);
+    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
     Algorithm algorithm = analyzer.getAlgorithm();
+
+    Set<Result> results = new HashSet<>();
 
     for (ConfigurationValue configValue : parameters) {
       configValue.triggerSetValue(algorithm, analyzer.getInterfaces());
     }
 
-    if (analyzer.isFunctionalDependencyAlgorithm()) {
+    //Todo: for AlgorithmType type : AlgorithmType.values() ...
+
+    if (analyzer.hasType(AlgorithmType.FD)) {
       FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
       fdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.FD));
     }
 
-    if (analyzer.isInclusionDependencyAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.IND)) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.IND));
     }
 
-    if (analyzer.isUniqueColumnCombinationAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.UCC)) {
       UniqueColumnCombinationsAlgorithm
           uccAlgorithm =
           (UniqueColumnCombinationsAlgorithm) algorithm;
       uccAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.UCC));
     }
 
-    if (analyzer.isConditionalUniqueColumnCombinationAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.CUCC)) {
       ConditionalUniqueColumnCombinationAlgorithm
           cuccAlgorithm =
           (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.CUCC));
     }
 
-    if (analyzer.isOrderDependencyAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.OD)) {
       OrderDependencyAlgorithm odAlgorithm = (OrderDependencyAlgorithm) algorithm;
       odAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.OD));
     }
 
-    if (analyzer.isBasicStatisticAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.BASIC_STAT)) {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
       basicStatAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.STAT));
     }
 
-    if (analyzer.isTempFileAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.TEMP_FILE)) {
       TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
       tempFileAlgorithm.setTempFileGenerator(fileGenerator);
     }
 
-    if (analyzer.isProgressEstimatingAlgorithm()) {
+    if (analyzer.hasType(AlgorithmType.PROGRESS_EST)) {
       ProgressEstimatingAlgorithm
           progressEstimatingAlgorithm =
           (ProgressEstimatingAlgorithm) algorithm;
@@ -177,14 +226,25 @@ public class AlgorithmExecutor implements Closeable {
     long before = System.nanoTime();
     algorithm.execute();
     long after = System.nanoTime();
-    long elapsedNanos = after - before;
+    long executionTimeInNanos = after - before;
 
-    new Execution(de.metanome.backend.results_db.Algorithm.retrieve(algorithmFileName),
-                  new Timestamp(beforeWallClockTime))
-        .setEnd(new Timestamp(beforeWallClockTime + (elapsedNanos / 1000)))
-        .store();
+    ExecutionResource executionResource = new ExecutionResource();
+    Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
+        .setEnd(beforeWallClockTime + (executionTimeInNanos / 1000))
+        .setInputs(inputs)
+        .setResults(results);
 
-    return elapsedNanos;
+    for (Result result : results) {
+      result.setExecution(execution);
+    }
+
+    executionResource.store(execution);
+
+    return executionTimeInNanos;
+  }
+
+  public void setResultPathPrefix(String prefix) {
+    this.resultPathPrefix = prefix;
   }
 
   @Override

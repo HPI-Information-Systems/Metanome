@@ -17,7 +17,6 @@
 package de.metanome.frontend.client.datasources;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -28,6 +27,8 @@ import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
+
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 
@@ -89,7 +90,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfDeleteButton(de.metanome.backend.results_db.DatabaseConnection,
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#setEnableOfButtons(de.metanome.backend.results_db.DatabaseConnection,
    * boolean)}
    */
   public void testSetEnableDeleteButton() throws EntityStorageException, InputValidationException {
@@ -109,16 +110,20 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     page.connectionInputList.setWidget(0, 3, new HTML("Comment"));
     page.connectionInputList.setWidget(0, 4, new Button("Run"));
     page.connectionInputList.setWidget(0, 5, new Button("Delete"));
+    page.connectionInputList.setWidget(0, 6, new Button("Edit"));
 
-    Button actualButton = (Button) page.connectionInputList.getWidget(0, 5);
+    Button actualButton1 = (Button) page.connectionInputList.getWidget(0, 5);
+    Button actualButton2 = (Button) page.connectionInputList.getWidget(0, 5);
 
-    assertTrue(actualButton.isEnabled());
+    assertTrue(actualButton1.isEnabled());
+    assertTrue(actualButton2.isEnabled());
 
     // Execute
-    page.setEnableOfDeleteButton(connection, false);
+    page.setEnableOfButtons(connection, false);
 
     // Check
-    assertFalse(actualButton.isEnabled());
+    assertFalse(actualButton1.isEnabled());
+    assertFalse(actualButton2.isEnabled());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -161,10 +166,10 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     int rowCount = databaseConnectionTab.connectionInputList.getRowCount();
 
     // Execute (delete Database Connection 2)
-    AsyncCallback<Void>
+    MethodCallback<Void>
         callback =
         databaseConnectionTab.getDeleteCallback(databaseConnection2);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 1, databaseConnectionTab.connectionInputList.getRowCount());
@@ -172,7 +177,7 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Execute (delete DatabaseConnection 1)
     callback = databaseConnectionTab.getDeleteCallback(databaseConnection1);
-    callback.onSuccess(null);
+    callback.onSuccess(null, null);
 
     // Check
     assertEquals(rowCount - 2, databaseConnectionTab.connectionInputList.getRowCount());
@@ -181,6 +186,50 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
+
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#updateDatabaseConnectionInTable(de.metanome.backend.results_db.DatabaseConnection, de.metanome.backend.results_db.DatabaseConnection)}
+   */
+  public void testUpdateDatabaseConnection() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    DatabaseConnection oldDatabaseConnection = new DatabaseConnection();
+    oldDatabaseConnection.setUrl("url");
+    oldDatabaseConnection.setPassword("password");
+    oldDatabaseConnection.setUsername("user");
+    oldDatabaseConnection.setSystem(DbSystem.DB2);
+    ArrayList<DatabaseConnection> connections = new ArrayList<DatabaseConnection>();
+    connections.add(oldDatabaseConnection);
+
+    DatabaseConnectionTab connectionTab = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+    connectionTab.listDatabaseConnections(connections);
+
+    // Expected Values
+    String expectedValue = "updated";
+    DatabaseConnection updatedDatabaseConnection = new DatabaseConnection()
+        .setUrl(expectedValue)
+        .setComment(expectedValue)
+        .setUsername(expectedValue)
+        .setPassword(expectedValue)
+        .setSystem(DbSystem.HANA);
+
+    // Execute
+    connectionTab.updateDatabaseConnectionInTable(updatedDatabaseConnection, oldDatabaseConnection);
+
+    // Check
+    assertEquals(2, connectionTab.connectionInputList.getRowCount());
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 1))).getText().contains(expectedValue));
+    assertEquals(((HTML) (connectionTab.connectionInputList.getWidget(1, 2))).getText(),
+                 DbSystem.HANA.name());
+    assertTrue(connectionTab.connectionInputList.getText(1, 3).contains(expectedValue));
+
+    // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
 
   @Override
   public String getModuleName() {

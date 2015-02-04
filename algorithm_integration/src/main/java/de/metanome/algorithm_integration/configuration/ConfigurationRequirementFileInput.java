@@ -18,7 +18,12 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for file inputs.
@@ -26,14 +31,13 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementFileInput")
 public class ConfigurationRequirementFileInput extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 8842139128248338302L;
 
   private ConfigurationSettingFileInput[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementFileInput() {
   }
@@ -63,6 +67,13 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
   public ConfigurationSettingFileInput[] getSettings() {
     return this.settings;
   }
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(ConfigurationSettingFileInput... settings) {
+    this.settings = settings;
+  }
 
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
@@ -71,7 +82,8 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingFileInput... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingFileInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
@@ -81,6 +93,7 @@ public class ConfigurationRequirementFileInput extends ConfigurationRequirement 
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

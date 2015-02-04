@@ -16,6 +16,9 @@
 
 package de.metanome.algorithm_integration;
 
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,7 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("ColumnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
 
   protected ColumnIdentifier columnIdentifier;
@@ -73,6 +77,30 @@ public class ColumnConditionValue implements ColumnCondition {
     this.coverage = coverage;
   }
 
+  public ColumnIdentifier getColumnIdentifier() {
+    return columnIdentifier;
+  }
+
+  public void setColumnIdentifier(ColumnIdentifier columnIdentifier) {
+    this.columnIdentifier = columnIdentifier;
+  }
+
+  public String getColumnValue() {
+    return columnValue;
+  }
+
+  public void setColumnValue(String columnValue) {
+    this.columnValue = columnValue;
+  }
+
+  public boolean isNegated() {
+    return isNegated;
+  }
+
+  public void setNegated(boolean isNegated) {
+    this.isNegated = isNegated;
+  }
+
   @Override
   public TreeSet<ColumnIdentifier> getContainedColumns() {
     TreeSet<ColumnIdentifier> result = new TreeSet<>();
@@ -99,6 +127,21 @@ public class ColumnConditionValue implements ColumnCondition {
     }
     builder.append(this.columnValue);
     return builder.toString();
+  }
+
+  public static ColumnConditionValue fromString(String str) {
+    String[] parts = str.split("= ");
+
+    ColumnIdentifier identifier = ColumnIdentifier.fromString(parts[0].trim());
+    String conditionStr = parts[1];
+    Boolean negated = false;
+
+    if (parts[1].contains(NOT)) {
+      negated = true;
+      conditionStr = conditionStr.substring(NOT.length());
+    }
+
+    return new ColumnConditionValue(identifier, conditionStr, negated);
   }
 
   @Override

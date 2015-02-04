@@ -20,7 +20,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -30,7 +29,10 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
 
@@ -51,11 +53,15 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected Label algorithmLabel;
 
-  private ResultsTablePage tablePage;
+  protected ResultsTablePage tablePage;
 
   protected String executionIdentifier;
   private String algorithmFileName;
-  private ExecutionServiceAsync executionService;
+  private AlgorithmExecutionRestService executionService;
+
+  private Boolean cacheResults;
+  private Boolean writeResults;
+  private Boolean countResults;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -71,13 +77,18 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param executionTimeNanoSecs the execution time in nanoseconds
+   * @param executionTimeInNanos the execution time in nanoseconds
    */
-  public void updateOnSuccess(Long executionTimeNanoSecs) {
+  public void updateOnSuccess(Long executionTimeInNanos) {
     this.timer.cancel();
 
-    // Fetch the last results
-    this.tablePage.fetchResults();
+    // Fetch the last results or get all results depending on the used result receiver
+    if (cacheResults)
+      this.tablePage.fetchResults();
+    else if (writeResults)
+      this.tablePage.getPrinterResults();
+    else if (countResults)
+      this.tablePage.getCounterResults();
 
     this.remove(this.algorithmLabel);
     this.remove(this.progressBar);
@@ -85,10 +96,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTimeNanoSecs / 1000000d));
+    Date date = new Date(Math.round(executionTimeInNanos / 1000000d));
     String timeString = "Algorithm " + this.algorithmFileName + " executed in " +
                         format.format(date, TimeZone.createTimeZone(0)) +
-                        " (HH:mm:ss.SSS) or " + executionTimeNanoSecs / 1000000d + " ms.";
+                        " (HH:mm:ss.SSS) or " + executionTimeInNanos / 1000000d + " ms.";
     this.insert(new Label(timeString), 0);
   }
 
@@ -101,7 +112,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer.cancel();
     this.clear();
 
-    this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
+    this.messageReceiver.addError("The execution was not successful: " + message);
   }
 
   /**
@@ -141,7 +152,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer = new Timer() {
       public void run() {
         updateProgress();
-        resultsTab.fetchResults();
+        if (cacheResults) resultsTab.fetchResults();
       }
     };
 
@@ -152,14 +163,14 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * Fetching the current progress of execution and update the progress bar on success.
    */
   protected void updateProgress() {
-    this.executionService.fetchProgress(executionIdentifier, new AsyncCallback<Float>() {
+    this.executionService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
       @Override
-      public void onFailure(Throwable caught) {
-        messageReceiver.addErrorHTML("Could not fetch progress: " + caught.getMessage());
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError(method.getResponse().getText());
       }
 
       @Override
-      public void onSuccess(Float progress) {
+      public void onSuccess(Method method, Float progress) {
         updateProgress(progress);
       }
     });
@@ -183,11 +194,18 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param executionIdentifier the execution identifier
    * @param algorithmFileName   the algorithm file name
    */
-  public void setExecutionParameter(ExecutionServiceAsync executionService,
-                                    String executionIdentifier, String algorithmFileName) {
+  public void setExecutionParameter(AlgorithmExecutionRestService executionService,
+                                    String executionIdentifier,
+                                    String algorithmFileName,
+                                    Boolean cacheResults,
+                                    Boolean writeResults,
+                                    Boolean countResults) {
     this.executionService = executionService;
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
+    this.cacheResults = cacheResults;
+    this.writeResults = writeResults;
+    this.countResults = countResults;
   }
 
   /* (non-Javadoc)

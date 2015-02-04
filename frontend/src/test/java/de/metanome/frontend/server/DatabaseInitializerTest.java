@@ -18,6 +18,9 @@ package de.metanome.frontend.server;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.FileInputResource;
+import de.metanome.backend.resources.InputResource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -31,8 +34,10 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContextEvent;
@@ -47,6 +52,11 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class DatabaseInitializerTest {
+
+  private FileInputResource fileInputResource = new FileInputResource();
+
+  AlgorithmResource algorithmResource = new AlgorithmResource();
+  InputResource inputResource = new InputResource();
 
   /**
    * Test method for {@link de.metanome.frontend.server.DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
@@ -64,22 +74,25 @@ public class DatabaseInitializerTest {
 
     // Expected values
     String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
-    Algorithm[] expectedAlgorithms = new Algorithm[algorithmFileNames.length];
+    Map<String, Algorithm> expectedAlgorithms = new HashMap<>();
     for (int i = 0; i < algorithmFileNames.length; i++) {
-      expectedAlgorithms[i] = buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]);
+      expectedAlgorithms.put(algorithmFileNames[i],
+                             buildExpectedAlgorithm(jarFinder, algorithmFileNames[i]));
     }
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+    List<Algorithm> actualAlgorithms = algorithmResource.getAll();
 
     // Check result
-    assertThat(actualAlgorithms,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithms));
+    for (Algorithm algorithm : actualAlgorithms) {
+      assertTrue(expectedAlgorithms.containsKey(algorithm.getFileName()));
+    }
+
     // Check algorithm fields
-    for (Algorithm expectedAlgorithm : expectedAlgorithms) {
+    for (Algorithm actualAlgorithm : actualAlgorithms) {
       // Get the matching algorithm based on the file name (equals method).
-      Algorithm actualAlgorithm = actualAlgorithms.get(actualAlgorithms.indexOf(expectedAlgorithm));
+      Algorithm expectedAlgorithm = expectedAlgorithms.get(actualAlgorithm.getFileName());
       assertTrue(AlgorithmContentEquals.contentEquals(expectedAlgorithm, actualAlgorithm));
     }
 
@@ -108,12 +121,12 @@ public class DatabaseInitializerTest {
 
     DatabaseInitializer initializer = new DatabaseInitializer();
     // Expected values
-    Algorithm expectedAlgorithm = new Algorithm("some file name")
-        .store();
+    Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar");
+    HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Algorithm> actualAlgorithms = Algorithm.retrieveAll();
+    List<Algorithm> actualAlgorithms = algorithmResource.getAll();
 
     // Check result
     assertThat(actualAlgorithms,
@@ -146,7 +159,7 @@ public class DatabaseInitializerTest {
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Input> actualInputs = Input.retrieveAll();
+    List<Input> actualInputs = inputResource.getAll();
 
     // Check result
     // Extract actual input file names
@@ -174,12 +187,11 @@ public class DatabaseInitializerTest {
 
     DatabaseInitializer initializer = new DatabaseInitializer();
     // Expected values
-    FileInput expectedFileInput = new FileInput()
-        .store();
+    FileInput expectedFileInput = fileInputResource.store(new FileInput());
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Input> actualInputs = Input.retrieveAll();
+    List<Input> actualInputs = inputResource.getAll();
 
     // Check result
     assertThat(actualInputs,

@@ -16,17 +16,22 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import java.io.Serializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
  */
-public class ConfigurationSettingInteger implements IsSerializable {
+@JsonTypeName("ConfigurationSettingInteger")
+public class ConfigurationSettingInteger implements ConfigurationSetting, Serializable {
 
   public int value;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingInteger";
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationSettingInteger() {
   }
@@ -35,4 +40,11 @@ public class ConfigurationSettingInteger implements IsSerializable {
     this.value = value;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
 }

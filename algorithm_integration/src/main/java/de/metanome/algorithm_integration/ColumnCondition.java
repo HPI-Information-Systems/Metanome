@@ -16,8 +16,10 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -27,7 +29,16 @@ import java.util.TreeSet;
  *
  * @author Jens Ehrlich
  */
-public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondition> {
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ColumnConditionAnd.class, name = "ColumnConditionAnd"),
+    @JsonSubTypes.Type(value = ColumnConditionOr.class, name = "ColumnConditionOr"),
+    @JsonSubTypes.Type(value = ColumnConditionValue.class, name = "ColumnConditionValue")
+})
+public interface ColumnCondition extends Serializable, Comparable<ColumnCondition> {
 
   public static final String OPEN_BRACKET = "[";
   public static final String CLOSE_BRACKET = "]";
@@ -82,4 +93,9 @@ public interface ColumnCondition extends IsSerializable, Comparable<ColumnCondit
    * @return pattern tableau
    */
   public List<Map<ColumnIdentifier, String>> getPatternConditions();
+
+  public boolean isNegated();
+
+  public void setNegated(boolean isNegated);
+
 }

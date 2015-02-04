@@ -18,7 +18,12 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for strings.
@@ -26,9 +31,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementString")
 public class ConfigurationRequirementString extends ConfigurationRequirement {
-
-  private static final long serialVersionUID = 7041289462720572215L;
 
   private ConfigurationSettingString[] settings;
 
@@ -63,6 +67,13 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   public ConfigurationSettingString[] getSettings() {
     return this.settings;
   }
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(ConfigurationSettingString... settings) {
+    this.settings = settings;
+  }
 
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
@@ -71,7 +82,8 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingString... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingString... settings)
     throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
@@ -81,6 +93,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

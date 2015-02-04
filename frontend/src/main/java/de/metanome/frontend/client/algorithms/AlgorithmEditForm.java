@@ -16,22 +16,21 @@
 
 package de.metanome.frontend.client.algorithms;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.AlgorithmService;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +50,10 @@ public class AlgorithmEditForm extends Grid {
 
   private List<String> algorithmsInDatabase;
   private List<String> algorithmsOnStorage;
+
+  private Algorithm oldAlgorithm;
+  private Button submitButton;
+  private Button updateButton;
 
   public AlgorithmEditForm(AlgorithmsPage parent, TabWrapper messageReceiver) {
     super(5, 3);
@@ -82,13 +85,21 @@ public class AlgorithmEditForm extends Grid {
     this.setText(3, 0, "Description");
     this.setWidget(3, 1, this.descriptionTextArea);
 
-    this.setWidget(4, 1, (Widget) new Button("Save", new ClickHandler() {
+    this.submitButton = new Button("Save", new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        submit();
+        saveSubmit();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        updateSubmit();
+      }
+    });
+    this.setWidget(4, 1, this.submitButton);
   }
 
   /**
@@ -103,12 +114,13 @@ public class AlgorithmEditForm extends Grid {
     this.algorithmsOnStorage = new ArrayList<>();
 
     // Add available CSV files
-    AsyncCallback<String[]> storageCallback = getStorageCallback();
-    AsyncCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
+    MethodCallback<List<String>> storageCallback = getStorageCallback();
+    MethodCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
 
-    AlgorithmServiceAsync service = GWT.create(AlgorithmService.class);
-    service.listAvailableAlgorithmFiles(storageCallback);
-    service.listAllAlgorithms(databaseCallback);
+
+    AlgorithmRestService restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
+    restService.listAvailableAlgorithmFiles(storageCallback);
+    restService.listAlgorithms(databaseCallback);
   }
 
   /**
@@ -116,12 +128,15 @@ public class AlgorithmEditForm extends Grid {
    * The list box should only contain those algorithms, which are not yet stored in the database.
    * @return the callback
    */
-  private AsyncCallback<List<Algorithm>> getDatabaseCallback() {
-    return new AsyncCallback<List<Algorithm>>() {
-      public void onFailure(Throwable caught) {
+  private MethodCallback<List<Algorithm>> getDatabaseCallback() {
+    return new MethodCallback<List<Algorithm>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError(method.getResponse().getText());
       }
 
-      public void onSuccess(List<Algorithm> result) {
+      @Override
+      public void onSuccess(Method method, List<Algorithm> result) {
         List<String> algorithmNames = new ArrayList<>();
 
         for (Algorithm algorithm : result)
@@ -143,20 +158,20 @@ public class AlgorithmEditForm extends Grid {
    * The list box should only contain those algorithms, which are not yet stored in the database.
    * @return the callback
    */
-  private AsyncCallback<String[]> getStorageCallback() {
-    return new AsyncCallback<String[]>() {
+  private MethodCallback<List<String>> getStorageCallback() {
+    return new MethodCallback<List<String>>() {
       @Override
-      public void onFailure(Throwable throwable) {
+      public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addError(
             "Could not find any algorithms. Please add your algorithms to the algorithm folder.");
         throwable.printStackTrace();
       }
 
       @Override
-      public void onSuccess(String[] result) {
+      public void onSuccess(Method method, List<String> result) {
         List<String> algorithmNames = new ArrayList<>();
 
-        if (result.length == 0) {
+        if (result.size() == 0) {
           messageReceiver
               .addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
           return;
@@ -178,10 +193,24 @@ public class AlgorithmEditForm extends Grid {
   /**
    * Add the algorithm to the list of algorithms and store the algorithm in the database.
    */
-  protected void submit() {
+  protected void saveSubmit() {
     messageReceiver.clearErrors();
     try {
-      algorithmsPage.callAddAlgorithm(retrieveInputValues());
+        algorithmsPage.callAddAlgorithm(retrieveInputValues());
+    } catch (InputValidationException e) {
+      messageReceiver.addError(e.getMessage());
+    }
+  }
+
+  /**
+   * Add the algorithm to the list of algorithms and store the algorithm in the database.
+   */
+  protected void updateSubmit() {
+    messageReceiver.clearErrors();
+    try {
+      Algorithm updatedAlgorithm = retrieveInputValues();
+      updatedAlgorithm.setId(oldAlgorithm.getId());
+      algorithmsPage.callUpdateAlgorithm(updatedAlgorithm, oldAlgorithm);
     } catch (InputValidationException e) {
       messageReceiver.addError(e.getMessage());
     }
@@ -217,4 +246,28 @@ public class AlgorithmEditForm extends Grid {
     this.descriptionTextArea.setText("");
   }
 
+  /**
+   * Fills the edit form with the algorithm's values.
+   * @param algorithm the algorithm, which should be updated
+   */
+  public void updateAlgorithm(final Algorithm algorithm) {
+    this.updateFileListBox();
+
+    this.fileListBox.addValue(algorithm.getFileName());
+    this.fileListBox.setSelectedValue(algorithm.getFileName());
+    this.nameTextBox.setText(algorithm.getName());
+    this.authorTextBox.setText(algorithm.getAuthor());
+    this.descriptionTextArea.setText(algorithm.getDescription());
+
+    this.oldAlgorithm = algorithm;
+    this.setWidget(4, 1, this.updateButton);
+  }
+
+  /**
+   * Shows the save button.
+   */
+  public void showSaveButton() {
+    this.setWidget(4, 1, this.submitButton);
+    this.updateFileListBox();
+  }
 }

@@ -16,24 +16,30 @@
 
 package de.metanome.algorithm_integration.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Represents an inclusion dependency.
  *
  * @author Jakob Zwiener
  */
+@JsonTypeName("InclusionDependency")
 public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";
-  private static final long serialVersionUID = 1217247222227000634L;
+
   protected ColumnPermutation dependant;
   protected ColumnPermutation referenced;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected InclusionDependency() {
     this.referenced = new ColumnPermutation();
@@ -46,11 +52,24 @@ public class InclusionDependency implements Result {
     this.referenced = referenced;
   }
 
+  public static InclusionDependency fromString(String str) {
+    String splitMarker = "#####";
+    str = str.replace(IND_SEPARATOR, splitMarker);
+    String[] parts = str.split(splitMarker);
+    ColumnPermutation d = ColumnPermutation.fromString(parts[0]);
+    ColumnPermutation r = ColumnPermutation.fromString(parts[1]);
+    return new InclusionDependency(d, r);
+  }
+
   /**
    * @return dependant
    */
   public ColumnPermutation getDependant() {
     return dependant;
+  }
+
+  public void setDependant(ColumnPermutation dependant) {
+    this.dependant = dependant;
   }
 
   /**
@@ -60,7 +79,12 @@ public class InclusionDependency implements Result {
     return referenced;
   }
 
+  public void setReferenced(ColumnPermutation referenced) {
+    this.referenced = referenced;
+  }
+
   @Override
+  @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);

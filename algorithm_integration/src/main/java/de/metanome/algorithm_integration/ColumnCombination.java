@@ -16,8 +16,7 @@
 
 package de.metanome.algorithm_integration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,17 +24,15 @@ import java.util.TreeSet;
 /**
  * Represents column combinations.
  */
-public class ColumnCombination implements IsSerializable {
+public class ColumnCombination implements Serializable {
 
-  private static final long serialVersionUID = 5994284083803031188L;
-
-  protected TreeSet<ColumnIdentifier> columnCombination;
+  protected Set<ColumnIdentifier> columnIdentifiers;
 
   /**
    * Exists for GWT serialization.
    */
   protected ColumnCombination() {
-    columnCombination = new TreeSet<>();
+    columnIdentifiers = new TreeSet<>();
   }
 
   /**
@@ -44,21 +41,31 @@ public class ColumnCombination implements IsSerializable {
    * @param columnIdentifier the identifier in the ColumnCombination
    */
   public ColumnCombination(ColumnIdentifier... columnIdentifier) {
-    columnCombination = new TreeSet<>(Arrays.asList(columnIdentifier));
+    columnIdentifiers = new TreeSet<>(Arrays.asList(columnIdentifier));
+  }
+
+  public static ColumnCombination fromString(String str) {
+    String[] parts = str.substring(1, str.length() - 1).split(",");
+    ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
+    for (int i = 0; i < parts.length; i++) {
+      identifiers[i] = ColumnIdentifier.fromString(parts[i].trim());
+    }
+    return new ColumnCombination(identifiers);
   }
 
   /**
    * Get column identifiers as set.
    *
-   * @return columnCombination
+   * @return columnIdentifiers
    */
   public Set<ColumnIdentifier> getColumnIdentifiers() {
-    return columnCombination;
+    return columnIdentifiers;
   }
+  public void setColumnIdentifiers(Set<ColumnIdentifier> identifiers) { this.columnIdentifiers = identifiers; }
 
   @Override
   public String toString() {
-    return columnCombination.toString();
+    return columnIdentifiers.toString();
   }
 
   @Override
@@ -67,7 +74,7 @@ public class ColumnCombination implements IsSerializable {
     int result = 1;
     result = prime
              * result
-             + ((columnCombination == null) ? 0 : columnCombination
+             + ((columnIdentifiers == null) ? 0 : columnIdentifiers
         .hashCode());
     return result;
   }
@@ -84,11 +91,11 @@ public class ColumnCombination implements IsSerializable {
       return false;
     }
     ColumnCombination other = (ColumnCombination) obj;
-    if (columnCombination == null) {
-      if (other.columnCombination != null) {
+    if (columnIdentifiers == null) {
+      if (other.columnIdentifiers != null) {
         return false;
       }
-    } else if (!columnCombination.equals(other.columnCombination)) {
+    } else if (!columnIdentifiers.equals(other.columnIdentifiers)) {
       return false;
     }
     return true;

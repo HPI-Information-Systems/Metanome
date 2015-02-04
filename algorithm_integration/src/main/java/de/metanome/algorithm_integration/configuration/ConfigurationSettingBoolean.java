@@ -16,26 +16,38 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import java.io.Serializable;
 
 /**
- * TODO docs
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationSettingBoolean implements IsSerializable {
-
-  private static final long serialVersionUID = 3374302400843066557L;
+@JsonTypeName("ConfigurationSettingBoolean")
+public class ConfigurationSettingBoolean implements ConfigurationSetting, Serializable {
 
   public boolean value;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingBoolean";
 
   /**
    * Exists for GWT serialization.
    */
   public ConfigurationSettingBoolean() {
+
   }
 
   public ConfigurationSettingBoolean(boolean value) {
+    this.value = value;
+  }
+
+  public boolean isValue() {
+    return value;
+  }
+
+  public void setValue(boolean value) {
     this.value = value;
   }
 }

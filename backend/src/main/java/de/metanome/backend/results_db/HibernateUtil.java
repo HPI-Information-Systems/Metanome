@@ -72,8 +72,8 @@ public class HibernateUtil {
     Session session = openNewSession();
 
     session.beginTransaction();
-    session.save(entity);
     try {
+      session.save(entity);
       session.getTransaction().commit();
     } catch (ConstraintViolationException e) {
       session.getTransaction().rollback();
@@ -97,6 +97,25 @@ public class HibernateUtil {
 
     session.beginTransaction();
     session.delete(entity);
+    session.getTransaction().commit();
+
+    session.close();
+  }
+
+  /**
+   * Update an entity from the database.
+   *
+   * @param entity the entity to update
+   */
+  public static void update(Object entity) throws Exception {
+    if (!entity.getClass().isAnnotationPresent(Entity.class)) {
+      throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
+    }
+
+    Session session = openNewSession();
+
+    session.beginTransaction();
+    session.update(entity);
     session.getTransaction().commit();
 
     session.close();

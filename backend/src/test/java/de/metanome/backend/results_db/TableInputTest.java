@@ -17,16 +17,12 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.TableInput}
@@ -35,34 +31,7 @@ import static org.junit.Assert.assertThat;
  */
 public class TableInputTest {
 
-  /**
-   * Test method for {@link de.metanome.backend.results_db.TableInput#store()} and {@link
-   * de.metanome.backend.results_db.TableInput#retrieve(long)} <p/> TableInputs should be storable
-   * and retrievable by id.
-   */
-  @Test
-  public void testPersistence() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    TableInput expectedTableInput = new TableInput();
-    String expectedTableName = "some table name";
-    expectedTableInput.setTableName(expectedTableName);
-
-    // Execute functionality
-    assertSame(expectedTableInput, expectedTableInput.store());
-    long id = expectedTableInput.getId();
-    TableInput actualTableInput = TableInput.retrieve(id);
-    String actualTableName = actualTableInput.getTableName();
-
-    // Check result
-    assertEquals(expectedTableInput, actualTableInput);
-    assertEquals(expectedTableName, actualTableName);
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+  private TableInputResource tableInputResource = new TableInputResource();
 
   /**
    * Test method for {@link de.metanome.backend.results_db.TableInput#equals(Object)} and {@link
@@ -86,29 +55,6 @@ public class TableInputTest {
         .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
   }
 
-  /**
-   * Test method for {@link de.metanome.backend.results_db.TableInput#retrieveAll()}
-   */
-  @Test
-  public void testRetrieveAll() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    // Expected values
-    Input expectedInput = new TableInput()
-        .store();
-
-    // Execute functionality
-    List<Input> actualInputs = TableInput.retrieveAll();
-
-    // Check result
-    assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInput));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
   @Test
   public void testGetIdentifier() {
     // Setup
@@ -123,7 +69,7 @@ public class TableInputTest {
     String expectedIdentifier = "tableName; url; user; DB2";
 
     TableInput input = new TableInput();
-    input.setDatabaseConnection(connection);
+    input = input.setDatabaseConnection(connection);
     input.setTableName("tableName");
 
     // Execute

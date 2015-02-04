@@ -22,126 +22,82 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.results_db.ResultType;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.EnumMap;
 
 /**
- * TODO docs
+ * Writes all received Results to disk. When all results were received, the results are
+ * read again and returned.
  */
-public class ResultPrinter implements CloseableOmniscientResultReceiver {
+public class ResultPrinter extends ResultReceiver {
+  
+  protected EnumMap<ResultType, PrintStream> openStreams;
 
-  protected PrintStream statStream;
-  protected PrintStream fdStream;
-  protected PrintStream uccStream;
-  protected PrintStream cuccStream;
-  protected PrintStream indStream;
-  protected PrintStream odStream;
-
-  protected String algorithmExecutionIdentifier;
-  protected String directoryName;
-
-  public ResultPrinter(String algorithmExecutionIdentifier, String directoryName)
+  public ResultPrinter(String algorithmExecutionIdentifier)
       throws FileNotFoundException {
-    File directory = new File(directoryName);
-    if (!directory.exists()) {
-      directory.mkdirs();
-    }
-
-    this.algorithmExecutionIdentifier = algorithmExecutionIdentifier;
-    this.directoryName = directoryName;
+    super(algorithmExecutionIdentifier);
+    this.openStreams = new EnumMap<>(ResultType.class);
+  }
+  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
+      throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, test);
+    this.openStreams = new EnumMap<>(ResultType.class);
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic)
       throws CouldNotReceiveResultException {
-    getStatStream().println(statistic.toString());
+    getStream(ResultType.STAT).println(statistic.toString());
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
       throws CouldNotReceiveResultException {
-    getFdStream().println(functionalDependency.toString());
+    getStream(ResultType.FD).println(functionalDependency.toString());
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
       throws CouldNotReceiveResultException {
-    getIndStream().println(inclusionDependency.toString());
+    getStream(ResultType.IND).println(inclusionDependency.toString());
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getUccStream().println(uniqueColumnCombination.toString());
+    getStream(ResultType.UCC).println(uniqueColumnCombination.toString());
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getCuccStream().println(conditionalUniqueColumnCombination.buildPatternTableau());
+    getStream(ResultType.CUCC).println(conditionalUniqueColumnCombination.buildPatternTableau());
   }
   
   @Override
   public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    getOdStream().println(orderDependency.toString());
+    getStream(ResultType.OD).println(orderDependency.toString());
   }
 
-  protected PrintStream getStatStream() throws CouldNotReceiveResultException {
-    if (statStream == null) {
-      statStream = openStream("_stats");
+  protected PrintStream getStream(ResultType type) throws CouldNotReceiveResultException {
+    if(!openStreams.containsKey(type)){
+      openStreams.put(type, openStream(type.getEnding()));
     }
-
-    return statStream;
+    return openStreams.get(type);
   }
-
-  protected PrintStream getFdStream() throws CouldNotReceiveResultException {
-    if (fdStream == null) {
-      fdStream = openStream("_fds");
-    }
-
-    return fdStream;
-  }
-
-  protected PrintStream getIndStream() throws CouldNotReceiveResultException {
-    if (indStream == null) {
-      indStream = openStream("_inds");
-    }
-
-    return indStream;
-  }
-
-  protected PrintStream getUccStream() throws CouldNotReceiveResultException {
-    if (uccStream == null) {
-      uccStream = openStream("_uccs");
-    }
-
-    return uccStream;
-  }
-
-  protected PrintStream getCuccStream() throws CouldNotReceiveResultException {
-    if (cuccStream == null) {
-      cuccStream = openStream("_cuccs");
-    }
-
-    return cuccStream;
-
-  }
-  
-  protected PrintStream getOdStream() throws CouldNotReceiveResultException {
-    if (odStream == null) {
-      odStream = openStream("_ods");
-    }
-
-    return odStream;
-
-  }
-  
 
   protected PrintStream openStream(String fileSuffix) throws CouldNotReceiveResultException {
     try {
@@ -152,30 +108,44 @@ public class ResultPrinter implements CloseableOmniscientResultReceiver {
     }
   }
 
-  protected String getOutputFilePathPrefix() {
-    return directoryName + "/" + algorithmExecutionIdentifier;
-  }
-
   @Override
   public void close() throws IOException {
-    if (statStream != null) {
-      statStream.close();
-    }
-    if (fdStream != null) {
-      fdStream.close();
-    }
-    if (indStream != null) {
-      indStream.close();
-    }
-    if (uccStream != null) {
-      uccStream.close();
-    }
-    if (cuccStream != null) {
-      cuccStream.close();
-    }
-    if (odStream != null) {
-      odStream.close();
+    for (PrintStream stream : openStreams.values()) {
+      stream.close();
     }
   }
 
+  /**
+   * Reads the results from disk and returns them.
+   * @return all results
+   */
+  public List<Result> getResults() throws IOException {
+    List<Result> results = new ArrayList<>();
+
+    for (ResultType type : openStreams.keySet()) {
+      if (existsFile(type.getEnding())) {
+        results.addAll(readResult(type.getEnding(), type.getResultHandler()));
+      }
+    }
+
+    return results;
+  }
+
+  private Boolean existsFile(String fileSuffix) {
+    return new File(getOutputFilePathPrefix() + fileSuffix).exists();
+  }
+
+  private List<Result> readResult(String fileSuffix, ResultHandler handler) throws IOException {
+    List<Result> results = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(
+        new FileReader(getOutputFilePathPrefix() + fileSuffix))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        results.add(handler.convert(line));
+        line = br.readLine();
+      }
+    }
+    return results;
+  }
 }

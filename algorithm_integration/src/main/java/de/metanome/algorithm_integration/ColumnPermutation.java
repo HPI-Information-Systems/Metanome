@@ -27,15 +27,13 @@ import java.util.List;
  */
 public class ColumnPermutation implements Serializable {
 
-  private static final long serialVersionUID = 5994284083803031188L;
-
-  protected List<ColumnIdentifier> columnPermutation;
+  protected List<ColumnIdentifier> columnIdentifiers;
 
   /**
    * Exists for GWT serialization.
    */
   protected ColumnPermutation() {
-    columnPermutation = new ArrayList<>();
+    columnIdentifiers = new ArrayList<>();
   }
 
   /**
@@ -44,21 +42,32 @@ public class ColumnPermutation implements Serializable {
    * @param columnIdentifier the identifier in the ColumnCombination
    */
   public ColumnPermutation(ColumnIdentifier... columnIdentifier) {
-    columnPermutation = Arrays.asList(columnIdentifier);
+    columnIdentifiers = Arrays.asList(columnIdentifier);
+  }
+
+  public static ColumnPermutation fromString(String str) {
+    String[] parts = str.substring(1, str.length() - 1).split(",");
+    ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
+    for (int i = 0; i < parts.length; i++) {
+      identifiers[i] = ColumnIdentifier.fromString(parts[i].trim());
+    }
+    return new ColumnPermutation(identifiers);
   }
 
   /**
    * Get column identifiers as set.
    *
-   * @return columnCombination
+   * @return columnIdentifiers
    */
   public List<ColumnIdentifier> getColumnIdentifiers() {
-    return columnPermutation;
+    return columnIdentifiers;
   }
+
+  public void setColumnIdentifiers(List<ColumnIdentifier> identifiers) { this.columnIdentifiers = identifiers; }
 
   @Override
   public String toString() {
-    return columnPermutation.toString();
+    return columnIdentifiers.toString();
   }
 
   @Override
@@ -67,7 +76,7 @@ public class ColumnPermutation implements Serializable {
     int result = 1;
     result = prime
              * result
-             + ((columnPermutation == null) ? 0 : columnPermutation
+             + ((columnIdentifiers == null) ? 0 : columnIdentifiers
         .hashCode());
     return result;
   }
@@ -84,11 +93,11 @@ public class ColumnPermutation implements Serializable {
       return false;
     }
     ColumnPermutation other = (ColumnPermutation) obj;
-    if (columnPermutation == null) {
-      if (other.columnPermutation != null) {
+    if (columnIdentifiers == null) {
+      if (other.columnIdentifiers != null) {
         return false;
       }
-    } else if (!columnPermutation.equals(other.columnPermutation)) {
+    } else if (!columnIdentifiers.equals(other.columnIdentifiers)) {
       return false;
     }
     return true;

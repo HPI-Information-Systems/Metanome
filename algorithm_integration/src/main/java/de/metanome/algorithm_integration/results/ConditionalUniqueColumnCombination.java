@@ -16,8 +16,7 @@
 
 package de.metanome.algorithm_integration.results;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
@@ -25,27 +24,30 @@ import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.condition_parser.ColumnConditionParser;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a conditional unique column combination
  *
  * @author Jens Ehrlich
  */
+@JsonTypeName("ConditionalUniqueColumnCombination")
 public class ConditionalUniqueColumnCombination implements Result {
 
   public static final String LINESEPARATOR = "\n";
   public static final String CUCC_SEPARATOR = " | ";
-  private static final long serialVersionUID = 6946896625820917113L;
+
   protected ColumnCombination columnCombination;
   protected ColumnCondition condition;
 
-
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected ConditionalUniqueColumnCombination() {
     this.columnCombination = new ColumnCombination();
@@ -66,12 +68,6 @@ public class ConditionalUniqueColumnCombination implements Result {
 
   }
 
-  @Override
-  public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
-    resultReceiver.receiveResult(this);
-  }
-
   /**
    * @return the column combination
    */
@@ -79,11 +75,26 @@ public class ConditionalUniqueColumnCombination implements Result {
     return this.columnCombination;
   }
 
+  public void setColumnCombination(ColumnCombination columnCombination) {
+    this.columnCombination = columnCombination;
+  }
+
   /**
    * @return the condition list
    */
   public ColumnCondition getCondition() {
     return this.condition;
+  }
+
+  public void setCondition(ColumnCondition condition) {
+    this.condition = condition;
+  }
+
+  @XmlTransient
+  @Override
+  public void sendResultTo(OmniscientResultReceiver resultReceiver)
+      throws CouldNotReceiveResultException {
+    resultReceiver.receiveResult(this);
   }
 
   public String buildPatternTableauTable() {
@@ -123,6 +134,23 @@ public class ConditionalUniqueColumnCombination implements Result {
     return builder.toString();
   }
 
+  public static ConditionalUniqueColumnCombination fromString(String str) {
+    String splitMarker = "#####";
+    str = str.replace(CUCC_SEPARATOR, splitMarker);
+    String combinationStr = str.split(splitMarker)[0].trim();
+    str = str.substring(combinationStr.length() + splitMarker.length());
+    String[] parts = str.split(" Coverage: ");
+    String conditionStr = parts[0].trim();
+    String coverageStr = parts[1].trim();
+
+    ColumnCombination combination = ColumnCombination.fromString(combinationStr);
+    Float coverage = Float.valueOf(coverageStr);
+    ColumnCondition columnCondition = new ColumnConditionParser().parse(conditionStr);
+
+    columnCondition.setCoverage(coverage);
+    return new ConditionalUniqueColumnCombination(combination, columnCondition);
+  }
+
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
@@ -146,35 +174,6 @@ public class ConditionalUniqueColumnCombination implements Result {
     builder.append(this.condition.getCoverage());
     builder.append(LINESEPARATOR);
     return builder.toString();
-  }
-
-  public Widget buildPatternTableauTableHtml() {
-    FlexTable table = new FlexTable();
-
-    //build header
-    TreeSet<ColumnIdentifier> header = condition.getContainedColumns();
-    int i = 0;
-    for (ColumnIdentifier headColumn : header) {
-      table.setText(0, i, headColumn.toString());
-      i++;
-    }
-
-    int rowCount = 1;
-    List<Map<ColumnIdentifier, String>> conditions = condition.getPatternConditions();
-    for (Map<ColumnIdentifier, String> condition : conditions) {
-      int columnCount = 0;
-      for (ColumnIdentifier column : header) {
-        if (condition.containsKey(column)) {
-          String value = condition.get(column);
-          table.setText(rowCount, columnCount, value);
-        } else {
-          table.setText(rowCount, columnCount, "-");
-        }
-        columnCount++;
-      }
-      rowCount++;
-    }
-    return table;
   }
 
   @Override

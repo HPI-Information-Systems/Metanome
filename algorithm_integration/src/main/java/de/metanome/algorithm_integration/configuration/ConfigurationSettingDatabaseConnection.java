@@ -17,24 +17,32 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * TODO docs
  *
  * @author Claudia Exeler
  */
-public class ConfigurationSettingDatabaseConnection implements ConfigurationSettingDataSource {
+@JsonTypeName("ConfigurationSettingDatabaseConnection")
+public class ConfigurationSettingDatabaseConnection implements ConfigurationSetting, ConfigurationSettingDataSource {
 
-  private static final long serialVersionUID = 3242593091096735218L;
-
+  // Id of the database connection in the database (needed for mapping the setting to the stored database connection)
+  private long id;
   private String dbUrl;
   private String username;
   private String password;
   private DbSystem system;
 
+  // Needed for restful serialization
+  public String type = "configurationSettingDatabaseConnection";
+
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
-  protected ConfigurationSettingDatabaseConnection() {
+  public ConfigurationSettingDatabaseConnection() {
   }
 
   public ConfigurationSettingDatabaseConnection(String dbUrl, String username, String password,
@@ -49,32 +57,45 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
     return dbUrl;
   }
 
-  public void setDbUrl(String dbUrl) {
+  public ConfigurationSettingDatabaseConnection setDbUrl(String dbUrl) {
     this.dbUrl = dbUrl;
+    return this;
   }
 
   public String getUsername() {
     return username;
   }
 
-  public void setUsername(String username) {
+  public ConfigurationSettingDatabaseConnection setUsername(String username) {
     this.username = username;
+    return this;
   }
 
   public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public ConfigurationSettingDatabaseConnection setPassword(String password) {
     this.password = password;
+    return this;
   }
 
   public DbSystem getSystem() {
     return system;
   }
 
-  public void setSystem(DbSystem system) {
+  public ConfigurationSettingDatabaseConnection setSystem(DbSystem system) {
     this.system = system;
+    return this;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public ConfigurationSettingDatabaseConnection setId(long id) {
+    this.id = id;
+    return this;
   }
 
   @Override
@@ -114,7 +135,10 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
   }
 
   @Override
+  @XmlTransient
   public String getValueAsString() {
     return dbUrl + "; " + username + "; " + system.name();
   }
+
+
 }

@@ -20,11 +20,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Input;
-
-import java.util.List;
+import de.metanome.backend.results_db.EntityStorageException;
 
 /**
  * {@link TestDatabaseHelperService}
@@ -36,16 +32,6 @@ public interface TestDatabaseHelperService extends RemoteService {
 
   void resetDatabase();
 
-  void storeAlgorithmInDatabase(Algorithm algorithm);
-
-  long storeDatabaseConnection(DatabaseConnection connection);
-
-  long storeFileInput(FileInput input);
-
-  List<DatabaseConnection> getAllDatabaseConnections();
-
-  List<Input> getAllTableInputs();
-
-  List<Input> getAllFileInputs();
+  Algorithm storeAlgorithmInDatabase(Algorithm algorithm) throws EntityStorageException;
 
 }

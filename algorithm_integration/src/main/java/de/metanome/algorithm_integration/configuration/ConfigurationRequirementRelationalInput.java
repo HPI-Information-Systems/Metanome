@@ -18,7 +18,12 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for {@link de.metanome.algorithm_integration.input.RelationalInput}s.
@@ -26,6 +31,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  * @author Jakob Zwiener
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementRelationalInput")
 public class ConfigurationRequirementRelationalInput extends ConfigurationRequirement {
 
   ConfigurationSettingRelationalInput[] settings;
@@ -62,15 +68,12 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
   public ConfigurationSettingRelationalInput[] getSettings() {
     return settings;
   }
-
   /**
-   * {@inheritDoc}
+   * Exists only for serialization!
+   * @param settings the settings
    */
-  @Override
-  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
-  public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
-    return factory.build(this);
+  public void setSettings(ConfigurationSettingRelationalInput... settings) {
+    this.settings = settings;
   }
 
   /**
@@ -80,9 +83,21 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingRelationalInput... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingRelationalInput... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @XmlTransient
+  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
+  public ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException {
+    return factory.build(this);
   }
 }

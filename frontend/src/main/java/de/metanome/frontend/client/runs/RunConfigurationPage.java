@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.runs;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,8 +33,7 @@ import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.parameter.ParameterTable;
-import de.metanome.frontend.client.services.ExecutionService;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   protected TabWrapper messageReceiver;
   protected AlgorithmChooser algorithmChooser;
   protected Label primaryDataSourceLabel;
-  protected ExecutionServiceAsync executionService;
+  protected AlgorithmExecutionRestService executionService;
 
 
   /**
@@ -86,7 +84,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
     this.addNorth(this.algorithmChooser, 4);
 
-    this.executionService = GWT.create(ExecutionService.class);
+    this.executionService = com.google.gwt.core.client.GWT.create(AlgorithmExecutionRestService.class);
   }
 
 
@@ -179,13 +177,21 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    *
    * @param parameters    parameters to use for the algorithm execution
    * @param configuration the configuration to start executing with
+   * @param cacheResults  true, if if true, the results should be cached and written to disk after the algorithm is finished
+   * @param writeResults  true, if the results should be written to disk immediately
+   * @param countResults  true, if the results should be counted
    */
   public void startExecution(List<ConfigurationRequirement> parameters,
-                             List<ConfigurationRequirement> configuration) {
+                             List<ConfigurationRequirement> configuration,
+                             Boolean cacheResults,
+                             Boolean writeResults,
+                             Boolean countResults) {
+
     final String algorithmName = getCurrentlySelectedAlgorithm();
-    final String algorithmFileName = getAlgorithmFileName(algorithmName);
+    final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
-    basePage.startAlgorithmExecution(executionService, algorithmFileName, parameters);
+
+    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,writeResults, countResults);
   }
 
   /**
@@ -213,10 +219,21 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   }
 
   /**
-   * Returns the file name of the algorithm, which is needed for execution
+   * Returns the algorithm with the given name
    */
-  private String getAlgorithmFileName(String name) {
-    return this.algorithmChooser.algorithmMap.get(name).getFileName();
+  private Algorithm getAlgorithm(String name) {
+    return this.algorithmChooser.algorithmMap.get(name);
   }
 
+  /**
+   * Updates an algorithm on the algorithm chooser.
+   * Removes the old algorithm and add the new one.
+   *
+   * @param algorithm the algorithm name, which was updated
+   * @param oldName   the old algorithm name
+   */
+  public void updateAlgorithm(Algorithm algorithm, String oldName) {
+    this.algorithmChooser.update(algorithm, oldName);
+    this.algorithmChooser.updateAlgorithmListBox();
+  }
 }

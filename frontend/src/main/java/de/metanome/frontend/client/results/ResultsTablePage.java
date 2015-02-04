@@ -17,8 +17,9 @@
 package de.metanome.frontend.client.results;
 
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -30,11 +31,17 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.services.ExecutionServiceAsync;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
-import java.util.ArrayList;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 
 /**
@@ -42,7 +49,7 @@ import java.util.ArrayList;
  */
 public class ResultsTablePage extends FlowPanel implements OmniscientResultReceiver, TabContent {
 
-  protected ExecutionServiceAsync executionService;
+  protected AlgorithmExecutionRestService executionService;
 
   protected String executionIdentifier;
 
@@ -56,7 +63,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   protected ResultTable odTable;
   protected ResultTable basicsTable;
 
-  public ResultsTablePage(ExecutionServiceAsync executionService, String executionIdentifier) {
+  public ResultsTablePage(AlgorithmExecutionRestService executionService, String executionIdentifier) {
     this.executionService = executionService;
     this.executionIdentifier = executionIdentifier;
 
@@ -70,24 +77,90 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable = new ResultTable("Functional Dependencies");
     odTable = new ResultTable("Order Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
-
-    fetchResults();
   }
 
   /**
    * Fetches the results from the execution service and displays them on success.
    */
   protected void fetchResults() {
-    executionService.fetchNewResults(executionIdentifier, new AsyncCallback<ArrayList<Result>>() {
+    if (executionService == null)
+      return;
+
+    executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
       @Override
-      public void onFailure(Throwable caught) {
+      public void onFailure(Method method, Throwable caught) {
       }
 
       @Override
-      public void onSuccess(ArrayList<Result> result) {
+      public void onSuccess(Method method, List<Result> result) {
         displayResults(result);
       }
     });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getPrinterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getPrinterResults(executionIdentifier, new MethodCallback<List<Result>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Result> result) {
+        displayResults(result);
+      }
+    });
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void getCounterResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getCounterResults(executionIdentifier, new MethodCallback<Map<ResultType, Integer>>() {
+      @Override
+      public void onFailure(Method method, Throwable caught) {
+      }
+
+      @Override
+      public void onSuccess(Method method, Map<ResultType, Integer> result) {
+        if (result.containsKey(ResultType.UCC))
+          displayCountResult(result.get(ResultType.UCC), uccTable);
+
+        if (result.containsKey(ResultType.FD))
+          displayCountResult(result.get(ResultType.FD), fdTable);
+
+        if (result.containsKey(ResultType.IND))
+          displayCountResult(result.get(ResultType.IND), indTable);
+
+        if (result.containsKey(ResultType.CUCC))
+          displayCountResult(result.get(ResultType.CUCC), cuccTable);
+
+        if (result.containsKey(ResultType.OD))
+          displayCountResult(result.get(ResultType.OD), odTable);
+
+        if (result.containsKey(ResultType.STAT))
+          displayCountResult(result.get(ResultType.STAT), basicsTable);
+
+      }
+    });
+  }
+
+  private void displayCountResult(Integer count, ResultTable table) {
+    if (this.resultsPanel.getWidgetIndex(table) < 0) {
+      this.resultsPanel.add(table);
+    }
+
+    int row = table.getRowCount();
+    table.setText(row, 0, "#");
+    table.setText(row, 1, String.valueOf(count));
   }
 
   /**
@@ -95,12 +168,12 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
    *
    * @param results the results of algorithm execution
    */
-  protected void displayResults(ArrayList<Result> results) {
+  protected void displayResults(List<Result> results) {
     for (Result r : results) {
       try {
         r.sendResultTo(this);
       } catch (CouldNotReceiveResultException e) {
-        this.messageReceiver.addErrorHTML("Could not display results: " + e.getMessage());
+        this.messageReceiver.addError("Could not display results: " + e.getMessage());
       }
     }
   }
@@ -155,10 +228,10 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = cuccTable.getRowCount();
     cuccTable.setText(row, 0, conditionalUniqueColumnCombination.getColumnCombination().toString());
     cuccTable.setText(row, 1, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
-    cuccTable.setWidget(row, 2, conditionalUniqueColumnCombination.buildPatternTableauTableHtml());
+    cuccTable.setWidget(row, 2, buildPatternTableauTableHtml(conditionalUniqueColumnCombination));
     cuccTable.setText(row, 3, ConditionalUniqueColumnCombination.CUCC_SEPARATOR);
     cuccTable.setText(row, 4, Float.toString(
-        conditionalUniqueColumnCombination.getCondition().getCoverage()));
+conditionalUniqueColumnCombination.getCondition().getCoverage()));
   }
 
   @Override
@@ -192,5 +265,34 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   @Override
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
+  }
+
+  public Widget buildPatternTableauTableHtml(ConditionalUniqueColumnCombination cucc) {
+    FlexTable table = new FlexTable();
+
+    //build header
+    TreeSet<ColumnIdentifier> header = cucc.getCondition().getContainedColumns();
+    int i = 0;
+    for (ColumnIdentifier headColumn : header) {
+      table.setText(0, i, headColumn.toString());
+      i++;
+    }
+
+    int rowCount = 1;
+    List<Map<ColumnIdentifier, String>> conditions = cucc.getCondition().getPatternConditions();
+    for (Map<ColumnIdentifier, String> condition : conditions) {
+      int columnCount = 0;
+      for (ColumnIdentifier column : header) {
+        if (condition.containsKey(column)) {
+          String value = condition.get(column);
+          table.setText(rowCount, columnCount, value);
+        } else {
+          table.setText(rowCount, columnCount, "-");
+        }
+        columnCount++;
+      }
+      rowCount++;
+    }
+    return table;
   }
 }

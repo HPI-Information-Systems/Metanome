@@ -16,10 +16,8 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextArea;
@@ -30,10 +28,11 @@ import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.DatabaseConnectionService;
-import de.metanome.frontend.client.services.DatabaseConnectionServiceAsync;
-import de.metanome.frontend.client.services.TableInputService;
-import de.metanome.frontend.client.services.TableInputServiceAsync;
+import de.metanome.frontend.client.services.DatabaseConnectionRestService;
+import de.metanome.frontend.client.services.TableInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,22 +44,26 @@ import java.util.Map;
  */
 public class TableInputEditForm extends Grid {
 
-  private final DatabaseConnectionServiceAsync databaseConnectionService;
+  private final DatabaseConnectionRestService databaseConnectionService;
   protected Map<String, DatabaseConnection> dbMap = new HashMap<>();
+  protected Map<String, Integer> dbUsageMap = new HashMap<>();
   protected ListBoxInput dbConnectionListBox;
   protected TextBox tableNameTextbox;
   protected TextArea commentTextbox;
-  private TableInputServiceAsync tableInputService;
+  private TableInputRestService tableInputService;
   private TabWrapper messageReceiver;
   private TableInputTab parent;
+  private Button saveButton;
+  private Button updateButton;
+  private TableInput oldTableInput;
 
   public TableInputEditForm(TableInputTab parent) {
     super(4, 2);
 
     this.parent = parent;
 
-    this.databaseConnectionService = GWT.create(DatabaseConnectionService.class);
-    this.tableInputService = GWT.create(TableInputService.class);
+    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
+    this.tableInputService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
 
     this.dbConnectionListBox = new ListBoxInput(false);
     updateDatabaseConnectionListBox();
@@ -76,12 +79,19 @@ public class TableInputEditForm extends Grid {
     this.setText(2, 0, "Comment");
     this.setWidget(2, 1, this.commentTextbox);
 
-    this.setWidget(3, 1, new Button("Save", new ClickHandler() {
+    this.saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveTableInput();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submitUpdate();
+      }
+    });
+    this.setWidget(3, 1, saveButton);
   }
 
   /**
@@ -128,15 +138,17 @@ public class TableInputEditForm extends Grid {
    * Get all database connection from the database and add them to the list box
    */
   public void updateDatabaseConnectionListBox() {
-    AsyncCallback<List<DatabaseConnection>>
+    MethodCallback<List<DatabaseConnection>>
         callback =
-        new AsyncCallback<List<DatabaseConnection>>() {
+        new MethodCallback<List<DatabaseConnection>>() {
 
-          public void onFailure(Throwable caught) {
-            messageReceiver.addErrorHTML("There are no database connections in the database: " + caught.getMessage());
+          public void onFailure(Method method, Throwable caught) {
+            messageReceiver.addError(
+                "There are no database connections in the database: " + method.getResponse()
+                    .getText());
           }
 
-          public void onSuccess(List<DatabaseConnection> result) {
+          public void onSuccess(Method method, List<DatabaseConnection> result) {
             List<String> dbConnectionNames = new ArrayList<String>();
             dbConnectionNames.add("--");
 
@@ -152,6 +164,7 @@ public class TableInputEditForm extends Grid {
             dbConnectionListBox.setValues(dbConnectionNames);
             dbConnectionListBox.disableFirstEntry();
           }
+
         };
 
     databaseConnectionService.listDatabaseConnections(callback);
@@ -173,24 +186,104 @@ public class TableInputEditForm extends Grid {
   private void saveTableInput() {
     messageReceiver.clearErrors();
     try {
-      this.tableInputService.storeTableInput(this.getValue(), new AsyncCallback<TableInput>() {
+      this.tableInputService.storeTableInput(this.getValue(), new MethodCallback<TableInput>() {
         @Override
-        public void onFailure(Throwable throwable) {
-          messageReceiver.addErrorHTML("Table Input could not be stored: " + throwable.getMessage());
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver
+              .addError("Table Input could not be stored: " + method.getResponse().getText());
         }
 
         @Override
-        public void onSuccess(TableInput input) {
+        public void onSuccess(Method method, TableInput input) {
           reset();
+          increaseDatabaseConnectionUsage(input.getDatabaseConnection().getIdentifier());
           parent.addTableInputToTable(input);
-          parent.setEnableOfDeleteButton(input.getDatabaseConnection(), false);
+          parent.setEnableOfButtons(input.getDatabaseConnection(), false);
           parent.updateDataSourcesOnRunConfiguration();
         }
+
       });
     } catch (InputValidationException e) {
-      messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
     }
   }
+
+  /**
+   * Increase the number of references a database connection has to table inputs.
+   * @param identifier the identifier of the database connection
+   */
+  public void increaseDatabaseConnectionUsage(String identifier) {
+    if (dbUsageMap.containsKey(identifier)) {
+      Integer usage = dbUsageMap.get(identifier) + 1;
+      if (usage == 1)  {
+        parent.setEnableOfButtons(dbMap.get(identifier), false);
+      }
+      dbUsageMap.put(identifier, usage);
+    } else {
+      dbUsageMap.put(identifier, 1);
+      parent.setEnableOfButtons(dbMap.get(identifier), false);
+    }
+  }
+
+  /**
+   * Decreases the number of references a database connection has to table inputs.
+   * @param identifier the identifier of the database connection
+   */
+  public void decreaseDatabaseConnectionUsage(String identifier) {
+    Integer usage = Math.max(dbUsageMap.get(identifier) - 1, 0);
+    if (usage == 0) {
+      parent.setEnableOfButtons(dbMap.get(identifier), true);
+    }
+    dbUsageMap.put(identifier, usage);
+  }
+
+  /**
+   * Updates the current table input in the database.
+   */
+  private void submitUpdate() {
+    messageReceiver.clearErrors();
+    try {
+      this.tableInputService.updateTableInput(this.getValue().setId(oldTableInput.getId()), new MethodCallback<TableInput>() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver
+              .addError("Table Input could not be updated: " + method.getResponse().getText());
+          reset();
+          showSaveButton();
+        }
+
+        @Override
+        public void onSuccess(Method method, TableInput input) {
+          reset();
+          showSaveButton();
+          if (!input.getIdentifier().equals(oldTableInput.getIdentifier())) {
+            increaseDatabaseConnectionUsage(input.getIdentifier());
+            decreaseDatabaseConnectionUsage(oldTableInput.getIdentifier());
+          }
+          parent.updateTableInputInTable(input, oldTableInput);
+          parent.updateDataSourcesOnRunConfiguration();
+        }
+
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
+  }
+
+
+  /**
+   * Fills the form with the values of the current table input, which should be updated.
+   * @param tableInput the table input
+   */
+  public void updateTableInput(TableInput tableInput) {
+    setValues(tableInput.getDatabaseConnection().getIdentifier(),
+              tableInput.getTableName(),
+              tableInput.getComment());
+
+    this.setWidget(3, 1, updateButton);
+    this.oldTableInput = tableInput;
+  }
+
 
   public void addDatabaseConnection(DatabaseConnection connection) {
     String
@@ -204,6 +297,13 @@ public class TableInputEditForm extends Grid {
         identifier = connection.getIdentifier();
     this.dbConnectionListBox.removeValue(identifier);
     this.dbMap.remove(connection);
+  }
+
+  /**
+   * Shows the save button.
+   */
+  protected void showSaveButton() {
+    this.setWidget(3, 1, saveButton);
   }
 
   /**

@@ -14,15 +14,22 @@
 
 package de.metanome.algorithm_integration.results;
 
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Represents an order dependency.
  *
  * @author Philipp Langer
  */
+@JsonTypeName("OrderDependency")
 public class OrderDependency implements Result {
 
   public static enum ComparisonOperator {
@@ -33,15 +40,14 @@ public class OrderDependency implements Result {
   }
 
   public static final String OD_SEPARATOR = "~~>";
-  private static final long serialVersionUID = 8780488672271071564L;
+
   protected ComparisonOperator comparisonOperator;
   protected ColumnPermutation lhs;
-
   protected OrderType orderType;
   protected ColumnPermutation rhs;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   protected OrderDependency() {
     this.lhs = new ColumnPermutation();
@@ -56,6 +62,38 @@ public class OrderDependency implements Result {
     this.rhs = rhs;
     this.orderType = orderType;
     this.comparisonOperator = comparisonOperator;
+  }
+
+  public void setLhs(final ColumnPermutation lhs) {
+    this.lhs = lhs;
+  }
+
+  public void setOrderType(final OrderType orderType) {
+    this.orderType = orderType;
+  }
+
+  public void setRhs(final ColumnPermutation rhs) {
+    this.rhs = rhs;
+  }
+
+  public void setComparisonOperator(final ComparisonOperator comparisonOperator) {
+    this.comparisonOperator = comparisonOperator;
+  }
+
+  public ComparisonOperator getComparisonOperator() {
+    return comparisonOperator;
+  }
+
+  public ColumnPermutation getLhs() {
+    return lhs;
+  }
+
+  public OrderType getOrderType() {
+    return orderType;
+  }
+
+  public ColumnPermutation getRhs() {
+    return rhs;
   }
 
   @Override
@@ -93,22 +131,6 @@ public class OrderDependency implements Result {
     return true;
   }
 
-  public ComparisonOperator getComparisonOperator() {
-    return comparisonOperator;
-  }
-
-  public ColumnPermutation getLhs() {
-    return lhs;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
-  }
-
-  public ColumnPermutation getRhs() {
-    return rhs;
-  }
-
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -121,30 +143,14 @@ public class OrderDependency implements Result {
   }
 
   @Override
+  @XmlTransient
   public void sendResultTo(final OmniscientResultReceiver resultReceiver)
       throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
-  public void setComparisonOperator(final ComparisonOperator comparisonOperator) {
-    this.comparisonOperator = comparisonOperator;
-  }
-
-  public void setLhs(final ColumnPermutation lhs) {
-    this.lhs = lhs;
-  }
-
-  public void setOrderType(final OrderType orderType) {
-    this.orderType = orderType;
-  }
-
-  public void setRhs(final ColumnPermutation rhs) {
-    this.rhs = rhs;
-  }
-
   @Override
   public String toString() {
-
     String orderTypeStringified = "";
     String comparisonOperatorStringified = "";
 
@@ -172,6 +178,41 @@ public class OrderDependency implements Result {
     + orderTypeStringified + "]" + rhs;
   }
 
+  public static OrderDependency fromString(String str) {
+    String splitMarker = "#####";
+    str = str.replace(OD_SEPARATOR, splitMarker);
+    String lhsStr = str.split(splitMarker)[0].trim();
+    str = str.substring(lhsStr.length() + splitMarker.length() + 1);
+    String comparisonOperatorStr = str.split(",")[0].trim();
+    String orderTypeStr = str.split(",")[1].split("\\]")[0].trim();
+    String rhsStr = str.substring(comparisonOperatorStr.length() + 1 + orderTypeStr.length() + 1).trim();
 
+    OrderType orderType = null;
+    switch (orderTypeStr) {
+      case "lex":
+        orderType = OrderType.LEXICOGRAPHICAL;
+        break;
+      case "pnt":
+        orderType = OrderType.POINTWISE;
+        break;
+      default:
+    }
+
+    ComparisonOperator comparisonOperator = null;
+    switch (comparisonOperatorStr) {
+      case "<=":
+        comparisonOperator = ComparisonOperator.SMALLER_EQUAL;
+        break;
+      case "<":
+        comparisonOperator = ComparisonOperator.STRICTLY_SMALLER;
+        break;
+      default:
+    }
+
+    return new OrderDependency(ColumnPermutation.fromString(lhsStr),
+                        ColumnPermutation.fromString(rhsStr),
+                        orderType,
+                        comparisonOperator);
+  }
 
 }

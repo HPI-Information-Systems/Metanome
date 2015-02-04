@@ -16,12 +16,10 @@
 
 package de.metanome.frontend.client.datasources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -40,8 +38,10 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
-import de.metanome.frontend.client.services.FileInputService;
-import de.metanome.frontend.client.services.FileInputServiceAsync;
+import de.metanome.frontend.client.services.FileInputRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -73,13 +73,15 @@ public class FileInputEditForm extends Grid {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
   protected TextArea commentTextArea;
-  private FileInputServiceAsync fileInputService;
+  private FileInputRestService fileInputService;
   private FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
-
   private List<String> filesOnStorage;
   private List<String> filesInDatabase;
+  private Button saveButton;
+  private Button updateButton;
+  private FileInput oldFileInput;
 
   /**
    * Constructor. Set up all UI elements.
@@ -88,7 +90,7 @@ public class FileInputEditForm extends Grid {
     super(3, 2);
 
     this.parent = parent;
-    this.fileInputService = GWT.create(FileInputService.class);
+    this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
 
     Grid standardPanel = new Grid(3, 3);
     this.setWidget(0, 0, standardPanel);
@@ -151,12 +153,54 @@ public class FileInputEditForm extends Grid {
 
     setDefaultAdvancedSettings();
 
-    this.setWidget(2, 0, new Button("Save", new ClickHandler() {
+    this.saveButton = new Button("Save", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         saveFileInput();
       }
-    }));
+    });
+    this.updateButton = new Button("Update", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        submitUpdate();
+      }
+    });
+    this.setWidget(2, 0, saveButton);
+  }
+
+  /**
+   * Updates the current file input in the database.
+   */
+  private void submitUpdate() {
+    messageReceiver.clearErrors();
+    try {
+      this.fileInputService.updateFileInput(this.getValue().setId(oldFileInput.getId()), new MethodCallback<FileInput>() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver.addError("File Input could not be updated: " + method.getResponse().getText());
+          reset();
+          showSaveButton();
+          advancedTable.setVisible(false);
+          advancedCheckbox.setValue(false);
+          setDefaultAdvancedSettings();
+          updateListbox();
+        }
+
+        @Override
+        public void onSuccess(Method method, FileInput input) {
+          reset();
+          showSaveButton();
+          parent.updateFileInputInTable(input, oldFileInput);
+          parent.updateDataSourcesOnRunConfiguration();
+          advancedTable.setVisible(false);
+          advancedCheckbox.setValue(false);
+          setDefaultAdvancedSettings();
+          updateListbox();
+        }
+      });
+    } catch (InputValidationException e) {
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
+    }
   }
 
   /**
@@ -165,14 +209,15 @@ public class FileInputEditForm extends Grid {
   private void saveFileInput() {
     messageReceiver.clearErrors();
     try {
-      this.fileInputService.storeFileInput(this.getValue(), new AsyncCallback<FileInput>() {
+      this.fileInputService.storeFileInput(this.getValue(), new MethodCallback<FileInput>() {
         @Override
-        public void onFailure(Throwable throwable) {
-          messageReceiver.addErrorHTML("File Input could not be stored: " + throwable.getMessage());
+        public void onFailure(Method method, Throwable throwable) {
+          messageReceiver
+              .addError("File Input could not be stored: " + method.getResponse().getText());
         }
 
         @Override
-        public void onSuccess(FileInput input) {
+        public void onSuccess(Method method, FileInput input) {
           reset();
           parent.addFileInputToTable(input);
           parent.updateDataSourcesOnRunConfiguration();
@@ -183,7 +228,7 @@ public class FileInputEditForm extends Grid {
         }
       });
     } catch (InputValidationException e) {
-      messageReceiver.addErrorHTML("Invalid Input: " + e.getMessage());
+      messageReceiver.addError("Invalid Input: " + e.getMessage());
     }
   }
 
@@ -261,19 +306,20 @@ public class FileInputEditForm extends Grid {
     this.filesInDatabase = new ArrayList<>();
 
     // Add available CSV files
-    AsyncCallback<String[]> storageCallback = getStorageCallback();
-    AsyncCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
-    FileInputServiceAsync service = GWT.create(FileInputService.class);
+    MethodCallback<List<String>> storageCallback = getStorageCallback();
+    MethodCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
+    FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     service.listFileInputs(databaseCallback);
     service.listCsvFiles(storageCallback);
   }
 
-  private AsyncCallback<List<FileInput>> getDatabaseCallback() {
-    return new AsyncCallback<List<FileInput>>() {
-      public void onFailure(Throwable caught) {
+  private MethodCallback<List<FileInput>> getDatabaseCallback() {
+    return new MethodCallback<List<FileInput>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError(method.getResponse().getText());
       }
 
-      public void onSuccess(List<FileInput> result) {
+      public void onSuccess(Method method, List<FileInput> result) {
         List<String> fileNames = new ArrayList<>();
 
         for (FileInput input : result)
@@ -296,22 +342,24 @@ public class FileInputEditForm extends Grid {
    *
    * @return the callback
    */
-  protected AsyncCallback<String[]> getStorageCallback() {
-    return new AsyncCallback<String[]>() {
-      public void onFailure(Throwable caught) {
-        messageReceiver.addErrorHTML("Could not find CSV files! Please add them to the input folder.");
+  protected MethodCallback<List<String>> getStorageCallback() {
+    return new MethodCallback<List<String>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver
+            .addError("Could not find CSV files! Please add them to the input folder.");
       }
 
-      public void onSuccess(String[] result) {
+      @Override
+      public void onSuccess(Method method, List<String> result) {
         List<String> fileNames = new ArrayList<>();
 
-        if (result.length == 0) {
+        if (result.size() == 0) {
           messageReceiver
               .addError("Could not find CSV files! Please add them to the input folder.");
           return;
         }
 
-        path = FilePathHelper.getFilePath(result[0]);
+        path = FilePathHelper.getFilePath(result.get(0));
 
         for (String path : result) {
           if (filesInDatabase.size() > 0 && !filesInDatabase.contains(path)) {
@@ -375,7 +423,7 @@ public class FileInputEditForm extends Grid {
    *
    * @return the character of the text box
    */
-  private char getChar(TextBox textBox) throws InputValidationException {
+  protected char getChar(TextBox textBox) throws InputValidationException {
     String value = textBox.getValue();
 
     if (value.length() != 1) {
@@ -443,6 +491,37 @@ public class FileInputEditForm extends Grid {
     this.commentTextArea.setText("");
     this.fileListBox.reset();
     this.setDefaultAdvancedSettings();
+  }
+
+  /**
+   * Fills the form with the values of the file input, which should be updated.
+   * @param fileInput the file input
+   */
+  public void updateFileInput(FileInput fileInput) {
+    this.updateListbox();
+
+    setFileName(FilePathHelper.getFileName(fileInput.getFileName()));
+
+    commentTextArea.setText(fileInput.getComment());
+
+    setSeparator(fileInput.getSeparator());
+    setQuotechar(fileInput.getQuotechar());
+    setEscapechar(fileInput.getEscapechar());
+    setSkipLines(fileInput.getSkipLines());
+    setStrictQuotes(fileInput.isStrictQuotes());
+    setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace());
+    setHasHeader(fileInput.isHasHeader());
+    setSkipDifferingLines(fileInput.isSkipDifferingLines());
+
+    this.setWidget(2, 0, updateButton);
+    this.oldFileInput = fileInput;
+  }
+
+  /**
+   * Shows the save button.
+   */
+  public void showSaveButton() {
+    this.setWidget(2, 0, saveButton);
   }
 
   /**

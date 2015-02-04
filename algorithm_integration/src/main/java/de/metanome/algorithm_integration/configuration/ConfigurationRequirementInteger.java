@@ -19,7 +19,12 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Concrete {@link ConfigurationRequirement} for integers.
@@ -27,12 +32,13 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  * @author Tanja Bergmann
  * @see ConfigurationRequirement
  */
+@JsonTypeName("ConfigurationRequirementInteger")
 public class ConfigurationRequirementInteger extends ConfigurationRequirement {
 
   private ConfigurationSettingInteger[] settings;
 
   /**
-   * Exists for GWT serialization.
+   * Exists for serialization.
    */
   public ConfigurationRequirementInteger() {
   }
@@ -63,6 +69,13 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
   public ConfigurationSettingInteger[] getSettings() {
     return this.settings;
   }
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(ConfigurationSettingInteger... settings) {
+    this.settings = settings;
+  }
 
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
@@ -71,7 +84,8 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
    * settings does not match the expected number of settings
    */
-  public void setSettings(ConfigurationSettingInteger... settings)
+  @XmlTransient
+  public void checkAndSetSettings(ConfigurationSettingInteger... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
@@ -81,6 +95,7 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
    * {@inheritDoc}
    */
   @Override
+  @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

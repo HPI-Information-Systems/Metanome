@@ -16,10 +16,7 @@
 
 package de.metanome.frontend.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,9 +28,8 @@ import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
-import de.metanome.frontend.client.services.AlgorithmService;
-import de.metanome.frontend.client.services.AlgorithmServiceAsync;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -105,7 +101,7 @@ public class GwtTestBasePage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-  /**
+/**
    * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
    * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
    * control flow from Algorithms to Run configuration
@@ -114,57 +110,38 @@ public class GwtTestBasePage extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    final String algorithmName = "some_name";
     final BasePage page = new BasePage();
-    Algorithm
-        a =
-        new Algorithm("example_holistic_algorithm.jar").setAuthor("author").setName(algorithmName);
-    algorithms.add(a);
 
-    page.addAlgorithmsToRunConfigurations(algorithms);
+    final String algorithmName = "some_name";
+    Algorithm algorithm1 = new Algorithm("example_ind_algorithm.jar");
+    algorithm1.setName(algorithmName);
+    algorithm1.setFileInput(true);
+    Algorithm algorithm2 = new Algorithm("some_other_file");
+    algorithm2.setName("some_other_name");
 
-    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        caught.printStackTrace();
-        fail();
-      }
+    List<Algorithm> list = new ArrayList<>();
+    list.add(algorithm1);
+    list.add(algorithm2);
 
-      @Override
-      public void onSuccess(List<Algorithm> result) {
-        page.addAlgorithmsToRunConfigurations(result);
+    page.addAlgorithmsToRunConfigurations(list);
 
-        // Execute
-        page.switchToRunConfiguration(algorithmName, null);
-      }
-    };
+    // Execute
+    page.switchToRunConfiguration(algorithmName, null);
 
-    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
+    // Check
+    RunConfigurationPage runPage = getRunConfigurationPage(page);
 
-    Timer timer = new Timer() {
-      @Override
-      public void run() {
-        RunConfigurationPage runPage = getRunConfigurationPage(page);
+    assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+    assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
+    // assertNotNull(runPage.parameterTable);
+    // assertEquals(4, runPage.getWidgetCount());
 
-        // Check
-        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-        assertEquals(algorithmName, runPage.getCurrentlySelectedAlgorithm());
-        assertNotNull(runPage.parameterTable);
-        assertEquals(4, runPage.getWidgetCount());
-
-        // Cleanup
-        TestHelper.resetDatabaseSync();
-
-        finishTest();
-      }
-    };
-
-    timer.schedule(1000);
-
-    delayTestFinish(2000);
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
-  /**
+
+/**
    * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
    * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
    * control flow from Data sources to Run configuration
@@ -177,34 +154,23 @@ public class GwtTestBasePage extends GWTTestCase {
     dataSource.setFileName(dataSourceName);
     final ConfigurationSettingFileInput finalDataSource = dataSource;
 
-    AsyncCallback<List<Algorithm>> callback = new AsyncCallback<List<Algorithm>>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        caught.printStackTrace();
-      }
+    Algorithm algorithm = new Algorithm("some_file");
+    algorithm.setName("algorithm");
 
-      @Override
-      public void onSuccess(List<Algorithm> result) {
-        page.addAlgorithmsToRunConfigurations(result);
+    List<Algorithm> list = new ArrayList<>();
+    list.add(algorithm);
 
-        // Execute
-        page.switchToRunConfiguration(null, finalDataSource);
+    page.addAlgorithmsToRunConfigurations(list);
 
-        RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
+    // Execute
+    page.switchToRunConfiguration(null, finalDataSource);
 
-        // Check
-        assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
-        assertEquals(finalDataSource.getValueAsString(),
-                     runConfigPage.primaryDataSource.getValueAsString());
-        // TODO assert correct filtering
+    // Check
+    RunConfigurationPage runConfigPage = getRunConfigurationPage(page);
 
-        finishTest();
-      }
-    };
-
-    ((AlgorithmServiceAsync) GWT.create(AlgorithmService.class)).listAllAlgorithms(callback);
-
-    delayTestFinish(1000);
+    assertEquals(Tabs.RUN_CONFIGURATION.ordinal(), page.getSelectedIndex());
+    assertEquals(finalDataSource.getValueAsString(),
+                 runConfigPage.primaryDataSource.getValueAsString());
   }
 
   private RunConfigurationPage getRunConfigurationPage(final BasePage page) {
