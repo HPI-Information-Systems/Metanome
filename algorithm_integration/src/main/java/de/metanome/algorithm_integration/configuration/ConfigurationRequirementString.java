@@ -32,10 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementString")
-public class ConfigurationRequirementString extends ConfigurationRequirement {
+public class ConfigurationRequirementString extends ConfigurationRequirementDefaultValue<String> {
 
   private ConfigurationSettingString[] settings;
-  private String[] defaultValues;
 
   /**
    * Exists for GWT serialization.
@@ -44,7 +43,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   }
 
   /**
-   * Construct a ConfigurationSepcificationString, requesting 1 value.
+   * Construct a ConfigurationSpecificationString, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
@@ -88,19 +87,6 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   public void setSettings(ConfigurationSettingString... settings) {
     this.settings = settings;
   }
-  /**
-   * Exists only for serialization!
-   */
-  public String[] getDefaultValues() {
-    return defaultValues;
-  }
-  /**
-   * Exists only for serialization!
-   * @param defaultValues the default values
-   */
-  public void setDefaultValues(String[] defaultValues) {
-    this.defaultValues = defaultValues;
-  }
 
   /**
    * Sets the actual settings on the requirement if the number of settings is correct.
@@ -129,27 +115,11 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   }
 
   /**
-   * Sets the default values.
-   * @throws AlgorithmConfigurationException if the number of default values does not match with the number of settings
-   */
-  @XmlTransient
-  public void checkAndSetDefaultValues(String... values) throws AlgorithmConfigurationException {
-    try {
-      checkNumberOfSettings(values.length);
-    } catch (AlgorithmConfigurationException e) {
-      throw new AlgorithmConfigurationException(
-          "The number of default values does not match with the number of settings.");
-    }
-
-    this.defaultValues = values;
-    applyDefaultValues();
-  }
-
-  /**
    * Sets the default values on the settings, if both are set.
    */
   @XmlTransient
-  private void applyDefaultValues() {
+  @Override
+  public void applyDefaultValues() {
     if (this.defaultValues == null || this.settings == null ||
         this.defaultValues.length != this.settings.length)
       return;
@@ -157,16 +127,5 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
     for (int i = 0; i < this.settings.length; i++) {
       this.settings[i].setValue(this.defaultValues[i]);
     }
-  }
-
-  /**
-   * @param index the index of the setting
-   * @return the default value of the specific setting
-   */
-  @XmlTransient
-  public String getDefaultValue(int index) {
-    if (defaultValues != null && defaultValues.length > index)
-      return this.defaultValues[index];
-    return null;
   }
 }

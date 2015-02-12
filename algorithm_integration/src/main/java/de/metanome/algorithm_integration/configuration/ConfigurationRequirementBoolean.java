@@ -33,10 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementBoolean")
-public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
+public class ConfigurationRequirementBoolean extends ConfigurationRequirementDefaultValue<Boolean> {
 
   public ConfigurationSettingBoolean[] settings;
-  private Boolean[] defaultValues;
 
   /**
    * Exists for serialization.
@@ -83,38 +82,11 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
   }
 
   /**
-   * Sets the default values.
-   * @throws AlgorithmConfigurationException if the number of default values does not match with the number of settings
-   */
-  @XmlTransient
-  public void checkAndSetDefaultValues(Boolean... values) throws AlgorithmConfigurationException {
-    try {
-      checkNumberOfSettings(values.length);
-    } catch (AlgorithmConfigurationException e) {
-      throw new AlgorithmConfigurationException(
-          "The number of default values does not match with the number of settings.");
-    }
-
-    this.defaultValues = values;
-    applyDefaultValues();
-  }
-
-  /**
-   * @param index the index of the setting
-   * @return the default value of the specific setting
-   */
-  @XmlTransient
-  public Boolean getDefaultValue(int index) {
-    if (defaultValues != null && defaultValues.length > index)
-      return this.defaultValues[index];
-    return null;
-  }
-
-  /**
    * Sets the default values on the settings, if both are set.
    */
   @XmlTransient
-  private void applyDefaultValues() {
+  @Override
+  public void applyDefaultValues() {
     if (this.defaultValues == null || this.settings == null ||
         this.defaultValues.length != this.settings.length)
       return;
@@ -130,19 +102,6 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
    */
   public void setSettings(ConfigurationSettingBoolean... settings) {
     this.settings = settings;
-  }
-  /**
-   * Exists only for serialization!
-   */
-  public Boolean[] getDefaultValues() {
-    return defaultValues;
-  }
-  /**
-   * Exists only for serialization!
-   * @param defaultValues the default values
-   */
-  public void setDefaultValues(Boolean[] defaultValues) {
-    this.defaultValues = defaultValues;
   }
 
   /**

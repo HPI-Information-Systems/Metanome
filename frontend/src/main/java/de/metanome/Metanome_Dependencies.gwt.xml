@@ -43,6 +43,7 @@
         <include name="ConfigurationSettingListBox.java"/>
         <include name="ConfigurationSettingRelationalInput.java"/>
         <include name="ConfigurationRequirement.java"/>
+        <include name="ConfigurationRequirementDefaultValue.java"/>
         <include name="ConfigurationRequirementBoolean.java"/>
         <include name="ConfigurationRequirementFileInput.java"/>
         <include name="ConfigurationRequirementTableInput.java"/>
