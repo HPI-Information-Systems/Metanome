@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
+import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 
 import java.util.LinkedList;
@@ -66,7 +67,11 @@ public class ParameterTable extends FlowPanel {
     table = new FlexTable();
     int row = 0;
     for (ConfigurationRequirement param : paramList) {
-      table.setText(row, 0, param.getIdentifier());
+      if (param.isRequired()) {
+        table.setText(row, 0, param.getIdentifier() + " *");
+      } else {
+        table.setText(row, 0, param.getIdentifier());
+      }
 
       InputParameterWidget currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
       table.setWidget(row, 1, currentWidget);
@@ -88,6 +93,8 @@ public class ParameterTable extends FlowPanel {
       }
       row++;
     }
+
+    table.setText(row, 0, "* are required fields");
 
     FlowPanel radioBoxPanel = new FlowPanel();
     radioBoxPanel.addStyleName("radioBoxPanel");
@@ -130,7 +137,23 @@ public class ParameterTable extends FlowPanel {
       getAlgorithmTab().startExecution(parameters, dataSources, cacheResult, writeResult, countResult);
     } catch (InputValidationException | AlgorithmConfigurationException e) {
       this.messageReceiver.clearErrors();
+      // mark required input fields
+      for (InputParameterWidget widget : this.childWidgets) {
+        markAsRequired(widget);
+      }
+      for (InputParameterWidget widget : this.dataSourceChildWidgets) {
+        markAsRequired(widget);
+      }
+      this.messageReceiver.addError("You have to fill out all required input fields:");
       this.messageReceiver.addError(e.getMessage());
+    }
+  }
+
+  private void markAsRequired(InputParameterWidget widget) {
+    for (InputField inputField : widget.getInputWidgets()) {
+      if (inputField.isRequired) {
+        inputField.addStyleName("required");
+      }
     }
   }
 

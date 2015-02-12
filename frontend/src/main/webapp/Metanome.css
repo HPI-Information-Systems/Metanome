@@ -57,6 +57,10 @@ h3 {
     float: left;
 }
 
+.required {
+    border: 1px solid darkred;
+}
+
 .resultTable {
     border-collapse: collapse;
 }

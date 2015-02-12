@@ -116,7 +116,7 @@ public class ExampleAlgorithm
   public void setFileInputConfigurationValue(String identifier,
                                              FileInputGenerator... values)
       throws AlgorithmConfigurationException {
-    if (identifier.equals(CSVFILE_IDENTIFIER)) {
+    if (!identifier.equals(CSVFILE_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
