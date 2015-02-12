@@ -90,7 +90,7 @@ public class GwtTestParameterTable extends GWTTestCase {
     ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
     //Check
-    assertEquals(5, pt.table.getRowCount());
+    assertEquals(6, pt.table.getRowCount());
 
     // - STRING row
     assertEquals(2, pt.table.getCellCount(0));
