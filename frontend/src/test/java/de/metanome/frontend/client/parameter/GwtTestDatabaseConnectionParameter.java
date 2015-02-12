@@ -126,6 +126,28 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
+    int maxValue = 5;
+    ConfigurationRequirementDatabaseConnection
+        specification =
+        new ConfigurationRequirementDatabaseConnection("database connection", 3, maxValue);
+
+    //Execute
+    InputParameterDatabaseConnectionWidget
+        widget =
+        new InputParameterDatabaseConnectionWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
+  }
+
   @Override
   public String getModuleName() {
     return "de.metanome.frontend.client.MetanomeTest";

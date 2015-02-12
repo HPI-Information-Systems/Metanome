@@ -25,6 +25,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterListBoxWidget extends InputParameterWidget {
@@ -60,15 +61,16 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
 
   protected ConfigurationSettingListBox[] getConfigurationSettings()
       throws InputValidationException {
-    ConfigurationSettingListBox[]
-        values =
-        new ConfigurationSettingListBox[this.inputWidgets.size()];
-    int i = 0;
+    List<ConfigurationSettingListBox> values = new ArrayList<>();
+
     for (ListBoxInput lbi : this.inputWidgets) {
-      values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
-      i++;
+      String current = lbi.getSelectedValue();
+      if (current != null) {
+        values.add(new ConfigurationSettingListBox(current));
+      }
     }
-    return values;
+
+    return values.toArray(new ConfigurationSettingListBox[values.size()]);
   }
 
 

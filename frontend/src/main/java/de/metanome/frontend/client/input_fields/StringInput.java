@@ -47,8 +47,13 @@ public class StringInput extends InputField {
   public String getValue() throws InputValidationException {
     String input = this.textbox.getValue();
 
-    if (input.isEmpty() && isRequired)
-      throw new InputValidationException("You have to enter a value!");
+    if (input.isEmpty()) {
+      if (isRequired) {
+        throw new InputValidationException("You have to enter a value!");
+      } else {
+        return null;
+      }
+    }
 
     return input;
   }

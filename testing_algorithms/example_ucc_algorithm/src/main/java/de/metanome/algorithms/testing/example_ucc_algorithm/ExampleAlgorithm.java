@@ -56,8 +56,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
         STRING_IDENTIFIER, 2);
     requirementString.setRequired(true);
     ConfigurationRequirementFileInput requirementFile = new ConfigurationRequirementFileInput(
-        FILE_IDENTIFIER, 1, 4);
-    requirementFile.setRequired(true);
+        FILE_IDENTIFIER, 3, 5);
+    requirementFile.setRequired(false);
     ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(
         INTEGER_IDENTIFIER, 1);
     requirementInteger.setDefaultValues(new Integer[]{3});
@@ -79,7 +79,6 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
             new ColumnIdentifier("table1", "column1"),
             new ColumnIdentifier("table2", "column2")));
       } catch (CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
@@ -115,7 +114,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   @Override
   public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
       throws AlgorithmConfigurationException {
-    if (!identifier.equals(FILE_IDENTIFIER) && values.length < 1 && values.length > 4) {
+    if (!identifier.equals(FILE_IDENTIFIER) && values.length < 3 && values.length > 5) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }

@@ -19,9 +19,9 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.StringInput;
@@ -70,6 +70,28 @@ public class GwtTestStringParameter extends GWTTestCase {
     assertEquals(1, widget.inputWidgets.size());        //expecting one default input field
     assertEquals(widget.getWidgetCount(), 2);            //default input field + add button
     assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
+  }
+
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
+    int maxValue = 5;
+    ConfigurationRequirementString
+        specification =
+        new ConfigurationRequirementString("string", 3, maxValue);
+
+    //Execute
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
   }
 
   /**

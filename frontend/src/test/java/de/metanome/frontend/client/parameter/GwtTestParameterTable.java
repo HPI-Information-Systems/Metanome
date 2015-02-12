@@ -163,6 +163,15 @@ public class GwtTestParameterTable extends GWTTestCase {
         ConfigurationSpecificationTableInput =
         new ConfigurationRequirementTableInput("table");
 
+    ConfigurationSpecificationString.setRequired(false);
+    ConfigurationSpecificationBoolean.setRequired(false);
+    ConfigurationSpecificationCsvFile.setRequired(false);
+    ConfigurationSpecificationSQLIterator.setRequired(false);
+    ConfigurationSpecificationInteger.setRequired(false);
+    ConfigurationSpecificationListBox.setRequired(false);
+    ConfigurationSpecificationRelationalInput.setRequired(false);
+    ConfigurationSpecificationTableInput.setRequired(false);
+
     paramList.add(ConfigurationSpecificationString);
     paramList.add(ConfigurationSpecificationBoolean);
     paramList.add(ConfigurationSpecificationCsvFile);
@@ -217,9 +226,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     FileInput fileInput = new FileInput("name");
 
     for (FileInputInput fileInputInput : widget.inputWidgets) {
-      fileInputInput.listbox.addValue("name");
+      fileInputInput.listBox.addValue("name");
       fileInputInput.fileInputs.put("name", fileInput);
-      fileInputInput.listbox.setSelectedValue("name");
+      fileInputInput.listBox.setSelectedValue("name");
     }
   }
 

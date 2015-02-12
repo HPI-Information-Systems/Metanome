@@ -59,7 +59,7 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER));
+    ConfigurationRequirementFileInput requirementFileInput = new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
     ConfigurationRequirementString requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
     ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
     try {
@@ -69,6 +69,11 @@ public class ExampleAlgorithm
       e.printStackTrace();
     }
 
+    requirementFileInput.setRequired(true);
+    requirementFileInput.setRequired(true);
+    requirementFileInput.setRequired(true);
+
+    configurationRequirement.add(requirementFileInput);
     configurationRequirement.add(requirementString);
     configurationRequirement.add(requirementInteger);
 

@@ -99,20 +99,15 @@ public abstract class ConfigurationRequirement implements Serializable {
    * The min and max number of requested values is set.
    *
    * @param identifier          the specification's identifier
-   * @param minNumberOfSettings the minimum number of settings expected (included)
+   * @param minNumberOfSettings the minimum number of settings expected
    * @param maxNumberOfSettings the maximum number of settings expected (included)
    */
   public ConfigurationRequirement(String identifier, int minNumberOfSettings, int maxNumberOfSettings) {
     this.identifier = identifier;
     this.minNumberOfSettings = minNumberOfSettings;
     this.maxNumberOfSettings = maxNumberOfSettings;
-
-    this.required = false;
-
-    if (isFixNumberOfSettings())
-      this.numberOfSettings = minNumberOfSettings;
-    else
-      this.numberOfSettings = maxNumberOfSettings - minNumberOfSettings + 1;
+    this.numberOfSettings = maxNumberOfSettings;
+    this.required = true;
   }
 
   /**
@@ -164,7 +159,9 @@ public abstract class ConfigurationRequirement implements Serializable {
     return required;
   }
   /**
-   *
+   * If there is a fix number of settings and required is true, all settings has to be set.
+   * If a range of settings is given and required is true, the minimum number of settings has to
+   * be set.
    * @param required true, if the requirement is not optional
    */
   public void setRequired(boolean required) {
@@ -178,7 +175,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    */
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
-    if (this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
+    if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
         (number < this.minNumberOfSettings || number > this.maxNumberOfSettings))
       throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
   }

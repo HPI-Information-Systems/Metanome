@@ -26,6 +26,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.DatabaseConnectionInput;
 import de.metanome.frontend.client.input_fields.InputField;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterDatabaseConnectionWidget extends InputParameterDataSourceWidget {
@@ -55,15 +56,18 @@ public class InputParameterDatabaseConnectionWidget extends InputParameterDataSo
   public ConfigurationRequirement getUpdatedSpecification()
       throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingDatabaseConnection[]
+    List<ConfigurationSettingDatabaseConnection>
         values =
-        new ConfigurationSettingDatabaseConnection[inputWidgets.size()];
+        new ArrayList<>();
 
-    for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValues();
+    for (DatabaseConnectionInput inputWidget : inputWidgets) {
+      ConfigurationSettingDatabaseConnection current = inputWidget.getValues();
+      if (current != null) {
+        values.add(current);
+      }
     }
 
-    specification.setSettings(values);
+    specification.setSettings(values.toArray(new ConfigurationSettingDatabaseConnection[values.size()]));
 
     return this.specification;
   }

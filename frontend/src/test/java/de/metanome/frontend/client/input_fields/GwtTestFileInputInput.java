@@ -51,7 +51,7 @@ public class GwtTestFileInputInput extends GWTTestCase {
     // Check result
     assertEquals(expectedOptional, actualFileInputInput.isOptional);
     assertEquals(2, actualFileInputInput.getWidgetCount());
-    assertNotNull(actualFileInputInput.listbox);
+    assertNotNull(actualFileInputInput.listBox);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -75,7 +75,7 @@ public class GwtTestFileInputInput extends GWTTestCase {
     // Initialize CsvFileInput (waiting for fetching all current file inputs)
     final FileInputInput fileInputInputs = new FileInputInput(false, false, new TabWrapper());
 
-    fileInputInputs.listbox.addValue("filename");
+    fileInputInputs.listBox.addValue("filename");
     fileInputInputs.fileInputs.put("filename", fileInput);
 
     try {

@@ -49,15 +49,15 @@ public class GwtTestFileInputParameter extends GWTTestCase {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 
-    widget.listbox.addValue("--");
-    widget.listbox.addValue(aFileName);
+    widget.listBox.addValue("--");
+    widget.listBox.addValue(aFileName);
     widget.fileInputs.put(aFileName, fileInput);
 
     // Execute
     widget.selectDataSource(setting);
 
     //Check
-    assertEquals(aFileName, widget.listbox.getSelectedValue());
+    assertEquals(aFileName, widget.listBox.getSelectedValue());
     assertEquals(aFileName, widget.getValues().getFileName());
 
     // Cleanup
@@ -85,14 +85,14 @@ public class GwtTestFileInputParameter extends GWTTestCase {
         dataSourceWidget =
         new InputParameterFileInputWidget(configSpec, tabWrapper);
 
-    dataSourceWidget.inputWidgets.get(0).listbox.addValue(aFileName);
+    dataSourceWidget.inputWidgets.get(0).listBox.addValue(aFileName);
     dataSourceWidget.inputWidgets.get(0).fileInputs.put(aFileName, fileInput);
 
     // Execute
     dataSourceWidget.setDataSource(setting);
 
     // Check
-    assertTrue(((FileInputInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
+    assertTrue(((FileInputInput) dataSourceWidget.getWidget(0)).listBox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
     try {
@@ -108,6 +108,28 @@ public class GwtTestFileInputParameter extends GWTTestCase {
 
     // Cleanup
     TestHelper.resetDatabaseSync();
+  }
+
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
+    int maxValue = 5;
+    ConfigurationRequirementFileInput
+        specification =
+        new ConfigurationRequirementFileInput("file input", 3, maxValue);
+
+    //Execute
+    InputParameterFileInputWidget
+        widget =
+        new InputParameterFileInputWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
   }
 
 

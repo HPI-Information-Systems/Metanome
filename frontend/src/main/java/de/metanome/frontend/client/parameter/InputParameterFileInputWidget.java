@@ -26,6 +26,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.FileInputInput;
 import de.metanome.frontend.client.input_fields.InputField;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterFileInputWidget extends InputParameterDataSourceWidget {
@@ -41,13 +42,14 @@ public class InputParameterFileInputWidget extends InputParameterDataSourceWidge
   public InputParameterFileInputWidget(ConfigurationRequirementFileInput configSpec,
                                        TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
+    String a = ";";
   }
 
   @Override
   protected void addInputField(boolean optional, boolean required, int settingIndex) {
     FileInputInput widget = new FileInputInput(optional, required, messageReceiver);
     this.inputWidgets.add(widget);
-    int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
+    int index = this.inputWidgets.size() - 1;
     this.insert(widget, index);
   }
 
@@ -55,13 +57,16 @@ public class InputParameterFileInputWidget extends InputParameterDataSourceWidge
   public ConfigurationRequirementFileInput getUpdatedSpecification()
       throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingFileInput[] values = new ConfigurationSettingFileInput[inputWidgets.size()];
+    List<ConfigurationSettingFileInput> values = new ArrayList<>();
 
-    for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValues();
+    for (FileInputInput inputWidget : inputWidgets) {
+      ConfigurationSettingFileInput current = inputWidget.getValues();
+      if (current != null) {
+        values.add(current);
+      }
     }
 
-    specification.checkAndSetSettings(values);
+    specification.checkAndSetSettings(values.toArray(new ConfigurationSettingFileInput[values.size()]));
 
     return specification;
   }

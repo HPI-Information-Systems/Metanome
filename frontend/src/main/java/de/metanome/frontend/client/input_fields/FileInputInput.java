@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class FileInputInput extends InputField {
 
-  public ListBoxInput listbox;
+  public ListBoxInput listBox;
   public Map<String, FileInput> fileInputs;
   private TabWrapper messageReceiver;
   /**
@@ -58,9 +58,9 @@ public class FileInputInput extends InputField {
     this.messageReceiver = messageReceiver;
     this.fileInputs = new HashMap<>();
 
-    listbox = new ListBoxInput(false ,false);
+    listBox = new ListBoxInput(false ,false);
     updateListBox();
-    this.add(listbox);
+    this.add(listBox);
   }
 
   /**
@@ -92,12 +92,12 @@ public class FileInputInput extends InputField {
           messageReceiver.addError("There are no file inputs in the database!");
         }
 
-        listbox.clear();
-        listbox.setValues(fileInputNames);
-        listbox.disableFirstEntry();
+        listBox.clear();
+        listBox.setValues(fileInputNames);
+        listBox.disableFirstEntry();
 
         if (preselectedIdentifier != null) {
-          listbox.setSelectedValue(preselectedIdentifier);
+          listBox.setSelectedValue(preselectedIdentifier);
         }
       }
     };
@@ -118,7 +118,7 @@ public class FileInputInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedFilename = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues()) {
+    if (!this.listBox.containsValues()) {
       return;
     }
 
@@ -136,7 +136,7 @@ public class FileInputInput extends InputField {
    * @return the widget's settings
    */
   public ConfigurationSettingFileInput getValues() throws InputValidationException {
-    String selectedValue = this.listbox.getSelectedValue();
+    String selectedValue = this.listBox.getSelectedValue();
 
     if (selectedValue == null || selectedValue.equals("--")) {
       if (isRequired) {
@@ -162,7 +162,7 @@ public class FileInputInput extends InputField {
     for (Map.Entry<String, FileInput> input : this.fileInputs.entrySet()) {
       FileInput current = input.getValue();
       if (current.getFileName().equals(setting.getFileName())) {
-        this.listbox.setSelectedValue(input.getKey());
+        this.listBox.setSelectedValue(input.getKey());
         return;
       }
     }

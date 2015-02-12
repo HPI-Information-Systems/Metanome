@@ -53,9 +53,11 @@ public class RelationalInputAlgorithm implements UniqueColumnCombinationsAlgorit
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
 
-    configurationRequirements.add(new ConfigurationRequirementRelationalInput(
-        RELATIONAL_INPUT_IDENTIFIER));
-    configurationRequirements.add(new ConfigurationRequirementTableInput(TABLE_INPUT_IDENTIFIER));
+    ConfigurationRequirementRelationalInput requirementRelationalInput = new ConfigurationRequirementRelationalInput(RELATIONAL_INPUT_IDENTIFIER);
+    ConfigurationRequirementTableInput requirementTableInput = new ConfigurationRequirementTableInput(TABLE_INPUT_IDENTIFIER);
+
+    configurationRequirements.add(requirementRelationalInput);
+    configurationRequirements.add(requirementTableInput);
 
     return configurationRequirements;
   }

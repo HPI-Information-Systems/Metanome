@@ -25,6 +25,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.IntegerInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterIntegerWidget extends InputParameterWidget {
@@ -59,15 +60,16 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
 
   protected ConfigurationSettingInteger[] getConfigurationSettings()
       throws InputValidationException {
-    ConfigurationSettingInteger[]
-        values =
-        new ConfigurationSettingInteger[this.inputWidgets.size()];
-    int i = 0;
+    List<ConfigurationSettingInteger> values = new ArrayList<>();
+
     for (IntegerInput ii : this.inputWidgets) {
-      values[i] = new ConfigurationSettingInteger(ii.getValue());
-      i++;
+      int current = ii.getValue();
+      if (current != -1) {
+        values.add(new ConfigurationSettingInteger(current));
+      }
     }
-    return values;
+
+    return values.toArray(new ConfigurationSettingInteger[values.size()]);
   }
 
 

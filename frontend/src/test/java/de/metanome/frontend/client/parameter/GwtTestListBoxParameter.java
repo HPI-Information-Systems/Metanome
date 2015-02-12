@@ -78,6 +78,33 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertTrue(widget.inputWidgets.get(0).isOptional); // input field must be optional
   }
 
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
+    ArrayList<String> values = new ArrayList<>();
+    values.add("Column 1");
+    values.add("Column 3");
+    values.add("Column 2");
+
+    int maxValue = 5;
+    ConfigurationRequirementListBox
+        specification =
+        new ConfigurationRequirementListBox("list box", values, 3, maxValue);
+
+    //Execute
+    InputParameterListBoxWidget
+        widget =
+        new InputParameterListBoxWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
+  }
+
   /**
    * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean, boolean, int)}
    */

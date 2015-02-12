@@ -26,6 +26,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.RelationalInputInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,13 +57,16 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
   public ConfigurationRequirementRelationalInput getUpdatedSpecification()
       throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingRelationalInput[] values = new ConfigurationSettingRelationalInput[inputWidgets.size()];
+    List<ConfigurationSettingRelationalInput> values = new ArrayList<>();
 
-    for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValues();
+    for (RelationalInputInput inputWidget : inputWidgets) {
+      ConfigurationSettingRelationalInput current = inputWidget.getValues();
+      if (current != null) {
+        values.add(current);
+      }
     }
 
-    specification.checkAndSetSettings(values);
+    specification.checkAndSetSettings(values.toArray(new ConfigurationSettingRelationalInput[values.size()]));
 
     return specification;
   }

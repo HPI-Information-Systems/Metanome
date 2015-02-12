@@ -26,6 +26,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.TableInputInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterTableInputWidget extends InputParameterDataSourceWidget {
@@ -55,13 +56,16 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
   public ConfigurationRequirementTableInput getUpdatedSpecification()
       throws InputValidationException, AlgorithmConfigurationException {
     // Build an array with the actual number of set values.
-    ConfigurationSettingTableInput[] values = new ConfigurationSettingTableInput[inputWidgets.size()];
+    List<ConfigurationSettingTableInput> values = new ArrayList<>();
 
-    for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValue();
+    for (TableInputInput inputWidget : inputWidgets) {
+      ConfigurationSettingTableInput current = inputWidget.getValue();
+      if (current != null) {
+        values.add(current);
+      }
     }
 
-    specification.checkAndSetSettings(values);
+    specification.checkAndSetSettings(values.toArray(new ConfigurationSettingTableInput[values.size()]));
 
     return specification;
   }
