@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.StringInput;
 
@@ -37,10 +38,10 @@ public class InputParameterStringWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional, int settingIndex) {
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
     // Create the field with the default value, if one is set
     String defaultValue = this.specification.getDefaultValue(settingIndex);
-    StringInput field = new StringInput(optional);
+    StringInput field = new StringInput(optional, required);
     if (defaultValue != null) field.setValue(defaultValue);
 
     // Add the field at the correct position
@@ -51,12 +52,13 @@ public class InputParameterStringWidget extends InputParameterWidget {
 
   @Override
   public ConfigurationRequirementString getUpdatedSpecification()
-      throws AlgorithmConfigurationException {
+      throws AlgorithmConfigurationException, InputValidationException {
     this.specification.checkAndSetSettings(this.getConfigurationSettings());
     return this.specification;
   }
 
-  protected ConfigurationSettingString[] getConfigurationSettings() {
+  protected ConfigurationSettingString[] getConfigurationSettings()
+      throws InputValidationException {
     ConfigurationSettingString[] values = new ConfigurationSettingString[this.inputWidgets.size()];
     int i = 0;
     for (StringInput si : this.inputWidgets) {

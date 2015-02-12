@@ -44,8 +44,8 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
   }
 
   @Override
-  protected void addInputField(boolean optional, int settingIndex) {
-    TableInputInput widget = new TableInputInput(optional, messageReceiver);
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
+    TableInputInput widget = new TableInputInput(optional, required, messageReceiver);
     this.inputWidgets.add(widget);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(widget, index);
@@ -58,7 +58,7 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
     ConfigurationSettingTableInput[] values = new ConfigurationSettingTableInput[inputWidgets.size()];
 
     for (int i = 0; i < inputWidgets.size(); i++) {
-      values[i] = inputWidgets.get(i).getValues();
+      values[i] = inputWidgets.get(i).getValue();
     }
 
     specification.checkAndSetSettings(values);

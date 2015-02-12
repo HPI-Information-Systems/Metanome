@@ -44,9 +44,9 @@ public class InputParameterDatabaseConnectionWidget extends InputParameterDataSo
   }
 
   @Override
-  protected void addInputField(boolean optional, int settingIndex) {
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
     DatabaseConnectionInput widget = new DatabaseConnectionInput(
-        optional, messageReceiver, this.specification.getAcceptedDBSystems());
+        optional, required, messageReceiver, this.specification.getAcceptedDBSystems());
     this.inputWidgets.add(widget);
     this.add(widget);
   }

@@ -82,7 +82,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     //Execute
-    widget.addInputField(true, 0);
+    widget.addInputField(true, false, 0);
 
     //Check
     assertEquals(previousCount + 1, widget.getWidgetCount());

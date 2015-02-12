@@ -71,7 +71,7 @@ public class ConfigurationRequirementFileInputTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -96,7 +96,7 @@ public class ConfigurationRequirementFileInputTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOFValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -124,7 +124,7 @@ public class ConfigurationRequirementFileInputTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedMaxNumberOFValues, actualMaxNumberOfValues);
     assertEquals(expectedMinNumberOFValues, actualMinNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**

@@ -55,7 +55,7 @@ public class ConfigurationRequirementBooleanTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -80,7 +80,7 @@ public class ConfigurationRequirementBooleanTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
 
@@ -109,7 +109,7 @@ public class ConfigurationRequirementBooleanTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
     assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertFalse(configSpec.hasFixNumberOfSettings());
+    assertFalse(configSpec.isFixNumberOfSettings());
   }
 
   /**

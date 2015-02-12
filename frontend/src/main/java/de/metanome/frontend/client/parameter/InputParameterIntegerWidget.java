@@ -38,10 +38,10 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional, int settingIndex) {
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
     // Create the field with the default value, if one is set
     Integer defaultValue = this.specification.getDefaultValue(settingIndex);
-    IntegerInput field = new IntegerInput(optional);
+    IntegerInput field = new IntegerInput(optional, required);
     if (defaultValue != null) field.setValue(defaultValue);
 
     // Add the field at the correct position

@@ -53,7 +53,7 @@ public class ExampleAlgorithmTest {
   @Before
   public void setUp() throws Exception {
     algorithm = new ExampleAlgorithm();
-    pathIdentifier = "pathToInputFile";
+    pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
   }
 
   /**
@@ -76,7 +76,7 @@ public class ExampleAlgorithmTest {
         this.algorithm.getConfigurationRequirements();
 
     // Check result
-    assertEquals(2, actualConfigurationRequirements.size());
+    assertEquals(3, actualConfigurationRequirements.size());
     assertThat(actualConfigurationRequirements.get(0),
                instanceOf(ConfigurationRequirementString.class));
   }

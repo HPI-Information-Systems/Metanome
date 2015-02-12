@@ -18,6 +18,8 @@ package de.metanome.frontend.client.input_fields;
 
 import com.google.gwt.user.client.ui.TextBox;
 
+import de.metanome.frontend.client.helpers.InputValidationException;
+
 /**
  * A wrapper for a text box that can contain a remove button. If the remove button is clicked, the
  * checkbox is removed from the parent widget.
@@ -32,8 +34,8 @@ public class StringInput extends InputField {
    * @param optional If true, a remove button will be rendered, to remove this widget from its
    *                 parent.
    */
-  public StringInput(boolean optional) {
-    super(optional);
+  public StringInput(boolean optional, boolean required) {
+    super(optional, required);
 
     this.textbox = new TextBox();
     this.add(this.textbox);
@@ -42,8 +44,13 @@ public class StringInput extends InputField {
   /**
    * @return the value of its text box
    */
-  public String getValue() {
-    return this.textbox.getValue();
+  public String getValue() throws InputValidationException {
+    String input = this.textbox.getValue();
+
+    if (input.isEmpty() && isRequired)
+      throw new InputValidationException("You have to enter a value!");
+
+    return input;
   }
 
   /**

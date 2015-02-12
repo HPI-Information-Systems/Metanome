@@ -52,13 +52,13 @@ public class FileInputInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public FileInputInput(boolean optional, TabWrapper messageReceiver) {
-    super(optional);
+  public FileInputInput(boolean optional, boolean required, TabWrapper messageReceiver) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.fileInputs = new HashMap<>();
 
-    listbox = new ListBoxInput(false);
+    listbox = new ListBoxInput(false ,false);
     updateListBox();
     this.add(listbox);
   }
@@ -138,8 +138,12 @@ public class FileInputInput extends InputField {
   public ConfigurationSettingFileInput getValues() throws InputValidationException {
     String selectedValue = this.listbox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a CSV file!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose a file input!");
+      } else {
+        return null;
+      }
     }
 
     FileInput currentFileInput = this.fileInputs.get(selectedValue);

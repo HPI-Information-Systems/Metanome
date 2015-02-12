@@ -65,7 +65,7 @@ public class TableInputEditForm extends Grid {
     this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
     this.tableInputService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
 
-    this.dbConnectionListBox = new ListBoxInput(false);
+    this.dbConnectionListBox = new ListBoxInput(false, false);
     updateDatabaseConnectionListBox();
     this.setText(0, 0, "Database Connection");
     this.setWidget(0, 1, this.dbConnectionListBox);

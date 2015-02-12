@@ -68,7 +68,7 @@ public class ConfigurationRequirementListBoxTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
     assertEquals(expectedValues, actualValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -101,7 +101,7 @@ public class ConfigurationRequirementListBoxTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
     assertEquals(expectedValues, actualValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -136,7 +136,7 @@ public class ConfigurationRequirementListBoxTest {
     assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
     assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
     assertEquals(expectedValues, actualValues);
-    assertFalse(configSpec.hasFixNumberOfSettings());
+    assertFalse(configSpec.isFixNumberOfSettings());
   }
 
   /**

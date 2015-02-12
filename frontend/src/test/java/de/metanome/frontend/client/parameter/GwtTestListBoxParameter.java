@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
 
@@ -78,9 +79,9 @@ public class GwtTestListBoxParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean, int)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean, boolean, int)}
    */
-  public void testAddInput() throws AlgorithmConfigurationException {
+  public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
     // Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
@@ -99,7 +100,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     // Execute
-    widget.addInputField(true, 0);
+    widget.addInputField(true, false, 0);
 
     // Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
@@ -158,7 +159,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     ConfigurationRequirementListBox specification = null;
     try {
       specification = widget.getUpdatedSpecification();
-    } catch (AlgorithmConfigurationException e) {
+    } catch (AlgorithmConfigurationException | InputValidationException e) {
       fail();
     }
 

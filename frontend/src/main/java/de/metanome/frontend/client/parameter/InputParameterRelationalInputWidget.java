@@ -45,8 +45,8 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
   }
 
   @Override
-  protected void addInputField(boolean optional, int settingIndex) {
-    RelationalInputInput widget = new RelationalInputInput(optional, messageReceiver);
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
+    RelationalInputInput widget = new RelationalInputInput(optional, required, messageReceiver);
     this.inputWidgets.add(widget);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(widget, index);

@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class TableInputInput extends InputField {
 
-  public ListBoxInput listbox;
+  public ListBoxInput listBox;
   public Map<String, TableInput> tableInputs;
   private TabWrapper messageReceiver;
   /**
@@ -53,15 +53,15 @@ public class TableInputInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public TableInputInput(boolean optional, TabWrapper messageReceiver) {
-    super(optional);
+  public TableInputInput(boolean optional, boolean required, TabWrapper messageReceiver) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.tableInputs = new HashMap<>();
 
-    listbox = new ListBoxInput(false);
+    listBox = new ListBoxInput(false, false);
     updateListBox();
-    this.add(listbox);
+    this.add(listBox);
   }
 
   /**
@@ -70,7 +70,7 @@ public class TableInputInput extends InputField {
   public void updateListBox() {
     MethodCallback<List<TableInput>> callback = new MethodCallback<List<TableInput>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError("There are no database connections in the database: " + method.getResponse().getText());
+        messageReceiver.addError("There are no table inputs in the database: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<TableInput> result) {
@@ -94,12 +94,12 @@ public class TableInputInput extends InputField {
           messageReceiver.addError("There are no table inputs in the database!");
         }
 
-        listbox.clear();
-        listbox.setValues(tableInputNames);
-        listbox.disableFirstEntry();
+        listBox.clear();
+        listBox.setValues(tableInputNames);
+        listBox.disableFirstEntry();
 
         if (preselectedIdentifier != null) {
-          listbox.setSelectedValue(preselectedIdentifier);
+          listBox.setSelectedValue(preselectedIdentifier);
         }
       }
     };
@@ -120,13 +120,13 @@ public class TableInputInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedTableInput = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues()) {
+    if (!this.listBox.containsValues()) {
       return;
     }
 
     if (dataSourceSetting instanceof ConfigurationSettingTableInput) {
       ConfigurationSettingTableInput setting = (ConfigurationSettingTableInput) dataSourceSetting;
-      this.setValues(setting);
+      this.setValue(setting);
     } else {
       throw new AlgorithmConfigurationException("This is not a table input setting.");
     }
@@ -137,11 +137,15 @@ public class TableInputInput extends InputField {
    *
    * @return the widget's settings
    */
-  public ConfigurationSettingTableInput getValues() throws InputValidationException {
-    String selectedValue = this.listbox.getSelectedValue();
+  public ConfigurationSettingTableInput getValue() throws InputValidationException {
+    String selectedValue = this.listBox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a table input!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose a table input!");
+      } else {
+        return null;
+      }
     }
 
     TableInput currentTableInput = this.tableInputs.get(selectedValue);
@@ -155,12 +159,12 @@ public class TableInputInput extends InputField {
    * @param setting the settings to set
    * @throws AlgorithmConfigurationException if no table inputs are set
    */
-  public void setValues(ConfigurationSettingTableInput setting)
+  public void setValue(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException {
     for (Map.Entry<String, TableInput> input : this.tableInputs.entrySet()) {
       TableInput current = input.getValue();
       if (current.getTableName().equals(setting.getTable())) {
-        this.listbox.setSelectedValue(input.getKey());
+        this.listBox.setSelectedValue(input.getKey());
         return;
       }
     }

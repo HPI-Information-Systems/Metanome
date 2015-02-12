@@ -72,7 +72,7 @@ public class ConfigurationRequirementDatabaseConnectionTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -97,7 +97,7 @@ public class ConfigurationRequirementDatabaseConnectionTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -125,7 +125,7 @@ public class ConfigurationRequirementDatabaseConnectionTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
     assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertFalse(configSpec.hasFixNumberOfSettings());
+    assertFalse(configSpec.isFixNumberOfSettings());
   }
 
   /**

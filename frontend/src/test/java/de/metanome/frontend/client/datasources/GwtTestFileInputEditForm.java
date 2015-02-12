@@ -194,7 +194,7 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
   /**
    * Test method for {@link de.metanome.frontend.client.datasources.FileInputEditForm#reset()}
    */
-  public void testResetValues() {
+  public void testResetValues() throws InputValidationException {
     //Setup
     FileInputEditForm
         input =

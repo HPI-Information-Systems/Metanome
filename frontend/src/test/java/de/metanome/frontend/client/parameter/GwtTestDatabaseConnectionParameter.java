@@ -54,20 +54,20 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, tabWrapper, new ArrayList<String>());
+    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, false, tabWrapper, new ArrayList<String>());
     ConfigurationSettingDatabaseConnection
         setting =
         new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);
 
     widget.databaseConnections.put(aUrl, databaseConnection);
-    widget.listbox.addValue("--");
-    widget.listbox.addValue(aUrl);
+    widget.listBox.addValue("--");
+    widget.listBox.addValue(aUrl);
 
     // Execute
     widget.selectDataSource(setting);
 
     // Check
-    assertEquals(aUrl, widget.listbox.getSelectedValue());
+    assertEquals(aUrl, widget.listBox.getSelectedValue());
     assertEquals(aUrl, widget.getValues().getDbUrl());
     assertEquals(aPassword, widget.getValues().getPassword());
     assertEquals(aUser, widget.getValues().getUsername());
@@ -106,14 +106,14 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
         dataSourceWidget =
         new InputParameterDatabaseConnectionWidget(configSpec, tabWrapper);
 
-    dataSourceWidget.inputWidgets.get(0).listbox.addValue(aUrl);
+    dataSourceWidget.inputWidgets.get(0).listBox.addValue(aUrl);
     dataSourceWidget.inputWidgets.get(0).databaseConnections.put(aUrl, databaseConnection);
 
     // Execute
     dataSourceWidget.setDataSource(setting);
 
     assertTrue(
-        ((DatabaseConnectionInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
+        ((DatabaseConnectionInput) dataSourceWidget.getWidget(0)).listBox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
     retrievedSetting = (ConfigurationSettingDataSource) dataSourceWidget

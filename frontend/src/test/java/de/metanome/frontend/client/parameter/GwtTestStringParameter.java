@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingStrin
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.StringInput;
 
 public class GwtTestStringParameter extends GWTTestCase {
@@ -72,9 +73,9 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean, int)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean, boolean, int)}
    */
-  public void testAddInput() throws AlgorithmConfigurationException {
+  public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
     //Setup
     String expectedValue = "test";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
@@ -87,7 +88,7 @@ public class GwtTestStringParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     //Execute
-    widget.addInputField(true, 0);
+    widget.addInputField(true, false, 0);
 
     //Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
@@ -119,7 +120,8 @@ public class GwtTestStringParameter extends GWTTestCase {
   /**
    * Test method for {@link InputParameterStringWidget#getUpdatedSpecification()}
    */
-  public void testRetrieveValues() throws AlgorithmConfigurationException {
+  public void testRetrieveValues() throws AlgorithmConfigurationException,
+                                          InputValidationException {
     //Setup
     String value = "something";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",

@@ -73,7 +73,7 @@ public class ConfigurationRequirementStringTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
   /**
@@ -98,7 +98,7 @@ public class ConfigurationRequirementStringTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.hasFixNumberOfSettings());
+    assertTrue(configSpec.isFixNumberOfSettings());
   }
 
 
@@ -127,7 +127,7 @@ public class ConfigurationRequirementStringTest {
     assertEquals(expectedIdentifier, actualIdentifier);
     assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
     assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertFalse(configSpec.hasFixNumberOfSettings());
+    assertFalse(configSpec.isFixNumberOfSettings());
   }
 
   /**

@@ -45,7 +45,7 @@ public class GwtTestFileInputParameter extends GWTTestCase {
     FileInput fileInput = new FileInput();
     fileInput.setFileName(aFileName);
 
-    FileInputInput widget = new FileInputInput(false, tabWrapper);
+    FileInputInput widget = new FileInputInput(false, false, tabWrapper);
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 

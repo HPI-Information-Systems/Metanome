@@ -18,6 +18,8 @@ package de.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.metanome.frontend.client.helpers.InputValidationException;
+
 
 public class GwtTestStringInput extends GWTTestCase {
 
@@ -25,11 +27,26 @@ public class GwtTestStringInput extends GWTTestCase {
    * Test method for {@link de.metanome.frontend.client.input_fields.StringInput#getValue()} and for
    * {@link de.metanome.frontend.client.input_fields.StringInput#setValue(String)}
    */
-  public void testGetSetValues() {
-    StringInput input = new StringInput(false);
+  public void testGetSetValues() throws InputValidationException {
+    StringInput input = new StringInput(false, false);
 
     input.setValue("test");
     assertEquals("test", input.getValue());
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.StringInput#getValue()} and for
+   * {@link de.metanome.frontend.client.input_fields.StringInput#setValue(String)}
+   */
+  public void testGetSetRequiredValues() {
+    StringInput input = new StringInput(false, true);
+
+    input.setValue("test");
+    try {
+      input.getValue();
+    } catch (InputValidationException e) {
+      // should throw an exception
+    }
   }
 
   @Override

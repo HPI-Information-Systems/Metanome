@@ -45,7 +45,7 @@ public class GwtTestRelationalInputParameter extends GWTTestCase {
     FileInput fileInput = new FileInput();
     fileInput.setFileName(aFileName);
 
-    RelationalInputInput widget = new RelationalInputInput(false, tabWrapper);
+    RelationalInputInput widget = new RelationalInputInput(false, false, tabWrapper);
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 

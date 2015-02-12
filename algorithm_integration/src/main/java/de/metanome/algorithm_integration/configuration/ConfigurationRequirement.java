@@ -54,7 +54,7 @@ public abstract class ConfigurationRequirement implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
   protected String identifier;
-  private boolean isRequired = false;
+  protected boolean required;
   /**
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
    * frontend
@@ -106,7 +106,13 @@ public abstract class ConfigurationRequirement implements Serializable {
     this.identifier = identifier;
     this.minNumberOfSettings = minNumberOfSettings;
     this.maxNumberOfSettings = maxNumberOfSettings;
-    this.numberOfSettings = maxNumberOfSettings - minNumberOfSettings + 1;
+
+    this.required = false;
+
+    if (isFixNumberOfSettings())
+      this.numberOfSettings = minNumberOfSettings;
+    else
+      this.numberOfSettings = maxNumberOfSettings - minNumberOfSettings + 1;
   }
 
   /**
@@ -120,7 +126,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    *
    * @return true, if a fix number of settings is required, false, otherwise
    */
-  public Boolean hasFixNumberOfSettings() {
+  public Boolean isFixNumberOfSettings() {
     return this.maxNumberOfSettings == this.minNumberOfSettings;
   }
 
@@ -155,17 +161,15 @@ public abstract class ConfigurationRequirement implements Serializable {
    * @return true, if the requirement is required, i.e. it is not optional
    */
   public boolean isRequired() {
-    return isRequired;
+    return required;
   }
-
   /**
    *
-   * @param isRequired true, if the requirement is not optional
+   * @param required true, if the requirement is not optional
    */
-  public void setRequired(boolean isRequired) {
-    this.isRequired = isRequired;
+  public void setRequired(boolean required) {
+    this.required = required;
   }
-
 
   /**
    * If a setting is set, the number of given settings has to match the expected number.
@@ -174,7 +178,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    */
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
-    if (number != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
+    if (this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
         (number < this.minNumberOfSettings || number > this.maxNumberOfSettings))
       throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
   }
