@@ -59,6 +59,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
    * frontend
    */
+  protected int numberOfSettings;
   protected int minNumberOfSettings;
   protected int maxNumberOfSettings;
 
@@ -76,7 +77,7 @@ public abstract class ConfigurationRequirement implements Serializable {
    * @param identifier the specification's identifier
    */
   public ConfigurationRequirement(String identifier) {
-    this(identifier, 1);
+    this(identifier, 1, 1);
   }
 
   /**
@@ -98,13 +99,14 @@ public abstract class ConfigurationRequirement implements Serializable {
    * The min and max number of requested values is set.
    *
    * @param identifier          the specification's identifier
-   * @param minNumberOfSettings the minimum number of settings expected
-   * @param maxNumberOfSettings the maximum number of settings expected
+   * @param minNumberOfSettings the minimum number of settings expected (included)
+   * @param maxNumberOfSettings the maximum number of settings expected (included)
    */
   public ConfigurationRequirement(String identifier, int minNumberOfSettings, int maxNumberOfSettings) {
     this.identifier = identifier;
     this.minNumberOfSettings = minNumberOfSettings;
     this.maxNumberOfSettings = maxNumberOfSettings;
+    this.numberOfSettings = maxNumberOfSettings - minNumberOfSettings + 1;
   }
 
   /**
@@ -137,55 +139,16 @@ public abstract class ConfigurationRequirement implements Serializable {
   }
 
   /**
-   * @return get the range
+   * @return the number of settings
    */
-  public int getRange() {
-    return this.maxNumberOfSettings - this.minNumberOfSettings;
-  }
-
-  /**
-   * @return the fix number if min and max are equal
-   */
-  public int getFixNumber() {
-    if (this.hasFixNumberOfSettings())
-      return minNumberOfSettings;
-    return 0;
+  public int getNumberOfSettings() {
+    return numberOfSettings;
   }
 
   /**
    * @return the specification's settings
    */
   public abstract ConfigurationSetting[] getSettings();
-
-  /**
-   * Builds the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
-   * from the {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} using
-   * the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}.
-   *
-   * @param factory the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}
-   *                used for conversion
-   * @return the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
-   * @throws AlgorithmConfigurationException thrown if the conversion is not successful
-   */
-  @XmlTransient
-  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
-  public abstract ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException;
-
-  /**
-   * If a setting is set, the number of given settings has to match the expected number.
-   *
-   * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
-   */
-  @XmlTransient
-  protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
-    if (hasFixNumberOfSettings() && this.minNumberOfSettings != ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES &&
-        number != this.minNumberOfSettings) {
-      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
-    } else if (!hasFixNumberOfSettings() && (number < this.minNumberOfSettings || number >= this.maxNumberOfSettings)) {
-      throw new AlgorithmConfigurationException("The number of settings is not in the expected range!");
-    }
-  }
 
   /**
    *
@@ -202,4 +165,32 @@ public abstract class ConfigurationRequirement implements Serializable {
   public void setRequired(boolean isRequired) {
     this.isRequired = isRequired;
   }
+
+
+  /**
+   * If a setting is set, the number of given settings has to match the expected number.
+   *
+   * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
+   */
+  @XmlTransient
+  protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
+    if (number != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
+        (number < this.minNumberOfSettings || number > this.maxNumberOfSettings))
+      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+  }
+
+  /**
+   * Builds the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   * from the {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} using
+   * the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}.
+   *
+   * @param factory the {@link de.metanome.algorithm_integration.configuration.ConfigurationFactory}
+   *                used for conversion
+   * @return the corresponding {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}
+   * @throws AlgorithmConfigurationException thrown if the conversion is not successful
+   */
+  @XmlTransient
+  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
+  public abstract ConfigurationValue build(ConfigurationFactory factory)
+      throws AlgorithmConfigurationException;
 }

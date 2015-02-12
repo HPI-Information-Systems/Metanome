@@ -211,18 +211,17 @@ public class ConfigurationRequirementBooleanTest {
     ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
     ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
     ConfigurationSettingBoolean expectedValue2 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue3 = mock(ConfigurationSettingBoolean.class);
 
     // Execute functionality
     try {
-      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2);
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
 
     // Check result
     assertEquals(expectedValue0, configSpec.settings[0]);
-    assertEquals(expectedValue1, configSpec.settings[1]);
-    assertEquals(expectedValue2, configSpec.settings[2]);
   }
 
   /**
