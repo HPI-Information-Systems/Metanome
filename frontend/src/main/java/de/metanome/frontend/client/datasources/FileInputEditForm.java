@@ -310,7 +310,7 @@ public class FileInputEditForm extends Grid {
     MethodCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
     FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     service.listFileInputs(databaseCallback);
-    service.listCsvFiles(storageCallback);
+    service.listAvailableInputFiles(storageCallback);
   }
 
   private MethodCallback<List<FileInput>> getDatabaseCallback() {
@@ -346,7 +346,7 @@ public class FileInputEditForm extends Grid {
     return new MethodCallback<List<String>>() {
       public void onFailure(Method method, Throwable caught) {
         messageReceiver
-            .addError("Could not find CSV files! Please add them to the input folder.");
+            .addError("Could not find any files! Please add them to the input folder.");
       }
 
       @Override
@@ -355,7 +355,7 @@ public class FileInputEditForm extends Grid {
 
         if (result.size() == 0) {
           messageReceiver
-              .addError("Could not find CSV files! Please add them to the input folder.");
+              .addError("Could not find any files! Please add them to the input folder.");
           return;
         }
 

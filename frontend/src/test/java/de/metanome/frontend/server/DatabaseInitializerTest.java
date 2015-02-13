@@ -151,7 +151,7 @@ public class DatabaseInitializerTest {
     DatabaseInitializer initializer = new DatabaseInitializer();
 
     // Expected values
-    File[] inputDataFiles = dataFinder.getAvailableCsvs();
+    File[] inputDataFiles = dataFinder.getAvailableFiles();
     String[] expectedFileNames = new String[inputDataFiles.length];
     for (int i = 0; i < inputDataFiles.length; i++) {
       expectedFileNames[i] = inputDataFiles[i].getPath();
