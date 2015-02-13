@@ -67,6 +67,7 @@ public class FileInputEditForm extends Grid {
   protected TextBox separatorTextBox;
   protected TextBox quoteTextBox;
   protected TextBox escapeTextBox;
+  protected TextBox nullValueTextBox;
   protected IntegerBox skipLinesIntegerBox;
   protected CheckBox strictQuotesCheckbox;
   protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
@@ -137,6 +138,11 @@ public class FileInputEditForm extends Grid {
     skipLinesIntegerBox.setWidth("5em");
     skipLinesIntegerBox.setName("Line");
     addRow(advancedTable, skipLinesIntegerBox, "Line");
+
+    nullValueTextBox = new TextBox();
+    nullValueTextBox.setWidth("5em");
+    nullValueTextBox.setName("Null Value");
+    addRow(advancedTable, nullValueTextBox, "Null Value");
 
     strictQuotesCheckbox = new CheckBox();
     strictQuotesCheckbox.setName("Strict Quotes");
@@ -246,6 +252,7 @@ public class FileInputEditForm extends Grid {
     setIgnoreLeadingWhiteSpace(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
     setHasHeader(FileIterator.DEFAULT_HAS_HEADER);
     setSkipDifferingLines(FileIterator.DEFAULT_SKIP_DIFFERING_LINES);
+    setNullValue(FileIterator.DEFAULT_NULL_VALUE);
   }
 
   /**
@@ -413,6 +420,7 @@ public class FileInputEditForm extends Grid {
     fileInput.setSkipDifferingLines(this.skipDifferingLinesCheckbox.getValue());
     fileInput.setSkipLines(getInteger(this.skipLinesIntegerBox));
     fileInput.setStrictQuotes(this.strictQuotesCheckbox.getValue());
+    fileInput.setNullValue(this.nullValueTextBox.getValue());
 
     return fileInput;
   }
@@ -468,6 +476,8 @@ public class FileInputEditForm extends Grid {
     this.skipLinesIntegerBox.setValue(skipLines);
   }
 
+  protected void setNullValue(String nullValue) { this.nullValueTextBox.setValue(nullValue); }
+
   protected void setStrictQuotes(boolean strictQuotes) {
     this.strictQuotesCheckbox.setValue(strictQuotes);
   }
@@ -512,6 +522,7 @@ public class FileInputEditForm extends Grid {
     setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace());
     setHasHeader(fileInput.isHasHeader());
     setSkipDifferingLines(fileInput.isSkipDifferingLines());
+    setNullValue(fileInput.getNullValue());
 
     this.setWidget(2, 0, updateButton);
     this.oldFileInput = fileInput;

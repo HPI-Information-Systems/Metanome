@@ -162,7 +162,8 @@ public class FileInputTab extends FlowPanel implements TabContent {
         .setSeparatorChar(input.getSeparatorAsChar())
         .setSkipDifferingLines(input.isSkipDifferingLines())
         .setSkipLines(input.getSkipLines())
-        .setStrictQuotes(input.isStrictQuotes());
+        .setStrictQuotes(input.isStrictQuotes())
+        .setNullValue(input.getNullValue());
   }
 
   /**

@@ -38,6 +38,7 @@ public class FileIterator implements RelationalInput {
 
   public static final boolean DEFAULT_HAS_HEADER = false;
   public static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
+  public static final String DEFAULT_NULL_VALUE = "";
 
   protected static final String DEFAULT_HEADER_STRING = "column";
 
@@ -52,6 +53,7 @@ public class FileIterator implements RelationalInput {
 
   protected boolean hasHeader;
   protected boolean skipDifferingLines;
+  protected String nullValue;
 
 
   public FileIterator(String relationName, Reader reader, ConfigurationSettingFileInput setting)
@@ -60,6 +62,7 @@ public class FileIterator implements RelationalInput {
 
     this.hasHeader = setting.hasHeader();
     this.skipDifferingLines = setting.isSkipDifferingLines();
+    this.nullValue = setting.getNullValue();
 
     this.csvReader =
         new CSVReader(reader,
@@ -154,7 +157,7 @@ public class FileIterator implements RelationalInput {
       // Convert empty Strings to null
       List<String> list = new ArrayList<String>();
       for (String val : lineArray) {
-        if (val.equals("")) {
+        if (val.equals(this.nullValue)) {
           list.add(null);
         } else {
           list.add(val);

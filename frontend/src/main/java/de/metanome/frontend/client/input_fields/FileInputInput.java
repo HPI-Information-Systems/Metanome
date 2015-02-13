@@ -182,7 +182,8 @@ public class FileInputInput extends InputField {
         .setSeparatorChar(fileInput.getSeparatorAsChar())
         .setSkipDifferingLines(fileInput.isSkipDifferingLines())
         .setSkipLines(fileInput.getSkipLines())
-        .setStrictQuotes(fileInput.isStrictQuotes());
+        .setStrictQuotes(fileInput.isStrictQuotes())
+        .setNullValue(fileInput.getNullValue());
   }
 
 }

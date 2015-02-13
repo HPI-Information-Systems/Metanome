@@ -47,6 +47,7 @@ public class FileInput extends Input implements Serializable {
   protected boolean hasHeader;
   protected boolean skipDifferingLines;
   protected String comment;
+  protected String nullValue;
 
   /**
    * Constructs a FileInput with default parser settings.
@@ -60,6 +61,7 @@ public class FileInput extends Input implements Serializable {
     this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
     this.hasHeader = FileIterator.DEFAULT_HAS_HEADER;
     this.skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
+    this.nullValue = FileIterator.DEFAULT_NULL_VALUE;
   }
 
   /**
@@ -184,6 +186,16 @@ public class FileInput extends Input implements Serializable {
 
   public String getEscapeChar() {
     return escapeChar;
+  }
+
+  public FileInput setNullValue(String nullValue) {
+    this.nullValue = nullValue;
+
+    return this;
+  }
+
+  public String getNullValue() {
+    return nullValue;
   }
 
   @Transient
