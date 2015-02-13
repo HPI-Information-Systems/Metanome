@@ -24,11 +24,9 @@ import au.com.bytecode.opencsv.CSVReader;
 import de.metanome.backend.input.csv.FileIterator;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents file inputs in the database.
@@ -41,8 +39,8 @@ public class FileInput extends Input implements Serializable {
 
   protected String fileName;
   protected String separator; //Todo: atm needs to be String instead of char for serialization
-  protected String quotechar; //Todo: atm needs to be String instead of char for serialization
-  protected String escapechar; //Todo: atm needs to be String instead of char for serialization
+  protected String quoteChar; //Todo: atm needs to be String instead of char for serialization
+  protected String escapeChar; //Todo: atm needs to be String instead of char for serialization
   protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;
@@ -55,8 +53,8 @@ public class FileInput extends Input implements Serializable {
    */
   public FileInput() {
     this.separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
-    this.quotechar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
-    this.escapechar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
+    this.quoteChar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
+    this.escapeChar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
     this.skipLines = CSVReader.DEFAULT_SKIP_LINES;
     this.strictQuotes = CSVParser.DEFAULT_STRICT_QUOTES;
     this.ignoreLeadingWhiteSpace = CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
@@ -76,7 +74,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public String getFileName() {
-    return fileName;
+    return this.fileName;
   }
 
   public FileInput setFileName(String fileName) {
@@ -85,41 +83,8 @@ public class FileInput extends Input implements Serializable {
     return this;
   }
 
-  public char getSeparator() {
-    return separator.charAt(0);
-  }
-
-  @XmlTransient
-  public FileInput setSeparator(char separator) {
-    this.separator = String.valueOf(separator);
-
-    return this;
-  }
-
-  public char getQuotechar() {
-    return quotechar.charAt(0);
-  }
-
-  @XmlTransient
-  public FileInput setQuotechar(char quotechar) {
-    this.quotechar = String.valueOf(quotechar);
-
-    return this;
-  }
-
-  public char getEscapechar() {
-    return escapechar.charAt(0);
-  }
-
-  @XmlTransient
-  public FileInput setEscapechar(char escapechar) {
-    this.escapechar = String.valueOf(escapechar);
-
-    return this;
-  }
-
   public Integer getSkipLines() {
-    return skipLines;
+    return this.skipLines;
   }
 
   public FileInput setSkipLines(Integer skipLines) {
@@ -129,7 +94,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public boolean isStrictQuotes() {
-    return strictQuotes;
+    return this.strictQuotes;
   }
 
   public FileInput setStrictQuotes(boolean strictQuotes) {
@@ -139,7 +104,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public boolean isIgnoreLeadingWhiteSpace() {
-    return ignoreLeadingWhiteSpace;
+    return this.ignoreLeadingWhiteSpace;
   }
 
   public FileInput setIgnoreLeadingWhiteSpace(boolean ignoreLeadingWhiteSpace) {
@@ -149,7 +114,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public boolean isHasHeader() {
-    return hasHeader;
+    return this.hasHeader;
   }
 
   public FileInput setHasHeader(boolean hasHeader) {
@@ -159,7 +124,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public boolean isSkipDifferingLines() {
-    return skipDifferingLines;
+    return this.skipDifferingLines;
   }
 
   public FileInput setSkipDifferingLines(boolean skipDifferingLines) {
@@ -169,7 +134,7 @@ public class FileInput extends Input implements Serializable {
   }
 
   public String getComment() {
-    return comment;
+    return this.comment;
   }
 
   public FileInput setComment(String comment) {
@@ -188,25 +153,67 @@ public class FileInput extends Input implements Serializable {
   @Override
   @Transient
   public String getIdentifier() {
-    return fileName;
+    return this.fileName;
   }
 
   public FileInput setSeparator(String separator) {
-    this.separator = String.valueOf(separator.charAt(0));
+    this.separator = separator;
 
     return this;
   }
 
-  public FileInput setQuotechar(String quotechar) {
-    this.quotechar = String.valueOf(quotechar.charAt(0));
+  public String getSeparator() {
+    return separator;
+  }
+
+  public FileInput setQuoteChar(String quoteChar) {
+    this.quoteChar = quoteChar;
 
     return this;
   }
 
-  public FileInput setEscapechar(String escapechar) {
-    this.escapechar = String.valueOf(escapechar.charAt(0));
+  public String getQuoteChar() {
+    return quoteChar;
+  }
+
+  public FileInput setEscapeChar(String escapeChar) {
+    this.escapeChar = escapeChar;
 
     return this;
+  }
+
+  public String getEscapeChar() {
+    return escapeChar;
+  }
+
+  @Transient
+  public char getSeparatorAsChar() { return toChar(this.separator); }
+  @Transient
+  public char getQuoteCharAsChar() {
+    return toChar(this.quoteChar);
+  }
+  @Transient
+  public char getEscapeCharAsChar() {
+    return toChar(this.escapeChar);
+  }
+  @Transient
+  private char toChar(String str) {
+    if (str.isEmpty()) {
+      return '\0';
+    }
+
+    if (str.startsWith("\\")) {
+      switch (str) {
+        case "\\t":
+          return '\t';
+        case "\\0":
+          return '\0';
+        case "\\n":
+          return '\n';
+      }
+    }
+
+    return str.charAt(0);
   }
 
 }

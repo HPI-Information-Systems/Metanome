@@ -172,19 +172,17 @@ public class FileInputInput extends InputField {
    * @return the setting generated from the file input
    */
   protected ConfigurationSettingFileInput getCurrentSetting(FileInput fileInput) {
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput()
+    return new ConfigurationSettingFileInput()
         .setId(fileInput.getId())
         .setFileName(fileInput.getFileName())
-        .setEscapeChar(fileInput.getEscapechar())
+        .setEscapeChar(fileInput.getEscapeCharAsChar())
         .setHeader(fileInput.isHasHeader())
         .setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace())
-        .setQuoteChar(fileInput.getQuotechar())
-        .setSeparatorChar(fileInput.getSeparator())
+        .setQuoteChar(fileInput.getQuoteCharAsChar())
+        .setSeparatorChar(fileInput.getSeparatorAsChar())
         .setSkipDifferingLines(fileInput.isSkipDifferingLines())
         .setSkipLines(fileInput.getSkipLines())
         .setStrictQuotes(fileInput.isStrictQuotes());
-
-    return setting;
   }
 
 }
