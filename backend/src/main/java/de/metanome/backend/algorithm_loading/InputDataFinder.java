@@ -31,30 +31,28 @@ public class InputDataFinder {
    *
    * @return an array of input files
    */
-  public File[] getAvailableCsvs() throws UnsupportedEncodingException {
+  public File[] getAvailableFiles() throws UnsupportedEncodingException {
     String
         pathToFolder =
         Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
-    return retrieveCsvFiles(pathToFolder);
+    return retrieveCsvTsvFiles(pathToFolder);
   }
 
   /**
-   * Retrieves all csv files located directly in the given directory.
+   * Retrieves all csv and tsv files located directly in the given directory.
    *
    * @param pathToFolder path to the folder to be searched in
-   * @return names of all CSV files located directly in the given directory (no subfolders)
+   * @return names of all CSV and TSV files located directly in the given directory (no subfolders)
    */
-  protected File[] retrieveCsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+  protected File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
-    File[] csvs = folder.listFiles(new FilenameFilter() {
+    return folder.listFiles(new FilenameFilter() {
       @Override
       public boolean accept(File file, String name) {
-        return name.endsWith(".csv");
+        return name.endsWith(".csv") || name.endsWith(".tsv");
       }
     });
-
-    return csvs;
   }
 
 }

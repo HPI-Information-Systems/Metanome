@@ -45,6 +45,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
+  public final static String DEFAULT_NULL_VALUE = "";
 
   // Id of the file input in the database (needed for mapping the setting to the stored file input)
   private long id;
@@ -58,6 +59,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   private int skipLines;
   private boolean header;
   private boolean skipDifferingLines;
+  private String nullValue;
 
   // Needed for restful serialization
   public String type = "ConfigurationSettingFileInput";
@@ -76,7 +78,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public ConfigurationSettingFileInput(String fileName) {
     this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
          DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
-         DEFAULT_SKIPDIFFERINGLINES);
+         DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
   }
 
   /**
@@ -90,7 +92,8 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
                                        char quote,
                                        char escape, boolean strictQuotes,
                                        boolean ignoreLeadingWhiteSpace, int line,
-                                       boolean header, boolean skipDifferingLines) {
+                                       boolean header, boolean skipDifferingLines,
+                                       String nullValue) {
     this.fileName = fileName;
     this.advanced = advanced;
     this.separatorChar = String.valueOf(separator);
@@ -101,6 +104,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
     this.skipLines = line;
     this.header = header;
     this.skipDifferingLines = skipDifferingLines;
+    this.nullValue = nullValue;
   }
 
   public String getFileName() {
@@ -198,6 +202,15 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
 
   public ConfigurationSettingFileInput setId(long id) {
     this.id = id;
+    return this;
+  }
+
+  public String getNullValue() {
+    return nullValue;
+  }
+
+  public ConfigurationSettingFileInput setNullValue(String nullValue) {
+    this.nullValue = nullValue;
     return this;
   }
 
