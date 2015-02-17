@@ -188,6 +188,29 @@ public class FileIteratorTest {
   }
 
   /**
+   * Test method for {@link FileIterator#next()}
+   *
+   * A tsv with differing line lengths should be partially parsable if the skipDifferingLines
+   * parameter is set to true.
+   */
+  @Test
+  public void testTsvParseThroughErrors() throws InputGenerationException, InputIterationException {
+    // Setup
+    TsvFileFixture shortLineFixture = new TsvFileFixture();
+    FileIterator tsvFile = shortLineFixture.getTestData(true);
+
+    // Execute functionality
+    // Check result
+    assertEquals(shortLineFixture.getExpectedFirstParsableLine(), tsvFile.next());
+    assertEquals(shortLineFixture.getExpectedSecondParsableLine(), tsvFile.next());
+    // There should not be another parsable line.
+    assertFalse(tsvFile.hasNext());
+    // Two lines should be skipped
+    assertEquals(2, tsvFile.getNumberOfSkippedDifferingLines());
+  }
+
+
+  /**
    * Test method for {@link FileIterator#numberOfColumns()} <p/> A {@link FileIterator} should
    * return the correct number of columns of the file.
    */

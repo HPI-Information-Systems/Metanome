@@ -24,7 +24,6 @@ import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Input;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +106,7 @@ public class DatabaseInitializer implements ServletContextListener {
 
     InputDataFinder inputDataFinder = new InputDataFinder();
 
-    File[] inputs = inputDataFinder.getAvailableCsvs();
+    File[] inputs = inputDataFinder.getAvailableFiles();
 
     for (File input : inputs) {
       FileInput fileInput = new FileInput(input.getPath());

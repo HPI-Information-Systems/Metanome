@@ -85,9 +85,9 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
         new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
 
     String expectedFileName = "file name";
-    char separator = ';';
-    char quotechar = '"';
-    char escapechar = '\\';
+    String separator = ";";
+    String quoteChar = "\"";
+    String escapeChar = "\\";
     int skipLines = 0;
     boolean strictQuotes = true;
     boolean ignoreLeadingWhiteSpace = false;
@@ -96,8 +96,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     field.setFileName(expectedFileName);
     field.setSeparator(separator);
-    field.setQuotechar(quotechar);
-    field.setEscapechar(escapechar);
+    field.setQuoteChar(quoteChar);
+    field.setEscapeChar(escapeChar);
     field.setSkipLines(skipLines);
     field.setStrictQuotes(strictQuotes);
     field.setIgnoreLeadingWhiteSpace(ignoreLeadingWhiteSpace);
@@ -112,8 +112,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     // Check
     assertEquals(expectedFileName, input.getFileName());
     assertEquals(separator, input.getSeparator());
-    assertEquals(quotechar, input.getQuotechar());
-    assertEquals(escapechar, input.getEscapechar());
+    assertEquals(quoteChar, input.getQuoteChar());
+    assertEquals(escapeChar, input.getEscapeChar());
     assertEquals(Integer.valueOf(skipLines), input.getSkipLines());
     assertEquals(strictQuotes, input.isStrictQuotes());
     assertEquals(ignoreLeadingWhiteSpace, input.isIgnoreLeadingWhiteSpace());
@@ -141,9 +141,9 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check
     assertEquals(expectedFileName, input.getFileName());
-    assertEquals(CSVParser.DEFAULT_SEPARATOR, input.getSeparator());
-    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, input.getQuotechar());
-    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, input.getEscapechar());
+    assertEquals(CSVParser.DEFAULT_SEPARATOR, input.getSeparatorAsChar());
+    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, input.getQuoteCharAsChar());
+    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, input.getEscapeCharAsChar());
     assertEquals(Integer.valueOf(CSVReader.DEFAULT_SKIP_LINES), input.getSkipLines());
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, input.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, input.isIgnoreLeadingWhiteSpace());
@@ -164,10 +164,10 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check default visibility
     assertFalse(widget.advancedTable.isVisible());
-    assertFalse(widget.escapeTextbox.isAttached() && widget.escapeTextbox.isVisible());
-    assertFalse(widget.skiplinesIntegerbox.isAttached() && widget.skiplinesIntegerbox.isVisible());
-    assertFalse(widget.separatorTextbox.isAttached() && widget.separatorTextbox.isVisible());
-    assertFalse(widget.quoteTextbox.isAttached() && widget.quoteTextbox.isVisible());
+    assertFalse(widget.escapeTextBox.isAttached() && widget.escapeTextBox.isVisible());
+    assertFalse(widget.skipLinesIntegerBox.isAttached() && widget.skipLinesIntegerBox.isVisible());
+    assertFalse(widget.separatorTextBox.isAttached() && widget.separatorTextBox.isVisible());
+    assertFalse(widget.quoteTextBox.isAttached() && widget.quoteTextBox.isVisible());
     assertFalse(
         widget.strictQuotesCheckbox.isAttached() && widget.strictQuotesCheckbox.isVisible());
     assertFalse(widget.ignoreLeadingWhiteSpaceCheckbox.isAttached()
@@ -181,10 +181,10 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check visibility
     assertTrue(widget.advancedTable.isVisible());
-    assertTrue(widget.escapeTextbox.isVisible());
-    assertTrue(widget.skiplinesIntegerbox.isVisible());
-    assertTrue(widget.separatorTextbox.isVisible());
-    assertTrue(widget.quoteTextbox.isVisible());
+    assertTrue(widget.escapeTextBox.isVisible());
+    assertTrue(widget.skipLinesIntegerBox.isVisible());
+    assertTrue(widget.separatorTextBox.isVisible());
+    assertTrue(widget.quoteTextBox.isVisible());
     assertTrue(widget.strictQuotesCheckbox.isVisible());
     assertTrue(widget.ignoreLeadingWhiteSpaceCheckbox.isVisible());
     assertTrue(widget.headerCheckbox.isVisible());
@@ -233,9 +233,9 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Expected Values
     String expectedFileName = "file name";
-    char separator = ';';
-    char quotechar = '"';
-    char escapechar = '\\';
+    String separator = "\\t";
+    String quoteChar = "\"";
+    String escapeChar = "";
     int skipLines = 0;
     boolean strictQuotes = true;
     boolean ignoreLeadingWhiteSpace = false;
@@ -244,8 +244,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     FileInput fileInput = new FileInput(expectedFileName)
         .setSeparator(separator)
-        .setQuotechar(quotechar)
-        .setEscapechar(escapechar)
+        .setQuoteChar(quoteChar)
+        .setEscapeChar(escapeChar)
         .setSkipLines(skipLines)
         .setStrictQuotes(strictQuotes)
         .setIgnoreLeadingWhiteSpace(ignoreLeadingWhiteSpace)
@@ -257,10 +257,10 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
 
     // Check results
     assertEquals(expectedFileName, editForm.fileListBox.getSelectedValue());
-    assertEquals(separator, editForm.getChar(editForm.separatorTextbox));
-    assertEquals(quotechar, editForm.getChar(editForm.quoteTextbox));
-    assertEquals(escapechar, editForm.getChar(editForm.escapeTextbox));
-    assertEquals(skipLines, (int) editForm.skiplinesIntegerbox.getValue());
+    assertEquals(separator, editForm.getChar(editForm.separatorTextBox));
+    assertEquals(quoteChar, editForm.getChar(editForm.quoteTextBox));
+    assertEquals(escapeChar, editForm.getChar(editForm.escapeTextBox));
+    assertEquals(skipLines, (int) editForm.skipLinesIntegerBox.getValue());
     assertEquals(strictQuotes, (boolean) editForm.strictQuotesCheckbox.getValue());
     assertEquals(hasHeader, (boolean) editForm.headerCheckbox.getValue());
     assertEquals(ignoreLeadingWhiteSpace, (boolean) editForm.ignoreLeadingWhiteSpaceCheckbox.getValue());

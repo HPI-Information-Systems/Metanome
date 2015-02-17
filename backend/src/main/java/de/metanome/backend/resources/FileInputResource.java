@@ -43,10 +43,10 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   @GET
-  @Path("/csvFiles")
+  @Path("/availableInputFiles")
   @Produces("application/json")
-  public List<String> listCsvFiles() throws Exception {
-    File[] csvFiles = inputDataFinder.getAvailableCsvs();
+  public List<String> listAvailableInputFiles() throws Exception {
+    File[] csvFiles = inputDataFinder.getAvailableFiles();
 
     List<String> csvInputFilePaths = new ArrayList<>();
     for (int i = 0; i < csvFiles.length; i++) {

@@ -64,10 +64,11 @@ public class FileInputEditForm extends Grid {
    * Wraps all advanced options' UI elements
    */
   protected FlexTable advancedTable;
-  protected TextBox separatorTextbox;
-  protected TextBox quoteTextbox;
-  protected TextBox escapeTextbox;
-  protected IntegerBox skiplinesIntegerbox;
+  protected TextBox separatorTextBox;
+  protected TextBox quoteTextBox;
+  protected TextBox escapeTextBox;
+  protected TextBox nullValueTextBox;
+  protected IntegerBox skipLinesIntegerBox;
   protected CheckBox strictQuotesCheckbox;
   protected CheckBox ignoreLeadingWhiteSpaceCheckbox;
   protected CheckBox headerCheckbox;
@@ -99,12 +100,12 @@ public class FileInputEditForm extends Grid {
     refreshButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        updateListbox();
+        updateListBox();
       }
     });
 
     fileListBox = new ListBoxInput(false, false);
-    updateListbox();
+    updateListBox();
     standardPanel.setText(0, 0, "File Name");
     standardPanel.setWidget(0, 1, fileListBox);
     standardPanel.setWidget(0, 2, refreshButton);
@@ -121,22 +122,27 @@ public class FileInputEditForm extends Grid {
     advancedTable.setVisible(false);
     this.setWidget(1, 0, advancedTable);
 
-    separatorTextbox = getNewOneCharTextbox();
-    separatorTextbox.setName("Separator Character");
-    addRow(advancedTable, separatorTextbox, "Separator Character");
+    separatorTextBox = getNewOneCharTextBox();
+    separatorTextBox.setName("Separator Character");
+    addRow(advancedTable, separatorTextBox, "Separator Character");
 
-    quoteTextbox = getNewOneCharTextbox();
-    quoteTextbox.setName("Quote Character");
-    addRow(advancedTable, quoteTextbox, "Quote Character");
+    quoteTextBox = getNewOneCharTextBox();
+    quoteTextBox.setName("Quote Character");
+    addRow(advancedTable, quoteTextBox, "Quote Character");
 
-    escapeTextbox = getNewOneCharTextbox();
-    escapeTextbox.setName("Escape Character");
-    addRow(advancedTable, escapeTextbox, "Escape Character");
+    escapeTextBox = getNewOneCharTextBox();
+    escapeTextBox.setName("Escape Character");
+    addRow(advancedTable, escapeTextBox, "Escape Character");
 
-    skiplinesIntegerbox = new IntegerBox();
-    skiplinesIntegerbox.setWidth("5em");
-    skiplinesIntegerbox.setName("Line");
-    addRow(advancedTable, skiplinesIntegerbox, "Line");
+    skipLinesIntegerBox = new IntegerBox();
+    skipLinesIntegerBox.setWidth("5em");
+    skipLinesIntegerBox.setName("Line");
+    addRow(advancedTable, skipLinesIntegerBox, "Line");
+
+    nullValueTextBox = new TextBox();
+    nullValueTextBox.setWidth("5em");
+    nullValueTextBox.setName("Null Value");
+    addRow(advancedTable, nullValueTextBox, "Null Value");
 
     strictQuotesCheckbox = new CheckBox();
     strictQuotesCheckbox.setName("Strict Quotes");
@@ -174,7 +180,9 @@ public class FileInputEditForm extends Grid {
   private void submitUpdate() {
     messageReceiver.clearErrors();
     try {
-      this.fileInputService.updateFileInput(this.getValue().setId(oldFileInput.getId()), new MethodCallback<FileInput>() {
+      FileInput updatedFileInput = this.getValue();
+      updatedFileInput.setId(oldFileInput.getId());
+      this.fileInputService.updateFileInput(updatedFileInput, new MethodCallback<FileInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
           messageReceiver.addError("File Input could not be updated: " + method.getResponse().getText());
@@ -183,7 +191,7 @@ public class FileInputEditForm extends Grid {
           advancedTable.setVisible(false);
           advancedCheckbox.setValue(false);
           setDefaultAdvancedSettings();
-          updateListbox();
+          updateListBox();
         }
 
         @Override
@@ -195,7 +203,7 @@ public class FileInputEditForm extends Grid {
           advancedTable.setVisible(false);
           advancedCheckbox.setValue(false);
           setDefaultAdvancedSettings();
-          updateListbox();
+          updateListBox();
         }
       });
     } catch (InputValidationException e) {
@@ -224,7 +232,7 @@ public class FileInputEditForm extends Grid {
           advancedTable.setVisible(false);
           advancedCheckbox.setValue(false);
           setDefaultAdvancedSettings();
-          updateListbox();
+          updateListBox();
         }
       });
     } catch (InputValidationException e) {
@@ -236,14 +244,15 @@ public class FileInputEditForm extends Grid {
    * Sets the default values of the advanced settings
    */
   private void setDefaultAdvancedSettings() {
-    setSeparator(CSVParser.DEFAULT_SEPARATOR);
-    setQuotechar(CSVParser.DEFAULT_QUOTE_CHARACTER);
-    setEscapechar(CSVParser.DEFAULT_ESCAPE_CHARACTER);
+    setSeparator(String.valueOf(CSVParser.DEFAULT_SEPARATOR));
+    setQuoteChar(String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER));
+    setEscapeChar(String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER));
     setSkipLines(CSVReader.DEFAULT_SKIP_LINES);
     setStrictQuotes(CSVParser.DEFAULT_STRICT_QUOTES);
     setIgnoreLeadingWhiteSpace(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
     setHasHeader(FileIterator.DEFAULT_HAS_HEADER);
     setSkipDifferingLines(FileIterator.DEFAULT_SKIP_DIFFERING_LINES);
+    setNullValue(FileIterator.DEFAULT_NULL_VALUE);
   }
 
   /**
@@ -264,9 +273,9 @@ public class FileInputEditForm extends Grid {
    *
    * @return a TextBox with width and input length limited to 2 (>1 to allow for escape characters)
    */
-  private TextBox getNewOneCharTextbox() {
+  private TextBox getNewOneCharTextBox() {
     TextBox textbox = new TextBox();
-    textbox.setMaxLength(1);
+    textbox.setMaxLength(2);
     textbox.setWidth("2em");
     return textbox;
   }
@@ -294,10 +303,8 @@ public class FileInputEditForm extends Grid {
    * Finds all available CSV files and adds them to a drop-down menu with an empty entry ("--"),
    * which is selected by default but cannot be selected (it is disabled because it does not
    * represent a valid input file).
-   *
-   * @return a GWT ListBox containing all currently available CSV files
    */
-  private void updateListbox() {
+  private void updateListBox() {
     this.fileListBox.clear();
     this.fileListBox.addValue("--");
     this.fileListBox.disableFirstEntry();
@@ -310,7 +317,7 @@ public class FileInputEditForm extends Grid {
     MethodCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
     FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     service.listFileInputs(databaseCallback);
-    service.listCsvFiles(storageCallback);
+    service.listAvailableInputFiles(storageCallback);
   }
 
   private MethodCallback<List<FileInput>> getDatabaseCallback() {
@@ -346,7 +353,7 @@ public class FileInputEditForm extends Grid {
     return new MethodCallback<List<String>>() {
       public void onFailure(Method method, Throwable caught) {
         messageReceiver
-            .addError("Could not find CSV files! Please add them to the input folder.");
+            .addError("Could not find any files! Please add them to the input folder.");
       }
 
       @Override
@@ -355,7 +362,7 @@ public class FileInputEditForm extends Grid {
 
         if (result.size() == 0) {
           messageReceiver
-              .addError("Could not find CSV files! Please add them to the input folder.");
+              .addError("Could not find any files! Please add them to the input folder.");
           return;
         }
 
@@ -405,14 +412,15 @@ public class FileInputEditForm extends Grid {
    * @return the file input with set advanced settings
    */
   private FileInput setAdvancedSettings(FileInput fileInput) throws InputValidationException {
-    fileInput.setEscapechar(getChar(this.escapeTextbox));
+    fileInput.setEscapeChar(getChar(this.escapeTextBox));
     fileInput.setHasHeader(this.headerCheckbox.getValue());
     fileInput.setIgnoreLeadingWhiteSpace(this.ignoreLeadingWhiteSpaceCheckbox.getValue());
-    fileInput.setQuotechar(getChar(this.quoteTextbox));
-    fileInput.setSeparator(getChar(this.separatorTextbox));
+    fileInput.setQuoteChar(getChar(this.quoteTextBox));
+    fileInput.setSeparator(getChar(this.separatorTextBox));
     fileInput.setSkipDifferingLines(this.skipDifferingLinesCheckbox.getValue());
-    fileInput.setSkipLines(getInteger(this.skiplinesIntegerbox));
+    fileInput.setSkipLines(getInteger(this.skipLinesIntegerBox));
     fileInput.setStrictQuotes(this.strictQuotesCheckbox.getValue());
+    fileInput.setNullValue(this.nullValueTextBox.getValue());
 
     return fileInput;
   }
@@ -423,14 +431,14 @@ public class FileInputEditForm extends Grid {
    *
    * @return the character of the text box
    */
-  protected char getChar(TextBox textBox) throws InputValidationException {
+  protected String getChar(TextBox textBox) throws InputValidationException {
     String value = textBox.getValue();
 
-    if (value.length() != 1) {
+    if ((value.length() == 2 && !value.startsWith("\\")) || value.length() > 2) {
       throw new InputValidationException(textBox.getName() + " should only contain one character!");
     }
 
-    return value.charAt(0);
+    return value;
   }
 
   /**
@@ -452,21 +460,23 @@ public class FileInputEditForm extends Grid {
     this.fileListBox.setSelectedValue(fileName);
   }
 
-  protected void setSeparator(char separator) {
-    this.separatorTextbox.setValue(String.valueOf(separator));
+  protected void setSeparator(String separator) {
+    this.separatorTextBox.setValue(separator);
   }
 
-  protected void setEscapechar(char escapechar) {
-    this.escapeTextbox.setValue(String.valueOf(escapechar));
+  protected void setEscapeChar(String escapeChar) {
+    this.escapeTextBox.setValue(escapeChar);
   }
 
-  protected void setQuotechar(char quotechar) {
-    this.quoteTextbox.setValue(String.valueOf(quotechar));
+  protected void setQuoteChar(String quoteChar) {
+    this.quoteTextBox.setValue(quoteChar);
   }
 
   protected void setSkipLines(int skipLines) {
-    this.skiplinesIntegerbox.setValue(skipLines);
+    this.skipLinesIntegerBox.setValue(skipLines);
   }
+
+  protected void setNullValue(String nullValue) { this.nullValueTextBox.setValue(nullValue); }
 
   protected void setStrictQuotes(boolean strictQuotes) {
     this.strictQuotesCheckbox.setValue(strictQuotes);
@@ -498,20 +508,21 @@ public class FileInputEditForm extends Grid {
    * @param fileInput the file input
    */
   public void updateFileInput(FileInput fileInput) {
-    this.updateListbox();
+    this.updateListBox();
 
     setFileName(FilePathHelper.getFileName(fileInput.getFileName()));
 
     commentTextArea.setText(fileInput.getComment());
 
     setSeparator(fileInput.getSeparator());
-    setQuotechar(fileInput.getQuotechar());
-    setEscapechar(fileInput.getEscapechar());
+    setQuoteChar(fileInput.getQuoteChar());
+    setEscapeChar(fileInput.getEscapeChar());
     setSkipLines(fileInput.getSkipLines());
     setStrictQuotes(fileInput.isStrictQuotes());
     setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace());
     setHasHeader(fileInput.isHasHeader());
     setSkipDifferingLines(fileInput.isSkipDifferingLines());
+    setNullValue(fileInput.getNullValue());
 
     this.setWidget(2, 0, updateButton);
     this.oldFileInput = fileInput;
