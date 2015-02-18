@@ -25,10 +25,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
@@ -38,89 +35,6 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class ConfigurationRequirementRelationalInputTest {
-
-  /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String)}
-   *
-   * The identifier should be set in the constructor and be retrievable through getIdentifier. The
-   * numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "some identifier";
-    int expectedNumberOfValues = 1;
-
-    // Execute functionality
-    ConfigurationRequirementRelationalInput
-        configSpec =
-        new ConfigurationRequirementRelationalInput(expectedIdentifier);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String,
-   * int)}
-   *
-   * The identifier should be set in the constructor and be retrievable through getIdentifier. The
-   * numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "some identifier";
-    int expectedNumberOfValues = 2;
-
-    // Execute functionality
-    ConfigurationRequirementRelationalInput
-        configSpec =
-        new ConfigurationRequirementRelationalInput(expectedIdentifier, expectedNumberOfValues);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String,
-   * int, int)}
-   *
-   * The identifier should be set in the constructor and be retrievable through getIdentifier. The
-   * numberOfValues should be set to the range (2, 4).
-   */
-  @Test
-  public void testConstructorGetRange() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "some identifier";
-    int expectedMinNumberOfValues = 2;
-    int expectedMaxNumberOfValues = 4;
-
-    // Execute functionality
-    ConfigurationRequirementRelationalInput
-        configSpec =
-        new ConfigurationRequirementRelationalInput(expectedIdentifier, expectedMinNumberOfValues, expectedMaxNumberOfValues);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
-    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
-    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertFalse(configSpec.isFixNumberOfSettings());
-  }
 
   /**
    * Test method for {@link ConfigurationRequirementRelationalInput#getSettings()} and {@link

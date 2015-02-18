@@ -28,116 +28,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link ConfigurationRequirementListBox}
  */
 public class ConfigurationRequirementListBoxTest {
-
-  /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List)}
-   * The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
-    List<String> actualValues = configSpec.getValues();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertEquals(expectedValues, actualValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List, int)}
-   * The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 2;
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues,
-                                              expectedNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
-    List<String> actualValues = configSpec.getValues();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertEquals(expectedValues, actualValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List
-   * int, int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to the range (2, 4).
-   */
-  @Test
-  public void testConstructorGetRange() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedMinNumberOfValues = 2;
-    int expectedMaxNumberOfValues = 4;
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues,
-                                            expectedMinNumberOfValues, expectedMaxNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
-    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
-    List<String> actualValues = configSpec.getValues();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
-    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertEquals(expectedValues, actualValues);
-    assertFalse(configSpec.isFixNumberOfSettings());
-  }
 
   /**
    * Test method for {@link ConfigurationRequirementListBox#getSettings()} and {@link
@@ -170,36 +67,7 @@ public class ConfigurationRequirementListBoxTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementListBox#getDefaultValue(int)}
-   *
-   * The default values should be accessible via an index.
-   */
-  @Test
-  public void testGetDefaultValues() {
-    // Setup
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox("parameter1", expectedValues, 1, 3);
-    String expectedValue = "second";
-
-    // Execute functionality
-    try {
-      configSpec.checkAndSetDefaultValues(expectedValue);
-    } catch (AlgorithmConfigurationException e) {
-      fail();
-    }
-
-    // Check result
-    assertEquals(expectedValue, configSpec.getDefaultValue(0));
-    assertEquals(null, configSpec.getDefaultValue(2));
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementListBox#checkAndSetDefaultValues(String...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
    */
   @Test
   public void testSetDefaultValues() throws AlgorithmConfigurationException {

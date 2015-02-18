@@ -27,94 +27,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link ConfigurationRequirementInteger}
  */
 public class ConfigurationRequirementIntegerTest {
-
-  /**
-   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String)}
-   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ConfigurationRequirementInteger
-        configSpec =
-        new ConfigurationRequirementInteger(expectedIdentifier);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMaxNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 2;
-    ConfigurationRequirementInteger
-        configSpec =
-        new ConfigurationRequirementInteger(expectedIdentifier, expectedNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getMinNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertTrue(configSpec.isFixNumberOfSettings());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementInteger#ConfigurationRequirementInteger(String,
-   * int, int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to the range (2, 4).
-   */
-  @Test
-  public void testConstructorGetRange() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedMinNumberOfValues = 2;
-    int expectedMaxNumberOfValues = 4;
-    ConfigurationRequirementInteger
-        configSpec =
-        new ConfigurationRequirementInteger(expectedIdentifier, expectedMinNumberOfValues, expectedMaxNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualMinNumberOfValues = configSpec.getMinNumberOfSettings();
-    int actualMaxNumberOfValues = configSpec.getMaxNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedMinNumberOfValues, actualMinNumberOfValues);
-    assertEquals(expectedMaxNumberOfValues, actualMaxNumberOfValues);
-    assertFalse(configSpec.isFixNumberOfSettings());
-  }
 
   /**
    * Test method for {@link ConfigurationRequirementInteger#getSettings()}
@@ -142,7 +61,7 @@ public class ConfigurationRequirementIntegerTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementInteger#checkAndSetDefaultValues(Integer...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDefaultValue<Integer>#checkAndSetDefaultValues(Integer...)}
    */
   @Test
   public void testSetDefaultValues() throws AlgorithmConfigurationException {
@@ -166,31 +85,6 @@ public class ConfigurationRequirementIntegerTest {
     // Check results
     assertEquals(expectedNumber1, actualSettings[0].getValue());
     assertEquals(expectedNumber2, actualSettings[1].getValue());
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementInteger#getDefaultValue(int)}
-   *
-   * The default values should be accessible via an index.
-   */
-  @Test
-  public void testGetDefaultValues() {
-    // Setup
-    ConfigurationRequirementInteger
-        configSpec =
-        new ConfigurationRequirementInteger("parameter1", 2);
-    Integer expectedValue = 5;
-
-    // Execute functionality
-    try {
-      configSpec.checkAndSetDefaultValues(expectedValue, 9);
-    } catch (AlgorithmConfigurationException e) {
-      fail();
-    }
-
-    // Check result
-    assertEquals(expectedValue, configSpec.getDefaultValue(0));
-    assertEquals(null, configSpec.getDefaultValue(2));
   }
 
   /**
