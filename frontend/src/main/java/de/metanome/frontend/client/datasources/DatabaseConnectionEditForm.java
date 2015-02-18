@@ -66,7 +66,7 @@ public class DatabaseConnectionEditForm extends Grid {
     this.setText(0, 0, "Database URL");
     this.setWidget(0, 1, this.dbUrlTextbox);
 
-    this.systemListBox = new ListBoxInput(false);
+    this.systemListBox = new ListBoxInput(false, false);
     this.systemListBox.setValues(Arrays.asList(DbSystem.names()));
     this.setText(1, 0, "Database System");
     this.setWidget(1, 1, this.systemListBox);

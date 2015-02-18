@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class FileInputInput extends InputField {
 
-  public ListBoxInput listbox;
+  public ListBoxInput listBox;
   public Map<String, FileInput> fileInputs;
   private TabWrapper messageReceiver;
   /**
@@ -52,15 +52,15 @@ public class FileInputInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public FileInputInput(boolean optional, TabWrapper messageReceiver) {
-    super(optional);
+  public FileInputInput(boolean optional, boolean required, TabWrapper messageReceiver) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.fileInputs = new HashMap<>();
 
-    listbox = new ListBoxInput(false);
+    listBox = new ListBoxInput(false ,false);
     updateListBox();
-    this.add(listbox);
+    this.add(listBox);
   }
 
   /**
@@ -92,12 +92,12 @@ public class FileInputInput extends InputField {
           messageReceiver.addError("There are no file inputs in the database!");
         }
 
-        listbox.clear();
-        listbox.setValues(fileInputNames);
-        listbox.disableFirstEntry();
+        listBox.clear();
+        listBox.setValues(fileInputNames);
+        listBox.disableFirstEntry();
 
         if (preselectedIdentifier != null) {
-          listbox.setSelectedValue(preselectedIdentifier);
+          listBox.setSelectedValue(preselectedIdentifier);
         }
       }
     };
@@ -118,7 +118,7 @@ public class FileInputInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedFilename = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues()) {
+    if (!this.listBox.containsValues()) {
       return;
     }
 
@@ -136,10 +136,14 @@ public class FileInputInput extends InputField {
    * @return the widget's settings
    */
   public ConfigurationSettingFileInput getValues() throws InputValidationException {
-    String selectedValue = this.listbox.getSelectedValue();
+    String selectedValue = this.listBox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a CSV file!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose a file input!");
+      } else {
+        return null;
+      }
     }
 
     FileInput currentFileInput = this.fileInputs.get(selectedValue);
@@ -158,7 +162,7 @@ public class FileInputInput extends InputField {
     for (Map.Entry<String, FileInput> input : this.fileInputs.entrySet()) {
       FileInput current = input.getValue();
       if (current.getFileName().equals(setting.getFileName())) {
-        this.listbox.setSelectedValue(input.getKey());
+        this.listBox.setSelectedValue(input.getKey());
         return;
       }
     }

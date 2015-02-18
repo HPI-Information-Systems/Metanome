@@ -87,7 +87,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
   /**
    * Test method for {@link DatabaseConnectionEditForm#reset()}
    */
-  public void testResetValues() {
+  public void testResetValues() throws InputValidationException {
     //Setup
     DatabaseConnectionEditForm
         input =
@@ -120,7 +120,7 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
    * of that database connection and the edit form should show a update button instead of an save button.
    * If the method 'show save button' is called, the save button should be visible again.
    */
-  public void testEditButtonClicked() {
+  public void testEditButtonClicked() throws InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
 

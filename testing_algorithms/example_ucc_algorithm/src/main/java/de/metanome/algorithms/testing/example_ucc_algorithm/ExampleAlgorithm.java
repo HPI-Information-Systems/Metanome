@@ -20,11 +20,13 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -35,20 +37,35 @@ import java.util.ArrayList;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
                                          StringParameterAlgorithm, FileInputParameterAlgorithm,
-                                         ProgressEstimatingAlgorithm {
+                                         IntegerParameterAlgorithm, ProgressEstimatingAlgorithm {
 
   protected String path1, path2 = null;
   protected UniqueColumnCombinationResultReceiver resultReceiver;
   protected ProgressReceiver progressReceiver;
 
+  public final static String STRING_IDENTIFIER = "path to output";
+  public final static String FILE_IDENTIFIER = "input file";
+  public final static String INTEGER_IDENTIFIER = "up to level";
+
+
   @Override
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementString(
-        "pathToInputFile", 2));
-    configurationRequirement.add(new ConfigurationRequirementFileInput(
-        "input file", 2));
+    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(
+        STRING_IDENTIFIER, 2);
+    requirementString.setRequired(true);
+    ConfigurationRequirementFileInput requirementFile = new ConfigurationRequirementFileInput(
+        FILE_IDENTIFIER, 3, 5);
+    requirementFile.setRequired(false);
+    ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(
+        INTEGER_IDENTIFIER, 1);
+    requirementInteger.setDefaultValues(new Integer[]{3});
+    requirementInteger.setRequired(true);
+
+    configurationRequirement.add(requirementString);
+    configurationRequirement.add(requirementFile);
+    configurationRequirement.add(requirementInteger);
 
     return configurationRequirement;
   }
@@ -62,7 +79,6 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
             new ColumnIdentifier("table1", "column1"),
             new ColumnIdentifier("table2", "column2")));
       } catch (CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
@@ -87,8 +103,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   @Override
   public void setStringConfigurationValue(String identifier, String... values)
       throws AlgorithmConfigurationException {
-    System.out.println("setting value for " + identifier);
-    if ((identifier.equals("pathToInputFile")) && (values.length == 2)) {
+    if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 2)) {
       path1 = values[0];
       path2 = values[1];
     } else {
@@ -99,8 +114,16 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   @Override
   public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
       throws AlgorithmConfigurationException {
-    if (identifier.equals("input file")) {
-      System.out.println("Input file is not being set on algorithm.");
+    if (!identifier.equals(FILE_IDENTIFIER) && values.length < 3 && values.length > 5) {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+    }
+  }
+
+  @Override
+  public void setIntegerConfigurationValue(String identifier, int... values)
+      throws AlgorithmConfigurationException {
+    if (!identifier.equals(INTEGER_IDENTIFIER) && values.length != 1) {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
 

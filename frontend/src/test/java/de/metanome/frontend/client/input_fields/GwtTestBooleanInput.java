@@ -26,7 +26,7 @@ public class GwtTestBooleanInput extends GWTTestCase {
    * for {@link de.metanome.frontend.client.input_fields.BooleanInput#setValue(boolean)}
    */
   public void testGetSetValues() {
-    BooleanInput input = new BooleanInput(false);
+    BooleanInput input = new BooleanInput(false, false);
 
     input.setValue(true);
     assertTrue(input.getValue());
@@ -34,7 +34,6 @@ public class GwtTestBooleanInput extends GWTTestCase {
     input.setValue(false);
     assertFalse(input.getValue());
   }
-
 
   @Override
   public String getModuleName() {

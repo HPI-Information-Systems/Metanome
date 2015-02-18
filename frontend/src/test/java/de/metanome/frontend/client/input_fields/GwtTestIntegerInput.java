@@ -27,10 +27,34 @@ public class GwtTestIntegerInput extends GWTTestCase {
    * for {@link de.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
    */
   public void testGetSetValues() throws InputValidationException {
-    IntegerInput input = new IntegerInput(false);
+    IntegerInput input = new IntegerInput(false, false);
 
     input.setValue(4);
     assertEquals(4, input.getValue());
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.IntegerInput#getValue()} and
+   * for {@link de.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
+   */
+  public void testGetSetRequiredValues() {
+    IntegerInput input = new IntegerInput(false, true);
+
+    try {
+      input.getValue();
+    } catch (InputValidationException e) {
+      // should throw an exception
+    }
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.IntegerInput#getValue()} and
+   * for {@link de.metanome.frontend.client.input_fields.IntegerInput#setValue(Integer)}
+   */
+  public void testGetSetEmptyValues() throws InputValidationException {
+    IntegerInput input = new IntegerInput(false, false);
+
+    assertEquals(-1, input.getValue());
   }
 
   @Override

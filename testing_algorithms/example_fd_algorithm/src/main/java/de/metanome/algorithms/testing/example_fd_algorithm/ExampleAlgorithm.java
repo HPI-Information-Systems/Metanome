@@ -54,39 +54,48 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER));
-    configurationRequirement
-        .add(new ConfigurationRequirementDatabaseConnection(DATABASE_IDENTIFIER));
+    ConfigurationRequirementString requirementString =
+        new ConfigurationRequirementString(STRING_IDENTIFIER);
+    ConfigurationRequirementFileInput requirementFileInput =
+        new ConfigurationRequirementFileInput(CSVFILE_IDENTIFIER);
+    ConfigurationRequirementDatabaseConnection requirementDatabaseConnection =
+        new ConfigurationRequirementDatabaseConnection(DATABASE_IDENTIFIER);
 
     ArrayList<String> listBoxValues = new ArrayList<>();
     listBoxValues.add("column 1");
     listBoxValues.add("column 2");
     listBoxValues.add("column 3");
     ConfigurationRequirementListBox
-        specificationListBox =
+        requirementListBox =
         new ConfigurationRequirementListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
-    configurationRequirement.add(specificationListBox);
+
+    requirementString.setRequired(false);
+    requirementFileInput.setRequired(false);
+    requirementDatabaseConnection.setRequired(false);
+    requirementListBox.setRequired(false);
+
+    configurationRequirement.add(requirementString);
+    configurationRequirement.add(requirementListBox);
+    configurationRequirement.add(requirementFileInput);
+    configurationRequirement.add(requirementDatabaseConnection);
 
     return configurationRequirement;
   }
 
   @Override
   public void execute() {
-    if (path != null && selectedColumn != null) {
-      try {
-        resultReceiver.receiveResult(
-            new FunctionalDependency(
-                new ColumnCombination(
-                    new ColumnIdentifier("table1", "column1"),
-                    new ColumnIdentifier("table1", "column2")),
-                new ColumnIdentifier("table1", "column5")
-            )
-        );
-      } catch (CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+    try {
+      resultReceiver.receiveResult(
+          new FunctionalDependency(
+              new ColumnCombination(
+                  new ColumnIdentifier("table1", "column1"),
+                  new ColumnIdentifier("table1", "column2")),
+              new ColumnIdentifier("table1", "column5")
+          )
+      );
+    } catch (CouldNotReceiveResultException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
@@ -98,9 +107,7 @@ public class ExampleAlgorithm
   @Override
   public void setStringConfigurationValue(String identifier, String... values)
       throws AlgorithmConfigurationException {
-    if ((identifier.equals(STRING_IDENTIFIER)) && (values.length == 1)) {
-      path = values[0];
-    } else {
+    if (!identifier.equals(STRING_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
@@ -109,17 +116,15 @@ public class ExampleAlgorithm
   public void setFileInputConfigurationValue(String identifier,
                                              FileInputGenerator... values)
       throws AlgorithmConfigurationException {
-    if (identifier.equals(CSVFILE_IDENTIFIER)) {
-      System.out.println("Input file is not being set on algorithm.");
+    if (!identifier.equals(CSVFILE_IDENTIFIER)) {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
 
   @Override
   public void setListBoxConfigurationValue(String identifier, String... selectedValues)
       throws AlgorithmConfigurationException {
-    if ((identifier.equals(LISTBOX_IDENTIFIER)) && (selectedValues.length == 1)) {
-      selectedColumn = selectedValues[0];
-    } else {
+    if (!identifier.equals(LISTBOX_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
@@ -129,8 +134,8 @@ public class ExampleAlgorithm
                                                                DatabaseConnectionGenerator... values)
       throws AlgorithmConfigurationException {
 
-    if (identifier.equals(DATABASE_IDENTIFIER)) {
-      inputGenerator = values[0];
+    if (!identifier.equals(DATABASE_IDENTIFIER)) {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
 }

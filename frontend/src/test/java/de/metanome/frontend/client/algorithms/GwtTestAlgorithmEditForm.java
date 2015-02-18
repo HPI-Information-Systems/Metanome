@@ -135,7 +135,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-  public void testReset() {
+  public void testReset() throws InputValidationException {
     // Set up
     TestHelper.resetDatabaseSync();
 
@@ -173,7 +173,7 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
    * of that algorithm and the edit form should show a update button instead of an save button.
    * If the method 'show save button' is called, the save button should be visible again.
    */
-  public void testEditButtonClicked() {
+  public void testEditButtonClicked() throws InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
 

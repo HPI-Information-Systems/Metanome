@@ -18,6 +18,8 @@ package de.metanome.frontend.client.input_fields;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import de.metanome.frontend.client.helpers.InputValidationException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
   @Override
   public void gwtSetUp() throws Exception {
-    listBox = new ListBoxInput(true);
+    listBox = new ListBoxInput(true, false);
 
     expectedValues = new ArrayList<>();
     expectedValues.add("value1");
@@ -52,6 +54,21 @@ public class GwtTestListBoxInput extends GWTTestCase {
 
     // Check result
     assertEquals(expectedValues, actualValues);
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.input_fields.ListBoxInput#getSelectedValue()} and
+   * {@link ListBoxInput#setValues(java.util.List)}
+   */
+  public void testGetSetRequiredValues() {
+    // Execute functionality
+    listBox.setValues(expectedValues);
+
+    try {
+      listBox.getSelectedValue();
+    } catch (InputValidationException e) {
+      // should throw an exception
+    }
   }
 
   /**
@@ -103,7 +120,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
    *
    * On an empty list box the getSelectedValue method should return null.
    */
-  public void testGetSelectedValueEmpty() {
+  public void testGetSelectedValueEmpty() throws InputValidationException {
     // Execute functionality
     String actualSelectedValue = listBox.getSelectedValue();
 
@@ -117,7 +134,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
    * On a list box with values but no selected value, the getSelectedValue method should return the
    * first value.
    */
-  public void testGetSelectedValueNonSelected() {
+  public void testGetSelectedValueNonSelected() throws InputValidationException {
     // Setup
     listBox.setValues(expectedValues);
     // Expected values
@@ -134,7 +151,7 @@ public class GwtTestListBoxInput extends GWTTestCase {
    * Test method for {@link ListBoxInput#getSelectedValue()} and {@link
    * de.metanome.frontend.client.input_fields.ListBoxInput#setSelectedValue(String)}
    */
-  public void testGetSetSelectedValue() {
+  public void testGetSetSelectedValue() throws InputValidationException {
     // Setup
     // Expected values
     String expectedSelectedValue = expectedValues.get(1);

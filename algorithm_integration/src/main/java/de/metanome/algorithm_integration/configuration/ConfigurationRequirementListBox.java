@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementListBox")
-public class ConfigurationRequirementListBox extends ConfigurationRequirement {
+public class ConfigurationRequirementListBox extends ConfigurationRequirementDefaultValue<String> {
 
   private ConfigurationSettingListBox[] settings;
   private List<String> values;
@@ -69,6 +69,22 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
     this.values = values;
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementListBox}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param values           the values, which should be displayed in the list box
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementListBox(String identifier,
+                                         List<String> values,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+    this.values = values;
+  }
+
   @Override
   public ConfigurationSettingListBox[] getSettings() {
     return this.settings;
@@ -80,7 +96,6 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   public void setSettings(ConfigurationSettingListBox... settings) {
     this.settings = settings;
   }
-
 
   /**
    * @return the values, which should be displayed in the list box
@@ -103,6 +118,7 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+    applyDefaultValues();
   }
 
   /**
@@ -114,6 +130,21 @@ public class ConfigurationRequirementListBox extends ConfigurationRequirement {
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
+  }
+
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @XmlTransient
+  @Override
+  public void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setSelectedValue(this.defaultValues[i]);
+    }
   }
 
 }

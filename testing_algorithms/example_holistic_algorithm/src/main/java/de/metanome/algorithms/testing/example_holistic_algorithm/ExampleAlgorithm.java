@@ -44,8 +44,11 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementString(
-        "pathToOutputFile"));
+    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(
+        "pathToOutputFile");
+    requirementString.setRequired(true);
+
+    configurationRequirement.add(requirementString);
 
     return configurationRequirement;
   }

@@ -24,7 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 
@@ -47,54 +46,6 @@ public class ConfigurationRequirementTableInputTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementTableInput#ConfigurationRequirementTableInput(String)}
-   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ConfigurationRequirementTableInput
-        configSpec =
-        new ConfigurationRequirementTableInput(expectedIdentifier);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementTableInput#ConfigurationRequirementTableInput(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOFValues = 2;
-    ConfigurationRequirementTableInput
-        configSpec =
-        new ConfigurationRequirementTableInput(expectedIdentifier, expectedNumberOFValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOFValues, actualNumberOfValues);
-  }
-
-  /**
    * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#checkAndSetSettings(ConfigurationSettingString...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -105,6 +56,24 @@ public class ConfigurationRequirementTableInputTest {
     ConfigurationRequirementTableInput
         configSpec =
         new ConfigurationRequirementTableInput("parameter1", 2);
+    // Expected values
+    ConfigurationSettingTableInput expectedValue = mock(ConfigurationSettingTableInput.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#checkAndSetSettings(ConfigurationSettingString...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementTableInput
+        configSpec =
+        new ConfigurationRequirementTableInput("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingTableInput expectedValue = mock(ConfigurationSettingTableInput.class);
 

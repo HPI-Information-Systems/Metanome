@@ -29,7 +29,8 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestRelationalInputInput extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.RelationalInputInput#RelationalInputInput(boolean, de.metanome.frontend.client.TabWrapper)}
+   * Test method for {@link de.metanome.frontend.client.input_fields.RelationalInputInput#
+   * RelationalInputInput(boolean, boolean, de.metanome.frontend.client.TabWrapper)}
    * <p/> After calling the constructor the optional parameter should be set correctly and all
    * widgets should be initialized.
    */
@@ -44,7 +45,8 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
     boolean expectedOptional = true;
 
     // Execute functionality
-    RelationalInputInput actualRelationalInputInput = new RelationalInputInput(expectedOptional, tabWrapper);
+    RelationalInputInput actualRelationalInputInput = new RelationalInputInput(
+        expectedOptional, false, tabWrapper);
 
     // Check result
     assertEquals(expectedOptional, actualRelationalInputInput.isOptional);
@@ -57,7 +59,7 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
 
   /**
    * Test method for {@link RelationalInputInput#getValues()} and {@link RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
-   * <p/> The getValues and setValues methods should set and retrieve settings.
+   * <p/> The getValue and setValue methods should set and retrieve settings.
    */
   public void testGetSetValues() {
     // Set up
@@ -71,7 +73,8 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
         new ConfigurationSettingFileInput("filename");
 
     // Initialize CsvFileInput (waiting for fetching all current file inputs)
-    final RelationalInputInput relationalInputInputs = new RelationalInputInput(false, new TabWrapper());
+    final RelationalInputInput relationalInputInputs = new RelationalInputInput(
+        false, false, new TabWrapper());
 
     relationalInputInputs.listbox.addValue("filename");
     relationalInputInputs.inputs.put("filename", fileInput);
@@ -91,6 +94,29 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
 
     // Check result
     assertEquals(expectedSetting.getValueAsString(), actualSetting.getValueAsString());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link RelationalInputInput#getValues()} and
+   * {@link RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
+   * <p/> The getValue and setValue methods should set and retrieve settings.
+   */
+  public void testGetSetRequiredValues() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    // Initialize CsvFileInput (waiting for fetching all current file inputs)
+    final RelationalInputInput relationalInputInputs = new RelationalInputInput(
+        false, true, new TabWrapper());
+
+    try {
+      relationalInputInputs.getValues();
+    } catch (InputValidationException | AlgorithmConfigurationException e) {
+      // should throw an exception
+    }
 
     // Cleanup
     TestHelper.resetDatabaseSync();

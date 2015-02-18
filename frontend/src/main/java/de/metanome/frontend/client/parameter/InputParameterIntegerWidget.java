@@ -17,14 +17,15 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.IntegerInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterIntegerWidget extends InputParameterWidget {
@@ -38,9 +39,13 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional) {
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
+    // Create the field with the default value, if one is set
+    Integer defaultValue = this.specification.getDefaultValue(settingIndex);
+    IntegerInput field = new IntegerInput(optional, required);
+    if (defaultValue != null) field.setValue(defaultValue);
 
-    IntegerInput field = new IntegerInput(optional);
+    // Add the field at the correct position
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(field, index);
@@ -55,15 +60,16 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
 
   protected ConfigurationSettingInteger[] getConfigurationSettings()
       throws InputValidationException {
-    ConfigurationSettingInteger[]
-        values =
-        new ConfigurationSettingInteger[this.inputWidgets.size()];
-    int i = 0;
+    List<ConfigurationSettingInteger> values = new ArrayList<>();
+
     for (IntegerInput ii : this.inputWidgets) {
-      values[i] = new ConfigurationSettingInteger(ii.getValue());
-      i++;
+      int current = ii.getValue();
+      if (current != -1) {
+        values.add(new ConfigurationSettingInteger(current));
+      }
     }
-    return values;
+
+    return values.toArray(new ConfigurationSettingInteger[values.size()]);
   }
 
 
