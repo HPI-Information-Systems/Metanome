@@ -101,6 +101,23 @@ public class ColumnIdentifierTest {
   }
 
   /**
+   * Test method for {@link ColumnIdentifier#fromString(String str)}
+   * A {@link ColumnIdentifier} should be creatable from a string.
+   */
+  @Test
+  public void testFromString2() {
+    // Setup
+    ColumnIdentifier expectedIdentifier = new ColumnIdentifier("table.csv", "column");
+    String str = expectedIdentifier.toString();
+
+    // Execute functionality
+    ColumnIdentifier actualIdentifier = ColumnIdentifier.fromString(str);
+
+    // Check results
+    assertEquals(expectedIdentifier, actualIdentifier);
+  }
+
+  /**
    * Two ColumnIdentifiers with different values should not be equal.
    */
   @Test
