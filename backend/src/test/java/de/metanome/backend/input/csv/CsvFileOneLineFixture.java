@@ -47,8 +47,8 @@ public class CsvFileOneLineFixture {
     this.separator = separator;
     this.quoteChar = quoteChar;
     this.setting = new ConfigurationSettingFileInput(this.getExpectedRelationName())
-        .setSeparatorChar(this.separator)
-        .setQuoteChar(this.quoteChar);
+        .setSeparatorChar(String.valueOf(this.separator))
+        .setQuoteChar(String.valueOf(this.quoteChar));
   }
 
   public FileIterator getTestData() throws InputIterationException, InputGenerationException {

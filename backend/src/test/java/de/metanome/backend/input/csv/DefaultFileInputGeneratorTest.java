@@ -66,7 +66,7 @@ public class DefaultFileInputGeneratorTest {
     this.expectedSkipDifferingLines = true;
 
     this.expectedSetting = new ConfigurationSettingFileInput(expectedFile.getPath());
-    this.expectedSetting.setEscapeChar(this.expectedEscape);
+    this.expectedSetting.setEscapeChar(String.valueOf(this.expectedEscape));
     this.expectedSetting.setSkipLines(this.expectedLine);
     this.expectedSetting.setStrictQuotes(this.expectedStrictQuotes);
     this.expectedSetting.setIgnoreLeadingWhiteSpace(this.expectedIgnoreLeadingWhiteSpace);

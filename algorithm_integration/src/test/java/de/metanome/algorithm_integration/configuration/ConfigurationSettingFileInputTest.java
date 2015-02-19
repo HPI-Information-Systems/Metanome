@@ -60,9 +60,9 @@ public class ConfigurationSettingFileInputTest {
     // Check result
     assertEquals(expectedFileName, actualSetting.getFileName());
     assertEquals(expectedIsAdvanced, actualSetting.isAdvanced());
-    assertEquals(expectedSeparator, actualSetting.getSeparatorChar());
-    assertEquals(expectedQuote, actualSetting.getQuoteChar());
-    assertEquals(expectedEscape, actualSetting.getEscapeChar());
+    assertEquals(expectedSeparator, actualSetting.getSeparatorAsChar());
+    assertEquals(expectedQuote, actualSetting.getQuoteCharAsChar());
+    assertEquals(expectedEscape, actualSetting.getEscapeCharAsChar());
     assertEquals(expectedIsStrictQuotes, actualSetting.isStrictQuotes());
     assertEquals(expectedIsIgnoreLeadingWhitespace, actualSetting.isIgnoreLeadingWhiteSpace());
     assertEquals(expectedLines, actualSetting.getSkipLines());

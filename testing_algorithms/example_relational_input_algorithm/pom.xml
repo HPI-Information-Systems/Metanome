@@ -83,7 +83,7 @@
                     <archive>
                         <manifestEntries>
                             <Algorithm-Bootstrap-Class>
-                                de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm
+                                de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm
                             </Algorithm-Bootstrap-Class>
                         </manifestEntries>
                     </archive>

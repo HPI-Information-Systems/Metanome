@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 
 public abstract class ResultReceiver implements CloseableOmniscientResultReceiver {
 
-  public static final String RESULT_TEST_DIR = "results/test";
+  public static final String RESULT_TEST_DIR = "results" + File.separator + "test";
   public static final String RESULT_DIR   = "results";
 
   protected String algorithmExecutionIdentifier;

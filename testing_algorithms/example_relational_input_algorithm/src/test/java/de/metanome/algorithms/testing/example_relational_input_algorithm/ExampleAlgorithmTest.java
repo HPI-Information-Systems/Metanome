@@ -38,21 +38,21 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm}
+ * Tests for {@link ExampleAlgorithm}
  *
  * @author Jakob Zwiener
  */
-public class RelationalInputAlgorithmTest {
+public class ExampleAlgorithmTest {
 
-  private RelationalInputAlgorithm algorithm;
+  private ExampleAlgorithm algorithm;
 
   @Before
   public void setUp() {
-    algorithm = new RelationalInputAlgorithm();
+    algorithm = new ExampleAlgorithm();
   }
 
   /**
-   * Test method for {@link RelationalInputAlgorithm#getConfigurationRequirements()}
+   * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
    *
    * The algorithm should require a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput}
    * and a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput}.
@@ -69,7 +69,7 @@ public class RelationalInputAlgorithmTest {
   }
 
   /**
-   * Test method for {@link RelationalInputAlgorithm#execute()}
+   * Test method for {@link ExampleAlgorithm#execute()}
    *
    * The algorithm should throw an {@link de.metanome.algorithm_integration.AlgorithmExecutionException}
    * if the relational input has not been set.
@@ -92,7 +92,7 @@ public class RelationalInputAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm#setTableInputConfigurationValue(String,
+   * Test method for {@link ExampleAlgorithm#setTableInputConfigurationValue(String,
    * de.metanome.algorithm_integration.input.TableInputGenerator...)}
    *
    * The first {@link de.metanome.algorithm_integration.input.TableInputGenerator} in the
@@ -113,7 +113,7 @@ public class RelationalInputAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm#setRelationalInputConfigurationValue(String,
+   * Test method for {@link ExampleAlgorithm#setRelationalInputConfigurationValue(String,
    * de.metanome.algorithm_integration.input.RelationalInputGenerator...)}
    *
    * The first {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} in the
@@ -137,7 +137,7 @@ public class RelationalInputAlgorithmTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm#setResultReceiver(de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver)}
+   * Test method for {@link ExampleAlgorithm#setResultReceiver(de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver)}
    *
    * The result receiver should be stored.
    */

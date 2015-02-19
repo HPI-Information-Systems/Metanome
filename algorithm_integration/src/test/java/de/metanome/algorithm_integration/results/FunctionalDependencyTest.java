@@ -141,6 +141,30 @@ public class FunctionalDependencyTest {
   }
 
   /**
+   * Test method for {@link FunctionalDependency#fromString(String str)}
+   * A {@link FunctionalDependency} should be creatable from a string.
+   */
+  @Test
+  public void testFromStringWithEmptyDeterminant() {
+    // Setup
+    ColumnCombination
+        expectedDeterminant =
+        new ColumnCombination();
+    ColumnIdentifier expectedDependant = new ColumnIdentifier("table1", "column7");
+    FunctionalDependency
+        expectedFD =
+        new FunctionalDependency(expectedDeterminant, expectedDependant);
+
+    String str = expectedFD.toString();
+
+    // Execute functionality
+    FunctionalDependency actualFD = FunctionalDependency.fromString(str);
+
+    // Check result
+    assertEquals(expectedFD, actualFD);
+  }
+
+  /**
    * Test method for {@link FunctionalDependency#equals(Object)} and {@link
    * FunctionalDependency#hashCode()} <p/> {@link FunctionalDependency}s with equal determinant and
    * dependants should be equal.
