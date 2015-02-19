@@ -33,11 +33,11 @@ import java.util.ArrayList;
 /**
  * A testing algorithm that requests a {@link de.metanome.algorithm_integration.input.TableInputGenerator}
  * and {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}. An exception is
- * thrown if they are not set upon calling {@link RelationalInputAlgorithm#execute()}.
+ * thrown if they are not set upon calling {@link ExampleAlgorithm#execute()}.
  *
  * @author Jakob Zwiener
  */
-public class RelationalInputAlgorithm implements UniqueColumnCombinationsAlgorithm,
+public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
                                                  RelationalInputParameterAlgorithm,
                                                  TableInputParameterAlgorithm {
 
