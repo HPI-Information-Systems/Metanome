@@ -66,9 +66,9 @@ public class FileIterator implements RelationalInput {
 
     this.csvReader =
         new CSVReader(reader,
-                      setting.getSeparatorChar(),
-                      setting.getQuoteChar(),
-                      setting.getEscapeChar(),
+                      setting.getSeparatorAsChar(),
+                      setting.getQuoteCharAsChar(),
+                      setting.getEscapeCharAsChar(),
                       setting.getSkipLines(),
                       setting.isStrictQuotes(),
                       setting.isIgnoreLeadingWhiteSpace());

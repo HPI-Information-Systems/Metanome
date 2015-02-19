@@ -210,11 +210,11 @@ public class RelationalInputInput extends InputField {
   private ConfigurationSettingRelationalInput getConfigurationSettingFileInput(FileInput fileInput) {
     return new ConfigurationSettingFileInput()
         .setFileName(fileInput.getFileName())
-        .setEscapeChar(fileInput.getEscapeCharAsChar())
+        .setEscapeChar(fileInput.getEscapeChar())
         .setHeader(fileInput.isHasHeader())
         .setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace())
-        .setQuoteChar(fileInput.getQuoteCharAsChar())
-        .setSeparatorChar(fileInput.getSeparatorAsChar())
+        .setQuoteChar(fileInput.getQuoteChar())
+        .setSeparatorChar(fileInput.getSeparator())
         .setSkipDifferingLines(fileInput.isSkipDifferingLines())
         .setSkipLines(fileInput.getSkipLines())
         .setStrictQuotes(fileInput.isStrictQuotes());

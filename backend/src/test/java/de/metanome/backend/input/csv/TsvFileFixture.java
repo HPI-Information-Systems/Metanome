@@ -25,9 +25,6 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 
-/**
- * Created by tanja on 13.02.15.
- */
 public class TsvFileFixture {
 
   protected static final char QUOTE_CHAR = '\'';
@@ -45,12 +42,12 @@ public class TsvFileFixture {
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
-        .setSeparatorChar(SEPARATOR)
+        .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
         .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
         .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(ESCAPE)
-        .setQuoteChar(QUOTE_CHAR)
+        .setEscapeChar(String.valueOf(ESCAPE))
+        .setQuoteChar(String.valueOf(QUOTE_CHAR))
         .setSkipLines(SKIP_LINES)
         .setSkipDifferingLines(skipDifferingLines);
 

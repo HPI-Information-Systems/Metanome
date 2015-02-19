@@ -44,12 +44,12 @@ public class CsvFileFixture {
   public CsvFileFixture() {
     this.fileFixture = new FileFixture(getCsvFileData());
     this.setting = new ConfigurationSettingFileInput("some relation")
-        .setSeparatorChar(SEPARATOR)
+        .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
         .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
         .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(ESCAPE)
-        .setQuoteChar(QUOTE_CHAR);
+        .setEscapeChar(String.valueOf(ESCAPE))
+        .setQuoteChar(String.valueOf(QUOTE_CHAR));
   }
 
   public File getTestDataPath(String fileName)
