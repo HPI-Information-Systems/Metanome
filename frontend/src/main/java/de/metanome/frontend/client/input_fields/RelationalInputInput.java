@@ -57,15 +57,15 @@ public class RelationalInputInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public RelationalInputInput(boolean optional, TabWrapper messageReceiver) {
-    super(optional);
+  public RelationalInputInput(boolean optional, boolean required, TabWrapper messageReceiver) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.inputs = new HashMap<>();
     this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     this.tableInputService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
 
-    listbox = new ListBoxInput(false);
+    listbox = new ListBoxInput(false, false);
     updateListBox();
     this.add(listbox);
   }
@@ -167,8 +167,12 @@ public class RelationalInputInput extends InputField {
       throws InputValidationException, AlgorithmConfigurationException {
     String selectedValue = this.listbox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose an input!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose an input!");
+      } else {
+        return null;
+      }
     }
 
     Input currentInput = this.inputs.get(selectedValue);

@@ -19,10 +19,11 @@ package de.metanome.frontend.client.parameter;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.StringInput;
 
 public class GwtTestStringParameter extends GWTTestCase {
@@ -71,13 +72,37 @@ public class GwtTestStringParameter extends GWTTestCase {
     assertTrue(widget.inputWidgets.get(0).isOptional);    //input field must be optional
   }
 
-  /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean)}
-   */
-  public void testAddInput() throws AlgorithmConfigurationException {
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
     //Setup
+    int maxValue = 5;
+    ConfigurationRequirementString
+        specification =
+        new ConfigurationRequirementString("string", 3, maxValue);
+
+    //Execute
+    InputParameterStringWidget
+        widget =
+        new InputParameterStringWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean, boolean, int)}
+   */
+  public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
+    //Setup
+    String expectedValue = "test";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
                                                                                           ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+    specification.checkAndSetDefaultValues(expectedValue);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());
@@ -85,11 +110,12 @@ public class GwtTestStringParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     //Execute
-    widget.addInputField(true);
+    widget.addInputField(true, false, 0);
 
     //Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
+    assertEquals(expectedValue, widget.inputWidgets.get(0).getValue());
   }
 
   /**
@@ -116,7 +142,8 @@ public class GwtTestStringParameter extends GWTTestCase {
   /**
    * Test method for {@link InputParameterStringWidget#getUpdatedSpecification()}
    */
-  public void testRetrieveValues() throws AlgorithmConfigurationException {
+  public void testRetrieveValues() throws AlgorithmConfigurationException,
+                                          InputValidationException {
     //Setup
     String value = "something";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",

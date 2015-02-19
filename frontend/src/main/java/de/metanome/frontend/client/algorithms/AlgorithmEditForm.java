@@ -43,7 +43,7 @@ public class AlgorithmEditForm extends Grid {
   protected final AlgorithmsPage algorithmsPage;
   protected TabWrapper messageReceiver;
 
-  protected ListBoxInput fileListBox = new ListBoxInput(false);
+  protected ListBoxInput fileListBox = new ListBoxInput(false, false);
   protected TextBox nameTextBox = new TextBox();
   protected TextBox authorTextBox = new TextBox();
   protected TextArea descriptionTextArea = new TextArea();

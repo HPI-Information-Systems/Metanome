@@ -33,21 +33,22 @@ public class IntegerInput extends InputField {
   /**
    * @param optional If true, a remove button will be rendered, to remove this widget from its
    *                 parent.
+   * @param required If true, a value has to be set.
    */
-  public IntegerInput(boolean optional) {
-    super(optional);
+  public IntegerInput(boolean optional, boolean required) {
+    super(optional, required);
 
     this.textbox = new IntegerBox();
     this.add(this.textbox);
   }
 
   /**
-   * Checks if the textbox contains only numbers and returns the number or an exception if it does
-   * not contain only numbers or -1 if the textbox is emtpy.
+   * Checks if the input field contains only numbers and returns the inserted number.
+   * If the input field is empty and the value is not required, -1 is returned.
    *
-   * @return the value of its text box
-   * @throws de.metanome.frontend.client.helpers.InputValidationException if the value cannot be
-   *                                                                      parsed as an int
+   * @return the value of the input field
+   * @throws InputValidationException if the value cannot be parsed as an int
+   *                                  or if the value was not set, but is required
    */
   public int getValue() throws InputValidationException {
     Integer val;
@@ -56,9 +57,15 @@ public class IntegerInput extends InputField {
     } catch (ParseException e) {
       throw new InputValidationException("Only numbers are allowed!", e);
     }
+
     if (val == null) {
-      throw new InputValidationException("You have to enter a number!");
+      if (this.isRequired) {
+        throw new InputValidationException("You have to enter a number!");
+      } else {
+        return -1;
+      }
     }
+
     return val;
   }
 

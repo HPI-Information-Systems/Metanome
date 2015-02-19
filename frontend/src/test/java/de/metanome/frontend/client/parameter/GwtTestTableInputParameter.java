@@ -56,21 +56,21 @@ public class GwtTestTableInputParameter  extends GWTTestCase {
     tableInput.setTableName(aTableName);
     tableInput.setDatabaseConnection(connection);
 
-    TableInputInput widget = new TableInputInput(false, tabWrapper);
+    TableInputInput widget = new TableInputInput(false, false, tabWrapper);
     ConfigurationSettingTableInput setting = new ConfigurationSettingTableInput();
     setting.setTable(aTableName);
     setting.setDatabaseConnection(new ConfigurationSettingDatabaseConnection("url", "user", "pwd", DbSystem.DB2));
 
-    widget.listbox.addValue("--");
-    widget.listbox.addValue(aTableName);
+    widget.listBox.addValue("--");
+    widget.listBox.addValue(aTableName);
     widget.tableInputs.put(aTableName, tableInput);
 
     // Execute
     widget.selectDataSource(setting);
 
     //Check
-    assertEquals(aTableName, widget.listbox.getSelectedValue());
-    assertEquals(aTableName, widget.getValues().getTable());
+    assertEquals(aTableName, widget.listBox.getSelectedValue());
+    assertEquals(aTableName, widget.getValue().getTable());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -107,14 +107,14 @@ public class GwtTestTableInputParameter  extends GWTTestCase {
         dataSourceWidget =
         new InputParameterTableInputWidget(configSpec, tabWrapper);
 
-    dataSourceWidget.inputWidgets.get(0).listbox.addValue(aTableName);
+    dataSourceWidget.inputWidgets.get(0).listBox.addValue(aTableName);
     dataSourceWidget.inputWidgets.get(0).tableInputs.put(aTableName, tableInput);
 
     // Execute
     dataSourceWidget.setDataSource(setting);
 
     // Check
-    assertTrue(((TableInputInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
+    assertTrue(((TableInputInput) dataSourceWidget.getWidget(0)).listBox.getValues().size() == 1);
 
     ConfigurationSettingDataSource retrievedSetting = null;
     try {
@@ -130,6 +130,28 @@ public class GwtTestTableInputParameter  extends GWTTestCase {
 
     // Cleanup
     TestHelper.resetDatabaseSync();
+  }
+
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
+    int maxValue = 5;
+    ConfigurationRequirementTableInput
+        specification =
+        new ConfigurationRequirementTableInput("table input", 3, maxValue);
+
+    //Execute
+    InputParameterTableInputWidget
+        widget =
+        new InputParameterTableInputWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
   }
 
 

@@ -18,6 +18,8 @@ package de.metanome.frontend.client.input_fields;
 
 import com.google.gwt.user.client.ui.ListBox;
 
+import de.metanome.frontend.client.helpers.InputValidationException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,15 +37,15 @@ public class ListBoxInput extends InputField {
    * @param optional If true, a remove button will be rendered, to remove this widget from its
    *                 parent.
    */
-  public ListBoxInput(boolean optional) {
-    super(optional);
+  public ListBoxInput(boolean optional, boolean required) {
+    super(optional, required);
 
     this.listbox = new ListBox();
     this.add(this.listbox);
   }
 
   /**
-   * @return the list of string values of its listbox
+   * @return the list of string values of its listBox
    */
   public List<String> getValues() {
     int numberOfItems = this.listbox.getItemCount();
@@ -97,14 +99,17 @@ public class ListBoxInput extends InputField {
   }
 
   /**
-   * @return the selected value of its listbox
+   * @return the selected value of its listBox
    */
-  public String getSelectedValue() {
+  public String getSelectedValue() throws InputValidationException {
     int selectedIndex = this.listbox.getSelectedIndex();
 
-    // If no value is selected return null.
     if (selectedIndex < 0) {
-      return null;
+      if (isRequired) {
+        throw new InputValidationException("You must choose a value from the list box!");
+      } else {
+        return null;
+      }
     }
 
     return this.listbox.getValue(selectedIndex);

@@ -234,7 +234,7 @@ public class AlgorithmExecutorTest {
 
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
-    configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
+    configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_ucc_algorithm.ExampleAlgorithm.STRING_IDENTIFIER, "path/to/file1", "path/to/file2"));
 
     Algorithm algorithm = new Algorithm("example_ucc_algorithm.jar");
     algorithm = resource.store(algorithm);

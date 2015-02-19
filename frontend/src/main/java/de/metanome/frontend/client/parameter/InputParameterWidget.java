@@ -34,6 +34,7 @@ import java.util.List;
 public abstract class InputParameterWidget extends FlowPanel implements IsWidget {
 
   protected Button addButton;
+  protected Boolean required;
 
   /**
    * Creates a widget with the given number of input fields and sets the configuration specification
@@ -47,16 +48,32 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
 
     this.setMessageReceiver(wrapper);
     this.setSpecification(config);
+    this.required = config.isRequired();
 
-    if (this.getSpecification().getNumberOfSettings()
-        == ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES) {
+    int numberOfSettings = this.getSpecification().getNumberOfSettings();
+
+    // arbitrary number of settings
+    if (numberOfSettings == ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES) {
       this.setInputWidgets(new ArrayList<InputField>(1));
-      this.addInputField(true);    //one default input field
+      this.addInputField(true, this.required, 0);    //one default input field
       createAddOneButton();
-    } else {
-      this.setInputWidgets(new ArrayList<InputField>(this.getSpecification().getNumberOfSettings()));
-      for (int i = 0; i < this.getSpecification().getNumberOfSettings(); i++) {
-        this.addInputField(false);
+    }
+    // range of settings (only the first x input fields are required)
+    else if (!this.getSpecification().isFixNumberOfSettings()) {
+      int minimum = this.getSpecification().getMinNumberOfSettings();
+      this.setInputWidgets(new ArrayList<InputField>(numberOfSettings));
+      for (int i = 0; i < minimum; i++) {
+        this.addInputField(false, true, i);
+      }
+      for (int i = minimum; i < numberOfSettings; i++) {
+        this.addInputField(false, false, i);
+      }
+    }
+    // fix number of settings
+    else {
+      this.setInputWidgets(new ArrayList<InputField>(numberOfSettings));
+      for (int i = 0; i < numberOfSettings; i++) {
+        this.addInputField(false, this.required, i);
       }
     }
   }
@@ -81,7 +98,7 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
     this.addButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        addInputField(true);
+        addInputField(true, required, -1);
       }
     });
 
@@ -92,8 +109,9 @@ public abstract class InputParameterWidget extends FlowPanel implements IsWidget
    * Adds an input field to the widget.
    *
    * @param optional specifies, weather a a remove button will be rendered
+   * @param index    specifies the index of the corresponding setting
    */
-  protected abstract void addInputField(boolean optional);
+  protected abstract void addInputField(boolean optional, boolean required, int index);
 
   /**
    * Gets the configuration specification and updates the current configuration specification.

@@ -1,0 +1,111 @@
+/*
+ * Copyright 2015 by the Metanome project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package de.metanome.algorithm_integration.configuration;
+
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ * Handles default values for configuration requirements.
+ * @param <T> the type of the default values
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+})
+public abstract class ConfigurationRequirementDefaultValue<T> extends ConfigurationRequirement {
+
+  T[] defaultValues;
+
+  public ConfigurationRequirementDefaultValue() {
+  }
+
+  public ConfigurationRequirementDefaultValue(String identifier) {
+    super(identifier);
+  }
+
+  public ConfigurationRequirementDefaultValue(String identifier, int numberOfSettings) {
+    super(identifier, numberOfSettings);
+  }
+
+  public ConfigurationRequirementDefaultValue(String identifier,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
+  /**
+   * Checks if the number of default values match with the number of settings.
+   * If it match, the default values are set.
+   * @throws AlgorithmConfigurationException if the number of default values does not match the number of settings
+   */
+  @XmlTransient
+  public final void checkAndSetDefaultValues(T... values) throws AlgorithmConfigurationException {
+    try {
+      checkNumberOfSettings(values.length);
+    } catch (AlgorithmConfigurationException e) {
+      throw new AlgorithmConfigurationException(
+          "The number of default values does not match the number of settings.");
+    }
+
+    this.defaultValues = values;
+    applyDefaultValues();
+  }
+
+  /**
+   * @param index the index of the setting
+   * @return the default value of the specific setting
+   */
+  @XmlTransient
+  public T getDefaultValue(int index) {
+    if (defaultValues != null && defaultValues.length > index)
+      return this.defaultValues[index];
+    return null;
+  }
+
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @XmlTransient
+  public abstract void applyDefaultValues();
+
+  /**
+   * Exists only for serialization!
+   */
+  public T[] getDefaultValues() {
+    return defaultValues;
+  }
+  /**
+   * Exists only for serialization!
+   * @param defaultValues the default values
+   */
+  public void setDefaultValues(T[] defaultValues) {
+    this.defaultValues = defaultValues;
+  }
+
+}

@@ -26,13 +26,15 @@ import de.metanome.frontend.client.parameter.InputParameterWidget;
 public abstract class InputField extends FlowPanel {
 
   public boolean isOptional;
+  public boolean isRequired;
   protected Button removeButton;
 
-  public InputField(boolean optional) {
+  public InputField(boolean optional, boolean required) {
     super();
     this.addStyleName("left");
 
     this.isOptional = optional;
+    this.isRequired = required;
 
     if (this.isOptional) {
       createRemoveButton();

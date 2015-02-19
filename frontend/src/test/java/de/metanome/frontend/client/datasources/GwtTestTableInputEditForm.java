@@ -66,7 +66,7 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
   /**
    * Test method for {@link TableInputEditForm#reset()}
    */
-  public void testResetValues() {
+  public void testResetValues() throws InputValidationException {
     // Set up
     TestHelper.resetDatabaseSync();
 

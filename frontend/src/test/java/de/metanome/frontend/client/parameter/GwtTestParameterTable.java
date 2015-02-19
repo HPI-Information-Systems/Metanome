@@ -90,7 +90,7 @@ public class GwtTestParameterTable extends GWTTestCase {
     ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
     //Check
-    assertEquals(5, pt.table.getRowCount());
+    assertEquals(6, pt.table.getRowCount());
 
     // - STRING row
     assertEquals(2, pt.table.getCellCount(0));
@@ -163,6 +163,15 @@ public class GwtTestParameterTable extends GWTTestCase {
         ConfigurationSpecificationTableInput =
         new ConfigurationRequirementTableInput("table");
 
+    ConfigurationSpecificationString.setRequired(false);
+    ConfigurationSpecificationBoolean.setRequired(false);
+    ConfigurationSpecificationCsvFile.setRequired(false);
+    ConfigurationSpecificationSQLIterator.setRequired(false);
+    ConfigurationSpecificationInteger.setRequired(false);
+    ConfigurationSpecificationListBox.setRequired(false);
+    ConfigurationSpecificationRelationalInput.setRequired(false);
+    ConfigurationSpecificationTableInput.setRequired(false);
+
     paramList.add(ConfigurationSpecificationString);
     paramList.add(ConfigurationSpecificationBoolean);
     paramList.add(ConfigurationSpecificationCsvFile);
@@ -217,9 +226,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     FileInput fileInput = new FileInput("name");
 
     for (FileInputInput fileInputInput : widget.inputWidgets) {
-      fileInputInput.listbox.addValue("name");
+      fileInputInput.listBox.addValue("name");
       fileInputInput.fileInputs.put("name", fileInput);
-      fileInputInput.listbox.setSelectedValue("name");
+      fileInputInput.listBox.setSelectedValue("name");
     }
   }
 
@@ -235,9 +244,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     tableInput.setDatabaseConnection(dbConnection);
 
     for (TableInputInput tableInputInput : widget.inputWidgets) {
-      tableInputInput.listbox.addValue("table;url;username;DB2");
+      tableInputInput.listBox.addValue("table;url;username;DB2");
       tableInputInput.tableInputs.put("table;url;username;DB2", tableInput);
-      tableInputInput.listbox.setSelectedValue("table;url;username;DB2");
+      tableInputInput.listBox.setSelectedValue("table;url;username;DB2");
     }
   }
 
@@ -265,9 +274,9 @@ public class GwtTestParameterTable extends GWTTestCase {
     dbConnection.setSystem(DbSystem.DB2);
 
     for (DatabaseConnectionInput databaseConnectionInput : widget.inputWidgets) {
-      databaseConnectionInput.listbox.addValue("url");
+      databaseConnectionInput.listBox.addValue("url");
       databaseConnectionInput.databaseConnections.put("url", dbConnection);
-      databaseConnectionInput.listbox.setSelectedValue("url");
+      databaseConnectionInput.listBox.setSelectedValue("url");
     }
   }
 
@@ -471,8 +480,8 @@ public class GwtTestParameterTable extends GWTTestCase {
           assertTrue(foundDataSource);
 
         ListBoxInput
-            listbox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listbox;
-        assertEquals(primaryDataSource.getValueAsString(), listbox.getSelectedValue());
+            listBox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listBox;
+        assertEquals(primaryDataSource.getValueAsString(), listBox.getSelectedValue());
 
         // Cleanup
         TestHelper.resetDatabaseSync();

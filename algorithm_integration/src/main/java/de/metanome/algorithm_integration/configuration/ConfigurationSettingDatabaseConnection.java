@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * TODO docs
+ * Stores the configuration settings for a database connection.
  *
  * @author Claudia Exeler
  */

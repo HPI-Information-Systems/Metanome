@@ -32,54 +32,6 @@ import static org.mockito.Mockito.mock;
 public class ConfigurationRequirementBooleanTest {
 
   /**
-   * Test method for {@link ConfigurationRequirementBoolean#ConfigurationRequirementBoolean(String)}
-   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-
-    // Execute functionality
-    ConfigurationRequirementBoolean
-        configSpec =
-        new ConfigurationRequirementBoolean(expectedIdentifier);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementBoolean#ConfigurationRequirementBoolean(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 2;
-
-    // Execute functionality
-    ConfigurationRequirementBoolean
-        configSpec =
-        new ConfigurationRequirementBoolean(expectedIdentifier, expectedNumberOfValues);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
    * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
    * The values should be correctly settable on the specification.
@@ -107,6 +59,67 @@ public class ConfigurationRequirementBooleanTest {
   }
 
   /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDefaultValue<Boolean>#checkAndSetDefaultValues(Boolean...)}
+   *
+   * The default values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetDefaultValues() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue0 = new ConfigurationSettingBoolean();
+    ConfigurationSettingBoolean expectedValue1 = new ConfigurationSettingBoolean();
+
+    try {
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetDefaultValues(true, false);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(true, configSpec.settings[0].value);
+    assertEquals(false, configSpec.settings[1].value);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
+   *
+   * The values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetValuesRange() {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue0 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue1 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue2 = mock(ConfigurationSettingBoolean.class);
+    ConfigurationSettingBoolean expectedValue3 = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    try {
+      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
+    } catch (AlgorithmConfigurationException e) {
+      fail();
+    }
+
+    // Check result
+    assertEquals(expectedValue0, configSpec.settings[0]);
+  }
+
+  /**
    * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -117,6 +130,24 @@ public class ConfigurationRequirementBooleanTest {
     ConfigurationRequirementBoolean
         configSpec =
         new ConfigurationRequirementBoolean("parameter1", 2);
+    // Expected values
+    ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementBoolean#checkAndSetSettings(ConfigurationSettingBoolean...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetValuesWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementBoolean
+        configSpec =
+        new ConfigurationRequirementBoolean("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingBoolean expectedValue = mock(ConfigurationSettingBoolean.class);
 

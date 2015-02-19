@@ -37,69 +37,6 @@ import static org.mockito.Mockito.mock;
 public class ConfigurationRequirementListBoxTest {
 
   /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List)}
-   * The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-    List<String> actualValues = configSpec.getValues();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertEquals(expectedValues, actualValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementListBox#ConfigurationRequirementListBox(String, java.util.List, int)}
-   * The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 2;
-    ArrayList<String> expectedValues = new ArrayList<>();
-    expectedValues.add("first");
-    expectedValues.add("second");
-    expectedValues.add("third");
-
-    ConfigurationRequirementListBox
-        configSpec =
-        new ConfigurationRequirementListBox(expectedIdentifier, expectedValues,
-                                              expectedNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-    List<String> actualValues = configSpec.getValues();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-    assertEquals(expectedValues, actualValues);
-  }
-
-  /**
    * Test method for {@link ConfigurationRequirementListBox#getSettings()} and {@link
    * ConfigurationRequirementListBox#checkAndSetSettings(ConfigurationSettingListBox...)}
    */
@@ -130,6 +67,38 @@ public class ConfigurationRequirementListBoxTest {
   }
 
   /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   */
+  @Test
+  public void testSetDefaultValues() throws AlgorithmConfigurationException {
+    // Setup
+    ArrayList<String> listValues = new ArrayList<>();
+    listValues.add("first");
+    listValues.add("second");
+    listValues.add("third");
+
+    ConfigurationRequirementListBox
+        specificationListBox =
+        new ConfigurationRequirementListBox("parameter1", listValues, 2);
+
+    ConfigurationSettingListBox expectedSetting1 = new ConfigurationSettingListBox();
+    ConfigurationSettingListBox expectedSetting2 = new ConfigurationSettingListBox();
+    specificationListBox.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    String expectedString1 = "second";
+    String expectedString2 = "third";
+
+    // Execute functionality
+    specificationListBox.checkAndSetDefaultValues(expectedString1, expectedString2);
+    ConfigurationSettingListBox[] actualSettings = specificationListBox.getSettings();
+
+    // Check results
+    assertEquals(expectedString1, actualSettings[0].getSelectedValue());
+    assertEquals(expectedString2, actualSettings[1].getSelectedValue());
+  }
+
+  /**
    * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox#checkAndSetSettings(ConfigurationSettingListBox...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -140,6 +109,24 @@ public class ConfigurationRequirementListBoxTest {
     ConfigurationRequirementListBox
         configSpec =
         new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
+    // Expected values
+    ConfigurationSettingListBox expectedValue = mock(ConfigurationSettingListBox.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox#checkAndSetSettings(ConfigurationSettingListBox...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementListBox
+        configSpec =
+        new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2, 4);
     // Expected values
     ConfigurationSettingListBox expectedValue = mock(ConfigurationSettingListBox.class);
 

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementBoolean")
-public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
+public class ConfigurationRequirementBoolean extends ConfigurationRequirementDefaultValue<Boolean> {
 
   public ConfigurationSettingBoolean[] settings;
 
@@ -63,9 +63,37 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
     super(identifier, numberOfSettings);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementBoolean}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementBoolean(String identifier,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
   @Override
   public ConfigurationSettingBoolean[] getSettings() {
     return settings;
+  }
+
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @XmlTransient
+  @Override
+  public void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setValue(this.defaultValues[i]);
+    }
   }
 
   /**
@@ -88,6 +116,7 @@ public class ConfigurationRequirementBoolean extends ConfigurationRequirement {
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+    applyDefaultValues();
   }
 
   /**

@@ -17,13 +17,15 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.InputField;
 import de.metanome.frontend.client.input_fields.ListBoxInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputParameterListBoxWidget extends InputParameterWidget {
@@ -37,9 +39,14 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
   }
 
   @Override
-  protected void addInputField(boolean optional) {
-    ListBoxInput field = new ListBoxInput(optional);
+  protected void addInputField(boolean optional, boolean required, int settingIndex) {
+    // Create the field with the default value, if one is set
+    String defaultValue = this.specification.getDefaultValue(settingIndex);
+    ListBoxInput field = new ListBoxInput(optional, required);
     field.setValues(this.specification.getValues());
+    if (defaultValue != null) field.setSelectedValue(defaultValue);
+
+    // Add the field at the correct position
     this.inputWidgets.add(field);
     int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);
     this.insert(field, index);
@@ -47,21 +54,23 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
 
   @Override
   public ConfigurationRequirementListBox getUpdatedSpecification()
-      throws AlgorithmConfigurationException {
+      throws AlgorithmConfigurationException, InputValidationException {
     this.specification.checkAndSetSettings(this.getConfigurationSettings());
     return this.specification;
   }
 
-  protected ConfigurationSettingListBox[] getConfigurationSettings() {
-    ConfigurationSettingListBox[]
-        values =
-        new ConfigurationSettingListBox[this.inputWidgets.size()];
-    int i = 0;
+  protected ConfigurationSettingListBox[] getConfigurationSettings()
+      throws InputValidationException {
+    List<ConfigurationSettingListBox> values = new ArrayList<>();
+
     for (ListBoxInput lbi : this.inputWidgets) {
-      values[i] = new ConfigurationSettingListBox(lbi.getSelectedValue());
-      i++;
+      String current = lbi.getSelectedValue();
+      if (current != null) {
+        values.add(new ConfigurationSettingListBox(current));
+      }
     }
-    return values;
+
+    return values.toArray(new ConfigurationSettingListBox[values.size()]);
   }
 
 

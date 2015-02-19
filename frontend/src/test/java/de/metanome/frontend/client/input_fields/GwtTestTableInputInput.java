@@ -32,8 +32,8 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestTableInputInput extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.TableInputInput#TableInputInput(boolean,
-   * de.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the optional
+   * Test method for {@link de.metanome.frontend.client.input_fields.TableInputInput#TableInputInput(
+   * boolean, boolean, TabWrapper)} <p/> After calling the constructor the optional
    * parameter should be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
@@ -47,20 +47,20 @@ public class GwtTestTableInputInput extends GWTTestCase {
     boolean expectedOptional = true;
 
     // Execute functionality
-    TableInputInput actualTableInputInput = new TableInputInput(expectedOptional, tabWrapper);
+    TableInputInput actualTableInputInput = new TableInputInput(expectedOptional, false, tabWrapper);
 
     // Check result
     assertEquals(expectedOptional, actualTableInputInput.isOptional);
     assertEquals(2, actualTableInputInput.getWidgetCount());
-    assertNotNull(actualTableInputInput.listbox);
+    assertNotNull(actualTableInputInput.listBox);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
 
   /**
-   * Test method for {@link TableInputInput#getValues()} and
-   * {@link TableInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
+   * Test method for {@link TableInputInput#getValue()} and
+   * {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
@@ -85,26 +85,48 @@ public class GwtTestTableInputInput extends GWTTestCase {
                                                                                      DbSystem.DB2));
 
     // Initialize TableInputInput (waiting for fetching all current file inputs)
-    final TableInputInput tableInputInputs = new TableInputInput(false, new TabWrapper());
+    final TableInputInput tableInputInputs = new TableInputInput(false, false, new TabWrapper());
 
-    tableInputInputs.listbox.addValue(tableInput.getIdentifier());
+    tableInputInputs.listBox.addValue(tableInput.getIdentifier());
     tableInputInputs.tableInputs.put(tableInput.getIdentifier(), tableInput);
 
     try {
-      tableInputInputs.setValues(expectedSetting);
+      tableInputInputs.setValue(expectedSetting);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
 
     ConfigurationSettingTableInput actualSetting = null;
     try {
-      actualSetting = tableInputInputs.getValues();
+      actualSetting = tableInputInputs.getValue();
     } catch (InputValidationException e) {
       fail();
     }
 
     // Check result
     assertEquals(expectedSetting.getTable(), actualSetting.getTable());
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link TableInputInput#getValue()} and
+   * {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
+   * <p/> The getValues and setValues methods should set and retrieve settings.
+   */
+  public void testGetSetRequiredValues() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    // Initialize TableInputInput (waiting for fetching all current file inputs)
+    final TableInputInput tableInputInputs = new TableInputInput(false, true, new TabWrapper());
+
+    try {
+      tableInputInputs.getValue();
+    } catch (InputValidationException e) {
+      // should throw an exception
+    }
 
     // Cleanup
     TestHelper.resetDatabaseSync();

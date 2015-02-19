@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class DatabaseConnectionInput extends InputField {
 
-  public ListBoxInput listbox;
+  public ListBoxInput listBox;
   public Map<String, DatabaseConnection> databaseConnections;
 
   private List<String> acceptedDBSystems;
@@ -51,16 +51,16 @@ public class DatabaseConnectionInput extends InputField {
    */
   private String preselectedDatabaseConnection;
 
-  public DatabaseConnectionInput(boolean optional, TabWrapper messageReceiver, List<String> acceptedDBSystems) {
-    super(optional);
+  public DatabaseConnectionInput(boolean optional, boolean required, TabWrapper messageReceiver, List<String> acceptedDBSystems) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.databaseConnections = new HashMap<>();
     this.acceptedDBSystems = acceptedDBSystems;
 
-    this.listbox = new ListBoxInput(false);
+    this.listBox = new ListBoxInput(false, false);
     updateListBox();
-    this.add(this.listbox);
+    this.add(this.listBox);
   }
 
   /**
@@ -120,12 +120,12 @@ public class DatabaseConnectionInput extends InputField {
         }
       }
 
-      listbox.clear();
-      listbox.setValues(dbConnectionNames);
-      listbox.disableFirstEntry();
+      listBox.clear();
+      listBox.setValues(dbConnectionNames);
+      listBox.disableFirstEntry();
 
       if (preselectedIdentifier != null) {
-        listbox.setSelectedValue(preselectedIdentifier);
+        listBox.setSelectedValue(preselectedIdentifier);
       }
     }
   }
@@ -142,7 +142,7 @@ public class DatabaseConnectionInput extends InputField {
       throws AlgorithmConfigurationException {
     this.preselectedDatabaseConnection = dataSourceSetting.getValueAsString();
 
-    if (!this.listbox.containsValues()) {
+    if (!this.listBox.containsValues()) {
       return;
     }
 
@@ -162,10 +162,14 @@ public class DatabaseConnectionInput extends InputField {
    * @return the widget's settings
    */
   public ConfigurationSettingDatabaseConnection getValues() throws InputValidationException {
-    String selectedValue = this.listbox.getSelectedValue();
+    String selectedValue = this.listBox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose a database connection!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose a database connection!");
+      } else {
+        return null;
+      }
     }
 
     DatabaseConnection currentDatabaseConnection = this.databaseConnections.get(selectedValue);
@@ -192,7 +196,7 @@ public class DatabaseConnectionInput extends InputField {
           current.getPassword().equals(setting.getPassword()) &&
           current.getUsername().equals(setting.getUsername()) &&
           current.getSystem().equals(setting.getSystem())) {
-        this.listbox.setSelectedValue(con.getKey());
+        this.listBox.setSelectedValue(con.getKey());
         return;
       }
     }

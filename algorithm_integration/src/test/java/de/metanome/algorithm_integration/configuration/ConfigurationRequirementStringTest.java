@@ -25,6 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -49,54 +52,6 @@ public class ConfigurationRequirementStringTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementString#ConfigurationRequirementString(String)}
-   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ConfigurationRequirementString
-        configSpec =
-        new ConfigurationRequirementString(expectedIdentifier);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementString#ConfigurationRequirementString(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 2;
-    ConfigurationRequirementString
-        configSpec =
-        new ConfigurationRequirementString(expectedIdentifier, expectedNumberOfValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
    * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#checkAndSetSettings(ConfigurationSettingString...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -112,6 +67,71 @@ public class ConfigurationRequirementStringTest {
 
     // Execute functionality
     configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementString#checkAndSetSettings(ConfigurationSettingString...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementString
+        configSpec =
+        new ConfigurationRequirementString("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingString expectedValue = mock(ConfigurationSettingString.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementString#checkAndSetDefaultValues(String...)}
+   */
+  @Test
+  public void testSetDefaultValues() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementString
+        specificationString =
+        new ConfigurationRequirementString("parameter1", 2);
+
+    ConfigurationSettingString expectedSetting1 = new ConfigurationSettingString();
+    ConfigurationSettingString expectedSetting2 = new ConfigurationSettingString();
+    specificationString.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    String expectedString1 = "first";
+    String expectedString2 = "second";
+
+    // Execute functionality
+    specificationString.checkAndSetDefaultValues(expectedString1, expectedString2);
+    ConfigurationSettingString[] actualSettings = specificationString.getSettings();
+
+    // Check results
+    assertEquals(expectedString1, actualSettings[0].getValue());
+    assertEquals(expectedString2, actualSettings[1].getValue());
+  }
+
+
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   */
+  @Test(expected = AlgorithmConfigurationException.class)
+  public void testSetDefaultValuesException() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementString
+        specificationString =
+        new ConfigurationRequirementString("parameter1", 2);
+
+    ConfigurationSettingString expectedSetting1 = new ConfigurationSettingString();
+    ConfigurationSettingString expectedSetting2 = new ConfigurationSettingString();
+    specificationString.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Execute functionality
+    specificationString.checkAndSetDefaultValues("test");
   }
 
   /**

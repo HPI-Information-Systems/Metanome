@@ -63,6 +63,19 @@ public class ConfigurationRequirementRelationalInput extends ConfigurationRequir
     super(identifier, numberOfSettings);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementRelationalInput}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementRelationalInput(String identifier,
+                                         int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
 
   @Override
   public ConfigurationSettingRelationalInput[] getSettings() {

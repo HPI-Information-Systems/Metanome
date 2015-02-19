@@ -104,7 +104,7 @@ public class FileInputEditForm extends Grid {
       }
     });
 
-    fileListBox = new ListBoxInput(false);
+    fileListBox = new ListBoxInput(false, false);
     updateListBox();
     standardPanel.setText(0, 0, "File Name");
     standardPanel.setWidget(0, 1, fileListBox);
