@@ -92,7 +92,7 @@ public class GwtTestRelationalInputParameter extends GWTTestCase {
     dataSourceWidget.setDataSource(setting);
 
     // Check
-    assertTrue(((RelationalInputInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 1);
+    assertTrue(((RelationalInputInput) dataSourceWidget.getWidget(0)).listbox.getValues().size() == 2);
 
     ConfigurationSettingDataSource retrievedSetting = null;
     try {
