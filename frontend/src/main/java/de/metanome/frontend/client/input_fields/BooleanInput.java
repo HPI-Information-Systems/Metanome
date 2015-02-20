@@ -31,9 +31,10 @@ public class BooleanInput extends InputField {
   /**
    * @param optional If true, a remove button will be rendered, to remove this widget from its
    *                 parent.
+   * @param required If true, a value has to be set.
    */
-  public BooleanInput(boolean optional) {
-    super(optional);
+  public BooleanInput(boolean optional, boolean required) {
+    super(optional, required);
 
     this.checkbox = new CheckBox();
     this.add(this.checkbox);

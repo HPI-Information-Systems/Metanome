@@ -46,6 +46,10 @@ public class ColumnCombination implements Serializable {
 
   public static ColumnCombination fromString(String str) {
     String[] parts = str.substring(1, str.length() - 1).split(",");
+
+    if (parts.length == 1 && parts[0].isEmpty())
+      return new ColumnCombination();
+
     ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
     for (int i = 0; i < parts.length; i++) {
       identifiers[i] = ColumnIdentifier.fromString(parts[i].trim());

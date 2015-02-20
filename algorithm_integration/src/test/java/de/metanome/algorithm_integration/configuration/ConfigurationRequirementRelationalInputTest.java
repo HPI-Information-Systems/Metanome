@@ -25,7 +25,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -36,57 +35,6 @@ import static org.mockito.Mockito.mock;
  * @author Jakob Zwiener
  */
 public class ConfigurationRequirementRelationalInputTest {
-
-  /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String)}
-   *
-   * The identifier should be set in the constructor and be retrievable through getIdentifier. The
-   * numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "some identifier";
-    int expectedNumberOfValues = 1;
-
-    // Execute functionality
-    ConfigurationRequirementRelationalInput
-        configSpec =
-        new ConfigurationRequirementRelationalInput(expectedIdentifier);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementRelationalInput#ConfigurationRequirementRelationalInput(String,
-   * int)}
-   *
-   * The identifier should be set in the constructor and be retrievable through getIdentifier. The
-   * numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "some identifier";
-    int expectedNumberOfValues = 2;
-
-    // Execute functionality
-    ConfigurationRequirementRelationalInput
-        configSpec =
-        new ConfigurationRequirementRelationalInput(expectedIdentifier, expectedNumberOfValues);
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
 
   /**
    * Test method for {@link ConfigurationRequirementRelationalInput#getSettings()} and {@link
@@ -115,6 +63,38 @@ public class ConfigurationRequirementRelationalInputTest {
     // Check result
     assertThat(actualSettings, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedSetting0, expectedSetting1));
+  }
+
+  /**
+   * Test method for {@link ConfigurationRequirementRelationalInput#getSettings()} and {@link
+   * ConfigurationRequirementRelationalInput#checkAndSetSettings(ConfigurationSettingRelationalInput...)
+   */
+  @Test
+  public void testGetSetValuesRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementRelationalInput
+        configSpec =
+        new ConfigurationRequirementRelationalInput("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingRelationalInput
+        expectedSetting0 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting1 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting2 =
+        mock(ConfigurationSettingRelationalInput.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+    List<ConfigurationSettingRelationalInput>
+        actualSettings =
+        Arrays.asList(configSpec.getSettings());
+
+    // Check result
+    assertThat(actualSettings, IsIterableContainingInAnyOrder
+        .containsInAnyOrder(expectedSetting0, expectedSetting1, expectedSetting2));
   }
 
   /**
@@ -155,6 +135,60 @@ public class ConfigurationRequirementRelationalInputTest {
 
     try {
       configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+    } catch (AlgorithmConfigurationException e) {
+      // should throw an exception
+    }
+  }
+
+
+
+  /**
+   * Test method for {@link ConfigurationRequirementRelationalInput#checkAndSetSettings(ConfigurationSettingRelationalInput...)}
+   *
+   * When setting the wrong number of settings, false is returned.
+   */
+  @Test
+  public void testSetValuesWrongNumberRangeOfValues() {
+    // Setup
+    ConfigurationRequirementRelationalInput
+        configSpec =
+        new ConfigurationRequirementRelationalInput("parameter1", 2, 4);
+    // Expected values
+    ConfigurationSettingRelationalInput
+        expectedSetting0 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting1 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting2 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting3 =
+        mock(ConfigurationSettingRelationalInput.class);
+
+    // Execute functionality
+    // Check result
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0);
+    } catch (AlgorithmConfigurationException e) {
+      // should trow an exception
+    }
+
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1);
+    } catch (AlgorithmConfigurationException e) {
+      fail(); // number of settings is correct
+    }
+
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+    } catch (AlgorithmConfigurationException e) {
+      fail(); // number of settings is correct
+    }
+
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2, expectedSetting3);
     } catch (AlgorithmConfigurationException e) {
       // should throw an exception
     }

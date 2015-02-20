@@ -31,7 +31,7 @@ public class ConfigurationSettingFileInputTest {
 
   /**
    * Test method for {@link ConfigurationSettingFileInput#ConfigurationSettingFileInput(String,
-   * boolean, char, char, char, boolean, boolean, int, boolean, boolean)}
+   * boolean, char, char, char, boolean, boolean, int, boolean, boolean, String)}
    */
   @Test
   public void testConstructor() {
@@ -47,6 +47,7 @@ public class ConfigurationSettingFileInputTest {
     int expectedLines = 2;
     boolean expectedHeader = true;
     boolean expectedDifferingLines = false;
+    String expectedNullValue = "";
 
     // Execute functionality
     ConfigurationSettingFileInput
@@ -54,17 +55,18 @@ public class ConfigurationSettingFileInputTest {
         new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
                                         expectedQuote, expectedEscape, expectedIsStrictQuotes,
                                         expectedIsIgnoreLeadingWhitespace, expectedLines,
-                                        expectedHeader, expectedDifferingLines);
+                                        expectedHeader, expectedDifferingLines, expectedNullValue);
 
     // Check result
     assertEquals(expectedFileName, actualSetting.getFileName());
     assertEquals(expectedIsAdvanced, actualSetting.isAdvanced());
-    assertEquals(expectedSeparator, actualSetting.getSeparatorChar());
-    assertEquals(expectedQuote, actualSetting.getQuoteChar());
-    assertEquals(expectedEscape, actualSetting.getEscapeChar());
+    assertEquals(expectedSeparator, actualSetting.getSeparatorAsChar());
+    assertEquals(expectedQuote, actualSetting.getQuoteCharAsChar());
+    assertEquals(expectedEscape, actualSetting.getEscapeCharAsChar());
     assertEquals(expectedIsStrictQuotes, actualSetting.isStrictQuotes());
     assertEquals(expectedIsIgnoreLeadingWhitespace, actualSetting.isIgnoreLeadingWhiteSpace());
     assertEquals(expectedLines, actualSetting.getSkipLines());
+    assertEquals(expectedNullValue, actualSetting.getNullValue());
   }
 
   /**
@@ -75,6 +77,6 @@ public class ConfigurationSettingFileInputTest {
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
         new ConfigurationSettingFileInput("fileName", true, ',', '"', '\\', true, true, 2, true,
-                                        true));
+                                        true, ""));
   }
 }

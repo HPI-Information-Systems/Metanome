@@ -124,7 +124,7 @@ public class InputResource implements Resource<Input> {
    * @return all relational inputs (table and file inputs) in the database
    */
   @GET
-  @Path("/get/relationalInputs")
+  @Path("/relationalInputs")
   @Produces("application/json")
   public List<Input> listRelationalInputs() {
     try {

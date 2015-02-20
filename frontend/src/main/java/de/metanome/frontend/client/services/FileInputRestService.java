@@ -36,8 +36,8 @@ public interface FileInputRestService extends RestService {
   public void listFileInputs(MethodCallback<List<FileInput>> callback);
 
   @GET
-  @Path("/csvFiles")
-  public void listCsvFiles(MethodCallback<List<String>> callback);
+  @Path("/availableInputFiles")
+  public void listAvailableInputFiles(MethodCallback<List<String>> callback);
 
   @GET
   @Path("/get/{id}")

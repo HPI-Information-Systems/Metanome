@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,26 +17,18 @@
 package de.metanome.backend.input.csv;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-/**
- * A fixture generating a csv file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4
- * (long)).
- *
- * @author Tanja Bergmann
- */
-public class CsvFileNullValuesFixture {
+public class TsvFileFixture {
 
   protected static final char QUOTE_CHAR = '\'';
-  protected static final char SEPARATOR = ',';
+  protected static final char SEPARATOR = '\t';
   protected static final char ESCAPE = '\\';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
@@ -60,39 +52,19 @@ public class CsvFileNullValuesFixture {
         .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
-                            new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
-                         Joiner.on(',').join(getSecondLineWithEmptyStrings())),
+                            new StringReader(
+                                Joiner.on('\t').join(getExpectedFirstParsableLine()) +
+                                "\nfour\tfive\n" +
+                                Joiner.on('\t').join(getExpectedSecondParsableLine()) +
+                                "\nnine\tten\televen\ttwelve"),
                             setting);
   }
 
-  public List<String> getFirstLineWithEmptyStrings() {
-    List<String> list = new ArrayList<>();
-    list.add("one");
-    list.add("");
-    list.add("three");
-    return Collections.unmodifiableList(list);
-  }
-  public List<String> getSecondLineWithEmptyStrings() {
-    List<String> list = new ArrayList<>();
-    list.add("four");
-    list.add("five");
-    list.add("");
-    return Collections.unmodifiableList(list);
+  public ImmutableList<String> getExpectedFirstParsableLine() {
+    return ImmutableList.of("one", "two", "three");
   }
 
-  public List<String> getFirstLineWithNullValues() {
-    List<String> list = new ArrayList<>();
-    list.add("one");
-    list.add(null);
-    list.add("three");
-    return Collections.unmodifiableList(list);
+  public ImmutableList<String> getExpectedSecondParsableLine() {
+    return ImmutableList.of("six", "seven", "eight");
   }
-  public List<String> getSecondLineWithNullValues() {
-    List<String> list = new ArrayList<>();
-    list.add("four");
-    list.add("five");
-    list.add(null);
-    return Collections.unmodifiableList(list);
-  }
-
 }

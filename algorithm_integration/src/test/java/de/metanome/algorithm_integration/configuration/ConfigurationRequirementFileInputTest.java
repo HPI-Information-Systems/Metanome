@@ -24,7 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -49,54 +48,6 @@ public class ConfigurationRequirementFileInputTest {
   }
 
   /**
-   * Test method for {@link ConfigurationRequirementFileInput#ConfigurationRequirementFileInput(String)}
-   * <p/> The identifier should be set in the constructor and be retrievable through getIdentifier.
-   * The numberOfValues should be set to 1.
-   */
-  @Test
-  public void testConstructorGetOne() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOfValues = 1;
-    ConfigurationRequirementFileInput
-        configSpec =
-        new ConfigurationRequirementFileInput(expectedIdentifier);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOfValues, actualNumberOfValues);
-  }
-
-  /**
-   * Test method for {@link ConfigurationRequirementFileInput#ConfigurationRequirementFileInput(String,
-   * int)} <p/> The identifier should be set in the constructor and be retrievable through
-   * getIdentifier. The numberOfValues should be set to 2.
-   */
-  @Test
-  public void testConstructorGetTwo() {
-    // Setup
-    // Expected values
-    String expectedIdentifier = "parameter1";
-    int expectedNumberOFValues = 2;
-    ConfigurationRequirementFileInput
-        configSpec =
-        new ConfigurationRequirementFileInput(expectedIdentifier, expectedNumberOFValues);
-
-    // Execute functionality
-    String actualIdentifier = configSpec.getIdentifier();
-    int actualNumberOfValues = configSpec.getNumberOfSettings();
-
-    // Check result
-    assertEquals(expectedIdentifier, actualIdentifier);
-    assertEquals(expectedNumberOFValues, actualNumberOfValues);
-  }
-
-  /**
    * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput#checkAndSetSettings(ConfigurationSettingFileInput...)}
    *
    * Setting a wrong number of settings should throw an Exception.
@@ -107,6 +58,24 @@ public class ConfigurationRequirementFileInputTest {
     ConfigurationRequirementFileInput
         configSpec =
         new ConfigurationRequirementFileInput("parameter1", 2);
+    // Expected values
+    ConfigurationSettingFileInput expectedValue = mock(ConfigurationSettingFileInput.class);
+
+    // Execute functionality
+    configSpec.checkAndSetSettings(expectedValue);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput#checkAndSetSettings(ConfigurationSettingFileInput...)}
+   *
+   * Setting a wrong number of settings should throw an Exception.
+   */
+  @Test(expected=AlgorithmExecutionException.class)
+  public void testSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
+    // Setup
+    ConfigurationRequirementFileInput
+        configSpec =
+        new ConfigurationRequirementFileInput("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingFileInput expectedValue = mock(ConfigurationSettingFileInput.class);
 

@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 
 import java.util.ArrayList;
 
@@ -77,19 +78,48 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     assertTrue(widget.inputWidgets.get(0).isOptional); // input field must be optional
   }
 
-  /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean)}
-   */
-  public void testAddInput() throws AlgorithmConfigurationException {
-    // Setup
+  public void testCreateWithRangeNumber() throws AlgorithmConfigurationException {
+    //Setup
     ArrayList<String> values = new ArrayList<>();
     values.add("Column 1");
     values.add("Column 3");
     values.add("Column 2");
 
+    int maxValue = 5;
+    ConfigurationRequirementListBox
+        specification =
+        new ConfigurationRequirementListBox("list box", values, 3, maxValue);
+
+    //Execute
+    InputParameterListBoxWidget
+        widget =
+        new InputParameterListBoxWidget(specification, new TabWrapper());
+
+    //Check
+    assertEquals(maxValue, widget.inputWidgets.size());
+    assertEquals(maxValue, widget.getWidgetCount());
+    assertTrue(widget.inputWidgets.get(0).isRequired);
+    assertTrue(widget.inputWidgets.get(1).isRequired);
+    assertTrue(widget.inputWidgets.get(2).isRequired);
+    assertFalse(widget.inputWidgets.get(3).isRequired);
+    assertFalse(widget.inputWidgets.get(4).isRequired);
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterListBoxWidget#addInputField(boolean, boolean, int)}
+   */
+  public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
+    // Setup
+    ArrayList<String> values = new ArrayList<>();
+    values.add("Column 1");
+    values.add("Column 3");
+    values.add("Column 2");
+    String expectedValue = "Column 1";
+
     ConfigurationRequirementListBox specification =
         new ConfigurationRequirementListBox("enum", values,
                                               ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+    specification.checkAndSetDefaultValues(expectedValue);
     InputParameterListBoxWidget
         widget =
         new InputParameterListBoxWidget(specification, new TabWrapper());
@@ -97,11 +127,12 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     int listCount = widget.inputWidgets.size();
 
     // Execute
-    widget.addInputField(true);
+    widget.addInputField(true, false, 0);
 
     // Check
     assertEquals(previousCount + 1, widget.getWidgetCount());
     assertEquals(listCount + 1, widget.inputWidgets.size());
+    assertEquals(expectedValue, widget.inputWidgets.get(0).getSelectedValue());
   }
 
   /**
@@ -155,7 +186,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     ConfigurationRequirementListBox specification = null;
     try {
       specification = widget.getUpdatedSpecification();
-    } catch (AlgorithmConfigurationException e) {
+    } catch (AlgorithmConfigurationException | InputValidationException e) {
       fail();
     }
 

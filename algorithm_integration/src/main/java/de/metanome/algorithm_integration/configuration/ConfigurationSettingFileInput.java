@@ -45,6 +45,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
+  public final static String DEFAULT_NULL_VALUE = "";
 
   // Id of the file input in the database (needed for mapping the setting to the stored file input)
   private long id;
@@ -58,6 +59,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   private int skipLines;
   private boolean header;
   private boolean skipDifferingLines;
+  private String nullValue;
 
   // Needed for restful serialization
   public String type = "ConfigurationSettingFileInput";
@@ -76,7 +78,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public ConfigurationSettingFileInput(String fileName) {
     this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
          DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
-         DEFAULT_SKIPDIFFERINGLINES);
+         DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
   }
 
   /**
@@ -90,7 +92,8 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
                                        char quote,
                                        char escape, boolean strictQuotes,
                                        boolean ignoreLeadingWhiteSpace, int line,
-                                       boolean header, boolean skipDifferingLines) {
+                                       boolean header, boolean skipDifferingLines,
+                                       String nullValue) {
     this.fileName = fileName;
     this.advanced = advanced;
     this.separatorChar = String.valueOf(separator);
@@ -101,6 +104,7 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
     this.skipLines = line;
     this.header = header;
     this.skipDifferingLines = skipDifferingLines;
+    this.nullValue = nullValue;
   }
 
   public String getFileName() {
@@ -120,32 +124,63 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
     this.advanced = value;
   }
 
-  public char getSeparatorChar() {
-    return separatorChar.charAt(0);
+  public String getSeparatorChar() {
+    return separatorChar;
   }
 
-  public ConfigurationSettingFileInput setSeparatorChar(char value) {
-    this.separatorChar = String.valueOf(value);
+  public ConfigurationSettingFileInput setSeparatorChar(String value) {
+    this.separatorChar = value;
     return this;
   }
 
-  public char getQuoteChar() {
-    return quoteChar.charAt(0);
+  public String getQuoteChar() {
+    return quoteChar;
   }
 
-  public ConfigurationSettingFileInput setQuoteChar(char value) {
-    this.quoteChar = String.valueOf(value);
+  public ConfigurationSettingFileInput setQuoteChar(String value) {
+    this.quoteChar = value;
     return this;
   }
 
-  public char getEscapeChar() {
-    return escapeChar.charAt(0);
+  public String getEscapeChar() {
+    return escapeChar;
   }
 
-  public ConfigurationSettingFileInput setEscapeChar(char value) {
-    this.escapeChar = String.valueOf(value);
+  public ConfigurationSettingFileInput setEscapeChar(String value) {
+    this.escapeChar = value;
     return this;
   }
+
+  @XmlTransient
+  public char getSeparatorAsChar() { return toChar(this.separatorChar); }
+  @XmlTransient
+  public char getQuoteCharAsChar() {
+    return toChar(this.quoteChar);
+  }
+  @XmlTransient
+  public char getEscapeCharAsChar() {
+    return toChar(this.escapeChar);
+  }
+  @XmlTransient
+  private char toChar(String str) {
+    if (str.isEmpty()) {
+      return '\0';
+    }
+
+    if (str.startsWith("\\")) {
+      switch (str) {
+        case "\\t":
+          return '\t';
+        case "\\0":
+          return '\0';
+        case "\\n":
+          return '\n';
+      }
+    }
+
+    return str.charAt(0);
+  }
+
 
   public boolean isStrictQuotes() {
     return strictQuotes;
@@ -198,6 +233,15 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
 
   public ConfigurationSettingFileInput setId(long id) {
     this.id = id;
+    return this;
+  }
+
+  public String getNullValue() {
+    return nullValue;
+  }
+
+  public ConfigurationSettingFileInput setNullValue(String nullValue) {
+    this.nullValue = nullValue;
     return this;
   }
 

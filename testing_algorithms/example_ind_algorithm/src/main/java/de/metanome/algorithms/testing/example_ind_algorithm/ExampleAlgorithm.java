@@ -59,9 +59,23 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    configurationRequirement.add(new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementString(STRING_IDENTIFIER));
-    configurationRequirement.add(new ConfigurationRequirementInteger(INTEGER_IDENTIFIER));
+    ConfigurationRequirementFileInput requirementFileInput = new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
+    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
+    ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
+    try {
+      requirementString.checkAndSetDefaultValues("test");
+      requirementInteger.checkAndSetDefaultValues(5);
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+    }
+
+    requirementFileInput.setRequired(true);
+    requirementFileInput.setRequired(true);
+    requirementFileInput.setRequired(true);
+
+    configurationRequirement.add(requirementFileInput);
+    configurationRequirement.add(requirementString);
+    configurationRequirement.add(requirementInteger);
 
     return configurationRequirement;
   }

@@ -83,26 +83,6 @@ public class ExampleAlgorithmTest {
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)} <p/>
-   * The algorithm should store the path when it is supplied through setConfigurationValue.
-   */
-  @Test
-  public void testSetConfigurationValue() throws AlgorithmConfigurationException {
-    // Setup
-    // Expected values
-    String expectedConfigurationValueString = "test";
-    String selectedValues = "second";
-
-    // Execute functionality
-    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValueString);
-    this.algorithm.setListBoxConfigurationValue(columnIdentifier, selectedValues);
-
-    // Check result
-    assertEquals(expectedConfigurationValueString, this.algorithm.path);
-    assertEquals(selectedValues, this.algorithm.selectedColumn);
-  }
-
-  /**
    * Test method for {@link ExampleAlgorithm#execute()} <p/> When the algorithm is started after
    * configuration a result should be received.
    */

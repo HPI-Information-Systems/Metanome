@@ -31,8 +31,7 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
-import de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm;
-import de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm;
+import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueInteger;
@@ -169,10 +168,12 @@ public class AlgorithmExecutorTest {
 
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
-    configs.add(new ConfigurationValueString(ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
-    configs.add(new ConfigurationValueInteger(ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
+    configs.add(new ConfigurationValueString(
+        de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm.STRING_IDENTIFIER, "table1"));
+    configs.add(new ConfigurationValueInteger(
+        de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
     configs.add(new ConfigurationValueFileInputGenerator(
-        ExampleAlgorithm.CSV_FILE_IDENTIFIER,
+        de.metanome.algorithms.testing.example_ind_algorithm.ExampleAlgorithm.CSV_FILE_IDENTIFIER,
         mock(FileInputGenerator.class)));
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
     algorithm = resource.store(algorithm);
@@ -189,7 +190,7 @@ public class AlgorithmExecutorTest {
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
    *
-   * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.RelationalInputAlgorithm}
+   * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm}
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
    * from a file.
    */
@@ -205,7 +206,7 @@ public class AlgorithmExecutorTest {
     ConfigurationRequirementRelationalInput
         requirementRelationalInput =
         new ConfigurationRequirementRelationalInput(
-            RelationalInputAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
+            ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     requirementRelationalInput.checkAndSetSettings(new ConfigurationSettingFileInput(path));
     requirements.add(requirementRelationalInput);
 
@@ -233,7 +234,7 @@ public class AlgorithmExecutorTest {
 
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
-    configs.add(new ConfigurationValueString("pathToInputFile", "path/to/file1", "path/to/file2"));
+    configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_ucc_algorithm.ExampleAlgorithm.STRING_IDENTIFIER, "path/to/file1", "path/to/file2"));
 
     Algorithm algorithm = new Algorithm("example_ucc_algorithm.jar");
     algorithm = resource.store(algorithm);

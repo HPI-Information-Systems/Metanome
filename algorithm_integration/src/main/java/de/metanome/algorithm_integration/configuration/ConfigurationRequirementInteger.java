@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementInteger")
-public class ConfigurationRequirementInteger extends ConfigurationRequirement {
+public class ConfigurationRequirementInteger extends ConfigurationRequirementDefaultValue<Integer> {
 
   private ConfigurationSettingInteger[] settings;
 
@@ -65,6 +65,19 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
     super(identifier, numberOfSettings);
   }
 
+  /**
+   * Constructs a {@link ConfigurationRequirementInteger}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementInteger(String identifier,
+                                           int minNumberOfSetting,
+                                           int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
+  }
+
   @Override
   public ConfigurationSettingInteger[] getSettings() {
     return this.settings;
@@ -89,6 +102,7 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+    applyDefaultValues();
   }
 
   /**
@@ -100,5 +114,20 @@ public class ConfigurationRequirementInteger extends ConfigurationRequirement {
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
+  }
+
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @Override
+  @XmlTransient
+  public void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setValue(this.defaultValues[i]);
+    }
   }
 }

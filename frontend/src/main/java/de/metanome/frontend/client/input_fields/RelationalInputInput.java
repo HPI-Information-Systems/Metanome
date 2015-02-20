@@ -30,12 +30,12 @@ import de.metanome.backend.results_db.TableInput;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
-import de.metanome.frontend.client.services.InputRestService;
+import de.metanome.frontend.client.services.FileInputRestService;
+import de.metanome.frontend.client.services.TableInputRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +45,9 @@ public class RelationalInputInput extends InputField {
   public ListBoxInput listbox;
   public Map<String, Input> inputs;
   private TabWrapper messageReceiver;
+  private FileInputRestService fileInputService;
+  private TableInputRestService tableInputService;
+  private String preselectedIdentifier;
   /**
    * When using the link from Data Sources page, this is where the selected file is stored.
    */
@@ -54,13 +57,15 @@ public class RelationalInputInput extends InputField {
    * @param optional        specifies whether a remove button should be displayed
    * @param messageReceiver the message receiver
    */
-  public RelationalInputInput(boolean optional, TabWrapper messageReceiver) {
-    super(optional);
+  public RelationalInputInput(boolean optional, boolean required, TabWrapper messageReceiver) {
+    super(optional, required);
 
     this.messageReceiver = messageReceiver;
     this.inputs = new HashMap<>();
+    this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
+    this.tableInputService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
 
-    listbox = new ListBoxInput(false);
+    listbox = new ListBoxInput(false, false);
     updateListBox();
     this.add(listbox);
   }
@@ -69,52 +74,66 @@ public class RelationalInputInput extends InputField {
    * Get all inputs from the database and put them into the list box.
    */
   public void updateListBox() {
+    listbox.clear();
+    listbox.addValue("--");
+    listbox.disableFirstEntry();
+    this.preselectedIdentifier = null;
 
-    MethodCallback<List<Input>> callback = new MethodCallback<List<Input>>() {
+    fileInputService.listFileInputs(getFileInputCallback());
+    tableInputService.listTableInputs(getTableInputCallback());
 
+    if (preselectedIdentifier != null) {
+      listbox.setSelectedValue(preselectedIdentifier);
+    }
+  }
+
+  private void addInput(Input input, String identifier) {
+    listbox.addValue(identifier);
+    inputs.put(identifier, input);
+  }
+
+  private MethodCallback<List<FileInput>> getFileInputCallback() {
+    return new MethodCallback<List<FileInput>>() {
+      public void onFailure(Method method, Throwable caught) {
+        messageReceiver.addError("There are no file inputs in the database: " +
+                                 method.getResponse().getText());
+      }
+
+      public void onSuccess(Method method, List<FileInput> result) {
+        if (result != null && result.size() > 0) {
+          for (FileInput input : result) {
+            String identifier = FilePathHelper.getFileName(input.getIdentifier());
+            addInput(input, identifier);
+            if (input.getIdentifier().equals(preselectedInput)) {
+              preselectedIdentifier = identifier;
+            }
+          }
+        }
+      }
+    };
+  }
+
+  private MethodCallback<List<TableInput>> getTableInputCallback() {
+    return new MethodCallback<List<TableInput>>() {
       public void onFailure(Method method, Throwable caught) {
         messageReceiver.addError("There are no relational inputs in the database: " +
                                  method.getResponse().getText());
       }
 
-      public void onSuccess(Method method, List<Input> result) {
-        List<String> inputNames = new ArrayList<String>();
-        inputNames.add("--");
-        String preselectedIdentifier = null;
-
+      public void onSuccess(Method method, List<TableInput> result) {
         if (result != null && result.size() > 0) {
-          for (Input input : result) {
+          for (TableInput input : result) {
             String identifier = input.getIdentifier();
-
-            if (input instanceof FileInput)
-              identifier = FilePathHelper.getFileName(identifier);
-
-            inputNames.add(identifier);
-            inputs.put(identifier, input);
-
-            // set the preselected filename
+            addInput(input, identifier);
             if (input.getIdentifier().equals(preselectedInput)) {
               preselectedIdentifier = identifier;
             }
           }
-        } else {
-          messageReceiver.addError("There are no relational inputs in the database!");
-        }
-
-        listbox.clear();
-        listbox.setValues(inputNames);
-        listbox.disableFirstEntry();
-
-        if (preselectedIdentifier != null) {
-          listbox.setSelectedValue(preselectedIdentifier);
         }
       }
-
     };
-
-    InputRestService inputService = com.google.gwt.core.client.GWT.create(InputRestService.class);
-    inputService.listRelationalInputs(callback);
   }
+
 
   /**
    * Selects the given data source in the list box. If the list box has not yet been filled with the
@@ -148,8 +167,12 @@ public class RelationalInputInput extends InputField {
       throws InputValidationException, AlgorithmConfigurationException {
     String selectedValue = this.listbox.getSelectedValue();
 
-    if (selectedValue.equals("--")) {
-      throw new InputValidationException("You must choose an input!");
+    if (selectedValue == null || selectedValue.equals("--")) {
+      if (isRequired) {
+        throw new InputValidationException("You must choose an input!");
+      } else {
+        return null;
+      }
     }
 
     Input currentInput = this.inputs.get(selectedValue);
@@ -208,18 +231,16 @@ public class RelationalInputInput extends InputField {
   }
 
   private ConfigurationSettingRelationalInput getConfigurationSettingFileInput(FileInput fileInput) {
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput()
+    return new ConfigurationSettingFileInput()
         .setFileName(fileInput.getFileName())
-        .setEscapeChar(fileInput.getEscapechar())
+        .setEscapeChar(fileInput.getEscapeChar())
         .setHeader(fileInput.isHasHeader())
         .setIgnoreLeadingWhiteSpace(fileInput.isIgnoreLeadingWhiteSpace())
-        .setQuoteChar(fileInput.getQuotechar())
+        .setQuoteChar(fileInput.getQuoteChar())
         .setSeparatorChar(fileInput.getSeparator())
         .setSkipDifferingLines(fileInput.isSkipDifferingLines())
         .setSkipLines(fileInput.getSkipLines())
         .setStrictQuotes(fileInput.isStrictQuotes());
-
-    return setting;
   }
 
 

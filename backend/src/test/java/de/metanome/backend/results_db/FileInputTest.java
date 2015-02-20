@@ -68,9 +68,9 @@ public class FileInputTest {
   }
 
   protected void checkDefaultParserSettings(FileInput actualFileInput) {
-    assertEquals(CSVParser.DEFAULT_SEPARATOR, actualFileInput.getSeparator());
-    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, actualFileInput.getQuotechar());
-    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, actualFileInput.getEscapechar());
+    assertEquals(CSVParser.DEFAULT_SEPARATOR, actualFileInput.getSeparatorAsChar());
+    assertEquals(CSVParser.DEFAULT_QUOTE_CHARACTER, actualFileInput.getQuoteCharAsChar());
+    assertEquals(CSVParser.DEFAULT_ESCAPE_CHARACTER, actualFileInput.getEscapeCharAsChar());
     assertEquals(Integer.valueOf(CSVReader.DEFAULT_SKIP_LINES), actualFileInput.getSkipLines());
     assertEquals(CSVParser.DEFAULT_STRICT_QUOTES, actualFileInput.isStrictQuotes());
     assertEquals(CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,

@@ -29,13 +29,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+@Path("/api/inputs")
 public interface InputRestService extends RestService {
 
   @GET
   public void listInputs(MethodCallback<List<Input>> callback);
 
   @GET
-  @Path("/get/relationalInputs")
+  @Path("/relationalInputs")
   public void listRelationalInputs(MethodCallback<List<Input>> callback);
 
   @GET

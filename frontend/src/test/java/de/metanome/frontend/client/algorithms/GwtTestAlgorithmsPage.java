@@ -25,6 +25,7 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
+import de.metanome.frontend.client.helpers.InputValidationException;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -254,7 +255,7 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   /**
    * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm, Algorithm)}
    */
-  public void testFailureOfUpdateCallbackAlgorithm() {
+  public void testFailureOfUpdateCallbackAlgorithm() throws InputValidationException {
     // Setup
     TestHelper.resetDatabaseSync();
 

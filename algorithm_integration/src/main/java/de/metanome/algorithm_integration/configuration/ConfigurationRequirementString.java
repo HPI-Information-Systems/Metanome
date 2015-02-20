@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementString")
-public class ConfigurationRequirementString extends ConfigurationRequirement {
+public class ConfigurationRequirementString extends ConfigurationRequirementDefaultValue<String> {
 
   private ConfigurationSettingString[] settings;
 
@@ -43,7 +43,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
   }
 
   /**
-   * Construct a ConfigurationSepcificationString, requesting 1 value.
+   * Construct a ConfigurationSpecificationString, requesting 1 value.
    *
    * @param identifier the specification's identifier
    */
@@ -61,6 +61,19 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
                                         int numberOfSettings) {
 
     super(identifier, numberOfSettings);
+  }
+
+  /**
+   * Constructs a {@link ConfigurationRequirementString}, requesting several values.
+   *
+   * @param identifier         the specification's identifier
+   * @param minNumberOfSetting the min number of settings expected
+   * @param maxNumberOfSetting the max number of settings expected
+   */
+  public ConfigurationRequirementString(String identifier,
+                                                 int minNumberOfSetting,
+                                                 int maxNumberOfSetting) {
+    super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
   @Override
@@ -87,6 +100,7 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
     throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
+    applyDefaultValues();
   }
 
   /**
@@ -100,4 +114,18 @@ public class ConfigurationRequirementString extends ConfigurationRequirement {
     return factory.build(this);
   }
 
+  /**
+   * Sets the default values on the settings, if both are set.
+   */
+  @XmlTransient
+  @Override
+  public void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setValue(this.defaultValues[i]);
+    }
+  }
 }
