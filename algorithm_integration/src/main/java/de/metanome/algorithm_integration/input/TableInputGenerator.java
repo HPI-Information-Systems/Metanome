@@ -23,8 +23,21 @@ package de.metanome.algorithm_integration.input;
  */
 public interface TableInputGenerator extends RelationalInputGenerator {
 
- /*
- The interface has intentionally left blank to enable functionality diverging from RelationalInputGenerator (as can be seen in FileInputGenerator).
-  */
+  /**
+   * Sort the table by a given column in the given way (descending or ascending).
+   * @param column     the column, after which the table is sort
+   * @param descending the way of ordering, descending or ascending
+   * @return the sorted result set as relational input
+   * @throws InputGenerationException
+   */
+  public RelationalInput sortBy(String column, Boolean descending) throws InputGenerationException;
+
+  /**
+   * Filter the table by the given expression.
+   * @param filterExpression the expression by which the table is filtered
+   * @return the filtered result set as relational input
+   * @throws InputGenerationException
+   */
+  public RelationalInput filter(String filterExpression) throws InputGenerationException;
 
 }

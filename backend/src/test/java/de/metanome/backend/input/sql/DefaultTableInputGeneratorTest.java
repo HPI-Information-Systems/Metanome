@@ -51,6 +51,6 @@ public class DefaultTableInputGeneratorTest {
 
     // Check result
     verify(defaultDatabaseConnectionGenerator)
-        .generateRelationalInputFromSql(DefaultTableInputGenerator.BASE_STATEMENT + expectedTable);
+        .generateRelationalInputFromSql(String.format(DefaultTableInputGenerator.BASE_STATEMENT,expectedTable));
   }
 }

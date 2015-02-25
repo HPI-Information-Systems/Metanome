@@ -32,7 +32,9 @@ import de.metanome.algorithm_integration.input.TableInputGenerator;
  */
 public class DefaultTableInputGenerator implements TableInputGenerator {
 
-  protected static final String BASE_STATEMENT = "SELECT * FROM ";
+  protected static final String BASE_STATEMENT = "SELECT * FROM %s";
+  protected static final String SORT_STATEMENT = "SELECT * FROM %s ORDER BY %s %s";
+  protected static final String FILTER_STATEMENT = "SELECT * FROM %s WHERE %s";
 
   protected DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator;
   protected String table;
@@ -65,7 +67,22 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    */
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
+    String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
-        .generateRelationalInputFromSql(BASE_STATEMENT + table);
+        .generateRelationalInputFromSql(query);
+  }
+
+  @Override
+  public RelationalInput sortBy(String column, Boolean descending) throws InputGenerationException {
+    String query = String.format(SORT_STATEMENT, table, column, descending? "DESC" : "ASC");
+    return defaultDatabaseConnectionGenerator
+        .generateRelationalInputFromSql(query);
+  }
+
+  @Override
+  public RelationalInput filter(String filterExpression) throws InputGenerationException {
+    String query = String.format(FILTER_STATEMENT, table, filterExpression);
+    return defaultDatabaseConnectionGenerator
+        .generateRelationalInputFromSql(query);
   }
 }
