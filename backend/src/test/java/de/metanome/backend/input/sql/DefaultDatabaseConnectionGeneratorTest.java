@@ -45,7 +45,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   /**
    * Test method for {@link DefaultDatabaseConnectionGenerator#DefaultDatabaseConnectionGenerator()}
    * and {@link DefaultDatabaseConnectionGenerator#DefaultDatabaseConnectionGenerator(String,
-   * String, String)}
+   * String, String, de.metanome.algorithm_integration.configuration.DbSystem)}
    *
    * After calling the constructors the default parameter should be set on the generator.
    */

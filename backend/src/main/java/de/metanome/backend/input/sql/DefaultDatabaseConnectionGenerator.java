@@ -18,6 +18,7 @@ package de.metanome.backend.input.sql;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -47,6 +48,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
   private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
   protected Connection dbConnection;
+  protected DbSystem system;
   private List<Statement> statements = new LinkedList<>();
 
   /**
@@ -55,11 +57,12 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   protected DefaultDatabaseConnectionGenerator() {
   }
 
-  public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password)
+  public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password, DbSystem system)
       throws AlgorithmConfigurationException {
     try {
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
       this.dbConnection.setAutoCommit(false);
+      this.system = system;
     } catch (SQLException e) {
       throw new AlgorithmConfigurationException(
           ExceptionParser.parse(e, "Failed to get Database Connection"), e);
@@ -68,7 +71,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
 
   public DefaultDatabaseConnectionGenerator(ConfigurationSettingDatabaseConnection setting)
       throws AlgorithmConfigurationException {
-    this(setting.getDbUrl(), setting.getUsername(), setting.getPassword());
+    this(setting.getDbUrl(), setting.getUsername(), setting.getPassword(), setting.getSystem());
   }
 
   @Override
@@ -174,4 +177,9 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.resultSetConcurrency = resultSetConcurrency;
     return this;
   }
+
+  public DbSystem getSystem() {
+    return system;
+  }
+
 }
