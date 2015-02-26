@@ -164,6 +164,7 @@ public class FunctionalDependencyTest {
     assertEquals(expectedFD, actualFD);
   }
 
+
   /**
    * Test method for {@link FunctionalDependency#equals(Object)} and {@link
    * FunctionalDependency#hashCode()} <p/> {@link FunctionalDependency}s with equal determinant and

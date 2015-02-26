@@ -156,5 +156,4 @@ public class BasicStatistic implements Result {
     return true;
   }
 
-
 }

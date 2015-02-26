@@ -136,19 +136,25 @@ public class ColumnConditionOr implements ColumnCondition {
       if (lengthComparison != 0) {
         return lengthComparison;
       } else {
-        Iterator<ColumnCondition> thisIterator = this.columnValues.iterator();
         Iterator<ColumnCondition> otherIterator = other.columnValues.iterator();
-        while (thisIterator.hasNext() && otherIterator.hasNext()) {
-          ColumnCondition currentThis = thisIterator.next();
-          ColumnCondition currentOther = otherIterator.next();
+        int equalCount = 0;
 
-          int currentComparison = currentThis.compareTo(currentOther);
-          if (currentComparison != 0) {
-            return currentComparison;
+        while (otherIterator.hasNext()) {
+          ColumnCondition currentOther = otherIterator.next();
+          // because the order of the single column values can differ,
+          // you have to compare all permutations
+          for (ColumnCondition currentThis : this.columnValues) {
+            int currentComparison = currentThis.compareTo(currentOther);
+            if (currentComparison == 0) {
+              equalCount++;
+            }
           }
         }
-        //must be equal
-        return 0;
+
+        if (equalCount == this.columnValues.size())
+          return 0;
+        else
+          return 1;
       }
     } else {
       //or between "simple" and "and"

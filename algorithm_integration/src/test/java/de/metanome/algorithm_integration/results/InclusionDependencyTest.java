@@ -16,7 +16,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -68,8 +67,8 @@ public class InclusionDependencyTest {
   }
 
   /**
-   * Test method for {@link InclusionDependency#InclusionDependency(ColumnCombination,
-   * ColumnCombination)} <p/> A {@link InclusionDependency} should store referenced and dependant.
+   * Test method for {@link InclusionDependency#InclusionDependency(ColumnPermutation,
+   * ColumnPermutation)} <p/> A {@link InclusionDependency} should store referenced and dependant.
    */
   @Test
   public void testConstructor() {

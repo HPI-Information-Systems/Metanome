@@ -204,4 +204,5 @@ public class ConditionalUniqueColumnCombination implements Result {
     result = 31 * result + (condition != null ? condition.hashCode() : 0);
     return result;
   }
+
 }

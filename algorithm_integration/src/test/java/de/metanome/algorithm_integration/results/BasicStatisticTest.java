@@ -125,7 +125,6 @@ public class BasicStatisticTest {
     String expectedStatisticName = "Min";
     String expectedStatisticValue = "minValue";
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
-    ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     BasicStatistic
         expectedStatistic =
         new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);

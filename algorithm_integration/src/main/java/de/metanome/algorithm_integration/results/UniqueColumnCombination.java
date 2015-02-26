@@ -121,4 +121,5 @@ public class UniqueColumnCombination implements Result {
     }
     return true;
   }
+
 }

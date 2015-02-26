@@ -154,6 +154,7 @@ public class ConditionalUniqueColumnCombinationTest {
     assertEquals(expectedCUCC, actualCUCC);
   }
 
+
   /**
    * Tests that the instances of {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
    * are serializable in GWT.
