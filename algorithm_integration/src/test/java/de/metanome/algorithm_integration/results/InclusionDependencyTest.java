@@ -113,30 +113,6 @@ public class InclusionDependencyTest {
   }
 
   /**
-   * Test method for {@link InclusionDependency#fromString(String str)}
-   * A {@link InclusionDependency} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    ColumnPermutation expectedDependant = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column2"),
-        new ColumnIdentifier("table2", "column27"));
-    ColumnPermutation expectedReferenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"),
-        new ColumnIdentifier("table1", "column4"));
-    InclusionDependency expectedInd = new InclusionDependency(expectedDependant, expectedReferenced);
-
-    String str = expectedInd.toString();
-
-    // Execute functionality
-    InclusionDependency actualInd = InclusionDependency.fromString(str);
-
-    // Check
-    assertEquals(expectedInd, actualInd);
-  }
-
-  /**
    * Test method for {@link InclusionDependency#equals(Object)} and {@link
    * InclusionDependency#hashCode()} <p/> {@link InclusionDependency}s containing equals dependant
    * and referenced should be equal and have same hash codes.

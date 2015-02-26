@@ -129,21 +129,6 @@ public class ColumnConditionValue implements ColumnCondition {
     return builder.toString();
   }
 
-  public static ColumnConditionValue fromString(String str) {
-    String[] parts = str.split("= ");
-
-    ColumnIdentifier identifier = ColumnIdentifier.fromString(parts[0].trim());
-    String conditionStr = parts[1];
-    Boolean negated = false;
-
-    if (parts[1].contains(NOT)) {
-      negated = true;
-      conditionStr = conditionStr.substring(NOT.length());
-    }
-
-    return new ColumnConditionValue(identifier, conditionStr, negated);
-  }
-
   @Override
   public ColumnCondition add(ColumnCondition value) {
     return this;

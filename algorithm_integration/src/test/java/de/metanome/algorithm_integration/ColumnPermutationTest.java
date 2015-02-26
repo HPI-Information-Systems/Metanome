@@ -69,26 +69,6 @@ public class ColumnPermutationTest {
   }
 
   /**
-   * Test method for {@link ColumnPermutation#fromString(String str)}
-   * A {@link ColumnPermutation} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Expected column identifiers
-    final ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-    final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    final ColumnPermutation expectedPermutation =
-        new ColumnPermutation(expectedColumn1, expectedColumn2, expectedColumn2);
-
-    String str = expectedPermutation.toString();
-
-    // Execute functionality
-    ColumnPermutation actualPermutation = ColumnPermutation.fromString(str);
-
-    assertEquals(expectedPermutation, actualPermutation);
-  }
-
-  /**
    * Test method for {@link ColumnPermutation#equals(Object)} and
    * {@link ColumnPermutation#hashCode()}
    * <p/>
