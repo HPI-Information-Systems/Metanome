@@ -14,8 +14,6 @@
 
 package de.metanome.algorithms.testing.example_od_algorithm;
 
-import java.util.ArrayList;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
@@ -28,6 +26,8 @@ import de.metanome.algorithm_integration.result_receiver.OrderDependencyResultRe
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
+
+import java.util.ArrayList;
 
 /**
  * @author Philipp Langer

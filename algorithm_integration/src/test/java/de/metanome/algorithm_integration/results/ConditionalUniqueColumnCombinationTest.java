@@ -148,7 +148,8 @@ public class ConditionalUniqueColumnCombinationTest {
     String str = expectedCUCC.toString();
 
     // Execute functionality
-    ConditionalUniqueColumnCombination actualCUCC = ConditionalUniqueColumnCombination.fromString(str);
+    ConditionalUniqueColumnCombination actualCUCC = ConditionalUniqueColumnCombination.fromString(
+        str);
 
     // Check result
     assertEquals(expectedCUCC, actualCUCC);

@@ -16,11 +16,17 @@
 
 package de.metanome.backend.result_receiver;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import de.metanome.algorithm_integration.results.Result;
+
+import java.io.IOException;
 
 
 public interface ResultHandler {
 
-  public Result convert(String str);
+  public Result toResult(String str) throws IOException;
+
+  public String toString(Result result) throws JsonProcessingException;
 
 }

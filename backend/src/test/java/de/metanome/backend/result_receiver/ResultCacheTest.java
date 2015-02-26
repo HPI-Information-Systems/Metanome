@@ -25,6 +25,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.results_db.ResultType;
@@ -129,7 +130,8 @@ public class ResultCacheTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedFd.toString()));
+    JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
 
     // Cleanup
     FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());
