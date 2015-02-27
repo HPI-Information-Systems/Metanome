@@ -239,4 +239,23 @@ public class JsonConverterTest {
     assertEquals(expectedCUCC, actualCUCC);
   }
 
+  /**
+   * A {@link de.metanome.algorithm_integration.ColumnConditionValue} should be converted to a JSON String and creatable from a
+   * JSON string.
+   */
+  @Test
+  public void testToAndFromJsonStringColumnConditionValue() throws IOException {
+    // Setup
+    ColumnIdentifier columnIdentifier = new ColumnIdentifier("table1", "column1");
+    ColumnConditionValue expectedColumnValue = new ColumnConditionValue(columnIdentifier, "condition1");
+
+    // Execute functionality
+    JsonConverter<ColumnConditionValue> jsonConverter = new JsonConverter<>();
+    String actualJson = jsonConverter.toJsonString(expectedColumnValue);
+    ColumnConditionValue actualColumnValue = jsonConverter.fromJsonString(actualJson, ColumnConditionValue.class);
+
+    // Check result
+    assertEquals(expectedColumnValue, actualColumnValue);
+  }
+
 }

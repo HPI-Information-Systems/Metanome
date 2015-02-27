@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Iterator;
@@ -111,6 +112,7 @@ public class ColumnConditionOr implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public TreeSet<ColumnIdentifier> getContainedColumns() {
     TreeSet<ColumnIdentifier> result = new TreeSet<>();
     for (ColumnCondition subElement : this.columnValues) {
@@ -120,6 +122,7 @@ public class ColumnConditionOr implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public List<Map<ColumnIdentifier, String>> getPatternConditions() {
     List<Map<ColumnIdentifier, String>> result = new LinkedList<>();
     for (ColumnCondition columnCondition : this.columnValues) {
