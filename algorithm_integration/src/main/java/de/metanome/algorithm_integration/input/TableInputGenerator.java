@@ -17,7 +17,7 @@
 package de.metanome.algorithm_integration.input;
 
 /**
- * Generates new copies of a sql table based {@link de.metanome.algorithm_integration.input.RelationalInput}.
+ * Generates new copies of a database table based {@link de.metanome.algorithm_integration.input.RelationalInput}.
  *
  * @author Jakob Zwiener
  */

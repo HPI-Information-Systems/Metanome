@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.input.InputGenerationException;
 
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for {@link de.metanome.backend.input.sql.DefaultTableInputGenerator}
+ * Tests for {@link de.metanome.backend.input.database.DefaultTableInputGenerator}
  *
  * @author Jakob Zwiener
  */

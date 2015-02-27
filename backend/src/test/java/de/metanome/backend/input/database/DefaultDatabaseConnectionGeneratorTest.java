@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.input.InputGenerationException;
 
@@ -170,7 +170,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
 
   /**
    * Test method for {@link DefaultDatabaseConnectionGenerator#close()} <p/> The database connection
-   * generator should be closeable. After closing the sql iterator generator the underlying db
+   * generator should be closeable. After closing the database iterator generator the underlying db
    * connection should be closed.
    */
   @Test

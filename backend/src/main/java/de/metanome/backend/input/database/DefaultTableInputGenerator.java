@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
@@ -63,7 +63,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    * Generates a new {@link de.metanome.algorithm_integration.input.RelationalInput} to iterate over the data in the table.
    *
    * @return the {@link de.metanome.algorithm_integration.input.RelationalInput}
-   * @throws InputGenerationException if the sql statement could not be executed
+   * @throws InputGenerationException if the database statement could not be executed
    */
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {

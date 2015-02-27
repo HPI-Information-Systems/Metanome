@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.backend.input.csv.DefaultFileInputGenerator;
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
 import java.util.Set;
 

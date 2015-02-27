@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ import java.net.URLDecoder;
 
 /**
  * Creates a file for testing. The file content is stored upon construction and every call to {@link
- * de.metanome.backend.input.csv.FileFixture#getTestData(String)} writes and returns a file with the
+ * de.metanome.backend.input.file.FileFixture#getTestData(String)} writes and returns a file with the
  * content to the given path.
  *
  * @author Jakob Zwiener

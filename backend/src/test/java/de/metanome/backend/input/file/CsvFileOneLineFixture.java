@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

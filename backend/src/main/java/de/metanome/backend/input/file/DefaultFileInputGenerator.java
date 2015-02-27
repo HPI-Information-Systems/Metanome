@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
@@ -29,7 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 /**
- * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on csv
+ * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on file
  * files.
  * The setting holds all parameters to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s.
  * To adapt the parameters you have to adapt the setting.
@@ -44,7 +44,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   /**
    * Creates a DefaultFileInputGenerator with default settings.
    * The default setting is used to construct a new {@link de.metanome.algorithm_integration.input.RelationalInput}.
-   * @param inputFile the csv input file
+   * @param inputFile the file input file
    * @throws java.io.FileNotFoundException if the input file is not found
    */
   public DefaultFileInputGenerator(File inputFile) throws FileNotFoundException {
@@ -75,7 +75,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
       throw new InputGenerationException(ExceptionParser.parse(e), e);
     } catch (InputIterationException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not iterate over the first line of the csv file"), e);
+          ExceptionParser.parse(e, "Could not iterate over the first line of the file file"), e);
     }
   }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import com.google.common.collect.ImmutableList;
 
@@ -176,7 +176,7 @@ public class ResultSetIteratorTest {
   }
 
   /**
-   * Test method for {@link ResultSetIterator#close()} <p/> The sql iterator should be closeable.
+   * Test method for {@link ResultSetIterator#close()} <p/> The database iterator should be closeable.
    * After closing the iterator, the underlying result set and statement should be closed.
    */
   @Test

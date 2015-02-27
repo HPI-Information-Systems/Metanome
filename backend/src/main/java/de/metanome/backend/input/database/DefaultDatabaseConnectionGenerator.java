@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -85,7 +85,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       resultSetIterator = new ResultSetIterator(resultSet);
     } catch (SQLException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not construct sql input"), e);
+          ExceptionParser.parse(e, "Could not construct database input"), e);
     }
 
     return resultSetIterator;
@@ -105,14 +105,14 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       statements.add(sqlStatement);
     } catch (SQLException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not create sql statement on connection"), e);
+          ExceptionParser.parse(e, "Could not create database statement on connection"), e);
     }
     ResultSet resultSet;
     try {
       resultSet = sqlStatement.executeQuery(queryString);
     } catch (SQLException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not execute sql statement"), e);
+          ExceptionParser.parse(e, "Could not execute database statement"), e);
     }
 
     return resultSet;

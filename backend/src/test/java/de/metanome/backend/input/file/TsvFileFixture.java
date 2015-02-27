@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,30 +14,33 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 
-/**
- * A fixture generating a csv file with a header and a short line.
- *
- * @author Jakob Zwiener
- */
-public class CsvFileShortLineWithHeaderFixture {
+public class TsvFileFixture {
 
   protected static final char QUOTE_CHAR = '\'';
-  protected static final char SEPARATOR = ',';
+  protected static final char SEPARATOR = '\t';
   protected static final char ESCAPE = '\\';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
-  protected static final boolean SKIP_DIFFERING_LINES = false;
-  protected static final boolean HAS_HEADER = true;
+  protected static final boolean HAS_HEADER = false;
   protected static final int SKIP_LINES = 0;
 
-  public FileIterator getTestData() throws InputIterationException {
+  public FileIterator getTestData() throws InputGenerationException, InputIterationException {
+    return getTestData(false);
+  }
+
+  public FileIterator getTestData(boolean skipDifferingLines)
+      throws InputIterationException, InputGenerationException {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
         .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
@@ -46,10 +49,22 @@ public class CsvFileShortLineWithHeaderFixture {
         .setEscapeChar(String.valueOf(ESCAPE))
         .setQuoteChar(String.valueOf(QUOTE_CHAR))
         .setSkipLines(SKIP_LINES)
-        .setSkipDifferingLines(SKIP_DIFFERING_LINES);
+        .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
-                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
+                            new StringReader(
+                                Joiner.on('\t').join(getExpectedFirstParsableLine()) +
+                                "\nfour\tfive\n" +
+                                Joiner.on('\t').join(getExpectedSecondParsableLine()) +
+                                "\nnine\tten\televen\ttwelve"),
                             setting);
+  }
+
+  public ImmutableList<String> getExpectedFirstParsableLine() {
+    return ImmutableList.of("one", "two", "three");
+  }
+
+  public ImmutableList<String> getExpectedSecondParsableLine() {
+    return ImmutableList.of("six", "seven", "eight");
   }
 }
