@@ -53,4 +53,81 @@ public class DefaultTableInputGeneratorTest {
     verify(defaultDatabaseConnectionGenerator)
         .generateRelationalInputFromSql(String.format(DefaultTableInputGenerator.BASE_STATEMENT,expectedTable));
   }
+
+  /**
+   * Test method for {@link DefaultTableInputGenerator#select()}
+   *
+   * The table input generator should call the underlying {@link DefaultDatabaseConnectionGenerator}
+   * to execute a select table for the given table.
+   */
+  @Test
+  public void testSelect() throws InputGenerationException {
+    // Setup
+    // Expected values
+    DefaultDatabaseConnectionGenerator
+        defaultDatabaseConnectionGenerator = mock(DefaultDatabaseConnectionGenerator.class);
+    String expectedTable = "some table";
+    DefaultTableInputGenerator tableInputGenerator =
+        new DefaultTableInputGenerator(defaultDatabaseConnectionGenerator, expectedTable);
+
+    // Execute functionality
+    tableInputGenerator.select();
+
+    // Check result
+    verify(defaultDatabaseConnectionGenerator)
+        .generateResultSetFromSql(String.format(DefaultTableInputGenerator.BASE_STATEMENT,
+                                                expectedTable));
+  }
+
+  /**
+   * Test method for {@link DefaultTableInputGenerator#generateNewCopy()}
+   *
+   * The table input generator should call the underlying {@link DefaultDatabaseConnectionGenerator}
+   * to execute a filter table for the given table.
+   */
+  @Test
+  public void testFilter() throws InputGenerationException {
+    // Setup
+    // Expected values
+    DefaultDatabaseConnectionGenerator
+        defaultDatabaseConnectionGenerator = mock(DefaultDatabaseConnectionGenerator.class);
+    String expectedTable = "some table";
+    String expectedColumn = "some column";
+    DefaultTableInputGenerator tableInputGenerator =
+        new DefaultTableInputGenerator(defaultDatabaseConnectionGenerator, expectedTable);
+
+    // Execute functionality
+    tableInputGenerator.filter(expectedColumn);
+
+    // Check result
+    verify(defaultDatabaseConnectionGenerator)
+        .generateResultSetFromSql(String.format(DefaultTableInputGenerator.FILTER_STATEMENT,
+                                                expectedTable, expectedColumn));
+  }
+
+  /**
+   * Test method for {@link DefaultTableInputGenerator#generateNewCopy()}
+   *
+   * The table input generator should call the underlying {@link DefaultDatabaseConnectionGenerator}
+   * to execute a order by table for the given table.
+   */
+  @Test
+  public void testOrderBy() throws InputGenerationException {
+    // Setup
+    // Expected values
+    DefaultDatabaseConnectionGenerator
+        defaultDatabaseConnectionGenerator = mock(DefaultDatabaseConnectionGenerator.class);
+    String expectedTable = "some table";
+    String expectedColumn = "some column";
+    DefaultTableInputGenerator tableInputGenerator =
+        new DefaultTableInputGenerator(defaultDatabaseConnectionGenerator, expectedTable);
+
+    // Execute functionality
+    tableInputGenerator.sortBy(expectedColumn, true);
+
+    // Check result
+    verify(defaultDatabaseConnectionGenerator)
+        .generateResultSetFromSql(String.format(DefaultTableInputGenerator.SORT_STATEMENT,
+                                                expectedTable, expectedColumn, "DESC"));
+  }
 }

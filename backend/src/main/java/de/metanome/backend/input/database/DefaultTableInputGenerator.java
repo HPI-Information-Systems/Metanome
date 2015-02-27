@@ -22,6 +22,8 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 
+import java.sql.ResultSet;
+
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
  * underlying {@link DefaultDatabaseConnectionGenerator}.
@@ -73,16 +75,23 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   }
 
   @Override
-  public RelationalInput sortBy(String column, Boolean descending) throws InputGenerationException {
+  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException {
     String query = String.format(SORT_STATEMENT, table, column, descending? "DESC" : "ASC");
     return defaultDatabaseConnectionGenerator
-        .generateRelationalInputFromSql(query);
+        .generateResultSetFromSql(query);
   }
 
   @Override
-  public RelationalInput filter(String filterExpression) throws InputGenerationException {
+  public ResultSet filter(String filterExpression) throws InputGenerationException {
     String query = String.format(FILTER_STATEMENT, table, filterExpression);
     return defaultDatabaseConnectionGenerator
-        .generateRelationalInputFromSql(query);
+        .generateResultSetFromSql(query);
+  }
+
+  @Override
+  public ResultSet select() throws InputGenerationException {
+    String query = String.format(BASE_STATEMENT, table);
+    return defaultDatabaseConnectionGenerator
+        .generateResultSetFromSql(query);
   }
 }
