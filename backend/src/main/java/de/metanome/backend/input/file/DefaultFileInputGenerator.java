@@ -75,7 +75,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
       throw new InputGenerationException(ExceptionParser.parse(e), e);
     } catch (InputIterationException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not iterate over the first line of the file file"), e);
+          ExceptionParser.parse(e, "Could not iterate over the first line of the file input"), e);
     }
   }
 

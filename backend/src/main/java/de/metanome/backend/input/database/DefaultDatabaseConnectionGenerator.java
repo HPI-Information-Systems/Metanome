@@ -105,14 +105,14 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       statements.add(sqlStatement);
     } catch (SQLException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not create database statement on connection"), e);
+          ExceptionParser.parse(e, "Could not create sql statement on connection"), e);
     }
     ResultSet resultSet;
     try {
       resultSet = sqlStatement.executeQuery(queryString);
     } catch (SQLException e) {
       throw new InputGenerationException(
-          ExceptionParser.parse(e, "Could not execute database statement"), e);
+          ExceptionParser.parse(e, "Could not execute sql statement"), e);
     }
 
     return resultSet;

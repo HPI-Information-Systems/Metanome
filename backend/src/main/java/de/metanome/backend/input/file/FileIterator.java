@@ -149,7 +149,7 @@ public class FileIterator implements RelationalInput {
       currentLineNumber++;
     } catch (IOException e) {
       throw new InputIterationException(
-          ExceptionParser.parse(e, "Could not read next line in file file"), e);
+          ExceptionParser.parse(e, "Could not read next line in file input"), e);
     }
     if (lineArray == null) {
       return null;
