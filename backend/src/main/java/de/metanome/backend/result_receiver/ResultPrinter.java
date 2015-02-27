@@ -176,35 +176,35 @@ public class ResultPrinter extends ResultReceiver {
       String line = br.readLine();
 
       while (line != null) {
-        results.add(getResult(type, line));
+        results.add(convertResult(type.getName(), line));
         line = br.readLine();
       }
     }
     return results;
   }
 
-  private Result getResult(ResultType type, String str) throws IOException {
-    if (type.getName().equals(ResultType.CUCC.getName())) {
+  private Result convertResult(String name, String str) throws IOException {
+    if (name.equals(ResultType.CUCC.getName())) {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, ConditionalUniqueColumnCombination.class);
 
-    } else if (type.getName().equals(ResultType.IND.getName())) {
+    } else if (name.equals(ResultType.IND.getName())) {
       JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, InclusionDependency.class);
 
-    } else if (type.getName().equals(ResultType.UCC.getName())) {
+    } else if (name.equals(ResultType.UCC.getName())) {
       JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, UniqueColumnCombination.class);
 
-    } else if (type.getName().equals(ResultType.FD.getName())) {
+    } else if (name.equals(ResultType.FD.getName())) {
       JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, FunctionalDependency.class);
 
-    } else if (type.getName().equals(ResultType.OD.getName())) {
+    } else if (name.equals(ResultType.OD.getName())) {
       JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, OrderDependency.class);
 
-    } else if (type.getName().equals(ResultType.STAT.getName())) {
+    } else if (name.equals(ResultType.STAT.getName())) {
       JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, BasicStatistic.class);
     }
