@@ -92,14 +92,14 @@ public class AlgorithmExecutor implements Closeable {
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
    * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to {@link
    * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
-   * generators are set before execution. The elapsed time while executing the algorithm in nano
-   * seconds is returned as long.
+   * generators are set before execution. The execution containing the elapsed time while
+   * executing the algorithm in nano seconds is returned as long.
    *
    * @param algorithm    the algorithm
    * @param requirements list of configuration requirements
-   * @return elapsed time in ns
+   * @return the execution
    */
-  public long executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
+  public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
                                List<ConfigurationRequirement> requirements,
                                String executionIdentifier)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
@@ -140,14 +140,14 @@ public class AlgorithmExecutor implements Closeable {
 
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured and all receivers and
-   * generators are set before execution. The elapsed time while executing the algorithm in nano
-   * seconds is returned as long.
+   * generators are set before execution. The execution containing the elapsed time while
+   * executing the algorithm in nano seconds is returned as long.
    *
    * @param storedAlgorithm the algorithm
    * @param parameters      list of configuration values
-   * @return elapsed time in ns
+   * @return the execution
    */
-  public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
+  public Execution executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
                                          List<ConfigurationValue> parameters,
                                          List<Input> inputs,
                                          String executionIdentifier)
@@ -243,7 +243,7 @@ public class AlgorithmExecutor implements Closeable {
 
     executionResource.store(execution);
 
-    return executionTimeInNanos;
+    return execution;
   }
 
   public void setResultPathPrefix(String prefix) {

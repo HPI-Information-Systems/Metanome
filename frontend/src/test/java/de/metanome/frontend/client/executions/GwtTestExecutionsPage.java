@@ -26,7 +26,7 @@ import de.metanome.frontend.client.TestHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GwtExecutionsPageTest extends GWTTestCase {
+public class GwtTestExecutionsPage extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.executions.ExecutionsPage}

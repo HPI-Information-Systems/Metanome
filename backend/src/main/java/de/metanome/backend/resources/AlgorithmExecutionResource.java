@@ -30,6 +30,7 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
@@ -57,7 +58,7 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public long executeAlgorithm(AlgorithmExecutionParams params) {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
     AlgorithmExecutor executor;
 
     try {
@@ -71,9 +72,9 @@ public class AlgorithmExecutionResource {
     AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
-    long executionTimeInNanos = 0;
+    Execution execution = null;
     try {
-      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
+      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -84,7 +85,7 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
-    return executionTimeInNanos;
+    return execution;
   }
 
   @GET

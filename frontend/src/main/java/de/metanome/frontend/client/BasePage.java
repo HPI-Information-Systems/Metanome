@@ -163,15 +163,16 @@ public class BasePage extends TabLayoutPanel {
    * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private MethodCallback<Long> getExecutionCallback(final AlgorithmExecutionRestService executionService,
+  private MethodCallback<Execution> getExecutionCallback(final AlgorithmExecutionRestService executionService,
                                                    final String executionIdentifier) {
-    return new MethodCallback<Long>() {
+    return new MethodCallback<Execution>() {
       public void onFailure(Method method, Throwable caught) {
         resultsPage.updateOnError(method.getResponse().getText());
       }
 
-      public void onSuccess(Method method, Long executionTimeInNanos) {
-        resultsPage.updateOnSuccess(executionTimeInNanos);
+      public void onSuccess(Method method, Execution execution) {
+        resultsPage.updateOnSuccess(execution.getEnd() - execution.getBegin());
+        executionPage.addExecution(execution);
       }
     };
   }

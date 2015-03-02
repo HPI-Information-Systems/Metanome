@@ -116,11 +116,11 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    Execution execution = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
-    assertTrue(0 <= executionTime);
+    assertTrue(0 <= execution.getEnd() - execution.getBegin());
 
     HibernateUtil.clear();
   }
@@ -145,11 +145,11 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    Execution execution = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
-    assertTrue(0 <= executionTime);
+    assertTrue(0 <= execution.getEnd() - execution.getBegin());
 
     HibernateUtil.clear();
   }

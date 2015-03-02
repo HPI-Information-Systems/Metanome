@@ -90,29 +90,36 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   /**
    * Adds each of the executions to the execution table.
    *
-   * @param executions the algorithms to be displayed
+   * @param executions the executions to be displayed
    */
   protected void addExecutionsToTable(List<Execution> executions) {
-    int row = this.executionsTable.getRowCount();
-
     for (final Execution execution : executions) {
-      Button showButton = new Button("Show");
-      showButton.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          parent.showResultsFor(execution);
-        }
-      });
-
-      // algorithm, time, input, result type, show button
-      this.executionsTable.setWidget(row, 0,
-                                     new HTML(execution.getAlgorithm().getName()));
-      this.executionsTable.setWidget(row, 1, new HTML(this.getExecutionTime(execution)));
-      this.executionsTable.setWidget(row, 2, new HTML(this.getInputs(execution)));
-      this.executionsTable.setWidget(row, 3, new HTML(this.getResultTypes(execution)));
-      this.executionsTable.setWidget(row, 4, showButton);
-      row++;
+      addExecution(execution);
     }
+  }
+
+  /**
+   * Add an executions to the execution table.
+   *
+   * @param execution the execution to be displayed
+   */
+  public void addExecution(final Execution execution) {
+    int row = this.executionsTable.getRowCount();
+    Button showButton = new Button("Show");
+    showButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        parent.showResultsFor(execution);
+      }
+    });
+
+    // algorithm, time, input, result type, show button
+    this.executionsTable.setWidget(row, 0,
+                                   new HTML(execution.getAlgorithm().getName()));
+    this.executionsTable.setWidget(row, 1, new HTML(this.getExecutionTime(execution)));
+    this.executionsTable.setWidget(row, 2, new HTML(this.getInputs(execution)));
+    this.executionsTable.setWidget(row, 3, new HTML(this.getResultTypes(execution)));
+    this.executionsTable.setWidget(row, 4, showButton);
   }
 
   /**
@@ -157,4 +164,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   public void setMessageReceiver(TabWrapper tab) {
     this.messageReceiver = tab;
   }
+
+
 }
