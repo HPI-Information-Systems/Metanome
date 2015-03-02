@@ -26,6 +26,7 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.BasePage.Tabs;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
+import de.metanome.frontend.client.executions.ExecutionsPage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 
@@ -51,7 +52,7 @@ public class GwtTestBasePage extends GWTTestCase {
     BasePage testPage = new BasePage();
 
     // Check
-    assertEquals(5, testPage.getWidgetCount());
+    assertEquals(6, testPage.getWidgetCount());
 
     Widget wrapper = testPage.getWidget(Tabs.RESULTS.ordinal());
     assertTrue(wrapper instanceof TabWrapper);
@@ -62,6 +63,12 @@ public class GwtTestBasePage extends GWTTestCase {
     wrapper = ((ScrollPanel) panel).getWidget();
     assertTrue(wrapper instanceof TabWrapper);
     assertTrue(((TabWrapper) wrapper).contentPanel instanceof AlgorithmsPage);
+
+    panel = testPage.getWidget(Tabs.EXECUTIONS.ordinal());
+    assertTrue(panel instanceof ScrollPanel);
+    wrapper = ((ScrollPanel) panel).getWidget();
+    assertTrue(wrapper instanceof TabWrapper);
+    assertTrue(((TabWrapper) wrapper).contentPanel instanceof ExecutionsPage);
 
     panel = testPage.getWidget(Tabs.DATA_SOURCES.ordinal());
     assertTrue(panel instanceof ScrollPanel);

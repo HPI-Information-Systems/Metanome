@@ -30,6 +30,7 @@ import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
+import de.metanome.frontend.client.executions.ExecutionsPage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
@@ -53,6 +54,7 @@ public class BasePage extends TabLayoutPanel {
   protected TabWrapper resultPageTabWrapper;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
+  protected ExecutionsPage executionPage;
 
   /**
    * Constructor. Initiates creation of subpages.
@@ -70,6 +72,11 @@ public class BasePage extends TabLayoutPanel {
     this.algorithmPage = new AlgorithmsPage(this);
     this.insert(new ScrollPanel(new TabWrapper(this.algorithmPage)), "Algorithms",
                 Tabs.ALGORITHMS.ordinal());
+
+    // Add execution tab
+    this.executionPage = new ExecutionsPage(this);
+    this.insert(new ScrollPanel(new TabWrapper(this.executionPage)), "Executions",
+                Tabs.EXECUTIONS.ordinal());
 
     // Add run configuration tab
     this.runConfigurationsPage = new RunConfigurationPage(this);
@@ -230,7 +237,7 @@ public class BasePage extends TabLayoutPanel {
   }
 
   public enum Tabs {
-    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
+    DATA_SOURCES, ALGORITHMS, EXECUTIONS, RUN_CONFIGURATION, RESULTS, ABOUT
   }
 
 }
