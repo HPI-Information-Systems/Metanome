@@ -45,7 +45,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents an execution in the database.
@@ -156,12 +155,10 @@ public class Execution implements Serializable {
       generator = "sequence"
   )
   @JoinTable
-  @XmlTransient
   public Collection<Input> getInputs() {
     return inputs;
   }
 
-  @XmlTransient
   public Execution setInputs(List<Input> inputs) {
     this.inputs = inputs;
 

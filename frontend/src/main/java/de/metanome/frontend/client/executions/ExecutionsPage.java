@@ -60,10 +60,10 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   private void addHeaderRow() {
     // algorithm, time, input, result type, show button
-    this.executionsTable.setWidget(0, 0, new HTML("Algorithm Name"));
-    this.executionsTable.setText(0, 1, "Execution Time (HH:mm:ss)");
-    this.executionsTable.setText(0, 2, "Inputs");
-    this.executionsTable.setText(0, 3, "Result Types");
+    this.executionsTable.setWidget(0, 0, new HTML("<b>Algorithm Name</b>"));
+    this.executionsTable.setWidget(0, 1, new HTML("<b>Execution Time (HH:mm:ss)</b>"));
+    this.executionsTable.setWidget(0, 2, new HTML("<b>Inputs</b>"));
+    this.executionsTable.setWidget(0, 3, new HTML("<b>Result Types</b>"));
   }
 
   /**
@@ -138,7 +138,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     String inputString = "";
     for (Input input : execution.getInputs()) {
       inputString = inputString + input.getName() + "<br>";
-
     }
     return inputString;
   }

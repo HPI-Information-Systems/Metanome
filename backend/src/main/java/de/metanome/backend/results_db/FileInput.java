@@ -55,12 +55,12 @@ public class FileInput extends Input implements Serializable {
   /**
    * Constructs a FileInput with a given file name. Default parser settings are set.
    *
-   * @param name input's file name
+   * @param fileName input's file name
    */
-  public FileInput(String name) {
-    super(name);
+  public FileInput(String fileName) {
+    super(fileName);
 
-    this.fileName = name;
+    this.fileName = fileName;
     this.separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
     this.quoteChar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
     this.escapeChar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
@@ -78,7 +78,6 @@ public class FileInput extends Input implements Serializable {
 
   public FileInput setFileName(String fileName) {
     this.fileName = fileName;
-    this.setName(fileName);
 
     return this;
   }
