@@ -18,44 +18,40 @@ package de.metanome.frontend.client.services;
 
 
 import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.Result;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
-@Path("api/executions")
+@Path("/api/executions")
 public interface ExecutionRestService extends RestService {
 
   @GET
   public void listExecutions(MethodCallback<List<Execution>> callback);
 
-  @GET
-  @Path("/get/{id}")
-  public void getExecution(@PathParam("id") long id, MethodCallback<Execution> callback);
-
-  @POST
-  @Path("/store")
-  public void storeExecution(Execution execution, MethodCallback<Execution> callback);
-
-  @DELETE
-  @Path("/delete/{id}")
-  public void deleteExecution(@PathParam("id") long id, MethodCallback<Void> callback);
-
-  @GET
-  @Path("/algorithm/{name}")
-  public void getExecutionsForAlgorithm(@PathParam("name") String name, MethodCallback<List<Execution>> callback);
-
-  @Path("/update")
-  public void updateExecution(Execution execution, MethodCallback<Execution> callback);
-
-  @Path("/addResult/{id}")
-  public void addResult(@PathParam("id") long id, Result result, MethodCallback<Void> callback);
+//  @GET
+//  @Path("/get/{id}")
+//  public void getExecution(@PathParam("id") long id, MethodCallback<Execution> callback);
+//
+//  @POST
+//  @Path("/store")
+//  public void storeExecution(Execution execution, MethodCallback<Execution> callback);
+//
+//  @DELETE
+//  @Path("/delete/{id}")
+//  public void deleteExecution(@PathParam("id") long id, MethodCallback<Void> callback);
+//
+//  @GET
+//  @Path("/algorithm/{name}")
+//  public void getExecutionsForAlgorithm(@PathParam("name") String name, MethodCallback<List<Execution>> callback);
+//
+//  @Path("/update")
+//  public void updateExecution(Execution execution, MethodCallback<Execution> callback);
+//
+//  @Path("/addResult/{id}")
+//  public void addResult(@PathParam("id") long id, Result result, MethodCallback<Void> callback);
 }
