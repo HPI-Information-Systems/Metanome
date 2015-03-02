@@ -84,9 +84,9 @@ public class ExecutionTest {
     // Setup
     Execution execution = new Execution(mock(Algorithm.class), 123456789);
     // Expected values
-    Input input1 = new Input()
+    Input input1 = new Input("input")
         .setId(42);
-    Input input2 = new Input()
+    Input input2 = new Input("input")
         .setId(23);
 
     // Execute functionality

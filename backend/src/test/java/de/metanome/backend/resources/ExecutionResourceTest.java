@@ -126,9 +126,9 @@ public class ExecutionResourceTest {
     Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
     algorithmResource.store(algorithm);
 
-    Input input1 = new Input();
+    Input input1 = new Input("input");
     inputResource.store(input1);
-    Input input2 = new Input();
+    Input input2 = new Input("input");
     inputResource.store(input2);
 
     List<Input> inputs = new ArrayList<>();
@@ -182,11 +182,11 @@ public class ExecutionResourceTest {
     Result expectedResult2 = new Result("some other result file path");
     expectedExecution.addResult(expectedResult2);
     // Inputs
-    FileInput expectedFileInput = new FileInput();
+    FileInput expectedFileInput = new FileInput("fileInput");
     expectedExecution.addInput(expectedFileInput);
     // Inputs can be added twice
     expectedExecution.addInput(expectedFileInput);
-    TableInput expectedTableInput = new TableInput();
+    TableInput expectedTableInput = new TableInput("fileInput");
     expectedExecution.addInput(expectedTableInput);
 
     // Execute functionality

@@ -115,7 +115,7 @@ public class TableInputEditForm extends Grid {
    * @throws InputValidationException if the input is invalid.
    */
   public TableInput getValue() throws InputValidationException {
-    TableInput tableInput = new TableInput();
+    TableInput tableInput = new TableInput("tableInput");
 
     String identifier = this.dbConnectionListBox.getSelectedValue();
     DatabaseConnection connection = this.dbMap.get(identifier);

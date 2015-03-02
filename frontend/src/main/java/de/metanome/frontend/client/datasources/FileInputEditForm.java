@@ -386,7 +386,7 @@ public class FileInputEditForm extends Grid {
    * @throws InputValidationException if the file name is invalid
    */
   public FileInput getValue() throws InputValidationException {
-    FileInput fileInput = new FileInput();
+    FileInput fileInput = new FileInput("fileInput");
 
     String fileName = this.fileListBox.getSelectedValue();
     String comment = this.commentTextArea.getValue();

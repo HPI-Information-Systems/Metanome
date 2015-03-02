@@ -93,6 +93,8 @@ public class ExecutionResource implements Resource<Execution> {
   /**
    * @return all executions in the database
    */
+  @GET
+  @Produces("application/json")
   @Override
   public List<Execution> getAll() {
     List<Execution> executions = null;

@@ -128,7 +128,7 @@ public class DatabaseConnectionEditForm extends Grid {
    * @throws InputValidationException if one of the fields is empty
    */
   public DatabaseConnection getValue() throws InputValidationException {
-    DatabaseConnection connection = new DatabaseConnection();
+    DatabaseConnection connection = new DatabaseConnection("db");
 
     String url = this.dbUrlTextbox.getValue();
     String username = this.usernameTextbox.getValue();

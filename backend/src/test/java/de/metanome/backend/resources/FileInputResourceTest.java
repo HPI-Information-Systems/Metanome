@@ -46,10 +46,10 @@ public class FileInputResourceTest {
     FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
-    FileInput expectedFileInput1 = new FileInput();
+    FileInput expectedFileInput1 = new FileInput("file");
     expectedFileInput1.setFileName("file1");
 
-    FileInput expectedFileInput2 = new FileInput();
+    FileInput expectedFileInput2 = new FileInput("file");
     expectedFileInput2.setFileName("file2");
 
     FileInput[] expectedFileInputs = {expectedFileInput1, expectedFileInput2};
@@ -80,7 +80,7 @@ public class FileInputResourceTest {
     FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
-    FileInput expectedFileInput = new FileInput();
+    FileInput expectedFileInput = new FileInput("file");
     expectedFileInput.setFileName("file");
 
     fileInputResource.store(expectedFileInput);
@@ -128,7 +128,7 @@ public class FileInputResourceTest {
     FileInputResource fileInputResource = new FileInputResource();
 
     // Expected values
-    FileInput expectedFileInput = new FileInput();
+    FileInput expectedFileInput = new FileInput("file");
     expectedFileInput.setFileName("file1");
 
     // Execute functionality
@@ -156,7 +156,7 @@ public class FileInputResourceTest {
 
     FileInputResource fileInputResource = new FileInputResource();
 
-    FileInput expectedFileInput = new FileInput();
+    FileInput expectedFileInput = new FileInput("file");
     expectedFileInput.setFileName("file1");
     fileInputResource.store(expectedFileInput);
 

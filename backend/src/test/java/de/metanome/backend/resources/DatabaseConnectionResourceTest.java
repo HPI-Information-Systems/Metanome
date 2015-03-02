@@ -16,6 +16,7 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -47,14 +48,8 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    DatabaseConnection expectedDb1 = new DatabaseConnection();
-    expectedDb1.setUrl("url1");
-    expectedDb1.setPassword("password1");
-    expectedDb1.setUsername("db1");
-    DatabaseConnection expectedDb2 = new DatabaseConnection();
-    expectedDb2.setUrl("url2");
-    expectedDb2.setPassword("password2");
-    expectedDb2.setUsername("db2");
+    DatabaseConnection expectedDb1 = new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
+    DatabaseConnection expectedDb2 = new DatabaseConnection("url2", "password2", "db2", DbSystem.DB2);
 
     DatabaseConnection[] expectedDbConnections = {expectedDb1, expectedDb2};
 
@@ -81,10 +76,7 @@ public class DatabaseConnectionResourceTest {
     // Setup
     HibernateUtil.clear();
 
-    DatabaseConnection expectedDbConnection = new DatabaseConnection();
-    expectedDbConnection.setUrl("url1");
-    expectedDbConnection.setPassword("password1");
-    expectedDbConnection.setUsername("db1");
+    DatabaseConnection expectedDbConnection = new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
     dbResource.store(expectedDbConnection);
 
     long id = expectedDbConnection.getId();
@@ -112,10 +104,7 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    DatabaseConnection expectedDbConnection = new DatabaseConnection();
-    expectedDbConnection.setUrl("url1");
-    expectedDbConnection.setPassword("password1");
-    expectedDbConnection.setUsername("db1");
+    DatabaseConnection expectedDbConnection = new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
 
     dbResource.store(expectedDbConnection);
 
@@ -158,10 +147,7 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    DatabaseConnection expectedDbConnection = new DatabaseConnection();
-    expectedDbConnection.setUrl("url1");
-    expectedDbConnection.setPassword("password1");
-    expectedDbConnection.setUsername("db1");
+    DatabaseConnection expectedDbConnection = new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
 
     // Execute functionality
     dbResource.store(expectedDbConnection);
@@ -184,9 +170,7 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    DatabaseConnection databaseConnection = new DatabaseConnection()
-        .setUsername("old user")
-        .setPassword("old password");
+    DatabaseConnection databaseConnection = new DatabaseConnection("url1", "old user", "old password", DbSystem.DB2);
 
     // Execute functionality
     DatabaseConnection actualDatabaseConnection = dbResource.store(databaseConnection);

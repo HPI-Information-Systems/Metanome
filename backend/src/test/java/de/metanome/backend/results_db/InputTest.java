@@ -21,15 +21,9 @@ import de.metanome.backend.resources.InputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link de.metanome.backend.results_db.Input}
@@ -50,7 +44,7 @@ public class InputTest {
     // Setup
     HibernateUtil.clear();
 
-    Input input = new Input();
+    Input input = new Input("input");
 
     // Execute functionality
     // Check result
@@ -73,11 +67,11 @@ public class InputTest {
     // Setup
     // Expected values
     int id = 42;
-    Input input = new Input()
+    Input input = new Input("input")
         .setId(id);
-    Input equalInput = new Input()
+    Input equalInput = new Input("input")
         .setId(id);
-    Input notEqualInput = new Input()
+    Input notEqualInput = new Input("input")
         .setId(23);
 
     // Execute functionality
