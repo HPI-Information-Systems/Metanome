@@ -100,7 +100,8 @@ public class AlgorithmExecutor implements Closeable {
    * @return elapsed time in ns
    */
   public long executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
-                               List<ConfigurationRequirement> requirements)
+                               List<ConfigurationRequirement> requirements,
+                               String executionIdentifier)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
@@ -126,7 +127,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     try {
-      return executeAlgorithmWithValues(algorithm, parameterValues, inputs);
+      return executeAlgorithmWithValues(algorithm, parameterValues, inputs, executionIdentifier);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -148,7 +149,8 @@ public class AlgorithmExecutor implements Closeable {
    */
   public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
                                          List<ConfigurationValue> parameters,
-                                         List<Input> inputs)
+                                         List<Input> inputs,
+                                         String executionIdentifier)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -232,6 +234,7 @@ public class AlgorithmExecutor implements Closeable {
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
         .setEnd(beforeWallClockTime + (executionTimeInNanos / 1000))
         .setInputs(inputs)
+        .setIdentifier(executionIdentifier)
         .setResults(results);
 
     for (Result result : results) {

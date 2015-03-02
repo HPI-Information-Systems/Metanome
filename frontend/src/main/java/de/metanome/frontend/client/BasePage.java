@@ -28,6 +28,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.executions.ExecutionsPage;
@@ -146,6 +147,11 @@ public class BasePage extends TabLayoutPanel {
                                cacheResults, writeResults, countResults);
     this.resultsPage.startPolling();
 
+    this.selectTab(Tabs.RESULTS.ordinal());
+  }
+
+  public void showResultsFor(Execution execution) {
+    this.resultsPage.showResults(execution);
     this.selectTab(Tabs.RESULTS.ordinal());
   }
 

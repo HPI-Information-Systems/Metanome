@@ -55,4 +55,8 @@ public interface AlgorithmExecutionRestService extends RestService {
   @Path("/result_printer/{identifier}")
   public void getPrinterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<List<Result>> callback);
 
+  @GET
+  @Path("/read_result/{file_name}/{type}")
+  public void readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type, MethodCallback<List<Result>> callback);
+
 }

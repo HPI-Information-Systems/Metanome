@@ -24,6 +24,7 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.helper.ResultReader;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
@@ -72,7 +73,7 @@ public class AlgorithmExecutionResource {
 
     long executionTimeInNanos = 0;
     try {
-      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements());
+      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -133,6 +134,19 @@ public class AlgorithmExecutionResource {
                              Response.Status.BAD_REQUEST);
     }
   }
+
+  @GET
+  @Path("/read_result/{file_name}/{type}")
+  @Produces("application/json")
+  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
+    try {
+      return ResultReader.readResultsFromFile(fileName, type);
+    } catch (Exception e) {
+      throw new WebException("Could not read result file",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
+
 
   /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write

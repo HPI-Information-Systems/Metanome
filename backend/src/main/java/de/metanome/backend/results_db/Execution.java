@@ -63,6 +63,7 @@ public class Execution implements Serializable {
   protected Algorithm algorithm;
   protected long begin;
   protected long end;
+  protected String identifier;
   protected String config;
   protected List<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
@@ -101,6 +102,15 @@ public class Execution implements Serializable {
   public Execution setId(long id) {
     this.id = id;
 
+    return this;
+  }
+
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public Execution setIdentifier(String identifier) {
+    this.identifier = identifier;
     return this;
   }
 

@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.results;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -26,6 +27,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -83,10 +85,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer.cancel();
 
     // Fetch the last results or get all results depending on the used result receiver
-    if (cacheResults)
+    if (cacheResults || writeResults)
       this.tablePage.fetchResults();
-    else if (writeResults)
-      this.tablePage.getPrinterResults();
     else if (countResults)
       this.tablePage.getCounterResults();
 
@@ -95,12 +95,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.remove(this.runningIndicator);
 
     // Add a label for the execution time
-    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTimeInNanos / 1000000d));
-    String timeString = "Algorithm " + this.algorithmFileName + " executed in " +
-                        format.format(date, TimeZone.createTimeZone(0)) +
-                        " (HH:mm:ss.SSS) or " + executionTimeInNanos / 1000000d + " ms.";
-    this.insert(new Label(timeString), 0);
+    this.insert(new Label(getExecutionTimeString(executionTimeInNanos)), 0);
   }
 
   /**
@@ -133,9 +128,37 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.progressBar = new ProgressBar(0, 1);
     this.add(this.progressBar);
 
+    this.addChildPages(this.executionService, this.executionIdentifier);
+
+    final ResultsTablePage resultsTab = tablePage;
+    this.timer = new Timer() {
+      public void run() {
+        updateProgress();
+        if (cacheResults) resultsTab.fetchResults();
+      }
+    };
+
+    this.timer.scheduleRepeating(10000);
+  }
+
+  public void showResults(Execution execution) {
+    this.clear();
+    AlgorithmExecutionRestService executionRestService = GWT.create(AlgorithmExecutionRestService.class);
+
+    this.addChildPages(executionRestService, execution.getIdentifier());
+
+    // Fetch the results
+    this.tablePage.readResultsFromFile(execution.getResults());
+
+    // Add a label for the execution time
+    long executionTime = execution.getEnd() - execution.getBegin();
+    this.insert(new Label(getExecutionTimeString(executionTime)), 0);
+  }
+
+  private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
     // Create new tab with result table
     this.tablePage =
-        new ResultsTablePage(this.executionService, this.executionIdentifier);
+        new ResultsTablePage(executionService, executionIdentifier);
     tablePage.setMessageReceiver(this.messageReceiver);
 
     // Create new tab with visualizations of result
@@ -147,16 +170,14 @@ public class ResultsPage extends FlowPanel implements TabContent {
     panel.add(new ScrollPanel(tablePage), "Table");
     panel.add(new ScrollPanel(visualizationTab), "Visualization");
     this.add(panel);
+  }
 
-    final ResultsTablePage resultsTab = tablePage;
-    this.timer = new Timer() {
-      public void run() {
-        updateProgress();
-        if (cacheResults) resultsTab.fetchResults();
-      }
-    };
-
-    this.timer.scheduleRepeating(10000);
+  private String getExecutionTimeString(long executionTime) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
+    Date date = new Date(Math.round(executionTime / 1000000d));
+    return "Algorithm " + algorithmFileName + " executed in " +
+           format.format(date, TimeZone.createTimeZone(0)) +
+           " (HH:mm:ss.SSS) or " + executionTime / 1000000d + " ms.";
   }
 
   /**

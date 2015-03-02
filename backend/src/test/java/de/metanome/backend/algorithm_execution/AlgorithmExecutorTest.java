@@ -95,7 +95,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
    * Tests the execution of an fd algorithm. The elapsed time should be greater than
    * 0ns.
    */
@@ -116,7 +116,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
+    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -126,7 +126,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
    * Tests the execution of an od algorithm. The elapsed time should be greater than
    * 0ns.
    */
@@ -145,7 +145,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null);
+    long executionTime = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
@@ -155,7 +155,7 @@ public class AlgorithmExecutorTest {
   }
   
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
    * Tests the execution of an ind algorithm.
    */
   @Test
@@ -179,7 +179,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null);
+    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
@@ -188,7 +188,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
    *
    * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm}
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
@@ -215,13 +215,13 @@ public class AlgorithmExecutorTest {
 
     // Execute functionality
     // Check result
-    executor.executeAlgorithm(algorithm, requirements);
+    executor.executeAlgorithm(algorithm, requirements, "identifier");
 
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
    * Tests the execution of an Ucc algorithm.
    */
   @Test
@@ -240,7 +240,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null);
+    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -251,7 +251,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
    * Tests the execution of an holistic algorithm.
    */
   @Test
@@ -270,7 +270,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null);
+    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -280,7 +280,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
    * Algorithms that do not implement the metanome interfaces directly should
    * still be executable.
    */
@@ -300,7 +300,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, null);
+    executor.executeAlgorithmWithValues(algorithm, configurationValues, null, "identifier");
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -309,7 +309,7 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
    * When executing an {@link de.metanome.algorithm_integration.Algorithm} an
    * {@link de.metanome.backend.results_db.Execution} should be saved in the results database.
    */
@@ -336,7 +336,7 @@ public class AlgorithmExecutorTest {
     inputs.add(expectedInput);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, inputs);
+    executor.executeAlgorithmWithValues(algorithm, configurationValues, inputs, "identifier");
     ExecutionResource executionResource = new ExecutionResource();
     List<Execution> actualExecutions = executionResource.getAll();
 
@@ -383,14 +383,14 @@ public class AlgorithmExecutorTest {
     Algorithm algorithm = new Algorithm("wrong_algorithm.jar");
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, null);
+    executor.executeAlgorithmWithValues(algorithm, configurationValues, null, "identifier");
 
     // Setup
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
    * Tests the execution of a basic statistics algorithm that requires several
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
    */
@@ -439,7 +439,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithm(algorithm, configurationRequirements);
+    executor.executeAlgorithm(algorithm, configurationRequirements, "identifier");
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);

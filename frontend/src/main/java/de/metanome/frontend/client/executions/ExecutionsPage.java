@@ -96,13 +96,11 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     int row = this.executionsTable.getRowCount();
 
     for (final Execution execution : executions) {
-      // Using the HTML title to associate an execution with a button.
       Button showButton = new Button("Show");
-      showButton.setTitle(String.valueOf(execution.getId()));
       showButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          callResultPage(((Button) event.getSource()).getTitle());
+          parent.showResultsFor(execution);
         }
       });
 
@@ -153,10 +151,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
       resultTypeString = resultTypeString + result.getType().getName() + "<br>";
     }
     return resultTypeString;
-  }
-
-  private void callResultPage(String title) {
-
   }
 
   @Override

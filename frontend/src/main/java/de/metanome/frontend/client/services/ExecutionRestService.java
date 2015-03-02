@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 @Path("/api/executions")
 public interface ExecutionRestService extends RestService {
@@ -33,10 +34,10 @@ public interface ExecutionRestService extends RestService {
   @GET
   public void listExecutions(MethodCallback<List<Execution>> callback);
 
-//  @GET
-//  @Path("/get/{id}")
-//  public void getExecution(@PathParam("id") long id, MethodCallback<Execution> callback);
-//
+  @GET
+  @Path("/get/{id}")
+  public void getExecution(@PathParam("id") long id, MethodCallback<Execution> callback);
+
 //  @POST
 //  @Path("/store")
 //  public void storeExecution(Execution execution, MethodCallback<Execution> callback);
