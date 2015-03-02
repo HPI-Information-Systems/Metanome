@@ -90,6 +90,7 @@
         <include name="TableInputParameterAlgorithm.java"/>
         <include name="RelationalInputParameterAlgorithm.java"/>
         <include name="DatabaseConnectionParameterAlgorithm.java"/>
+        <include name="ProgressEstimatingAlgorithm.java"/>
     </source>
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>

@@ -50,7 +50,7 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#startPolling()}
+   * Test method for {@link ResultsPage#startPolling(boolean)}
    */
   public void testStartPolling() {
     // Set up
@@ -63,13 +63,14 @@ public class GwtTestResultsPage extends GWTTestCase {
 
     // Expected Values
     // Execute
-    page.startPolling();
+    page.startPolling(true);
 
     // Check
-    assertEquals(4, page.getWidgetCount());
+    assertEquals(5, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
+    assertNotNull(page.executionTimePanel);
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -86,7 +87,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-    page.timer = new Timer() {
+    page.executionTimeTimer = new Timer() {
       @Override
       public void run() {
       }
@@ -116,7 +117,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.setMessageReceiver(new TabWrapper());
     page.setExecutionParameter(null, "identifier", "name", true, false, false);
 
-    page.startPolling();
+    page.startPolling(true);
 
     // Expected Values
     // Execute
@@ -131,6 +132,16 @@ public class GwtTestResultsPage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
+  public void testTimeConversion() {
+    BasePage parent = new BasePage();
+    ResultsPage page = new ResultsPage(parent);
+
+    String timeStr = "01:30:40";
+    int timeInt = 5440;
+
+    assertEquals(timeStr, page.toTimeString(timeInt));
+    assertEquals(timeInt, page.toTimeInt(timeStr));
+  }
 
   @Override
   public String getModuleName() {
