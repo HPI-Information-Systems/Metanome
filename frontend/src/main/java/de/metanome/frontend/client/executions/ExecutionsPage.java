@@ -37,7 +37,9 @@ import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ExecutionsPage  extends FlowPanel implements TabContent {
 
@@ -90,9 +92,12 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   /**
    * Adds each of the executions to the execution table.
    *
-   * @param executions the executions to be displayed
+   * @param executionList the executions to be displayed
    */
-  protected void addExecutionsToTable(List<Execution> executions) {
+  protected void addExecutionsToTable(List<Execution> executionList) {
+    // Hibernate performs a left outer join, so that duplicates can be present.
+    // Converting the result into a set, removes these duplicates.
+    Set<Execution> executions = new HashSet<>(executionList);
     for (final Execution execution : executions) {
       addExecution(execution);
     }
