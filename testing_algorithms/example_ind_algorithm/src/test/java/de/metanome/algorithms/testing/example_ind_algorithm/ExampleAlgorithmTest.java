@@ -117,7 +117,8 @@ public class ExampleAlgorithmTest {
    * When the algorithm is started after configuration a result should be received.
    */
   @Test
-  public void testStart() throws AlgorithmExecutionException, UnsupportedEncodingException {
+  public void testStart()
+      throws AlgorithmExecutionException, UnsupportedEncodingException {
     // Setup
     InclusionDependencyResultReceiver
         resultReceiver =

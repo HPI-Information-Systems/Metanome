@@ -17,6 +17,7 @@
 package de.metanome.algorithm_integration;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.LinkedList;
@@ -102,6 +103,7 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public TreeSet<ColumnIdentifier> getContainedColumns() {
     TreeSet<ColumnIdentifier> result = new TreeSet<>();
     result.add(this.columnIdentifier);
@@ -109,6 +111,7 @@ public class ColumnConditionValue implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public List<Map<ColumnIdentifier, String>> getPatternConditions() {
     List<Map<ColumnIdentifier, String>> result = new LinkedList<>();
     Map<ColumnIdentifier, String> condition = new TreeMap<>();
@@ -127,21 +130,6 @@ public class ColumnConditionValue implements ColumnCondition {
     }
     builder.append(this.columnValue);
     return builder.toString();
-  }
-
-  public static ColumnConditionValue fromString(String str) {
-    String[] parts = str.split("= ");
-
-    ColumnIdentifier identifier = ColumnIdentifier.fromString(parts[0].trim());
-    String conditionStr = parts[1];
-    Boolean negated = false;
-
-    if (parts[1].contains(NOT)) {
-      negated = true;
-      conditionStr = conditionStr.substring(NOT.length());
-    }
-
-    return new ColumnConditionValue(identifier, conditionStr, negated);
   }
 
   @Override

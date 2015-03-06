@@ -54,19 +54,27 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void execute() throws CouldNotReceiveResultException {
+  public void execute() throws AlgorithmConfigurationException {
     if (path != null) {
-      fdResultReceiver.receiveResult(
-          new FunctionalDependency(
-              new ColumnCombination(
-                  new ColumnIdentifier("table1", "column1"),
-                  new ColumnIdentifier("table1", "column2")),
-              new ColumnIdentifier("table1", "column5")
-          )
-      );
-      uccResultReceiver.receiveResult(new UniqueColumnCombination(
-          new ColumnIdentifier("table1", "column5"),
-          new ColumnIdentifier("table1", "column6")));
+      try {
+        fdResultReceiver.receiveResult(
+            new FunctionalDependency(
+                new ColumnCombination(
+                    new ColumnIdentifier("table1", "column1"),
+                    new ColumnIdentifier("table1", "column2")),
+                new ColumnIdentifier("table1", "column5")
+            )
+        );
+      } catch (CouldNotReceiveResultException e) {
+        throw new AlgorithmConfigurationException("Could not write result.");
+      }
+      try {
+        uccResultReceiver.receiveResult(new UniqueColumnCombination(
+            new ColumnIdentifier("table1", "column5"),
+            new ColumnIdentifier("table1", "column6")));
+      } catch (CouldNotReceiveResultException e) {
+       throw new AlgorithmConfigurationException("Could not write result.");
+      }
     }
   }
 

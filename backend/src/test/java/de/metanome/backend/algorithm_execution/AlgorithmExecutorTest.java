@@ -102,9 +102,9 @@ public class AlgorithmExecutorTest {
   @Test
   public void testExecuteFunctionalDependencyAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-             SecurityException, IOException, ClassNotFoundException, InstantiationException,
+             SecurityException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-             EntityStorageException {
+             EntityStorageException, IOException {
     HibernateUtil.clear();
 
     // Setup
@@ -396,8 +396,8 @@ public class AlgorithmExecutorTest {
    */
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
-      throws AlgorithmExecutionException, AlgorithmLoadingException, FileNotFoundException,
-             UnsupportedEncodingException, EntityStorageException {
+      throws AlgorithmExecutionException, AlgorithmLoadingException, IOException,
+             EntityStorageException {
     HibernateUtil.clear();
 
     // Setup

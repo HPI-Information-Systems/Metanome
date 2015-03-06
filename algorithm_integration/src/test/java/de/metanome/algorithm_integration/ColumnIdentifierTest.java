@@ -82,41 +82,6 @@ public class ColumnIdentifierTest {
     assertEquals(identifier1.hashCode(), identifier2.hashCode());
   }
 
-
-  /**
-   * Test method for {@link ColumnIdentifier#fromString(String str)}
-   * A {@link ColumnIdentifier} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    ColumnIdentifier expectedIdentifier = new ColumnIdentifier("table", "column");
-    String str = expectedIdentifier.toString();
-
-    // Execute functionality
-    ColumnIdentifier actualIdentifier = ColumnIdentifier.fromString(str);
-
-    // Check results
-    assertEquals(expectedIdentifier, actualIdentifier);
-  }
-
-  /**
-   * Test method for {@link ColumnIdentifier#fromString(String str)}
-   * A {@link ColumnIdentifier} should be creatable from a string.
-   */
-  @Test
-  public void testFromString2() {
-    // Setup
-    ColumnIdentifier expectedIdentifier = new ColumnIdentifier("table.csv", "column");
-    String str = expectedIdentifier.toString();
-
-    // Execute functionality
-    ColumnIdentifier actualIdentifier = ColumnIdentifier.fromString(str);
-
-    // Check results
-    assertEquals(expectedIdentifier, actualIdentifier);
-  }
-
   /**
    * Two ColumnIdentifiers with different values should not be equal.
    */

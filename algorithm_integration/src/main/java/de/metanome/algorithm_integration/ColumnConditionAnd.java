@@ -17,6 +17,7 @@
 package de.metanome.algorithm_integration;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Iterator;
@@ -110,6 +111,7 @@ public class ColumnConditionAnd implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public TreeSet<ColumnIdentifier> getContainedColumns() {
     TreeSet<ColumnIdentifier> result = new TreeSet<>();
     for (ColumnCondition subElement : this.columnValues) {
@@ -119,6 +121,7 @@ public class ColumnConditionAnd implements ColumnCondition {
   }
 
   @Override
+  @JsonIgnore
   public List<Map<ColumnIdentifier, String>> getPatternConditions() {
     List<Map<ColumnIdentifier, String>> result = new LinkedList<>();
     Map<ColumnIdentifier, String> condition = new TreeMap<>();
@@ -137,19 +140,25 @@ public class ColumnConditionAnd implements ColumnCondition {
       if (lengthComparison != 0) {
         return lengthComparison;
       } else {
-        Iterator<ColumnCondition> thisIterator = this.columnValues.iterator();
         Iterator<ColumnCondition> otherIterator = other.columnValues.iterator();
-        while (thisIterator.hasNext() && otherIterator.hasNext()) {
-          ColumnCondition currentThis = thisIterator.next();
-          ColumnCondition currentOther = otherIterator.next();
+        int equalCount = 0;
 
-          int currentComparison = currentThis.compareTo(currentOther);
-          if (currentComparison != 0) {
-            return currentComparison;
+        while (otherIterator.hasNext()) {
+          ColumnCondition currentOther = otherIterator.next();
+          // because the order of the single column values can differ,
+          // you have to compare all permutations
+          for (ColumnCondition currentThis : this.columnValues) {
+            int currentComparison = currentThis.compareTo(currentOther);
+            if (currentComparison == 0) {
+              equalCount++;
+            }
           }
         }
-        //must be equal
-        return 0;
+
+        if (equalCount == this.columnValues.size())
+          return 0;
+        else
+          return 1;
       }
     } else {
       //and always last
