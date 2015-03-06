@@ -38,9 +38,9 @@ import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ExecutionsPage  extends FlowPanel implements TabContent {
 
@@ -91,27 +91,33 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     };
   }
 
+  public void addExecution(Execution execution) {
+    int index = this.executionsTable.insertRow(1);
+    this.addExecutionToTable(execution, index);
+  }
+
   /**
    * Adds each of the executions to the execution table.
-   *
-   * @param executionList the executions to be displayed
+   * @param executionList the executions
    */
   protected void addExecutionsToTable(List<Execution> executionList) {
     // Hibernate performs a left outer join, so that duplicates can be present.
     // Converting the result into a set, removes these duplicates.
-    Set<Execution> executions = new HashSet<>(executionList);
+    Set<Execution> executions = new TreeSet<>(executionList);
+    int row;
     for (final Execution execution : executions) {
-      addExecution(execution);
+      row = this.executionsTable.getRowCount();
+      addExecutionToTable(execution, row);
     }
   }
 
   /**
-   * Add an executions to the execution table.
+   * Adds an executions to the execution table.
    *
    * @param execution the execution to be displayed
+   * @param row       the row, in which the execution should be inserted
    */
-  public void addExecution(final Execution execution) {
-    int row = this.executionsTable.getRowCount();
+  protected void addExecutionToTable(final Execution execution, int row) {
     Button showButton = new Button("Show");
     showButton.addClickHandler(new ClickHandler() {
       @Override

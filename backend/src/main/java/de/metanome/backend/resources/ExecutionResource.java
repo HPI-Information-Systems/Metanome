@@ -98,7 +98,6 @@ public class ExecutionResource implements Resource<Execution> {
   @Override
   public List<Execution> getAll() {
     List<Execution> executions = null;
-
     try {
       executions = HibernateUtil.queryCriteria(Execution.class);
     } catch (EntityStorageException e) {

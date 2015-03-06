@@ -59,7 +59,10 @@ public class GwtTestExecutionsPage extends GWTTestCase {
     BasePage basePage = new BasePage();
     ExecutionsPage executionPage = new ExecutionsPage(basePage);
 
-    Execution execution = new Execution(new Algorithm("example"), 1000);
+    Algorithm algorithm = new Algorithm("file");
+    algorithm.setName("some name");
+
+    Execution execution = new Execution(algorithm, 1000);
     List<Execution> executionList = new ArrayList<>();
     executionList.add(execution);
 

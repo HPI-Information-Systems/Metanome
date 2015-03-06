@@ -54,7 +54,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "execution",
        uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
-public class Execution implements Serializable {
+public class Execution implements Serializable, Comparable<Execution> {
 
   // TODO cascading save to children
   // TODO store proper config
@@ -236,6 +236,20 @@ public class Execution implements Serializable {
     Timestamp timeBegin = new Timestamp(begin);
     result = 31 * result + (timeBegin.hashCode());
     return result;
+  }
+
+  @Override
+  public int compareTo(Execution other) {
+    if (this.begin < other.getBegin())
+      return 1;
+    else if (this.begin > other.getBegin())
+      return -1;
+
+    // begin is equal
+    if (other.getAlgorithm() != null)
+      return this.algorithm.compareTo(other.getAlgorithm());
+    else
+      return 1;
   }
 
   /**
