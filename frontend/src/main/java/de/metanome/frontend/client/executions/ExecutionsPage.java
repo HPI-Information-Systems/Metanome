@@ -31,6 +31,7 @@ import de.metanome.backend.results_db.Result;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.services.ExecutionRestService;
 
 import org.fusesource.restygwt.client.Method;
@@ -52,7 +53,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     this.parent = parent;
     this.restService = com.google.gwt.core.client.GWT.create(ExecutionRestService.class);
 
-    this.add(new HTML("<h3>Executions</h3>"));
+    this.add(new HTML("<h3>List of all Executions</h3>"));
     this.executionsTable = new FlexTable();
     this.add(this.executionsTable);
 
@@ -63,9 +64,10 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   private void addHeaderRow() {
     // algorithm, time, input, result type, show button
     this.executionsTable.setWidget(0, 0, new HTML("<b>Algorithm Name</b>"));
-    this.executionsTable.setWidget(0, 1, new HTML("<b>Execution Time (HH:mm:ss)</b>"));
-    this.executionsTable.setWidget(0, 2, new HTML("<b>Inputs</b>"));
-    this.executionsTable.setWidget(0, 3, new HTML("<b>Result Types</b>"));
+    this.executionsTable.setWidget(0, 1, new HTML("<b>Date</b>"));
+    this.executionsTable.setWidget(0, 2, new HTML("<b>Execution Time (HH:mm:ss)</b>"));
+    this.executionsTable.setWidget(0, 3, new HTML("<b>Inputs</b>"));
+    this.executionsTable.setWidget(0, 4, new HTML("<b>Result Types</b>"));
   }
 
   /**
@@ -118,13 +120,23 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
       }
     });
 
-    // algorithm, time, input, result type, show button
+    // algorithm, date, time, input, result type, show button
     this.executionsTable.setWidget(row, 0,
                                    new HTML(execution.getAlgorithm().getName()));
-    this.executionsTable.setWidget(row, 1, new HTML(this.getExecutionTime(execution)));
-    this.executionsTable.setWidget(row, 2, new HTML(this.getInputs(execution)));
-    this.executionsTable.setWidget(row, 3, new HTML(this.getResultTypes(execution)));
-    this.executionsTable.setWidget(row, 4, showButton);
+    this.executionsTable.setWidget(row, 1, new HTML(this.getDate(execution)));
+    this.executionsTable.setWidget(row, 2, new HTML(this.getExecutionTime(execution)));
+    this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
+    this.executionsTable.setWidget(row, 4, new HTML(this.getResultTypes(execution)));
+    this.executionsTable.setWidget(row, 5, showButton);
+  }
+
+  /**
+   * Get the time, when the execution was started.
+   * @param execution the execution
+   * @return the date string
+   */
+  private String getDate(Execution execution) {
+    return new Date(execution.getBegin()).toString();
   }
 
   /**
@@ -147,7 +159,11 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   protected String getInputs(Execution execution) {
     String inputString = "";
     for (Input input : execution.getInputs()) {
-      inputString = inputString + input.getName() + "<br>";
+      String inputName = input.getName();
+      if (inputName.endsWith(".csv") || inputName.endsWith(".tsv")) {
+        inputName = FilePathHelper.getFileName(inputName);
+      }
+      inputString = inputString + inputName + "<br>";
     }
     return inputString;
   }
