@@ -95,7 +95,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.remove(this.runningIndicator);
 
     // Add a label for the execution time
-    this.insert(new Label(getExecutionTimeString(executionTimeInNanos)), 0);
+    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInNanos)), 0);
   }
 
   /**
@@ -141,7 +141,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.timer.scheduleRepeating(10000);
   }
 
+  /**
+   * Displays the results of the given execution.
+   * @param execution the execution
+   */
   public void showResults(Execution execution) {
+    this.messageReceiver.clearErrors();
     this.clear();
     AlgorithmExecutionRestService executionRestService = GWT.create(AlgorithmExecutionRestService.class);
 
@@ -152,7 +157,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     long executionTime = execution.getEnd() - execution.getBegin();
-    this.insert(new Label(getExecutionTimeString(executionTime)), 0);
+    this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
   }
 
   private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
@@ -172,7 +177,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.add(panel);
   }
 
-  private String getExecutionTimeString(long executionTime) {
+  private String getExecutionTimeString(String algorithmFileName, long executionTime) {
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
     Date date = new Date(Math.round(executionTime / 1000000d));
     return "Algorithm " + algorithmFileName + " executed in " +
