@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -48,24 +49,30 @@ public class ResultReader {
     return results;
   }
 
-  private static Result convertLineToResult(String line, String type) {
+  private static Result convertLineToResult(String line, String type) throws IOException {
     if (type.equals(ResultType.CUCC.getName())) {
-      return ConditionalUniqueColumnCombination.fromString(line);
+      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, ConditionalUniqueColumnCombination.class);
 
     } else if (type.equals(ResultType.OD.getName())) {
-      return OrderDependency.fromString(line);
+      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, OrderDependency.class);
 
     } else if (type.equals(ResultType.IND.getName())) {
-      return InclusionDependency.fromString(line);
+      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, InclusionDependency.class);
 
     } else if (type.equals(ResultType.FD.getName())) {
-      return FunctionalDependency.fromString(line);
+      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, FunctionalDependency.class);
 
     } else if (type.equals(ResultType.UCC.getName())) {
-      return UniqueColumnCombination.fromString(line);
+      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, UniqueColumnCombination.class);
 
     } else if (type.equals(ResultType.STAT.getName())) {
-      return BasicStatistic.fromString(line);
+      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(line, BasicStatistic.class);
 
     }
 
