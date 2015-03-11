@@ -52,6 +52,17 @@ public class ConfigurationRequirementString
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
+  // Needed for restful serialization
+  @Override
+  public ConfigurationSettingString[] getSettings() {
+    return settings;
+  }
+  // Needed for restful serialization
+  @Override
+  public void setSettings(ConfigurationSettingString... settings) {
+    this.settings = settings;
+  }
+
   /**
    * {@inheritDoc}
    */

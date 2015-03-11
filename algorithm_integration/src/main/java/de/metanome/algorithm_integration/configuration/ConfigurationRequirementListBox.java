@@ -67,6 +67,17 @@ public class ConfigurationRequirementListBox
     this.values = values;
   }
 
+  // Needed for restful serialization
+  @Override
+  public ConfigurationSettingListBox[] getSettings() {
+    return settings;
+  }
+  // Needed for restful serialization
+  @Override
+  public void setSettings(ConfigurationSettingListBox... settings) {
+    this.settings = settings;
+  }
+
   /**
    * {@inheritDoc}
    */

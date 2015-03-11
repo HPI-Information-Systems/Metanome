@@ -52,6 +52,17 @@ public class ConfigurationRequirementFileInput
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
+  // Needed for restful serialization
+  @Override
+  public ConfigurationSettingFileInput[] getSettings() {
+    return settings;
+  }
+  // Needed for restful serialization
+  @Override
+  public void setSettings(ConfigurationSettingFileInput... settings) {
+    this.settings = settings;
+  }
+
   /**
    * {@inheritDoc}
    */
