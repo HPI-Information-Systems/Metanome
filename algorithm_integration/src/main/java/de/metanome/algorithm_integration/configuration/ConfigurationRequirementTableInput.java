@@ -55,6 +55,7 @@ public class ConfigurationRequirementTableInput
    * {@inheritDoc}
    */
   @XmlTransient
+  @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
