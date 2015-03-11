@@ -18,33 +18,20 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.io.Serializable;
-
 /**
- * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}
+ * The setting of a {@link ConfigurationRequirementInteger}
  */
 @JsonTypeName("ConfigurationSettingInteger")
-public class ConfigurationSettingInteger implements ConfigurationSetting, Serializable {
+public class ConfigurationSettingInteger extends ConfigurationSettingPrimitive<Integer> {
 
-  public int value;
   // Needed for restful serialization
   public String type = "ConfigurationSettingInteger";
 
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationSettingInteger() {
+  public ConfigurationSettingInteger() {}
+
+  public ConfigurationSettingInteger(Integer value) {
+    super(value);
   }
 
-  public ConfigurationSettingInteger(int value) {
-    this.value = value;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-  }
 }
+

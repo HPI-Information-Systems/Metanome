@@ -49,7 +49,7 @@ public class ConfigurationValueListBox implements ConfigurationValue {
     this.selectedValues = new String[specification.getSettings().length];
     int i = 0;
     for (ConfigurationSettingListBox setting : specification.getSettings()) {
-      this.selectedValues[i] = setting.selectedValue;
+      this.selectedValues[i] = setting.getValue();
       i++;
     }
   }

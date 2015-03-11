@@ -32,84 +32,34 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementFileInput")
-public class ConfigurationRequirementFileInput extends ConfigurationRequirement {
+public class ConfigurationRequirementFileInput
+    extends ConfigurationRequirement<ConfigurationSettingFileInput> {
 
-  private ConfigurationSettingFileInput[] settings;
+  // Needed for restful serialization
+  public String type = "ConfigurationRequirementFileInput";
 
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationRequirementFileInput() {
-  }
+  public ConfigurationRequirementFileInput() { }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementFileInput}, requesting 1 value.
-   *
-   * @param identifier the specification's identifier
-   */
   public ConfigurationRequirementFileInput(String identifier) {
     super(identifier);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementFileInput}, potentially requesting several values.
-   *
-   * @param identifier       the specification's identifier
-   * @param numberOfSettings the number of settings expected
-   */
-  public ConfigurationRequirementFileInput(String identifier,
-                                           int numberOfSettings) {
-
+  public ConfigurationRequirementFileInput(String identifier, int numberOfSettings) {
     super(identifier, numberOfSettings);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementFileInput}, requesting several values.
-   *
-   * @param identifier         the specification's identifier
-   * @param minNumberOfSetting the min number of settings expected
-   * @param maxNumberOfSetting the max number of settings expected
-   */
-  public ConfigurationRequirementFileInput(String identifier,
-                                                    int minNumberOfSetting,
-                                                    int maxNumberOfSetting) {
+  public ConfigurationRequirementFileInput(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
-  }
-
-  @Override
-  public ConfigurationSettingFileInput[] getSettings() {
-    return this.settings;
-  }
-  /**
-   * Exists only for serialization!
-   * @param settings the settings
-   */
-  public void setSettings(ConfigurationSettingFileInput... settings) {
-    this.settings = settings;
-  }
-
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  @XmlTransient
-  public void checkAndSetSettings(ConfigurationSettingFileInput... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
   }
 
   /**
    * {@inheritDoc}
    */
-  @Override
   @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
   }
+
 }

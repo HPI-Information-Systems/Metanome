@@ -18,36 +18,21 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.io.Serializable;
-
 /**
- * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}
+ * The setting of a {@link ConfigurationRequirementBoolean}
  *
  * @author Jakob Zwiener
  */
 @JsonTypeName("ConfigurationSettingBoolean")
-public class ConfigurationSettingBoolean implements ConfigurationSetting, Serializable {
+public class ConfigurationSettingBoolean extends ConfigurationSettingPrimitive<Boolean> {
 
-  public boolean value;
   // Needed for restful serialization
   public String type = "ConfigurationSettingBoolean";
 
-  /**
-   * Exists for GWT serialization.
-   */
-  public ConfigurationSettingBoolean() {
+  public ConfigurationSettingBoolean() {}
 
+  public ConfigurationSettingBoolean(Boolean value) {
+    super(value);
   }
 
-  public ConfigurationSettingBoolean(boolean value) {
-    this.value = value;
-  }
-
-  public boolean isValue() {
-    return value;
-  }
-
-  public void setValue(boolean value) {
-    this.value = value;
-  }
 }

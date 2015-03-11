@@ -60,8 +60,10 @@ public class ExampleAlgorithm
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     ConfigurationRequirementFileInput requirementFileInput = new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
-    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
-    ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
+    ConfigurationRequirementString
+        requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
+    ConfigurationRequirementInteger
+        requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
     try {
       requirementString.checkAndSetDefaultValues("test");
       requirementInteger.checkAndSetDefaultValues(5);

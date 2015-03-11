@@ -32,85 +32,34 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementRelationalInput")
-public class ConfigurationRequirementRelationalInput extends ConfigurationRequirement {
+public class ConfigurationRequirementRelationalInput
+    extends ConfigurationRequirement<ConfigurationSettingRelationalInput> {
 
-  ConfigurationSettingRelationalInput[] settings;
+  // Needed for restful serialization
+  public String type = "ConfigurationRequirementRelationalInput";
 
-  /**
-   * Exists for GWT serialization.
-   */
-  public ConfigurationRequirementRelationalInput() {
-  }
+  public ConfigurationRequirementRelationalInput() { }
 
-  /**
-   * Construct a {@link ConfigurationRequirementRelationalInput}, requesting 1 value.
-   *
-   * @param identifier the specification's identifier
-   */
   public ConfigurationRequirementRelationalInput(String identifier) {
     super(identifier);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementRelationalInput}, potentially requesting several
-   * values.
-   *
-   * @param identifier       the specification's identifier
-   * @param numberOfSettings the number of settings expected
-   */
-  public ConfigurationRequirementRelationalInput(
-      String identifier, int numberOfSettings) {
+  public ConfigurationRequirementRelationalInput(String identifier, int numberOfSettings) {
     super(identifier, numberOfSettings);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementRelationalInput}, requesting several values.
-   *
-   * @param identifier         the specification's identifier
-   * @param minNumberOfSetting the min number of settings expected
-   * @param maxNumberOfSetting the max number of settings expected
-   */
-  public ConfigurationRequirementRelationalInput(String identifier,
-                                         int minNumberOfSetting,
-                                         int maxNumberOfSetting) {
+  public ConfigurationRequirementRelationalInput(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
-  }
-
-
-  @Override
-  public ConfigurationSettingRelationalInput[] getSettings() {
-    return settings;
-  }
-  /**
-   * Exists only for serialization!
-   * @param settings the settings
-   */
-  public void setSettings(ConfigurationSettingRelationalInput... settings) {
-    this.settings = settings;
-  }
-
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  @XmlTransient
-  public void checkAndSetSettings(ConfigurationSettingRelationalInput... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
   }
 
   /**
    * {@inheritDoc}
    */
-  @Override
   @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
   }
+
 }

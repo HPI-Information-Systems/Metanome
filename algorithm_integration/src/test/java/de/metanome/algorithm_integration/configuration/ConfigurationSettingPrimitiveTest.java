@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,39 +16,51 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Tests for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger}
- */
-public class ConfigurationSettingIntegerTest {
+public class ConfigurationSettingPrimitiveTest {
 
-  /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger#ConfigurationSettingInteger(int)}
-   */
   @Test
-  public void testConstructor() {
+  public void testIntegerConstructor() {
     // Setup
     // Expected values
-    int expectedValue = 7;
+    Integer expectedValue = 7;
 
     // Execute functionality
     ConfigurationSettingInteger setting = new ConfigurationSettingInteger(expectedValue);
 
     // Check result
-    assertEquals(expectedValue, setting.value);
+    assertEquals(expectedValue, setting.getValue());
   }
 
-  /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger}
-   * are serializable in GWT.
-   */
   @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new ConfigurationSettingInteger(4));
+  public void testStringConstructor() {
+    // Setup
+    // Expected values
+    String expectedValue = "expected";
+
+    // Execute functionality
+    ConfigurationSettingString setting = new ConfigurationSettingString(expectedValue);
+
+    // Check result
+    assertEquals(expectedValue, setting.getValue());
   }
+
+  @Test
+  public void testBooleanConstructor() {
+    // Setup
+    // Expected values
+    Boolean expectedValue = false;
+
+    // Execute functionality
+    ConfigurationSettingBoolean setting = new ConfigurationSettingBoolean(expectedValue);
+
+    // Check result
+    assertEquals(expectedValue, setting.getValue());
+  }
+
+
 }

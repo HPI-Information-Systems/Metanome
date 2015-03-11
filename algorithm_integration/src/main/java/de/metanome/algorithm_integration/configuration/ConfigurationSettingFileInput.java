@@ -29,12 +29,12 @@ import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializ
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Stores one file input's configuration settings.
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}
  *
  * @author Jakob Zwiener
  */
 @JsonTypeName("ConfigurationSettingFileInput")
-public class ConfigurationSettingFileInput implements ConfigurationSetting, ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
@@ -47,8 +47,6 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
   public final static String DEFAULT_NULL_VALUE = "";
 
-  // Id of the file input in the database (needed for mapping the setting to the stored file input)
-  private long id;
   private String fileName;
   private boolean advanced;
   private String separatorChar; //Todo: atm needs to be String instead of char for serialization
@@ -151,37 +149,6 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
     return this;
   }
 
-  @XmlTransient
-  public char getSeparatorAsChar() { return toChar(this.separatorChar); }
-  @XmlTransient
-  public char getQuoteCharAsChar() {
-    return toChar(this.quoteChar);
-  }
-  @XmlTransient
-  public char getEscapeCharAsChar() {
-    return toChar(this.escapeChar);
-  }
-  @XmlTransient
-  private char toChar(String str) {
-    if (str.isEmpty()) {
-      return '\0';
-    }
-
-    if (str.startsWith("\\")) {
-      switch (str) {
-        case "\\t":
-          return '\t';
-        case "\\0":
-          return '\0';
-        case "\\n":
-          return '\n';
-      }
-    }
-
-    return str.charAt(0);
-  }
-
-
   public boolean isStrictQuotes() {
     return strictQuotes;
   }
@@ -227,15 +194,6 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
     return this;
   }
 
-  public long getId() {
-    return id;
-  }
-
-  public ConfigurationSettingFileInput setId(long id) {
-    this.id = id;
-    return this;
-  }
-
   public String getNullValue() {
     return nullValue;
   }
@@ -243,6 +201,36 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public ConfigurationSettingFileInput setNullValue(String nullValue) {
     this.nullValue = nullValue;
     return this;
+  }
+
+  @XmlTransient
+  public char getSeparatorAsChar() { return toChar(this.separatorChar); }
+  @XmlTransient
+  public char getQuoteCharAsChar() {
+    return toChar(this.quoteChar);
+  }
+  @XmlTransient
+  public char getEscapeCharAsChar() {
+    return toChar(this.escapeChar);
+  }
+  @XmlTransient
+  private char toChar(String str) {
+    if (str.isEmpty()) {
+      return '\0';
+    }
+
+    if (str.startsWith("\\")) {
+      switch (str) {
+        case "\\t":
+          return '\t';
+        case "\\0":
+          return '\0';
+        case "\\n":
+          return '\n';
+      }
+    }
+
+    return str.charAt(0);
   }
 
   @Override
@@ -260,6 +248,48 @@ public class ConfigurationSettingFileInput implements ConfigurationSetting, Conf
   public void generate(RelationalInputGeneratorInitializer initializer)
       throws AlgorithmConfigurationException {
     initializer.initialize(this);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
+
+    return !(!this.fileName.equals(that.fileName) ||
+             !this.separatorChar.equals(that.separatorChar) ||
+             !this.quoteChar.equals(that.quoteChar) ||
+             !this.escapeChar.equals(that.escapeChar) ||
+             !this.nullValue.equals(that.nullValue) ||
+             !(this.strictQuotes != that.strictQuotes) ||
+             !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
+             !(this.skipDifferingLines != that.skipDifferingLines) ||
+             !(this.header != that.header) ||
+             !(this.skipLines != that.skipLines));
+  }
+
+  @Override
+  public int hashCode() {
+    int result = fileName.hashCode();
+    result = 31 * result + this.separatorChar.hashCode();
+    result = 31 * result + this.quoteChar.hashCode();
+    result = 31 * result + this.escapeChar.hashCode();
+    result = 31 * result + this.nullValue.hashCode();
+    result = 31 * result + hashCode(this.strictQuotes);
+    result = 31 * result + hashCode(this.ignoreLeadingWhiteSpace);
+    result = 31 * result + hashCode(this.skipDifferingLines);
+    result = 31 * result + hashCode(this.header);
+    result = 31 * result + this.skipLines;
+    return result;
+  }
+
+  private int hashCode(boolean bool) {
+    return bool ? 1231 : 1237;
   }
 
 }

@@ -52,13 +52,15 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(
+    ConfigurationRequirementString
+        requirementString = new ConfigurationRequirementString(
         STRING_IDENTIFIER, 2);
     requirementString.setRequired(true);
     ConfigurationRequirementFileInput requirementFile = new ConfigurationRequirementFileInput(
         FILE_IDENTIFIER, 3, 5);
     requirementFile.setRequired(false);
-    ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(
+    ConfigurationRequirementInteger
+        requirementInteger = new ConfigurationRequirementInteger(
         INTEGER_IDENTIFIER, 1);
     requirementInteger.setDefaultValues(new Integer[]{3});
     requirementInteger.setRequired(true);
