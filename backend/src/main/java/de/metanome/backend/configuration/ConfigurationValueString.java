@@ -44,12 +44,19 @@ public class ConfigurationValueString implements ConfigurationValue {
     this.values = values;
   }
 
+  /**
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueString} using a {@link
+   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementString}.
+   *
+   * @param requirement the requirement to generate the string values
+   */
   public ConfigurationValueString(
-      ConfigurationRequirementString specification) {
-    this.identifier = specification.getIdentifier();
-    this.values = new String[specification.getSettings().length];
+      ConfigurationRequirementString requirement) {
+    this.identifier = requirement.getIdentifier();
+    ConfigurationSettingString[] settings = requirement.getSettings();
+    this.values = new String[settings.length];
     int i = 0;
-    for (ConfigurationSettingString setting : specification.getSettings()) {
+    for (ConfigurationSettingString setting : settings) {
       this.values[i] = setting.value;
       i++;
     }

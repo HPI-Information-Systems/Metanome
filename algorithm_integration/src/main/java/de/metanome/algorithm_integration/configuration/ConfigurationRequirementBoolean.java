@@ -53,17 +53,6 @@ public class ConfigurationRequirementBoolean
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
-  // Needed for restful serialization
-  @Override
-  public ConfigurationSettingBoolean[] getSettings() {
-    return settings;
-  }
-  // Needed for restful serialization
-  @Override
-  public void setSettings(ConfigurationSettingBoolean... settings) {
-    this.settings = settings;
-  }
-
   /**
    * {@inheritDoc}
    */

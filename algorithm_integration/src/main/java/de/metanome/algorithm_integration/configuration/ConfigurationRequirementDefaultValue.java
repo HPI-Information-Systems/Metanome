@@ -128,4 +128,14 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
     this.defaultValues = defaultValues;
   }
 
+  // Needed for restful serialization
+  @Override
+  public S[] getSettings() {
+    return settings;
+  }
+  @Override
+  public void setSettings(S... settings) {
+    this.settings = settings;
+  }
+
 }

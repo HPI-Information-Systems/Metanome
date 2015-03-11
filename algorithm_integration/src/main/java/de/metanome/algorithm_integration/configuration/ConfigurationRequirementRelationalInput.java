@@ -52,17 +52,6 @@ public class ConfigurationRequirementRelationalInput
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
-  // Needed for restful serialization
-  @Override
-  public ConfigurationSettingRelationalInput[] getSettings() {
-    return settings;
-  }
-  // Needed for restful serialization
-  @Override
-  public void setSettings(ConfigurationSettingRelationalInput... settings) {
-    this.settings = settings;
-  }
-
   /**
    * {@inheritDoc}
    */

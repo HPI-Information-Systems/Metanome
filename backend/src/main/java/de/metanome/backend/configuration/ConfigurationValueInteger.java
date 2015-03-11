@@ -55,9 +55,10 @@ public class ConfigurationValueInteger implements ConfigurationValue {
    */
   public ConfigurationValueInteger(ConfigurationRequirementInteger requirement) {
     this.identifier = requirement.getIdentifier();
-    this.values = new int[requirement.getSettings().length];
+    ConfigurationSettingInteger[] settings = requirement.getSettings();
+    this.values = new int[settings.length];
     int i = 0;
-    for (ConfigurationSettingInteger setting : requirement.getSettings()) {
+    for (ConfigurationSettingInteger setting : settings) {
       this.values[i] = setting.value;
       i++;
     }

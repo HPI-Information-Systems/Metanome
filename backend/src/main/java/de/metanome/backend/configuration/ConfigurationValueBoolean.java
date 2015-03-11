@@ -42,14 +42,17 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
   }
 
   /**
-   * Constructs a ConfigurationValueBoolean using the specification's identifier and its boolean
-   * values.
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueBoolean} using a {@link
+   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}.
+   *
+   * @param requirement the requirement to generate the boolean values
    */
-  public ConfigurationValueBoolean(ConfigurationRequirementBoolean specification) {
-    this.identifier = specification.getIdentifier();
-    this.values = new boolean[specification.getSettings().length];
+  public ConfigurationValueBoolean(ConfigurationRequirementBoolean requirement) {
+    this.identifier = requirement.getIdentifier();
+    ConfigurationSettingBoolean[] settings = requirement.getSettings();
+    this.values = new boolean[settings.length];
     int i = 0;
-    for (ConfigurationSettingBoolean setting : specification.getSettings()) {
+    for (ConfigurationSettingBoolean setting : settings) {
       this.values[i] = setting.value;
       i++;
     }

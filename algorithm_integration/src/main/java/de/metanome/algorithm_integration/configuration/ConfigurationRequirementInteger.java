@@ -53,17 +53,6 @@ public class ConfigurationRequirementInteger
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
-  // Needed for restful serialization
-  @Override
-  public ConfigurationSettingInteger[] getSettings() {
-    return settings;
-  }
-  // Needed for restful serialization
-  @Override
-  public void setSettings(ConfigurationSettingInteger... settings) {
-    this.settings = settings;
-  }
-
   /**
    * {@inheritDoc}
    */

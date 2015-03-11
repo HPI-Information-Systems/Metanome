@@ -63,17 +63,6 @@ public class ConfigurationRequirementDatabaseConnection
     this.acceptedDBSystems = acceptedDBSystems;
   }
 
-  // Needed for restful serialization
-  @Override
-  public ConfigurationSettingDatabaseConnection[] getSettings() {
-    return settings;
-  }
-  // Needed for restful serialization
-  @Override
-  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
-    this.settings = settings;
-  }
-
   /**
    * {@inheritDoc}
    */

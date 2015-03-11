@@ -43,12 +43,19 @@ public class ConfigurationValueListBox implements ConfigurationValue {
     this.selectedValues = selectedValues;
   }
 
+  /**
+   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueListBox} using a {@link
+   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox}.
+   *
+   * @param requirement the requirement to generate the list box values
+   */
   public ConfigurationValueListBox(
-      ConfigurationRequirementListBox specification) {
-    this.identifier = specification.getIdentifier();
-    this.selectedValues = new String[specification.getSettings().length];
+      ConfigurationRequirementListBox requirement) {
+    this.identifier = requirement.getIdentifier();
+    ConfigurationSettingListBox[] settings = requirement.getSettings();
+    this.selectedValues = new String[settings.length];
     int i = 0;
-    for (ConfigurationSettingListBox setting : specification.getSettings()) {
+    for (ConfigurationSettingListBox setting : settings) {
       this.selectedValues[i] = setting.getValue();
       i++;
     }

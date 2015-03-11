@@ -51,17 +51,6 @@ public class ConfigurationRequirementTableInput
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
-  // Needed for restful serialization
-  @Override
-  public ConfigurationSettingTableInput[] getSettings() {
-    return settings;
-  }
-  // Needed for restful serialization
-  @Override
-  public void setSettings(ConfigurationSettingTableInput... settings) {
-    this.settings = settings;
-  }
-
   /**
    * {@inheritDoc}
    */
