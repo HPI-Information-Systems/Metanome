@@ -49,7 +49,8 @@ public class DefaultRelationalInputGeneratorInitializer implements RelationalInp
   throws AlgorithmConfigurationException {
     this.identifier = requirementRelationalInput.getIdentifier();
 
-    for (ConfigurationSettingRelationalInput setting : requirementRelationalInput.getSettings()) {
+    ConfigurationSettingRelationalInput[] settings = requirementRelationalInput.getSettings();
+    for (ConfigurationSettingRelationalInput setting : settings) {
       setting.generate(this);
     }
   }

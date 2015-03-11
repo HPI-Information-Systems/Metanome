@@ -264,7 +264,7 @@ public class AlgorithmExecutorTest {
 
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
-    configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1"));
+    configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file1", "path/to/file1"));
 
     Algorithm algorithm = new Algorithm("example_holistic_algorithm.jar");
     algorithm = resource.store(algorithm);
