@@ -19,9 +19,8 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 
 import java.util.Set;
 
@@ -30,36 +29,29 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueString implements ConfigurationValue {
+public class ConfigurationValueString
+    extends ConfigurationValue<String, ConfigurationRequirementString> {
 
-  protected final String identifier;
-  protected final String[] values;
-
-  /**
-   * Constructs a ConfigurationValueString using the specification's identifier and the string
-   * value.
-   */
   public ConfigurationValueString(String identifier, String... values) {
-    this.identifier = identifier;
-    this.values = values;
+    super(identifier, values);
   }
 
-  /**
-   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueString} using a {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementString}.
-   *
-   * @param requirement the requirement to generate the string values
-   */
-  public ConfigurationValueString(
-      ConfigurationRequirementString requirement) {
-    this.identifier = requirement.getIdentifier();
+  public ConfigurationValueString(ConfigurationRequirementString requirement)
+      throws AlgorithmConfigurationException {
+    super(requirement);
+  }
+
+  @Override
+  protected String[] convertToValues(ConfigurationRequirementString requirement)
+      throws AlgorithmConfigurationException {
     ConfigurationSettingString[] settings = requirement.getSettings();
-    this.values = new String[settings.length];
+    String[] configValues = new String[settings.length];
     int i = 0;
     for (ConfigurationSettingString setting : settings) {
-      this.values[i] = setting.value;
+      configValues[i] = setting.value;
       i++;
     }
+    return configValues;
   }
 
   @Override
@@ -71,6 +63,6 @@ public class ConfigurationValueString implements ConfigurationValue {
     }
 
     StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;
-    stringParameterAlgorithm.setStringConfigurationValue(identifier, values);
+    stringParameterAlgorithm.setStringConfigurationValue(this.identifier, this.values);
   }
 }

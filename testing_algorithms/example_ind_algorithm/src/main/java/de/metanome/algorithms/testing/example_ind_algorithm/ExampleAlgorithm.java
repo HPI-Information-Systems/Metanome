@@ -148,7 +148,7 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void setIntegerConfigurationValue(String identifier, int... values)
+  public void setIntegerConfigurationValue(String identifier, Integer... values)
       throws AlgorithmConfigurationException {
     if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
       numberOfTables = values[0];

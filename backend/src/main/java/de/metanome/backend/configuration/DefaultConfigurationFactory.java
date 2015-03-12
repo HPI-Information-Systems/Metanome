@@ -42,7 +42,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    * @return the value corresponding to the requirement
    */
   @Override
-  public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement) {
+  public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement)
+      throws AlgorithmConfigurationException {
     return new ConfigurationValueBoolean(requirement);
   }
 
@@ -53,7 +54,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    * @return the value corresponding to the requirement
    */
   @Override
-  public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement) {
+  public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement)
+      throws AlgorithmConfigurationException {
     return new ConfigurationValueInteger(requirement);
   }
 
@@ -64,7 +66,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    * @return the value corresponding to the requirement
    */
   @Override
-  public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement) {
+  public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement)
+      throws AlgorithmConfigurationException {
     return new ConfigurationValueListBox(requirement);
   }
 
@@ -118,7 +121,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    * @return the value corresponding to the requirement
    */
   @Override
-  public ConfigurationValueString build(ConfigurationRequirementString requirement) {
+  public ConfigurationValueString build(ConfigurationRequirementString requirement)
+      throws AlgorithmConfigurationException {
     return new ConfigurationValueString(requirement);
   }
 

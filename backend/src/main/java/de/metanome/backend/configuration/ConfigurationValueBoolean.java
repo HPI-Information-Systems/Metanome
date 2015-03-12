@@ -21,41 +21,34 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
 /**
  * Represents boolean configuration values for {@link Algorithm}s.
  */
-public class ConfigurationValueBoolean implements ConfigurationValue {
+public class ConfigurationValueBoolean extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
 
-  protected final String identifier;
-  protected final boolean[] values;
-
-  /**
-   * Constructs a ConfigurationValueBoolean using the given identifier and the boolean values.
-   */
-  public ConfigurationValueBoolean(String identifier, boolean... values) {
-    this.identifier = identifier;
-    this.values = values;
+  public ConfigurationValueBoolean(String identifier, Boolean... values) {
+    super(identifier, values);
   }
 
-  /**
-   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueBoolean} using a {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}.
-   *
-   * @param requirement the requirement to generate the boolean values
-   */
-  public ConfigurationValueBoolean(ConfigurationRequirementBoolean requirement) {
-    this.identifier = requirement.getIdentifier();
+  public ConfigurationValueBoolean(ConfigurationRequirementBoolean requirement)
+      throws AlgorithmConfigurationException {
+    super(requirement);
+  }
+
+  @Override
+  protected Boolean[] convertToValues(ConfigurationRequirementBoolean requirement)
+    throws AlgorithmConfigurationException {
     ConfigurationSettingBoolean[] settings = requirement.getSettings();
-    this.values = new boolean[settings.length];
+    Boolean[] configValues = new Boolean[settings.length];
     int i = 0;
     for (ConfigurationSettingBoolean setting : settings) {
-      this.values[i] = setting.value;
+      configValues[i] = setting.getValue();
       i++;
     }
+    return configValues;
   }
 
   @Override
@@ -67,6 +60,6 @@ public class ConfigurationValueBoolean implements ConfigurationValue {
     }
 
     BooleanParameterAlgorithm booleanParameterAlgorithm = (BooleanParameterAlgorithm) algorithm;
-    booleanParameterAlgorithm.setBooleanConfigurationValue(identifier, values);
+    booleanParameterAlgorithm.setBooleanConfigurationValue(this.identifier, this.values);
   }
 }
