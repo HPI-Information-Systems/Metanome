@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link FileIterator}s are Iterators over lines in a csv file.
+ * {@link FileIterator}s are Iterators over lines in a file file.
  *
  * @author Jakob Zwiener
  */
@@ -149,7 +149,7 @@ public class FileIterator implements RelationalInput {
       currentLineNumber++;
     } catch (IOException e) {
       throw new InputIterationException(
-          ExceptionParser.parse(e, "Could not read next line in csv file"), e);
+          ExceptionParser.parse(e, "Could not read next line in file input"), e);
     }
     if (lineArray == null) {
       return null;

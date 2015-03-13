@@ -37,7 +37,7 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
   private DbSystem system;
 
   // Needed for restful serialization
-  public String type = "configurationSettingDatabaseConnection";
+  public String type = "ConfigurationSettingDatabaseConnection";
 
   /**
    * Exists for serialization.

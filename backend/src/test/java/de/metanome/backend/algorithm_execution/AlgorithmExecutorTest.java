@@ -38,7 +38,7 @@ import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
-import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;

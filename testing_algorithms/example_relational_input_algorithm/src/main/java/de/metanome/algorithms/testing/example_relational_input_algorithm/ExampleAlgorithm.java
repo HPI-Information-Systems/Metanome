@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
+import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -83,6 +84,11 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
                                                    RelationalInputGenerator... values)
       throws AlgorithmConfigurationException {
     relationalInputGenerator = values[0];
+    try {
+      relationalInputGenerator.generateNewCopy();
+    } catch (InputGenerationException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
