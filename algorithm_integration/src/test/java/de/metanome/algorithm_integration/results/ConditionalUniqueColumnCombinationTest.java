@@ -117,44 +117,6 @@ public class ConditionalUniqueColumnCombinationTest {
   }
 
   /**
-   * Test method for {@link ConditionalUniqueColumnCombination#fromString(String str)}
-   * A {@link ConditionalUniqueColumnCombination} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-    ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    ColumnConditionOr outerCondition = new ColumnConditionOr();
-    outerCondition.add(
-        new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
-                               new ColumnConditionValue(expectedColumn2, "condition2"),
-                               new ColumnConditionOr(new ColumnConditionValue(expectedColumn1, "condition4"),
-                                                     new ColumnConditionValue(expectedColumn1, "condition5"))));
-    outerCondition
-        .add(new ColumnConditionValue(expectedColumn1, "condition3"));
-    outerCondition.add(
-        new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition6"),
-                               new ColumnConditionValue(expectedColumn2, "condition7"),
-                               new ColumnConditionOr(new ColumnConditionValue(expectedColumn1, "condition8"),
-                                                     new ColumnConditionValue(expectedColumn1, "condition9"))));
-
-    ConditionalUniqueColumnCombination
-        expectedCUCC =
-        new ConditionalUniqueColumnCombination(
-            new ColumnCombination(expectedColumn1, expectedColumn2),
-            outerCondition);
-
-    String str = expectedCUCC.toString();
-
-    // Execute functionality
-    ConditionalUniqueColumnCombination actualCUCC = ConditionalUniqueColumnCombination.fromString(str);
-
-    // Check result
-    assertEquals(expectedCUCC, actualCUCC);
-  }
-
-  /**
    * Tests that the instances of {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
    * are serializable in GWT.
    */

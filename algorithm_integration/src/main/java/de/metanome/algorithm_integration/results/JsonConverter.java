@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_receiver;
-
-import de.metanome.algorithm_integration.results.Result;
+package de.metanome.algorithm_integration.results;
 
 
-public interface ResultHandler {
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-  public Result convert(String str);
+import java.io.IOException;
+
+public class JsonConverter<T> {
+
+  ObjectMapper mapper = new ObjectMapper();
+
+  public String toJsonString(T type) throws JsonProcessingException {
+    return this.mapper.writeValueAsString(type);
+  }
+
+  public T fromJsonString(String json, Class<T> clazz) throws IOException {
+    return this.mapper.readValue(json, clazz);
+  }
 
 }

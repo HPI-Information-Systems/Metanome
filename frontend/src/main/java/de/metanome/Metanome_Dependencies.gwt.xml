@@ -73,9 +73,6 @@
         <include name="OrderDependency.java"/>
         <include name="BasicStatistic.java"/>
     </source>
-    <source path="algorithm_integration/results/condition_parser">
-        <include name="ColumnConditionParser.java"/>
-    </source>
     <source path="algorithm_integration/input">
         <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
