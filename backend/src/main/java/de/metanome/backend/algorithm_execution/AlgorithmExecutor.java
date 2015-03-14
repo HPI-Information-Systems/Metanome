@@ -37,11 +37,18 @@ import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.backend.resources.AlgorithmExecutionCache;
+import de.metanome.backend.resources.AlgorithmExecutionParams;
+import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
+import de.metanome.backend.result_receiver.ResultCache;
+import de.metanome.backend.result_receiver.ResultCounter;
+import de.metanome.backend.result_receiver.ResultPrinter;
+import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
@@ -50,7 +57,9 @@ import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.Closeable;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,6 +67,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Executes given algorithms.
@@ -247,8 +257,58 @@ public class AlgorithmExecutor implements Closeable {
     this.resultPathPrefix = prefix;
   }
 
+  /**
+  * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
+  * result files and cache results for the frontend.
+  *
+  * @param params all parameters for executing the algorithm
+  * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
+  * @throws java.io.FileNotFoundException        when the result files cannot be opened
+  * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
+  */
+  protected AlgorithmExecutor buildExecutor(AlgorithmExecutionParams params) //todo: change to some boolean/string/int flag that is tested and given as process param...
+      throws FileNotFoundException, UnsupportedEncodingException {
+    String identifier = params.getExecutionIdentifier();
+    FileGenerator fileGenerator = new TempFileGenerator();
+    ProgressCache progressCache = new ProgressCache();
+
+    ResultReceiver resultReceiver = null;
+    if (params.getCacheResults()) {
+      resultReceiver = new ResultCache(identifier);
+      //AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);
+    } else if (params.getCountResults()) {
+      resultReceiver = new ResultCounter(identifier);
+      //AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
+    } else if (params.getWriteResults()) {
+      resultReceiver = new ResultPrinter(identifier);
+      //AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
+    }
+
+    //AlgorithmExecutionCache.add(identifier, progressCache);
+
+    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
+
+    return executor;
+  }
+
+
   @Override
   public void close() throws IOException {
     resultReceiver.close();
+  }
+
+  public static void main(String args[]){
+    Long algorithmId = Long.valueOf(args[0]);
+    String executionIdentifier = args[1];
+
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    de.metanome.backend.results_db.Algorithm
+        algorithm = algorithmResource.get(algorithmId);
+    //Todo: find way around result cache for frontend... if possible - ask Tanja - write everything to disc directly?! Write Cache to disc?!
+    System.out.println(algorithmId); //prints id passed to thread
+    //AlgorithmExecutor executor = buildExecutor
+    //executor.excute(algorithm);
+    //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
   }
 }

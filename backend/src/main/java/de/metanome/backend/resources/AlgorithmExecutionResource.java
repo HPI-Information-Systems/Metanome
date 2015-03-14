@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
+import de.metanome.backend.algorithm_execution.ProcessExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
@@ -57,6 +58,7 @@ public class AlgorithmExecutionResource {
   @Consumes("application/json")
   @Produces("application/json")
   public long executeAlgorithm(AlgorithmExecutionParams params) {
+    /*
     AlgorithmExecutor executor;
 
     try {
@@ -67,11 +69,19 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
     }
 
-    AlgorithmResource algorithmResource = new AlgorithmResource();
-    Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
+    /*AlgorithmResource algorithmResource = new AlgorithmResource();
+    Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());*/
 
     long executionTimeInNanos = 0;
+    long timeOut = 10;
     try {
+      return ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()), params.getExecutionIdentifier(), timeOut);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    /*try {
       executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -82,7 +92,7 @@ public class AlgorithmExecutionResource {
     } catch (IOException e) {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
-
+  */
     return executionTimeInNanos;
   }
 
@@ -143,6 +153,8 @@ public class AlgorithmExecutionResource {
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
+
+  /*
   protected AlgorithmExecutor buildExecutor(AlgorithmExecutionParams params)
       throws FileNotFoundException, UnsupportedEncodingException {
     String identifier = params.getExecutionIdentifier();
@@ -168,5 +180,5 @@ public class AlgorithmExecutionResource {
 
     return executor;
   }
-
+*/
 }
