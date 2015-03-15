@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.sql;
+package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
+
+import java.sql.ResultSet;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
@@ -32,7 +34,9 @@ import de.metanome.algorithm_integration.input.TableInputGenerator;
  */
 public class DefaultTableInputGenerator implements TableInputGenerator {
 
-  protected static final String BASE_STATEMENT = "SELECT * FROM ";
+  protected static final String BASE_STATEMENT = "SELECT * FROM %s";
+  protected static final String SORT_STATEMENT = "SELECT * FROM %s ORDER BY %s %s";
+  protected static final String FILTER_STATEMENT = "SELECT * FROM %s WHERE %s";
 
   protected DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator;
   protected String table;
@@ -61,11 +65,33 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    * Generates a new {@link de.metanome.algorithm_integration.input.RelationalInput} to iterate over the data in the table.
    *
    * @return the {@link de.metanome.algorithm_integration.input.RelationalInput}
-   * @throws InputGenerationException if the sql statement could not be executed
+   * @throws InputGenerationException if the database statement could not be executed
    */
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
+    String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
-        .generateRelationalInputFromSql(BASE_STATEMENT + table);
+        .generateRelationalInputFromSql(query);
+  }
+
+  @Override
+  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException {
+    String query = String.format(SORT_STATEMENT, table, column, descending? "DESC" : "ASC");
+    return defaultDatabaseConnectionGenerator
+        .generateResultSetFromSql(query);
+  }
+
+  @Override
+  public ResultSet filter(String filterExpression) throws InputGenerationException {
+    String query = String.format(FILTER_STATEMENT, table, filterExpression);
+    return defaultDatabaseConnectionGenerator
+        .generateResultSetFromSql(query);
+  }
+
+  @Override
+  public ResultSet select() throws InputGenerationException {
+    String query = String.format(BASE_STATEMENT, table);
+    return defaultDatabaseConnectionGenerator
+        .generateResultSetFromSql(query);
   }
 }

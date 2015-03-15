@@ -23,12 +23,12 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
-import de.metanome.backend.input.sql.DefaultDatabaseConnectionGenerator;
+import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
 
 import java.util.Set;
 
 /**
- * Represents sql input configuration values for {@link Algorithm}s.
+ * Represents database input configuration values for {@link Algorithm}s.
  *
  * @author Jakob Zwiener
  */

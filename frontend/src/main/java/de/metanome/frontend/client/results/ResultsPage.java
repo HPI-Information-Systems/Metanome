@@ -46,12 +46,14 @@ import java.util.Date;
  */
 public class ResultsPage extends FlowPanel implements TabContent {
 
-  protected final BasePage basePage;
+  protected BasePage basePage;
   protected TabWrapper messageReceiver;
 
   protected Image runningIndicator;
   protected ProgressBar progressBar;
-  protected Timer timer;
+  protected Timer executionTimeTimer;
+  protected Timer progressTimer;
+  protected FlowPanel executionTimePanel;
 
   protected Label algorithmLabel;
 
@@ -82,7 +84,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param executionTimeInNanos the execution time in nanoseconds
    */
   public void updateOnSuccess(Long executionTimeInNanos) {
-    this.timer.cancel();
+    this.executionTimeTimer.cancel();
+    this.progressTimer.cancel();
 
     // Fetch the last results or get all results depending on the used result receiver
     if (cacheResults || writeResults)
@@ -91,8 +94,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
       this.tablePage.getCounterResults();
 
     this.remove(this.algorithmLabel);
-    this.remove(this.progressBar);
+    if (this.progressBar != null ) this.remove(this.progressBar);
     this.remove(this.runningIndicator);
+    this.remove(this.executionTimePanel);
 
     // Add a label for the execution time
     this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInNanos)), 0);
@@ -104,16 +108,17 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param message the error message
    */
   public void updateOnError(String message) {
-    this.timer.cancel();
+    if (this.executionTimeTimer != null) this.executionTimeTimer.cancel();
+    if (this.progressTimer != null) this.progressTimer.cancel();
     this.clear();
 
-    this.messageReceiver.addError("The execution was not successful: " + message);
+    this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
   }
 
   /**
    * Displays the current status of execution.
    */
-  public void startPolling() {
+  public void startPolling(final boolean showProgress) {
     this.clear();
 
     // Add label for the algorithm, which is executed at the moment
@@ -124,21 +129,39 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.runningIndicator = new Image("ajax-loader.gif");
     this.add(this.runningIndicator);
 
+    // Add a label showing the execution time
+    this.executionTimePanel = new FlowPanel();
+    this.executionTimePanel.add(new Label("Execution Time (HH:mm:ss): "));
+    final Label executionTimeLabel = new Label("00:00:00");
+    this.executionTimePanel.add(executionTimeLabel);
+    this.add(this.executionTimePanel);
+
     // Add a progress bar if the algorithm supports it
-    this.progressBar = new ProgressBar(0, 1);
-    this.add(this.progressBar);
+    if (showProgress) {
+      this.progressBar = new ProgressBar(0, 1);
+      this.add(this.progressBar);
+    }
 
     this.addChildPages(this.executionService, this.executionIdentifier);
 
     final ResultsTablePage resultsTab = tablePage;
-    this.timer = new Timer() {
+
+    // Start timer for the execution Panel
+    this.executionTimeTimer = new Timer() {
       public void run() {
-        updateProgress();
+        executionTimeLabel.setText(toTimeString(toTimeInt(executionTimeLabel.getText()) + 1));
+      }
+    };
+    this.executionTimeTimer.scheduleRepeating(1000);
+
+    // Start timer for fetching the progress
+    this.progressTimer = new Timer() {
+      public void run() {
+        if (showProgress) updateProgress();
         if (cacheResults) resultsTab.fetchResults();
       }
     };
-
-    this.timer.scheduleRepeating(10000);
+    this.progressTimer.scheduleRepeating(10000);
   }
 
   /**
@@ -177,6 +200,20 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.add(panel);
   }
 
+  protected int toTimeInt(String str) {
+    String[] parts = str.split(":");
+    int h = Integer.parseInt(parts[0]);
+    int m = Integer.parseInt(parts[1]);
+    int s = Integer.parseInt(parts[2]);
+    return h * 3600 + m * 60 + s;
+  }
+
+  protected String toTimeString(int seconds) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss");
+    Date date = new Date(seconds * 1000);
+    return format.format(date, TimeZone.createTimeZone(0));
+  }
+  
   private String getExecutionTimeString(String algorithmFileName, long executionTime) {
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
     Date date = new Date(Math.round(executionTime / 1000000d));

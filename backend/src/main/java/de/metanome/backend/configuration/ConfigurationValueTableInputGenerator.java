@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementT
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
-import de.metanome.backend.input.sql.DefaultTableInputGenerator;
+import de.metanome.backend.input.database.DefaultTableInputGenerator;
 
 import java.util.Set;
 

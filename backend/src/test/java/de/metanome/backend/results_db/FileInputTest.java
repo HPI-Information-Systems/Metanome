@@ -19,7 +19,7 @@ package de.metanome.backend.results_db;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.input.file.FileIterator;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 

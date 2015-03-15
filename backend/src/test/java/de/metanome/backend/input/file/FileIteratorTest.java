@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
@@ -54,7 +54,7 @@ public class FileIteratorTest {
   }
 
   /**
-   * Has next should be true once and false after calling next once (one csv line).
+   * Has next should be true once and false after calling next once (one file line).
    */
   @Test
   public void testHasNext() throws InputIterationException {
@@ -65,7 +65,7 @@ public class FileIteratorTest {
   }
 
   /**
-   * A one line csv should be parsed correctly. And all the values in the line should be equal.
+   * A one line file should be parsed correctly. And all the values in the line should be equal.
    */
   @Test
   public void testNext() throws InputIterationException {
@@ -74,7 +74,7 @@ public class FileIteratorTest {
   }
 
   /**
-   * A one line csv with differing separator should be parsed correctly, all the values in the line
+   * A one line file with differing separator should be parsed correctly, all the values in the line
    * should be correct.
    */
   @Test
@@ -91,7 +91,7 @@ public class FileIteratorTest {
   /**
    * Test method for {@link FileIterator#next()}
    *
-   * A csv with differing line lengths should be partially parsable if the skipDifferingLines
+   * A file with differing line lengths should be partially parsable if the skipDifferingLines
    * parameter is set to true.
    */
   @Test
@@ -111,7 +111,7 @@ public class FileIteratorTest {
   }
 
   /**
-   * Test method for {@link FileIterator#next()} <p/> The first line in the csv should determine the
+   * Test method for {@link FileIterator#next()} <p/> The first line in the file should determine the
    * line length (it could be the header). Every next line should have this length or an {@link
    * de.metanome.algorithm_integration.input.InputIterationException} should be thrown.
    */
@@ -150,7 +150,7 @@ public class FileIteratorTest {
   /**
    * Test method for {@link FileIterator#next()}
    *
-   * A valid csv file without differing lines should be parsable with the skipDifferingLines
+   * A valid file file without differing lines should be parsable with the skipDifferingLines
    * parameter set.
    */
   @Test
@@ -170,7 +170,7 @@ public class FileIteratorTest {
   /**
    * Test method for {@link FileIterator#next()}
    *
-   * When iterating over a csv file with alternating line length an exception should be thrown.
+   * When iterating over a file file with alternating line length an exception should be thrown.
    */
   @Test
   public void testShort() throws InputIterationException, InputGenerationException {

@@ -23,7 +23,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.input.file.FileIterator;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TestHelper;

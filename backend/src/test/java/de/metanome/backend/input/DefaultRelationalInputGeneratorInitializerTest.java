@@ -24,7 +24,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
-import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.input.file.FileFixture;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

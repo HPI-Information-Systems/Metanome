@@ -145,7 +145,7 @@ public class BasePage extends TabLayoutPanel {
     this.resultsPage
         .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
                                cacheResults, writeResults, countResults);
-    this.resultsPage.startPolling();
+    this.resultsPage.startPolling(algorithm.isProgressEstimating());
 
     this.selectTab(Tabs.RESULTS.ordinal());
   }
