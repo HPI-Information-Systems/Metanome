@@ -91,6 +91,10 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     };
   }
 
+  /**
+   * Adds the given execution to the top of the table.
+   * @param execution the execution
+   */
   public void addExecution(Execution execution) {
     int index = this.executionsTable.insertRow(1);
     this.addExecutionToTable(execution, index);

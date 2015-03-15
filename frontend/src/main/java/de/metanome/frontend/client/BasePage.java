@@ -150,6 +150,10 @@ public class BasePage extends TabLayoutPanel {
     this.selectTab(Tabs.RESULTS.ordinal());
   }
 
+  /**
+   * Switches to the result page and shows the results of the given execution.
+   * @param execution the execution
+   */
   public void showResultsFor(Execution execution) {
     this.resultsPage.showResults(execution);
     this.selectTab(Tabs.RESULTS.ordinal());
