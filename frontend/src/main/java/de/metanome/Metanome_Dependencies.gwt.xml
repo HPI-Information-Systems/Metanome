@@ -74,9 +74,6 @@
         <include name="OrderDependency.java"/>
         <include name="BasicStatistic.java"/>
     </source>
-    <source path="algorithm_integration/results/condition_parser">
-        <include name="ColumnConditionParser.java"/>
-    </source>
     <source path="algorithm_integration/input">
         <include name="RelationalInputGeneratorInitializer.java"/>
     </source>
@@ -91,6 +88,7 @@
         <include name="TableInputParameterAlgorithm.java"/>
         <include name="RelationalInputParameterAlgorithm.java"/>
         <include name="DatabaseConnectionParameterAlgorithm.java"/>
+        <include name="ProgressEstimatingAlgorithm.java"/>
     </source>
     <source path="backend/algorithm_loading">
         <include name="AlgorithmLoadingException.java"/>

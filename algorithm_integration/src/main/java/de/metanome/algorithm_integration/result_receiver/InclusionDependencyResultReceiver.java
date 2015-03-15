@@ -30,5 +30,6 @@ public interface InclusionDependencyResultReceiver {
    * @param inclusionDependency a found {@link de.metanome.algorithm_integration.results.InclusionDependency}
    * @throws CouldNotReceiveResultException if the inclusion dependency could not be received
    */
-  void receiveResult(InclusionDependency inclusionDependency) throws CouldNotReceiveResultException;
+  void receiveResult(InclusionDependency inclusionDependency)
+      throws CouldNotReceiveResultException;
 }

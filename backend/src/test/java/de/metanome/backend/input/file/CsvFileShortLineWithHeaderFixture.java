@@ -14,39 +14,30 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
+package de.metanome.backend.input.file;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
 import java.io.StringReader;
 
 /**
- * A fixture generating a csv file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4
- * (long)).
+ * A fixture generating a file file with a header and a short line.
  *
  * @author Jakob Zwiener
  */
-public class CsvFileShortLineFixture {
+public class CsvFileShortLineWithHeaderFixture {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
   protected static final char ESCAPE = '\\';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
-  protected static final boolean HAS_HEADER = false;
+  protected static final boolean SKIP_DIFFERING_LINES = false;
+  protected static final boolean HAS_HEADER = true;
   protected static final int SKIP_LINES = 0;
 
-  public FileIterator getTestData() throws InputGenerationException, InputIterationException {
-    return getTestData(false);
-  }
-
-  public FileIterator getTestData(boolean skipDifferingLines)
-      throws InputIterationException, InputGenerationException {
+  public FileIterator getTestData() throws InputIterationException {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
         .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
@@ -55,23 +46,10 @@ public class CsvFileShortLineFixture {
         .setEscapeChar(String.valueOf(ESCAPE))
         .setQuoteChar(String.valueOf(QUOTE_CHAR))
         .setSkipLines(SKIP_LINES)
-        .setSkipDifferingLines(skipDifferingLines);
+        .setSkipDifferingLines(SKIP_DIFFERING_LINES);
 
     return new FileIterator("some_file",
-                            new StringReader(
-                                Joiner.on(',').join(getExpectedFirstParsableLine()) +
-                                "\nfour,five\n" +
-                                Joiner.on(',').join(getExpectedSecondParsableLine()) +
-                                "\nnine,ten,eleven,twelve"),
+                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
                             setting);
   }
-
-  public ImmutableList<String> getExpectedFirstParsableLine() {
-    return ImmutableList.of("one", "two", "three");
-  }
-
-  public ImmutableList<String> getExpectedSecondParsableLine() {
-    return ImmutableList.of("six", "seven", "eight");
-  }
-
 }

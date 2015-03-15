@@ -22,7 +22,7 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
-import de.metanome.backend.input.sql.DefaultDatabaseConnectionGenerator;
+import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
 
 import java.util.Set;
 

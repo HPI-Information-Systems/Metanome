@@ -116,29 +116,6 @@ public class BasicStatisticTest {
   }
 
   /**
-   * Test method for {@link BasicStatistic#fromString(String str)}
-   * A {@link BasicStatistic} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    String expectedStatisticName = "Min";
-    String expectedStatisticValue = "minValue";
-    ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
-    ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
-    BasicStatistic
-        expectedStatistic =
-        new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
-
-    String str = expectedStatistic.toString();
-
-    // Execute functionality
-    BasicStatistic actualStatistic = BasicStatistic.fromString(str);
-    // Check result
-    assertEquals(expectedStatistic, actualStatistic);
-  }
-
-  /**
    * Test method for {@link BasicStatistic#equals(Object)} and {@link BasicStatistic#hashCode()}
    * <p/> TODO docs
    */

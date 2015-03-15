@@ -16,11 +16,14 @@
 
 package de.metanome.backend.result_receiver;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -35,8 +38,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.EnumMap;
+import java.util.List;
 
 /**
  * Writes all received Results to disk. When all results were received, the results are
@@ -60,36 +63,67 @@ public class ResultPrinter extends ResultReceiver {
   @Override
   public void receiveResult(BasicStatistic statistic)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.STAT).println(statistic.toString());
+    try {
+      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.FD).println(functionalDependency.toString());
+    try {
+      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.IND).println(inclusionDependency.toString());
+    try {
+      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.UCC).println(uniqueColumnCombination.toString());
+    try {
+      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
       throws CouldNotReceiveResultException {
-    getStream(ResultType.CUCC).println(conditionalUniqueColumnCombination.buildPatternTableau());
+    try {
+      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.CUCC).println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
   
   @Override
-  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    getStream(ResultType.OD).println(orderDependency.toString());
+  public void receiveResult(OrderDependency orderDependency)
+      throws CouldNotReceiveResultException {
+    try {
+      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+      getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
+    } catch (JsonProcessingException e) {
+      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    }
   }
 
   protected PrintStream getStream(ResultType type) throws CouldNotReceiveResultException {
@@ -124,7 +158,7 @@ public class ResultPrinter extends ResultReceiver {
 
     for (ResultType type : openStreams.keySet()) {
       if (existsFile(type.getEnding())) {
-        results.addAll(readResult(type.getEnding(), type.getResultHandler()));
+        results.addAll(readResult(type));
       }
     }
 
@@ -135,17 +169,46 @@ public class ResultPrinter extends ResultReceiver {
     return new File(getOutputFilePathPrefix() + fileSuffix).exists();
   }
 
-  private List<Result> readResult(String fileSuffix, ResultHandler handler) throws IOException {
+  private List<Result> readResult(ResultType type) throws IOException {
     List<Result> results = new ArrayList<>();
     try (BufferedReader br = new BufferedReader(
-        new FileReader(getOutputFilePathPrefix() + fileSuffix))) {
+        new FileReader(getOutputFilePathPrefix() + type.getEnding()))) {
       String line = br.readLine();
 
       while (line != null) {
-        results.add(handler.convert(line));
+        results.add(convertResult(type.getName(), line));
         line = br.readLine();
       }
     }
     return results;
+  }
+
+  private Result convertResult(String name, String str) throws IOException {
+    if (name.equals(ResultType.CUCC.getName())) {
+      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, ConditionalUniqueColumnCombination.class);
+
+    } else if (name.equals(ResultType.IND.getName())) {
+      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, InclusionDependency.class);
+
+    } else if (name.equals(ResultType.UCC.getName())) {
+      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, UniqueColumnCombination.class);
+
+    } else if (name.equals(ResultType.FD.getName())) {
+      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, FunctionalDependency.class);
+
+    } else if (name.equals(ResultType.OD.getName())) {
+      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, OrderDependency.class);
+
+    } else if (name.equals(ResultType.STAT.getName())) {
+      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, BasicStatistic.class);
+    }
+
+    return null;
   }
 }

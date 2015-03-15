@@ -33,7 +33,7 @@ import java.util.ArrayList;
  */
 public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorithm {
 
-  public static final String DATABASE_IDENTIFIER = "sql identifier";
+  public static final String DATABASE_IDENTIFIER = "database identifier";
 
   protected DatabaseConnectionGenerator inputGenerator;
 

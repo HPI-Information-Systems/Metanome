@@ -59,7 +59,7 @@ public class BasicStatAlgorithmTest {
 
   /**
    * Test method for {@link BasicStatAlgorithm#getConfigurationRequirements()} <p/> The algorithm
-   * should request a csv input file.
+   * should request a file input file.
    */
   @Test
   public void testGetConfigurationRequirements() {

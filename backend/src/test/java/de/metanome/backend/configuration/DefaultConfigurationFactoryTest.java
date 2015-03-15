@@ -30,7 +30,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingListB
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
-import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.input.file.FileFixture;
 
 import org.junit.Before;
 import org.junit.Test;

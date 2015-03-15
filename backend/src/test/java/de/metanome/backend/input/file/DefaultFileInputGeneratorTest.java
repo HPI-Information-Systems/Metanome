@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.input.csv;
+package de.metanome.backend.input.file;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
@@ -54,7 +54,7 @@ public class DefaultFileInputGeneratorTest {
   @Before
   public void setUp() throws Exception {
     this.csvFileFixture = new CsvFileFixture();
-    this.expectedFile = csvFileFixture.getTestDataPath("test.csv");
+    this.expectedFile = csvFileFixture.getTestDataPath("test.file");
 
     this.expectedSeparator = CsvFileFixture.SEPARATOR;
     this.expectedQuotechar = CsvFileFixture.QUOTE_CHAR;
@@ -90,7 +90,7 @@ public class DefaultFileInputGeneratorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.input.csv.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
+   * Test method for {@link de.metanome.backend.input.file.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
    *
    * The generator should store the file path correctly.
    * The generator should use a default setting.
@@ -114,7 +114,7 @@ public class DefaultFileInputGeneratorTest {
   /**
    * Test method for {@link DefaultFileInputGenerator#generateNewCopy()}
    *
-   * The generator should generate fresh csv files iterable from the start.
+   * The generator should generate fresh file files iterable from the start.
    */
   @Test
   public void testGenerateNewCsvFile() throws InputGenerationException, InputIterationException {

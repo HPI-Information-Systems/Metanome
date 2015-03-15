@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.input.file.FileIterator;
 
 import java.io.Serializable;
 

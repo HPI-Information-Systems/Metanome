@@ -72,26 +72,6 @@ public class ColumnCombinationTest {
   }
 
   /**
-   * Test method for {@link ColumnCombination#fromString(String str)}
-   * A {@link ColumnCombination} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Expected column identifiers
-    final ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-    final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    final ColumnCombination expectedPermutation =
-        new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
-
-    String str = expectedPermutation.toString();
-
-    // Execute functionality
-    ColumnCombination actualPermutation = ColumnCombination.fromString(str);
-
-    assertEquals(expectedPermutation, actualPermutation);
-  }
-
-  /**
    * Test method for {@link ColumnCombination#getColumnIdentifiers()} <p/> A {@link
    * ColumnCombination} should return its columnIdentifiers as a set.
    */

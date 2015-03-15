@@ -16,9 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
@@ -26,6 +23,7 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -78,6 +76,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean tableInput;
   protected boolean fileInput;
   protected boolean basicStat;
+  protected boolean progressEstimating;
   protected List<Execution> executions = new ArrayList<>();
 
   /**
@@ -115,6 +114,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
     this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
     this.databaseConnection = algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
+    this.progressEstimating = algorithmInterfaces.contains(ProgressEstimatingAlgorithm.class);
   }
 
   /**
@@ -276,6 +276,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setBasicStat(boolean isBasicStat) {
     this.basicStat = isBasicStat;
+    return this;
+  }
+
+  public boolean isProgressEstimating() {
+    return progressEstimating;
+  }
+
+  public Algorithm setProgressEstimating(boolean progressEstimating) {
+    this.progressEstimating = progressEstimating;
     return this;
   }
 

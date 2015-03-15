@@ -38,7 +38,7 @@ import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
-import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
@@ -102,9 +102,9 @@ public class AlgorithmExecutorTest {
   @Test
   public void testExecuteFunctionalDependencyAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-             SecurityException, IOException, ClassNotFoundException, InstantiationException,
+             SecurityException, ClassNotFoundException, InstantiationException,
              IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-             EntityStorageException {
+             EntityStorageException, IOException {
     HibernateUtil.clear();
 
     // Setup
@@ -396,8 +396,8 @@ public class AlgorithmExecutorTest {
    */
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
-      throws AlgorithmExecutionException, AlgorithmLoadingException, FileNotFoundException,
-             UnsupportedEncodingException, EntityStorageException {
+      throws AlgorithmExecutionException, AlgorithmLoadingException, IOException,
+             EntityStorageException {
     HibernateUtil.clear();
 
     // Setup

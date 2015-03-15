@@ -16,15 +16,37 @@
 
 package de.metanome.algorithm_integration.input;
 
+import java.sql.ResultSet;
+
 /**
- * Generates new copies of a sql table based {@link de.metanome.algorithm_integration.input.RelationalInput}.
+ * Generates new copies of a database table based {@link de.metanome.algorithm_integration.input.RelationalInput}.
  *
  * @author Jakob Zwiener
  */
 public interface TableInputGenerator extends RelationalInputGenerator {
 
- /*
- The interface has intentionally left blank to enable functionality diverging from RelationalInputGenerator (as can be seen in FileInputGenerator).
-  */
+  /**
+   * Sort the table by a given column in the given way (descending or ascending).
+   * @param column     the column, after which the table is sort
+   * @param descending the way of ordering, descending or ascending
+   * @return the sorted result set
+   * @throws InputGenerationException
+   */
+  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException;
+
+  /**
+   * Filter the table by the given expression.
+   * @param filterExpression the expression by which the table is filtered
+   * @return the filtered result set
+   * @throws InputGenerationException
+   */
+  public ResultSet filter(String filterExpression) throws InputGenerationException;
+
+  /**
+   * Select everything from the table.
+   * @return the result set
+   * @throws InputGenerationException
+   */
+  public ResultSet select() throws InputGenerationException;
 
 }
