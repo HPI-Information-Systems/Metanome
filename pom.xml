@@ -58,11 +58,6 @@
         </developer>
     </developers>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gwtVersion>2.6.1</gwtVersion>
-    </properties>
-
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -94,6 +89,11 @@
             </modules>
         </profile>
     </profiles>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gwtVersion>2.6.1</gwtVersion>
+    </properties>
 
     <build>
         <pluginManagement>

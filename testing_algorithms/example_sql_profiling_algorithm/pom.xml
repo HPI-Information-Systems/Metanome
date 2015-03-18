@@ -20,8 +20,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>example_sql_profiling_algorithm</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <name>example_sql_profiling_algorithm</name>
 
     <parent>
         <groupId>de.metanome</groupId>
@@ -29,27 +30,6 @@
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -94,4 +74,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
+            <artifactId>algorithm_integration</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 </project>

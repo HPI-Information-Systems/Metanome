@@ -31,10 +31,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <modules>
         <module>example_basic_stat_algorithm</module>
         <module>example_fd_algorithm</module>
@@ -48,4 +44,5 @@
         <module>example_relational_input_algorithm</module>
         <module>example_sql_profiling_algorithm</module>
     </modules>
+
 </project>

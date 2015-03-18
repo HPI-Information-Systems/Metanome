@@ -31,27 +31,6 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -95,4 +74,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
+            <artifactId>algorithm_integration</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 </project>

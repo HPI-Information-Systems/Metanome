@@ -26,32 +26,12 @@
 
     <name>algorithm_template</name>
 
-    <properties>
-        <metanome.version>0.0.2-SNAPSHOT</metanome.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <repositories>
         <repository>
             <id>snapshots-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${metanome.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -104,4 +84,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
+            <artifactId>algorithm_integration</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 </project>

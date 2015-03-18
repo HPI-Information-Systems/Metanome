@@ -1,4 +1,7 @@
 <!--
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
   ~ Copyright 2014 by the Metanome project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,10 +33,6 @@
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <build>
         <plugins>
@@ -105,4 +104,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>

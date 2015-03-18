@@ -41,8 +41,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
-
     <build>
         <!-- Generate compiled stuff in the folder used for development mode -->
         <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
