@@ -17,11 +17,16 @@
 package de.metanome.frontend.client.executions;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TestHelper;
+import de.metanome.frontend.client.helpers.InputValidationException;
+
+import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +80,55 @@ public class GwtTestExecutionsPage extends GWTTestCase {
     assertEquals(rowCount + 1, executionPage.executionsTable.getRowCount());
 
     // Clean up
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.executions.ExecutionsPage#deleteExecution(Execution execution)}
+   */
+  public void testDeleteCallback() throws EntityStorageException, InputValidationException {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    Algorithm algorithm1 = new Algorithm("file");
+    algorithm1.setName("algorithm 1");
+    Algorithm algorithm2 = new Algorithm("file");
+    algorithm2.setName("algorithm 2");
+    Algorithm algorithm3 = new Algorithm("file");
+    algorithm3.setName("algorithm 3");
+
+    Execution execution1 = new Execution(algorithm1, 500);
+    Execution execution2 = new Execution(algorithm2, 1000);
+    Execution execution3 = new Execution(algorithm3, 1500);
+
+    BasePage basePage = new BasePage();
+    ExecutionsPage executionPage = new ExecutionsPage(basePage);
+
+    executionPage.addExecution(execution1);
+    executionPage.addExecution(execution2);
+    executionPage.addExecution(execution3);
+
+    int rowCount = executionPage.executionsTable.getRowCount();
+
+    // Execute (delete execution 2)
+    MethodCallback<Void >
+        callback =
+        executionPage.getDeleteCallback(execution2);
+    callback.onSuccess(null, null);
+
+    // Check
+    assertEquals(rowCount - 1, executionPage.executionsTable.getRowCount());
+    assertEquals("algorithm 3", ((HTML) executionPage.executionsTable.getWidget(1, 0)).getText());
+
+    // Execute (delete execution 1)
+    callback = executionPage.getDeleteCallback(execution1);
+    callback.onSuccess(null, null);
+
+    // Check
+    assertEquals(rowCount - 2, executionPage.executionsTable.getRowCount());
+    assertEquals("algorithm 3", ((HTML) executionPage.executionsTable.getWidget(1, 0)).getText());
+
+    // Cleanup
     TestHelper.resetDatabaseSync();
   }
 

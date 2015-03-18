@@ -21,8 +21,10 @@ import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -63,10 +65,18 @@ public class ExecutionResource implements Resource<Execution> {
   @DELETE
   @Path("/delete/{id}")
   @Override
-  public void delete(long id) {
+  public void delete(@PathParam("id") long id) {
     try {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
+      Set<Result> results = execution.getResults();
       HibernateUtil.delete(execution);
+      // delete result files from disk
+      for (Result result : results) {
+        File file = new File(result.getFileName());
+        if (file.exists()) {
+          file.delete();
+        }
+      }
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -141,7 +151,7 @@ public class ExecutionResource implements Resource<Execution> {
    * @param id     the id of the execution
    * @param result the result, which should be added to the execution
    */
-  @POST
+  @GET
   @Path("/addResult/{id}")
   @Consumes("application/json")
   @Produces("application/json")

@@ -30,6 +30,8 @@ import de.metanome.backend.results_db.TableInput;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -37,6 +39,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -45,6 +48,7 @@ public class ExecutionResourceTest {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
   ExecutionResource executionResource = new ExecutionResource();
+  ResultResource resultResource = new ResultResource();
   InputResource inputResource = new InputResource();
 
   /**
@@ -339,4 +343,47 @@ public class ExecutionResourceTest {
     // Cleanup
     HibernateUtil.clear();
   }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#delete(long)}
+   * Executions should be storable and updatable.
+   */
+  @Test
+  public void testDelete() throws EntityStorageException, IOException {
+    // Setup
+    HibernateUtil.clear();
+
+    String fileName = "result_ind";
+
+    File f = new File(fileName);
+    f.createNewFile();
+
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    Result result = new Result(fileName);
+
+    algorithmResource.store(algorithm);
+    resultResource.store(result);
+
+    Execution execution = new Execution(algorithm);
+    execution.addResult(result);
+    execution = executionResource.store(execution);
+
+    // Check result
+    assertEquals(execution, execution);
+
+    // Check precondition
+    assertFalse(executionResource.getAll().isEmpty());
+    assertTrue(f.exists());
+
+    // Execute functionality
+    executionResource.delete(execution.getId());
+
+    // Check result
+    assertTrue(executionResource.getAll().isEmpty());
+    assertFalse(f.exists());
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+
 }

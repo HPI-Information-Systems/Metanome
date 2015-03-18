@@ -71,9 +71,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     this.executionsTable.setWidget(0, 4, new HTML("<b>Result Types</b>"));
   }
 
-  /**
-   * Request a list of available UCC algorithms and display them in the uccList
-   */
   private void updateExecutions() {
     this.restService.listExecutions(getRetrieveCallback());
   }
@@ -131,6 +128,14 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
       }
     });
 
+    Button deleteButton = new Button("Delete");
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        deleteExecution(execution);
+      }
+    });
+
     // algorithm, date, time, input, result type, show button
     this.executionsTable.setWidget(row, 0,
                                    new HTML(execution.getAlgorithm().getName()));
@@ -139,6 +144,55 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
     this.executionsTable.setWidget(row, 4, new HTML(this.getResultTypes(execution)));
     this.executionsTable.setWidget(row, 5, showButton);
+    this.executionsTable.setWidget(row, 6, deleteButton);
+  }
+
+  /**
+   * Sends a delete request to the backend.
+   * @param execution the execution, which should be deleted
+   */
+  private void deleteExecution(Execution execution) {
+    messageReceiver.clearErrors();
+    this.restService.deleteExecution(execution.getId(), getDeleteCallback(execution));
+  }
+
+  protected MethodCallback<Void> getDeleteCallback(final Execution execution) {
+    return new MethodCallback<Void>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not delete the execution: " + method.getResponse().getText());
+      }
+
+      @Override
+      public void onSuccess(Method method, Void aVoid) {
+        executionsTable.removeRow(findRow(execution));
+      }
+    };
+  }
+
+  /**
+   * Find the row in the table, which contains the given execution.
+   * @param execution the execution
+   * @return the row number
+   */
+  private int findRow(Execution execution) {
+    int row = 0;
+
+    String algorithm = execution.getAlgorithm().getName();
+    String date = this.getDate(execution);
+
+    while (row < this.executionsTable.getRowCount()) {
+      HTML algorithmWidget = (HTML) this.executionsTable.getWidget(row, 0);
+      HTML dateWidget = (HTML) this.executionsTable.getWidget(row, 1);
+
+      if (algorithmWidget != null && algorithm.equals(
+          algorithmWidget.getText()) &&
+          dateWidget != null && date.equals(dateWidget.getText())) {
+        return row;
+      }
+      row++;
+    }
+    return -1;
   }
 
   /**
