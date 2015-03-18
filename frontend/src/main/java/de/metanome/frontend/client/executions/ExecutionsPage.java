@@ -55,6 +55,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
     this.add(new HTML("<h3>List of all Executions</h3>"));
     this.executionsTable = new FlexTable();
+    this.executionsTable.addStyleName("execution-table");
     this.add(this.executionsTable);
 
     this.addHeaderRow();
