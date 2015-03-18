@@ -81,9 +81,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param executionTimeInNanos the execution time in nanoseconds
+   * @param executionTimeInMs the execution time in milliseconds
    */
-  public void updateOnSuccess(Long executionTimeInNanos) {
+  public void updateOnSuccess(Long executionTimeInMs) {
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 
@@ -99,7 +99,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.remove(this.executionTimePanel);
 
     // Add a label for the execution time
-    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInNanos)), 0);
+    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
   }
 
   /**
@@ -179,7 +179,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.tablePage.readResultsFromFile(execution.getResults());
 
     // Add a label for the execution time
-    long executionTime = execution.getEnd() - execution.getBegin();
+    long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
     this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
   }
 
@@ -216,10 +216,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
   
   private String getExecutionTimeString(String algorithmFileName, long executionTime) {
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTime / 1000000d));
+    Date date = new Date(executionTime);
     return "Algorithm " + algorithmFileName + " executed in " +
            format.format(date, TimeZone.createTimeZone(0)) +
-           " (HH:mm:ss.SSS) or " + executionTime / 1000000d + " ms.";
+           " (HH:mm:ss.SSS) or " + executionTime + " ms.";
   }
 
   /**

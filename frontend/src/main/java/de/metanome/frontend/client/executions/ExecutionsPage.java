@@ -155,9 +155,9 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
    * @return the execution time string
    */
   protected String getExecutionTime(Execution execution) {
-    long time = execution.getEnd() - execution.getBegin();
+    long time = execution.getEnd() - execution.getBegin(); // milliseconds
     DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(time / 1000000d));
+    Date date = new Date(time);
     return format.format(date, TimeZone.createTimeZone(0));
   }
 

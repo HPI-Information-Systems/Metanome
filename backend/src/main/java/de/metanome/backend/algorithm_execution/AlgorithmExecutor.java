@@ -226,15 +226,16 @@ public class AlgorithmExecutor implements Closeable {
       progressEstimatingAlgorithm.setProgressReceiver(progressCache);
     }
 
-    long beforeWallClockTime = new Date().getTime();
-    long before = System.nanoTime();
+    long beforeWallClockTime = new Date().getTime(); // milliseconds
+    long before = System.nanoTime(); // nanoseconds
     algorithm.execute();
-    long after = System.nanoTime();
+    long after = System.nanoTime(); // nanoseconds
     long executionTimeInNanos = after - before;
+    long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds
 
     ExecutionResource executionResource = new ExecutionResource();
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
-        .setEnd(beforeWallClockTime + (executionTimeInNanos / 1000))
+        .setEnd(beforeWallClockTime + executionTimeInMs)
         .setInputs(inputs)
         .setIdentifier(executionIdentifier)
         .setResults(results);

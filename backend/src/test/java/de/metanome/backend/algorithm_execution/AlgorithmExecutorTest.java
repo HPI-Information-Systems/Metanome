@@ -349,7 +349,7 @@ public class AlgorithmExecutorTest {
     assertTrue(new Date().getTime() - actualExecution.getEnd() < 5000);
     // The execution should have taken between 0 and 3 seconds.
     assertTrue(actualExecution.getEnd() - actualExecution.getBegin() < 3000);
-    assertTrue(actualExecution.getEnd() - actualExecution.getBegin() > 0);
+    assertTrue(actualExecution.getEnd() - actualExecution.getBegin() >= 0);
 
     assertTrue(actualExecution.getInputs().size() == 1);
     assertTrue(actualExecution.getInputs().contains(expectedInput));
