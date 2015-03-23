@@ -18,35 +18,21 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.io.Serializable;
-
 /**
- * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox}
+ * The setting of a {@link ConfigurationRequirementListBox}
  *
  * @author Tanja Bergmann
  */
 @JsonTypeName("ConfigurationSettingListBox")
-public class ConfigurationSettingListBox implements ConfigurationSetting, Serializable {
+public class ConfigurationSettingListBox extends ConfigurationSettingPrimitive<String> {
 
-  public String selectedValue;
   // Needed for restful serialization
   public String type = "ConfigurationSettingListBox";
 
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationSettingListBox() {
+  public ConfigurationSettingListBox() {}
+
+  public ConfigurationSettingListBox(String value) {
+    super(value);
   }
 
-  public ConfigurationSettingListBox(String selectedValue) {
-    this.selectedValue = selectedValue;
-  }
-
-  public String getSelectedValue() {
-    return selectedValue;
-  }
-
-  public void setSelectedValue(String selectedValue) {
-    this.selectedValue = selectedValue;
-  }
 }
