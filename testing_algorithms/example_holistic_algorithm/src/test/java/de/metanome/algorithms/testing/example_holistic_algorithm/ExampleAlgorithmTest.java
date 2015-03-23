@@ -88,7 +88,7 @@ public class ExampleAlgorithmTest {
     String expectedConfigurationValue = "test";
 
     // Execute functionality
-    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValue);
+    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValue, expectedConfigurationValue);
 
     // Check result
     assertEquals(expectedConfigurationValue, this.algorithm.path);
@@ -107,7 +107,7 @@ public class ExampleAlgorithmTest {
     UniqueColumnCombinationResultReceiver
         uccResultReceiver =
         mock(UniqueColumnCombinationResultReceiver.class);
-    this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
+    this.algorithm.setStringConfigurationValue(pathIdentifier, "something", "something");
 
     // Execute functionality
     this.algorithm.setResultReceiver(fdResultReceiver);

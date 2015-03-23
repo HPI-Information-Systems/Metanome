@@ -93,7 +93,8 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   @Test
   public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
     //Setup
-    ConfigurationRequirementInteger specification = new ConfigurationRequirementInteger("integer",
+    ConfigurationRequirementInteger
+        specification = new ConfigurationRequirementInteger("integer",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     Integer expectedValue = 5;
     specification.checkAndSetDefaultValues(expectedValue);
@@ -115,7 +116,8 @@ public class GwtTestIntegerParameter extends GWTTestCase {
   @Test
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationRequirementInteger specification = new ConfigurationRequirementInteger("bool",
+    ConfigurationRequirementInteger
+        specification = new ConfigurationRequirementInteger("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget =
@@ -136,7 +138,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
    */
   public void testRetrieveValues() throws AlgorithmConfigurationException {
     //Setup
-    int value1 = 7;
+    Integer value1 = 7;
     ConfigurationRequirementInteger
         specification1 =
         new ConfigurationRequirementInteger("integer",

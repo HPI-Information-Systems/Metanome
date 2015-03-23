@@ -100,7 +100,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+    ConfigurationRequirementBoolean
+        specification = new ConfigurationRequirementBoolean("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     Boolean expectedValue = true;
     specification.checkAndSetDefaultValues(expectedValue);
@@ -125,7 +126,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+    ConfigurationRequirementBoolean
+        specification = new ConfigurationRequirementBoolean("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
@@ -146,7 +148,8 @@ public class GwtTestBooleanParameter extends GWTTestCase {
    */
   public void testGetUpdatedSpecification() throws AlgorithmConfigurationException {
     //Setup
-    ConfigurationRequirementBoolean specification = new ConfigurationRequirementBoolean("bool",
+    ConfigurationRequirementBoolean
+        specification = new ConfigurationRequirementBoolean("bool",
                                                                                             ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
