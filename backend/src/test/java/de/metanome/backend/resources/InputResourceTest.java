@@ -52,11 +52,11 @@ public class InputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    Input expectedInput = inputResource.store(new Input());
+    Input expectedInput = inputResource.store(new Input("input"));
 
-    FileInput expectedFileInput = fileInputResource.store(new FileInput());
+    FileInput expectedFileInput = fileInputResource.store(new FileInput("fileInput"));
 
-    TableInput expectedTableInput = tableInputResource.store(new TableInput());
+    TableInput expectedTableInput = tableInputResource.store(new TableInput("tableInput"));
 
     // Execute functionality
     List<Input> actualInputs = inputResource.getAll();
@@ -80,7 +80,7 @@ public class InputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    Input expectedInput = new Input();
+    Input expectedInput = new Input("input");
 
     // Execute functionality
     assertSame(expectedInput, inputResource.store(expectedInput));
@@ -102,7 +102,7 @@ public class InputResourceTest {
     // Setup
     HibernateUtil.clear();
 
-    Input expectedInput = new Input();
+    Input expectedInput = new Input("input");
     inputResource.store(expectedInput);
 
     long id = expectedInput.getId();
@@ -130,10 +130,10 @@ public class InputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    Input expectedInput = inputResource.store(new Input());
-    FileInput expectedFileInput = fileInputResource.store(new FileInput());
-    TableInput expectedTableInput = tableInputResource.store(new TableInput());
-    DatabaseConnection expectedDatabaseConnection = databaseConnectionResource.store(new DatabaseConnection());
+    Input expectedInput = inputResource.store(new Input("input"));
+    FileInput expectedFileInput = fileInputResource.store(new FileInput("fileInput"));
+    TableInput expectedTableInput = tableInputResource.store(new TableInput("tableInput"));
+    DatabaseConnection expectedDatabaseConnection = databaseConnectionResource.store(new DatabaseConnection("databaseConnection"));
 
     // Execute functionality
     List<Input> actualInputs = inputResource.listRelationalInputs();
@@ -156,7 +156,7 @@ public class InputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    Input tableInput = new TableInput().setTableName("old name");
+    Input tableInput = new TableInput("tableInput").setTableName("old name");
 
     // Execute functionality
     Input actualTableInput = inputResource.store(tableInput);

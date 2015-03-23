@@ -40,6 +40,22 @@ public class DatabaseConnection extends Input implements Serializable {
   protected DbSystem system;
   protected String comment;
 
+  // Exists for Serialization
+  public DatabaseConnection() {}
+
+  public DatabaseConnection(String name) {
+    super(name);
+  }
+
+  public DatabaseConnection(String url, String username, String password, DbSystem system) {
+    super(url + "; " + username + "; " + system.name());
+
+    this.url = url;
+    this.username = username;
+    this.password = password;
+    this.system = system;
+  }
+
   @Override
   public DatabaseConnection setId(long id) {
     super.setId(id);

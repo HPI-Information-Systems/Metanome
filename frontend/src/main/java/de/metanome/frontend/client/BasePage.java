@@ -28,8 +28,10 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
+import de.metanome.frontend.client.executions.ExecutionsPage;
 import de.metanome.frontend.client.results.ResultsPage;
 import de.metanome.frontend.client.runs.RunConfigurationPage;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
@@ -53,6 +55,7 @@ public class BasePage extends TabLayoutPanel {
   protected TabWrapper resultPageTabWrapper;
   protected DataSourcePage dataSourcePage;
   protected AlgorithmsPage algorithmPage;
+  protected ExecutionsPage executionPage;
 
   /**
    * Constructor. Initiates creation of subpages.
@@ -70,6 +73,11 @@ public class BasePage extends TabLayoutPanel {
     this.algorithmPage = new AlgorithmsPage(this);
     this.insert(new ScrollPanel(new TabWrapper(this.algorithmPage)), "Algorithms",
                 Tabs.ALGORITHMS.ordinal());
+
+    // Add execution tab
+    this.executionPage = new ExecutionsPage(this);
+    this.insert(new ScrollPanel(new TabWrapper(this.executionPage)), "Executions",
+                Tabs.EXECUTIONS.ordinal());
 
     // Add run configuration tab
     this.runConfigurationsPage = new RunConfigurationPage(this);
@@ -143,6 +151,15 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
+   * Switches to the result page and shows the results of the given execution.
+   * @param execution the execution
+   */
+  public void showResultsFor(Execution execution) {
+    this.resultsPage.showResults(execution);
+    this.selectTab(Tabs.RESULTS.ordinal());
+  }
+
+  /**
    * If the algorithm execution is successful, the results will be shown. otherwise the reason of
    * failure will be displayed.
    *
@@ -150,15 +167,16 @@ public class BasePage extends TabLayoutPanel {
    * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private MethodCallback<Long> getExecutionCallback(final AlgorithmExecutionRestService executionService,
+  private MethodCallback<Execution> getExecutionCallback(final AlgorithmExecutionRestService executionService,
                                                    final String executionIdentifier) {
-    return new MethodCallback<Long>() {
+    return new MethodCallback<Execution>() {
       public void onFailure(Method method, Throwable caught) {
         resultsPage.updateOnError(method.getResponse().getText());
       }
 
-      public void onSuccess(Method method, Long executionTimeInNanos) {
-        resultsPage.updateOnSuccess(executionTimeInNanos);
+      public void onSuccess(Method method, Execution execution) {
+        resultsPage.updateOnSuccess(execution.getEnd() - execution.getBegin());
+        executionPage.addExecution(execution);
       }
     };
   }
@@ -230,7 +248,7 @@ public class BasePage extends TabLayoutPanel {
   }
 
   public enum Tabs {
-    DATA_SOURCES, ALGORITHMS, RUN_CONFIGURATION, RESULTS, ABOUT
+    DATA_SOURCES, ALGORITHMS, EXECUTIONS, RUN_CONFIGURATION, RESULTS, ABOUT
   }
 
 }

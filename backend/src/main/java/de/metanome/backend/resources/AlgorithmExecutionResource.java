@@ -24,11 +24,13 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
@@ -56,7 +58,7 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public long executeAlgorithm(AlgorithmExecutionParams params) {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
     AlgorithmExecutor executor;
 
     try {
@@ -70,9 +72,9 @@ public class AlgorithmExecutionResource {
     AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
-    long executionTimeInNanos = 0;
+    Execution execution = null;
     try {
-      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements());
+      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -83,7 +85,7 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
-    return executionTimeInNanos;
+    return execution;
   }
 
   @GET
@@ -133,6 +135,19 @@ public class AlgorithmExecutionResource {
                              Response.Status.BAD_REQUEST);
     }
   }
+
+  @GET
+  @Path("/read_result/{file_name}/{type}")
+  @Produces("application/json")
+  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
+    try {
+      return ResultReader.readResultsFromFile(fileName, type);
+    } catch (Exception e) {
+      throw new WebException("Could not read result file",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
+
 
   /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write

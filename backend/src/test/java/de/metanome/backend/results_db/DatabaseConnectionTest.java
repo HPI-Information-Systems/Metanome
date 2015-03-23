@@ -43,11 +43,11 @@ public class DatabaseConnectionTest {
   public void testEqualsAndHashCode() {
     // Setup
     long id = 42;
-    DatabaseConnection databaseConnection = new DatabaseConnection()
+    DatabaseConnection databaseConnection = new DatabaseConnection("db")
         .setId(id);
-    DatabaseConnection equalDatabaseConnection = new DatabaseConnection()
+    DatabaseConnection equalDatabaseConnection = new DatabaseConnection("db")
         .setId(id);
-    DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection()
+    DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection("db")
         .setId(23);
 
     // Execute functionality
@@ -67,8 +67,8 @@ public class DatabaseConnectionTest {
 
     // Expected values
 
-    dbResource.store(new DatabaseConnection());
-    dbResource.store(new DatabaseConnection());
+    dbResource.store(new DatabaseConnection("db"));
+    dbResource.store(new DatabaseConnection("db"));
 
     // Execute functionality
     List<DatabaseConnection> actualConnections = dbResource.getAll();
@@ -88,11 +88,7 @@ public class DatabaseConnectionTest {
     // Setup
     String expectedIdentifier = "url; user; DB2";
 
-    DatabaseConnection connection = new DatabaseConnection();
-    connection.setUrl("url");
-    connection.setPassword("pwd");
-    connection.setSystem(DbSystem.DB2);
-    connection.setUsername("user");
+    DatabaseConnection connection = new DatabaseConnection("url", "user", "pwd", DbSystem.DB2);
 
     // Execute
     String actualIdentifier = connection.getIdentifier();

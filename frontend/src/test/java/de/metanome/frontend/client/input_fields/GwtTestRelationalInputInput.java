@@ -65,7 +65,7 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    FileInput fileInput = new FileInput();
+    FileInput fileInput = new FileInput("fileInput");
     fileInput.setFileName("filename");
 
     // Expected values
