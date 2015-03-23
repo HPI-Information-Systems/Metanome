@@ -42,11 +42,11 @@ public class TableInputTest {
   public void testEqualsAndHashCode() {
     // Setup
     long id = 42;
-    TableInput tableInput = new TableInput()
+    TableInput tableInput = new TableInput("tableInput")
         .setId(id);
-    TableInput equalTableInput = new TableInput()
+    TableInput equalTableInput = new TableInput("tableInput")
         .setId(id);
-    TableInput notEqualTableInput = new TableInput()
+    TableInput notEqualTableInput = new TableInput("tableInput")
         .setId(23);
 
     // Execute functionality
@@ -60,17 +60,11 @@ public class TableInputTest {
     // Setup
     String tableName = "tableName";
 
-    DatabaseConnection connection = new DatabaseConnection();
-    connection.setUrl("url");
-    connection.setPassword("pwd");
-    connection.setSystem(DbSystem.DB2);
-    connection.setUsername("user");
+    DatabaseConnection connection = new DatabaseConnection("url", "user", "pwd", DbSystem.DB2);
 
     String expectedIdentifier = "tableName; url; user; DB2";
 
-    TableInput input = new TableInput();
-    input = input.setDatabaseConnection(connection);
-    input.setTableName("tableName");
+    TableInput input = new TableInput("tableName", connection);
 
     // Execute
     String actualIdentifier = input.getIdentifier();
