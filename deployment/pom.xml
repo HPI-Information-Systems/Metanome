@@ -133,6 +133,13 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <outputDirectory>target/metanome</outputDirectory>
+                                    <excludes>
+                                        WEB-INF/classes/algorithms/example_*,
+                                        WEB-INF/classes/inputData/inputA.csv,
+                                        WEB-INF/classes/inputData/inputB.csv,
+                                        WEB-INF/classes/inputData/inputC.tsv,
+                                        WEB-INF/classes/inputData/fd_reduced_15.csv
+                                    </excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -160,19 +167,6 @@
             </plugin>
 
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>${webappDirectory}/WEB-INF/classes/</directory>
-                <excludes>
-                    <exclude>algorithms/example_*</exclude>
-                    <exclude>inputData/inputA.csv</exclude>
-                    <exclude>inputData/inputB.csv</exclude>
-                    <exclude>inputData/inputC.tsv</exclude>
-                    <exclude>inputData/fd_reduced_15.csv</exclude>
-                </excludes>
-            </resource>
-        </resources>
 
     </build>
 
