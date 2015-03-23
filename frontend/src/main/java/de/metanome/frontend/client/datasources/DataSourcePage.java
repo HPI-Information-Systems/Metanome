@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource;
 import de.metanome.backend.results_db.DatabaseConnection;
+import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -120,4 +121,7 @@ public class DataSourcePage extends TabLayoutPanel implements TabContent {
     this.databaseConnectionTab.setMessageReceiver(tab);
   }
 
+  public void showResultsFor(FileInput input) {
+    this.basePage.showResultsFor(input);
+  }
 }
