@@ -41,10 +41,13 @@
 
         <!-- the version of the metanome algorithms to include in packaging -->
         <algorithms.version>${project.version}</algorithms.version>
+        <webappDirectory>${project.basedir}/target/${project.artifactId}-${project.version}</webappDirectory>
     </properties>
 
     <build>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -136,6 +139,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -154,7 +158,22 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>${webappDirectory}/WEB-INF/classes/</directory>
+                <excludes>
+                    <exclude>algorithms/example_*</exclude>
+                    <exclude>inputData/inputA.csv</exclude>
+                    <exclude>inputData/inputB.csv</exclude>
+                    <exclude>inputData/inputC.tsv</exclude>
+                    <exclude>inputData/fd_reduced_15.csv</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
     </build>
 
 </project>
