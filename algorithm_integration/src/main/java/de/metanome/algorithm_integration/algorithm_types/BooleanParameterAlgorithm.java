@@ -37,7 +37,7 @@ public interface BooleanParameterAlgorithm extends Algorithm {
    *                                                                           received configuration
    *                                                                           values
    */
-  void setBooleanConfigurationValue(String identifier, boolean... values)
+  void setBooleanConfigurationValue(String identifier, Boolean... values)
       throws AlgorithmConfigurationException;
 
 }

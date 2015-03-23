@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,91 +33,41 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementDatabaseConnection")
-public class ConfigurationRequirementDatabaseConnection extends ConfigurationRequirement {
+public class ConfigurationRequirementDatabaseConnection
+    extends ConfigurationRequirement<ConfigurationSettingDatabaseConnection> {
 
-  private ConfigurationSettingDatabaseConnection[] settings;
-  private List<String> acceptedDBSystems = new ArrayList<>();
+  // Needed for restful serialization
+  public String type = "ConfigurationRequirementDatabaseConnection";
 
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationRequirementDatabaseConnection() {
-  }
+  private List<String> acceptedDBSystems;
 
-  /**
-   * Construct a {@link ConfigurationRequirementDatabaseConnection}, requesting 1 value.
-   *
-   * @param identifier the specification's identifier
-   */
+  public ConfigurationRequirementDatabaseConnection() { }
+
   public ConfigurationRequirementDatabaseConnection(String identifier) {
     super(identifier);
   }
 
-  /**
-   * Construcats a {@link ConfigurationRequirementDatabaseConnection}, potentially requesting
-   * several values.
-   *
-   * @param identifier       the specification's identifier
-   * @param numberOfSettings the number of settings expected
-   */
-  public ConfigurationRequirementDatabaseConnection(String identifier,
-                                                    int numberOfSettings) {
-
+  public ConfigurationRequirementDatabaseConnection(String identifier, int numberOfSettings) {
     super(identifier, numberOfSettings);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementDatabaseConnection}, requesting several values.
-   *
-   * @param identifier         the specification's identifier
-   * @param minNumberOfSetting the min number of settings expected
-   * @param maxNumberOfSetting the max number of settings expected
-   */
-  public ConfigurationRequirementDatabaseConnection(String identifier,
-                                         int minNumberOfSetting,
-                                         int maxNumberOfSetting) {
+  public ConfigurationRequirementDatabaseConnection(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
-  @Override
-  public ConfigurationSettingDatabaseConnection[] getSettings() {
-    return settings;
-  }
-  /**
-   * Exists only for serialization!
-   * @param settings the settings
-   */
-  public void setSettings(ConfigurationSettingDatabaseConnection... settings) {
-    this.settings = settings;
-  }
-
-  public void setAcceptedDBSystems(ArrayList<String> dbSystems) {
-    this.acceptedDBSystems = dbSystems;
-  }
-
   public List<String> getAcceptedDBSystems() {
-    return this.acceptedDBSystems;
+    return acceptedDBSystems;
   }
 
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  @XmlTransient
-  public void checkAndSetSettings(ConfigurationSettingDatabaseConnection... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
+  public void setAcceptedDBSystems(List<String> acceptedDBSystems) {
+    this.acceptedDBSystems = acceptedDBSystems;
   }
 
   /**
    * {@inheritDoc}
    */
-  @Override
   @XmlTransient
+  @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {

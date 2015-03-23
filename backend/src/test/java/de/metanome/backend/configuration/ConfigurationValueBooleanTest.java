@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
 public class ConfigurationValueBooleanTest {
 
   /**
-   * Test method for {@link ConfigurationValueBoolean#ConfigurationValueBoolean(String, boolean...)}
+   * Test method for {@link ConfigurationValueBoolean#ConfigurationValueBoolean(String, Boolean...)}
    * <p/> Parameters should be set on the algorithm through triggerSetValue. This is the last call
    * in a double dispatch call to determine the parameters type.
    */
@@ -50,7 +50,7 @@ public class ConfigurationValueBooleanTest {
     interfaces.add(BooleanParameterAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
-    boolean[] expectedConfigurationValue = {true, false};
+    Boolean[] expectedConfigurationValue = {true, false};
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
@@ -76,7 +76,7 @@ public class ConfigurationValueBooleanTest {
     interfaces.add(ProgressEstimatingAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
-    boolean[] expectedConfigurationValues = {true, false};
+    Boolean[] expectedConfigurationValues = {true, false};
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(

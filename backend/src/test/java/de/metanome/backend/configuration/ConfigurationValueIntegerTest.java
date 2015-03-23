@@ -45,7 +45,7 @@ public class ConfigurationValueIntegerTest {
     interfaces.add(IntegerParameterAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
-    int[] expectedConfigurationValue = {1, 2};
+    Integer[] expectedConfigurationValue = {1, 2};
 
     // Execute functionality
     ConfigurationValueInteger configValue = new ConfigurationValueInteger(
@@ -65,7 +65,7 @@ public class ConfigurationValueIntegerTest {
   @Test
   public void testConstructorRequirement() throws AlgorithmConfigurationException {
     // Expected values
-    int[] expectedValues = {3, 6, 12309478};
+    Integer[] expectedValues = {3, 6, 12309478};
     String expectedIdentifier = "some identifier";
     ConfigurationRequirementInteger
         requirement =
@@ -79,7 +79,7 @@ public class ConfigurationValueIntegerTest {
     assertArrayEquals(actualConfigValue.values, expectedValues);
   }
 
-  private ConfigurationSettingInteger[] buildSettings(int[] expectedValues) {
+  private ConfigurationSettingInteger[] buildSettings(Integer[] expectedValues) {
     ConfigurationSettingInteger[] settings = new ConfigurationSettingInteger[expectedValues.length];
 
     for (int i = 0; i < expectedValues.length; i++) {

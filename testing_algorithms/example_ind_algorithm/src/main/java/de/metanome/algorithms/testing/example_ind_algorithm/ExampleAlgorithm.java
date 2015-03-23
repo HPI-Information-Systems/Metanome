@@ -60,8 +60,10 @@ public class ExampleAlgorithm
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
     ConfigurationRequirementFileInput requirementFileInput = new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
-    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
-    ConfigurationRequirementInteger requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
+    ConfigurationRequirementString
+        requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
+    ConfigurationRequirementInteger
+        requirementInteger = new ConfigurationRequirementInteger(INTEGER_IDENTIFIER);
     try {
       requirementString.checkAndSetDefaultValues("test");
       requirementInteger.checkAndSetDefaultValues(5);
@@ -146,7 +148,7 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void setIntegerConfigurationValue(String identifier, int... values)
+  public void setIntegerConfigurationValue(String identifier, Integer... values)
       throws AlgorithmConfigurationException {
     if ((identifier.equals(INTEGER_IDENTIFIER)) && (values.length == 1)) {
       numberOfTables = values[0];

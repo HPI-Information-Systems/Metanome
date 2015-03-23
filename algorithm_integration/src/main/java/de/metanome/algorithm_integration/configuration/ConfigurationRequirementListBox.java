@@ -34,117 +34,47 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementListBox")
-public class ConfigurationRequirementListBox extends ConfigurationRequirementDefaultValue<String> {
+public class ConfigurationRequirementListBox
+    extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingListBox> {
 
-  private ConfigurationSettingListBox[] settings;
+  // Needed for restful serialization
+  public String type = "ConfigurationRequirementListBox";
+
   private List<String> values;
 
-  /**
-   * Exists for serialization.
-   */
-  public ConfigurationRequirementListBox() {
-  }
+  public ConfigurationRequirementListBox() { }
 
-  /**
-   * Construct a ConfigurationSpecificationListBox, requesting 1 values.
-   *
-   * @param identifier the specification's identifier
-   * @param values     the values, which should be displayed in the list box
-   */
   public ConfigurationRequirementListBox(String identifier, List<String> values) {
     super(identifier);
     this.values = values;
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementListBox}, potentially requesting several values.
-   *
-   * @param identifier       the specification's identifier
-   * @param values           the values, which should be displayed in the list box
-   * @param numberOfSettings the number of settings expected
-   */
-  public ConfigurationRequirementListBox(String identifier, List<String> values,
-                                         int numberOfSettings) {
+  public ConfigurationRequirementListBox(String identifier, List<String> values, int numberOfSettings) {
     super(identifier, numberOfSettings);
     this.values = values;
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementListBox}, requesting several values.
-   *
-   * @param identifier         the specification's identifier
-   * @param values           the values, which should be displayed in the list box
-   * @param minNumberOfSetting the min number of settings expected
-   * @param maxNumberOfSetting the max number of settings expected
-   */
-  public ConfigurationRequirementListBox(String identifier,
-                                         List<String> values,
-                                         int minNumberOfSetting,
-                                         int maxNumberOfSetting) {
+  public ConfigurationRequirementListBox(String identifier, List<String> values, int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
     this.values = values;
   }
 
-  @Override
-  public ConfigurationSettingListBox[] getSettings() {
-    return this.settings;
-  }
-  /**
-   * Exists only for serialization!
-   * @param settings the settings
-   */
-  public void setSettings(ConfigurationSettingListBox... settings) {
-    this.settings = settings;
-  }
-
-  /**
-   * @return the values, which should be displayed in the list box
-   */
   public List<String> getValues() {
-    return this.values;
+    return values;
   }
 
-  public void setValues(List<String> values) { this.values = values; }
-
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  @XmlTransient
-  public void checkAndSetSettings(ConfigurationSettingListBox... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
-    applyDefaultValues();
+  public void setValues(List<String> values) {
+    this.values = values;
   }
-
   /**
    * {@inheritDoc}
    */
-  @Override
   @XmlTransient
+  @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
-  }
-
-  /**
-   * Sets the default values on the settings, if both are set.
-   */
-  @XmlTransient
-  @Override
-  public void applyDefaultValues() {
-    if (this.defaultValues == null || this.settings == null ||
-        this.defaultValues.length != this.settings.length)
-      return;
-
-    for (int i = 0; i < this.settings.length; i++) {
-      this.settings[i].setSelectedValue(this.defaultValues[i]);
-    }
   }
 
 }

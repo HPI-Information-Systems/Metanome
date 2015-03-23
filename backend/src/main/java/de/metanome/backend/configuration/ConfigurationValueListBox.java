@@ -21,37 +21,32 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
 
-public class ConfigurationValueListBox implements ConfigurationValue {
+public class ConfigurationValueListBox extends ConfigurationValue<String, ConfigurationRequirementListBox> {
 
-  protected final String identifier;
-  protected final String[] selectedValues;
-
-  /**
-   * Constructs a ConfigurationValueListBox using the specification's identifier and the list of
-   * string values.
-   *
-   * @param identifier     the configuration value enum identifier
-   * @param selectedValues the configuration value string values
-   */
-  public ConfigurationValueListBox(String identifier, String... selectedValues) {
-    this.identifier = identifier;
-    this.selectedValues = selectedValues;
+  public ConfigurationValueListBox(String identifier, String... values) {
+    super(identifier, values);
   }
 
-  public ConfigurationValueListBox(
-      ConfigurationRequirementListBox specification) {
-    this.identifier = specification.getIdentifier();
-    this.selectedValues = new String[specification.getSettings().length];
+  public ConfigurationValueListBox(ConfigurationRequirementListBox requirement)
+      throws AlgorithmConfigurationException {
+    super(requirement);
+  }
+
+  @Override
+  protected String[] convertToValues(ConfigurationRequirementListBox requirement)
+      throws AlgorithmConfigurationException {
+    ConfigurationSettingListBox[] settings = requirement.getSettings();
+    String[] configValues = new String[settings.length];
     int i = 0;
-    for (ConfigurationSettingListBox setting : specification.getSettings()) {
-      this.selectedValues[i] = setting.selectedValue;
+    for (ConfigurationSettingListBox setting : settings) {
+      configValues[i] = setting.getValue();
       i++;
     }
+    return configValues;
   }
 
   @Override
@@ -63,6 +58,6 @@ public class ConfigurationValueListBox implements ConfigurationValue {
     }
 
     ListBoxParameterAlgorithm listBoxParameterAlgorithm = (ListBoxParameterAlgorithm) algorithm;
-    listBoxParameterAlgorithm.setListBoxConfigurationValue(identifier, selectedValues);
+    listBoxParameterAlgorithm.setListBoxConfigurationValue(this.identifier, this.values);
   }
 }
