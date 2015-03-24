@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class FileIterator implements RelationalInput {
 
-  public static final boolean DEFAULT_HAS_HEADER = false;
+  public static final boolean DEFAULT_HAS_HEADER = true;
   public static final boolean DEFAULT_SKIP_DIFFERING_LINES = false;
   public static final String DEFAULT_NULL_VALUE = "";
 
