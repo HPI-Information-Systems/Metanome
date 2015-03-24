@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * Handles default values for configuration requirements.
  * @param <T> the type of the default values
+ * @param <S> the setting type of the requirement
  */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -38,12 +39,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
     @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
 })
-public abstract class ConfigurationRequirementDefaultValue<T> extends ConfigurationRequirement {
+public abstract class ConfigurationRequirementDefaultValue<T, S extends ConfigurationSettingPrimitive> extends ConfigurationRequirement<S> {
 
-  T[] defaultValues;
+  public T[] defaultValues;
 
-  public ConfigurationRequirementDefaultValue() {
-  }
+  public ConfigurationRequirementDefaultValue() { }
 
   public ConfigurationRequirementDefaultValue(String identifier) {
     super(identifier);
@@ -53,9 +53,8 @@ public abstract class ConfigurationRequirementDefaultValue<T> extends Configurat
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementDefaultValue(String identifier,
-                                         int minNumberOfSetting,
-                                         int maxNumberOfSetting) {
+  public ConfigurationRequirementDefaultValue(String identifier, int minNumberOfSetting,
+                                              int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 
@@ -78,6 +77,18 @@ public abstract class ConfigurationRequirementDefaultValue<T> extends Configurat
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @XmlTransient
+  @Override
+  public void checkAndSetSettings(S... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
+    this.settings = settings;
+    applyDefaultValues();
+  }
+
+  /**
    * @param index the index of the setting
    * @return the default value of the specific setting
    */
@@ -92,7 +103,15 @@ public abstract class ConfigurationRequirementDefaultValue<T> extends Configurat
    * Sets the default values on the settings, if both are set.
    */
   @XmlTransient
-  public abstract void applyDefaultValues();
+  public void applyDefaultValues() {
+    if (this.defaultValues == null || this.settings == null ||
+        this.defaultValues.length != this.settings.length)
+      return;
+
+    for (int i = 0; i < this.settings.length; i++) {
+      this.settings[i].setValue(this.defaultValues[i]);
+    }
+  }
 
   /**
    * Exists only for serialization!
@@ -100,12 +119,31 @@ public abstract class ConfigurationRequirementDefaultValue<T> extends Configurat
   public T[] getDefaultValues() {
     return defaultValues;
   }
+
   /**
    * Exists only for serialization!
    * @param defaultValues the default values
    */
   public void setDefaultValues(T[] defaultValues) {
     this.defaultValues = defaultValues;
+  }
+
+  /**
+   * {@inheritDoc}
+   * Exists for serialization!
+   */
+  @Override
+  public S[] getSettings() {
+    return settings;
+  }
+
+  /**
+   * {@inheritDoc}
+   * Exists for serialization!
+   */
+  @Override
+  public void setSettings(S... settings) {
+    this.settings = settings;
   }
 
 }

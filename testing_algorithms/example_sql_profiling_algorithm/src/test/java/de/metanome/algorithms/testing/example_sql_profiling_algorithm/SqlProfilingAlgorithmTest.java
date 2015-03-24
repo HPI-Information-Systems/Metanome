@@ -91,7 +91,7 @@ public class SqlProfilingAlgorithmTest {
                                                           inputGenerator);
     // Expected values
     // TODO add asserts
-    // the systems property should be output from an sql connection
+    // the systems property should be output from an database connection
 
   }
 }

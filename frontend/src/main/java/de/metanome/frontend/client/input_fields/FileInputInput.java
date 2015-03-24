@@ -112,7 +112,7 @@ public class FileInputInput extends InputField {
    * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws AlgorithmConfigurationException If the data source setting is not a csv file setting
+   * @throws AlgorithmConfigurationException If the data source setting is not a file input setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
       throws AlgorithmConfigurationException {
@@ -126,7 +126,7 @@ public class FileInputInput extends InputField {
       ConfigurationSettingFileInput setting = (ConfigurationSettingFileInput) dataSourceSetting;
       this.setValues(setting);
     } else {
-      throw new AlgorithmConfigurationException("This is not a csv file setting.");
+      throw new AlgorithmConfigurationException("This is not a file input setting.");
     }
   }
 
@@ -176,8 +176,7 @@ public class FileInputInput extends InputField {
    * @return the setting generated from the file input
    */
   protected ConfigurationSettingFileInput getCurrentSetting(FileInput fileInput) {
-    return new ConfigurationSettingFileInput()
-        .setId(fileInput.getId())
+    ConfigurationSettingFileInput settingFileInput = new ConfigurationSettingFileInput()
         .setFileName(fileInput.getFileName())
         .setEscapeChar(fileInput.getEscapeChar())
         .setHeader(fileInput.isHasHeader())
@@ -188,6 +187,8 @@ public class FileInputInput extends InputField {
         .setSkipLines(fileInput.getSkipLines())
         .setStrictQuotes(fileInput.isStrictQuotes())
         .setNullValue(fileInput.getNullValue());
+    settingFileInput.setId(fileInput.getId());
+    return settingFileInput;
   }
 
 }

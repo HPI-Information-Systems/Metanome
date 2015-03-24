@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.input.file.FileIterator;
 
 import java.io.Serializable;
 
@@ -49,10 +49,18 @@ public class FileInput extends Input implements Serializable {
   protected String comment;
   protected String nullValue;
 
+  // Exists for Serialization
+  public FileInput() {}
+
   /**
-   * Constructs a FileInput with default parser settings.
+   * Constructs a FileInput with a given file name. Default parser settings are set.
+   *
+   * @param fileName input's file name
    */
-  public FileInput() {
+  public FileInput(String fileName) {
+    super(fileName);
+
+    this.fileName = fileName;
     this.separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
     this.quoteChar = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
     this.escapeChar = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
@@ -62,17 +70,6 @@ public class FileInput extends Input implements Serializable {
     this.hasHeader = FileIterator.DEFAULT_HAS_HEADER;
     this.skipDifferingLines = FileIterator.DEFAULT_SKIP_DIFFERING_LINES;
     this.nullValue = FileIterator.DEFAULT_NULL_VALUE;
-  }
-
-  /**
-   * Constructs a FileInput with a given file name. Default parser settings are set.
-   *
-   * @param fileName input's file name
-   */
-  public FileInput(String fileName) {
-    this();
-    this.fileName = fileName;
-
   }
 
   public String getFileName() {

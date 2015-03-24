@@ -37,10 +37,7 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    DatabaseConnection dbConnection = new DatabaseConnection();
-    dbConnection.setUrl("url");
-    dbConnection.setPassword("password");
-    dbConnection.setUsername("db");
+    DatabaseConnection dbConnection = new DatabaseConnection("url", "user", "password", DbSystem.DB2);
 
     TableInputEditForm
         editForm =

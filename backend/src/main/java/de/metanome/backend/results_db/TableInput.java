@@ -37,6 +37,20 @@ public class TableInput extends Input implements Serializable {
   protected DatabaseConnection databaseConnection;
   protected String comment;
 
+  // Exists for Serialization
+  public TableInput() {}
+
+  public TableInput(String name) {
+    super(name);
+  }
+
+  public TableInput(String tableName, DatabaseConnection databaseConnection) {
+    super(tableName + "; " + databaseConnection.getIdentifier());
+
+    this.tableName = tableName;
+    this.databaseConnection = databaseConnection;
+  }
+
   public String getTableName() {
     return tableName;
   }

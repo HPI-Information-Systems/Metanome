@@ -95,7 +95,7 @@ public class DatabaseInitializer implements ServletContextListener {
   /**
    * Prefills the inputs table in the database with the existing input files.
    *
-   * @throws UnsupportedEncodingException when csv files cannot be found
+   * @throws UnsupportedEncodingException when input files cannot be found
    * @throws EntityStorageException       when the existing inputs cannot be queried
    */
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {

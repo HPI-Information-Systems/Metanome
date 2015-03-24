@@ -24,7 +24,6 @@ import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.metanome.algorithm_integration.results.condition_parser.ColumnConditionParser;
 
 import java.util.List;
 import java.util.Map;
@@ -134,23 +133,6 @@ public class ConditionalUniqueColumnCombination implements Result {
     return builder.toString();
   }
 
-  public static ConditionalUniqueColumnCombination fromString(String str) {
-    String splitMarker = "#####";
-    str = str.replace(CUCC_SEPARATOR, splitMarker);
-    String combinationStr = str.split(splitMarker)[0].trim();
-    str = str.substring(combinationStr.length() + splitMarker.length());
-    String[] parts = str.split(" Coverage: ");
-    String conditionStr = parts[0].trim();
-    String coverageStr = parts[1].trim();
-
-    ColumnCombination combination = ColumnCombination.fromString(combinationStr);
-    Float coverage = Float.valueOf(coverageStr);
-    ColumnCondition columnCondition = new ColumnConditionParser().parse(conditionStr);
-
-    columnCondition.setCoverage(coverage);
-    return new ConditionalUniqueColumnCombination(combination, columnCondition);
-  }
-
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
@@ -204,4 +186,5 @@ public class ConditionalUniqueColumnCombination implements Result {
     result = 31 * result + (condition != null ? condition.hashCode() : 0);
     return result;
   }
+
 }

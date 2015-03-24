@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +38,14 @@ import javax.persistence.Transient;
 public class Input implements Serializable {
 
   protected long id;
+  protected String name;
+
+  // Exists for Serialization
+  public Input() {}
+
+  public Input(String name) {
+    this.name = name;
+  }
 
   @Id
   @GeneratedValue
@@ -50,6 +57,14 @@ public class Input implements Serializable {
     this.id = id;
 
     return this;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override

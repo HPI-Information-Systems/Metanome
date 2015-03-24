@@ -21,9 +21,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
-import de.metanome.backend.input.sql.DefaultTableInputGenerator;
+import de.metanome.backend.input.database.DefaultTableInputGenerator;
 
 import java.util.Set;
 
@@ -33,60 +32,33 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueTableInputGenerator implements ConfigurationValue {
+public class ConfigurationValueTableInputGenerator
+    extends ConfigurationValue<TableInputGenerator, ConfigurationRequirementTableInput> {
 
-  protected final String identifier;
-  protected final TableInputGenerator[] values;
-
-  /**
-   * Constructs a {@link ConfigurationValueRelationalInputGenerator} using the specification's
-   * identifier and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}values.
-   *
-   * @param identifier the configuration value's identifier
-   * @param values     the values
-   */
   public ConfigurationValueTableInputGenerator(String identifier,
                                                TableInputGenerator... values) {
-    this.identifier = identifier;
-    this.values = values;
+    super(identifier, values);
   }
 
-  /**
-   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator}
-   * using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput}.
-   *
-   * @param requirement the requirement to generate the {@link de.metanome.algorithm_integration.input.TableInputGenerator}s
-   */
   public ConfigurationValueTableInputGenerator(ConfigurationRequirementTableInput requirement)
       throws AlgorithmConfigurationException {
-    this.identifier = requirement.getIdentifier();
-    this.values = convertToValues(requirement);
+    super(requirement);
   }
 
-  /**
-   * Converts a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput}
-   * to a {@link de.metanome.algorithm_integration.input.TableInputGenerator}.
-   *
-   * @param requirement the
-   * @return the created table input generator
-   */
+  @Override
   protected TableInputGenerator[] convertToValues(ConfigurationRequirementTableInput requirement)
       throws AlgorithmConfigurationException {
-
     ConfigurationSettingTableInput[] settings = requirement.getSettings();
-    TableInputGenerator[] newValues = new TableInputGenerator[settings.length];
-
+    TableInputGenerator[] configValues = new TableInputGenerator[settings.length];
     for (int i = 0; i < settings.length; i++) {
-      newValues[i] = new DefaultTableInputGenerator(settings[i]);
+      configValues[i] = new DefaultTableInputGenerator(settings[i]);
     }
-
-    return newValues;
+    return configValues;
   }
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
       throws AlgorithmConfigurationException {
-
     if (!algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
           "Algorithm does not accept table input configuration values.");

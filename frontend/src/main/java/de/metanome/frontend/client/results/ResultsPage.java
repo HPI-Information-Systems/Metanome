@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client.results;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -26,6 +27,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -44,12 +46,14 @@ import java.util.Date;
  */
 public class ResultsPage extends FlowPanel implements TabContent {
 
-  protected final BasePage basePage;
+  protected BasePage basePage;
   protected TabWrapper messageReceiver;
 
   protected Image runningIndicator;
   protected ProgressBar progressBar;
-  protected Timer timer;
+  protected Timer executionTimeTimer;
+  protected Timer progressTimer;
+  protected FlowPanel executionTimePanel;
 
   protected Label algorithmLabel;
 
@@ -77,30 +81,25 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param executionTimeInNanos the execution time in nanoseconds
+   * @param executionTimeInMs the execution time in milliseconds
    */
-  public void updateOnSuccess(Long executionTimeInNanos) {
-    this.timer.cancel();
+  public void updateOnSuccess(Long executionTimeInMs) {
+    this.executionTimeTimer.cancel();
+    this.progressTimer.cancel();
 
     // Fetch the last results or get all results depending on the used result receiver
-    if (cacheResults)
+    if (cacheResults || writeResults)
       this.tablePage.fetchResults();
-    else if (writeResults)
-      this.tablePage.getPrinterResults();
     else if (countResults)
       this.tablePage.getCounterResults();
 
     this.remove(this.algorithmLabel);
-    this.remove(this.progressBar);
+    if (this.progressBar != null ) this.remove(this.progressBar);
     this.remove(this.runningIndicator);
+    this.remove(this.executionTimePanel);
 
     // Add a label for the execution time
-    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(Math.round(executionTimeInNanos / 1000000d));
-    String timeString = "Algorithm " + this.algorithmFileName + " executed in " +
-                        format.format(date, TimeZone.createTimeZone(0)) +
-                        " (HH:mm:ss.SSS) or " + executionTimeInNanos / 1000000d + " ms.";
-    this.insert(new Label(timeString), 0);
+    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
   }
 
   /**
@@ -109,16 +108,17 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param message the error message
    */
   public void updateOnError(String message) {
-    this.timer.cancel();
+    if (this.executionTimeTimer != null) this.executionTimeTimer.cancel();
+    if (this.progressTimer != null) this.progressTimer.cancel();
     this.clear();
 
-    this.messageReceiver.addError("The execution was not successful: " + message);
+    this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
   }
 
   /**
    * Displays the current status of execution.
    */
-  public void startPolling() {
+  public void startPolling(final boolean showProgress) {
     this.clear();
 
     // Add label for the algorithm, which is executed at the moment
@@ -129,13 +129,64 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.runningIndicator = new Image("ajax-loader.gif");
     this.add(this.runningIndicator);
 
-    // Add a progress bar if the algorithm supports it
-    this.progressBar = new ProgressBar(0, 1);
-    this.add(this.progressBar);
+    // Add a label showing the execution time
+    this.executionTimePanel = new FlowPanel();
+    this.executionTimePanel.add(new Label("Execution Time (HH:mm:ss): "));
+    final Label executionTimeLabel = new Label("00:00:00");
+    this.executionTimePanel.add(executionTimeLabel);
+    this.add(this.executionTimePanel);
 
+    // Add a progress bar if the algorithm supports it
+    if (showProgress) {
+      this.progressBar = new ProgressBar(0, 1);
+      this.add(this.progressBar);
+    }
+
+    this.addChildPages(this.executionService, this.executionIdentifier);
+
+    final ResultsTablePage resultsTab = tablePage;
+
+    // Start timer for the execution Panel
+    this.executionTimeTimer = new Timer() {
+      public void run() {
+        executionTimeLabel.setText(toTimeString(toTimeInt(executionTimeLabel.getText()) + 1));
+      }
+    };
+    this.executionTimeTimer.scheduleRepeating(1000);
+
+    // Start timer for fetching the progress
+    this.progressTimer = new Timer() {
+      public void run() {
+        if (showProgress) updateProgress();
+        if (cacheResults) resultsTab.fetchResults();
+      }
+    };
+    this.progressTimer.scheduleRepeating(10000);
+  }
+
+  /**
+   * Displays the results of the given execution.
+   * @param execution the execution
+   */
+  public void showResults(Execution execution) {
+    this.messageReceiver.clearErrors();
+    this.clear();
+    AlgorithmExecutionRestService executionRestService = GWT.create(AlgorithmExecutionRestService.class);
+
+    this.addChildPages(executionRestService, execution.getIdentifier());
+
+    // Fetch the results
+    this.tablePage.readResultsFromFile(execution.getResults());
+
+    // Add a label for the execution time
+    long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
+    this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
+  }
+
+  private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
     // Create new tab with result table
     this.tablePage =
-        new ResultsTablePage(this.executionService, this.executionIdentifier);
+        new ResultsTablePage(executionService, executionIdentifier);
     tablePage.setMessageReceiver(this.messageReceiver);
 
     // Create new tab with visualizations of result
@@ -147,16 +198,28 @@ public class ResultsPage extends FlowPanel implements TabContent {
     panel.add(new ScrollPanel(tablePage), "Table");
     panel.add(new ScrollPanel(visualizationTab), "Visualization");
     this.add(panel);
+  }
 
-    final ResultsTablePage resultsTab = tablePage;
-    this.timer = new Timer() {
-      public void run() {
-        updateProgress();
-        if (cacheResults) resultsTab.fetchResults();
-      }
-    };
+  protected int toTimeInt(String str) {
+    String[] parts = str.split(":");
+    int h = Integer.parseInt(parts[0]);
+    int m = Integer.parseInt(parts[1]);
+    int s = Integer.parseInt(parts[2]);
+    return h * 3600 + m * 60 + s;
+  }
 
-    this.timer.scheduleRepeating(10000);
+  protected String toTimeString(int seconds) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss");
+    Date date = new Date(seconds * 1000);
+    return format.format(date, TimeZone.createTimeZone(0));
+  }
+  
+  private String getExecutionTimeString(String algorithmFileName, long executionTime) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
+    Date date = new Date(executionTime);
+    return "Algorithm " + algorithmFileName + " executed in " +
+           format.format(date, TimeZone.createTimeZone(0)) +
+           " (HH:mm:ss.SSS) or " + executionTime + " ms.";
   }
 
   /**

@@ -44,8 +44,9 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    ConfigurationRequirementString requirementString = new ConfigurationRequirementString(
-        "pathToOutputFile");
+    ConfigurationRequirementString
+        requirementString = new ConfigurationRequirementString(
+        "pathToOutputFile", 2);
     requirementString.setRequired(true);
 
     configurationRequirement.add(requirementString);
@@ -54,19 +55,27 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void execute() throws CouldNotReceiveResultException {
+  public void execute() throws AlgorithmConfigurationException {
     if (path != null) {
-      fdResultReceiver.receiveResult(
-          new FunctionalDependency(
-              new ColumnCombination(
-                  new ColumnIdentifier("table1", "column1"),
-                  new ColumnIdentifier("table1", "column2")),
-              new ColumnIdentifier("table1", "column5")
-          )
-      );
-      uccResultReceiver.receiveResult(new UniqueColumnCombination(
-          new ColumnIdentifier("table1", "column5"),
-          new ColumnIdentifier("table1", "column6")));
+      try {
+        fdResultReceiver.receiveResult(
+            new FunctionalDependency(
+                new ColumnCombination(
+                    new ColumnIdentifier("table1", "column1"),
+                    new ColumnIdentifier("table1", "column2")),
+                new ColumnIdentifier("table1", "column5")
+            )
+        );
+      } catch (CouldNotReceiveResultException e) {
+        throw new AlgorithmConfigurationException("Could not write result.");
+      }
+      try {
+        uccResultReceiver.receiveResult(new UniqueColumnCombination(
+            new ColumnIdentifier("table1", "column5"),
+            new ColumnIdentifier("table1", "column6")));
+      } catch (CouldNotReceiveResultException e) {
+       throw new AlgorithmConfigurationException("Could not write result.");
+      }
     }
   }
 
@@ -86,7 +95,7 @@ public class ExampleAlgorithm
   @Override
   public void setStringConfigurationValue(String identifier, String... values)
       throws AlgorithmConfigurationException {
-    if ((identifier.equals("pathToOutputFile")) && (values.length == 1)) {
+    if ((identifier.equals("pathToOutputFile")) && (values.length == 2)) {
       path = values[0];
     } else {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");

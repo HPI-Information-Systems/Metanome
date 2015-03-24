@@ -26,6 +26,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
@@ -43,7 +44,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -93,7 +93,8 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedStat.toString()));
+    JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedStat)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedStat));
@@ -127,7 +128,8 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedFd.toString()));
+    JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedFd));
@@ -162,7 +164,8 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedInd.toString()));
+    JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedInd)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedInd));
@@ -195,7 +198,8 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedUcc.toString()));
+    JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedUcc)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedUcc));
@@ -231,7 +235,8 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    assertTrue(fileContent.contains(expectedOd.toString()));
+    JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedOd)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedOd));

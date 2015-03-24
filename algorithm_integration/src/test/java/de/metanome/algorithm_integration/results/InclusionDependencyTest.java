@@ -16,7 +16,6 @@
 
 package de.metanome.algorithm_integration.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -68,8 +67,8 @@ public class InclusionDependencyTest {
   }
 
   /**
-   * Test method for {@link InclusionDependency#InclusionDependency(ColumnCombination,
-   * ColumnCombination)} <p/> A {@link InclusionDependency} should store referenced and dependant.
+   * Test method for {@link InclusionDependency#InclusionDependency(ColumnPermutation,
+   * ColumnPermutation)} <p/> A {@link InclusionDependency} should store referenced and dependant.
    */
   @Test
   public void testConstructor() {
@@ -111,30 +110,6 @@ public class InclusionDependencyTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, ind.toString());
-  }
-
-  /**
-   * Test method for {@link InclusionDependency#fromString(String str)}
-   * A {@link InclusionDependency} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    ColumnPermutation expectedDependant = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column2"),
-        new ColumnIdentifier("table2", "column27"));
-    ColumnPermutation expectedReferenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"),
-        new ColumnIdentifier("table1", "column4"));
-    InclusionDependency expectedInd = new InclusionDependency(expectedDependant, expectedReferenced);
-
-    String str = expectedInd.toString();
-
-    // Execute functionality
-    InclusionDependency actualInd = InclusionDependency.fromString(str);
-
-    // Check
-    assertEquals(expectedInd, actualInd);
   }
 
   /**

@@ -42,7 +42,7 @@ public class GwtTestFileInputParameter extends GWTTestCase {
 
     TabWrapper tabWrapper = new TabWrapper();
 
-    FileInput fileInput = new FileInput();
+    FileInput fileInput = new FileInput("fileInput");
     fileInput.setFileName(aFileName);
 
     FileInputInput widget = new FileInputInput(false, false, tabWrapper);
@@ -74,7 +74,7 @@ public class GwtTestFileInputParameter extends GWTTestCase {
 
     TabWrapper tabWrapper = new TabWrapper();
 
-    FileInput fileInput = new FileInput();
+    FileInput fileInput = new FileInput("fileInput");
     fileInput.setFileName(aFileName);
 
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();

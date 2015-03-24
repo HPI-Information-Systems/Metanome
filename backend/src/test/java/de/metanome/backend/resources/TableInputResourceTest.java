@@ -16,6 +16,7 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -51,7 +52,7 @@ public class TableInputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    TableInput expectedTableInput = new TableInput();
+    TableInput expectedTableInput = new TableInput("tableInput");
     String expectedTableName = "some table name";
     expectedTableInput.setTableName(expectedTableName);
 
@@ -78,7 +79,7 @@ public class TableInputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    TableInput expectedInput = new TableInput();
+    TableInput expectedInput = new TableInput("tableInput");
     tableInputResource.store(expectedInput);
 
     // Execute functionality
@@ -100,15 +101,10 @@ public class TableInputResourceTest {
     // Setup
     HibernateUtil.clear();
 
-    DatabaseConnection dbConnection = new DatabaseConnection();
-    dbConnection.setUrl("url1");
-    dbConnection.setPassword("password1");
-    dbConnection.setUsername("db1");
+    DatabaseConnection dbConnection = new DatabaseConnection("url1", "db1", "password1", DbSystem.DB2);
     dbResource.store(dbConnection);
 
-    TableInput expectedTableInput = new TableInput();
-    expectedTableInput.setDatabaseConnection(dbConnection);
-    expectedTableInput.setTableName("table1");
+    TableInput expectedTableInput = new TableInput("table1", dbConnection);
     tableInputResource.store(expectedTableInput);
 
     long id = expectedTableInput.getId();
@@ -137,7 +133,7 @@ public class TableInputResourceTest {
     HibernateUtil.clear();
 
     // Expected values
-    TableInput tableInput = new TableInput().setTableName("old name");
+    TableInput tableInput = new TableInput("tableInput").setTableName("old name");
 
     // Execute functionality
     TableInput actualTableInput = tableInputResource.store(tableInput);

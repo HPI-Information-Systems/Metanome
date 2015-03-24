@@ -30,7 +30,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingListB
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingString;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
-import de.metanome.backend.input.csv.FileFixture;
+import de.metanome.backend.input.file.FileFixture;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -97,8 +97,8 @@ public class DefaultConfigurationFactoryTest {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
-    int expectedValue1 = 42;
-    int expectedValue2 = 23;
+    Integer expectedValue1 = 42;
+    Integer expectedValue2 = 23;
     ConfigurationRequirementInteger
         requirement =
         new ConfigurationRequirementInteger(expectedIdentifier, 2);
@@ -143,9 +143,9 @@ public class DefaultConfigurationFactoryTest {
 
     // Check result
     assertEquals(expectedIdentifier, actualConfigValue.identifier);
-    assertEquals(2, actualConfigValue.selectedValues.length);
-    assertEquals(expectedValue1, actualConfigValue.selectedValues[0]);
-    assertEquals(expectedValue2, actualConfigValue.selectedValues[1]);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(expectedValue1, actualConfigValue.values[0]);
+    assertEquals(expectedValue2, actualConfigValue.values[1]);
   }
 
   /**

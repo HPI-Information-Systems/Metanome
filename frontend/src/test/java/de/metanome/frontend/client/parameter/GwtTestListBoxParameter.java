@@ -193,7 +193,7 @@ public class GwtTestListBoxParameter extends GWTTestCase {
     // Check
     assertEquals(expectedSpecification.getSettings().length, specification.getSettings().length);
     assertEquals(values.size(), specification.getValues().size());
-    assertEquals(expectedSelectedValue, specification.getSettings()[0].selectedValue);
+    assertEquals(expectedSelectedValue, specification.getSettings()[0].getValue());
     assertEquals(values, specification.getValues());
   }
 

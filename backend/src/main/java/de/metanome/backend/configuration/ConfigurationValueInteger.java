@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 
 import java.util.Set;
 
@@ -30,37 +29,28 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueInteger implements ConfigurationValue {
+public class ConfigurationValueInteger extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
 
-  protected final String identifier;
-  protected final int[] values;
-
-  /**
-   * Constructs a ConfigurationValueInteger using the specification's identifier and the integer
-   * value.
-   *
-   * @param identifier the configuration value integer identifier
-   * @param values     the configuration value integer values
-   */
-  public ConfigurationValueInteger(String identifier, int... values) {
-    this.identifier = identifier;
-    this.values = values;
+  public ConfigurationValueInteger(String identifier, Integer... values) {
+    super(identifier, values);
   }
 
-  /**
-   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueInteger} using a {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger}.
-   *
-   * @param requirement the requirement to generate the integer values
-   */
-  public ConfigurationValueInteger(ConfigurationRequirementInteger requirement) {
-    this.identifier = requirement.getIdentifier();
-    this.values = new int[requirement.getSettings().length];
+  public ConfigurationValueInteger(ConfigurationRequirementInteger requirement)
+      throws AlgorithmConfigurationException {
+    super(requirement);
+  }
+
+  @Override
+  protected Integer[] convertToValues(ConfigurationRequirementInteger requirement)
+      throws AlgorithmConfigurationException {
+    ConfigurationSettingInteger[] settings = requirement.getSettings();
+    Integer[] configValues = new Integer[settings.length];
     int i = 0;
-    for (ConfigurationSettingInteger setting : requirement.getSettings()) {
-      this.values[i] = setting.value;
+    for (ConfigurationSettingInteger setting : settings) {
+      configValues[i] = setting.value;
       i++;
     }
+    return configValues;
   }
 
   @Override
@@ -72,6 +62,6 @@ public class ConfigurationValueInteger implements ConfigurationValue {
     }
 
     IntegerParameterAlgorithm integerParameterAlgorithm = (IntegerParameterAlgorithm) algorithm;
-    integerParameterAlgorithm.setIntegerConfigurationValue(identifier, values);
+    integerParameterAlgorithm.setIntegerConfigurationValue(this.identifier, this.values);
   }
 }

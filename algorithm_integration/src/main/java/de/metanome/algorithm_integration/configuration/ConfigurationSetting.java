@@ -19,6 +19,13 @@ package de.metanome.algorithm_integration.configuration;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.Serializable;
+
+/**
+ * A ConfigurationSetting represents the actual values of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}.
+ * The values, the algorithm needed for the execution, are set in the frontend and stored in the
+ * setting.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
@@ -32,6 +39,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
                   @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
                   @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
               })
-public interface ConfigurationSetting {
+public abstract class ConfigurationSetting implements Serializable {
+
+  public ConfigurationSetting() {}
 
 }

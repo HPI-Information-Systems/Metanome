@@ -224,6 +224,7 @@ public class RelationalInputInput extends InputField {
         databaseConnection.getPassword(),
         databaseConnection.getSystem());
 
+    setting.setId(tableInput.getId());
     setting.setTable(tableInput.getTableName());
     setting.setDatabaseConnection(databaseConnectionSetting);
 
@@ -231,7 +232,7 @@ public class RelationalInputInput extends InputField {
   }
 
   private ConfigurationSettingRelationalInput getConfigurationSettingFileInput(FileInput fileInput) {
-    return new ConfigurationSettingFileInput()
+    ConfigurationSettingFileInput settingFileInput = new ConfigurationSettingFileInput()
         .setFileName(fileInput.getFileName())
         .setEscapeChar(fileInput.getEscapeChar())
         .setHeader(fileInput.isHasHeader())
@@ -241,6 +242,8 @@ public class RelationalInputInput extends InputField {
         .setSkipDifferingLines(fileInput.isSkipDifferingLines())
         .setSkipLines(fileInput.getSkipLines())
         .setStrictQuotes(fileInput.isStrictQuotes());
+    settingFileInput.setId(fileInput.getId());
+    return settingFileInput;
   }
 
 

@@ -32,100 +32,35 @@ import javax.xml.bind.annotation.XmlTransient;
  * @see ConfigurationRequirement
  */
 @JsonTypeName("ConfigurationRequirementString")
-public class ConfigurationRequirementString extends ConfigurationRequirementDefaultValue<String> {
+public class ConfigurationRequirementString
+    extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingString> {
 
-  private ConfigurationSettingString[] settings;
+  // Needed for restful serialization
+  public String type = "ConfigurationRequirementString";
 
-  /**
-   * Exists for GWT serialization.
-   */
-  public ConfigurationRequirementString() {
-  }
+  public ConfigurationRequirementString() { }
 
-  /**
-   * Construct a ConfigurationSpecificationString, requesting 1 value.
-   *
-   * @param identifier the specification's identifier
-   */
   public ConfigurationRequirementString(String identifier) {
     super(identifier);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementString}, potentially requesting several values.
-   *
-   * @param identifier       the specification's identifier
-   * @param numberOfSettings the number of settings expected
-   */
-  public ConfigurationRequirementString(String identifier,
-                                        int numberOfSettings) {
-
+  public ConfigurationRequirementString(String identifier, int numberOfSettings) {
     super(identifier, numberOfSettings);
   }
 
-  /**
-   * Constructs a {@link ConfigurationRequirementString}, requesting several values.
-   *
-   * @param identifier         the specification's identifier
-   * @param minNumberOfSetting the min number of settings expected
-   * @param maxNumberOfSetting the max number of settings expected
-   */
-  public ConfigurationRequirementString(String identifier,
-                                                 int minNumberOfSetting,
-                                                 int maxNumberOfSetting) {
+  public ConfigurationRequirementString(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
-  }
-
-  @Override
-  public ConfigurationSettingString[] getSettings() {
-    return this.settings;
-  }
-  /**
-   * Exists only for serialization!
-   * @param settings the settings
-   */
-  public void setSettings(ConfigurationSettingString... settings) {
-    this.settings = settings;
-  }
-
-  /**
-   * Sets the actual settings on the requirement if the number of settings is correct.
-   *
-   * @param settings the settings
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
-   */
-  @XmlTransient
-  public void checkAndSetSettings(ConfigurationSettingString... settings)
-    throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
-    applyDefaultValues();
   }
 
   /**
    * {@inheritDoc}
    */
-  @Override
   @XmlTransient
+  @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 
-  /**
-   * Sets the default values on the settings, if both are set.
-   */
-  @XmlTransient
-  @Override
-  public void applyDefaultValues() {
-    if (this.defaultValues == null || this.settings == null ||
-        this.defaultValues.length != this.settings.length)
-      return;
-
-    for (int i = 0; i < this.settings.length; i++) {
-      this.settings[i].setValue(this.defaultValues[i]);
-    }
-  }
 }

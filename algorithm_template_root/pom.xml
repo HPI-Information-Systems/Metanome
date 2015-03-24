@@ -31,12 +31,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <modules>
         <module>algorithm_template</module>
         <module>algorithm_template_packaging</module>
     </modules>
+
 </project>

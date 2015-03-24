@@ -162,29 +162,4 @@ public class OrderDependencyTest {
     assertEquals(expectedStringRepresentation, orderDependency.toString());
   }
 
-  /**
-   * Test method for {@link OrderDependency#fromString(String str)}
-   * A {@link OrderDependency} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    final ColumnPermutation expectedLhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
-            "table1", "column2"));
-    final ColumnPermutation expectedRhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column3"), new ColumnIdentifier(
-            "table1", "column4"));
-    final OrderDependency expectedOD =
-        new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
-                            ComparisonOperator.SMALLER_EQUAL);
-
-    String str = expectedOD.toString();
-
-    // Execute functionality
-    OrderDependency actualOD = OrderDependency.fromString(str);
-
-    // Check result
-    assertEquals(expectedOD, actualOD);
-  }
 }

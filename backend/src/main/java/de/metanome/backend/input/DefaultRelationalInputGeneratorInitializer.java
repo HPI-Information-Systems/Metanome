@@ -25,8 +25,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
-import de.metanome.backend.input.csv.DefaultFileInputGenerator;
-import de.metanome.backend.input.sql.DefaultTableInputGenerator;
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
+import de.metanome.backend.input.database.DefaultTableInputGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,8 @@ public class DefaultRelationalInputGeneratorInitializer implements RelationalInp
   throws AlgorithmConfigurationException {
     this.identifier = requirementRelationalInput.getIdentifier();
 
-    for (ConfigurationSettingRelationalInput setting : requirementRelationalInput.getSettings()) {
+    ConfigurationSettingRelationalInput[] settings = requirementRelationalInput.getSettings();
+    for (ConfigurationSettingRelationalInput setting : settings) {
       setting.generate(this);
     }
   }

@@ -21,9 +21,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.backend.input.csv.DefaultFileInputGenerator;
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
 import java.util.Set;
 
@@ -33,37 +32,21 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueFileInputGenerator implements ConfigurationValue {
+public class ConfigurationValueFileInputGenerator extends ConfigurationValue<FileInputGenerator, ConfigurationRequirementFileInput> {
 
-  protected final String identifier;
-  protected final FileInputGenerator[] values;
-
-  /**
-   * Constructs a ConfigurationValueFileInputGenerator using the specification's identifier and the
-   * {@link de.metanome.algorithm_integration.input.FileInputGenerator} values.
-   *
-   * @param identifier the configuration value identifier
-   * @param values     the configuration values
-   */
   public ConfigurationValueFileInputGenerator(String identifier,
                                               FileInputGenerator... values) {
-    this.identifier = identifier;
-    this.values = values;
+    super(identifier, values);
   }
 
-  /**
-   * Constructs a {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}
-   * using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}.
-   *
-   * @param requirement the requirement to generate the {@link de.metanome.algorithm_integration.input.FileInputGenerator}
-   */
   public ConfigurationValueFileInputGenerator(ConfigurationRequirementFileInput requirement)
       throws AlgorithmConfigurationException {
-    this.identifier = requirement.getIdentifier();
-    this.values = convertToValues(requirement);
+    super(requirement);
   }
 
-  private FileInputGenerator[] convertToValues(ConfigurationRequirementFileInput requirement)
+  @Override
+  protected FileInputGenerator[] convertToValues(
+      ConfigurationRequirementFileInput requirement)
       throws AlgorithmConfigurationException {
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 

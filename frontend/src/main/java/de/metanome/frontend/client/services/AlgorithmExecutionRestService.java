@@ -19,6 +19,7 @@ package de.metanome.frontend.client.services;
 
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.resources.AlgorithmExecutionParams;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 
 import org.fusesource.restygwt.client.MethodCallback;
@@ -37,7 +38,7 @@ public interface AlgorithmExecutionRestService extends RestService {
 
   @POST
   public void executeAlgorithm(AlgorithmExecutionParams params,
-                               MethodCallback<Long> callback);
+                               MethodCallback<Execution> callback);
 
   @GET
   @Path("/result_cache/{identifier}")
@@ -54,5 +55,9 @@ public interface AlgorithmExecutionRestService extends RestService {
   @GET
   @Path("/result_printer/{identifier}")
   public void getPrinterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<List<Result>> callback);
+
+  @GET
+  @Path("/read_result/{file_name}/{type}")
+  public void readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type, MethodCallback<List<Result>> callback);
 
 }

@@ -19,7 +19,7 @@ package de.metanome.backend.results_db;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-import de.metanome.backend.input.csv.FileIterator;
+import de.metanome.backend.input.file.FileIterator;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
@@ -37,13 +37,13 @@ public class FileInputTest {
   private FileInputResource fileInputResource = new FileInputResource();
 
   /**
-   * Test method for {@link FileInput#FileInput()} <p/> After calling the constructor the default
+   * Test method for {@link FileInput#FileInput(String)} <p/> After calling the constructor the default
    * parser parameters should be set.
    */
   @Test
   public void testConstructor() {
     // Execute functionality
-    FileInput actualFileInput = new FileInput();
+    FileInput actualFileInput = new FileInput("fileInput");
 
     // Check result
     checkDefaultParserSettings(actualFileInput);
@@ -88,11 +88,11 @@ public class FileInputTest {
   public void testEqualsAndHashCode() {
     // Setup
     int id = 42;
-    FileInput fileInput = new FileInput()
+    FileInput fileInput = new FileInput("fileInput")
         .setId(id);
-    FileInput equalFileInput = new FileInput()
+    FileInput equalFileInput = new FileInput("fileInput")
         .setId(id);
-    FileInput notEqualFileInput = new FileInput()
+    FileInput notEqualFileInput = new FileInput("fileInput")
         .setId(23);
 
     // Execute functionality

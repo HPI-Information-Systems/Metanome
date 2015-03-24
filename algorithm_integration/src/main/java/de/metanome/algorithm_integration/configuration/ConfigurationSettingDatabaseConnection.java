@@ -22,22 +22,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Stores the configuration settings for a database connection.
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection}
  *
  * @author Claudia Exeler
  */
 @JsonTypeName("ConfigurationSettingDatabaseConnection")
-public class ConfigurationSettingDatabaseConnection implements ConfigurationSetting, ConfigurationSettingDataSource {
+public class ConfigurationSettingDatabaseConnection extends ConfigurationSettingDataSource {
 
-  // Id of the database connection in the database (needed for mapping the setting to the stored database connection)
-  private long id;
   private String dbUrl;
   private String username;
   private String password;
   private DbSystem system;
 
   // Needed for restful serialization
-  public String type = "configurationSettingDatabaseConnection";
+  public String type = "ConfigurationSettingDatabaseConnection";
 
   /**
    * Exists for serialization.
@@ -89,13 +87,10 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
     return this;
   }
 
-  public long getId() {
-    return id;
-  }
-
-  public ConfigurationSettingDatabaseConnection setId(long id) {
-    this.id = id;
-    return this;
+  @Override
+  @XmlTransient
+  public String getValueAsString() {
+    return dbUrl + "; " + username + "; " + system.name();
   }
 
   @Override
@@ -133,12 +128,5 @@ public class ConfigurationSettingDatabaseConnection implements ConfigurationSett
     result = 31 * result + system.hashCode();
     return result;
   }
-
-  @Override
-  @XmlTransient
-  public String getValueAsString() {
-    return dbUrl + "; " + username + "; " + system.name();
-  }
-
 
 }

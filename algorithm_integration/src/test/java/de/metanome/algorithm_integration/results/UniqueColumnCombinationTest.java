@@ -143,28 +143,6 @@ public class UniqueColumnCombinationTest {
   }
 
   /**
-   * Test method for {@link UniqueColumnCombination#fromString(String str)}
-   * A {@link UniqueColumnCombination} should be creatable from a string.
-   */
-  @Test
-  public void testFromString() {
-    // Setup
-    ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
-    ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
-    UniqueColumnCombination
-        expectedUCC =
-        new UniqueColumnCombination(expectedColumn1, expectedColumn2);
-
-    String str = expectedUCC.toString();
-
-    // Execute functionality
-    UniqueColumnCombination actualUCC = UniqueColumnCombination.fromString(str);
-
-    // Check result
-    assertEquals(expectedUCC, actualUCC);
-  }
-
-  /**
    * Test method for {@link UniqueColumnCombination#equals(Object)} and {@link
    * UniqueColumnCombination#hashCode()} <p/> {@link UniqueColumnCombination}s containing the same
    * {@link ColumnIdentifier}s in different order should be equal.

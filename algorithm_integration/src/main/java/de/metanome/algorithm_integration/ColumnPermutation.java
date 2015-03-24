@@ -45,15 +45,6 @@ public class ColumnPermutation implements Serializable {
     columnIdentifiers = Arrays.asList(columnIdentifier);
   }
 
-  public static ColumnPermutation fromString(String str) {
-    String[] parts = str.substring(1, str.length() - 1).split(",");
-    ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
-    for (int i = 0; i < parts.length; i++) {
-      identifiers[i] = ColumnIdentifier.fromString(parts[i].trim());
-    }
-    return new ColumnPermutation(identifiers);
-  }
-
   /**
    * Get column identifiers as set.
    *
