@@ -10,10 +10,12 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
+import de.metanome.backend.result_postprocessing.result_analyzer.functional_dependencies.FDResult;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.PathUnifier;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.FileInput;
@@ -69,18 +71,21 @@ public abstract class ResultAnalyzer implements RelationalInputParameterAlgorith
     String filePath = executionResults.get(0).getFileName();
     ResultType resultType = executionResults.get(0).getType();
 
+    JsonConverter<FunctionalDependency> fdConverter = new JsonConverter<>();
+    JsonConverter<InclusionDependency> indConverter = new JsonConverter<>();
+    JsonConverter<UniqueColumnCombination> uccConverter = new JsonConverter<>();
     try {
       try (BufferedReader input = new BufferedReader(new FileReader(new File(filePath)))) {
         String line;
         while ((line = input.readLine()) != null) {
           if(resultType == ResultType.FD){
-            results.add(FunctionalDependency.fromString(line));
+            results.add(fdConverter.fromJsonString(line, FunctionalDependency.class));
           }
           if(resultType == ResultType.IND){
-            results.add(InclusionDependency.fromString(line));
+            results.add(indConverter.fromJsonString(line, InclusionDependency.class));
           }
           if(resultType == ResultType.UCC){
-            results.add(UniqueColumnCombination.fromString(line));
+            results.add(uccConverter.fromJsonString(line, UniqueColumnCombination.class));
           }
         }
       }

@@ -41,6 +41,10 @@ import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
+import de.metanome.backend.result_postprocessing.result_analyzer.ResultsStoreHolder;
+import de.metanome.backend.result_postprocessing.result_analyzer.functional_dependencies.FDResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.inclusion_dependencies.INDResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.ucc.UCCResultAnalyzer;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -245,6 +249,20 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     executionResource.store(execution);
+
+    // Result post-processing
+    // Clear the results stores
+    ResultsStoreHolder.clearStores();
+    // Analyze the results without data usage
+    if(analyzer.hasType(AlgorithmType.FD)){
+      (new FDResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(analyzer.hasType(AlgorithmType.UCC)){
+      (new UCCResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(analyzer.hasType(AlgorithmType.IND)){
+      (new INDResultAnalyzer()).analyzeResults(execution, false);
+    }
 
     return execution;
   }

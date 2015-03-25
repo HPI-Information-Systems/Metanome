@@ -59,6 +59,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected ResultsTablePage tablePage;
 
+  //ID of the execution in hibernate storage
+  protected long executionID;
+
+
   protected String executionIdentifier;
   private String algorithmFileName;
   private AlgorithmExecutionRestService executionService;
@@ -81,9 +85,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
+   * @param executionID the execution ID from the database
    * @param executionTimeInMs the execution time in milliseconds
    */
-  public void updateOnSuccess(Long executionTimeInMs) {
+  public void updateOnSuccess(Long executionID, Long executionTimeInMs) {
+    this.executionID = executionID;
+
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 

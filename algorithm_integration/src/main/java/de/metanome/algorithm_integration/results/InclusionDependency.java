@@ -52,16 +52,6 @@ public class InclusionDependency implements Result {
     this.referenced = referenced;
   }
 
-  public static InclusionDependency fromString(String str) {
-    String splitMarker = "#####";
-    str = str.replace(IND_SEPARATOR, splitMarker);
-    String[] parts = str.split(splitMarker);
-    ColumnPermutation d = ColumnPermutation.fromString(parts[0]);
-    ColumnPermutation r = ColumnPermutation.fromString(parts[1]);
-    return new InclusionDependency(d, r);
-  }
-
-
   /**
    * @return dependant
    */

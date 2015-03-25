@@ -106,7 +106,7 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#updateOnSuccess(Long)}
+   * Test method for {@link ResultsPage#updateOnSuccess(Long, Long)}
    */
   public void testUpdateOnSuccess() {
     // Set up
@@ -121,7 +121,7 @@ public class GwtTestResultsPage extends GWTTestCase {
 
     // Expected Values
     // Execute
-    page.updateOnSuccess((long) 4543);
+    page.updateOnSuccess(0l, (long) 4543);
 
     // Check
     assertEquals(2, page.getWidgetCount());

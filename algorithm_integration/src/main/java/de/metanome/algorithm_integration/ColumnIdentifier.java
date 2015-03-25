@@ -40,26 +40,6 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
     this.columnIdentifier = columnIdentifier;
   }
 
-  /**
-   * Extracts a column identifier object from a string.
-   * The string is split by "." and the last part is taken as columnIdentifier. The rest is taken
-   * as tableIdentifier.
-   * @param str the string
-   * @return the extracted column identifier object
-   */
-  public static ColumnIdentifier fromString(String str) {
-    String[] parts = str.split("\\.");
-    if (parts.length > 2) {
-      String column = parts[parts.length - 1];
-      String table = parts[0];
-      for (int i = 1; i < parts.length - 1; i++)
-        table += "." + parts[i];
-      return new ColumnIdentifier(table, column);
-    } else {
-      return new ColumnIdentifier(parts[0], parts[1]);
-    }
-  }
-
   public String getTableIdentifier() {
     return tableIdentifier;
   }
