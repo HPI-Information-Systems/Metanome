@@ -149,7 +149,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
       this.add(this.progressBar);
     }
 
-    this.addChildPages(this.executionService, this.executionIdentifier);
+    this.addChildPages(this.executionService, this.executionIdentifier, null);
 
     final ResultsTablePage resultsTab = tablePage;
 
@@ -180,7 +180,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.clear();
     AlgorithmExecutionRestService executionRestService = GWT.create(AlgorithmExecutionRestService.class);
 
-    this.addChildPages(executionRestService, execution.getIdentifier());
+    this.addChildPages(executionRestService, execution.getIdentifier(), execution);
 
     // Fetch the results
     this.tablePage.readResultsFromFile(execution.getResults());
@@ -190,21 +190,52 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
   }
 
-  private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
-    // Create new tab with result table
-    this.tablePage =
-        new ResultsTablePage(executionService, executionIdentifier);
-    tablePage.setMessageReceiver(this.messageReceiver);
+  private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier, Execution execution) {
+    if(execution == null) {
+      // Create new tab with result table
+      this.tablePage =
+          new ResultsTablePage(executionService, executionIdentifier);
+      tablePage.setMessageReceiver(this.messageReceiver);
 
-    // Create new tab with visualizations of result
-    ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-    visualizationTab.setMessageReceiver(this.messageReceiver);
+      // Create new tab with visualizations of result
+      //ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
+      //visualizationTab.setMessageReceiver(this.messageReceiver);
 
-    // Add the result table and the visualization tab
-    TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(new ScrollPanel(tablePage), "Table");
-    panel.add(new ScrollPanel(visualizationTab), "Visualization");
-    this.add(panel);
+      // Add the result table and the visualization tab
+      TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
+      panel.add(new ScrollPanel(tablePage), "Table");
+//      panel.add(new ScrollPanel(visualizationTab), "Visualization");
+      this.add(panel);
+    }
+    else {
+      TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
+
+      // Create new tab with result table
+      this.tablePage =
+          new ResultsTablePage(executionService, executionIdentifier);
+      tablePage.setMessageReceiver(this.messageReceiver);
+      panel.add(new ScrollPanel(tablePage), "Table");
+
+      // Create the ranking tab
+      if(execution.getAlgorithm().isFd()){
+        FDResultsRankingTablePage fdRankingTab = new FDResultsRankingTablePage(executionID);
+        panel.add(new ScrollPanel(fdRankingTab), "Ranking Table");
+        // Create new tab with visualizations of result
+        ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage(executionID);
+        visualizationTab.setMessageReceiver(messageReceiver);
+        panel.add(new ScrollPanel(visualizationTab), "Visualization");
+      }
+      if(execution.getAlgorithm().isInd()){
+        INDResultsRankingTablePage indRankingTab = new INDResultsRankingTablePage(executionID);
+        panel.add(new ScrollPanel(indRankingTab), "Ranking Table");
+      }
+      if(execution.getAlgorithm().isUcc()){
+        UCCResultsRankingTablePage uccRankingTab = new UCCResultsRankingTablePage(executionID);
+        panel.add(new ScrollPanel(uccRankingTab), "Ranking Table");
+      }
+
+      this.add(panel);
+    }
   }
 
   protected int toTimeInt(String str) {

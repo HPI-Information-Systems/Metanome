@@ -28,7 +28,7 @@ public class GwtTestResultsVisualizationPage extends GWTTestCase {
     // Set up
     // Expected Values
     // Execute
-    ResultsVisualizationPage page = new ResultsVisualizationPage();
+    ResultsVisualizationPage page = new ResultsVisualizationPage(0l);
 
     // Check
     assertTrue(page.getWidget(0) instanceof Label);

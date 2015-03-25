@@ -16,11 +16,23 @@
 
 package de.metanome.frontend.client.results;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.services.VisualizationRestService;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 
 /**
@@ -30,9 +42,72 @@ public class ResultsVisualizationPage extends FlowPanel implements TabContent {
 
   private TabWrapper messageReceiver;
 
-  public ResultsVisualizationPage() {
-    this.add(new Label("Here comes some visualization..."));
+
+  private long executionID;
+
+  Frame visualizationFrame;
+
+  private ListBox listBox;
+
+  Image loadingIcon;
+
+  public ResultsVisualizationPage(long exID) {
+    final Label clickLabel = new Label("Click here to load Visualization");
+    clickLabel.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        remove(clickLabel);
+        loadingIcon = new Image("ajax-loader.gif");
+        add(loadingIcon);
+        visualizationFrame = new Frame();
+        VisualizationRestService restService = GWT.create(VisualizationRestService.class);
+        MethodCallback<Void> callback = getPrefixTreeCallback();
+        restService.createPrefixTree(executionID, callback);
+      }
+    });
+    this.add(clickLabel);
+    this.executionID = exID;
+    this.getElement().setId("visualizationTab");
+
   }
+
+  private MethodCallback<Void> getPrefixTreeCallback() {
+    return new MethodCallback<Void>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+
+      }
+
+      @Override
+      public void onSuccess(Method method, Void aVoid) {
+        remove(loadingIcon);
+        listBox = new ListBox();
+        listBox.addItem("Sunburst", "ZoomableSunburst.html");
+        listBox.addItem("Circle Packing", "CirclePacking.html");
+        listBox.addItem("Prefix Tree", "PrefixTree.html");
+        listBox.addChangeHandler(new ChangeHandler() {
+          @Override
+          public void onChange(ChangeEvent changeEvent) {
+            int selectedIndex = listBox.getSelectedIndex();
+            String selectedValue = listBox.getValue(selectedIndex);
+            if(!visualizationFrame.getUrl().equals(selectedValue)){
+              visualizationFrame.setUrl(selectedValue);
+            }
+          }
+        });
+        add(listBox);
+
+        //set attributes needed to make sunburst appear in iFrame
+        visualizationFrame.getElement().setAttribute("id", "visualizationFrame");
+        visualizationFrame.setWidth("100%");
+        visualizationFrame.setHeight("93%");
+        add(visualizationFrame);
+        visualizationFrame.setUrl("ZoomableSunburst.html");
+
+      }
+    };
+  }
+
 
   @Override
   public void setMessageReceiver(TabWrapper tab) {
