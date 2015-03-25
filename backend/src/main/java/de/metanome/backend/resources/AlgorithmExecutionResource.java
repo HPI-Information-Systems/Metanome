@@ -85,6 +85,14 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }
 
+    // It is important that the result file is already on disk!
+    try {
+      executor.executeResultPostProcessing(execution);
+    }
+    catch (Exception e){
+      throw new WebException("Could not execute result postprocessing", Response.Status.BAD_REQUEST);
+    }
+
     return execution;
   }
 

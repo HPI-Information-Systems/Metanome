@@ -250,20 +250,6 @@ public class AlgorithmExecutor implements Closeable {
 
     executionResource.store(execution);
 
-    // Result post-processing
-    // Clear the results stores
-    ResultsStoreHolder.clearStores();
-    // Analyze the results without data usage
-    if(analyzer.hasType(AlgorithmType.FD)){
-      (new FDResultAnalyzer()).analyzeResults(execution, false);
-    }
-    if(analyzer.hasType(AlgorithmType.UCC)){
-      (new UCCResultAnalyzer()).analyzeResults(execution, false);
-    }
-    if(analyzer.hasType(AlgorithmType.IND)){
-      (new INDResultAnalyzer()).analyzeResults(execution, false);
-    }
-
     return execution;
   }
 
@@ -274,5 +260,21 @@ public class AlgorithmExecutor implements Closeable {
   @Override
   public void close() throws IOException {
     resultReceiver.close();
+  }
+
+  public void executeResultPostProcessing(Execution execution){
+    // Result post-processing
+    // Clear the results stores
+    ResultsStoreHolder.clearStores();
+    // Analyze the results without data usage
+    if(execution.getAlgorithm().isFd()){
+      (new FDResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(execution.getAlgorithm().isUcc()){
+      (new UCCResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(execution.getAlgorithm().isInd()){
+      (new INDResultAnalyzer()).analyzeResults(execution, false);
+    }
   }
 }
