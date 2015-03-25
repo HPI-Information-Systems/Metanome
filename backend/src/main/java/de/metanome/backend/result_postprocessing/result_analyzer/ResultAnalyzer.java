@@ -146,7 +146,12 @@ public abstract class ResultAnalyzer implements RelationalInputParameterAlgorith
                                                    RelationalInputGenerator... relationalInputGenerators)
       throws AlgorithmConfigurationException {
     if (identifier.equals(INPUT_IDENTIFIER)) {
-      this.relationalInputGenerators = new ArrayList<>(Arrays.asList(relationalInputGenerators));
+      if(this.relationalInputGenerators == null) {
+        this.relationalInputGenerators = new ArrayList<>(Arrays.asList(relationalInputGenerators));
+      }
+      else{
+        this.relationalInputGenerators.addAll(new ArrayList<>(Arrays.asList(relationalInputGenerators)));
+      }
     }
 
   }

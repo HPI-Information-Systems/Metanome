@@ -87,7 +87,7 @@ public class INDResult implements Comparable<INDResult>, Serializable{
       //TODO: export name lookup to InclusionDependency class
 
       String referencedTableIdentifier = ind.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier();
-      String dependantTableIdentifier = ind.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier();
+      String dependantTableIdentifier = ind.getDependant().getColumnIdentifiers().get(0).getTableIdentifier();
 
 
       Integer referencedTableNumber = tableNameIndex.get(referencedTableIdentifier);
@@ -131,12 +131,12 @@ public class INDResult implements Comparable<INDResult>, Serializable{
       }
 
       if(dependantWorkaround){
-        String actualTableName = referencedTableInformation.getTableName();
-        referencedTableInformation.setTableName(actualTableName.split("\\.")[0]);
+        String actualTableName = dependantTableInformation.getTableName();
+        dependantTableInformation.setTableName(actualTableName.split("\\.")[0]);
         dependantIndices = InputAnalyzer.extractColumnNumbers(new HashSet<>(ind.getDependant()
                                                                                 .getColumnIdentifiers()),
                                                               dependantTableInformation);
-        referencedTableInformation.setTableName(actualTableName);
+        dependantTableInformation.setTableName(actualTableName);
       }
       else {
         dependantIndices = InputAnalyzer.extractColumnNumbers(new HashSet<>(ind.getDependant()
