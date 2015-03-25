@@ -199,7 +199,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
       FDResultsRankingTablePage fdRankingTab = new FDResultsRankingTablePage(execution.getId());
       tabLayoutPanel.add(new ScrollPanel(fdRankingTab), "Ranking Table");
       // Create new tab with visualizations of result
-      ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage(execution.getId());
+      FDResultsVisualizationPage visualizationTab = new FDResultsVisualizationPage(execution.getId());
       visualizationTab.setMessageReceiver(messageReceiver);
       tabLayoutPanel.add(new ScrollPanel(visualizationTab), "Visualization");
     }

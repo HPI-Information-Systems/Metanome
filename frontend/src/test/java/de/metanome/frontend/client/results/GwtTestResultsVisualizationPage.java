@@ -22,13 +22,13 @@ import com.google.gwt.user.client.ui.Label;
 public class GwtTestResultsVisualizationPage extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.results.ResultsVisualizationPage#ResultsVisualizationPage()}
+   * Test method for {@link FDResultsVisualizationPage#ResultsVisualizationPage()}
    */
   public void testResultsVisualizationPage() {
     // Set up
     // Expected Values
     // Execute
-    ResultsVisualizationPage page = new ResultsVisualizationPage(0l);
+    FDResultsVisualizationPage page = new FDResultsVisualizationPage(0l);
 
     // Check
     assertTrue(page.getWidget(0) instanceof Label);
