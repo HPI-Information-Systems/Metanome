@@ -28,15 +28,21 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.Result;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+import de.metanome.frontend.client.services.ResultRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Tab that contains widgets displaying execution results, i.e. tables, visualizations etc.
@@ -171,7 +177,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
   public void showResults(Execution execution) {
     this.messageReceiver.clearErrors();
     this.clear();
-    AlgorithmExecutionRestService executionRestService = GWT.create(AlgorithmExecutionRestService.class);
+    AlgorithmExecutionRestService executionRestService = GWT.create(
+        AlgorithmExecutionRestService.class);
 
     this.addChildPages(executionRestService, execution.getIdentifier());
 
@@ -181,6 +188,47 @@ public class ResultsPage extends FlowPanel implements TabContent {
     // Add a label for the execution time
     long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
     this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
+  }
+
+  /**
+   * Displays the results of the given file input.
+   * @param input the execution
+   */
+  public void showResults(FileInput input) {
+    this.messageReceiver.clearErrors();
+    this.clear();
+
+    ResultRestService resultRestService = GWT.create(ResultRestService.class);
+    AlgorithmExecutionRestService algorithmExecutionRestService = GWT.create(AlgorithmExecutionRestService.class);
+
+    this.addChildPages(algorithmExecutionRestService, "");
+
+    resultRestService.getResultsForFileInput(input.getId(), getShowResultCallback());
+    this.insert(
+        new Label("All results for input " + FilePathHelper.getFileName(input.getName()) + "."), 0);
+  }
+
+  /**
+   * Sends a call to the backend for obtaining all executions for a specific input.
+   * If the callback is successful, the results of the executions are sent to the table page.
+   * @return the method callback
+   */
+  private MethodCallback<List<Result>> getShowResultCallback() {
+    return new MethodCallback<List<Result>>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not display results: " +  method.getResponse().getText());
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Result> results) {
+        if (results.isEmpty()) {
+          tablePage.add(new Label("There are no results yet."));
+          return;
+        }
+        tablePage.readResultsFromFile(new HashSet<>(results));
+      }
+    };
   }
 
   private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
