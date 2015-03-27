@@ -21,24 +21,18 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-
+import com.google.gwt.user.client.ui.*;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.VisualizationRestService;
-
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 
 /**
- * @author Daniel Roeder
+ * @author Marie Schäffer
  */
-public class FDResultsVisualizationPage extends FlowPanel implements TabContent {
+public class UCCVisualizationPage extends FlowPanel implements TabContent {
 
   private TabWrapper messageReceiver;
 
@@ -51,7 +45,7 @@ public class FDResultsVisualizationPage extends FlowPanel implements TabContent 
 
   Image loadingIcon;
 
-  public FDResultsVisualizationPage(long exID) {
+  public UCCVisualizationPage(long exID) {
     final Label clickLabel = new Label("Click here to load Visualization");
     clickLabel.addClickHandler(new ClickHandler() {
       @Override
@@ -61,17 +55,17 @@ public class FDResultsVisualizationPage extends FlowPanel implements TabContent 
         add(loadingIcon);
         visualizationFrame = new Frame();
         VisualizationRestService restService = GWT.create(VisualizationRestService.class);
-        MethodCallback<Void> callback = getPrefixTreeCallback();
-        restService.createPrefixTree(executionID, callback);
+        MethodCallback<Void> callback = getUCCclustersCallback();
+        restService.createUCCDiagrams(executionID, callback);
       }
     });
     this.add(clickLabel);
     this.executionID = exID;
-    this.getElement().setId("visualizationTab");
+    this.getElement().setId("uccVisualizationTab");
 
   }
 
-  private MethodCallback<Void> getPrefixTreeCallback() {
+  private MethodCallback<Void> getUCCclustersCallback() {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
@@ -82,9 +76,8 @@ public class FDResultsVisualizationPage extends FlowPanel implements TabContent 
       public void onSuccess(Method method, Void aVoid) {
         remove(loadingIcon);
         listBox = new ListBox();
-        listBox.addItem("Sunburst", "ZoomableSunburst.html");
-        listBox.addItem("Circle Packing", "CirclePacking.html");
-        listBox.addItem("Prefix Tree", "PrefixTree.html");
+        listBox.addItem("uccPlotter", "uccPlotter.html");
+        listBox.addItem("uccClusterBubbles", "clusterBubbles.html");
         listBox.addChangeHandler(new ChangeHandler() {
           @Override
           public void onChange(ChangeEvent changeEvent) {
@@ -102,7 +95,7 @@ public class FDResultsVisualizationPage extends FlowPanel implements TabContent 
         visualizationFrame.setWidth("98%");
         visualizationFrame.setHeight("93%");
         add(visualizationFrame);
-        visualizationFrame.setUrl("ZoomableSunburst.html");
+        visualizationFrame.setUrl("uccPlotter.html");
 
       }
     };
@@ -115,5 +108,3 @@ public class FDResultsVisualizationPage extends FlowPanel implements TabContent 
   }
 
 }
-
-

@@ -41,7 +41,7 @@ public class JSONPrinter {
     try {
       File folder = new File(filePath);
       folder.mkdirs();
-      File file = new File(PathUnifier.combinePaths(filePath, "PrefixTree.json"));
+      File file = new File(filePath);
       if (file.exists()){
         file.delete();
       }
@@ -58,46 +58,116 @@ public class JSONPrinter {
 
   //<editor-fold desc="UCC printing methods">
 
-  /**
-   * Prints information about clusters of UCCs to file
-   *
-   * @param filePath    File path to the output file
-   * @param clusterList List with Information about each cluster
-   */
-  public static void printUCCClusters(String filePath, List<HashMap<String, Double>> clusterList) {
-    JSONArray clusters = new JSONArray();
+    /**
+     * Prints information about clusters of UCCs to file
+     *
+     * @param filePath    File path to the output file
+     * @param clusterList List with Information about each cluster
+     */
+    public static void printUCCClusters(String filePath, List<HashMap<String, Double>> clusterList) {
+        JSONArray clusters = new JSONArray();
 
-    for (HashMap<String, Double> info : clusterList) {
-      JSONObject entryJSON = new JSONObject();
-      for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
-        entryJSON.put(infoEntry.getKey(), infoEntry.getValue());
-      }
-      clusters.add(entryJSON);
+        for (int i=0; i<clusterList.size(); i++) {
+            HashMap<String, Double> info = clusterList.get(i);
+            JSONObject entryJSON = new JSONObject();
+
+            entryJSON.put("ClusterNr", i);
+            for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
+                entryJSON.put(infoEntry.getKey(), infoEntry.getValue());
+            }
+            clusters.add(entryJSON);
+        }
+
+        writeToFile(filePath, clusters);
     }
 
-    writeToFile(filePath, clusters);
-  }
 
-  /**
-   * Prints the histograms of all UCCs
-   *
-   * @param filePath      File path to the output file
-   * @param histogramList List containing all Histograms
-   */
-  public static void printUCCHistograms(String filePath, List<KMeans.UCCHistogram> histogramList) {
-    JSONArray histograms = new JSONArray();
+    /**
+     * Prints the contained UCCs of all clusters to file
+     *
+     * @param filePath    File path to the output file
+     * @param clusterInfoList List containing info values about each UCC
+     */
+    public static void printUCCData(String filePath, List<List<KMeans.UCCHistogram>> clusterInfoList) {
+        JSONArray uccList = new JSONArray();
+        int id = 0;
 
-    for (KMeans.UCCHistogram histogram : histogramList) {
-      HashMap<String, Double> info = histogram.getValues();
-      JSONObject entryJSON = new JSONObject();
-      for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
-        entryJSON.put(infoEntry.getKey(), infoEntry.getValue());
-      }
-      histograms.add(entryJSON);
+        //Iterate through each cluster
+        for (int i=0; i<clusterInfoList.size(); i++) {
+            List<KMeans.UCCHistogram> infoList = clusterInfoList.get(i);
+
+            //Iterate through each entry of the given cluster
+            for (int j=0; j<infoList.size(); j++) {
+                KMeans.UCCHistogram uccInfo = infoList.get(j);
+                HashMap<String, Double> info = uccInfo.getValues();
+
+                JSONObject entryJSON = new JSONObject();
+
+                //Insert Cluster Number
+                entryJSON.put("ClusterNr", i);
+
+                //Insert UCC ID
+                entryJSON.put("UCCid", id);
+
+                //Insert all info items
+                for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
+                    entryJSON.put(infoEntry.getKey(), infoEntry.getValue());
+                }
+
+
+                uccList.add(entryJSON);
+                id++;
+
+            }
+
+
+        }
+        writeToFile(filePath, uccList);
     }
 
-    writeToFile(filePath, histograms);
-  }
+
+
+    /**
+     * Prints histograms (containing the uniqueness of each attribute) of each UCC
+     *
+     * @param filePath    File path to the output file
+     * @param clusterHistogramList List containing the uniqueness histogram data of each UCC
+     */
+    public static void printUCCHistograms(String filePath, List<List<HashMap<String, Double>>> clusterHistogramList) {
+        JSONArray uccList = new JSONArray();
+        int id = 0;
+
+        //Iterate through each cluster
+        for (int i=0; i<clusterHistogramList.size(); i++) {
+            List<HashMap<String, Double>> histogramList = clusterHistogramList.get(i);
+
+            //Iterate through each entry of the given cluster
+            for (int j=0; j<histogramList.size(); j++) {
+                HashMap<String, Double> histogramInfo = histogramList.get(j);
+
+                JSONObject entryJSON = new JSONObject();
+
+                //Insert UCC ID
+                entryJSON.put("UCCid", id);
+
+                //Insert Histogram Data
+                JSONArray histogramJSON = new JSONArray(); //Contains the Histogram for one UCC
+                for (Map.Entry<String, Double> column : histogramInfo.entrySet()) {
+                    JSONObject histogramEntryJSON = new JSONObject(); //Contains the data for one row of a UCC
+                    histogramEntryJSON.put("Column Name", column.getKey());
+                    histogramEntryJSON.put("Uniqueness", column.getValue());
+                    histogramJSON.add(histogramEntryJSON);
+                }
+
+                entryJSON.put("histogramData", histogramJSON);
+                uccList.add(entryJSON);
+
+                id ++;
+
+            }
+        }
+        writeToFile(filePath, uccList);
+    }
 
 
   /**
@@ -243,6 +313,8 @@ public class JSONPrinter {
       rootChildren.add(dependantJSON);
     }
     root.put("children", rootChildren);
+
+    filePath = PathUnifier.combinePaths(filePath, "PrefixTree.json");
 
     writeToFile(filePath, root);
   }

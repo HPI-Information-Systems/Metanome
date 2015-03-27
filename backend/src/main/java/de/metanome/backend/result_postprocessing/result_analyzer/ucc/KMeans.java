@@ -11,6 +11,7 @@ public class KMeans {
 
     private int inputList[];
     private List<List<UCCHistogram>> clusters;
+    private List<List<UCCHistogram>> prevclusters;
     private List<List<UCCHistogram>> tempClusters;
     private List<UCCHistogram> meansList;
     private List<Double>  diff;
@@ -21,27 +22,35 @@ public class KMeans {
     public static KMeans  cluster(List<UCCHistogram> input){
 
         KMeans kmeans = new KMeans();
-         int clusterCount = 2; //Initial number of Clusters is 2
+        int clusterCount = 2; //Initial number of Clusters is 2
 
         double prev=5, prevprev=5, improvement=1;
         double cohesion;
         while (improvement > threshold && clusterCount<input.size()/1.5){
             kmeans .setClusterCount(clusterCount);
-            kmeans.init(input);
-            kmeans.findClusters(input);
-            cohesion = kmeans.calculateCohesion();
-            improvement = 1 - cohesion / prevprev;
-            prevprev = prev;
-            prev = cohesion;
+            if(kmeans.init(input)) {
+                kmeans.findClusters(input);
+                cohesion = kmeans.calculateCohesion();
+                improvement = 1 - cohesion / prevprev;
+                prevprev = prev;
+                prev = cohesion;
 
 
-//            System.out.println("Cohesion: " + cohesion);
+                //            System.out.println("Cohesion: " + cohesion);
 
+                kmeans.prevclusters = new ArrayList<List<UCCHistogram>>();
+                kmeans.prevclusters.addAll(kmeans.clusters);
+            }
             clusterCount++;
+
         }
-        kmeans.printResult();
+//        kmeans.printResult();
 
         return kmeans;
+    }
+
+    public List<List<UCCHistogram>> getClusterHistograms(){
+        return clusters;
     }
 
     public List<List<ColumnCombination>> getClusterContent() {
@@ -58,10 +67,10 @@ public class KMeans {
 
     public List<HashMap<String, Double>> getClusterInfo(){
         List<HashMap<String, Double>> info = new ArrayList<HashMap<String, Double>>();
-        for(int i=0; i<clusterCount; i++){
+        for(List<UCCHistogram> or_cluster : this.clusters){
             HashMap<String, Double> cluster = new HashMap<String, Double>();
-            UCCHistogram meanHist = UCCHistogram.calculateMean(clusters.get(i));
-            cluster.put("Size", (double)clusters.get(i).size());
+            UCCHistogram meanHist = UCCHistogram.calculateMean(or_cluster);
+            cluster.put("Size", (double)or_cluster.size());
             cluster.put("Average Number of Columns", meanHist.getCount());
             cluster.put("Average Uniqueness", meanHist.getAvg());
             cluster.put("Randomness", meanHist.getRandomness() );
@@ -111,7 +120,7 @@ public class KMeans {
 
 
 
-    private void init(List<UCCHistogram> input) {
+    private boolean init(List<UCCHistogram> input) {
     /* Initialising lists */
         clusters =new LinkedList<List<UCCHistogram>>();
         for(int i=0; i<clusterCount; i++){
@@ -121,7 +130,7 @@ public class KMeans {
 
         meansList =new LinkedList<UCCHistogram>();
         diff=new LinkedList<Double>();
-        initializeMeans(input);
+        return(initializeMeans(input));
     }
 
     private  double calculateCohesion() {
@@ -141,8 +150,8 @@ public class KMeans {
         {
             for(int i=0;i< clusters.size();i++) //clear old clusters
             {
-                    clusters.get(i).clear();
-                }
+                clusters.get(i).clear();
+            }
 
             for(int i=0;i< input.size();i++) // calculate correct bucket for every histogram
             {
@@ -150,7 +159,7 @@ public class KMeans {
                 clusters.get(temp).add(input.get(i));
             }
             cal_mean(); // call to method which will calculate mean
-             // check if terminating condition is satisfied.
+            // check if terminating condition is satisfied.
             finished = isFinished();
             if(! finished) {
 /*Take backup of clusters in tempClusters so that you can check for equivalence in next step*/
@@ -200,7 +209,7 @@ public class KMeans {
 
 
 
-    private  void initializeMeans(List<UCCHistogram> input) {
+    private  boolean initializeMeans(List<UCCHistogram> input) {
 
         // for each histo
         // find avg distance to all other histos
@@ -216,11 +225,16 @@ public class KMeans {
         valueset.addAll(distlist);
         List<Double> valuelist = new ArrayList<>();
         valuelist.addAll(valueset);
-  //      Collections.sort(valuelist);
-        Collections.sort(valuelist ,Collections.reverseOrder());
-        for(int j=0; j<clusters.size(); j++){
-            double minval = valuelist.get(j);
-            meansList.add(input.get(distlist.indexOf(minval)));
+        if(valuelist.size() >= clusters.size()) {
+            Collections.sort(valuelist, Collections.reverseOrder());
+            for (int j = 0; j < clusters.size(); j++) {
+                double minval = valuelist.get(j);
+                meansList.add(input.get(distlist.indexOf(minval)));
+            }
+            return true;
+        }else{
+            this.clusters = this.prevclusters;
+            return false;
         }
     }
 
@@ -241,14 +255,14 @@ public class KMeans {
         private double count;
         private double randomness;
 
-        private double minfactor = 0; //5;
-        private double maxfactor = 0; //5;
-        private double avgfactor = 1.5; //3;
-        private double minDistfactor = 0; //2;
-        private double maxDistfactor = 0; //2;
-        private double medianDistfactor = 0; //2;
-        private double countfactor = 1; //0.1;
-        private double randomnessfactor = 1.5; //1;
+        private double minfactor = 5; // 0; //5;
+        private double maxfactor = 5; // 0; //5;
+        private double avgfactor = 3; // 1.5; //3;
+        private double minDistfactor = 2; // 0; //2;
+        private double maxDistfactor = 2; // 0; //2;
+        private double medianDistfactor = 2; // 0; //2;
+        private double countfactor = 0.15; // 1; //0.1;
+        private double randomnessfactor = 1; // 1.5; //1;
 
 
 
@@ -318,12 +332,12 @@ public class KMeans {
 
         public HashMap<String, Double> getValues( ){
             HashMap<String, Double> values = new HashMap<>();
-    //        values.put("Minimum Uniqueness", this.min);
-    //        values.put("Maximum Uniqueness", this.max) ;
+            //        values.put("Minimum Uniqueness", this.min);
+            //        values.put("Maximum Uniqueness", this.max) ;
             values.put("Average Uniqueness", this.avg) ;
-    //        values.put("Minimum Distance", this.minDist);
-    //        values.put("Maximum Distance", this.maxDist) ;
-    //        values.put("Median Distance", this.medianDist) ;
+            //        values.put("Minimum Distance", this.minDist);
+            //        values.put("Maximum Distance", this.maxDist) ;
+            //        values.put("Median Distance", this.medianDist) ;
             values.put("Number of Columns", this.count) ;
             values.put("Randomness", this.randomness) ;
 
@@ -347,7 +361,7 @@ public class KMeans {
                     +Math.abs(this.medianDist-other.getMedianDist()) *medianDistfactor
                     + Math.abs(this.count-other.getCount()) * countfactor
                     + Math.abs(this.randomness-other.getRandomness()) * randomnessfactor
-                    ) /8;
+            ) /8;
         }
 
         public static UCCHistogram calculateMean(List<UCCHistogram> input){

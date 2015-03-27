@@ -16,4 +16,11 @@ public interface VisualizationRestService extends RestService{
   @Path("/get/{executionID}")
   public void createPrefixTree(@PathParam("executionID") long executionID,
                                MethodCallback<Void> callback);
+
+
+
+    @GET
+    @Path("/getucc/{executionID}")
+    public void createUCCDiagrams(@PathParam("executionID") long executionID,
+                                 MethodCallback<Void> callback);
 }

@@ -1,6 +1,7 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.result_postprocessing.result_analyzer.functional_dependencies.FDResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.ucc.UCCAnalyzer;
 import de.metanome.backend.results_db.Execution;
 
 import javax.ws.rs.GET;
@@ -21,4 +22,14 @@ public class VisualizationResource {
     FDResultAnalyzer analyzer = new FDResultAnalyzer();
     analyzer.createPrefixTree(ex);
   }
+
+  @GET
+  @Path("/getucc/{executionID}")
+  public void getUCCDiagrams(@PathParam("executionID") long executionID){
+      ExecutionResource er = new ExecutionResource();
+      Execution ex = er.get(executionID);
+      UCCAnalyzer analyzer = new UCCAnalyzer();
+      analyzer.createUCCDiagrams(ex);
+    }
+
 }

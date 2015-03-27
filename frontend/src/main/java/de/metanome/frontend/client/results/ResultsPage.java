@@ -210,6 +210,11 @@ public class ResultsPage extends FlowPanel implements TabContent {
     if(execution.getAlgorithm().isUcc()){
       UCCResultsRankingTablePage uccRankingTab = new UCCResultsRankingTablePage(execution.getId());
       tabLayoutPanel.add(new ScrollPanel(uccRankingTab), "Ranking Table");
+      // Create new tab with visualizations of result
+      UCCVisualizationPage uccVisualizationTab = new UCCVisualizationPage(execution.getId());
+        uccVisualizationTab.setMessageReceiver(messageReceiver);
+      tabLayoutPanel.add(new ScrollPanel(uccVisualizationTab), "UCCVisualization");
+
     }
   }
 

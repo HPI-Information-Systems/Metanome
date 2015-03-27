@@ -1,5 +1,6 @@
 package de.metanome.backend.result_postprocessing.result_analyzer.ucc;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.io_helper.ColumnInformation;
@@ -8,6 +9,8 @@ import de.metanome.backend.result_postprocessing.io_helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_analyzer.ResultAnalyzer;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.ColumnCombination;
 import de.metanome.backend.result_postprocessing.result_analyzer.ucc.ranking.MinMaxRanker;
+import de.metanome.backend.result_postprocessing.visualizing_utils.JSONPrinter;
+import de.metanome.backend.results_db.Execution;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -30,7 +33,7 @@ public class UCCAnalyzer extends ResultAnalyzer {
     private List<ColumnCombination> results;
     private InputAnalyzer inputAnalyzer;
     private List<KMeans.UCCHistogram> histograms;
-    private String outputDirectoryPath = "Visualization-Experiments/UCCAnalyzer";
+    //    private String outputDirectoryPath = "Visualization-Experiments/UCCAnalyzer";
     private int maxSize;
 
 
@@ -46,25 +49,23 @@ public class UCCAnalyzer extends ResultAnalyzer {
         return newResults;
     }
 
-  @Override
-  protected void analyzeResultsWithoutTupleData(List<Result> oldResults) {
+    @Override
+    protected void analyzeResultsWithoutTupleData(List<Result> oldResults) {
 
-  }
+    }
 
-  @Override
-  protected void analyzeResultsWithTupleData(List<Result> oldResults) {
+    @Override
+    protected void analyzeResultsWithTupleData(List<Result> oldResults) {
 
-  }
+    }
 
-  @Override
-  protected void printResultsToFile(boolean useRowData) {
+    @Override
+    protected void printResultsToFile(boolean useRowData) {
 
-  }
+    }
 
-  @Override
+    @Override
     protected void analyzeResults(List<Result> oldResults) {
-
-
 
         inputAnalyzer = new InputAnalyzer(relationalInputGenerators.get(0), true);
 
@@ -87,23 +88,96 @@ public class UCCAnalyzer extends ResultAnalyzer {
         if(histograms.size()>1){
             KMeans clusters = KMeans.cluster(histograms);
 
-            printUCCClusters(this.outputDirectoryPath + "/UCCClusters.json", clusters.getClusterInfo());
-            printUCCHistograms(this.outputDirectoryPath + "/UCCHistograms.json", histograms);
+            // Get the storage directory path
+            String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
 
-            // Print JSON-Data for Histograms of all UCCs
-//            for(int i=0; i<results.size(); i++){
-//                ColumnCombination ucc = results.get(i);
-//                printUCCInfo(this.outputDirectoryPath + "/UCCHistogramme/UCC"+i+".json", getUCCInfo(ucc));
-//            }
+            //Print information about UCC clusters to JSON
+            printUCCClusters(currentPath + "/UCCClusters.json", clusters.getClusterInfo());
+            //Print info about all UCCs in all clusters to JSON
+            JSONPrinter.printUCCData(currentPath + "/UCCData.json", clusters.getClusterHistograms());
+            JSONPrinter.printUCCHistograms(currentPath + "/UCCHistograms.json", getHistogramClusters(clusters.getClusterContent()));
 
 
-            ClusterPlotter plotter = new ClusterPlotter(columnUniqueness, clusters.getClusterContent(), getColumnNames());
-            plotter.setVisible(true);
+//            ClusterPlotter plotter = new ClusterPlotter(columnUniqueness, clusters.getClusterContent(), getColumnNames());
+//            plotter.setVisible(true);
         }else{
             System.out.println("\nNot enough interesting histograms for clustering!\n");
         }
 
     }
+
+
+    /**
+     * Creates a JSON for Cluster-Bubblediagram, UCC plotter and UCC histograms for results of the given execution
+     *
+     * @param execution Execution describing the last run of a FD algorithm
+     */
+    public void createUCCDiagrams(Execution execution) {
+        this.execution = execution;
+
+        // Extract inputs to recreate the table information
+        try {
+            extractInputs(execution);
+        } catch (AlgorithmConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        // Perform input data analysis
+        this.inputAnalyzer = new InputAnalyzer(relationalInputGenerators.get(0), true);
+        TableInformation tableInformation = this.inputAnalyzer.getTableInformation();
+
+        // Retrieve the algorithm results
+        List<Result> oldResults = this.extractResults(this.execution);
+
+        int columnCount = inputAnalyzer.getTableInformation().getColumnCount();
+        this.results =
+                UCCAnalyzer.createFromResult(oldResults, columnCount, inputAnalyzer.getTableInformation());
+
+        setColumnUniqueness();
+
+//        inputAnalyzer.getTableInformation().getColumn(0).getDistinctValuesCount();
+
+        histograms = new LinkedList<KMeans.UCCHistogram>();
+//        calculateMaxSize();
+        for(int i=0; i<results.size(); i++){
+            if(results.get(i).getColumnCount() > 1) {
+                histograms.add(createUCCHistogram(results.get(i)));
+            }
+        }
+        if(histograms.size()>1){
+            KMeans clusters = KMeans.cluster(histograms);
+
+            // Get the storage directory path
+            String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
+
+            //Print information about UCC clusters to JSON
+            printUCCClusters(currentPath + "/UCCClusters.json", clusters.getClusterInfo());
+            //Print info about all UCCs in all clusters to JSON
+            JSONPrinter.printUCCData(currentPath + "/UCCData.json", clusters.getClusterHistograms());
+            JSONPrinter.printUCCHistograms(currentPath + "/UCCHistograms.json", getHistogramClusters(clusters.getClusterContent()));
+
+
+//            ClusterPlotter plotter = new ClusterPlotter(columnUniqueness, clusters.getClusterContent(), getColumnNames());
+//            plotter.setVisible(true);
+        }else{
+            System.out.println("\nNot enough interesting histograms for clustering!\n");
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public List<String> getColumnNames(){
         List<String> namesList = new ArrayList<>();
@@ -126,20 +200,19 @@ public class UCCAnalyzer extends ResultAnalyzer {
     }
 
 
-    private void printClusterList(List<HashMap<String, Double>> clusters){
-
-        //create output directory
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputDirectoryPath + "/minimized-fds.txt"));
-            //.....
-
-            writer.close();
+    private List<List<HashMap<String, Double>>> getHistogramClusters(List<List<ColumnCombination>> clusterContent){
+        //Returns a list with the histogram data of all UCCs, sorted by cluster
+        List<List<HashMap<String, Double>>> histogramClusterList = new ArrayList<>();
+        for(List<ColumnCombination> uccCluster : clusterContent){
+            List<HashMap<String, Double>> histogramList = new ArrayList<>();
+            for (ColumnCombination ucc : uccCluster){
+                histogramList.add(getUCCInfo(ucc));
+            }
+            histogramClusterList.add(histogramList);
         }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+        return histogramClusterList;
     }
+
 
 
     private HashMap<String, Double> getUCCInfo(ColumnCombination ucc){
@@ -161,10 +234,10 @@ public class UCCAnalyzer extends ResultAnalyzer {
 
 
     public KMeans.UCCHistogram createUCCHistogram(ColumnCombination ucc) {
-            double size = ucc.getColumnCount();
-            double minDist = 0;
-            double maxDist = 0;
-            double medianDist = 0;
+        double size = ucc.getColumnCount();
+        double minDist = 0;
+        double maxDist = 0;
+        double medianDist = 0;
 
         List<Double> tempUniqueness = new LinkedList<Double>();
         List<Double> tempDistances = new LinkedList<Double>();
