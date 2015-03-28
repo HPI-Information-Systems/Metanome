@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDataS
 import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.algorithms.AlgorithmsPage;
 import de.metanome.frontend.client.datasources.DataSourcePage;
 import de.metanome.frontend.client.executions.ExecutionsPage;
@@ -156,6 +157,15 @@ public class BasePage extends TabLayoutPanel {
    */
   public void showResultsFor(Execution execution) {
     this.resultsPage.showResults(execution);
+    this.selectTab(Tabs.RESULTS.ordinal());
+  }
+
+  /**
+   * Switches to the result page and shows the results of the given input.
+   * @param input the execution
+   */
+  public void showResultsFor(FileInput input) {
+    this.resultsPage.showResults(input);
     this.selectTab(Tabs.RESULTS.ordinal());
   }
 
