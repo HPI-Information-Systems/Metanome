@@ -66,11 +66,12 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.startPolling(true);
 
     // Check
-    assertEquals(5, page.getWidgetCount());
+    assertEquals(6, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
     assertNotNull(page.executionTimePanel);
+    assertNotNull(page.stopButton);
 
     // Cleanup
     TestHelper.resetDatabaseSync();

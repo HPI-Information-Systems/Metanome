@@ -152,6 +152,7 @@ public class FileInputEditForm extends Grid {
     addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
 
     headerCheckbox = new CheckBox();
+    headerCheckbox.setValue(true);
     addRow(advancedTable, headerCheckbox, "Has Header");
 
     skipDifferingLinesCheckbox = new CheckBox();

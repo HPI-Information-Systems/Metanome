@@ -123,7 +123,8 @@ public class BasePage extends TabLayoutPanel {
                                       List<ConfigurationRequirement> parameters,
                                       Boolean cacheResults,
                                       Boolean writeResults,
-                                      Boolean countResults) {
+                                      Boolean countResults,
+                                      String memory) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
@@ -137,7 +138,8 @@ public class BasePage extends TabLayoutPanel {
         .setRequirements(parameters)
         .setCacheResults(cacheResults)
         .setWriteResults(writeResults)
-        .setCountResults(countResults);
+        .setCountResults(countResults)
+        .setMemory(memory);
 
     executionService.executeAlgorithm(params,
                                       this.getExecutionCallback(executionService,

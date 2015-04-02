@@ -61,6 +61,10 @@ h3 {
     border: 1px solid darkred;
 }
 
+.space_button {
+    margin-bottom: 30px;
+}
+
 .resultTable {
     border-collapse: collapse;
 }

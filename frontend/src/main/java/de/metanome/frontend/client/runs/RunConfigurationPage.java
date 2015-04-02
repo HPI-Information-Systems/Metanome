@@ -185,13 +185,14 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
                              List<ConfigurationRequirement> configuration,
                              Boolean cacheResults,
                              Boolean writeResults,
-                             Boolean countResults) {
+                             Boolean countResults,
+                             String memory) {
 
     final String algorithmName = getCurrentlySelectedAlgorithm();
     final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
 
-    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,writeResults, countResults);
+    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,writeResults, countResults, memory);
   }
 
   /**
