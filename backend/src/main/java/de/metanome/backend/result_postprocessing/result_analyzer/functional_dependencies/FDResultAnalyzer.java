@@ -9,6 +9,7 @@ import de.metanome.backend.result_postprocessing.io_helper.InputAnalyzer;
 import de.metanome.backend.result_postprocessing.io_helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_analyzer.ResultAnalyzer;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.ColumnCombination;
+import de.metanome.backend.result_postprocessing.result_analyzer.helper.ColumnCombinationLexicalComparator;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.ColumnCombinationPrinter;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.ColumnCombinationSizeComparator;
 import de.metanome.backend.result_postprocessing.result_analyzer.helper.PathUnifier;
@@ -249,7 +250,7 @@ public class FDResultAnalyzer extends ResultAnalyzer {
 
     // Prepare a sorted key set to print buckets in sorted order
     List<Map.Entry<ColumnCombination, List<FDResult>>> columnCombinationList = new ArrayList<>(buckets.entrySet());
-    columnCombinationList.sort(new FDBucketComparator());
+    Collections.sort(columnCombinationList, new FDBucketComparator());
 
     try {
       BufferedWriter writer = new BufferedWriter(new FileWriter(PathUnifier.combinePaths(

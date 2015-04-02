@@ -1,7 +1,5 @@
 package de.metanome.backend.result_postprocessing.result_analyzer.helper;
 
-import de.metanome.algorithm_integration.ColumnIdentifier;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -9,6 +7,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import de.metanome.algorithm_integration.ColumnIdentifier;
 
 /**
  * Created by Alexander Spivak and Daniel Roeder on 30.10.2014.
@@ -248,6 +248,11 @@ public class ColumnCombination extends BitSet implements Comparable<ColumnCombin
       currentIndex = resultIndex + 1;
       return resultIndex;
     }
+
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
 
   }
   //</editor-fold>

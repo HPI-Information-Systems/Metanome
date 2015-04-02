@@ -286,7 +286,7 @@ public class JSONPrinter {
 
     // Sort the dependant columns based on their index
     List<ColumnCombination> dependantColumns = new ArrayList<>(dependantsIndex.keySet());
-    dependantColumns.sort(new ColumnCombinationLexicalComparator());
+    Collections.sort(dependantColumns, new ColumnCombinationLexicalComparator());
 
     Map<FunctionalDependency, Integer> partialKeyErrors = FDRanking.calculatePartialKeyErrors(transformedResults, tableInformation);
 
