@@ -16,6 +16,40 @@
 
 package de.metanome.backend.results_db;
 
-public class ExecutionSetting {
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class ExecutionSetting{
+
+  protected long id;
+  List<ConfigurationValue> parameterValues;
+  List<Input> inputs;
+
+  /**
+   * Exists for hibernate serialization
+   */
+  protected ExecutionSetting(){}
+
+  public ExecutionSetting(List<ConfigurationValue> parameterValues, List<Input> inputs) {
+    this.parameterValues = parameterValues;
+    this.inputs = inputs;
+  }
+
+  @Id
+  @GeneratedValue
+  public long getId() { return id; }
+
+  public ExecutionSetting setId(long id) {
+    this.id = id;
+
+    return this;
+  }
+
 
 }

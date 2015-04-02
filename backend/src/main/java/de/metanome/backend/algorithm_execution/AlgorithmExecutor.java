@@ -317,6 +317,8 @@ public class AlgorithmExecutor implements Closeable {
     System.out.println(algorithmId); //prints id passed to thread
     AlgorithmExecutor executor = buildExecutor(executionIdentifier, write);
     executor.executeAlgorithm(algorithm); //Todo: find solution
+    //Todo: maybe use executeAlgorithmWithValues ..... generate values in AlgorithmExecutionResource
+    //have method create ExecutionSetting and do parsing that is currently being done in execute algorithm
     //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
   }
 }

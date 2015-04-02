@@ -69,7 +69,7 @@ public class Execution implements Serializable, Comparable<Execution> {
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
   protected String description;
-  protected ExecutionSetting executionSetting; //Todo: use fill in
+  protected long executionSettingId; //Todo: use fill in -maybe use execution Setting id - same with algorithm?!
 
   /**
    * Exists for hibernate serialization
