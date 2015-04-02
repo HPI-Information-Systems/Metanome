@@ -19,7 +19,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import java.util.Set;
@@ -29,22 +29,18 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueRelationalInputGenerator implements ConfigurationValue {
+public class ConfigurationValueRelationalInputGenerator
+    extends ConfigurationValue<RelationalInputGenerator, ConfigurationRequirementRelationalInput> {
 
-  protected final String identifier;
-  protected final RelationalInputGenerator[] values;
-
-  /**
-   * Constructs a ConfigurationValueRelationalInputGenerator using the specification's identifier
-   * and the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} values.
-   *
-   * @param identifier the configuration value identifier
-   * @param values the configuration values
-   */
   public ConfigurationValueRelationalInputGenerator(String identifier,
                                                     RelationalInputGenerator... values) {
-    this.identifier = identifier;
-    this.values = values;
+    super(identifier, values);
+  }
+
+  @Override
+  protected RelationalInputGenerator[] convertToValues(
+      ConfigurationRequirementRelationalInput requirement) throws AlgorithmConfigurationException {
+    return null;
   }
 
   @Override

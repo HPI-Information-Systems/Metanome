@@ -19,14 +19,10 @@ package de.metanome.algorithm_integration.configuration;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.io.Serializable;
-
 
 /**
- * InputParameters correspond to a ConfigurationSpecification and ConfigurationValue type. It is
- * used for frontend input of the configuration value, so generally, a ConfigurationSpecification
- * will be converted to an InputParameter, which is used to get the user's value input, and then
- * converted to the ConfigurationValue handed back to the algorithm.
+ * A ConfigurationSettingDataSource represents those a setting, which store input data.
+ * Input data can be a file input, a table input or a database connection.
  *
  * @author Claudia Exeler
  */
@@ -39,7 +35,19 @@ import java.io.Serializable;
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
     @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection")
 })
-public interface ConfigurationSettingDataSource extends ConfigurationSetting, Serializable {
+public abstract class ConfigurationSettingDataSource extends ConfigurationSetting {
+
+  public ConfigurationSettingDataSource() {}
+
+  protected long id;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 
   public abstract String getValueAsString();
 

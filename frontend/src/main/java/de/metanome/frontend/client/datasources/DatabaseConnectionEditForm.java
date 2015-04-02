@@ -128,8 +128,6 @@ public class DatabaseConnectionEditForm extends Grid {
    * @throws InputValidationException if one of the fields is empty
    */
   public DatabaseConnection getValue() throws InputValidationException {
-    DatabaseConnection connection = new DatabaseConnection();
-
     String url = this.dbUrlTextbox.getValue();
     String username = this.usernameTextbox.getValue();
     String password = this.passwordTextbox.getValue();
@@ -141,12 +139,10 @@ public class DatabaseConnectionEditForm extends Grid {
           "The database url, username, password and system should all be set!");
     }
 
-    connection
-        .setUrl(url)
-        .setUsername(username)
-        .setPassword(password)
-        .setSystem(DbSystem.valueOf(system))
-        .setComment(comment);
+    DatabaseConnection connection = new DatabaseConnection(
+        url, username, password, DbSystem.valueOf(system)
+    );
+    connection.setComment(comment);
 
     return connection;
   }

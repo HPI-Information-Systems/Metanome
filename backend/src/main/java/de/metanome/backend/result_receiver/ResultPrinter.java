@@ -176,39 +176,11 @@ public class ResultPrinter extends ResultReceiver {
       String line = br.readLine();
 
       while (line != null) {
-        results.add(convertResult(type.getName(), line));
+        results.add(ResultReader.convertStringToResult(line, type.getName()));
         line = br.readLine();
       }
     }
     return results;
   }
 
-  private Result convertResult(String name, String str) throws IOException {
-    if (name.equals(ResultType.CUCC.getName())) {
-      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, ConditionalUniqueColumnCombination.class);
-
-    } else if (name.equals(ResultType.IND.getName())) {
-      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, InclusionDependency.class);
-
-    } else if (name.equals(ResultType.UCC.getName())) {
-      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, UniqueColumnCombination.class);
-
-    } else if (name.equals(ResultType.FD.getName())) {
-      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, FunctionalDependency.class);
-
-    } else if (name.equals(ResultType.OD.getName())) {
-      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, OrderDependency.class);
-
-    } else if (name.equals(ResultType.STAT.getName())) {
-      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, BasicStatistic.class);
-    }
-
-    return null;
-  }
 }

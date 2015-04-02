@@ -45,7 +45,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents an execution in the database.
@@ -55,7 +54,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "execution",
        uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
-public class Execution implements Serializable {
+public class Execution implements Serializable, Comparable<Execution> {
 
   // TODO cascading save to children
   // TODO store proper config
@@ -64,11 +63,13 @@ public class Execution implements Serializable {
   protected Algorithm algorithm;
   protected long begin;
   protected long end;
+  protected String identifier;
   protected String config;
   protected List<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
   protected String description;
+  protected ExecutionSetting executionSetting; //Todo: use fill in
 
   /**
    * Exists for hibernate serialization
@@ -102,6 +103,15 @@ public class Execution implements Serializable {
   public Execution setId(long id) {
     this.id = id;
 
+    return this;
+  }
+
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public Execution setIdentifier(String identifier) {
+    this.identifier = identifier;
     return this;
   }
 
@@ -156,12 +166,10 @@ public class Execution implements Serializable {
       generator = "sequence"
   )
   @JoinTable
-  @XmlTransient
   public Collection<Input> getInputs() {
     return inputs;
   }
 
-  @XmlTransient
   public Execution setInputs(List<Input> inputs) {
     this.inputs = inputs;
 
@@ -229,6 +237,20 @@ public class Execution implements Serializable {
     Timestamp timeBegin = new Timestamp(begin);
     result = 31 * result + (timeBegin.hashCode());
     return result;
+  }
+
+  @Override
+  public int compareTo(Execution other) {
+    if (this.begin < other.getBegin())
+      return 1;
+    else if (this.begin > other.getBegin())
+      return -1;
+
+    // begin is equal
+    if (other.getAlgorithm() != null)
+      return this.algorithm.compareTo(other.getAlgorithm());
+    else
+      return 1;
   }
 
   /**

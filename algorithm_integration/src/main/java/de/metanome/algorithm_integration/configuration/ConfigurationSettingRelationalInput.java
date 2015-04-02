@@ -24,13 +24,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
- * Allows initialization of the input through double dispatch. The input can be generated from bot a file or database table.
+ * Allows initialization of the input through double dispatch.
+ * The input can be generated from both a file or database table.
  *
  * @author Jakob Zwiener
  */
@@ -42,9 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
     @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
 })
-public interface ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource,
-                                                             Serializable,
-                                                             ConfigurationSetting {
+public abstract class ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource {
 
   /**
    * Sends itself back to the initializer (double dispatch).

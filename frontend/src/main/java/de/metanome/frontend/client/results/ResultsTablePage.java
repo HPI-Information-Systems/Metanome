@@ -41,6 +41,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 
@@ -86,35 +87,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     if (executionService == null)
       return;
 
-    executionService.fetchNewResults(executionIdentifier, new MethodCallback<List<Result>>() {
-      @Override
-      public void onFailure(Method method, Throwable caught) {
-      }
-
-      @Override
-      public void onSuccess(Method method, List<Result> result) {
-        displayResults(result);
-      }
-    });
-  }
-
-  /**
-   * Fetches the results from the execution service and displays them on success.
-   */
-  protected void getPrinterResults() {
-    if (executionService == null)
-      return;
-
-    executionService.getPrinterResults(executionIdentifier, new MethodCallback<List<Result>>() {
-      @Override
-      public void onFailure(Method method, Throwable caught) {
-      }
-
-      @Override
-      public void onSuccess(Method method, List<Result> result) {
-        displayResults(result);
-      }
-    });
+    executionService.fetchNewResults(executionIdentifier, getResultCallback());
   }
 
   /**
@@ -161,6 +134,26 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     int row = table.getRowCount();
     table.setText(row, 0, "#");
     table.setText(row, 1, String.valueOf(count));
+  }
+
+  protected void readResultsFromFile(Set<de.metanome.backend.results_db.Result> resultSet) {
+    for (de.metanome.backend.results_db.Result result : resultSet) {
+      this.executionService.readResultFromFile(result.getFileName(), result.getType().getName(), getResultCallback());
+    }
+  }
+
+  private MethodCallback<List<Result>> getResultCallback() {
+    return new MethodCallback<List<Result>>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not display all results.");
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Result> results) {
+        displayResults(results);
+      }
+    };
   }
 
   /**

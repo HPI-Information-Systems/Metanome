@@ -98,15 +98,17 @@ public class AlgorithmExecutor implements Closeable {
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
    * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to {@link
    * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
-   * generators are set before execution. The elapsed time while executing the algorithm in nano
-   * seconds is returned as long.
+   * generators are set before execution. The execution containing the elapsed time while
+   * executing the algorithm in nano seconds is returned.
    *
-   * @param algorithm    the algorithm
-   * @param requirements list of configuration requirements
-   * @return elapsed time in ns
+   * @param algorithm           the algorithm
+   * @param requirements        list of configuration requirements
+   * @param executionIdentifier the identifier for the execution
+   * @return the execution
    */
-  public long executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
-                               List<ConfigurationRequirement> requirements)
+  public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
+                               List<ConfigurationRequirement> requirements,
+                               String executionIdentifier)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
@@ -132,7 +134,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     try {
-      return executeAlgorithmWithValues(algorithm, parameterValues, inputs);
+      return executeAlgorithmWithValues(algorithm, parameterValues, inputs, executionIdentifier);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -145,16 +147,18 @@ public class AlgorithmExecutor implements Closeable {
 
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured and all receivers and
-   * generators are set before execution. The elapsed time while executing the algorithm in nano
-   * seconds is returned as long.
+   * generators are set before execution. The execution containing the elapsed time while
+   * executing the algorithm in nano seconds is returned.
    *
-   * @param storedAlgorithm the algorithm
-   * @param parameters      list of configuration values
-   * @return elapsed time in ns
+   * @param storedAlgorithm         the algorithm
+   * @param parameters              list of configuration values
+   * @param executionIdentifier the identifier for the execution
+   * @return the execution
    */
-  public long executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
+  public Execution executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
                                          List<ConfigurationValue> parameters,
-                                         List<Input> inputs)
+                                         List<Input> inputs,
+                                         String executionIdentifier)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -228,16 +232,18 @@ public class AlgorithmExecutor implements Closeable {
       progressEstimatingAlgorithm.setProgressReceiver(progressCache);
     }
 
-    long beforeWallClockTime = new Date().getTime();
-    long before = System.nanoTime();
+    long beforeWallClockTime = new Date().getTime(); // milliseconds
+    long before = System.nanoTime(); // nanoseconds
     algorithm.execute();
-    long after = System.nanoTime();
+    long after = System.nanoTime(); // nanoseconds
     long executionTimeInNanos = after - before;
+    long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds
 
     ExecutionResource executionResource = new ExecutionResource();
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
-        .setEnd(beforeWallClockTime + (executionTimeInNanos / 1000))
+        .setEnd(beforeWallClockTime + executionTimeInMs)
         .setInputs(inputs)
+        .setIdentifier(executionIdentifier)
         .setResults(results);
 
     for (Result result : results) {
@@ -246,7 +252,7 @@ public class AlgorithmExecutor implements Closeable {
 
     executionResource.store(execution);
 
-    return executionTimeInNanos;
+    return execution;
   }
 
   public void setResultPathPrefix(String prefix) {

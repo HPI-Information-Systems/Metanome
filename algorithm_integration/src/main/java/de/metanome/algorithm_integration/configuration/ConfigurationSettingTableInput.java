@@ -27,16 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
- * Stores the configuration settings for a table input.
+ * The setting of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput}
  *
  * @author Tanja Bergmann
  */
 @JsonTypeName("ConfigurationSettingTableInput")
-public class ConfigurationSettingTableInput
-    implements ConfigurationSetting, ConfigurationSettingDataSource, ConfigurationSettingRelationalInput {
+public class ConfigurationSettingTableInput extends ConfigurationSettingRelationalInput {
 
-  // Id of the table input in the database (needed for mapping the setting to the stored table input)
-  private long id;
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
 
@@ -71,12 +68,21 @@ public class ConfigurationSettingTableInput
     this.databaseConnection = databaseConnection;
   }
 
-  public long getId() {
-    return id;
+  @Override
+  @XmlTransient
+  public String getValueAsString() {
+    return this.table + "; " + this.databaseConnection.getValueAsString();
   }
 
-  public void setId(long id) {
-    this.id = id;
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @XmlTransient
+  @GwtIncompatible("Can only be called from backend.")
+  public void generate(RelationalInputGeneratorInitializer initializer)
+      throws AlgorithmConfigurationException {
+    initializer.initialize(this);
   }
 
   @Override
@@ -105,23 +111,6 @@ public class ConfigurationSettingTableInput
     int result = table.hashCode();
     result = 31 * result + databaseConnection.hashCode();
     return result;
-  }
-
-  @Override
-  @XmlTransient
-  public String getValueAsString() {
-    return this.table + "; " + this.databaseConnection.getValueAsString();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @XmlTransient
-  @GwtIncompatible("Can only be called from backend.")
-  public void generate(RelationalInputGeneratorInitializer initializer)
-      throws AlgorithmConfigurationException {
-    initializer.initialize(this);
   }
 
 }

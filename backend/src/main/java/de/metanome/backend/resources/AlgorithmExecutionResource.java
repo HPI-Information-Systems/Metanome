@@ -25,11 +25,13 @@ import de.metanome.backend.algorithm_execution.ProcessExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
@@ -57,9 +59,8 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public long executeAlgorithm(AlgorithmExecutionParams params) {
-    /*
-    AlgorithmExecutor executor;
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
+    /* AlgorithmExecutor executor;
 
     try {
       executor = buildExecutor(params);
@@ -69,20 +70,29 @@ public class AlgorithmExecutionResource {
       throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
     }
 
-    /*AlgorithmResource algorithmResource = new AlgorithmResource();
+    AlgorithmResource algorithmResource = new AlgorithmResource();
     Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());*/
 
-    long executionTimeInNanos = 0;
     long timeOut = 10;
+    Execution execution = null;
     try {
-      return ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()), params.getExecutionIdentifier(), timeOut);
+      //Todo create/save ExecutionSetting - Pass ID to new process - get ExecutionSetting - execute
+      //Todo create/save execution with executionSettings - return execution id - return execution in here in parent process
+      //Todo Execution Id - return Exec
+      int executionId = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
+                                  params.getExecutionIdentifier(), timeOut);
+      //hibernate get executionId
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     /*try {
-      executionTimeInNanos = executor.executeAlgorithm(algorithm, params.getRequirements());
+
+
+    Execution execution = null;
+    try {
+      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -91,9 +101,9 @@ public class AlgorithmExecutionResource {
       executor.close();
     } catch (IOException e) {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
-    }
-  */
-    return executionTimeInNanos;
+    }*/
+
+    return execution;
   }
 
   @GET
@@ -144,6 +154,19 @@ public class AlgorithmExecutionResource {
     }
   }
 
+  @GET
+  @Path("/read_result/{file_name}/{type}")
+  @Produces("application/json")
+  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
+    try {
+      return ResultReader.readResultsFromFile(fileName, type);
+    } catch (Exception e) {
+      throw new WebException("Could not read result file",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
+
+
   /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
@@ -153,8 +176,6 @@ public class AlgorithmExecutionResource {
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-
-  /*
   protected AlgorithmExecutor buildExecutor(AlgorithmExecutionParams params)
       throws FileNotFoundException, UnsupportedEncodingException {
     String identifier = params.getExecutionIdentifier();
@@ -180,5 +201,5 @@ public class AlgorithmExecutionResource {
 
     return executor;
   }
-*/
+
 }

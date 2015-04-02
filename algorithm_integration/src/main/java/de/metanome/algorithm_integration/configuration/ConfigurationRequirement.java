@@ -30,9 +30,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
- * ConfigurationSpecification is then used to construct a configuration value that is sent to the
- * {@link Algorithm} for configuration. Only type concrete ConfigurationSpecification subclasses
+ * ConfigurationRequirement is then used to construct a configuration value that is sent to the
+ * {@link Algorithm} for configuration. Only type concrete ConfigurationRequirement subclasses
  * should be used to specify configuration parameters.
+ * @param <T> the setting type of the requirement
  *
  * @author Jakob Zwiener
  */
@@ -50,18 +51,17 @@ import javax.xml.bind.annotation.XmlTransient;
                   @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
                   @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
               })
-public abstract class ConfigurationRequirement implements Serializable {
+public abstract class ConfigurationRequirement<T extends ConfigurationSetting> implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+
   protected String identifier;
   protected boolean required;
-  /**
-   * would be good to make this final, but then it would not be serialized and thus be reset to 1 in
-   * frontend
-   */
   protected int numberOfSettings;
   protected int minNumberOfSettings;
   protected int maxNumberOfSettings;
+
+  public T[] settings;
 
   /**
    * Exists for serialization.
@@ -149,7 +149,17 @@ public abstract class ConfigurationRequirement implements Serializable {
   /**
    * @return the specification's settings
    */
-  public abstract ConfigurationSetting[] getSettings();
+  public T[] getSettings() {
+    return settings;
+  }
+
+  /**
+   * Exists only for serialization!
+   * @param settings the settings
+   */
+  public void setSettings(T... settings) {
+    this.settings = settings;
+  }
 
   /**
    *
@@ -171,13 +181,27 @@ public abstract class ConfigurationRequirement implements Serializable {
   /**
    * If a setting is set, the number of given settings has to match the expected number.
    *
-   * @throws AlgorithmConfigurationException if the given number of settings does not match the expected number.
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the given number of settings does not match the expected number.
    */
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
     if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
         (number < this.minNumberOfSettings || number > this.maxNumberOfSettings))
       throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+  }
+
+  /**
+   * Sets the actual settings on the requirement if the number of settings is correct.
+   *
+   * @param settings the settings
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
+   * settings does not match the expected number of settings
+   */
+  @XmlTransient
+  public void checkAndSetSettings(T... settings)
+      throws AlgorithmConfigurationException {
+    checkNumberOfSettings(settings.length);
+    this.settings = settings;
   }
 
   /**
@@ -194,4 +218,5 @@ public abstract class ConfigurationRequirement implements Serializable {
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
       throws AlgorithmConfigurationException;
+
 }
