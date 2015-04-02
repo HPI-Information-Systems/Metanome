@@ -149,6 +149,14 @@ public class AlgorithmExecutionResource {
   }
 
 
+  @GET
+  @Path("/stop/{identifier}")
+  @Produces("application/json")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier) {
+    // TODO
+  }
+
+
   /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.

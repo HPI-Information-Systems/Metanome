@@ -60,4 +60,8 @@ public interface AlgorithmExecutionRestService extends RestService {
   @Path("/read_result/{file_name}/{type}")
   public void readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type, MethodCallback<List<Result>> callback);
 
+  @GET
+  @Path("/stop/{identifier}")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier, MethodCallback<Void> callback);
+
 }
