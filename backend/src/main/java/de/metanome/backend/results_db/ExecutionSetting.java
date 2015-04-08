@@ -30,15 +30,41 @@ public class ExecutionSetting{
   protected long id;
   List<ConfigurationValue> parameterValues;
   List<Input> inputs;
+  String executionIdentifier;
+
+  public List<ConfigurationValue> getParameterValues() {
+    return parameterValues;
+  }
+
+  public void setParameterValues(List<ConfigurationValue> parameterValues) {
+    this.parameterValues = parameterValues;
+  }
+
+  public List<Input> getInputs() {
+    return inputs;
+  }
+
+  public void setInputs(List<Input> inputs) {
+    this.inputs = inputs;
+  }
+
+  public String getExecutionIdentifier() {
+    return executionIdentifier;
+  }
+
+  public void setExecutionIdentifier(String executionIdentifier) {
+    this.executionIdentifier = executionIdentifier;
+  }
 
   /**
    * Exists for hibernate serialization
    */
   protected ExecutionSetting(){}
 
-  public ExecutionSetting(List<ConfigurationValue> parameterValues, List<Input> inputs) {
+  public ExecutionSetting(List<ConfigurationValue> parameterValues, List<Input> inputs, String executionIdentifier) {
     this.parameterValues = parameterValues;
     this.inputs = inputs;
+    this.executionIdentifier = executionIdentifier;
   }
 
   @Id
