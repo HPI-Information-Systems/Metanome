@@ -83,11 +83,21 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
   /**
    * Fetches the results from the execution service and displays them on success.
    */
-  protected void fetchResults() {
+  protected void fetchPrinterResults() {
     if (executionService == null)
       return;
 
-    executionService.fetchNewResults(executionIdentifier, getResultCallback());
+    executionService.getPrinterResults(executionIdentifier, getResultCallback());
+  }
+
+  /**
+   * Fetches the results from the execution service and displays them on success.
+   */
+  protected void fetchCacheResults() {
+    if (executionService == null)
+      return;
+
+    executionService.getCacheResults(executionIdentifier, getResultCallback());
   }
 
   /**
@@ -146,7 +156,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     return new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not display all results.");
+        messageReceiver.addError("Could not display all results: " + method.getResponse().getText());
       }
 
       @Override
