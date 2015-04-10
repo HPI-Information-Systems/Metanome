@@ -41,12 +41,13 @@ public interface AlgorithmExecutionRestService extends RestService {
                                MethodCallback<Execution> callback);
 
   @GET
-  @Path("/result_cache/{identifier}")
-  public void fetchNewResults(@PathParam("identifier") String algorithmName, MethodCallback<List<Result>> callback);
-
-  @GET
   @Path("/fetch_progress/{identifier}")
   public void fetchProgress(@PathParam("identifier") String executionIdentifier, MethodCallback<Float> callback);
+
+  @GET
+  @Path("/result_cache/{identifier}")
+  public void getCacheResults(@PathParam("identifier") String algorithmName,
+                              MethodCallback<List<Result>> callback);
 
   @GET
   @Path("/result_counter/{identifier}")

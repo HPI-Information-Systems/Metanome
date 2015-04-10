@@ -94,8 +94,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.progressTimer.cancel();
 
     // Fetch the last results or get all results depending on the used result receiver
-    if (cacheResults || writeResults)
-      this.tablePage.fetchResults();
+    if (cacheResults)
+      this.tablePage.fetchCacheResults();
+    else if (writeResults)
+      this.tablePage.fetchPrinterResults();
     else if (countResults)
       this.tablePage.getCounterResults();
 
@@ -164,7 +166,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.progressTimer = new Timer() {
       public void run() {
         if (showProgress) updateProgress();
-        if (cacheResults) resultsTab.fetchResults();
+        if (cacheResults) resultsTab.fetchCacheResults();
       }
     };
     this.progressTimer.scheduleRepeating(10000);

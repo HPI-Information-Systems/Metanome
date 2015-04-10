@@ -53,7 +53,7 @@ public class AlgorithmExecutionResourceTest {
     AlgorithmExecutionCache.getResultCache(expectedExecutionIdentifier).receiveResult(
         expectedUcc);
     List<Result>
-        actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
+        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
 
     // Check result
     assertFalse(actualResult.isEmpty());
@@ -102,7 +102,7 @@ public class AlgorithmExecutionResourceTest {
 
     // Check
     List<Result>
-        actualResult = executionService.fetchNewResults(expectedExecutionIdentifier);
+        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
   }
 
   @Test

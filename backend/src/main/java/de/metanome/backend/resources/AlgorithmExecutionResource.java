@@ -171,7 +171,7 @@ public class AlgorithmExecutionResource {
   @GET
   @Path("/result_cache/{identifier}")
   @Produces("application/json")
-  public List<Result> fetchNewResults(@PathParam("identifier") String executionIdentifier) {
+  public List<Result> getCacheResults(@PathParam("identifier") String executionIdentifier) {
     try {
       return AlgorithmExecutionCache.getResultCache(executionIdentifier).fetchNewResults();
     } catch (Exception e) {
