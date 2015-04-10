@@ -108,6 +108,10 @@
         <include name="AlgorithmExecutionResource.java"/>
         <include name="AlgorithmExecutionParams.java"/>
         <include name="ParameterResource"/>
+        <include name="GwtFDResultResource.java"/>
+        <include name="GwtINDResultResource.java"/>
+        <include name="GwtUCCResultResource.java"/>
+        <include name="ResultAnalyzerExecutorResource.java"/>
     </source>
     <source path="backend/result_receiver">
         <include name="ResultHandler.java"/>
@@ -125,5 +129,27 @@
         <include name="ResultsDbEntity.java"/>
         <include name="EntityStorageException.java"/>
         <include name="ResultType.java"/>
+        <include name="AlgorithmType.java"/>
+    </source>
+    <source path="backend/result_postprocessing/result_analyzer/functional_dependencies">
+        <include name="FDRank.java"/>
+        <include name="FDResult.java"/>
+    </source>
+    <source path="backend/result_postprocessing/result_analyzer/inclusion_dependencies">
+        <include name="INDRank.java"/>
+        <include name="INDResult.java"/>
+        <include name="INDTerm.java"/>
+    </source>
+    <source path="backend/result_postprocessing/result_analyzer/ucc">
+        <include name="UCCRank.java"/>
+        <include name="UCCResult.java"/>
+    </source>
+    <source path="backend/result_postprocessing/result_analyzer/frontend_helper">
+        <include name="ValueTooltipTuple.java"/>
+        <include name="GwtFDResult.java"/>
+        <include name="GwtINDResult.java"/>
+        <include name="GwtUCCResult.java"/>
+        <include name="GwtLong.java"/>
+        <include name="GwtString.java"/>
     </source>
 </module>

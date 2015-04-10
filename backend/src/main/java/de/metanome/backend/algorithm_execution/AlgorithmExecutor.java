@@ -41,6 +41,10 @@ import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
+import de.metanome.backend.result_postprocessing.result_analyzer.ResultsStoreHolder;
+import de.metanome.backend.result_postprocessing.result_analyzer.functional_dependencies.FDResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.inclusion_dependencies.INDResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.ucc.UCCResultAnalyzer;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -256,5 +260,21 @@ public class AlgorithmExecutor implements Closeable {
   @Override
   public void close() throws IOException {
     resultReceiver.close();
+  }
+
+  public void executeResultPostProcessing(Execution execution){
+    // Result post-processing
+    // Clear the results stores
+    ResultsStoreHolder.clearStores();
+    // Analyze the results without data usage
+    if(execution.getAlgorithm().isFd()){
+      (new FDResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(execution.getAlgorithm().isUcc()){
+      (new UCCResultAnalyzer()).analyzeResults(execution, false);
+    }
+    if(execution.getAlgorithm().isInd()){
+      (new INDResultAnalyzer()).analyzeResults(execution, false);
+    }
   }
 }

@@ -65,6 +65,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected ResultsTablePage tablePage;
 
+  //ID of the execution in hibernate storage
+  protected Execution execution;
+  protected TabLayoutPanel tabLayoutPanel;
+
   protected String executionIdentifier;
   private String algorithmFileName;
   private AlgorithmExecutionRestService executionService;
@@ -87,9 +91,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
+   * @param execution the execution
    * @param executionTimeInMs the execution time in milliseconds
    */
-  public void updateOnSuccess(Long executionTimeInMs) {
+  public void updateOnSuccess(Execution execution, Long executionTimeInMs) {
+    this.execution = execution;
+
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 
@@ -108,6 +115,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
+
+    // Add the postprocessing pages
+    this.addPostProcessingPages();
   }
 
   /**
@@ -192,6 +202,31 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
   }
 
+  private void addPostProcessingPages(){
+    // Create the ranking tab
+    if(execution.getAlgorithm().isFd()){
+      FDResultsRankingTablePage fdRankingTab = new FDResultsRankingTablePage(execution.getId());
+      tabLayoutPanel.add(new ScrollPanel(fdRankingTab), "Ranking Table");
+      // Create new tab with visualizations of result
+      FDResultsVisualizationPage visualizationTab = new FDResultsVisualizationPage(execution.getId());
+      visualizationTab.setMessageReceiver(messageReceiver);
+      tabLayoutPanel.add(new ScrollPanel(visualizationTab), "Visualization");
+    }
+    if(execution.getAlgorithm().isInd()){
+      INDResultsRankingTablePage indRankingTab = new INDResultsRankingTablePage(execution.getId());
+      tabLayoutPanel.add(new ScrollPanel(indRankingTab), "Ranking Table");
+    }
+    if(execution.getAlgorithm().isUcc()){
+      UCCResultsRankingTablePage uccRankingTab = new UCCResultsRankingTablePage(execution.getId());
+      tabLayoutPanel.add(new ScrollPanel(uccRankingTab), "Ranking Table");
+      // Create new tab with visualizations of result
+      UCCVisualizationPage uccVisualizationTab = new UCCVisualizationPage(execution.getId());
+        uccVisualizationTab.setMessageReceiver(messageReceiver);
+      tabLayoutPanel.add(new ScrollPanel(uccVisualizationTab), "UCCVisualization");
+
+    }
+}
+
   /**
    * Displays the results of the given file input.
    * @param input the execution
@@ -234,20 +269,20 @@ public class ResultsPage extends FlowPanel implements TabContent {
   }
 
   private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
-    // Create new tab with result table
-    this.tablePage =
-        new ResultsTablePage(executionService, executionIdentifier);
-    tablePage.setMessageReceiver(this.messageReceiver);
+      // Create new tab with result table
+      this.tablePage =
+          new ResultsTablePage(executionService, executionIdentifier);
+      tablePage.setMessageReceiver(this.messageReceiver);
 
-    // Create new tab with visualizations of result
-    ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-    visualizationTab.setMessageReceiver(this.messageReceiver);
+      // Create new tab with visualizations of result
+      //ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
+      //visualizationTab.setMessageReceiver(this.messageReceiver);
 
-    // Add the result table and the visualization tab
-    TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(new ScrollPanel(tablePage), "Table");
-    panel.add(new ScrollPanel(visualizationTab), "Visualization");
-    this.add(panel);
+      // Add the result table and the visualization tab
+      tabLayoutPanel = new TabLayoutPanel(1, Unit.CM);
+      tabLayoutPanel.add(new ScrollPanel(tablePage), "Table");
+//      tabLayoutPanel.add(new ScrollPanel(visualizationTab), "Visualization");
+      this.add(tabLayoutPanel);
   }
 
   protected int toTimeInt(String str) {
