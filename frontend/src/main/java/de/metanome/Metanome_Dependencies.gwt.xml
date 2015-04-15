@@ -113,6 +113,7 @@
         <include name="ResultHandler.java"/>
     </source>
     <source path="backend/results_db">
+        <include name="ExecutionSetting.java"/>
         <include name="Execution.java"/>
         <include name="Result.java"/>
         <include name="Algorithm.java"/>

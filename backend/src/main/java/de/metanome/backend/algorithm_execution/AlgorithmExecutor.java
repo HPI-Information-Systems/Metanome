@@ -33,6 +33,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -314,10 +315,10 @@ public class AlgorithmExecutor implements Closeable {
       throws FileNotFoundException, UnsupportedEncodingException {
     Long algorithmId = Long.valueOf(args[0]);
     String executionIdentifier = args[1];
-    boolean write = false;
-    if (args[3] == "w") { //todo: have converter class?
+    boolean write = true;
+    /*if (args[3] == "w") { //todo: have converter class?
       write = true;
-    }
+    }*/
 
     AlgorithmResource algorithmResource = new AlgorithmResource();
     de.metanome.backend.results_db.Algorithm
@@ -339,9 +340,19 @@ public class AlgorithmExecutor implements Closeable {
       e.printStackTrace();
     }
     try {
+      JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
+      List<ConfigurationValue> parameterValues = new ArrayList<ConfigurationValue>();
+      for(String json: executionSetting.getParameterValuesJson()){
+        parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
+      }
+      JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
+      List<Input> inputs = new ArrayList<Input>();
+      for(String json: executionSetting.getInputsJson()){
+        inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
+      }
       execution =
-          executor.executeAlgorithmWithValues(algorithm, executionSetting.getParameterValues(),
-                                              executionSetting.getInputs(),
+          executor.executeAlgorithmWithValues(algorithm, parameterValues,
+                                              inputs,
                                               executionIdentifier);
     } catch (IOException | InvocationTargetException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | AlgorithmExecutionException | EntityStorageException e) {
       e.printStackTrace();

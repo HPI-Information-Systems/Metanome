@@ -16,6 +16,7 @@
 
 package de.metanome.frontend.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Label;
@@ -181,7 +182,10 @@ public class BasePage extends TabLayoutPanel {
                                                    final String executionIdentifier) {
     return new MethodCallback<Execution>() {
       public void onFailure(Method method, Throwable caught) {
-        resultsPage.updateOnError(method.getResponse().getText());
+        caught.printStackTrace();
+        GWT.log("User Pressed a button.", null); // Added debugging message
+        resultsPage.updateOnError(
+            caught.getMessage() + " " + caught.getCause() + caught.toString());
       }
 
       public void onSuccess(Method method, Execution execution) {

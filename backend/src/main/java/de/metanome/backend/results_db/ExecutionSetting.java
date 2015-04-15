@@ -16,36 +16,50 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.results.JsonConverter;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public class ExecutionSetting{
 
   protected long id;
-  List<ConfigurationValue> parameterValues;
-  List<Input> inputs;
-  String executionIdentifier;
+  protected List<String> parameterValuesJson;
+  protected List<String> inputsJson;
+  protected String executionIdentifier;
 
-  public List<ConfigurationValue> getParameterValues() {
-    return parameterValues;
+  //Todo:find better solution - no strict length limit or similiar?
+  @XmlTransient
+  @ElementCollection
+  @Column(columnDefinition = "VARCHAR(10000)")
+  public List<String> getParameterValuesJson() {
+    return parameterValuesJson;
   }
 
-  public void setParameterValues(List<ConfigurationValue> parameterValues) {
-    this.parameterValues = parameterValues;
+  public void setParameterValuesJson(List<String> parameterValuesJson) {
+    this.parameterValuesJson = parameterValuesJson;
   }
 
-  public List<Input> getInputs() {
-    return inputs;
+  @XmlTransient
+  @ElementCollection
+  @Column(columnDefinition = "VARCHAR(10000)")
+  public List<String> getInputsJson() {
+    return inputsJson;
   }
 
-  public void setInputs(List<Input> inputs) {
-    this.inputs = inputs;
+  public void setInputsJson(List<String> inputs) {
+    this.inputsJson = inputs;
   }
 
   public String getExecutionIdentifier() {
@@ -62,8 +76,28 @@ public class ExecutionSetting{
   protected ExecutionSetting(){}
 
   public ExecutionSetting(List<ConfigurationValue> parameterValues, List<Input> inputs, String executionIdentifier) {
-    this.parameterValues = parameterValues;
-    this.inputs = inputs;
+    JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
+    List<String> parameterValuesJson = new ArrayList<String>();
+    try {
+      //Todo: findOut classes in List
+      for(ConfigurationValue config : parameterValues){
+        parameterValuesJson.add(jsonConverter.toJsonString(config));
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    this.parameterValuesJson = parameterValuesJson;
+
+    List<String> inputsJson = new ArrayList<String>();
+    JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
+    for(Input input: inputs){
+      try {
+        inputsJson.add(jsonConverterInput.toJsonString(input));
+      } catch (JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    }
+    this.inputsJson = inputsJson;
     this.executionIdentifier = executionIdentifier;
   }
 

@@ -16,18 +16,15 @@
 
 package de.metanome.backend.algorithm_execution;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.TimeUnit;
 
 public final class ProcessExecutor {
 
   private ProcessExecutor() {
   }
 
-  public static int exec(Class myClass, String algorithmId, String executionIdentifier, long timeOut) throws IOException,
+  public static Process exec(Class myClass, String algorithmId, String executionIdentifier, long timeOut) throws IOException,
                                                                                  InterruptedException {
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
@@ -40,26 +37,7 @@ public final class ProcessExecutor {
         javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);
     builder.redirectErrorStream(true);
 
-    Process process = builder.start();
-    InputStreamReader isr = new InputStreamReader(process.getInputStream());
-    BufferedReader br = new BufferedReader(isr);
-
-    String lineRead;
-    while ((lineRead = br.readLine()) != null) {
-      System.out.println(lineRead);
-      //todo: find java 7 alternative
-      /*
-      if(!process.waitFor(timeOut, TimeUnit.SECONDS)) {
-        //timeout - kill the process.
-        process.destroy(); // consider using destroyForcibly instead
-        System.out.println("Process had to be killed due to timeout!");
-        break;
-      }
-    }
-    */
-    }
-    //todo: figure out how to return long as process result (executionTime)
-    return process.exitValue();
+    return builder.start();
   }
 
 }

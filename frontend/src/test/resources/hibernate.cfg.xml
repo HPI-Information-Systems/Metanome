@@ -53,6 +53,7 @@
         <mapping class="de.metanome.backend.results_db.Result"/>
         <mapping class="de.metanome.backend.results_db.TableInput"/>
         <mapping class="de.metanome.backend.results_db.ResultType"/>
+        <mapping class="de.metanome.backend.results_db.ExecutionSetting"/>
 
     </session-factory>
 

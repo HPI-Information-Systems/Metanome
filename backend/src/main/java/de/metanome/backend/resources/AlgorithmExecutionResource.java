@@ -16,9 +16,7 @@
 
 package de.metanome.backend.resources;
 
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
@@ -29,25 +27,20 @@ import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProcessExecutor;
+import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
-import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
-import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultReceiver;
-import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.ResultType;
-
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,7 +69,7 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
+  public void executeAlgorithm(AlgorithmExecutionParams params) {
     //Todo: make execution interruptable - save id to table or something like this - and make it killable via frontend using call
     /* AlgorithmExecutor executor;
 
@@ -92,51 +85,27 @@ public class AlgorithmExecutionResource {
     Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());*/
 
     long timeOut = 10;
-    Execution execution = null;
     String executionIdentifier = params.getExecutionIdentifier();
+
+      //Todo: aufteilen und tests schreibne + find way to debug (write to file if necessary) - see messages...
+    ExecutionSetting executionSetting = buildExecutionSetting(params);
     try {
-      //Todo create/save ExecutionSetting (delete duplicate code from AlgorithmExecutor) - Pass ID to new process - get ExecutionSetting - execute
-      //Todo create/save execution with executionSettings - return execution id - return execution in here in parent process
-      //Todo Execution Id - return Exec
-
-      DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
-      List<ConfigurationValue> parameterValues = new LinkedList<>();
-      List<Input> inputs = new ArrayList<>();
-
-      FileInputResource fileInputResource = new FileInputResource();
-      TableInputResource tableInputResource = new TableInputResource();
-      DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
-
-      for (ConfigurationRequirement requirement : params.getRequirements()) {
-        parameterValues.add(requirement.build(configurationFactory));
-
-        for (ConfigurationSetting setting : requirement.getSettings()) {
-          if (setting instanceof ConfigurationSettingFileInput) {
-            inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
-          } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
-            inputs.add(databaseConnectionResource
-                           .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
-          } else if (setting instanceof ConfigurationSettingTableInput) {
-            inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
-          }
-        }
-      }
-      ExecutionSetting executionSetting = new ExecutionSetting(parameterValues, inputs, executionIdentifier);
-      try {
-        HibernateUtil.store(executionSetting);
-      } catch (EntityStorageException e) {
-        e.printStackTrace();
-      }
-      int exitCode = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
+      HibernateUtil.store(executionSetting);
+    } catch (EntityStorageException e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    //end here...
+    try {
+      Process process = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
                                           executionIdentifier, timeOut);
-
+      ProcessRegistry.getInstance().put(executionIdentifier, process); //manage process - possible to kill it later with corresponding key
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
     }
+    //Todo: atm frontend might expect execution to be returned
+    /*
     //Todo: comment steps - and/or defer steps - here: retrieve execution that was stored during the corresponding execution process
     try {
       ArrayList<Criterion> criteria = new ArrayList<>();
@@ -149,7 +118,7 @@ public class AlgorithmExecutionResource {
       // ExecutionSetting should implement Entity, so the exception should not occur.
       e.printStackTrace();
     }
-    /*try {
+    try {
 
 
     Execution execution = null;
@@ -164,8 +133,6 @@ public class AlgorithmExecutionResource {
     } catch (IOException e) {
       throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
     }*/
-
-    return execution;
   }
 
   @GET
@@ -228,8 +195,38 @@ public class AlgorithmExecutionResource {
     }
   }
 
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
+    ExecutionSetting executionSetting = null;
+    try {
+      DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
+      List<ConfigurationValue> parameterValues = new LinkedList<>();
+      List<Input> inputs = new ArrayList<>();
 
-  /**
+      FileInputResource fileInputResource = new FileInputResource();
+      TableInputResource tableInputResource = new TableInputResource();
+      DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
+
+      for (ConfigurationRequirement requirement : params.getRequirements()) {
+        parameterValues.add(requirement.build(configurationFactory));
+
+        for (ConfigurationSetting setting : requirement.getSettings()) {
+          if (setting instanceof ConfigurationSettingFileInput) {
+            inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
+          } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
+            inputs.add(databaseConnectionResource
+                           .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+          } else if (setting instanceof ConfigurationSettingTableInput) {
+            inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
+          }
+        }
+      }
+      executionSetting = new ExecutionSetting(parameterValues, inputs, params.getExecutionIdentifier());
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+    }
+    return executionSetting;
+  }
+    /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
    *
