@@ -36,4 +36,8 @@ public class JsonConverter<T> {
     return this.mapper.readValue(json, clazz);
   }
 
+  public void addMixIn(Class target, Class mixIn){
+    mapper.addMixInAnnotations(target, mixIn);
+  }
+
 }

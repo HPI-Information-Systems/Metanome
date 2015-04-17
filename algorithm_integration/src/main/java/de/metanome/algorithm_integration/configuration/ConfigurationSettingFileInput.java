@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -204,12 +205,15 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   }
 
   @XmlTransient
+  @JsonIgnore
   public char getSeparatorAsChar() { return toChar(this.separatorChar); }
   @XmlTransient
+  @JsonIgnore
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
   @XmlTransient
+  @JsonIgnore
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
@@ -235,6 +239,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
 
   @Override
   @XmlTransient
+  @JsonIgnore
   public String getValueAsString() {
     return fileName;
   }

@@ -167,8 +167,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
       public void run() {
         if (showProgress) updateProgress();
         if (cacheResults) resultsTab.fetchCacheResults();
-        if (writeResults) resultsTab.fetchPrinterResults();
-        //Todo: look for results file...
       }
     };
     this.progressTimer.scheduleRepeating(10000);

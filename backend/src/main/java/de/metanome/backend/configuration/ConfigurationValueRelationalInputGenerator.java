@@ -32,6 +32,8 @@ import java.util.Set;
 public class ConfigurationValueRelationalInputGenerator
     extends ConfigurationValue<RelationalInputGenerator, ConfigurationRequirementRelationalInput> {
 
+  protected ConfigurationValueRelationalInputGenerator() {}
+
   public ConfigurationValueRelationalInputGenerator(String identifier,
                                                     RelationalInputGenerator... values) {
     super(identifier, values);

@@ -41,6 +41,8 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   protected File inputFile;
   protected ConfigurationSettingFileInput setting;
 
+  protected DefaultFileInputGenerator(){}
+
   /**
    * Creates a DefaultFileInputGenerator with default settings.
    * The default setting is used to construct a new {@link de.metanome.algorithm_integration.input.RelationalInput}.

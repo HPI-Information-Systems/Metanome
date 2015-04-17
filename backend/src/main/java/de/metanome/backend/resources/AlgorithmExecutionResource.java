@@ -37,13 +37,19 @@ import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.ResultType;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -64,12 +70,12 @@ public class AlgorithmExecutionResource {
   /**
    * Executes an algorithm.
    * @param params all parameters to execute the algorithm
-   * @return the execution time
+   * @return the resulting execution
    */
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public void executeAlgorithm(AlgorithmExecutionParams params) {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
     //Todo: make execution interruptable - save id to table or something like this - and make it killable via frontend using call
     /* AlgorithmExecutor executor;
 
@@ -94,19 +100,28 @@ public class AlgorithmExecutionResource {
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+    HibernateUtil.shutdown();
     //end here...
     try {
       Process process = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
                                           executionIdentifier, timeOut);
       ProcessRegistry.getInstance().put(executionIdentifier, process); //manage process - possible to kill it later with corresponding key
+      InputStreamReader isr = new InputStreamReader(process.getInputStream());
+      BufferedReader br = new BufferedReader(isr);
+      String lineRead;
+      while ((lineRead = br.readLine()) != null) {
+        System.out.println(lineRead);
+      }
+      System.out.println("hello Again!");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     //Todo: atm frontend might expect execution to be returned
-    /*
+
     //Todo: comment steps - and/or defer steps - here: retrieve execution that was stored during the corresponding execution process
+    Execution execution = null;
     try {
       ArrayList<Criterion> criteria = new ArrayList<>();
       criteria.add(Restrictions.eq("identifier", executionIdentifier));
@@ -118,21 +133,7 @@ public class AlgorithmExecutionResource {
       // ExecutionSetting should implement Entity, so the exception should not occur.
       e.printStackTrace();
     }
-    try {
-
-
-    Execution execution = null;
-    try {
-      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
-    } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-
-    try {
-      executor.close();
-    } catch (IOException e) {
-      throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
-    }*/
+    return execution;
   }
 
   @GET

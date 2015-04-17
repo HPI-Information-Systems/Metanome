@@ -19,7 +19,13 @@ package de.metanome.backend.results_db;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
+import de.metanome.backend.helper.FileInputGeneratorMixIn;
+import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
+import de.metanome.backend.helper.TableInputGeneratorMixIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +83,9 @@ public class ExecutionSetting{
 
   public ExecutionSetting(List<ConfigurationValue> parameterValues, List<Input> inputs, String executionIdentifier) {
     JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
+    jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
     List<String> parameterValuesJson = new ArrayList<String>();
     try {
       //Todo: findOut classes in List

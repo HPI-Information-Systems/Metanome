@@ -87,7 +87,7 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     if (executionService == null)
       return;
 
-    executionService.getPrinterResults(executionIdentifier, getResultCallback());
+    executionService.readResultFromFile(executionIdentifier, getResultCallback());
   }
 
   /**

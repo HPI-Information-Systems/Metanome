@@ -31,6 +31,8 @@ import java.util.Set;
  */
 public class ConfigurationValueInteger extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
 
+  protected ConfigurationValueInteger(){}
+
   public ConfigurationValueInteger(String identifier, Integer... values) {
     super(identifier, values);
   }
