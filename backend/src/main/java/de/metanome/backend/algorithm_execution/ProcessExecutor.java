@@ -24,7 +24,7 @@ public final class ProcessExecutor {
   private ProcessExecutor() {
   }
 
-  public static Process exec(Class myClass, String algorithmId, String executionIdentifier, long timeOut) throws IOException,
+  public static Process exec(Class myClass, String algorithmId, String executionIdentifier, String memory) throws IOException,
                                                                                  InterruptedException {
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
@@ -35,8 +35,11 @@ public final class ProcessExecutor {
 
     ProcessBuilder builder = new ProcessBuilder(
         javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);
+    if(!memory.equals("")){
+      builder = new ProcessBuilder(
+          javaBin, "-Xmx"+memory+"m", "-cp", classpath, className, algorithmId, executionIdentifier);
+    }
     builder.redirectErrorStream(true);
-
     return builder.start();
   }
 

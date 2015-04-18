@@ -104,7 +104,7 @@ public class AlgorithmExecutionResource {
     //end here...
     try {
       Process process = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
-                                          executionIdentifier, timeOut);
+                                          executionIdentifier, params.getMemory());
       ProcessRegistry.getInstance().put(executionIdentifier, process); //manage process - possible to kill it later with corresponding key
       InputStreamReader isr = new InputStreamReader(process.getInputStream());
       BufferedReader br = new BufferedReader(isr);
@@ -202,7 +202,6 @@ public class AlgorithmExecutionResource {
       DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
       List<ConfigurationValue> parameterValues = new LinkedList<>();
       List<Input> inputs = new ArrayList<>();
-
       FileInputResource fileInputResource = new FileInputResource();
       TableInputResource tableInputResource = new TableInputResource();
       DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
@@ -227,7 +226,18 @@ public class AlgorithmExecutionResource {
     }
     return executionSetting;
   }
-    /**
+
+  @GET
+  @Path("/stop/{identifier}")
+  @Produces("application/json")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier) {
+    Process process = ProcessRegistry.getInstance().get(executionIdentifier);
+    ProcessRegistry.getInstance().remove(executionIdentifier);
+    process.destroy();
+  }
+
+
+  /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
    * result files and cache results for the frontend.
    *
