@@ -17,6 +17,7 @@
 package de.metanome.frontend.client.results;
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,10 +32,12 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+import de.metanome.frontend.client.services.ExecutionRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -84,10 +87,12 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
    * Fetches the results from the execution service and displays them on success.
    */
   protected void fetchPrinterResults() {
-    if (executionService == null)
+    if (executionService == null) {
       return;
-
-    executionService.readResultFromFile(executionIdentifier, getResultCallback());
+    }
+    ExecutionRestService execService = GWT.create(ExecutionRestService.class);
+    //Todo: find more elegant solution
+    execService.listExecutions(getRetrieveExecutionResultCallback());
   }
 
   /**
@@ -162,6 +167,25 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
       @Override
       public void onSuccess(Method method, List<Result> results) {
         displayResults(results);
+      }
+    };
+  }
+
+  private MethodCallback<List<Execution>> getRetrieveExecutionResultCallback() {
+    return new MethodCallback<List<Execution>>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError("Could not find execution: " + method.getResponse().getText());
+      }
+
+      @Override
+      public void onSuccess(Method method, List<Execution> executions) {
+        for(Execution exec: executions){
+          if(exec.getIdentifier().equals(executionIdentifier)){
+            readResultsFromFile(exec.getResults());
+            break;
+          }
+        }
       }
     };
   }
