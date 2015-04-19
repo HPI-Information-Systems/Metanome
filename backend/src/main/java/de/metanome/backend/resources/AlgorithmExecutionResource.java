@@ -93,7 +93,7 @@ public class AlgorithmExecutionResource {
     long timeOut = 10;
     String executionIdentifier = params.getExecutionIdentifier();
 
-      //Todo: aufteilen und tests schreibne + find way to debug (write to file if necessary) - see messages...
+    //Todo: aufteilen und tests schreibne + find way to debug (write to file if necessary) - see messages...
     ExecutionSetting executionSetting = buildExecutionSetting(params);
     try {
       HibernateUtil.store(executionSetting);
@@ -103,9 +103,12 @@ public class AlgorithmExecutionResource {
     HibernateUtil.shutdown();
     //end here...
     try {
-      Process process = ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
-                                          executionIdentifier, params.getMemory());
-      ProcessRegistry.getInstance().put(executionIdentifier, process); //manage process - possible to kill it later with corresponding key
+      Process
+          process =
+          ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
+                               executionIdentifier, params.getMemory());
+      ProcessRegistry.getInstance().put(executionIdentifier,
+                                        process); //manage process - possible to kill it later with corresponding key
       InputStreamReader isr = new InputStreamReader(process.getInputStream());
       BufferedReader br = new BufferedReader(isr);
       String lineRead;
@@ -129,7 +132,7 @@ public class AlgorithmExecutionResource {
           (Execution) HibernateUtil
               .queryCriteria(Execution.class,
                              criteria.toArray(new Criterion[criteria.size()])).get(0);
-    } catch (EntityStorageException e) {
+    } catch (EntityStorageException | IndexOutOfBoundsException e) {
       // ExecutionSetting should implement Entity, so the exception should not occur.
       e.printStackTrace();
     }
