@@ -48,16 +48,6 @@ public class FunctionalDependencyPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Determinant column
-    TextColumn<FunctionalDependency> dependantColumn = new TextColumn<FunctionalDependency>() {
-      @Override
-      public String getValue(FunctionalDependency functionalDependency) {
-        return functionalDependency.getDependant().toString();
-      }
-    };
-    this.table.addColumn(dependantColumn, "Dependant");
-    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN);
-
-    // Determinant column
     TextColumn<FunctionalDependency> determinantColumn = new TextColumn<FunctionalDependency>() {
       @Override
       public String getValue(FunctionalDependency functionalDependency) {
@@ -67,6 +57,16 @@ public class FunctionalDependencyPaginationTable
     };
     this.table.addColumn(determinantColumn, "Determinant");
     columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN);
+
+    // Determinant column
+    TextColumn<FunctionalDependency> dependantColumn = new TextColumn<FunctionalDependency>() {
+      @Override
+      public String getValue(FunctionalDependency functionalDependency) {
+        return functionalDependency.getDependant().toString();
+      }
+    };
+    this.table.addColumn(dependantColumn, "Dependant");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

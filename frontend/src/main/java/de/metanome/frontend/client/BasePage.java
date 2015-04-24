@@ -144,8 +144,7 @@ public class BasePage extends TabLayoutPanel {
                                                                 executionIdentifier));
     // During execution the progress is shown on the result page
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
-                               cacheResults, writeResults, countResults);
+        .setExecutionParameter(executionIdentifier, algorithm.getFileName());
     this.resultsPage.startPolling(algorithm.isProgressEstimating());
 
     this.selectTab(Tabs.RESULTS.ordinal());
@@ -185,7 +184,7 @@ public class BasePage extends TabLayoutPanel {
       }
 
       public void onSuccess(Method method, Execution execution) {
-        resultsPage.updateOnSuccess(execution.getEnd() - execution.getBegin(), execution.getId());
+        resultsPage.updateOnSuccess(execution);
         executionPage.addExecution(execution);
       }
     };

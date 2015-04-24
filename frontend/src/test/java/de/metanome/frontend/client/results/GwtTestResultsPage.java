@@ -22,6 +22,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
@@ -59,7 +60,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
-    page.setExecutionParameter(null, "identifier", "name", true, false, false);
+    page.setExecutionParameter("identifier", "name");
 
     // Expected Values
     // Execute
@@ -106,22 +107,25 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#updateOnSuccess(Long, long)}
+   * Test method for {@link ResultsPage#updateOnSuccess(de.metanome.backend.results_db.Execution)}
    */
   public void testUpdateOnSuccess() {
     // Set up
     TestHelper.resetDatabaseSync();
 
+    Execution execution = new Execution(null, 12);
+    execution.setEnd(2345);
+
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-    page.setExecutionParameter(null, "identifier", "name", true, false, false);
+    page.setExecutionParameter("identifier", "name");
 
     page.startPolling(true);
 
     // Expected Values
     // Execute
-    page.updateOnSuccess((long) 4543, 1);
+    page.updateOnSuccess(null);
 
     // Check
     assertEquals(2, page.getWidgetCount());

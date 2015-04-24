@@ -19,6 +19,7 @@ package de.metanome.backend.result_postprocessing.result_store;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
 
 import org.junit.Test;
 
@@ -112,14 +113,15 @@ public class ResultsStoreTest {
     resultsStore.store(results, 1l);
 
     // Execute functionality
-    List<InclusionDependency> actualResults = resultsStore.subList(1l, "referencedAsString", true, 1, 2);
+    List<InclusionDependency> actualResults =
+        resultsStore.subList(1l, InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
 
     // Check
     assertEquals(1, actualResults.size());
     assertEquals(ind1, actualResults.get(0));
 
     // Execute functionality
-    actualResults = resultsStore.subList(1l, "referencedAsString", true, 0, 3);
+    actualResults = resultsStore.subList(1l,InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
 
     // Check
     assertEquals(3, actualResults.size());

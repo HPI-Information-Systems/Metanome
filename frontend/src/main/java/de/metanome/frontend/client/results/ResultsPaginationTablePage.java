@@ -18,7 +18,9 @@ package de.metanome.frontend.client.results;
 
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -41,22 +43,56 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   protected FlowPanel resultsPanel;
   protected TabWrapper messageReceiver;
 
-  public ResultsPaginationTablePage(long executionId) {
+  public ResultsPaginationTablePage() {
 
-    this.resultsPanel = new FlowPanel();
-    this.resultsPanel.addStyleName("left");
-    this.add(resultsPanel);
+  }
 
-    this.add(new InclusionDependencyPaginationTable(executionId, ResultType.IND));
-    this.add(new UniqueColumnCombinationPaginationTable(executionId, ResultType.UCC));
-    this.add(new ConditionalUniqueColumnCombinationPaginationTable(executionId, ResultType.CUCC));
-    this.add(new FunctionalDependencyPaginationTable(executionId, ResultType.FD));
-    this.add(new OrderDependencyPaginationTable(executionId, ResultType.OD));
-    this.add(new BasicStatisticPaginationTable(executionId, ResultType.STAT));
+  /**
+   * Adds a table for each result type of the execution.
+   * @param execution the execution
+   */
+  public void addTables(Execution execution) {
+    long executionId = execution.getId();
+
+    if (execution.getAlgorithm().isBasicStat()) {
+      addTitle(ResultType.STAT.getName());
+      this.add(new BasicStatisticPaginationTable(executionId, ResultType.STAT));
+    }
+
+    if (execution.getAlgorithm().isUcc()) {
+      addTitle(ResultType.UCC.getName());
+      this.add(new UniqueColumnCombinationPaginationTable(executionId, ResultType.UCC));
+    }
+
+    if (execution.getAlgorithm().isCucc()) {
+      addTitle(ResultType.CUCC.getName());
+      this.add(new ConditionalUniqueColumnCombinationPaginationTable(executionId, ResultType.CUCC));
+    }
+
+    if (execution.getAlgorithm().isFd()) {
+      addTitle(ResultType.FD.getName());
+      this.add(new FunctionalDependencyPaginationTable(executionId, ResultType.FD));
+    }
+
+    if (execution.getAlgorithm().isInd()) {
+      addTitle(ResultType.IND.getName());
+      this.add(new InclusionDependencyPaginationTable(executionId, ResultType.IND));
+    }
+
+    if (execution.getAlgorithm().isOd()) {
+      addTitle(ResultType.OD.getName());
+      this.add(new OrderDependencyPaginationTable(executionId, ResultType.OD));
+    }
+  }
+
+  private void addTitle(String title) {
+    Label label = new Label(title);
+    label.setStyleName("resultTable-caption");
+    this.add(label);
   }
 
   @Override
   public void setMessageReceiver(TabWrapper tab) {
-
+    this.messageReceiver = tab;
   }
 }

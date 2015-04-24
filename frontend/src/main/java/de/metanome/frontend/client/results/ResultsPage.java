@@ -41,7 +41,6 @@ import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -64,15 +63,11 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected Label algorithmLabel;
 
-  protected ResultsTablePage tablePage;
+  protected ResultsPaginationTablePage tablePage;
 
   protected String executionIdentifier;
   private String algorithmFileName;
   private AlgorithmExecutionRestService executionService;
-
-  private Boolean cacheResults;
-  private Boolean writeResults;
-  private Boolean countResults;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -86,34 +81,29 @@ public class ResultsPage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Adds the Tabs for results and visualization.
+   * Adds the child pages to show the results.
    *
-   * @param executionTimeInMs the execution time in milliseconds
+   * @param execution the execution
    */
-  public void updateOnSuccess(Long executionTimeInMs, long executionId) {
+  public void updateOnSuccess(Execution execution) {
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 
-    // Fetch the last results or get all results depending on the used result receiver
-    if (cacheResults)
-      this.tablePage.fetchCacheResults();
-    else if (writeResults)
-      this.tablePage.fetchPrinterResults();
-    else if (countResults)
-      this.tablePage.getCounterResults();
-
-
-
     this.remove(this.algorithmLabel);
-    if (this.progressBar != null ) this.remove(this.progressBar);
+    if (this.progressBar != null) {
+      this.remove(this.progressBar);
+    }
     this.remove(this.runningIndicator);
     this.remove(this.executionTimePanel);
 
     // Add a label for the execution time
-    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
+    this.insert(new Label(
+        getExecutionTimeString(this.algorithmFileName, execution.getEnd() - execution.getBegin())),
+                0);
 
-    // Add the result table and the visualization tab
-    this.panel.add(new ScrollPanel(new ResultsPaginationTablePage(executionId)), "Pagination Table");
+    // Add the result table
+    this.addChildPages();
+    this.tablePage.addTables(execution);
   }
 
   /**
@@ -122,8 +112,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param message the error message
    */
   public void updateOnError(String message) {
-    if (this.executionTimeTimer != null) this.executionTimeTimer.cancel();
-    if (this.progressTimer != null) this.progressTimer.cancel();
+    if (this.executionTimeTimer != null) {
+      this.executionTimeTimer.cancel();
+    }
+    if (this.progressTimer != null) {
+      this.progressTimer.cancel();
+    }
     this.clear();
 
     this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
@@ -156,10 +150,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
       this.add(this.progressBar);
     }
 
-    this.addChildPages(this.executionService, this.executionIdentifier);
-
-    final ResultsTablePage resultsTab = tablePage;
-
     // Start timer for the execution Panel
     this.executionTimeTimer = new Timer() {
       public void run() {
@@ -171,8 +161,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
     // Start timer for fetching the progress
     this.progressTimer = new Timer() {
       public void run() {
-        if (showProgress) updateProgress();
-        if (cacheResults) resultsTab.fetchCacheResults();
+        if (showProgress) {
+          updateProgress();
+        }
       }
     };
     this.progressTimer.scheduleRepeating(10000);
@@ -180,6 +171,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   /**
    * Displays the results of the given execution.
+   *
    * @param execution the execution
    */
   public void showResults(Execution execution) {
@@ -188,18 +180,19 @@ public class ResultsPage extends FlowPanel implements TabContent {
     AlgorithmExecutionRestService executionRestService = GWT.create(
         AlgorithmExecutionRestService.class);
 
-    this.addChildPages(executionRestService, execution.getIdentifier());
-
-    // Fetch the results
-    this.tablePage.readResultsFromFile(execution.getResults());
+    // TODO
+    //this.addChildPages(execution);
 
     // Add a label for the execution time
     long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
-    this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
+    this.insert(
+        new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)),
+        0);
   }
 
   /**
    * Displays the results of the given file input.
+   *
    * @param input the execution
    */
   public void showResults(FileInput input) {
@@ -207,9 +200,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.clear();
 
     ResultRestService resultRestService = GWT.create(ResultRestService.class);
-    AlgorithmExecutionRestService algorithmExecutionRestService = GWT.create(AlgorithmExecutionRestService.class);
+    AlgorithmExecutionRestService
+        algorithmExecutionRestService =
+        GWT.create(AlgorithmExecutionRestService.class);
 
-    this.addChildPages(algorithmExecutionRestService, "");
+    // TODO
+    this.addChildPages();
 
     resultRestService.getResultsForFileInput(input.getId(), getShowResultCallback());
     this.insert(
@@ -217,15 +213,16 @@ public class ResultsPage extends FlowPanel implements TabContent {
   }
 
   /**
-   * Sends a call to the backend for obtaining all executions for a specific input.
-   * If the callback is successful, the results of the executions are sent to the table page.
+   * Sends a call to the backend for obtaining all executions for a specific input. If the callback
+   * is successful, the results of the executions are sent to the table page.
+   *
    * @return the method callback
    */
   private MethodCallback<List<Result>> getShowResultCallback() {
     return new MethodCallback<List<Result>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not display results: " +  method.getResponse().getText());
+        messageReceiver.addError("Could not display results: " + method.getResponse().getText());
       }
 
       @Override
@@ -234,48 +231,24 @@ public class ResultsPage extends FlowPanel implements TabContent {
           tablePage.add(new Label("There are no results yet."));
           return;
         }
-        tablePage.readResultsFromFile(new HashSet<>(results));
+        // TODO
+//        tablePage.readResultsFromFile(new HashSet<>(results));
       }
     };
   }
 
-  private void addChildPages(AlgorithmExecutionRestService executionService, String executionIdentifier) {
+  /**
+   * Adds the child pages.
+   */
+  private void addChildPages() {
     // Create new tab with result table
-    this.tablePage =
-        new ResultsTablePage(executionService, executionIdentifier);
+    this.tablePage = new ResultsPaginationTablePage();
     tablePage.setMessageReceiver(this.messageReceiver);
 
-    // Create new tab with visualizations of result
-    ResultsVisualizationPage visualizationTab = new ResultsVisualizationPage();
-    visualizationTab.setMessageReceiver(this.messageReceiver);
-
-    // Add the result table and the visualization tab
+    // Add the result table
     this.panel = new TabLayoutPanel(1, Unit.CM);
     panel.add(new ScrollPanel(tablePage), "Table");
-    panel.add(new ScrollPanel(visualizationTab), "Visualization");
     this.add(panel);
-  }
-
-  protected int toTimeInt(String str) {
-    String[] parts = str.split(":");
-    int h = Integer.parseInt(parts[0]);
-    int m = Integer.parseInt(parts[1]);
-    int s = Integer.parseInt(parts[2]);
-    return h * 3600 + m * 60 + s;
-  }
-
-  protected String toTimeString(int seconds) {
-    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss");
-    Date date = new Date(seconds * 1000);
-    return format.format(date, TimeZone.createTimeZone(0));
-  }
-  
-  private String getExecutionTimeString(String algorithmFileName, long executionTime) {
-    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
-    Date date = new Date(executionTime);
-    return "Algorithm " + algorithmFileName + " executed in " +
-           format.format(date, TimeZone.createTimeZone(0)) +
-           " (HH:mm:ss.SSS) or " + executionTime + " ms.";
   }
 
   /**
@@ -309,22 +282,54 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Sets the parameter needed for execution
    *
-   * @param executionService    the execution service
    * @param executionIdentifier the execution identifier
    * @param algorithmFileName   the algorithm file name
    */
-  public void setExecutionParameter(AlgorithmExecutionRestService executionService,
-                                    String executionIdentifier,
-                                    String algorithmFileName,
-                                    Boolean cacheResults,
-                                    Boolean writeResults,
-                                    Boolean countResults) {
-    this.executionService = executionService;
+  public void setExecutionParameter(String executionIdentifier,
+                                    String algorithmFileName) {
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
-    this.cacheResults = cacheResults;
-    this.writeResults = writeResults;
-    this.countResults = countResults;
+  }
+
+  /**
+   * Helper method to convert a string into an integer of seconds.
+   *
+   * @param str string containing a time
+   * @return time as int
+   */
+  protected int toTimeInt(String str) {
+    String[] parts = str.split(":");
+    int h = Integer.parseInt(parts[0]);
+    int m = Integer.parseInt(parts[1]);
+    int s = Integer.parseInt(parts[2]);
+    return h * 3600 + m * 60 + s;
+  }
+
+  /**
+   * Helper method to convert a int to a time string.
+   *
+   * @param seconds seconds
+   * @return string representing a time
+   */
+  protected String toTimeString(int seconds) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss");
+    Date date = new Date(seconds * 1000);
+    return format.format(date, TimeZone.createTimeZone(0));
+  }
+
+  /**
+   * Helper method to get the execution time string.
+   *
+   * @param algorithmFileName the algorithm file name
+   * @param executionTime     the execution time
+   * @return the execution time string
+   */
+  private String getExecutionTimeString(String algorithmFileName, long executionTime) {
+    DateTimeFormat format = DateTimeFormat.getFormat("HH:mm:ss.SSS");
+    Date date = new Date(executionTime);
+    return "Algorithm " + algorithmFileName + " executed in " +
+           format.format(date, TimeZone.createTimeZone(0)) +
+           " (HH:mm:ss.SSS) or " + executionTime + " ms.";
   }
 
   /* (non-Javadoc)
