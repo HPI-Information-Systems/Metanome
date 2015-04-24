@@ -18,23 +18,23 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
+import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.result_comparator.FunctionalDependencyResultComparator;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InclusionDependencyPaginationTable
-    extends AbstractPaginationTable<InclusionDependency> {
+public class FunctionalDependencyPaginationTable
+    extends AbstractPaginationTable<FunctionalDependency> {
 
   /**
    * Constructs the page for given algorithm execution
    *
    * @param executionID ID of the algorithm execution for which the ranks should be shown
    */
-  public InclusionDependencyPaginationTable(long executionID, ResultType resultType) {
+  public FunctionalDependencyPaginationTable(long executionID, ResultType resultType) {
     super(executionID, resultType);
   }
 
@@ -48,25 +48,25 @@ public class InclusionDependencyPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Determinant column
-    TextColumn<InclusionDependency> dependantColumn = new TextColumn<InclusionDependency>() {
+    TextColumn<FunctionalDependency> dependantColumn = new TextColumn<FunctionalDependency>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getDependant().toString();
+      public String getValue(FunctionalDependency functionalDependency) {
+        return functionalDependency.getDependant().toString();
       }
     };
     this.table.addColumn(dependantColumn, "Dependant");
-    columnNames.add(InclusionDependencyResultComparator.DEPENDANT_COLUMN);
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN);
 
     // Determinant column
-    TextColumn<InclusionDependency> referencedColumn = new TextColumn<InclusionDependency>() {
+    TextColumn<FunctionalDependency> determinantColumn = new TextColumn<FunctionalDependency>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getReferenced().toString();
+      public String getValue(FunctionalDependency functionalDependency) {
+        return functionalDependency.getDeterminant().toString();
       }
 
     };
-    this.table.addColumn(referencedColumn, "Referenced");
-    columnNames.add(InclusionDependencyResultComparator.REFERENCED_COLUMN);
+    this.table.addColumn(determinantColumn, "Determinant");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

@@ -18,23 +18,23 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
+import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.result_comparator.BasicStatisticResultComparator;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InclusionDependencyPaginationTable
-    extends AbstractPaginationTable<InclusionDependency> {
+public class BasicStatisticPaginationTable
+    extends AbstractPaginationTable<BasicStatistic> {
 
   /**
    * Constructs the page for given algorithm execution
    *
    * @param executionID ID of the algorithm execution for which the ranks should be shown
    */
-  public InclusionDependencyPaginationTable(long executionID, ResultType resultType) {
+  public BasicStatisticPaginationTable(long executionID, ResultType resultType) {
     super(executionID, resultType);
   }
 
@@ -47,26 +47,35 @@ public class InclusionDependencyPaginationTable
   protected List<String> initializeColumns() {
     List<String> columnNames = new ArrayList<>();
 
-    // Determinant column
-    TextColumn<InclusionDependency> dependantColumn = new TextColumn<InclusionDependency>() {
+    // name column
+    TextColumn<BasicStatistic> nameColumn = new TextColumn<BasicStatistic>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getDependant().toString();
+      public String getValue(BasicStatistic basicStatistic) {
+        return basicStatistic.getStatisticName();
       }
     };
-    this.table.addColumn(dependantColumn, "Dependant");
-    columnNames.add(InclusionDependencyResultComparator.DEPENDANT_COLUMN);
+    this.table.addColumn(nameColumn, "Statistic Name");
+    columnNames.add(BasicStatisticResultComparator.NAME_COLUMN);
 
-    // Determinant column
-    TextColumn<InclusionDependency> referencedColumn = new TextColumn<InclusionDependency>() {
+    // unique column combination column
+    TextColumn<BasicStatistic> columnCombinationColumn = new TextColumn<BasicStatistic>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getReferenced().toString();
+      public String getValue(BasicStatistic basicStatistic) {
+        return basicStatistic.getColumnCombination().toString();
       }
-
     };
-    this.table.addColumn(referencedColumn, "Referenced");
-    columnNames.add(InclusionDependencyResultComparator.REFERENCED_COLUMN);
+    this.table.addColumn(columnCombinationColumn, "Column Combination");
+    columnNames.add(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN);
+
+    // value column
+    TextColumn<BasicStatistic> valueColumn = new TextColumn<BasicStatistic>() {
+      @Override
+      public String getValue(BasicStatistic basicStatistic) {
+        return basicStatistic.getStatisticValue().toString();
+      }
+    };
+    this.table.addColumn(valueColumn, "Value");
+    columnNames.add(BasicStatisticResultComparator.VALUE_COLUMN);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

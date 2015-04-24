@@ -17,13 +17,19 @@
 package de.metanome.backend.result_postprocessing;
 
 
+import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.result_store.BasicStatisticResultStore;
 import de.metanome.backend.result_postprocessing.result_store.ConditionalUniqueColumnCombinationResultStore;
 import de.metanome.backend.result_postprocessing.result_store.FunctionalDependencyResultStore;
 import de.metanome.backend.result_postprocessing.result_store.InclusionDependencyResultsStore;
+import de.metanome.backend.result_postprocessing.result_store.OrderDependencyResultStore;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
+import de.metanome.backend.result_postprocessing.result_store.UniqueColumnCombinationResultStore;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ResultType;
@@ -74,10 +80,10 @@ public class ResultPostProcessor {
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.OD.getName())) {
-      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
-      ResultReader<FunctionalDependency>
+      OrderDependencyResultStore resultsStore = new OrderDependencyResultStore();
+      ResultReader<OrderDependency>
           resultReader =
-          new ResultReader<>(FunctionalDependency.class);
+          new ResultReader<>(OrderDependency.class);
       resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
       ResultsStoreHolder.register(name, resultsStore);
 
@@ -98,18 +104,18 @@ public class ResultPostProcessor {
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.UCC.getName())) {
-      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
-      ResultReader<FunctionalDependency>
+      UniqueColumnCombinationResultStore resultsStore = new UniqueColumnCombinationResultStore();
+      ResultReader<UniqueColumnCombination>
           resultReader =
-          new ResultReader<>(FunctionalDependency.class);
+          new ResultReader<>(UniqueColumnCombination.class);
       resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.STAT.getName())) {
-      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
-      ResultReader<FunctionalDependency>
+      BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();
+      ResultReader<BasicStatistic>
           resultReader =
-          new ResultReader<>(FunctionalDependency.class);
+          new ResultReader<>(BasicStatistic.class);
       resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
       ResultsStoreHolder.register(name, resultsStore);
 

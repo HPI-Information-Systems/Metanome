@@ -18,23 +18,23 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.result_comparator.ConditionalUniqueColumnCombinationResultComparator;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InclusionDependencyPaginationTable
-    extends AbstractPaginationTable<InclusionDependency> {
+public class ConditionalUniqueColumnCombinationPaginationTable
+    extends AbstractPaginationTable<ConditionalUniqueColumnCombination> {
 
   /**
    * Constructs the page for given algorithm execution
    *
    * @param executionID ID of the algorithm execution for which the ranks should be shown
    */
-  public InclusionDependencyPaginationTable(long executionID, ResultType resultType) {
+  public ConditionalUniqueColumnCombinationPaginationTable(long executionID, ResultType resultType) {
     super(executionID, resultType);
   }
 
@@ -47,26 +47,25 @@ public class InclusionDependencyPaginationTable
   protected List<String> initializeColumns() {
     List<String> columnNames = new ArrayList<>();
 
-    // Determinant column
-    TextColumn<InclusionDependency> dependantColumn = new TextColumn<InclusionDependency>() {
+    // Unique Column Combination column
+    TextColumn<ConditionalUniqueColumnCombination> columnCombinationColumn = new TextColumn<ConditionalUniqueColumnCombination>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getDependant().toString();
+      public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+        return columnCombination.getColumnCombination().toString();
       }
     };
-    this.table.addColumn(dependantColumn, "Dependant");
-    columnNames.add(InclusionDependencyResultComparator.DEPENDANT_COLUMN);
+    this.table.addColumn(columnCombinationColumn, "Column Combination");
+    columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
 
-    // Determinant column
-    TextColumn<InclusionDependency> referencedColumn = new TextColumn<InclusionDependency>() {
+    // condition column
+    TextColumn<ConditionalUniqueColumnCombination> conditionColumn = new TextColumn<ConditionalUniqueColumnCombination>() {
       @Override
-      public String getValue(InclusionDependency inclusionDependency) {
-        return inclusionDependency.getReferenced().toString();
+      public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+        return columnCombination.getCondition().toString();
       }
-
     };
-    this.table.addColumn(referencedColumn, "Referenced");
-    columnNames.add(InclusionDependencyResultComparator.REFERENCED_COLUMN);
+    this.table.addColumn(conditionColumn, "Condition");
+    columnNames.add(ConditionalUniqueColumnCombinationResultComparator.CONDITION_COLUMN);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

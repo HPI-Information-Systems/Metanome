@@ -22,8 +22,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.results.pagination_table.AbstractPaginationTable;
+import de.metanome.frontend.client.results.pagination_table.BasicStatisticPaginationTable;
+import de.metanome.frontend.client.results.pagination_table.ConditionalUniqueColumnCombinationPaginationTable;
+import de.metanome.frontend.client.results.pagination_table.FunctionalDependencyPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.InclusionDependencyPaginationTable;
+import de.metanome.frontend.client.results.pagination_table.OrderDependencyPaginationTable;
+import de.metanome.frontend.client.results.pagination_table.UniqueColumnCombinationPaginationTable;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
 
@@ -37,28 +41,18 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   protected FlowPanel resultsPanel;
   protected TabWrapper messageReceiver;
 
-  protected ResultTable uccTable;
-  protected ResultTable cuccTable;
-  protected AbstractPaginationTable indTable;
-  protected ResultTable fdTable;
-  protected ResultTable odTable;
-  protected ResultTable basicsTable;
-
   public ResultsPaginationTablePage(long executionId) {
 
     this.resultsPanel = new FlowPanel();
     this.resultsPanel.addStyleName("left");
     this.add(resultsPanel);
 
-    indTable = new InclusionDependencyPaginationTable(executionId, ResultType.IND);
-    uccTable = new ResultTable("Unique Column Combinations");
-    cuccTable = new ResultTable("Conditional Unique Column Combinations");
-    fdTable = new ResultTable("Functional Dependencies");
-    odTable = new ResultTable("Order Dependencies");
-    basicsTable = new ResultTable("Basic Statistics");
-
-    this.add(indTable);
-
+    this.add(new InclusionDependencyPaginationTable(executionId, ResultType.IND));
+    this.add(new UniqueColumnCombinationPaginationTable(executionId, ResultType.UCC));
+    this.add(new ConditionalUniqueColumnCombinationPaginationTable(executionId, ResultType.CUCC));
+    this.add(new FunctionalDependencyPaginationTable(executionId, ResultType.FD));
+    this.add(new OrderDependencyPaginationTable(executionId, ResultType.OD));
+    this.add(new BasicStatisticPaginationTable(executionId, ResultType.STAT));
   }
 
   @Override
