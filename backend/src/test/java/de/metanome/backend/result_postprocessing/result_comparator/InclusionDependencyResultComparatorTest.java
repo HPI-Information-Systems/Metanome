@@ -42,7 +42,8 @@ public class InclusionDependencyResultComparatorTest {
   public void compareDependantAsc() {
     InclusionDependencyResultComparator
         resultComparator =
-        new InclusionDependencyResultComparator("dependantAsString", true);
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_COLUMN, true);
     assertEquals(-1, resultComparator.compare(ind1, ind2));
   }
 
@@ -50,7 +51,8 @@ public class InclusionDependencyResultComparatorTest {
   public void compareDependantDesc() {
     InclusionDependencyResultComparator
         resultComparator =
-        new InclusionDependencyResultComparator("dependantAsString", false);
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_COLUMN, false);
     assertEquals(1, resultComparator.compare(ind1, ind2));
   }
 
@@ -58,7 +60,8 @@ public class InclusionDependencyResultComparatorTest {
   public void compareReferenceAsc() {
     InclusionDependencyResultComparator
         resultComparator =
-        new InclusionDependencyResultComparator("referencedAsString", true);
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_COLUMN, true);
     assertEquals(1, resultComparator.compare(ind1, ind2));
   }
 
@@ -66,7 +69,8 @@ public class InclusionDependencyResultComparatorTest {
   public void compareReferenceDesc() {
     InclusionDependencyResultComparator
         resultComparator =
-        new InclusionDependencyResultComparator("referencedAsString", false);
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_COLUMN, false);
     assertEquals(-1, resultComparator.compare(ind1, ind2));
   }
 

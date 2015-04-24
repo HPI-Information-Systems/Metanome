@@ -19,13 +19,16 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 
 /**
- * Defines an Functional Dependency comparator based on a predefined sort property and sort
+ * Defines an functional dependency comparator based on a predefined sort property and sort
  * direction order.
  */
 public class FunctionalDependencyResultComparator extends ResultComparator<FunctionalDependency> {
 
+  public static final String DEPENDANT_COLUMN = "dependant";
+  public static final String DETERMINANT_COLUMN = "determinant";
+
   /**
-   * Creates a Functional Dependency result comparator for given property and direction
+   * Creates a functional dependency result comparator for given property and direction
    *
    * @param sortProperty Sort property
    * @param isAscending  Sort direction
@@ -35,19 +38,19 @@ public class FunctionalDependencyResultComparator extends ResultComparator<Funct
   }
 
   /**
-   * Compares two given Functional Dependency results depending on given sort property
+   * Compares two given functional dependency results depending on given sort property
    *
-   * @param fd1          Left Functional Dependency result
-   * @param fd2          Right Functional Dependency result
+   * @param fd1          functional dependency result
+   * @param fd2          other functional dependency result
    * @param sortProperty Sort property
    * @return Returns 1 if fd1 is greater than fd2, 0 if both are equal, -1 otherwise
    */
   @Override
   protected int compare(FunctionalDependency fd1, FunctionalDependency fd2, String sortProperty) {
-    if ("dependantAsString".equals(sortProperty)) {
+    if (DEPENDANT_COLUMN.equals(sortProperty)) {
       return fd1.getDependant().toString().compareTo(fd2.getDependant().toString());
     }
-    if ("determinantAsString".equals(sortProperty)) {
+    if (DETERMINANT_COLUMN.equals(sortProperty)) {
       return fd1.getDeterminant().toString().compareTo(fd2.getDeterminant().toString());
     }
 

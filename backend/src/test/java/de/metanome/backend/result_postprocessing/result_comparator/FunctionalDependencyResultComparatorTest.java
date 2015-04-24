@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 
 public class FunctionalDependencyResultComparatorTest {
 
+
   ColumnCombination determinant1 = new ColumnCombination(new ColumnIdentifier("table1", "column5"));
   ColumnIdentifier dependant1 = new ColumnIdentifier("table1", "column2");
   FunctionalDependency fd1 = new FunctionalDependency(determinant1, dependant1);
@@ -37,28 +38,32 @@ public class FunctionalDependencyResultComparatorTest {
   @Test
   public void compareDependantAsc() {
     FunctionalDependencyResultComparator resultComparator =
-        new FunctionalDependencyResultComparator("dependantAsString", true);
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_COLUMN, true);
     assertEquals(-1, resultComparator.compare(fd1, fd2));
   }
 
   @Test
   public void compareDependantDesc() {
     FunctionalDependencyResultComparator resultComparator =
-        new FunctionalDependencyResultComparator("dependantAsString", false);
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_COLUMN, false);
     assertEquals(1, resultComparator.compare(fd1, fd2));
   }
 
   @Test
   public void compareReferenceAsc() {
     FunctionalDependencyResultComparator resultComparator =
-        new FunctionalDependencyResultComparator("determinantAsString", true);
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_COLUMN, true);
     assertEquals(1, resultComparator.compare(fd1, fd2));
   }
 
   @Test
   public void compareReferenceDesc() {
     FunctionalDependencyResultComparator resultComparator =
-        new FunctionalDependencyResultComparator("determinantAsString", false);
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_COLUMN, false);
     assertEquals(-1, resultComparator.compare(fd1, fd2));
   }
 

@@ -17,8 +17,10 @@
 package de.metanome.backend.result_postprocessing;
 
 
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.result_store.ConditionalUniqueColumnCombinationResultStore;
 import de.metanome.backend.result_postprocessing.result_store.FunctionalDependencyResultStore;
 import de.metanome.backend.result_postprocessing.result_store.InclusionDependencyResultsStore;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
@@ -63,8 +65,21 @@ public class ResultPostProcessor {
                                    long executionId) throws IOException {
 
     if (name.equals(ResultType.CUCC.getName())) {
+      ConditionalUniqueColumnCombinationResultStore
+          resultsStore = new ConditionalUniqueColumnCombinationResultStore();
+      ResultReader<ConditionalUniqueColumnCombination>
+          resultReader =
+          new ResultReader<>(ConditionalUniqueColumnCombination.class);
+      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.OD.getName())) {
+      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
+      ResultReader<FunctionalDependency>
+          resultReader =
+          new ResultReader<>(FunctionalDependency.class);
+      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.IND.getName())) {
       InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
@@ -83,8 +98,20 @@ public class ResultPostProcessor {
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.UCC.getName())) {
+      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
+      ResultReader<FunctionalDependency>
+          resultReader =
+          new ResultReader<>(FunctionalDependency.class);
+      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.STAT.getName())) {
+      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
+      ResultReader<FunctionalDependency>
+          resultReader =
+          new ResultReader<>(FunctionalDependency.class);
+      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      ResultsStoreHolder.register(name, resultsStore);
 
     }
 
