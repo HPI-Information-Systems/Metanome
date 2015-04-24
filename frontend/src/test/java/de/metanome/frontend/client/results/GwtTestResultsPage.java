@@ -22,6 +22,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
@@ -67,7 +68,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.startPolling(true);
 
     // Check
-    assertEquals(5, page.getWidgetCount());
+    assertEquals(4, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
@@ -113,7 +114,8 @@ public class GwtTestResultsPage extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    Execution execution = new Execution(null, 12);
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    Execution execution = new Execution(algorithm, 12);
     execution.setEnd(2345);
 
     BasePage parent = new BasePage();
@@ -125,7 +127,7 @@ public class GwtTestResultsPage extends GWTTestCase {
 
     // Expected Values
     // Execute
-    page.updateOnSuccess(null);
+    page.updateOnSuccess(execution);
 
     // Check
     assertEquals(2, page.getWidgetCount());
