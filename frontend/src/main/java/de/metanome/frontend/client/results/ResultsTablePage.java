@@ -78,6 +78,8 @@ public class ResultsTablePage extends FlowPanel implements OmniscientResultRecei
     fdTable = new ResultTable("Functional Dependencies");
     odTable = new ResultTable("Order Dependencies");
     basicsTable = new ResultTable("Basic Statistics");
+
+
   }
 
   /**

@@ -60,6 +60,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected Timer executionTimeTimer;
   protected Timer progressTimer;
   protected FlowPanel executionTimePanel;
+  protected TabLayoutPanel panel;
 
   protected Label algorithmLabel;
 
@@ -89,7 +90,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    *
    * @param executionTimeInMs the execution time in milliseconds
    */
-  public void updateOnSuccess(Long executionTimeInMs) {
+  public void updateOnSuccess(Long executionTimeInMs, long executionId) {
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 
@@ -101,6 +102,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
     else if (countResults)
       this.tablePage.getCounterResults();
 
+
+
     this.remove(this.algorithmLabel);
     if (this.progressBar != null ) this.remove(this.progressBar);
     this.remove(this.runningIndicator);
@@ -108,6 +111,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
+
+    // Add the result table and the visualization tab
+    this.panel.add(new ScrollPanel(new ResultsPaginationTablePage(executionId)), "Pagination Table");
   }
 
   /**
@@ -244,7 +250,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     visualizationTab.setMessageReceiver(this.messageReceiver);
 
     // Add the result table and the visualization tab
-    TabLayoutPanel panel = new TabLayoutPanel(1, Unit.CM);
+    this.panel = new TabLayoutPanel(1, Unit.CM);
     panel.add(new ScrollPanel(tablePage), "Table");
     panel.add(new ScrollPanel(visualizationTab), "Visualization");
     this.add(panel);
