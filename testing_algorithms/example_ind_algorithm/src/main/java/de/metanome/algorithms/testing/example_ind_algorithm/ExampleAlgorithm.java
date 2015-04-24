@@ -102,29 +102,16 @@ public class ExampleAlgorithm
     }
 
     if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
-      for (int i = 1; i < 50; i++) {
-        resultReceiver.receiveResult(
-            new InclusionDependency(
-                new ColumnPermutation(
-                    new ColumnIdentifier(tableName1, "column1"),
-                    new ColumnIdentifier("table1", "column2")),
-                new ColumnPermutation(
-                    new ColumnIdentifier("table2", "column3"),
-                    new ColumnIdentifier("table2", "column2"))
-            )
-        );
-      }
-      for (int j = 1; j < 50; j++) {
-        resultReceiver.receiveResult(
-            new InclusionDependency(
-                new ColumnPermutation(
-                    new ColumnIdentifier("table100", "column34")),
-                new ColumnPermutation(
-                    new ColumnIdentifier("table23", "column3"),
-                    new ColumnIdentifier("table23", "column2"))
-            )
-        );
-      }
+      resultReceiver.receiveResult(
+          new InclusionDependency(
+              new ColumnPermutation(
+                  new ColumnIdentifier(tableName1, "column1"),
+                  new ColumnIdentifier("table1", "column2")),
+              new ColumnPermutation(
+                  new ColumnIdentifier("table2", "column3"),
+                  new ColumnIdentifier("table2", "column2"))
+          )
+      );
     }
   }
 

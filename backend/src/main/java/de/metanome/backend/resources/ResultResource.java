@@ -17,13 +17,9 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
-import de.metanome.backend.results_db.ResultType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -128,38 +124,38 @@ public class ResultResource implements Resource<Result> {
     return result;
   }
 
-  /**
-   * Retrieves one result for each result type, which was executed on the given file input.
-   *
-   * @param id the id of the file input
-   * @return all matching results
-   */
-  @GET
-  @Path("/file_input/{id}")
-  @Produces("application/json")
-  public List<Result> getResultsForFileInput(@PathParam("id") long id) {
-    List<Result> results = new ArrayList<>();
-    List<ResultType> types = new ArrayList<>();
-
-    try {
-      List<Execution> all = HibernateUtil.queryCriteria(Execution.class);
-      FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
-      // Filter all executions for those, which belong to the requested file input
-      for (Execution execution : all) {
-        if (execution.getInputs().contains(fileInput)) {
-          for (Result result : execution.getResults()) {
-            if (!types.contains(result.getType())) {
-              results.add(result);
-              types.add(result.getType());
-            }
-          }
-        }
-      }
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return results;
-  }
+//  /**
+//   * Retrieves one result for each result type, which was executed on the given file input.
+//   *
+//   * @param id the id of the file input
+//   * @return all matching results
+//   */
+//  @GET
+//  @Path("/file_input/{id}")
+//  @Produces("application/json")
+//  public List<Result> getExecutionForFileInput(@PathParam("id") long id) {
+//    List<Result> results = new ArrayList<>();
+//    List<ResultType> types = new ArrayList<>();
+//
+//    try {
+//      List<Execution> all = HibernateUtil.queryCriteria(Execution.class);
+//      FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
+//      // Filter all executions for those, which belong to the requested file input
+//      for (Execution execution : all) {
+//        if (execution.getInputs().contains(fileInput)) {
+//          for (Result result : execution.getResults()) {
+//            if (!types.contains(result.getType())) {
+//              results.add(result);
+//              types.add(result.getType());
+//            }
+//          }
+//        }
+//      }
+//    } catch (EntityStorageException e) {
+//      // Algorithm should implement Entity, so the exception should not occur.
+//      e.printStackTrace();
+//    }
+//
+//    return results;
+//  }
 }

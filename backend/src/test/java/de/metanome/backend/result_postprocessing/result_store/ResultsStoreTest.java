@@ -98,7 +98,7 @@ public class ResultsStoreTest {
 
     // Check
     assertEquals(1, actualResults.size());
-    assertEquals(ind1, actualResults.get(0));
+    assertEquals(ind2, actualResults.get(0));
   }
 
   @Test

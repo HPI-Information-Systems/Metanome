@@ -17,7 +17,10 @@
 package de.metanome.backend.resources;
 
 import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
+import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.HibernateUtil;
 
 import java.util.List;
 
@@ -94,6 +97,24 @@ public class ResultStoreResource {
     try {
       return (List<Result>) ResultsStoreHolder.getStore(type).subList(
           executionID, sortProperty, ascending, start, end);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+
+  /**
+   * Loads the results of the given execution into the result store.
+   *
+   * @param id Execution id of the execution
+   */
+  @GET
+  @Path("/loadExecution/{executionId}")
+  @Produces("application/json")
+  public void loadExecution(@PathParam("executionId") long id) {
+    try {
+      Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
+      ResultPostProcessor.extractAndStoreResults(execution);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

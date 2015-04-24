@@ -16,7 +16,6 @@
 
 package de.metanome.frontend.client.results;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -28,20 +27,15 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.Result;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
-import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
-import de.metanome.frontend.client.services.ResultRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Tab that contains widgets displaying execution results, i.e. tables, visualizations etc.
@@ -177,11 +171,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   public void showResults(Execution execution) {
     this.messageReceiver.clearErrors();
     this.clear();
-    AlgorithmExecutionRestService executionRestService = GWT.create(
-        AlgorithmExecutionRestService.class);
 
-    // TODO
-    //this.addChildPages(execution);
+    this.addChildPages();
+    this.tablePage.showResultsFor(execution);
 
     // Add a label for the execution time
     long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
@@ -190,52 +182,50 @@ public class ResultsPage extends FlowPanel implements TabContent {
         0);
   }
 
-  /**
-   * Displays the results of the given file input.
-   *
-   * @param input the execution
-   */
-  public void showResults(FileInput input) {
-    this.messageReceiver.clearErrors();
-    this.clear();
-
-    ResultRestService resultRestService = GWT.create(ResultRestService.class);
-    AlgorithmExecutionRestService
-        algorithmExecutionRestService =
-        GWT.create(AlgorithmExecutionRestService.class);
-
-    // TODO
-    this.addChildPages();
-
-    resultRestService.getResultsForFileInput(input.getId(), getShowResultCallback());
-    this.insert(
-        new Label("All results for input " + FilePathHelper.getFileName(input.getName()) + "."), 0);
-  }
-
-  /**
-   * Sends a call to the backend for obtaining all executions for a specific input. If the callback
-   * is successful, the results of the executions are sent to the table page.
-   *
-   * @return the method callback
-   */
-  private MethodCallback<List<Result>> getShowResultCallback() {
-    return new MethodCallback<List<Result>>() {
-      @Override
-      public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not display results: " + method.getResponse().getText());
-      }
-
-      @Override
-      public void onSuccess(Method method, List<Result> results) {
-        if (results.isEmpty()) {
-          tablePage.add(new Label("There are no results yet."));
-          return;
-        }
-        // TODO
+//  /**
+//   * Displays the results of the given file input.
+//   *
+//   * @param input the execution
+//   */
+//  public void showResults(FileInput input) {
+//    this.messageReceiver.clearErrors();
+//    this.clear();
+//
+//    ResultRestService resultRestService = GWT.create(ResultRestService.class);
+//    AlgorithmExecutionRestService
+//        algorithmExecutionRestService =
+//        GWT.create(AlgorithmExecutionRestService.class);
+//
+//    this.addChildPages();
+//
+//    resultRestService.getResultsForFileInput(input.getId(), getShowResultCallback());
+//    this.insert(
+//        new Label("All results for input " + FilePathHelper.getFileName(input.getName()) + "."), 0);
+//  }
+//
+//  /**
+//   * Sends a call to the backend for obtaining all executions for a specific input. If the callback
+//   * is successful, the results of the executions are sent to the table page.
+//   *
+//   * @return the method callback
+//   */
+//  private MethodCallback<List<Result>> getShowResultCallback() {
+//    return new MethodCallback<List<Result>>() {
+//      @Override
+//      public void onFailure(Method method, Throwable throwable) {
+//        messageReceiver.addError("Could not display results: " + method.getResponse().getText());
+//      }
+//
+//      @Override
+//      public void onSuccess(Method method, List<Result> results) {
+//        if (results.isEmpty()) {
+//          tablePage.add(new Label("There are no results yet."));
+//          return;
+//        }
 //        tablePage.readResultsFromFile(new HashSet<>(results));
-      }
-    };
-  }
+//      }
+//    };
+//  }
 
   /**
    * Adds the child pages.
@@ -245,9 +235,14 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.tablePage = new ResultsPaginationTablePage();
     tablePage.setMessageReceiver(this.messageReceiver);
 
+    // Create new tab with visualization page
+    ResultsVisualizationPage visualizationPage = new ResultsVisualizationPage();
+    visualizationPage.setMessageReceiver(this.messageReceiver);
+
     // Add the result table
     this.panel = new TabLayoutPanel(1, Unit.CM);
     panel.add(new ScrollPanel(tablePage), "Table");
+    panel.add(new ScrollPanel(visualizationPage), "Visualization");
     this.add(panel);
   }
 

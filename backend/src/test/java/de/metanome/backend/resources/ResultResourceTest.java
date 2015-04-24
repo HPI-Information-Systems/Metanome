@@ -20,7 +20,6 @@ import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
@@ -180,43 +179,43 @@ public class ResultResourceTest {
     HibernateUtil.clear();
   }
 
-  /**
-   * Test method for {@link de.metanome.backend.resources.ResultResource#getResultsForFileInput(long)}
-   * Only one result for each result type should be returned.
-   * @throws Exception
-   */
-  @Test
-  public void testGetResultsForFileInput() throws Exception {
-    // Setup
-    HibernateUtil.clear();
-
-    FileInput input = new FileInput("file");
-    input = fileInputResource.store(input);
-
-    Result expectedResult1 = new Result("result_file_1");
-    expectedResult1.setType(ResultType.CUCC);
-    Result expectedResult2 = new Result("result_file_2");
-    expectedResult2.setType(ResultType.CUCC);
-    Result expectedResult3 = new Result("result_file_3");
-    expectedResult3.setType(ResultType.UCC);
-
-    Execution execution = new Execution(null);
-    execution.addInput(input);
-    execution.addResult(expectedResult1);
-    execution.addResult(expectedResult2);
-    execution.addResult(expectedResult3);
-    executionResource.store(execution);
-
-    // Execute functionality
-    List<Result> actualResults = resultResource.getResultsForFileInput(input.getId());
-
-    // Check result
-    assertTrue(actualResults.size() == 2);
-    assertTrue(actualResults.contains(expectedResult3));
-    assertTrue(actualResults.contains(expectedResult2));
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
+//  /**
+//   * Test method for {@link de.metanome.backend.resources.ResultResource#getResultsForFileInput(long)}
+//   * Only one result for each result type should be returned.
+//   * @throws Exception
+//   */
+//  @Test
+//  public void testGetResultsForFileInput() throws Exception {
+//    // Setup
+//    HibernateUtil.clear();
+//
+//    FileInput input = new FileInput("file");
+//    input = fileInputResource.store(input);
+//
+//    Result expectedResult1 = new Result("result_file_1");
+//    expectedResult1.setType(ResultType.CUCC);
+//    Result expectedResult2 = new Result("result_file_2");
+//    expectedResult2.setType(ResultType.CUCC);
+//    Result expectedResult3 = new Result("result_file_3");
+//    expectedResult3.setType(ResultType.UCC);
+//
+//    Execution execution = new Execution(null);
+//    execution.addInput(input);
+//    execution.addResult(expectedResult1);
+//    execution.addResult(expectedResult2);
+//    execution.addResult(expectedResult3);
+//    executionResource.store(execution);
+//
+//    // Execute functionality
+//    List<Result> actualResults = resultResource.getResultsForFileInput(input.getId());
+//
+//    // Check result
+//    assertTrue(actualResults.size() == 2);
+//    assertTrue(actualResults.contains(expectedResult3));
+//    assertTrue(actualResults.contains(expectedResult2));
+//
+//    // Cleanup
+//    HibernateUtil.clear();
+//  }
 
 }

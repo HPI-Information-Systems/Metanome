@@ -50,4 +50,7 @@ public interface ResultStoreRestService extends RestService {
   public void count(@PathParam("type") String type, @PathParam("executionId") long executionID,
                     MethodCallback<Integer> callback);
 
+  @GET
+  @Path("/loadExecution/{executionId}")
+  public void loadExecution(@PathParam("executionId") long id, MethodCallback<Void> callback);
 }
