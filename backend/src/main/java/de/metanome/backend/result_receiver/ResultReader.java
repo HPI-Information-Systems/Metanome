@@ -33,7 +33,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultReader {
+public class ResultReader<T> {
+
+  final Class<T> typeParameterClass;
+
+  public ResultReader(Class<T> typeParameterClass) {
+    this.typeParameterClass = typeParameterClass;
+  }
 
   public static List<Result> readResultsFromFile(String fileName, String type) throws IOException {
     List<Result> results = new ArrayList<>();
@@ -42,7 +48,7 @@ public class ResultReader {
 
     BufferedReader br = new BufferedReader(new FileReader(resultFile));
     String line;
-    while((line = br.readLine()) != null) {
+    while ((line = br.readLine()) != null) {
       results.add(convertStringToResult(line, type));
     }
 
@@ -77,6 +83,22 @@ public class ResultReader {
     }
 
     return null;
+  }
+
+  public List<T> readResultsFromFile(String fileName)
+      throws IOException {
+    List<T> results = new ArrayList<>();
+
+    File resultFile = new File(fileName);
+
+    BufferedReader br = new BufferedReader(new FileReader(resultFile));
+    String line;
+    while ((line = br.readLine()) != null) {
+      JsonConverter<T> jsonConverter = new JsonConverter<>();
+      results.add(jsonConverter.fromJsonString(line, this.typeParameterClass));
+    }
+
+    return results;
   }
 
 }

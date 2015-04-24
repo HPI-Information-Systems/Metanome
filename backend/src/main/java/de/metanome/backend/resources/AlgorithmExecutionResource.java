@@ -24,6 +24,7 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
+import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
@@ -82,7 +83,13 @@ public class AlgorithmExecutionResource {
     try {
       executor.close();
     } catch (IOException e) {
-      throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
+      throw new WebException("Could not close algorithm executor: " + e.getMessage(), Response.Status.BAD_REQUEST);
+    }
+
+    try {
+      ResultPostProcessor.extractAndStoreResults(execution);
+    } catch (Exception e) {
+      throw new WebException("Could not execute result post processing: " + e.getMessage(), Response.Status.BAD_REQUEST);
     }
 
     return execution;
