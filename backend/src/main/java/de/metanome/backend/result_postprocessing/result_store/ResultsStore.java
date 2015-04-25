@@ -11,8 +11,6 @@ import java.util.List;
  */
 public abstract class ResultsStore<ResultType extends Result> {
 
-  // Execution ID
-  protected long executionId = 0l;
   // List of results
   protected List<ResultType> results = null;
   // Last sort property, to reduce resorting needs
@@ -24,11 +22,9 @@ public abstract class ResultsStore<ResultType extends Result> {
    * Stores the given results for given execution
    *
    * @param results     List of results to be persisted
-   * @param executionId ID of the execution which leaded to the results
    */
-  public void store(List<ResultType> results, long executionId) {
+  public void store(List<ResultType> results) {
     this.results = results;
-    this.executionId = executionId;
   }
 
   /**
@@ -36,54 +32,39 @@ public abstract class ResultsStore<ResultType extends Result> {
    */
   public void clear() {
     this.results.clear();
-    this.executionId = 0l;
   }
 
   /**
-   * Returns the count of results for the given execution
+   * Returns the count of results
    *
-   * @param executionId ID of the execution
-   * @return Returns the count of results, if the execution results are persisted, 0 otherwise
+   * @return Returns the count of results
    */
-  public Integer count(long executionId) {
-    if (executionId == this.executionId) {
-      return results.size();
-    }
-    return 0;
+  public Integer count() {
+    return results.size();
   }
 
   /**
-   * Returns the persisted results for given execution
+   * Returns the persisted results
    *
-   * @param executionId ID of the execution
-   * @return Returns the results, if the execution results are persisted, null otherwise
+   * @return Returns the results
    */
-  public List<ResultType> list(long executionId) {
-    if (executionId == this.executionId) {
-      return results;
-    }
-    return null;
+  public List<ResultType> list() {
+    return results;
   }
 
   /**
    * Returns a part of persisted results for given execution following given properties
    *
-   * @param executionId  ID of the execution
    * @param sortProperty Sort property the list should be sorted on
    * @param ascending    Sort direction
    * @param start        Inclusive start index
    * @param end          Exclusive end index
    * @return Returns a part of persisted results for given execution following given properties
    */
-  public List<ResultType> subList(long executionId, String sortProperty, boolean ascending,
+  public List<ResultType> subList(String sortProperty, boolean ascending,
                                   int start, int end) {
-
-    if (executionId != this.executionId) {
-      return null;
-    }
-
     start = Math.max(0, start);
-    end = Math.min(count(executionId), end);
+    end = Math.min(count(), end);
 
     // Do not resort if it is not needed
     if (sortProperty.equals(lastSortProperty) && lastSortAscending == ascending) {

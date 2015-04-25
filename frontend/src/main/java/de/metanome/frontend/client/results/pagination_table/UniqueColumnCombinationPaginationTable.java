@@ -32,10 +32,10 @@ public class UniqueColumnCombinationPaginationTable
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionID ID of the algorithm execution for which the ranks should be shown
+   * @param resultType the result type
    */
-  public UniqueColumnCombinationPaginationTable(long executionID, ResultType resultType) {
-    super(executionID, resultType);
+  public UniqueColumnCombinationPaginationTable(ResultType resultType) {
+    super(resultType);
   }
 
   /**

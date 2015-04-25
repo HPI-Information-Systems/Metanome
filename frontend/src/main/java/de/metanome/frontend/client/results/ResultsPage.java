@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -61,7 +62,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected String executionIdentifier;
   private String algorithmFileName;
-  private AlgorithmExecutionRestService executionService;
+
+  private AlgorithmExecutionRestService executionRestService;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -182,50 +184,22 @@ public class ResultsPage extends FlowPanel implements TabContent {
         0);
   }
 
-//  /**
-//   * Displays the results of the given file input.
-//   *
-//   * @param input the execution
-//   */
-//  public void showResults(FileInput input) {
-//    this.messageReceiver.clearErrors();
-//    this.clear();
-//
-//    ResultRestService resultRestService = GWT.create(ResultRestService.class);
-//    AlgorithmExecutionRestService
-//        algorithmExecutionRestService =
-//        GWT.create(AlgorithmExecutionRestService.class);
-//
-//    this.addChildPages();
-//
-//    resultRestService.getResultsForFileInput(input.getId(), getShowResultCallback());
-//    this.insert(
-//        new Label("All results for input " + FilePathHelper.getFileName(input.getName()) + "."), 0);
-//  }
-//
-//  /**
-//   * Sends a call to the backend for obtaining all executions for a specific input. If the callback
-//   * is successful, the results of the executions are sent to the table page.
-//   *
-//   * @return the method callback
-//   */
-//  private MethodCallback<List<Result>> getShowResultCallback() {
-//    return new MethodCallback<List<Result>>() {
-//      @Override
-//      public void onFailure(Method method, Throwable throwable) {
-//        messageReceiver.addError("Could not display results: " + method.getResponse().getText());
-//      }
-//
-//      @Override
-//      public void onSuccess(Method method, List<Result> results) {
-//        if (results.isEmpty()) {
-//          tablePage.add(new Label("There are no results yet."));
-//          return;
-//        }
-//        tablePage.readResultsFromFile(new HashSet<>(results));
-//      }
-//    };
-//  }
+  /**
+   * Displays the results of the given file input.
+   *
+   * @param input the execution
+   */
+  public void showResults(FileInput input) {
+    this.messageReceiver.clearErrors();
+    this.clear();
+
+    this.addChildPages();
+    this.tablePage.showResultsFor(input);
+
+    this.insert(
+        new Label("All results of the file input " + input.getName()), 0);
+  }
+
 
   /**
    * Adds the child pages.
@@ -250,7 +224,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * Fetching the current progress of execution and update the progress bar on success.
    */
   protected void updateProgress() {
-    this.executionService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
+    this.executionRestService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
         messageReceiver.addError(method.getResponse().getText());
@@ -281,9 +255,11 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param algorithmFileName   the algorithm file name
    */
   public void setExecutionParameter(String executionIdentifier,
-                                    String algorithmFileName) {
+                                    String algorithmFileName,
+                                    AlgorithmExecutionRestService restService) {
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
+    this.executionRestService = restService;
   }
 
   /**

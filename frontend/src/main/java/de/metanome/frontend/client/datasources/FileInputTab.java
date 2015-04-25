@@ -139,14 +139,14 @@ public class FileInputTab extends FlowPanel implements TabContent {
       }
     });
 
-//    Button showButton = new Button("Show");
-//    showButton.setTitle(String.valueOf(input.getId()));
-//    showButton.addClickHandler(new ClickHandler() {
-//      @Override
-//      public void onClick(ClickEvent event) {
-//        parent.showResultsFor(input);
-//      }
-//    });
+    Button showButton = new Button("Show");
+    showButton.setTitle(String.valueOf(input.getId()));
+    showButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        parent.showResultsFor(input);
+      }
+    });
 
     this.fileInputList.setWidget(row, 0, new HTML(FilePathHelper.getFileName(input.getFileName())));
     this.fileInputList.setText(row, 1, input.getComment());

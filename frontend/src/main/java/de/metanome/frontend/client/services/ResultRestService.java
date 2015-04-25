@@ -51,7 +51,4 @@ public interface ResultRestService extends RestService {
   @Path("/update")
   public void updateResult(Result result, MethodCallback<Result> callback);
 
-  @GET
-  @Path("/file_input/{id}")
-  public void getResultsForFileInput(@PathParam("id") long id, MethodCallback<List<Result>> callback);
 }

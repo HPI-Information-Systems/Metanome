@@ -32,10 +32,10 @@ public class FunctionalDependencyPaginationTable
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionID ID of the algorithm execution for which the ranks should be shown
+   * @param resultType the result type
    */
-  public FunctionalDependencyPaginationTable(long executionID, ResultType resultType) {
-    super(executionID, resultType);
+  public FunctionalDependencyPaginationTable(ResultType resultType) {
+    super( resultType);
   }
 
   /**

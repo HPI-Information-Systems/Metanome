@@ -31,14 +31,13 @@ import javax.ws.rs.PathParam;
 public interface ResultStoreRestService extends RestService {
 
   @GET
-  @Path("/getAll//{type}{executionId}")
-  public void listAll(@PathParam("type") String type, @PathParam("executionId") long executionID,
+  @Path("/getAll/{type}")
+  public void listAll(@PathParam("type") String type,
                       MethodCallback<List<Result>> callback);
 
   @GET
-  @Path("/getAllFromTo/{type}/{executionId}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   public void listAllFromTo(@PathParam("type") String type,
-                            @PathParam("executionId") long executionID,
                             @PathParam("sortProperty") String sortProperty,
                             @PathParam("sortOrder") boolean ascending,
                             @PathParam("start") int start,
@@ -46,11 +45,16 @@ public interface ResultStoreRestService extends RestService {
                             MethodCallback<List<Result>> callback);
 
   @GET
-  @Path("/count/{type}/{executionId}")
-  public void count(@PathParam("type") String type, @PathParam("executionId") long executionID,
+  @Path("/count/{type}")
+  public void count(@PathParam("type") String type,
                     MethodCallback<Integer> callback);
 
   @GET
   @Path("/loadExecution/{executionId}")
   public void loadExecution(@PathParam("executionId") long id, MethodCallback<Void> callback);
+
+  @GET
+  @Path("/loadResults/{fileInputId}")
+  public void loadResults(@PathParam("fileInputId") long id, MethodCallback<List<String>> callback);
+
 }

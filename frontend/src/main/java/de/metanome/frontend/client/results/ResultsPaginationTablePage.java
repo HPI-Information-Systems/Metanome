@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
@@ -35,6 +37,9 @@ import de.metanome.frontend.client.services.ResultStoreRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -55,10 +60,19 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param execution the execution
    */
   public void showResultsFor(Execution execution) {
-    this.restService.loadExecution(execution.getId(), getMethodCallback(execution));
+    this.restService.loadExecution(execution.getId(), getMethodCallbackExecution(execution));
   }
 
-  private MethodCallback<Void> getMethodCallback(final Execution execution) {
+  /**
+   * Sends a request to the backend to load the results of the file input into memory.
+   * Afterwards the corresponding tables showing the results are added.
+   * @param fileInput the execution
+   */
+  public void showResultsFor(FileInput fileInput) {
+    this.restService.loadResults(fileInput.getId(), getMethodCallbackResults());
+  }
+
+  private MethodCallback<Void> getMethodCallbackExecution(final Execution execution) {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
@@ -71,41 +85,64 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
     };
   }
 
+  private MethodCallback<List<String>> getMethodCallbackResults() {
+    return new MethodCallback<List<String>>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        messageReceiver.addError(method.getResponse().getText());
+      }
+      @Override
+      public void onSuccess(Method method, List<String> types) {
+        addTables(types);
+      }
+    };
+  }
+
   /**
-   * Adds a table for each result type of the execution.
+   * Adds a table for each result type
    * @param execution the execution
    */
   public void addTables(Execution execution) {
-    long executionId = execution.getId();
+    List<String> types = new ArrayList<>();
+    for (Result result : execution.getResults()) {
+      types.add(result.getType().getName());
+    }
+    addTables(types);
+  }
 
-    if (execution.getAlgorithm().isBasicStat()) {
+  /**
+   * Adds a table for each result type
+   * @param types the names of the result types
+   */
+  public void addTables(List<String> types) {
+    if (types.contains(ResultType.STAT.getName())) {
       addTitle(ResultType.STAT.getName());
-      this.add(new BasicStatisticPaginationTable(executionId, ResultType.STAT));
+      this.add(new BasicStatisticPaginationTable(ResultType.STAT));
     }
 
-    if (execution.getAlgorithm().isUcc()) {
+    if (types.contains(ResultType.UCC.getName())) {
       addTitle(ResultType.UCC.getName());
-      this.add(new UniqueColumnCombinationPaginationTable(executionId, ResultType.UCC));
+      this.add(new UniqueColumnCombinationPaginationTable(ResultType.UCC));
     }
 
-    if (execution.getAlgorithm().isCucc()) {
+    if (types.contains(ResultType.CUCC.getName())) {
       addTitle(ResultType.CUCC.getName());
-      this.add(new ConditionalUniqueColumnCombinationPaginationTable(executionId, ResultType.CUCC));
+      this.add(new ConditionalUniqueColumnCombinationPaginationTable(ResultType.CUCC));
     }
 
-    if (execution.getAlgorithm().isFd()) {
+    if (types.contains(ResultType.FD.getName())) {
       addTitle(ResultType.FD.getName());
-      this.add(new FunctionalDependencyPaginationTable(executionId, ResultType.FD));
+      this.add(new FunctionalDependencyPaginationTable(ResultType.FD));
     }
 
-    if (execution.getAlgorithm().isInd()) {
+    if (types.contains(ResultType.IND.getName())) {
       addTitle(ResultType.IND.getName());
-      this.add(new InclusionDependencyPaginationTable(executionId, ResultType.IND));
+      this.add(new InclusionDependencyPaginationTable(ResultType.IND));
     }
 
-    if (execution.getAlgorithm().isOd()) {
+    if (types.contains(ResultType.OD.getName())) {
       addTitle(ResultType.OD.getName());
-      this.add(new OrderDependencyPaginationTable(executionId, ResultType.OD));
+      this.add(new OrderDependencyPaginationTable(ResultType.OD));
     }
   }
 

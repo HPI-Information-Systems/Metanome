@@ -58,8 +58,8 @@ public class ResultsStoreTest {
     InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
 
     // Execute functionality
-    resultsStore.store(expectedResults, 1l);
-    List<InclusionDependency> actualResults = resultsStore.list(1l);
+    resultsStore.store(expectedResults);
+    List<InclusionDependency> actualResults = resultsStore.list();
 
     // Check
     assertEquals(expectedResults, actualResults);
@@ -75,8 +75,8 @@ public class ResultsStoreTest {
     InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
 
     // Execute functionality
-    resultsStore.store(expectedResults, 1l);
-    int count = resultsStore.count(1l);
+    resultsStore.store(expectedResults);
+    int count = resultsStore.count();
 
     // Check
     assertEquals(expectedResults.size(), count);
@@ -90,10 +90,10 @@ public class ResultsStoreTest {
     results.add(ind2);
 
     InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
-    resultsStore.store(results, 1l);
+    resultsStore.store(results);
 
     // Execute functionality
-    List<InclusionDependency> actualResults = resultsStore.subList(1l, "referencedAsString", true,
+    List<InclusionDependency> actualResults = resultsStore.subList("referencedAsString", true,
                                                                    1, 2);
 
     // Check
@@ -110,18 +110,18 @@ public class ResultsStoreTest {
     results.add(ind3);
 
     InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
-    resultsStore.store(results, 1l);
+    resultsStore.store(results);
 
     // Execute functionality
     List<InclusionDependency> actualResults =
-        resultsStore.subList(1l, InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
+        resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
 
     // Check
     assertEquals(1, actualResults.size());
     assertEquals(ind1, actualResults.get(0));
 
     // Execute functionality
-    actualResults = resultsStore.subList(1l,InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
+    actualResults = resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
 
     // Check
     assertEquals(3, actualResults.size());

@@ -32,10 +32,10 @@ public class OrderDependencyPaginationTable
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionID ID of the algorithm execution for which the ranks should be shown
+   * @param resultType the result type
    */
-  public OrderDependencyPaginationTable(long executionID, ResultType resultType) {
-    super(executionID, resultType);
+  public OrderDependencyPaginationTable(ResultType resultType) {
+    super(resultType);
   }
 
   /**

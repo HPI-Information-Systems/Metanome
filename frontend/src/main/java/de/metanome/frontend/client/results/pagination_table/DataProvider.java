@@ -48,7 +48,6 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
   protected List<String> sortPropertyNames;
   // Table to which the data provider is connected
   protected CellTable<CellType> table;
-  protected long executionId;
 
   public DataProvider(String type) {
     this.resultTypeName = type;
@@ -65,11 +64,6 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
   public void setTable(CellTable<CellType> table) {
     this.table = table;
   }
-
-  public void setExecutionId(long executionId) {
-    this.executionId = executionId;
-  }
-
 
   /**
    * Trigger reacting on page requests
@@ -153,7 +147,7 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
    * @param resultsCountCallback Callback which should be called after retrieving the results count
    */
   protected void countResults(MethodCallback<Integer> resultsCountCallback) {
-    restService.count(resultTypeName, executionId, resultsCountCallback);
+    restService.count(resultTypeName, resultsCountCallback);
   }
 
   /**
@@ -164,7 +158,7 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
   protected void getResultsFromTo(
       MethodCallback<List<Result>> resultsRetrieveCallback) {
     restService
-        .listAllFromTo(resultTypeName, executionId, sortPropertyName, isAscending, start, end,
+        .listAllFromTo(resultTypeName, sortPropertyName, isAscending, start, end,
                        resultsRetrieveCallback);
   }
 

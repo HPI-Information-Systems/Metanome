@@ -32,10 +32,10 @@ public class BasicStatisticPaginationTable
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionID ID of the algorithm execution for which the ranks should be shown
+   * @param resultType result type
    */
-  public BasicStatisticPaginationTable(long executionID, ResultType resultType) {
-    super(executionID, resultType);
+  public BasicStatisticPaginationTable(ResultType resultType) {
+    super(resultType);
   }
 
   /**

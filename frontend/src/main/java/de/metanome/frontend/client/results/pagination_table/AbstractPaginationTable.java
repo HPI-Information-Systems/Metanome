@@ -33,8 +33,6 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
 
   private static final int ELEMENTS_PER_PAGE = 50;
 
-  // Execution ID
-  protected long executionId = 0l;
   protected ResultType resultType;
   // Pager
   protected AbstractPager controlsPager;
@@ -46,12 +44,9 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionId ID of the algorithm execution for which the ranks should be shown
    * @param resultType  the result type of the results the table holds
    */
-  protected AbstractPaginationTable(final long executionId, ResultType resultType) {
-    // Store the execution ID
-    this.executionId = executionId;
+  protected AbstractPaginationTable( ResultType resultType) {
     // The result table type
     this.resultType = resultType;
 
@@ -82,7 +77,6 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
 
     // Setup the asynchronous data provider used to retrieve data for paginated table
     DataProvider<CellType> dataProvider = new DataProvider<>(resultType.getName());
-    dataProvider.setExecutionId(this.executionId);
     dataProvider.setTable(this.table);
     dataProvider.setSortPropertyNames(columnPropertyNames);
     dataProvider.addDataDisplay(this.table);

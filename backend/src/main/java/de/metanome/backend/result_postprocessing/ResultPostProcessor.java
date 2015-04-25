@@ -32,13 +32,15 @@ import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder
 import de.metanome.backend.result_postprocessing.result_store.UniqueColumnCombinationResultStore;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
- * Starting point for the result post processing.
- * The results are extracted from disk and hold in memory for further analyses.
+ * Starting point for the result post processing. The results are extracted from disk and hold in
+ * memory for further analyses.
  */
 public class ResultPostProcessor {
 
@@ -48,27 +50,32 @@ public class ResultPostProcessor {
    * @param execution Execution containing the algorithm results file path
    */
   public static void extractAndStoreResults(Execution execution) throws IOException {
+    extractAndStoreResults(execution.getResults());
+  }
+
+  /**
+   * Loads the results of a algorithm run from hard disk and stores them.
+   *
+   * @param results the results
+   */
+  public static void extractAndStoreResults(Set<Result> results) throws IOException {
     ResultsStoreHolder.clearStores();
 
-    for (de.metanome.backend.results_db.Result result : execution.getResults()) {
+    for (de.metanome.backend.results_db.Result result : results) {
       String fileName = result.getFileName();
       String resultTypeName = result.getType().getName();
 
-      storeResults(fileName,
-                   resultTypeName,
-                   execution.getId());
+      storeResults(fileName, resultTypeName);
     }
   }
 
   /**
    * Reads the results from the given file and stores them in a result store.
    *
-   * @param fileName    the file name
-   * @param name        the name of the result type
-   * @param executionId the execution id
+   * @param fileName the file name
+   * @param name     the name of the result type
    */
-  private static void storeResults(String fileName, String name,
-                                   long executionId) throws IOException {
+  private static void storeResults(String fileName, String name) throws IOException {
 
     if (name.equals(ResultType.CUCC.getName())) {
       ConditionalUniqueColumnCombinationResultStore
@@ -76,7 +83,7 @@ public class ResultPostProcessor {
       ResultReader<ConditionalUniqueColumnCombination>
           resultReader =
           new ResultReader<>(ConditionalUniqueColumnCombination.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.OD.getName())) {
@@ -84,7 +91,7 @@ public class ResultPostProcessor {
       ResultReader<OrderDependency>
           resultReader =
           new ResultReader<>(OrderDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.IND.getName())) {
@@ -92,7 +99,7 @@ public class ResultPostProcessor {
       ResultReader<InclusionDependency>
           resultReader =
           new ResultReader<>(InclusionDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.FD.getName())) {
@@ -100,7 +107,7 @@ public class ResultPostProcessor {
       ResultReader<FunctionalDependency>
           resultReader =
           new ResultReader<>(FunctionalDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.UCC.getName())) {
@@ -108,7 +115,7 @@ public class ResultPostProcessor {
       ResultReader<UniqueColumnCombination>
           resultReader =
           new ResultReader<>(UniqueColumnCombination.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.STAT.getName())) {
@@ -116,7 +123,7 @@ public class ResultPostProcessor {
       ResultReader<BasicStatistic>
           resultReader =
           new ResultReader<>(BasicStatistic.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName), executionId);
+      resultsStore.store(resultReader.readResultsFromFile(fileName));
       ResultsStoreHolder.register(name, resultsStore);
 
     }

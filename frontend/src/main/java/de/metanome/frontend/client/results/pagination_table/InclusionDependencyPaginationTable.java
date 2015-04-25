@@ -32,10 +32,10 @@ public class InclusionDependencyPaginationTable
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param executionID ID of the algorithm execution for which the ranks should be shown
+   * @param resultType the result type
    */
-  public InclusionDependencyPaginationTable(long executionID, ResultType resultType) {
-    super(executionID, resultType);
+  public InclusionDependencyPaginationTable(ResultType resultType) {
+    super(resultType);
   }
 
   /**
