@@ -58,7 +58,7 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
 
     SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
     this.controlsPager = new SimplePager(SimplePager.TextLocation.CENTER,
-                                         pagerResources, true, 0, true);
+                                         pagerResources, false, 0, true);
     this.pageSizePager.setDisplay(this.table);
     this.controlsPager.setDisplay(this.table);
 

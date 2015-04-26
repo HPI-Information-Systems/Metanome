@@ -84,8 +84,7 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
         columnSortList.push(table.getColumn(0));
       }
       isAscending = columnSortList.get(0).isAscending();
-      sortPropertyName =
-          sortPropertyNames
+      sortPropertyName = sortPropertyNames
               .get(table.getColumnIndex((Column<CellType, ?>) columnSortList.get(0).getColumn()));
     }
 

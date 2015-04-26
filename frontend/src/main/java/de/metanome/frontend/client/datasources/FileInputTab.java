@@ -153,7 +153,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
     this.fileInputList.setWidget(row, 2, runButton);
     this.fileInputList.setWidget(row, 3, deleteButton);
     this.fileInputList.setWidget(row, 4, editButton);
-//    this.fileInputList.setWidget(row, 5, showButton);
+    this.fileInputList.setWidget(row, 5, showButton);
   }
 
   /**

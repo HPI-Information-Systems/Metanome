@@ -61,6 +61,10 @@ h3 {
     border: 1px solid darkred;
 }
 
+.space_bottom {
+    margin-bottom: 0.5cm;
+}
+
 .resultTable {
     border-collapse: collapse;
 }
@@ -111,6 +115,10 @@ h3 {
     padding-bottom: 1em;
 }
 
+.result_inner_tab {
+    height: 95% !important;
+}
+
 .gwt-TabLayoutPanel {
     height: 100%;
 }
@@ -119,7 +127,7 @@ h3 {
     background: white;
     border: none !important;
     width: 100%;
-    height: 100%;
+    height: 98%;
     padding-left: 10px;
     padding-top: 10px;
 }

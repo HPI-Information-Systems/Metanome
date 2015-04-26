@@ -127,14 +127,17 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add label for the algorithm, which is executed at the moment
     this.algorithmLabel = new Label("Executing algorithm " + this.algorithmFileName);
+    this.algorithmLabel.setStyleName("space_bottom");
     this.add(algorithmLabel);
 
     // Add a running indicator
     this.runningIndicator = new Image("ajax-loader.gif");
+    this.runningIndicator.setStyleName("space_bottom");
     this.add(this.runningIndicator);
 
     // Add a label showing the execution time
     this.executionTimePanel = new FlowPanel();
+    this.executionTimePanel.setStyleName("space_bottom");
     this.executionTimePanel.add(new Label("Execution Time (HH:mm:ss): "));
     final Label executionTimeLabel = new Label("00:00:00");
     this.executionTimePanel.add(executionTimeLabel);
@@ -208,10 +211,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
     // Create new tab with result table
     this.tablePage = new ResultsPaginationTablePage();
     tablePage.setMessageReceiver(this.messageReceiver);
+    tablePage.setStyleName("result_inner_tab");
 
     // Create new tab with visualization page
     ResultsVisualizationPage visualizationPage = new ResultsVisualizationPage();
     visualizationPage.setMessageReceiver(this.messageReceiver);
+    visualizationPage.setStyleName("result_inner_tab");
 
     // Add the result table
     this.panel = new TabLayoutPanel(1, Unit.CM);
