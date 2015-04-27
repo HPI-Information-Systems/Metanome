@@ -29,6 +29,10 @@ import de.metanome.backend.results_db.ResultType;
 
 import java.util.List;
 
+/**
+ * Abstract UI element for displaying results in a pagination table.
+ * @param <CellType> the type of the results
+ */
 public abstract class AbstractPaginationTable<CellType extends Result> extends FlowPanel {
 
   private static final int ELEMENTS_PER_PAGE = 50;
@@ -42,7 +46,7 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
 
 
   /**
-   * Constructs the page for given algorithm execution
+   * Constructs a pagination table for given result type
    *
    * @param resultType the result type of the results the table holds
    */

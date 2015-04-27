@@ -25,12 +25,14 @@ import de.metanome.backend.results_db.ResultType;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Pagination table for unique column combination results.
+ */
 public class UniqueColumnCombinationPaginationTable
     extends AbstractPaginationTable<UniqueColumnCombination> {
 
   /**
-   * Constructs the page for given algorithm execution
+   * Constructs the table for given result type
    *
    * @param resultType the result type
    */

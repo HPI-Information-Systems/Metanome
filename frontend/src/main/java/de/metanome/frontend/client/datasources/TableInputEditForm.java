@@ -244,35 +244,28 @@ public class TableInputEditForm extends Grid {
     messageReceiver.clearErrors();
     try {
       this.tableInputService.updateTableInput(this.getValue().setId(oldTableInput.getId()),
-                                              new MethodCallback<TableInput>() {
-                                                @Override
-                                                public void onFailure(Method method,
-                                                                      Throwable throwable) {
-                                                  messageReceiver
-                                                      .addError("Table Input could not be updated: "
-                                                                + method.getResponse().getText());
-                                                  reset();
-                                                  showSaveButton();
-                                                }
+        new MethodCallback<TableInput>() {
+          @Override
+          public void onFailure(Method method, Throwable throwable) {
+            messageReceiver.addError("Table Input could not be updated: "
+                                     + method.getResponse().getText());
+            reset();
+            showSaveButton();
+          }
 
-                                                @Override
-                                                public void onSuccess(Method method,
-                                                                      TableInput input) {
-                                                  reset();
-                                                  showSaveButton();
-                                                  if (!input.getIdentifier()
-                                                      .equals(oldTableInput.getIdentifier())) {
-                                                    increaseDatabaseConnectionUsage(
-                                                        input.getIdentifier());
-                                                    decreaseDatabaseConnectionUsage(
-                                                        oldTableInput.getIdentifier());
-                                                  }
-                                                  parent.updateTableInputInTable(input,
-                                                                                 oldTableInput);
-                                                  parent.updateDataSourcesOnRunConfiguration();
-                                                }
+          @Override
+          public void onSuccess(Method method,TableInput input) {
+            reset();
+            showSaveButton();
+            if (!input.getIdentifier().equals(oldTableInput.getIdentifier())) {
+              increaseDatabaseConnectionUsage(input.getIdentifier());
+              decreaseDatabaseConnectionUsage(oldTableInput.getIdentifier());
+            }
+            parent.updateTableInputInTable(input,oldTableInput);
+            parent.updateDataSourcesOnRunConfiguration();
+          }
 
-                                              });
+        });
     } catch (InputValidationException e) {
       messageReceiver.addError("Invalid Input: " + e.getMessage());
     }
