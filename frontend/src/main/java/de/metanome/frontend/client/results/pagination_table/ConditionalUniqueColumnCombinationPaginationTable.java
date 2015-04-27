@@ -48,32 +48,38 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Unique Column Combination column
-    TextColumn<ConditionalUniqueColumnCombination> columnCombinationColumn = new TextColumn<ConditionalUniqueColumnCombination>() {
-      @Override
-      public String getValue(ConditionalUniqueColumnCombination columnCombination) {
-        return columnCombination.getColumnCombination().toString();
-      }
-    };
+    TextColumn<ConditionalUniqueColumnCombination>
+        columnCombinationColumn =
+        new TextColumn<ConditionalUniqueColumnCombination>() {
+          @Override
+          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+            return columnCombination.getColumnCombination().toString();
+          }
+        };
     this.table.addColumn(columnCombinationColumn, "Column Combination");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
 
     // condition column
-    TextColumn<ConditionalUniqueColumnCombination> conditionColumn = new TextColumn<ConditionalUniqueColumnCombination>() {
-      @Override
-      public String getValue(ConditionalUniqueColumnCombination columnCombination) {
-        return columnCombination.getCondition().toString();
-      }
-    };
+    TextColumn<ConditionalUniqueColumnCombination>
+        conditionColumn =
+        new TextColumn<ConditionalUniqueColumnCombination>() {
+          @Override
+          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+            return columnCombination.getCondition().toString();
+          }
+        };
     this.table.addColumn(conditionColumn, "Condition");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.CONDITION_COLUMN);
 
     // coverage column
-    TextColumn<ConditionalUniqueColumnCombination> coverageColumn = new TextColumn<ConditionalUniqueColumnCombination>() {
-      @Override
-      public String getValue(ConditionalUniqueColumnCombination columnCombination) {
-        return String.valueOf(columnCombination.getCondition().getCoverage());
-      }
-    };
+    TextColumn<ConditionalUniqueColumnCombination>
+        coverageColumn =
+        new TextColumn<ConditionalUniqueColumnCombination>() {
+          @Override
+          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+            return String.valueOf(columnCombination.getCondition().getCoverage());
+          }
+        };
     this.table.addColumn(coverageColumn, "Coverage");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COVERAGE_COLUMN);
 

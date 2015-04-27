@@ -29,7 +29,8 @@ public class ConfigurationSettingString extends ConfigurationSettingPrimitive<St
   // Needed for restful serialization
   public String type = "ConfigurationSettingString";
 
-  public ConfigurationSettingString() {}
+  public ConfigurationSettingString() {
+  }
 
   public ConfigurationSettingString(String value) {
     super(value);

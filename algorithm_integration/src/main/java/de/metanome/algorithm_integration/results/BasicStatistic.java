@@ -93,7 +93,8 @@ public class BasicStatistic implements Result {
 
   @Override
   public String toString() {
-    return statisticName + NAME_COLUMN_SEPARATOR + columnCombination.toString() + COLUMN_VALUE_SEPARATOR
+    return statisticName + NAME_COLUMN_SEPARATOR + columnCombination.toString()
+           + COLUMN_VALUE_SEPARATOR
            + statisticValue.toString();
   }
 

@@ -27,7 +27,8 @@ public class ConfigurationSettingInteger extends ConfigurationSettingPrimitive<I
   // Needed for restful serialization
   public String type = "ConfigurationSettingInteger";
 
-  public ConfigurationSettingInteger() {}
+  public ConfigurationSettingInteger() {
+  }
 
   public ConfigurationSettingInteger(Integer value) {
     super(value);

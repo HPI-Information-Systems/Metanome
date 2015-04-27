@@ -35,7 +35,7 @@ public class FunctionalDependencyPaginationTable
    * @param resultType the result type
    */
   public FunctionalDependencyPaginationTable(ResultType resultType) {
-    super( resultType);
+    super(resultType);
   }
 
   /**

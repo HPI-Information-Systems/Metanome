@@ -42,7 +42,8 @@ public interface AlgorithmExecutionRestService extends RestService {
 
   @GET
   @Path("/fetch_progress/{identifier}")
-  public void fetchProgress(@PathParam("identifier") String executionIdentifier, MethodCallback<Float> callback);
+  public void fetchProgress(@PathParam("identifier") String executionIdentifier,
+                            MethodCallback<Float> callback);
 
   @GET
   @Path("/result_cache/{identifier}")
@@ -51,14 +52,18 @@ public interface AlgorithmExecutionRestService extends RestService {
 
   @GET
   @Path("/result_counter/{identifier}")
-  public void getCounterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<Map<ResultType, Integer>> callback);
+  public void getCounterResults(@PathParam("identifier") String executionIdentifier,
+                                MethodCallback<Map<ResultType, Integer>> callback);
 
   @GET
   @Path("/result_printer/{identifier}")
-  public void getPrinterResults(@PathParam("identifier") String executionIdentifier, MethodCallback<List<Result>> callback);
+  public void getPrinterResults(@PathParam("identifier") String executionIdentifier,
+                                MethodCallback<List<Result>> callback);
 
   @GET
   @Path("/read_result/{file_name}/{type}")
-  public void readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type, MethodCallback<List<Result>> callback);
+  public void readResultFromFile(@PathParam("file_name") String fileName,
+                                 @PathParam("type") String type,
+                                 MethodCallback<List<Result>> callback);
 
 }

@@ -23,7 +23,8 @@ import de.metanome.backend.result_postprocessing.result_comparator.ResultCompara
 /**
  * Stores conditional unique column combination results of one execution.
  */
-public class ConditionalUniqueColumnCombinationResultStore extends ResultsStore<ConditionalUniqueColumnCombination> {
+public class ConditionalUniqueColumnCombinationResultStore
+    extends ResultsStore<ConditionalUniqueColumnCombination> {
 
   /**
    * Defines a conditional unique column combination result comparator
@@ -33,8 +34,9 @@ public class ConditionalUniqueColumnCombinationResultStore extends ResultsStore<
    * @return Returns a new conditional unique column combination result comparator
    */
   @Override
-  protected ResultComparator<ConditionalUniqueColumnCombination> getResultComparator(String sortProperty,
-                                                                       boolean ascending) {
+  protected ResultComparator<ConditionalUniqueColumnCombination> getResultComparator(
+      String sortProperty,
+      boolean ascending) {
     return new ConditionalUniqueColumnCombinationResultComparator(sortProperty, ascending);
   }
 

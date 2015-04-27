@@ -32,7 +32,8 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueFileInputGenerator extends ConfigurationValue<FileInputGenerator, ConfigurationRequirementFileInput> {
+public class ConfigurationValueFileInputGenerator
+    extends ConfigurationValue<FileInputGenerator, ConfigurationRequirementFileInput> {
 
   public ConfigurationValueFileInputGenerator(String identifier,
                                               FileInputGenerator... values) {

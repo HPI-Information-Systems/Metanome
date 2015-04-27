@@ -78,9 +78,8 @@ public class ConditionalUniqueColumnCombinationTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination#toString()}
    * <p/> A {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
-   * should return the contained {@link de.metanome.algorithm_integration.ColumnCombination}
-   * and the {@link de.metanome.algorithm_integration.ColumnConditionAnd} string
-   * representation.
+   * should return the contained {@link de.metanome.algorithm_integration.ColumnCombination} and the
+   * {@link de.metanome.algorithm_integration.ColumnConditionAnd} string representation.
    */
   @Test
   public void testToString() {
@@ -107,7 +106,7 @@ public class ConditionalUniqueColumnCombinationTest {
         "  condition3         -       " + ConditionalUniqueColumnCombination.LINESEPARATOR +
         "  condition1    condition2  " + ConditionalUniqueColumnCombination.LINESEPARATOR +
         "Coverage: 0.0" + ConditionalUniqueColumnCombination.LINESEPARATOR +
-                                       "";
+        "";
 
     // Execute functionality
     System.out.println(actualConditionalColumnCombination.buildPatternTableau());

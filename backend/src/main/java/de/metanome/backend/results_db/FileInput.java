@@ -50,7 +50,8 @@ public class FileInput extends Input implements Serializable {
   protected String nullValue;
 
   // Exists for Serialization
-  public FileInput() {}
+  public FileInput() {
+  }
 
   /**
    * Constructs a FileInput with a given file name. Default parser settings are set.
@@ -196,15 +197,20 @@ public class FileInput extends Input implements Serializable {
   }
 
   @Transient
-  public char getSeparatorAsChar() { return toChar(this.separator); }
+  public char getSeparatorAsChar() {
+    return toChar(this.separator);
+  }
+
   @Transient
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
+
   @Transient
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
+
   @Transient
   private char toChar(String str) {
     if (str.isEmpty()) {

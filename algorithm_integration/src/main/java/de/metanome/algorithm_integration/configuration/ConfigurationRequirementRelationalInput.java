@@ -38,7 +38,8 @@ public class ConfigurationRequirementRelationalInput
   // Needed for restful serialization
   public String type = "ConfigurationRequirementRelationalInput";
 
-  public ConfigurationRequirementRelationalInput() { }
+  public ConfigurationRequirementRelationalInput() {
+  }
 
   public ConfigurationRequirementRelationalInput(String identifier) {
     super(identifier);
@@ -48,7 +49,8 @@ public class ConfigurationRequirementRelationalInput
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementRelationalInput(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementRelationalInput(String identifier, int minNumberOfSetting,
+                                                 int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

@@ -204,15 +204,20 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   }
 
   @XmlTransient
-  public char getSeparatorAsChar() { return toChar(this.separatorChar); }
+  public char getSeparatorAsChar() {
+    return toChar(this.separatorChar);
+  }
+
   @XmlTransient
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
+
   @XmlTransient
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
+
   @XmlTransient
   private char toChar(String str) {
     if (str.isEmpty()) {

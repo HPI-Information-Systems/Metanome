@@ -219,9 +219,9 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
    * Test method for {@link de.metanome.frontend.client.datasources.FileInputEditForm#updateFileInput(de.metanome.backend.results_db.FileInput)}
    * and test method for {@link FileInputEditForm#showSaveButton()}
    *
-   * If the edit button for a file input is clicked, the edit form should contain the values
-   * of that file input and the edit form should show a update button instead of an save button.
-   * If the method 'show save button' is called, the save button should be visible again.
+   * If the edit button for a file input is clicked, the edit form should contain the values of that
+   * file input and the edit form should show a update button instead of an save button. If the
+   * method 'show save button' is called, the save button should be visible again.
    */
   public void testEditButtonClicked() throws InputValidationException {
     // Setup
@@ -263,7 +263,8 @@ public class GwtTestFileInputEditForm extends GWTTestCase {
     assertEquals(skipLines, (int) editForm.skipLinesIntegerBox.getValue());
     assertEquals(strictQuotes, (boolean) editForm.strictQuotesCheckbox.getValue());
     assertEquals(hasHeader, (boolean) editForm.headerCheckbox.getValue());
-    assertEquals(ignoreLeadingWhiteSpace, (boolean) editForm.ignoreLeadingWhiteSpaceCheckbox.getValue());
+    assertEquals(ignoreLeadingWhiteSpace,
+                 (boolean) editForm.ignoreLeadingWhiteSpaceCheckbox.getValue());
     assertEquals(skipDifferingLines, (boolean) editForm.skipDifferingLinesCheckbox.getValue());
 
     assertEquals(((Button) editForm.getWidget(2, 0)).getText(), "Update");

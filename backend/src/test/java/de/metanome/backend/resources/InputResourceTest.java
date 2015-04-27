@@ -70,9 +70,9 @@ public class InputResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.InputResource#store(Input)}
-   * and {@link de.metanome.backend.resources.InputResource#get(long)}
-   * <p/> Inputs should be storable and retrievable by id.
+   * Test method for {@link de.metanome.backend.resources.InputResource#store(Input)} and {@link
+   * de.metanome.backend.resources.InputResource#get(long)} <p/> Inputs should be storable and
+   * retrievable by id.
    */
   @Test
   public void testPersistence() throws EntityStorageException {
@@ -133,7 +133,9 @@ public class InputResourceTest {
     Input expectedInput = inputResource.store(new Input("input"));
     FileInput expectedFileInput = fileInputResource.store(new FileInput("fileInput"));
     TableInput expectedTableInput = tableInputResource.store(new TableInput("tableInput"));
-    DatabaseConnection expectedDatabaseConnection = databaseConnectionResource.store(new DatabaseConnection("databaseConnection"));
+    DatabaseConnection
+        expectedDatabaseConnection =
+        databaseConnectionResource.store(new DatabaseConnection("databaseConnection"));
 
     // Execute functionality
     List<Input> actualInputs = inputResource.listRelationalInputs();

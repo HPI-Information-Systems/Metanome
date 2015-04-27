@@ -189,7 +189,6 @@ h3 {
     outline-width: 3px;
 }
 
-
 .gwt-PopupPanelGlass {
     background-color: #000;
     opacity: 0.3;
@@ -204,40 +203,50 @@ h3 {
     border-bottom: 1px solid #bbbbbb;
     border-top: 1px solid #D2D2D2;
 }
+
 .gwt-DialogBox .dialogContent {
 }
+
 .gwt-DialogBox .dialogMiddleCenter {
     padding: 3px;
     background: white;
 }
+
 .gwt-DialogBox .dialogTopLeftInner {
     width: 10px;
     height: 8px;
 }
+
 .gwt-DialogBox .dialogTopRightInner {
     width: 12px;
 }
+
 .gwt-DialogBox .dialogBottomLeftInner {
     width: 10px;
     height: 12px;
 }
+
 .gwt-DialogBox .dialogBottomRightInner {
     width: 12px;
     height: 12px;
 }
+
 * html .gwt-DialogBox .dialogTopLeftInner {
     width: 10px;
     overflow: hidden;
 }
+
 * html .gwt-DialogBox .dialogTopRightInner {
     width: 12px;
     overflow: hidden;
 }
+
 * html .gwt-DialogBox .dialogBottomLeftInner {
     width: 10px;
     height: 12px;
     overflow: hidden;
 }
+
 * html .gwt-DialogBox .dialogBottomRightInner {
     width: 12px;
     height: 12px;

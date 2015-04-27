@@ -43,7 +43,9 @@ public class InputParameterIntegerWidget extends InputParameterWidget {
     // Create the field with the default value, if one is set
     Integer defaultValue = this.specification.getDefaultValue(settingIndex);
     IntegerInput field = new IntegerInput(optional, required);
-    if (defaultValue != null) field.setValue(defaultValue);
+    if (defaultValue != null) {
+      field.setValue(defaultValue);
+    }
 
     // Add the field at the correct position
     this.inputWidgets.add(field);

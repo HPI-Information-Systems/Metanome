@@ -46,7 +46,7 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
       try {
         resultReceiver.receiveResult(new OrderDependency(new ColumnPermutation(
             new ColumnIdentifier("table1", "column1")), new ColumnPermutation(new ColumnIdentifier(
-                "table1", "column2")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
+            "table1", "column2")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
 
       } catch (final CouldNotReceiveResultException e) {
         // TODO Auto-generated catch block

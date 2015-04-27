@@ -21,7 +21,7 @@ public abstract class ResultsStore<ResultType extends Result> {
   /**
    * Stores the given results for given execution
    *
-   * @param results     List of results to be persisted
+   * @param results List of results to be persisted
    */
   public void store(List<ResultType> results) {
     this.results = results;

@@ -53,9 +53,10 @@ public class ConfigurationSettingFileInputTest {
     ConfigurationSettingFileInput
         actualSetting =
         new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
-                                        expectedQuote, expectedEscape, expectedIsStrictQuotes,
-                                        expectedIsIgnoreLeadingWhitespace, expectedLines,
-                                        expectedHeader, expectedDifferingLines, expectedNullValue);
+                                          expectedQuote, expectedEscape, expectedIsStrictQuotes,
+                                          expectedIsIgnoreLeadingWhitespace, expectedLines,
+                                          expectedHeader, expectedDifferingLines,
+                                          expectedNullValue);
 
     // Check result
     assertEquals(expectedFileName, actualSetting.getFileName());
@@ -70,13 +71,12 @@ public class ConfigurationSettingFileInputTest {
   }
 
   /**
-   * Tests that the instances of {@link ConfigurationSettingFileInput}
-   * are serializable in GWT.
+   * Tests that the instances of {@link ConfigurationSettingFileInput} are serializable in GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
         new ConfigurationSettingFileInput("fileName", true, ',', '"', '\\', true, true, 2, true,
-                                        true, ""));
+                                          true, ""));
   }
 }

@@ -94,7 +94,9 @@ public class CsvFileFixture {
     return ImmutableList.of("6", "7", "8");
   }
 
-  public ImmutableList<String> expectedThirdLine() { return ImmutableList.of("9", "10"); }
+  public ImmutableList<String> expectedThirdLine() {
+    return ImmutableList.of("9", "10");
+  }
 
 
 }

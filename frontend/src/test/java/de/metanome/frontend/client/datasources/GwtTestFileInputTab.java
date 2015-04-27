@@ -121,7 +121,8 @@ public class GwtTestFileInputTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#updateFileInputInTable(de.metanome.backend.results_db.FileInput, de.metanome.backend.results_db.FileInput)}
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#updateFileInputInTable(de.metanome.backend.results_db.FileInput,
+   * de.metanome.backend.results_db.FileInput)}
    */
   public void testUpdateFileInput() {
     // Setup
@@ -147,7 +148,8 @@ public class GwtTestFileInputTab extends GWTTestCase {
 
     // Check
     assertEquals(2, fileInputTab.fileInputList.getRowCount());
-    assertTrue(((HTML) (fileInputTab.fileInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(
+        ((HTML) (fileInputTab.fileInputList.getWidget(1, 0))).getText().contains(expectedValue));
     assertTrue(fileInputTab.fileInputList.getText(1, 1).contains(expectedValue));
 
     // Clean up

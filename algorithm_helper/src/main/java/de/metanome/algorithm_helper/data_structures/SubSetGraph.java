@@ -182,7 +182,8 @@ public class SubSetGraph {
   }
 
   /**
-   * The method returns all minimal subsets contained in the graph using a breadth-first search pattern. Non minimal subsets are not traversed.
+   * The method returns all minimal subsets contained in the graph using a breadth-first search
+   * pattern. Non minimal subsets are not traversed.
    *
    * @return a list containing all minimal subsets
    */

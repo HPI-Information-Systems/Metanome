@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 /**
- * A ConfigurationSettingDataSource represents those a setting, which store input data.
- * Input data can be a file input, a table input or a database connection.
+ * A ConfigurationSettingDataSource represents those a setting, which store input data. Input data
+ * can be a file input, a table input or a database connection.
  *
  * @author Claudia Exeler
  */
@@ -37,7 +37,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class ConfigurationSettingDataSource extends ConfigurationSetting {
 
-  public ConfigurationSettingDataSource() {}
+  public ConfigurationSettingDataSource() {
+  }
 
   protected long id;
 

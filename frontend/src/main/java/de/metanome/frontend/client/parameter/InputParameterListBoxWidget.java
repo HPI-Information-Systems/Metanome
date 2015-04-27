@@ -44,7 +44,9 @@ public class InputParameterListBoxWidget extends InputParameterWidget {
     String defaultValue = this.specification.getDefaultValue(settingIndex);
     ListBoxInput field = new ListBoxInput(optional, required);
     field.setValues(this.specification.getValues());
-    if (defaultValue != null) field.setSelectedValue(defaultValue);
+    if (defaultValue != null) {
+      field.setSelectedValue(defaultValue);
+    }
 
     // Add the field at the correct position
     this.inputWidgets.add(field);

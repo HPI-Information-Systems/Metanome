@@ -42,9 +42,9 @@ public class TableInputResourceTest {
   private DatabaseConnectionResource dbResource = new DatabaseConnectionResource();
 
   /**
-   * Test method for {@link de.metanome.backend.resources.TableInputResource#store(TableInput)} and {@link
-   * de.metanome.backend.resources.TableInputResource#get(long)} <p/> TableInputs should be storable
-   * and retrievable by id.
+   * Test method for {@link de.metanome.backend.resources.TableInputResource#store(TableInput)} and
+   * {@link de.metanome.backend.resources.TableInputResource#get(long)} <p/> TableInputs should be
+   * storable and retrievable by id.
    */
   @Test
   public void testPersistence() throws EntityStorageException {
@@ -101,7 +101,9 @@ public class TableInputResourceTest {
     // Setup
     HibernateUtil.clear();
 
-    DatabaseConnection dbConnection = new DatabaseConnection("url1", "db1", "password1", DbSystem.DB2);
+    DatabaseConnection
+        dbConnection =
+        new DatabaseConnection("url1", "db1", "password1", DbSystem.DB2);
     dbResource.store(dbConnection);
 
     TableInput expectedTableInput = new TableInput("table1", dbConnection);

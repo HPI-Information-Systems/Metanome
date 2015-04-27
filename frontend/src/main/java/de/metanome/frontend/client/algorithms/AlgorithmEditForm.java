@@ -117,15 +117,17 @@ public class AlgorithmEditForm extends Grid {
     MethodCallback<List<String>> storageCallback = getStorageCallback();
     MethodCallback<List<Algorithm>> databaseCallback = getDatabaseCallback();
 
-
-    AlgorithmRestService restService = com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
+    AlgorithmRestService
+        restService =
+        com.google.gwt.core.client.GWT.create(AlgorithmRestService.class);
     restService.listAvailableAlgorithmFiles(storageCallback);
     restService.listAlgorithms(databaseCallback);
   }
 
   /**
-   * Gets all algorithms in the database.
-   * The list box should only contain those algorithms, which are not yet stored in the database.
+   * Gets all algorithms in the database. The list box should only contain those algorithms, which
+   * are not yet stored in the database.
+   *
    * @return the callback
    */
   private MethodCallback<List<Algorithm>> getDatabaseCallback() {
@@ -139,8 +141,9 @@ public class AlgorithmEditForm extends Grid {
       public void onSuccess(Method method, List<Algorithm> result) {
         List<String> algorithmNames = new ArrayList<>();
 
-        for (Algorithm algorithm : result)
+        for (Algorithm algorithm : result) {
           algorithmsInDatabase.add(algorithm.getFileName());
+        }
 
         for (String name : algorithmsOnStorage) {
           if (!algorithmsInDatabase.contains(name)) {
@@ -154,8 +157,9 @@ public class AlgorithmEditForm extends Grid {
   }
 
   /**
-   * Gets all algorithms on storage.
-   * The list box should only contain those algorithms, which are not yet stored in the database.
+   * Gets all algorithms on storage. The list box should only contain those algorithms, which are
+   * not yet stored in the database.
+   *
    * @return the callback
    */
   private MethodCallback<List<String>> getStorageCallback() {
@@ -173,7 +177,8 @@ public class AlgorithmEditForm extends Grid {
 
         if (result.size() == 0) {
           messageReceiver
-              .addError("Could not find any algorithms. Please add your algorithms to the algorithm folder.");
+              .addError(
+                  "Could not find any algorithms. Please add your algorithms to the algorithm folder.");
           return;
         }
 
@@ -196,7 +201,7 @@ public class AlgorithmEditForm extends Grid {
   protected void saveSubmit() {
     messageReceiver.clearErrors();
     try {
-        algorithmsPage.callAddAlgorithm(retrieveInputValues());
+      algorithmsPage.callAddAlgorithm(retrieveInputValues());
     } catch (InputValidationException e) {
       messageReceiver.addError(e.getMessage());
     }
@@ -248,6 +253,7 @@ public class AlgorithmEditForm extends Grid {
 
   /**
    * Fills the edit form with the algorithm's values.
+   *
    * @param algorithm the algorithm, which should be updated
    */
   public void updateAlgorithm(final Algorithm algorithm) {

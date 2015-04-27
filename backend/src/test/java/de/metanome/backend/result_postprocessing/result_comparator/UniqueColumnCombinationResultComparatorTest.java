@@ -36,14 +36,16 @@ public class UniqueColumnCombinationResultComparatorTest {
   @Test
   public void compare1() {
     UniqueColumnCombinationResultComparator resultComparator =
-        new UniqueColumnCombinationResultComparator(UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN, true);
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN, true);
     assertEquals(-1, resultComparator.compare(ucc1, ucc2));
   }
 
   @Test
   public void compare2() {
     UniqueColumnCombinationResultComparator resultComparator =
-        new UniqueColumnCombinationResultComparator(UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN, false);
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN, false);
     assertEquals(1, resultComparator.compare(ucc1, ucc2));
   }
 

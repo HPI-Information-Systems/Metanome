@@ -37,7 +37,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 
-public class ResultCounterTest{
+public class ResultCounterTest {
 
   /**
    * Test method for {@link de.metanome.backend.result_receiver.ResultCounter#getResults}
@@ -57,7 +57,6 @@ public class ResultCounterTest{
     // Check result
     assertTrue(resultCounter.getResults().get(ResultType.STAT) == 1);
     assertNull(resultCounter.getResults().get(ResultType.IND));
-
 
     // Execute functionality
     resultCounter.receiveResult(basicStatistic);
@@ -82,7 +81,9 @@ public class ResultCounterTest{
     resultCounter.close();
 
     // Check result
-    File actualFile = new File(resultCounter.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
+    File
+        actualFile =
+        new File(resultCounter.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);

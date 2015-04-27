@@ -40,9 +40,8 @@ public class ResultResourceTest {
   ResultResource resultResource = new ResultResource();
 
   /**
-   * Test method for {@link de.metanome.backend.resources.ResultResource#store(de.metanome.backend.results_db.Result)} and
-   * {@link de.metanome.backend.resources.ResultResource#get(long)}
-   * @throws Exception
+   * Test method for {@link de.metanome.backend.resources.ResultResource#store(de.metanome.backend.results_db.Result)}
+   * and {@link de.metanome.backend.resources.ResultResource#get(long)}
    */
   @Test
   public void testStoreAndGet() throws Exception {

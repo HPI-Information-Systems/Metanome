@@ -74,7 +74,7 @@ public class InclusionDependencyTest {
   public void testConstructor() {
     // Setup
     // Expected values
-	  ColumnPermutation expectedDependant = new ColumnPermutation(
+    ColumnPermutation expectedDependant = new ColumnPermutation(
         new ColumnIdentifier("table2", "column2"),
         new ColumnIdentifier("table2", "column27"));
     ColumnPermutation expectedReferenced = new ColumnPermutation(
@@ -95,10 +95,10 @@ public class InclusionDependencyTest {
   @Test
   public void testToString() {
     // Setup
-	  ColumnPermutation expectedDependant = new ColumnPermutation(
+    ColumnPermutation expectedDependant = new ColumnPermutation(
         new ColumnIdentifier("table2", "column2"),
         new ColumnIdentifier("table2", "column27"));
-	  ColumnPermutation expectedReferenced = new ColumnPermutation(
+    ColumnPermutation expectedReferenced = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"),
         new ColumnIdentifier("table1", "column4"));
     InclusionDependency ind = new InclusionDependency(expectedDependant, expectedReferenced);

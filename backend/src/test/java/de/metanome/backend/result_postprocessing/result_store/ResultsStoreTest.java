@@ -121,7 +121,8 @@ public class ResultsStoreTest {
     assertEquals(ind1, actualResults.get(0));
 
     // Execute functionality
-    actualResults = resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
+    actualResults =
+        resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
 
     // Check
     assertEquals(3, actualResults.size());

@@ -43,12 +43,18 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   public String getTableIdentifier() {
     return tableIdentifier;
   }
-  public void setTableIdentifier(String tableIdentifier) { this.tableIdentifier = tableIdentifier; }
+
+  public void setTableIdentifier(String tableIdentifier) {
+    this.tableIdentifier = tableIdentifier;
+  }
 
   public String getColumnIdentifier() {
     return columnIdentifier;
   }
-  public void setColumnIdentifier(String columnIdentifier) { this.columnIdentifier = columnIdentifier; }
+
+  public void setColumnIdentifier(String columnIdentifier) {
+    this.columnIdentifier = columnIdentifier;
+  }
 
   @Override
   public String toString() {

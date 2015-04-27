@@ -47,7 +47,9 @@ public class AlgorithmExecutionResourceTest {
 
     // Expected values
     executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+    UniqueColumnCombination
+        expectedUcc =
+        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
     // Execute functionality
     AlgorithmExecutionCache.getResultCache(expectedExecutionIdentifier).receiveResult(
@@ -89,7 +91,8 @@ public class AlgorithmExecutionResourceTest {
 
 
   @Test(expected = WebException.class)
-  public void testFetchResultsNotPossible() throws FileNotFoundException, UnsupportedEncodingException {
+  public void testFetchResultsNotPossible()
+      throws FileNotFoundException, UnsupportedEncodingException {
     // Setup
     String expectedExecutionIdentifier = "executionIdentifier";
 
@@ -116,7 +119,9 @@ public class AlgorithmExecutionResourceTest {
 
     // Expected values
     executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+    UniqueColumnCombination
+        expectedUcc =
+        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
     // Execute functionality
     AlgorithmExecutionCache.getResultCounter(expectedExecutionIdentifier).receiveResult(
@@ -140,7 +145,9 @@ public class AlgorithmExecutionResourceTest {
 
     // Expected values
     executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
+    UniqueColumnCombination
+        expectedUcc =
+        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
     AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).setResultTestDir();
 
     // Execute functionality

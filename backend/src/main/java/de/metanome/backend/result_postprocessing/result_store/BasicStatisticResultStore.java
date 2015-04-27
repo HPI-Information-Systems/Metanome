@@ -34,7 +34,7 @@ public class BasicStatisticResultStore extends ResultsStore<BasicStatistic> {
    */
   @Override
   protected ResultComparator<BasicStatistic> getResultComparator(String sortProperty,
-                                                                       boolean ascending) {
+                                                                 boolean ascending) {
     return new BasicStatisticResultComparator(sortProperty, ascending);
   }
 

@@ -30,7 +30,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 public interface RelationalInputGeneratorInitializer {
 
   /**
-   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput}.
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput}.
    *
    * @param setting the setting used to initialize the input
    * @throws AlgorithmConfigurationException if the input cannot be initialized
@@ -39,7 +40,8 @@ public interface RelationalInputGeneratorInitializer {
       throws AlgorithmConfigurationException;
 
   /**
-   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput}.
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput}.
    *
    * @param setting the setting used to initialize the input
    * @throws AlgorithmConfigurationException if the input cannot be initialized

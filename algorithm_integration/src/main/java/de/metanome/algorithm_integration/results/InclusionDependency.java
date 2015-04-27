@@ -47,7 +47,7 @@ public class InclusionDependency implements Result {
   }
 
   public InclusionDependency(ColumnPermutation dependant,
-		  ColumnPermutation referenced) {
+                             ColumnPermutation referenced) {
     this.dependant = dependant;
     this.referenced = referenced;
   }

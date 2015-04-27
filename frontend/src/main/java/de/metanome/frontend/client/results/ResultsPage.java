@@ -94,7 +94,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add a label for the execution time
     this.insert(new Label(
-        getExecutionTimeString(this.algorithmFileName, execution.getEnd() - execution.getBegin())),
+                    getExecutionTimeString(this.algorithmFileName,
+                                           execution.getEnd() - execution.getBegin())),
                 0);
 
     // Add the result table

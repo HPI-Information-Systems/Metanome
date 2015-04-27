@@ -67,11 +67,11 @@ public class WidgetFactory {
     } else if (config instanceof ConfigurationRequirementRelationalInput) {
       widget =
           new InputParameterRelationalInputWidget((ConfigurationRequirementRelationalInput) config,
-                                          messageReceiver);
+                                                  messageReceiver);
     } else if (config instanceof ConfigurationRequirementTableInput) {
       widget =
           new InputParameterTableInputWidget((ConfigurationRequirementTableInput) config,
-                                                  messageReceiver);
+                                             messageReceiver);
     }
     return widget;
   }

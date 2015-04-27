@@ -34,7 +34,7 @@ public class OrderDependencyResultStore extends ResultsStore<OrderDependency> {
    */
   @Override
   protected ResultComparator<OrderDependency> getResultComparator(String sortProperty,
-                                                                       boolean ascending) {
+                                                                  boolean ascending) {
     return new OrderDependencyResultComparator(sortProperty, ascending);
   }
 

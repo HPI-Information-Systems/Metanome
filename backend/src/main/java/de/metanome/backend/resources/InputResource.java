@@ -56,6 +56,7 @@ public class InputResource implements Resource<Input> {
 
   /**
    * Deletes the Input, which has the given id, from the database.
+   *
    * @param id the id of the Input, which should be deleted
    */
   @DELETE
@@ -72,6 +73,7 @@ public class InputResource implements Resource<Input> {
 
   /**
    * retrieves a Input from the Database
+   *
    * @param id the id of the Input
    * @return the retrieved Input
    */
@@ -103,6 +105,7 @@ public class InputResource implements Resource<Input> {
 
   /**
    * Updates an input in the database.
+   *
    * @param input the input
    * @return the updated input
    */

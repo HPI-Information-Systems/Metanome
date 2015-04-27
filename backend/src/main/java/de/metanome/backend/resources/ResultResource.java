@@ -36,6 +36,7 @@ public class ResultResource implements Resource<Result> {
 
   /**
    * Adds an result to the database.
+   *
    * @param result the result
    * @return the stored result
    */
@@ -56,6 +57,7 @@ public class ResultResource implements Resource<Result> {
 
   /**
    * Deletes the result, which has the given id, from the database.
+   *
    * @param id the id of the result, which should be deleted
    */
   @DELETE
@@ -107,6 +109,7 @@ public class ResultResource implements Resource<Result> {
 
   /**
    * Updates an result in the database.
+   *
    * @param result the result
    * @return the updated result
    */

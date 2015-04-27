@@ -39,14 +39,16 @@ public class BasicStatisticResultComparatorTest {
   @Test
   public void compare1() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN, true);
+        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
+                                           true);
     assertEquals(-1, resultComparator.compare(statistic1, statistic2));
   }
 
   @Test
   public void compare2() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN, false);
+        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
+                                           false);
     assertEquals(1, resultComparator.compare(statistic1, statistic2));
   }
 
@@ -77,7 +79,6 @@ public class BasicStatisticResultComparatorTest {
         new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
-
 
 
 }

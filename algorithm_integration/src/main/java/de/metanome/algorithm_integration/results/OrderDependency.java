@@ -35,6 +35,7 @@ public class OrderDependency implements Result {
   public static enum ComparisonOperator {
     SMALLER_EQUAL, STRICTLY_SMALLER
   }
+
   public static enum OrderType {
     LEXICOGRAPHICAL, POINTWISE
   }
@@ -57,7 +58,7 @@ public class OrderDependency implements Result {
   }
 
   public OrderDependency(final ColumnPermutation lhs, final ColumnPermutation rhs,
-      final OrderType orderType, final ComparisonOperator comparisonOperator) {
+                         final OrderType orderType, final ComparisonOperator comparisonOperator) {
     this.lhs = lhs;
     this.rhs = rhs;
     this.orderType = orderType;
@@ -175,7 +176,7 @@ public class OrderDependency implements Result {
     }
 
     return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + ","
-    + orderTypeStringified + "]" + rhs;
+           + orderTypeStringified + "]" + rhs;
   }
 
 }

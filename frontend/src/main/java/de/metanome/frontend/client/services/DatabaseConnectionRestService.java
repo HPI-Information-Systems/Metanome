@@ -37,11 +37,13 @@ public interface DatabaseConnectionRestService extends RestService {
 
   @GET
   @Path("/get/{id}")
-  public void getDatabaseConnection(@PathParam("id") long id, MethodCallback<DatabaseConnection> callback);
+  public void getDatabaseConnection(@PathParam("id") long id,
+                                    MethodCallback<DatabaseConnection> callback);
 
   @POST
   @Path("/store")
-  public void storeDatabaseConnection(DatabaseConnection dbConnection, MethodCallback<DatabaseConnection> callback);
+  public void storeDatabaseConnection(DatabaseConnection dbConnection,
+                                      MethodCallback<DatabaseConnection> callback);
 
   @DELETE
   @Path("/delete/{id}")
@@ -49,7 +51,8 @@ public interface DatabaseConnectionRestService extends RestService {
 
   @POST
   @Path("/update")
-  public void updateDatabaseConnection(DatabaseConnection databaseConnection, MethodCallback<DatabaseConnection> callback);
+  public void updateDatabaseConnection(DatabaseConnection databaseConnection,
+                                       MethodCallback<DatabaseConnection> callback);
 }
 
 

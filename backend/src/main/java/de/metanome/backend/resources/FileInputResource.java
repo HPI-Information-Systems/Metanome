@@ -15,6 +15,7 @@
  */
 
 package de.metanome.backend.resources;
+
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
@@ -38,7 +39,7 @@ public class FileInputResource implements Resource<FileInput> {
 
   private final InputDataFinder inputDataFinder;
 
-  public FileInputResource(){
+  public FileInputResource() {
     inputDataFinder = new InputDataFinder();
   }
 
@@ -72,6 +73,7 @@ public class FileInputResource implements Resource<FileInput> {
 
   /**
    * Updates a file input in the database.
+   *
    * @param fileInput the file input
    * @return the updated file input
    */
@@ -91,6 +93,7 @@ public class FileInputResource implements Resource<FileInput> {
 
   /**
    * retrieves a FileInput from the Database
+   *
    * @param id the id of the FileInput
    * @return the retrieved FileInput
    */
@@ -127,6 +130,7 @@ public class FileInputResource implements Resource<FileInput> {
 
   /**
    * Deletes the FileInput, which has the given id, from the database.
+   *
    * @param id the id of the FileInput, which should be deleted
    */
   @DELETE

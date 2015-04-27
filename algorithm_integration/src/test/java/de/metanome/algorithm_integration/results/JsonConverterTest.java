@@ -32,8 +32,8 @@ import static org.junit.Assert.assertEquals;
 public class JsonConverterTest {
 
   /**
-   * A {@link BasicStatistic} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link BasicStatistic} should be converted to a JSON String and creatable from a JSON
+   * string.
    */
   @Test
   public void testToAndFromJsonStringBasicStatistic() throws IOException {
@@ -48,7 +48,9 @@ public class JsonConverterTest {
     JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
 
     // Expected values
-    String expectedJson = "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticName\":\"Min\",\"statisticValue\":\"minValue\"}";
+    String
+        expectedJson =
+        "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticName\":\"Min\",\"statisticValue\":\"minValue\"}";
 
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedStatistic);
@@ -65,8 +67,8 @@ public class JsonConverterTest {
 
 
   /**
-   * A {@link InclusionDependency} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link InclusionDependency} should be converted to a JSON String and creatable from a JSON
+   * string.
    */
   @Test
   public void testToAndFromJsonStringInclusionDependency() throws IOException {
@@ -77,12 +79,16 @@ public class JsonConverterTest {
     ColumnPermutation expectedReferenced = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"),
         new ColumnIdentifier("table1", "column4"));
-    InclusionDependency expectedInd = new InclusionDependency(expectedDependant, expectedReferenced);
+    InclusionDependency
+        expectedInd =
+        new InclusionDependency(expectedDependant, expectedReferenced);
 
     JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
 
     // Expected values
-    String expectedJson = "{\"type\":\"InclusionDependency\",\"dependant\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table2\",\"columnIdentifier\":\"column2\"},{\"tableIdentifier\":\"table2\",\"columnIdentifier\":\"column27\"}]},\"referenced\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column1\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column4\"}]}}";
+    String
+        expectedJson =
+        "{\"type\":\"InclusionDependency\",\"dependant\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table2\",\"columnIdentifier\":\"column2\"},{\"tableIdentifier\":\"table2\",\"columnIdentifier\":\"column27\"}]},\"referenced\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column1\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column4\"}]}}";
 
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedInd);
@@ -91,15 +97,17 @@ public class JsonConverterTest {
     assertEquals(expectedJson, actualJson);
 
     // Execute functionality
-    InclusionDependency actualInd = jsonConverter.fromJsonString(actualJson, InclusionDependency.class);
+    InclusionDependency
+        actualInd =
+        jsonConverter.fromJsonString(actualJson, InclusionDependency.class);
 
     // Check result
     assertEquals(expectedInd, actualInd);
   }
 
   /**
-   * A {@link OrderDependency} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link OrderDependency} should be converted to a JSON String and creatable from a JSON
+   * string.
    */
   @Test
   public void testToAndFromJsonString() throws IOException {
@@ -117,7 +125,9 @@ public class JsonConverterTest {
     JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
 
     // Expected values
-    String expectedJson = "{\"type\":\"OrderDependency\",\"comparisonOperator\":\"SMALLER_EQUAL\",\"lhs\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column1\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column2\"}]},\"orderType\":\"LEXICOGRAPHICAL\",\"rhs\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column3\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column4\"}]}}";
+    String
+        expectedJson =
+        "{\"type\":\"OrderDependency\",\"comparisonOperator\":\"SMALLER_EQUAL\",\"lhs\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column1\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column2\"}]},\"orderType\":\"LEXICOGRAPHICAL\",\"rhs\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column3\"},{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column4\"}]}}";
 
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedOD);
@@ -134,8 +144,8 @@ public class JsonConverterTest {
 
 
   /**
-   * A {@link FunctionalDependency} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link FunctionalDependency} should be converted to a JSON String and creatable from a JSON
+   * string.
    */
   @Test
   public void testToAndFromJsonStringFunctionalDependency() throws IOException {
@@ -151,7 +161,9 @@ public class JsonConverterTest {
     JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
 
     // Expected values
-    String expectedJson = "{\"type\":\"FunctionalDependency\",\"determinant\":{\"columnIdentifiers\":[]},\"dependant\":{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column7\"}}";
+    String
+        expectedJson =
+        "{\"type\":\"FunctionalDependency\",\"determinant\":{\"columnIdentifiers\":[]},\"dependant\":{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column7\"}}";
 
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedFD);
@@ -160,7 +172,9 @@ public class JsonConverterTest {
     assertEquals(expectedJson, actualJson);
 
     // Execute functionality
-    FunctionalDependency actualFd = jsonConverter.fromJsonString(actualJson, FunctionalDependency.class);
+    FunctionalDependency
+        actualFd =
+        jsonConverter.fromJsonString(actualJson, FunctionalDependency.class);
 
     // Check result
     assertEquals(expectedFD, actualFd);
@@ -182,7 +196,8 @@ public class JsonConverterTest {
     JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
 
     // Expected values
-    String expectedJson =
+    String
+        expectedJson =
         "{\"type\":\"UniqueColumnCombination\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table1\",\"columnIdentifier\":\"column1\"},{\"tableIdentifier\":\"table2\",\"columnIdentifier\":\"column2\"}]}}";
 
     // Execute functionality
@@ -192,17 +207,18 @@ public class JsonConverterTest {
     assertEquals(expectedJson, actualJson);
 
     // Execute functionality
-    UniqueColumnCombination actualUCC = jsonConverter.fromJsonString(actualJson, UniqueColumnCombination.class);
+    UniqueColumnCombination
+        actualUCC =
+        jsonConverter.fromJsonString(actualJson, UniqueColumnCombination.class);
 
     // Check result
     assertEquals(expectedUCC, actualUCC);
   }
 
 
-
   /**
-   * A {@link ConditionalUniqueColumnCombination} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link ConditionalUniqueColumnCombination} should be converted to a JSON String and creatable
+   * from a JSON string.
    */
   @Test
   public void testToAndFromJsonStringConditionalUniqueColumnCombination() throws IOException {
@@ -213,15 +229,17 @@ public class JsonConverterTest {
     outerCondition.add(
         new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
                                new ColumnConditionValue(expectedColumn2, "condition2"),
-                               new ColumnConditionOr(new ColumnConditionValue(expectedColumn1, "condition4"),
-                                                     new ColumnConditionValue(expectedColumn1, "condition5"))));
+                               new ColumnConditionOr(
+                                   new ColumnConditionValue(expectedColumn1, "condition4"),
+                                   new ColumnConditionValue(expectedColumn1, "condition5"))));
     outerCondition
         .add(new ColumnConditionValue(expectedColumn1, "condition3"));
     outerCondition.add(
         new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition6"),
                                new ColumnConditionValue(expectedColumn2, "condition7"),
-                               new ColumnConditionOr(new ColumnConditionValue(expectedColumn1, "condition8"),
-                                                     new ColumnConditionValue(expectedColumn1, "condition9"))));
+                               new ColumnConditionOr(
+                                   new ColumnConditionValue(expectedColumn1, "condition8"),
+                                   new ColumnConditionValue(expectedColumn1, "condition9"))));
 
     ConditionalUniqueColumnCombination
         expectedCUCC =
@@ -233,26 +251,32 @@ public class JsonConverterTest {
 
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedCUCC);
-    ConditionalUniqueColumnCombination actualCUCC = jsonConverter.fromJsonString(actualJson, ConditionalUniqueColumnCombination.class);
+    ConditionalUniqueColumnCombination
+        actualCUCC =
+        jsonConverter.fromJsonString(actualJson, ConditionalUniqueColumnCombination.class);
 
     // Check result
     assertEquals(expectedCUCC, actualCUCC);
   }
 
   /**
-   * A {@link de.metanome.algorithm_integration.ColumnConditionValue} should be converted to a JSON String and creatable from a
-   * JSON string.
+   * A {@link de.metanome.algorithm_integration.ColumnConditionValue} should be converted to a JSON
+   * String and creatable from a JSON string.
    */
   @Test
   public void testToAndFromJsonStringColumnConditionValue() throws IOException {
     // Setup
     ColumnIdentifier columnIdentifier = new ColumnIdentifier("table1", "column1");
-    ColumnConditionValue expectedColumnValue = new ColumnConditionValue(columnIdentifier, "condition1");
+    ColumnConditionValue
+        expectedColumnValue =
+        new ColumnConditionValue(columnIdentifier, "condition1");
 
     // Execute functionality
     JsonConverter<ColumnConditionValue> jsonConverter = new JsonConverter<>();
     String actualJson = jsonConverter.toJsonString(expectedColumnValue);
-    ColumnConditionValue actualColumnValue = jsonConverter.fromJsonString(actualJson, ColumnConditionValue.class);
+    ColumnConditionValue
+        actualColumnValue =
+        jsonConverter.fromJsonString(actualJson, ColumnConditionValue.class);
 
     // Check result
     assertEquals(expectedColumnValue, actualColumnValue);

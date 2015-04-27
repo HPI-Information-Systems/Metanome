@@ -154,10 +154,11 @@ public class ColumnConditionOr implements ColumnCondition {
           }
         }
 
-        if (equalCount == this.columnValues.size())
+        if (equalCount == this.columnValues.size()) {
           return 0;
-        else
+        } else {
           return 1;
+        }
       }
     } else {
       //or between "simple" and "and"

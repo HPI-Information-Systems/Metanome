@@ -34,7 +34,7 @@ public class UniqueColumnCombinationResultStore extends ResultsStore<UniqueColum
    */
   @Override
   protected ResultComparator<UniqueColumnCombination> getResultComparator(String sortProperty,
-                                                                       boolean ascending) {
+                                                                          boolean ascending) {
     return new UniqueColumnCombinationResultComparator(sortProperty, ascending);
   }
 

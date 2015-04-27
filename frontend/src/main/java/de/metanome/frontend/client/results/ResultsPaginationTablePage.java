@@ -55,8 +55,9 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
   /**
-   * Sends a request to the backend to load the results of the execution into memory.
-   * Afterwards the corresponding tables showing the results are added.
+   * Sends a request to the backend to load the results of the execution into memory. Afterwards the
+   * corresponding tables showing the results are added.
+   *
    * @param execution the execution
    */
   public void showResultsFor(Execution execution) {
@@ -64,8 +65,9 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
   /**
-   * Sends a request to the backend to load the results of the file input into memory.
-   * Afterwards the corresponding tables showing the results are added.
+   * Sends a request to the backend to load the results of the file input into memory. Afterwards
+   * the corresponding tables showing the results are added.
+   *
    * @param fileInput the execution
    */
   public void showResultsFor(FileInput fileInput) {
@@ -78,6 +80,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
       public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addError(method.getResponse().getText());
       }
+
       @Override
       public void onSuccess(Method method, Void aVoid) {
         addTables(execution);
@@ -91,6 +94,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
       public void onFailure(Method method, Throwable throwable) {
         messageReceiver.addError(method.getResponse().getText());
       }
+
       @Override
       public void onSuccess(Method method, List<String> types) {
         addTables(types);
@@ -100,6 +104,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
 
   /**
    * Adds a table for each result type
+   *
    * @param execution the execution
    */
   public void addTables(Execution execution) {
@@ -112,6 +117,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
 
   /**
    * Adds a table for each result type
+   *
    * @param types the names of the result types
    */
   public void addTables(List<String> types) {

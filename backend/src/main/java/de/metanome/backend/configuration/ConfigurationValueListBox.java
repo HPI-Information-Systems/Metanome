@@ -25,7 +25,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingListB
 import java.util.Set;
 
 
-public class ConfigurationValueListBox extends ConfigurationValue<String, ConfigurationRequirementListBox> {
+public class ConfigurationValueListBox
+    extends ConfigurationValue<String, ConfigurationRequirementListBox> {
 
   public ConfigurationValueListBox(String identifier, String... values) {
     super(identifier, values);

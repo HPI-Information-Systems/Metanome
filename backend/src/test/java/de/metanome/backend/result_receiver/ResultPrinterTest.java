@@ -209,8 +209,8 @@ public class ResultPrinterTest {
   }
 
   /**
-   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received
-   * {@link OrderDependency}s should be written to the appropriate file.
+   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received {@link
+   * OrderDependency}s should be written to the appropriate file.
    */
   @Test
   public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException {
@@ -218,10 +218,10 @@ public class ResultPrinterTest {
     OrderDependency expectedOd =
         new OrderDependency(new ColumnPermutation(
             new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column23")),
-        OrderType.LEXICOGRAPHICAL,
-        ComparisonOperator.SMALLER_EQUAL);
+                            new ColumnPermutation(
+                                new ColumnIdentifier("table1", "column23")),
+                            OrderType.LEXICOGRAPHICAL,
+                            ComparisonOperator.SMALLER_EQUAL);
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.OD));
@@ -244,7 +244,7 @@ public class ResultPrinterTest {
     // Cleanup
     actualFile.delete();
   }
-  
+
   /**
    * Test method for {@link ResultPrinter#close()} <p/> Even if no streams are set the {@link
    * ResultPrinter} should be closeable.

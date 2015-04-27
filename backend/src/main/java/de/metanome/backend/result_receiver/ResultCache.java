@@ -45,6 +45,7 @@ public class ResultCache extends ResultReceiver {
       throws FileNotFoundException {
     super(algorithmExecutionIdentifier);
   }
+
   protected ResultCache(String algorithmExecutionIdentifier, Boolean test)
       throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
@@ -93,25 +94,27 @@ public class ResultCache extends ResultReceiver {
 
   /**
    * When the result receiver is closed, the results are written to disk.
-   * @throws IOException
    */
   @Override
   public void close() throws IOException {
-    ResultPrinter printer = new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
-    for (Result result: results) {
+    ResultPrinter
+        printer =
+        new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
+    for (Result result : results) {
       try {
-        if (result instanceof FunctionalDependency)
+        if (result instanceof FunctionalDependency) {
           printer.receiveResult((FunctionalDependency) result);
-        else if (result instanceof InclusionDependency)
+        } else if (result instanceof InclusionDependency) {
           printer.receiveResult((InclusionDependency) result);
-        else if (result instanceof UniqueColumnCombination)
+        } else if (result instanceof UniqueColumnCombination) {
           printer.receiveResult((UniqueColumnCombination) result);
-        else if (result instanceof ConditionalUniqueColumnCombination)
+        } else if (result instanceof ConditionalUniqueColumnCombination) {
           printer.receiveResult((ConditionalUniqueColumnCombination) result);
-        else if (result instanceof OrderDependency)
+        } else if (result instanceof OrderDependency) {
           printer.receiveResult((OrderDependency) result);
-        else if (result instanceof BasicStatistic)
+        } else if (result instanceof BasicStatistic) {
           printer.receiveResult((BasicStatistic) result);
+        }
       } catch (CouldNotReceiveResultException ignored) {
 
       }

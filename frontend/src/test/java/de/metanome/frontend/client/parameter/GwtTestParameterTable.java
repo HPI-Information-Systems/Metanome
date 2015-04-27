@@ -312,9 +312,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -393,9 +397,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values, 2);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable, 2);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable, 2);
 
     TabWrapper tabWrapper = new TabWrapper();
 

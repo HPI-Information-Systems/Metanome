@@ -38,7 +38,8 @@ public class TableInput extends Input implements Serializable {
   protected String comment;
 
   // Exists for Serialization
-  public TableInput() {}
+  public TableInput() {
+  }
 
   public TableInput(String name) {
     super(name);

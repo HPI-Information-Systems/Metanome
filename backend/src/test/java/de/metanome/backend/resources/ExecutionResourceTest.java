@@ -117,8 +117,8 @@ public class ExecutionResourceTest {
    * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
    * and {@link de.metanome.backend.resources.ExecutionResource#get(long)}
    *
-   * After roundtripping an execution all its {@link de.metanome.backend.results_db.Input}s should be
-   * retrievable from it.
+   * After roundtripping an execution all its {@link de.metanome.backend.results_db.Input}s should
+   * be retrievable from it.
    */
   @Test
   public void testPersistenceMultipleInputs()
@@ -158,13 +158,12 @@ public class ExecutionResourceTest {
   }
 
 
-
   /**
    * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
    * and {@link de.metanome.backend.resources.ExecutionResource#get(long)}
    *
-   * Test the database roundtrip of an Execution with multiple {@link de.metanome.backend.results_db.Input}s
-   * and {@link de.metanome.backend.results_db.Result}s.
+   * Test the database roundtrip of an Execution with multiple {@link
+   * de.metanome.backend.results_db.Input}s and {@link de.metanome.backend.results_db.Result}s.
    */
   @Test
   public void testPersistenceWithAlgorithmAndResultAndInputs()
@@ -345,8 +344,8 @@ public class ExecutionResourceTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.resources.ExecutionResource#delete(long)}
-   * Executions should be storable and updatable.
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#delete(long)} Executions
+   * should be storable and updatable.
    */
   @Test
   public void testDelete() throws EntityStorageException, IOException {

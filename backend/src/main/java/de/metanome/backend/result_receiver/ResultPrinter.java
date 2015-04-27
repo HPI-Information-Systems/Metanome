@@ -42,11 +42,11 @@ import java.util.EnumMap;
 import java.util.List;
 
 /**
- * Writes all received Results to disk. When all results were received, the results are
- * read again and returned.
+ * Writes all received Results to disk. When all results were received, the results are read again
+ * and returned.
  */
 public class ResultPrinter extends ResultReceiver {
-  
+
   protected EnumMap<ResultType, PrintStream> openStreams;
 
   public ResultPrinter(String algorithmExecutionIdentifier)
@@ -54,6 +54,7 @@ public class ResultPrinter extends ResultReceiver {
     super(algorithmExecutionIdentifier);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
+
   protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
       throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
@@ -109,12 +110,13 @@ public class ResultPrinter extends ResultReceiver {
       throws CouldNotReceiveResultException {
     try {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.CUCC).println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+      getStream(ResultType.CUCC)
+          .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
     } catch (JsonProcessingException e) {
       throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
     }
   }
-  
+
   @Override
   public void receiveResult(OrderDependency orderDependency)
       throws CouldNotReceiveResultException {
@@ -127,7 +129,7 @@ public class ResultPrinter extends ResultReceiver {
   }
 
   protected PrintStream getStream(ResultType type) throws CouldNotReceiveResultException {
-    if(!openStreams.containsKey(type)){
+    if (!openStreams.containsKey(type)) {
       openStreams.put(type, openStream(type.getEnding()));
     }
     return openStreams.get(type);
@@ -151,6 +153,7 @@ public class ResultPrinter extends ResultReceiver {
 
   /**
    * Reads the results from disk and returns them.
+   *
    * @return all results
    */
   public List<Result> getResults() throws IOException {

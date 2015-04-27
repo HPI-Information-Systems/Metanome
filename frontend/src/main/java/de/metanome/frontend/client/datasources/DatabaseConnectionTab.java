@@ -52,7 +52,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @param parent the parent page
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
-    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
+    this.databaseConnectionService =
+        com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
     this.lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
     this.parent = parent;
 
@@ -177,8 +178,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(
       DatabaseConnection input) {
     return new ConfigurationSettingDatabaseConnection(input.getUrl(), input.getUsername(),
-                                               input.getPassword(),
-                                               input.getSystem());
+                                                      input.getPassword(),
+                                                      input.getSystem());
   }
 
   /**
@@ -232,11 +233,12 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @return The callback
    */
   protected MethodCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
-    return new  MethodCallback<Void>() {
+    return new MethodCallback<Void>() {
 
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not delete database connection: " + method.getResponse().getText());
+        messageReceiver
+            .addError("Could not delete database connection: " + method.getResponse().getText());
       }
 
       @Override
@@ -249,6 +251,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row in the table, which contains the given database connection.
+   *
    * @param connection the database connection
    * @return the row number
    */
@@ -272,15 +275,18 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row of the old database connection and updates the values.
+   *
    * @param updatedDatabaseConnection the updated database connection
    * @param oldDatabaseConnection     the old database connection
    */
-  public void updateDatabaseConnectionInTable(final DatabaseConnection updatedDatabaseConnection, DatabaseConnection oldDatabaseConnection) {
+  public void updateDatabaseConnectionInTable(final DatabaseConnection updatedDatabaseConnection,
+                                              DatabaseConnection oldDatabaseConnection) {
     int row = this.findRow(oldDatabaseConnection);
 
     this.connectionInputList.setWidget(row, 0, new HTML(updatedDatabaseConnection.getUrl()));
     this.connectionInputList.setWidget(row, 1, new HTML(updatedDatabaseConnection.getUsername()));
-    this.connectionInputList.setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
+    this.connectionInputList
+        .setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
     this.connectionInputList.setText(row, 3, updatedDatabaseConnection.getComment());
 
     Button editButton = new Button("Edit");

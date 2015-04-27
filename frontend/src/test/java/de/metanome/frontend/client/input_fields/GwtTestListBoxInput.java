@@ -57,8 +57,8 @@ public class GwtTestListBoxInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.input_fields.ListBoxInput#getSelectedValue()} and
-   * {@link ListBoxInput#setValues(java.util.List)}
+   * Test method for {@link de.metanome.frontend.client.input_fields.ListBoxInput#getSelectedValue()}
+   * and {@link ListBoxInput#setValues(java.util.List)}
    */
   public void testGetSetRequiredValues() {
     // Execute functionality

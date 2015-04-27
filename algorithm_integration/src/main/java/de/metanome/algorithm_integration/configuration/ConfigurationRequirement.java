@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * ConfigurationRequirement is then used to construct a configuration value that is sent to the
  * {@link Algorithm} for configuration. Only type concrete ConfigurationRequirement subclasses
  * should be used to specify configuration parameters.
- * @param <T> the setting type of the requirement
  *
+ * @param <T> the setting type of the requirement
  * @author Jakob Zwiener
  */
 @JsonTypeInfo(
@@ -42,16 +42,17 @@ import javax.xml.bind.annotation.XmlTransient;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
-                  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
-              })
-public abstract class ConfigurationRequirement<T extends ConfigurationSetting> implements Serializable {
+    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+    @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
+})
+public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
+    implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
 
@@ -86,7 +87,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
    * The number of requested values is set. Use ARBITRARY_NUMBER_OF_VALUES to request arbitrary
    * number of values.
    *
-   * @param identifier     the specification's identifier
+   * @param identifier       the specification's identifier
    * @param numberOfSettings the number of settings expected
    */
   public ConfigurationRequirement(String identifier, int numberOfSettings) {
@@ -102,7 +103,8 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
    * @param minNumberOfSettings the minimum number of settings expected
    * @param maxNumberOfSettings the maximum number of settings expected (included)
    */
-  public ConfigurationRequirement(String identifier, int minNumberOfSettings, int maxNumberOfSettings) {
+  public ConfigurationRequirement(String identifier, int minNumberOfSettings,
+                                  int maxNumberOfSettings) {
     this.identifier = identifier;
     this.minNumberOfSettings = minNumberOfSettings;
     this.maxNumberOfSettings = maxNumberOfSettings;
@@ -118,7 +120,6 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
   }
 
   /**
-   *
    * @return true, if a fix number of settings is required, false, otherwise
    */
   public Boolean isFixNumberOfSettings() {
@@ -155,6 +156,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
 
   /**
    * Exists only for serialization!
+   *
    * @param settings the settings
    */
   public void setSettings(T... settings) {
@@ -162,16 +164,16 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
   }
 
   /**
-   *
    * @return true, if the requirement is required, i.e. it is not optional
    */
   public boolean isRequired() {
     return required;
   }
+
   /**
-   * If there is a fix number of settings and required is true, all settings has to be set.
-   * If a range of settings is given and required is true, the minimum number of settings has to
-   * be set.
+   * If there is a fix number of settings and required is true, all settings has to be set. If a
+   * range of settings is given and required is true, the minimum number of settings has to be set.
+   *
    * @param required true, if the requirement is not optional
    */
   public void setRequired(boolean required) {
@@ -181,13 +183,19 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
   /**
    * If a setting is set, the number of given settings has to match the expected number.
    *
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the given number of settings does not match the expected number.
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the given number
+   *                                                                           of settings does not
+   *                                                                           match the expected
+   *                                                                           number.
    */
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
-    if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES && number != this.numberOfSettings &&
-        (number < this.minNumberOfSettings || number > this.maxNumberOfSettings))
-      throw new AlgorithmConfigurationException("The number of settings does not match the expected number!");
+    if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES
+        && number != this.numberOfSettings &&
+        (number < this.minNumberOfSettings || number > this.maxNumberOfSettings)) {
+      throw new AlgorithmConfigurationException(
+          "The number of settings does not match the expected number!");
+    }
   }
 
   /**
@@ -195,7 +203,9 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
    *
    * @param settings the settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the number of
-   * settings does not match the expected number of settings
+   *                                                                           settings does not
+   *                                                                           match the expected
+   *                                                                           number of settings
    */
   @XmlTransient
   public void checkAndSetSettings(T... settings)

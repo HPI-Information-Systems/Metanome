@@ -43,7 +43,7 @@ public class ResultStoreResource {
   /**
    * Returns the count of persisted results of the given type.
    *
-   * @param type        The type of the result
+   * @param type The type of the result
    * @return Returns the count of persisted results for given type
    */
   @GET
@@ -60,7 +60,7 @@ public class ResultStoreResource {
   /**
    * Returns all persisted results of the given type.
    *
-   * @param type        The type of the result
+   * @param type The type of the result
    * @return Returns all persisted results
    */
   @GET
@@ -139,17 +139,15 @@ public class ResultStoreResource {
 
   private List<String> getTypes(Set<de.metanome.backend.results_db.Result> results) {
     List<String> types = new ArrayList<>();
-    for (de.metanome.backend.results_db.Result result: results) {
+    for (de.metanome.backend.results_db.Result result : results) {
       types.add(result.getType().getName());
     }
     return types;
   }
 
   /**
-   *
    * @param input file input
    * @return set of results, which belong to the given file input
-   * @throws EntityStorageException
    */
   protected Set<de.metanome.backend.results_db.Result> getResults(FileInput input)
       throws EntityStorageException {

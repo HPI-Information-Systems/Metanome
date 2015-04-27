@@ -52,7 +52,10 @@ public class ColumnCombination implements Serializable {
   public Set<ColumnIdentifier> getColumnIdentifiers() {
     return columnIdentifiers;
   }
-  public void setColumnIdentifiers(Set<ColumnIdentifier> identifiers) { this.columnIdentifiers = identifiers; }
+
+  public void setColumnIdentifiers(Set<ColumnIdentifier> identifiers) {
+    this.columnIdentifiers = identifiers;
+  }
 
   @Override
   public String toString() {

@@ -48,12 +48,14 @@ public class UniqueColumnCombinationPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Unique Column Combination column
-    TextColumn<UniqueColumnCombination> columnCombinationColumn = new TextColumn<UniqueColumnCombination>() {
-      @Override
-      public String getValue(UniqueColumnCombination functionalDependency) {
-        return functionalDependency.getColumnCombination().toString();
-      }
-    };
+    TextColumn<UniqueColumnCombination>
+        columnCombinationColumn =
+        new TextColumn<UniqueColumnCombination>() {
+          @Override
+          public String getValue(UniqueColumnCombination functionalDependency) {
+            return functionalDependency.getColumnCombination().toString();
+          }
+        };
     this.table.addColumn(columnCombinationColumn, "Column Combination");
     columnNames.add(UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
 

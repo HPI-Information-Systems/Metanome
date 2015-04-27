@@ -36,8 +36,8 @@ public class GwtTestExecutionsPage extends GWTTestCase {
   /**
    * Test method for {@link de.metanome.frontend.client.executions.ExecutionsPage}
    *
-   * When a new ExecutionPage is created, a table should be present, and service as well as
-   * parent set.
+   * When a new ExecutionPage is created, a table should be present, and service as well as parent
+   * set.
    */
   public void testSetup() {
     // Setup
@@ -84,7 +84,8 @@ public class GwtTestExecutionsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.executions.ExecutionsPage#deleteExecution(Execution execution)}
+   * Test method for {@link de.metanome.frontend.client.executions.ExecutionsPage#deleteExecution(Execution
+   * execution)}
    */
   public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
@@ -111,7 +112,7 @@ public class GwtTestExecutionsPage extends GWTTestCase {
     int rowCount = executionPage.executionsTable.getRowCount();
 
     // Execute (delete execution 2)
-    MethodCallback<Void >
+    MethodCallback<Void>
         callback =
         executionPage.getDeleteCallback(execution2);
     callback.onSuccess(null, null);

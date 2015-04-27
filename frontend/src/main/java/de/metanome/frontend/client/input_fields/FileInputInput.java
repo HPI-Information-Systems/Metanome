@@ -58,7 +58,7 @@ public class FileInputInput extends InputField {
     this.messageReceiver = messageReceiver;
     this.fileInputs = new HashMap<>();
 
-    listBox = new ListBoxInput(false ,false);
+    listBox = new ListBoxInput(false, false);
     updateListBox();
     this.add(listBox);
   }
@@ -69,7 +69,8 @@ public class FileInputInput extends InputField {
   public void updateListBox() {
     MethodCallback<List<FileInput>> callback = new MethodCallback<List<FileInput>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError("There are no file inputs in the database: " + method.getResponse().getText());
+        messageReceiver.addError(
+            "There are no file inputs in the database: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<FileInput> result) {

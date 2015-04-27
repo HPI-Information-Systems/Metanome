@@ -44,9 +44,9 @@ public abstract class AbstractPaginationTable<CellType extends Result> extends F
   /**
    * Constructs the page for given algorithm execution
    *
-   * @param resultType  the result type of the results the table holds
+   * @param resultType the result type of the results the table holds
    */
-  protected AbstractPaginationTable( ResultType resultType) {
+  protected AbstractPaginationTable(ResultType resultType) {
     // The result table type
     this.resultType = resultType;
 

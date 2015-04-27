@@ -51,7 +51,8 @@ public class DatabaseConnectionInput extends InputField {
    */
   private String preselectedDatabaseConnection;
 
-  public DatabaseConnectionInput(boolean optional, boolean required, TabWrapper messageReceiver, List<String> acceptedDBSystems) {
+  public DatabaseConnectionInput(boolean optional, boolean required, TabWrapper messageReceiver,
+                                 List<String> acceptedDBSystems) {
     super(optional, required);
 
     this.messageReceiver = messageReceiver;
@@ -64,24 +65,24 @@ public class DatabaseConnectionInput extends InputField {
   }
 
   /**
-   * Get all database connections from the database.
-   * On success list all database connection, which are accepted by the algorithm, in the list box.
+   * Get all database connections from the database. On success list all database connection, which
+   * are accepted by the algorithm, in the list box.
    */
   public void updateListBox() {
     MethodCallback<List<DatabaseConnection>>
-      callback =
-      new MethodCallback<List<DatabaseConnection>>() {
+        callback =
+        new MethodCallback<List<DatabaseConnection>>() {
 
-        @Override
-        public void onFailure(Method method, Throwable throwable) {
-          messageReceiver.addError("There are no database connections in the database!");
-        }
+          @Override
+          public void onFailure(Method method, Throwable throwable) {
+            messageReceiver.addError("There are no database connections in the database!");
+          }
 
-        @Override
-        public void onSuccess(Method method, List<DatabaseConnection> databaseConnections) {
-          handleSuccess(databaseConnections);
-        }
-      };
+          @Override
+          public void onSuccess(Method method, List<DatabaseConnection> databaseConnections) {
+            handleSuccess(databaseConnections);
+          }
+        };
 
     DatabaseConnectionRestService
         databaseConnectionService =
@@ -92,6 +93,7 @@ public class DatabaseConnectionInput extends InputField {
 
   /**
    * Filters the database connections and puts them into the list box.
+   *
    * @param result all database connections available in the database
    */
   protected void handleSuccess(List<DatabaseConnection> result) {
@@ -176,10 +178,10 @@ public class DatabaseConnectionInput extends InputField {
 
     ConfigurationSettingDatabaseConnection settingDatabaseConnection =
         new ConfigurationSettingDatabaseConnection()
-        .setDbUrl(currentDatabaseConnection.getUrl())
-        .setPassword(currentDatabaseConnection.getPassword())
-        .setUsername(currentDatabaseConnection.getUsername())
-        .setSystem(currentDatabaseConnection.getSystem());
+            .setDbUrl(currentDatabaseConnection.getUrl())
+            .setPassword(currentDatabaseConnection.getPassword())
+            .setUsername(currentDatabaseConnection.getUsername())
+            .setSystem(currentDatabaseConnection.getSystem());
     settingDatabaseConnection.setId(currentDatabaseConnection.getId());
     return settingDatabaseConnection;
   }

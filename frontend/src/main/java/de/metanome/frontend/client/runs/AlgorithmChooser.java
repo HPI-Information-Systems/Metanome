@@ -99,8 +99,9 @@ public class AlgorithmChooser extends FlowPanel {
     this.algorithmListBox.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
     this.algorithmListBox.setSelectedIndex(0);
 
-    for (String name : this.categoryMap.get(this.currentCategory))
+    for (String name : this.categoryMap.get(this.currentCategory)) {
       sortedInsert(name);
+    }
   }
 
   /**
@@ -140,12 +141,14 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * Creates the callback for calling the parameter service.
+   *
    * @return the callback
    */
   protected MethodCallback<List<ConfigurationRequirement>> getParameterCallback() {
     return new MethodCallback<List<ConfigurationRequirement>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError("Error while retrieving configuration requirements: " + method.getResponse().getText());
+        messageReceiver.addError(
+            "Error while retrieving configuration requirements: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<ConfigurationRequirement> result) {
@@ -214,18 +217,25 @@ public class AlgorithmChooser extends FlowPanel {
 
       this.categoryMap.get(AlgorithmCategory.All.name()).add(name);
 
-      if (algorithm.isCucc())
-        this.categoryMap.get(AlgorithmCategory.Conditional_Unique_Column_Combination.name()).add(name);
-      if (algorithm.isUcc())
+      if (algorithm.isCucc()) {
+        this.categoryMap.get(AlgorithmCategory.Conditional_Unique_Column_Combination.name())
+            .add(name);
+      }
+      if (algorithm.isUcc()) {
         this.categoryMap.get(AlgorithmCategory.Unique_Column_Combinations.name()).add(name);
-      if (algorithm.isFd())
+      }
+      if (algorithm.isFd()) {
         this.categoryMap.get(AlgorithmCategory.Functional_Dependencies.name()).add(name);
-      if (algorithm.isOd())
+      }
+      if (algorithm.isOd()) {
         this.categoryMap.get(AlgorithmCategory.Order_Dependencies.name()).add(name);
-      if (algorithm.isInd())
+      }
+      if (algorithm.isInd()) {
         this.categoryMap.get(AlgorithmCategory.Inclusion_Dependencies.name()).add(name);
-      if (algorithm.isBasicStat())
+      }
+      if (algorithm.isBasicStat()) {
         this.categoryMap.get(AlgorithmCategory.Basic_Statistics.name()).add(name);
+      }
     }
   }
 
@@ -250,8 +260,8 @@ public class AlgorithmChooser extends FlowPanel {
   }
 
   /**
-   * Inserts a new item in alphabetical ordering into the algorithm list box, that is, after
-   * before the first item that is lexicographically larger than the argument.
+   * Inserts a new item in alphabetical ordering into the algorithm list box, that is, after before
+   * the first item that is lexicographically larger than the argument.
    *
    * @param name The value to be inserted.
    */
@@ -281,13 +291,11 @@ public class AlgorithmChooser extends FlowPanel {
       if (dataSource instanceof ConfigurationSettingDatabaseConnection &&
           !algorithm.isDatabaseConnection()) {
         removeAlgorithmFromListBox(algorithm.getName());
-      }
-      else if (dataSource instanceof ConfigurationSettingTableInput &&
-               !(algorithm.isTableInput() || algorithm.isRelationalInput())) {
+      } else if (dataSource instanceof ConfigurationSettingTableInput &&
+                 !(algorithm.isTableInput() || algorithm.isRelationalInput())) {
         removeAlgorithmFromListBox(algorithm.getName());
-      }
-      else if (dataSource instanceof ConfigurationSettingFileInput &&
-               !(algorithm.isFileInput() || algorithm.isRelationalInput())) {
+      } else if (dataSource instanceof ConfigurationSettingFileInput &&
+                 !(algorithm.isFileInput() || algorithm.isRelationalInput())) {
         removeAlgorithmFromListBox(algorithm.getName());
       }
     }
@@ -297,6 +305,7 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * Removes the given algorithm from the algorithm list box.
+   *
    * @param algorithmName the algorithm's name, which should be removed
    */
   private void removeAlgorithmFromListBox(String algorithmName) {
@@ -322,6 +331,7 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * Sets the current selected category.
+   *
    * @param currentCategory the current category
    */
   public void setCurrentCategory(String currentCategory) {
@@ -330,6 +340,7 @@ public class AlgorithmChooser extends FlowPanel {
 
   /**
    * Updates an algorithm.
+   *
    * @param algorithm the algorithm
    * @param oldName   the old name of the algorithm
    */
