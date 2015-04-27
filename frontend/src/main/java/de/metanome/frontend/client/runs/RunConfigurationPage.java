@@ -66,6 +66,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
 
     FlowPanel panel = new FlowPanel();
     Button refreshButton = new Button("Refresh");
+    refreshButton.addStyleName("space_bottom");
     refreshButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
@@ -98,7 +99,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   public void addParameterTable(List<ConfigurationRequirement> paramList) {
     removeParameterTable();
     parameterTable = new ParameterTable(paramList, primaryDataSource, this.messageReceiver);
-    this.addNorth(parameterTable, 40);
+    this.addNorth(parameterTable, 50);
   }
 
   /**

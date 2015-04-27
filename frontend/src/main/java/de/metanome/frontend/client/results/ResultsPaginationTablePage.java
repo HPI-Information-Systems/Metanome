@@ -27,6 +27,7 @@ import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.results.pagination_table.BasicStatisticPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.ConditionalUniqueColumnCombinationPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.FunctionalDependencyPaginationTable;
@@ -71,7 +72,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param fileInput the execution
    */
   public void showResultsFor(FileInput fileInput) {
-    this.restService.loadResults(fileInput.getId(), getMethodCallbackResults());
+    this.restService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
   }
 
   private MethodCallback<Void> getMethodCallbackExecution(final Execution execution) {
@@ -88,7 +89,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
     };
   }
 
-  private MethodCallback<List<String>> getMethodCallbackResults() {
+  private MethodCallback<List<String>> getMethodCallbackResults(final FileInput input) {
     return new MethodCallback<List<String>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
@@ -97,7 +98,12 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
 
       @Override
       public void onSuccess(Method method, List<String> types) {
-        addTables(types);
+        if (types.isEmpty()) {
+          add(new Label("There are no results for the file input " + FilePathHelper
+              .getFileName(input.getName()) + "."));
+        } else {
+          addTables(types);
+        }
       }
     };
   }

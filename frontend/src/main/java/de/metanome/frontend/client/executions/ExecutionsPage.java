@@ -55,6 +55,7 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
 
     this.add(new HTML("<h3>List of all Executions</h3>"));
     this.executionsTable = new FlexTable();
+    this.executionsTable.setCellPadding(5);
     this.executionsTable.addStyleName("execution-table");
     this.add(this.executionsTable);
 
@@ -64,11 +65,11 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
 
   private void addHeaderRow() {
     // algorithm, time, input, result type, show button
-    this.executionsTable.setWidget(0, 0, new HTML("<b>Algorithm Name</b>"));
-    this.executionsTable.setWidget(0, 1, new HTML("<b>Date</b>"));
-    this.executionsTable.setWidget(0, 2, new HTML("<b>Execution Time (HH:mm:ss)</b>"));
-    this.executionsTable.setWidget(0, 3, new HTML("<b>Inputs</b>"));
-    this.executionsTable.setWidget(0, 4, new HTML("<b>Result Types</b>"));
+    this.executionsTable.setWidget(0, 0, new HTML("<b style='font-size:14px'>Algorithm Name</b>"));
+    this.executionsTable.setWidget(0, 1, new HTML("<b style='font-size:14px'>Date</b>"));
+    this.executionsTable.setWidget(0, 2, new HTML("<b style='font-size:14px'>Execution Time (HH:mm:ss)</b>"));
+    this.executionsTable.setWidget(0, 3, new HTML("<b style='font-size:14px'>Inputs</b>"));
+    this.executionsTable.setWidget(0, 4, new HTML("<b style='font-size:14px'>Result Types</b>"));
   }
 
   private void updateExecutions() {

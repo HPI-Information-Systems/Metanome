@@ -92,7 +92,13 @@ h3 {
 
 .execution-table {
     border-spacing: 10px 5px;
-    border-collapse: separate;
+    border-collapse: collapse;
+}
+
+.execution-table tr:nth-child(even) {
+    border-spacing: 10px 5px;
+    border-collapse: collapse;
+    background-color: #d0e4f6;
 }
 
 .fullSize {

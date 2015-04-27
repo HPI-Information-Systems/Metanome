@@ -31,6 +31,7 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
+import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 
 import org.fusesource.restygwt.client.Method;
@@ -201,7 +202,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.tablePage.showResultsFor(input);
 
     this.insert(
-        new Label("All results of the file input " + input.getName()), 0);
+        new Label("All results of the file input " + FilePathHelper.getFileName(input.getName())), 0);
   }
 
 
