@@ -10,7 +10,7 @@ import java.util.Map;
 public final class ResultsStoreHolder {
 
   // Results store map
-  private static Map<String, ResultsStore<?>> resultsStoreMap = new HashMap<>();
+  protected static Map<String, ResultsStore<?>> resultsStoreMap = new HashMap<>();
 
   /**
    * Registers the given result store under given name

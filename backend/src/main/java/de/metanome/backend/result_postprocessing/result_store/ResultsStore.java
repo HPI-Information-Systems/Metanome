@@ -31,7 +31,9 @@ public abstract class ResultsStore<ResultType extends Result> {
    * Clears the store content
    */
   public void clear() {
-    this.results.clear();
+    if (results != null) {
+      this.results.clear();
+    }
   }
 
   /**

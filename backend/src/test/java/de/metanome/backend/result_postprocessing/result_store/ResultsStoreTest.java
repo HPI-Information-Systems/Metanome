@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ResultsStoreTest {
 
@@ -49,7 +50,7 @@ public class ResultsStoreTest {
   InclusionDependency ind3 = new InclusionDependency(expectedDependant3, expectedReferenced3);
 
   @Test
-  public void testStoreAndList() {
+  public void testList() {
     // Set Up
     List<InclusionDependency> expectedResults = new ArrayList<>();
     expectedResults.add(ind1);
@@ -63,6 +64,29 @@ public class ResultsStoreTest {
 
     // Check
     assertEquals(expectedResults, actualResults);
+  }
+
+  @Test
+  public void testClear() {
+    // Set Up
+    List<InclusionDependency> expectedResults = new ArrayList<>();
+    expectedResults.add(ind1);
+    expectedResults.add(ind2);
+
+    InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
+
+    resultsStore.store(expectedResults);
+    int count = resultsStore.count();
+
+    // Check precondition
+    assertTrue(count > 0);
+
+    // Execute functionality
+    resultsStore.clear();
+    count = resultsStore.count();
+
+    // Check
+    assertEquals(0, count);
   }
 
   @Test
