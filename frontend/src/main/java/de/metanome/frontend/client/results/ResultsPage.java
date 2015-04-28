@@ -92,9 +92,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Adds the Tabs for results and visualization.
    *
-   * @param executionTimeInMs the execution time in milliseconds
+   * @param execution the execution
    */
-  public void updateOnSuccess(Long executionTimeInMs) {
+  public void updateOnSuccess(Execution execution) {
     this.executionTimeTimer.cancel();
     this.progressTimer.cancel();
 
@@ -110,8 +110,11 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.remove(this.executionTimePanel);
     if (this.stopButton != null) this.remove(this.stopButton);
 
-    // Add a label for the execution time
-    this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
+    if(!execution.isAborted()) {
+      // Add a label for the execution time
+      Long executionTimeInMs = execution.getEnd() - execution.getBegin();
+      this.insert(new Label(getExecutionTimeString(this.algorithmFileName, executionTimeInMs)), 0);
+    }
   }
 
   /**
@@ -218,8 +221,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.tablePage.readResultsFromFile(execution.getResults());
 
     // Add a label for the execution time
-    long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
-    this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
+    if(!execution.isAborted()) {
+      long executionTime = execution.getEnd() - execution.getBegin(); // milliseconds
+      this.insert(new Label(getExecutionTimeString(execution.getAlgorithm().getFileName(), executionTime)), 0);
+    }
   }
 
   /**

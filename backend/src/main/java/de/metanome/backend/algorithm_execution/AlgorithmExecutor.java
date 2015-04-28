@@ -96,72 +96,126 @@ public class AlgorithmExecutor implements Closeable {
     this.fileGenerator = fileGenerator;
   }
 
-  /*
-   * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
-   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to {@link
-   * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
-   * generators are set before execution. The execution containing the elapsed time while executing
-   * the algorithm in nano seconds is returned.
+  /**
+   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link
+   * de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write result
+   * files and cache results for the frontend.
    *
-   * @param algorithm           the algorithm
-   * @param requirements        list of configuration requirements
-   * @param executionIdentifier the identifier for the execution
-   * @return the execution
+   * @param identifier executionIdentifier
+   * @param write      flag to indicate if results should be written to disc
+   * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
+   * @throws java.io.FileNotFoundException        when the result files cannot be opened
+   * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
+   */
+  protected static AlgorithmExecutor buildExecutor(String identifier,
+                                                   boolean write) //todo: change to some boolean/string/int flag that is tested and given as process param...
+      throws FileNotFoundException, UnsupportedEncodingException {
+    FileGenerator fileGenerator = new TempFileGenerator();
+    ProgressCache progressCache = new ProgressCache();
 
-  public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
-                                    List<ConfigurationRequirement> requirements,
-                                    String executionIdentifier)
-      throws AlgorithmLoadingException, AlgorithmExecutionException {
+    ResultReceiver resultReceiver = null;
+    /*if (params.getCacheResults()) {
+      resultReceiver = new ResultCache(identifier);
+      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);*/
+    if (!write) {
+      resultReceiver = new ResultCounter(identifier);
+      //AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
+    } else {
+      resultReceiver = new ResultPrinter(identifier);
+      //AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
+    }
 
-    List<ConfigurationValue> parameterValues = new LinkedList<>();
-    List<Input> inputs = new ArrayList<>();
+    //AlgorithmExecutionCache.add(identifier, progressCache);
 
-    FileInputResource fileInputResource = new FileInputResource();
-    TableInputResource tableInputResource = new TableInputResource();
-    DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
+    AlgorithmExecutor
+        executor =
+        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
 
-    for (ConfigurationRequirement requirement : requirements) {
-      parameterValues.add(requirement.build(configurationFactory));
+    return executor;
+  }
 
-      for (ConfigurationSetting setting : requirement.getSettings()) {
-        if (setting instanceof ConfigurationSettingFileInput) {
-          inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
-        } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
-          inputs.add(databaseConnectionResource
-                         .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
-        } else if (setting instanceof ConfigurationSettingTableInput) {
-          inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
-        }
+  public static List<ConfigurationValue> parseConfigurationValues(ExecutionSetting setting) {
+    JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
+    jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+    List<ConfigurationValue> parameterValues = new ArrayList<ConfigurationValue>();
+    for (String json : setting.getParameterValuesJson()) {
+      try {
+        parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
+      } catch (IOException e) {
+        e.printStackTrace();
       }
     }
-
-    try {
-      return executeAlgorithmWithValues(algorithm, parameterValues, inputs, executionIdentifier);
-    } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
-        ClassNotFoundException | InstantiationException | InvocationTargetException |
-        NoSuchMethodException e) {
-      throw new AlgorithmLoadingException(ExceptionParser.parse(e), e);
-    } catch (EntityStorageException e) {
-      throw new AlgorithmLoadingException(
-          ExceptionParser.parse(e, "Algorithm not found in database"), e);
-    }
+    return parameterValues;
   }
-*/
+
+  public static List<Input> parseInputs(ExecutionSetting setting) {
+    JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
+    List<Input> inputs = new ArrayList<Input>();
+    for (String json : setting.getInputsJson()) {
+      try {
+        inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    return inputs;
+  }
+
+  public static void main(String args[])
+      throws FileNotFoundException, UnsupportedEncodingException {
+
+    Long algorithmId = Long.valueOf(args[0]);
+    String executionIdentifier = args[1];
+    boolean write = true;
+    /*if (args[3] == "w") { //todo: put in executionSetting
+      write = true;
+    }*/
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    de.metanome.backend.results_db.Algorithm algorithm = algorithmResource.get(algorithmId);
+
+    ExecutionSetting executionSetting = null;
+    Session session = HibernateUtil.getSessionFactory().openSession();
+    Criteria cr2 = session.createCriteria(ExecutionSetting.class);
+    cr2.add(Restrictions.eq("executionIdentifier", executionIdentifier));
+    executionSetting = (ExecutionSetting) cr2.list().get(0);
+    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting);
+    List<Input> inputs = parseInputs(executionSetting);
+    session.close();
+
+    Execution execution = null;
+    AlgorithmExecutor executor = buildExecutor(executionIdentifier, write);
+    try {
+      execution = executor.executeAlgorithm(algorithm, parameters, inputs, executionIdentifier);
+      execution.setExecutionSetting(executionSetting);
+      ExecutionResource executionResource = new ExecutionResource();
+      executionResource.store(execution);
+    } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
+        | InvocationTargetException | NoSuchMethodException | AlgorithmExecutionException
+        | EntityStorageException e) {
+      e.printStackTrace();
+    }
+    System.exit(0);
+    //have method create ExecutionSetting and do parsing that is currently being done in execute algorithm
+    //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
+  }
+
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured and all receivers and
    * generators are set before execution. The execution containing the elapsed time while executing
    * the algorithm in nano seconds is returned.
    *
    * @param storedAlgorithm     the algorithm
-   * @param parameters          list of configuration values
-   * @param executionIdentifier the identifier for the execution
+   * @param parameters          parameters for algorithm execution
+   * @param inputs              inputs for algorithm execution
+   * @param executionIdentifier identifier for execution
    * @return the execution
    */
-  public Execution executeAlgorithmWithValues(
-      de.metanome.backend.results_db.Algorithm storedAlgorithm,
-      List<ConfigurationValue> parameters,
-      List<Input> inputs,
-      String executionIdentifier)
+  public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm storedAlgorithm,
+                                    List<ConfigurationValue> parameters, List<Input> inputs,
+                                    String executionIdentifier)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -242,7 +296,6 @@ public class AlgorithmExecutor implements Closeable {
     long executionTimeInNanos = after - before;
     long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds
 
-    ExecutionResource executionResource = new ExecutionResource();
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
         .setEnd(beforeWallClockTime + executionTimeInMs)
         .setInputs(inputs)
@@ -252,9 +305,6 @@ public class AlgorithmExecutor implements Closeable {
     for (Result result : results) {
       result.setExecution(execution);
     }
-
-    executionResource.store(execution);
-
     return execution;
   }
 
@@ -262,98 +312,8 @@ public class AlgorithmExecutor implements Closeable {
     this.resultPathPrefix = prefix;
   }
 
-  /**
-   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link
-   * de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write result
-   * files and cache results for the frontend.
-   *
-   * @param identifier executionIdentifier
-   * @param write      flag to indicate if results should be written to disc
-   * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
-   * @throws java.io.FileNotFoundException        when the result files cannot be opened
-   * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
-   */
-  protected static AlgorithmExecutor buildExecutor(String identifier,
-                                                   boolean write) //todo: change to some boolean/string/int flag that is tested and given as process param...
-      throws FileNotFoundException, UnsupportedEncodingException {
-    FileGenerator fileGenerator = new TempFileGenerator();
-    ProgressCache progressCache = new ProgressCache();
-
-    ResultReceiver resultReceiver = null;
-    /*if (params.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier);
-      //AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);*/
-    if (!write) {
-      resultReceiver = new ResultCounter(identifier);
-      //AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
-    } else {
-      resultReceiver = new ResultPrinter(identifier);
-      //AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
-    }
-
-    //AlgorithmExecutionCache.add(identifier, progressCache);
-
-    AlgorithmExecutor
-        executor =
-        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
-    executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
-
-    return executor;
-  }
-
   @Override
   public void close() throws IOException {
     resultReceiver.close();
-  }
-
-  public static void main(String args[])
-      throws FileNotFoundException, UnsupportedEncodingException {
-
-
-    Long algorithmId = Long.valueOf(args[0]);
-    System.out.println(algorithmId); //prints id passed to thread
-    String executionIdentifier = args[1];
-    boolean write = true;
-    /*if (args[3] == "w") { //todo: have converter class?
-      write = true;
-    }*/
-    AlgorithmResource algorithmResource = new AlgorithmResource();
-    de.metanome.backend.results_db.Algorithm algorithm = algorithmResource.get(algorithmId);
-
-    //Todo: find way around result cache for frontend... if possible - ask Tanja - write everything to disc directly?! Write Cache to disc?!
-    AlgorithmExecutor executor = buildExecutor(executionIdentifier, write);
-    ExecutionSetting executionSetting = null;
-    Execution execution = null;
-    Session session = HibernateUtil.getSessionFactory().openSession();
-    System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-    Criteria cr2 = session.createCriteria(ExecutionSetting.class);
-    cr2.add(Restrictions.eq("executionIdentifier", executionIdentifier));
-    executionSetting = (ExecutionSetting) cr2.list().get(0);
-    try {
-      JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
-      jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
-      jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
-      jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
-      List<ConfigurationValue> parameterValues = new ArrayList<ConfigurationValue>();
-      for(String json: executionSetting.getParameterValuesJson()){
-        parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
-      }
-      JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
-      List<Input> inputs = new ArrayList<Input>();
-      for(String json: executionSetting.getInputsJson()){
-        inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
-      }
-      execution =
-          executor.executeAlgorithmWithValues(algorithm, parameterValues,
-                                              inputs,
-                                              executionIdentifier);
-    } catch (IOException | InvocationTargetException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | AlgorithmExecutionException | EntityStorageException e) {
-      e.printStackTrace();
-    }
-    session.close();
-    System.out.println("cccccccccccccccccccccccccccc");
-    System.exit(0);
-    //have method create ExecutionSetting and do parsing that is currently being done in execute algorithm
-    //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
   }
 }

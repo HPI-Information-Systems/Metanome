@@ -187,7 +187,9 @@ public class BasePage extends TabLayoutPanel {
       }
 
       public void onSuccess(Method method, Execution execution) {
-        resultsPage.updateOnSuccess(execution.getEnd() - execution.getBegin());
+        if(!execution.isAborted()) {
+          resultsPage.updateOnSuccess(execution);
+        }
         executionPage.addExecution(execution);
       }
     };

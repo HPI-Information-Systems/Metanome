@@ -37,7 +37,7 @@ public final class ProcessExecutor {
         javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);
     if(!memory.equals("")){
       builder = new ProcessBuilder(
-          javaBin, "-Xmx"+memory+"m", "-cp", classpath, className, algorithmId, executionIdentifier);
+          javaBin, "-Xmx"+memory+"m", "-Xms"+memory+"m", "-cp", classpath, className, algorithmId, executionIdentifier);
     }
     builder.redirectErrorStream(true);
     return builder.start();

@@ -16,6 +16,8 @@
 
 package de.metanome.backend.resources;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -24,6 +26,10 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProcessExecutor;
@@ -31,11 +37,15 @@ import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.FileInputGeneratorMixIn;
+import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
+import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultReceiver;
+import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
@@ -76,24 +86,8 @@ public class AlgorithmExecutionResource {
   @Consumes("application/json")
   @Produces("application/json")
   public Execution executeAlgorithm(AlgorithmExecutionParams params) {
-    //Todo: make execution interruptable - save id to table or something like this - and make it killable via frontend using call
-    /* AlgorithmExecutor executor;
 
-    try {
-      executor = buildExecutor(params);
-    } catch (FileNotFoundException e) {
-      throw new WebException("Could not generate result file", Response.Status.BAD_REQUEST);
-    } catch (UnsupportedEncodingException e) {
-      throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
-    }
-
-    AlgorithmResource algorithmResource = new AlgorithmResource();
-    Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());*/
-
-    long timeOut = 10;
     String executionIdentifier = params.getExecutionIdentifier();
-
-    //Todo: aufteilen und tests schreibne + find way to debug (write to file if necessary) - see messages...
     ExecutionSetting executionSetting = buildExecutionSetting(params);
     try {
       HibernateUtil.store(executionSetting);
@@ -101,14 +95,13 @@ public class AlgorithmExecutionResource {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
     HibernateUtil.shutdown();
-    //end here...
     try {
       Process
           process =
           ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
                                executionIdentifier, params.getMemory());
       ProcessRegistry.getInstance().put(executionIdentifier,
-                                        process); //manage process - possible to kill it later with corresponding key
+                                        process);
       InputStreamReader isr = new InputStreamReader(process.getInputStream());
       BufferedReader br = new BufferedReader(isr);
       String lineRead;
@@ -121,9 +114,7 @@ public class AlgorithmExecutionResource {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    //Todo: atm frontend might expect execution to be returned
 
-    //Todo: comment steps - and/or defer steps - here: retrieve execution that was stored during the corresponding execution process
     Execution execution = null;
     try {
       ArrayList<Criterion> criteria = new ArrayList<>();
@@ -133,8 +124,11 @@ public class AlgorithmExecutionResource {
               .queryCriteria(Execution.class,
                              criteria.toArray(new Criterion[criteria.size()])).get(0);
     } catch (EntityStorageException | IndexOutOfBoundsException e) {
-      // ExecutionSetting should implement Entity, so the exception should not occur.
-      e.printStackTrace();
+      AlgorithmResource algorithmResource = new AlgorithmResource();
+      Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
+      execution = new Execution(algorithm).setExecutionSetting(executionSetting).setAborted(true);
+      ExecutionResource executionResource = new ExecutionResource();
+      executionResource.store(execution);
     }
     return execution;
   }
@@ -223,7 +217,31 @@ public class AlgorithmExecutionResource {
           }
         }
       }
-      executionSetting = new ExecutionSetting(parameterValues, inputs, params.getExecutionIdentifier());
+      //Todo: designated Method
+      JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<ConfigurationValue>();
+      jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
+      jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+      jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+      List<String> parameterValuesJson = new ArrayList<String>();
+      try {
+        for(ConfigurationValue config : parameterValues){
+          parameterValuesJson.add(jsonConverter.toJsonString(config));
+        }
+      } catch (JsonProcessingException e) {
+        e.printStackTrace();
+      }
+
+      List<String> inputsJson = new ArrayList<String>();
+      JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
+      for(Input input: inputs){
+        try {
+          inputsJson.add(jsonConverterInput.toJsonString(input));
+        } catch (JsonProcessingException e) {
+          e.printStackTrace();
+        }
+      }
+      inputsJson = inputsJson;
+      executionSetting = new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier());
     } catch (AlgorithmConfigurationException e) {
       e.printStackTrace();
     }
