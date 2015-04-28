@@ -175,7 +175,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     this.executionsTable.setWidget(row, 2, new HTML("-"+"<br>"));
     this.executionsTable.setWidget(row, 3, new HTML("-"+"<br>"));
     this.executionsTable.setWidget(row, 4, new HTML("EXECUTION UNSUCCESSFULL"+"<br>"));
-    this.executionsTable.setWidget(row, 5, deleteButton);
+    this.executionsTable.setWidget(row, 6, deleteButton);
   }
 
   /**
