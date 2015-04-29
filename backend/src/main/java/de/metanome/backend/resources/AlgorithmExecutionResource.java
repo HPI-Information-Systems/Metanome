@@ -79,7 +79,8 @@ public class AlgorithmExecutionResource {
     try {
       execution =
           executor.executeAlgorithm(algorithm, params.getRequirements(),
-                                    params.getExecutionIdentifier());
+                                    params.getExecutionIdentifier(),
+                                    params.getCountResults());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

@@ -140,9 +140,7 @@ public class BasePage extends TabLayoutPanel {
         .setWriteResults(writeResults)
         .setCountResults(countResults);
 
-    executionService.executeAlgorithm(params,
-                                      this.getExecutionCallback(executionService,
-                                                                executionIdentifier));
+    executionService.executeAlgorithm(params, this.getExecutionCallback());
     // During execution the progress is shown on the result page
     this.resultsPage
         .setExecutionParameter(executionIdentifier, algorithm.getFileName(), executionService, countResults);
@@ -175,13 +173,9 @@ public class BasePage extends TabLayoutPanel {
    * If the algorithm execution is successful, the results will be shown. otherwise the reason of
    * failure will be displayed.
    *
-   * @param executionService    the service instance used for executing the algorithm
-   * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private MethodCallback<Execution> getExecutionCallback(
-      final AlgorithmExecutionRestService executionService,
-      final String executionIdentifier) {
+  private MethodCallback<Execution> getExecutionCallback() {
     return new MethodCallback<Execution>() {
       public void onFailure(Method method, Throwable caught) {
         resultsPage.updateOnError(method.getResponse().getText());
