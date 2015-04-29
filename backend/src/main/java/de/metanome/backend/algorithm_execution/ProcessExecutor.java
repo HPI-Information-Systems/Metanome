@@ -32,6 +32,8 @@ public final class ProcessExecutor {
                      File.separator + "java";
     String classpath = System.getProperty("java.class.path");
     String className = myClass.getCanonicalName();
+    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + classpath + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + className + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     ProcessBuilder builder = new ProcessBuilder(
         javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);

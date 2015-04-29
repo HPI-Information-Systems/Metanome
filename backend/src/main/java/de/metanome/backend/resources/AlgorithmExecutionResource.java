@@ -144,13 +144,15 @@ public class AlgorithmExecutionResource {
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
     }
-    try {
-      ResultPostProcessor.extractAndStoreResults(execution);
+    if(!executionSetting.getCountResults()){
+      try {
+        ResultPostProcessor.extractAndStoreResults(execution);
       } catch (Exception e) {
-      throw new WebException("Could not execute result post processing: " + e.getMessage(),
-                                     Response.Status.BAD_REQUEST);
+        throw new WebException("Could not execute result post processing: " + e.getMessage(),
+                               Response.Status.BAD_REQUEST);
+      }
     }
-
+    System.out.println("Done");
     return execution;
   }
 
