@@ -57,6 +57,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected FlowPanel executionTimePanel;
   protected TabLayoutPanel panel;
 
+  protected Boolean countResults;
+
   protected Label algorithmLabel;
 
   protected ResultsPaginationTablePage tablePage;
@@ -101,7 +103,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add the result table
     this.addChildPages();
-    this.tablePage.addTables(execution);
+
+    if (this.countResults) {
+      this.tablePage.addCountResults(execution);
+    } else {
+      this.tablePage.addTables(execution);
+    }
   }
 
   /**
@@ -263,10 +270,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
    */
   public void setExecutionParameter(String executionIdentifier,
                                     String algorithmFileName,
-                                    AlgorithmExecutionRestService restService) {
+                                    AlgorithmExecutionRestService restService,
+                                    Boolean countResults) {
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
     this.executionRestService = restService;
+    this.countResults = countResults;
   }
 
   /**

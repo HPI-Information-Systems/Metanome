@@ -92,7 +92,10 @@ public class AlgorithmExecutionResource {
     }
 
     try {
-      ResultPostProcessor.extractAndStoreResults(execution);
+      // Only execute result post processing, if the results are not just counted.
+      if (!params.getCountResults()) {
+        ResultPostProcessor.extractAndStoreResults(execution);
+      }
     } catch (Exception e) {
       throw new WebException("Could not execute result post processing: " + e.getMessage(),
                              Response.Status.BAD_REQUEST);

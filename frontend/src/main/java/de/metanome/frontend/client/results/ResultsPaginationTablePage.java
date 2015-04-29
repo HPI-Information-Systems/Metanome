@@ -34,6 +34,7 @@ import de.metanome.frontend.client.results.pagination_table.FunctionalDependency
 import de.metanome.frontend.client.results.pagination_table.InclusionDependencyPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.OrderDependencyPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.UniqueColumnCombinationPaginationTable;
+import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
 import de.metanome.frontend.client.services.ResultStoreRestService;
 
 import org.fusesource.restygwt.client.Method;
@@ -41,6 +42,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -170,4 +172,27 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
 
+  public void addCountResults(Execution execution) {
+    AlgorithmExecutionRestService executionService = GWT.create(AlgorithmExecutionRestService.class);
+
+    executionService.getCounterResults(execution.getIdentifier(),
+     new MethodCallback<Map<ResultType, Integer>>() {
+       @Override
+       public void onFailure(Method method, Throwable caught) {}
+
+       @Override
+       public void onSuccess(Method method, Map<ResultType, Integer> results) {
+         displayCountResult(results);
+       }
+     });
+  }
+
+  protected void displayCountResult(Map<ResultType, Integer> results) {
+    for (Map.Entry<ResultType, Integer> result : results.entrySet()) {
+      this.addTitle(result.getKey().getName());
+      Label label = new Label("# " + result.getValue().toString());
+      label.addStyleName("space_bottom");
+      this.add(label);
+    }
+  }
 }
