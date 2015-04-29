@@ -29,7 +29,8 @@ import java.util.Set;
  *
  * @author Jakob Zwiener
  */
-public class ConfigurationValueInteger extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
+public class ConfigurationValueInteger
+    extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
 
   public ConfigurationValueInteger(String identifier, Integer... values) {
     super(identifier, values);

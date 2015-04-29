@@ -70,7 +70,8 @@ public class TableInputInput extends InputField {
   public void updateListBox() {
     MethodCallback<List<TableInput>> callback = new MethodCallback<List<TableInput>>() {
       public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError("There are no table inputs in the database: " + method.getResponse().getText());
+        messageReceiver.addError(
+            "There are no table inputs in the database: " + method.getResponse().getText());
       }
 
       public void onSuccess(Method method, List<TableInput> result) {
@@ -114,7 +115,9 @@ public class TableInputInput extends InputField {
    * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException If the data source setting is not a table input setting
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException If the data source
+   *                                                                           setting is not a
+   *                                                                           table input setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
       throws AlgorithmConfigurationException {
@@ -181,11 +184,13 @@ public class TableInputInput extends InputField {
     ConfigurationSettingTableInput setting = new ConfigurationSettingTableInput();
 
     DatabaseConnection databaseConnection = tableInput.getDatabaseConnection();
-    ConfigurationSettingDatabaseConnection databaseConnectionSetting = new ConfigurationSettingDatabaseConnection(
-        databaseConnection.getUrl(),
-        databaseConnection.getUsername(),
-        databaseConnection.getPassword(),
-        databaseConnection.getSystem());
+    ConfigurationSettingDatabaseConnection
+        databaseConnectionSetting =
+        new ConfigurationSettingDatabaseConnection(
+            databaseConnection.getUrl(),
+            databaseConnection.getUsername(),
+            databaseConnection.getPassword(),
+            databaseConnection.getSystem());
     databaseConnectionSetting.setId(databaseConnection.getId());
 
     setting.setTable(tableInput.getTableName());

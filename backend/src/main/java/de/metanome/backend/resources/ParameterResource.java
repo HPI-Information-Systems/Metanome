@@ -42,7 +42,8 @@ public class ParameterResource {
   @GET
   @Path("/{algorithmFileName}")
   @Produces("application/json")
-  public List<ConfigurationRequirement> retrieveParameters(@PathParam("algorithmFileName") String algorithmFileName) {
+  public List<ConfigurationRequirement> retrieveParameters(
+      @PathParam("algorithmFileName") String algorithmFileName) {
     try {
       AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
       Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);

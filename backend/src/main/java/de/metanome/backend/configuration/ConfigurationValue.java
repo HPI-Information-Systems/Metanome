@@ -24,7 +24,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import java.util.Set;
 
 public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> implements
-                                                                                de.metanome.algorithm_integration.configuration.ConfigurationValue{
+                                                                                de.metanome.algorithm_integration.configuration.ConfigurationValue {
 
   protected final String identifier;
   protected final T[] values;
@@ -41,8 +41,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
   }
 
   /**
-   * Constructs a ConfigurationValue using a
-   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}.
+   * Constructs a ConfigurationValue using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}.
    *
    * @param requirement the requirement to generate the ConfigurationValue
    */
@@ -53,8 +52,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
   }
 
   /**
-   * Gets the values of a ConfigurationValue out of a
-   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}
+   * Gets the values of a ConfigurationValue out of a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}
    *
    * @param requirement the configuration requirement
    * @return the values of type T
@@ -66,6 +64,6 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
    * {@inheritDoc}
    */
   public abstract void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException ;
+      throws AlgorithmConfigurationException;
 
 }

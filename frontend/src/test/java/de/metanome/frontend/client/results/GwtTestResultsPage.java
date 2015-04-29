@@ -22,6 +22,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.frontend.client.BasePage;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
@@ -59,14 +61,14 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
-    page.setExecutionParameter(null, "identifier", "name", true, false, false);
+    page.setExecutionParameter("identifier", "name", null, false);
 
     // Expected Values
     // Execute
     page.startPolling(true);
 
     // Check
-    assertEquals(5, page.getWidgetCount());
+    assertEquals(4, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
@@ -106,22 +108,26 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#updateOnSuccess(Long)}
+   * Test method for {@link ResultsPage#updateOnSuccess(de.metanome.backend.results_db.Execution)}
    */
   public void testUpdateOnSuccess() {
     // Set up
     TestHelper.resetDatabaseSync();
 
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    Execution execution = new Execution(algorithm, 12);
+    execution.setEnd(2345);
+
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-    page.setExecutionParameter(null, "identifier", "name", true, false, false);
+    page.setExecutionParameter("identifier", "name", null, false);
 
     page.startPolling(true);
 
     // Expected Values
     // Execute
-    page.updateOnSuccess((long) 4543);
+    page.updateOnSuccess(execution);
 
     // Check
     assertEquals(2, page.getWidgetCount());

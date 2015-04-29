@@ -46,7 +46,10 @@ public class Result implements Serializable {
   protected Result() {
 
   }
-  public Result(String fileName){ this.fileName = fileName; }
+
+  public Result(String fileName) {
+    this.fileName = fileName;
+  }
 
   /**
    * @param resultPathPrefix the path to the result file
@@ -100,7 +103,7 @@ public class Result implements Serializable {
     return this;
   }
 
-  public ResultType getType(){
+  public ResultType getType() {
     return type;
   }
 

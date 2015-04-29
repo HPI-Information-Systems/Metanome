@@ -41,7 +41,7 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
   private ConfigurationRequirementRelationalInput specification;
 
   public InputParameterRelationalInputWidget(ConfigurationRequirementRelationalInput configSpec,
-                                       TabWrapper messageReceiver) {
+                                             TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
 
@@ -66,7 +66,8 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
       }
     }
 
-    specification.checkAndSetSettings(values.toArray(new ConfigurationSettingRelationalInput[values.size()]));
+    specification.checkAndSetSettings(
+        values.toArray(new ConfigurationSettingRelationalInput[values.size()]));
 
     return specification;
   }

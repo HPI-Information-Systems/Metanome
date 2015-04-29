@@ -37,7 +37,9 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    DatabaseConnection dbConnection = new DatabaseConnection("url", "user", "password", DbSystem.DB2);
+    DatabaseConnection
+        dbConnection =
+        new DatabaseConnection("url", "user", "password", DbSystem.DB2);
 
     TableInputEditForm
         editForm =
@@ -121,12 +123,12 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#updateTableInput(TableInput tableInput)}
-   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#showSaveButton}
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#updateTableInput(TableInput
+   * tableInput)} and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#showSaveButton}
    *
-   * If the edit button for a table input is clicked, the edit form should contain the values
-   * of that table input and the edit form should show a update button instead of an save button.
-   * If the method 'show save button' is called, the save button should be visible again.
+   * If the edit button for a table input is clicked, the edit form should contain the values of
+   * that table input and the edit form should show a update button instead of an save button. If
+   * the method 'show save button' is called, the save button should be visible again.
    */
   public void testEditButtonClicked() throws InputValidationException {
     // Setup

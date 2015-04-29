@@ -79,7 +79,8 @@ public class ExampleAlgorithmTest {
 
     // Check result
     assertEquals(3, actualConfigurationRequirements.size());
-    assertEquals("test", ((ConfigurationRequirementString) actualConfigurationRequirements.get(1)).getDefaultValue(0));
+    assertEquals("test", ((ConfigurationRequirementString) actualConfigurationRequirements.get(1))
+        .getDefaultValue(0));
   }
 
   /**

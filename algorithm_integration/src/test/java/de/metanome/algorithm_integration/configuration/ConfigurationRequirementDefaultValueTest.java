@@ -146,7 +146,8 @@ public class ConfigurationRequirementDefaultValueTest {
 
     // Execute functionality
     try {
-      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
+      configSpec
+          .checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
@@ -160,7 +161,7 @@ public class ConfigurationRequirementDefaultValueTest {
    *
    * Setting a wrong number of settings should throw an Exception.
    */
-  @Test(expected=AlgorithmExecutionException.class)
+  @Test(expected = AlgorithmExecutionException.class)
   public void testCheckAndSetSettingsWithWrongNumber() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementBoolean
@@ -179,7 +180,7 @@ public class ConfigurationRequirementDefaultValueTest {
    *
    * Setting a wrong number of settings should throw an Exception.
    */
-  @Test(expected=AlgorithmExecutionException.class)
+  @Test(expected = AlgorithmExecutionException.class)
   public void testCheckAndSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementInteger configSpec =

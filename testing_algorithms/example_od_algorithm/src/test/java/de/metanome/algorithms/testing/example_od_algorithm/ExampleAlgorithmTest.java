@@ -36,7 +36,6 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Test for {@link de.metanome.algorithms.testing.example_od_algorithm}
- *
  */
 public class ExampleAlgorithmTest {
 
@@ -61,9 +60,8 @@ public class ExampleAlgorithmTest {
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#execute()}
-   * <p/>
-   * When the algorithm is started after configuration a result should be received.
+   * Test method for {@link ExampleAlgorithm#execute()} <p/> When the algorithm is started after
+   * configuration a result should be received.
    */
   @Test
   public void testExecute() throws AlgorithmConfigurationException, CouldNotReceiveResultException {
@@ -81,9 +79,8 @@ public class ExampleAlgorithmTest {
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()}
-   * <p/>
-   * The algorithm should return one configuration specification of string type
+   * Test method for {@link ExampleAlgorithm#getConfigurationRequirements()} <p/> The algorithm
+   * should return one configuration specification of string type
    */
   @Test
   public void testGetConfigurationRequirements() {
@@ -94,12 +91,11 @@ public class ExampleAlgorithmTest {
     // Check result
     assertEquals(1, actualConfigurationRequirements.size());
     assertThat(actualConfigurationRequirements.get(0),
-        instanceOf(ConfigurationRequirementString.class));
+               instanceOf(ConfigurationRequirementString.class));
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)}
-   * <p/>
+   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...)} <p/>
    * The algorithm should store the path when it is supplied through setConfigurationValue.
    */
   @Test

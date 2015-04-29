@@ -152,6 +152,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row of the old table input and updates the values.
+   *
    * @param updatedInput the updated table input
    * @param oldInput     the old table input
    */
@@ -203,7 +204,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
    * @param connection    the updated database connection
    * @param oldConnection the old database connection
    */
-  public void updateDatabaseConnection(DatabaseConnection connection, DatabaseConnection oldConnection) {
+  public void updateDatabaseConnection(DatabaseConnection connection,
+                                       DatabaseConnection oldConnection) {
     this.editForm.removeDatabaseConnection(oldConnection);
     this.editForm.addDatabaseConnection(connection);
   }
@@ -252,6 +254,7 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row in the table, which contains the given table input.
+   *
    * @param input the table input
    * @return the row number
    */

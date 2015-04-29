@@ -50,7 +50,8 @@ public class CouldNotReceiveResultExceptionTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String, Throwable)}
+   * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String,
+   * Throwable)}
    *
    * The exception should store the message and the cause.
    */

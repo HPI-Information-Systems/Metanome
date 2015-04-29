@@ -92,17 +92,19 @@ public class AlgorithmExecutor implements Closeable {
    * Executes an algorithm. The algorithm is loaded from the jar, configured, by converting the
    * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to {@link
    * de.metanome.algorithm_integration.configuration.ConfigurationValue}s and all receivers and
-   * generators are set before execution. The execution containing the elapsed time while
-   * executing the algorithm in nano seconds is returned.
+   * generators are set before execution. The execution containing the elapsed time while executing
+   * the algorithm in nano seconds is returned.
    *
    * @param algorithm           the algorithm
    * @param requirements        list of configuration requirements
    * @param executionIdentifier the identifier for the execution
+   * @param countResult         true, if the results of the execution are just count results
    * @return the execution
    */
   public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm algorithm,
-                               List<ConfigurationRequirement> requirements,
-                               String executionIdentifier)
+                                    List<ConfigurationRequirement> requirements,
+                                    String executionIdentifier,
+                                    Boolean countResult)
       throws AlgorithmLoadingException, AlgorithmExecutionException {
 
     List<ConfigurationValue> parameterValues = new LinkedList<>();
@@ -128,7 +130,7 @@ public class AlgorithmExecutor implements Closeable {
     }
 
     try {
-      return executeAlgorithmWithValues(algorithm, parameterValues, inputs, executionIdentifier);
+      return executeAlgorithmWithValues(algorithm, parameterValues, inputs, executionIdentifier, countResult);
     } catch (IllegalArgumentException | SecurityException | IllegalAccessException | IOException |
         ClassNotFoundException | InstantiationException | InvocationTargetException |
         NoSuchMethodException e) {
@@ -141,18 +143,21 @@ public class AlgorithmExecutor implements Closeable {
 
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured and all receivers and
-   * generators are set before execution. The execution containing the elapsed time while
-   * executing the algorithm in nano seconds is returned.
+   * generators are set before execution. The execution containing the elapsed time while executing
+   * the algorithm in nano seconds is returned.
    *
-   * @param storedAlgorithm         the algorithm
-   * @param parameters              list of configuration values
+   * @param storedAlgorithm     the algorithm
+   * @param parameters          list of configuration values
    * @param executionIdentifier the identifier for the execution
+   * @param countResult         true, if the results of the execution are just count results
    * @return the execution
    */
-  public Execution executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm storedAlgorithm,
-                                         List<ConfigurationValue> parameters,
-                                         List<Input> inputs,
-                                         String executionIdentifier)
+  public Execution executeAlgorithmWithValues(
+      de.metanome.backend.results_db.Algorithm storedAlgorithm,
+      List<ConfigurationValue> parameters,
+      List<Input> inputs,
+      String executionIdentifier,
+      Boolean countResult)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -238,7 +243,8 @@ public class AlgorithmExecutor implements Closeable {
         .setEnd(beforeWallClockTime + executionTimeInMs)
         .setInputs(inputs)
         .setIdentifier(executionIdentifier)
-        .setResults(results);
+        .setResults(results)
+        .setCountResult(countResult);
 
     for (Result result : results) {
       result.setExecution(execution);
@@ -257,4 +263,5 @@ public class AlgorithmExecutor implements Closeable {
   public void close() throws IOException {
     resultReceiver.close();
   }
+
 }

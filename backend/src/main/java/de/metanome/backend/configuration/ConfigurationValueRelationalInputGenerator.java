@@ -25,7 +25,8 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import java.util.Set;
 
 /**
- * Represents {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} configuration values for {@link Algorithm}s.
+ * Represents {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} configuration
+ * values for {@link Algorithm}s.
  *
  * @author Jakob Zwiener
  */

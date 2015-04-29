@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ExecutionsPage  extends FlowPanel implements TabContent {
+public class ExecutionsPage extends FlowPanel implements TabContent {
 
   protected BasePage parent;
   protected FlexTable executionsTable;
@@ -55,6 +55,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
     this.add(new HTML("<h3>List of all Executions</h3>"));
     this.executionsTable = new FlexTable();
+    this.executionsTable.setCellPadding(5);
     this.executionsTable.addStyleName("execution-table");
     this.add(this.executionsTable);
 
@@ -64,11 +65,11 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   private void addHeaderRow() {
     // algorithm, time, input, result type, show button
-    this.executionsTable.setWidget(0, 0, new HTML("<b>Algorithm Name</b>"));
-    this.executionsTable.setWidget(0, 1, new HTML("<b>Date</b>"));
-    this.executionsTable.setWidget(0, 2, new HTML("<b>Execution Time (HH:mm:ss)</b>"));
-    this.executionsTable.setWidget(0, 3, new HTML("<b>Inputs</b>"));
-    this.executionsTable.setWidget(0, 4, new HTML("<b>Result Types</b>"));
+    this.executionsTable.setWidget(0, 0, new HTML("<b style='font-size:14px'>Algorithm Name</b>"));
+    this.executionsTable.setWidget(0, 1, new HTML("<b style='font-size:14px'>Date</b>"));
+    this.executionsTable.setWidget(0, 2, new HTML("<b style='font-size:14px'>Execution Time (HH:mm:ss)</b>"));
+    this.executionsTable.setWidget(0, 3, new HTML("<b style='font-size:14px'>Inputs</b>"));
+    this.executionsTable.setWidget(0, 4, new HTML("<b style='font-size:14px'>Result Types</b>"));
   }
 
   private void updateExecutions() {
@@ -79,7 +80,8 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     return new MethodCallback<List<Execution>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not list previous executions: " + method.getResponse().getText());
+        messageReceiver
+            .addError("Could not list previous executions: " + method.getResponse().getText());
       }
 
       @Override
@@ -91,15 +93,19 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   /**
    * Adds the given execution to the top of the table.
+   *
    * @param execution the execution
    */
   public void addExecution(Execution execution) {
-    int index = this.executionsTable.insertRow(1);
-    this.addExecutionToTable(execution, index);
+    if (!execution.getCountResult()) {
+      int index = this.executionsTable.insertRow(1);
+      this.addExecutionToTable(execution, index);
+    }
   }
 
   /**
    * Adds each of the executions to the execution table.
+   *
    * @param executionList the executions
    */
   protected void addExecutionsToTable(List<Execution> executionList) {
@@ -108,8 +114,10 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     Set<Execution> executions = new TreeSet<>(executionList);
     int row;
     for (final Execution execution : executions) {
-      row = this.executionsTable.getRowCount();
-      addExecutionToTable(execution, row);
+      if (!execution.getCountResult()) {
+        row = this.executionsTable.getRowCount();
+        addExecutionToTable(execution, row);
+      }
     }
   }
 
@@ -149,6 +157,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   /**
    * Sends a delete request to the backend.
+   *
    * @param execution the execution, which should be deleted
    */
   private void deleteExecution(Execution execution) {
@@ -160,7 +169,8 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not delete the execution: " + method.getResponse().getText());
+        messageReceiver
+            .addError("Could not delete the execution: " + method.getResponse().getText());
       }
 
       @Override
@@ -172,6 +182,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   /**
    * Find the row in the table, which contains the given execution.
+   *
    * @param execution the execution
    * @return the row number
    */
@@ -197,6 +208,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   /**
    * Get the time, when the execution was started.
+   *
    * @param execution the execution
    * @return the date string
    */
@@ -206,6 +218,7 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
 
   /**
    * Convert the execution time to a readable format.
+   *
    * @param execution the execution
    * @return the execution time string
    */
@@ -217,7 +230,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   }
 
   /**
-   *
    * @param execution the execution
    * @return an HTML string listing all inputs
    */
@@ -234,7 +246,6 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
   }
 
   /**
-   *
    * @param execution the execution
    * @return an HTML string listing all result types
    */

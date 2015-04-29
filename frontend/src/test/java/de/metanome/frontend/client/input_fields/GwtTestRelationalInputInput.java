@@ -30,9 +30,9 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.input_fields.RelationalInputInput#
-   * RelationalInputInput(boolean, boolean, de.metanome.frontend.client.TabWrapper)}
-   * <p/> After calling the constructor the optional parameter should be set correctly and all
-   * widgets should be initialized.
+   * RelationalInputInput(boolean, boolean, de.metanome.frontend.client.TabWrapper)} <p/> After
+   * calling the constructor the optional parameter should be set correctly and all widgets should
+   * be initialized.
    */
   public void testConstructor() {
     // Set up
@@ -58,7 +58,8 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link RelationalInputInput#getValues()} and {@link RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
+   * Test method for {@link RelationalInputInput#getValues()} and {@link
+   * RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
    * <p/> The getValue and setValue methods should set and retrieve settings.
    */
   public void testGetSetValues() {
@@ -100,8 +101,8 @@ public class GwtTestRelationalInputInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link RelationalInputInput#getValues()} and
-   * {@link RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
+   * Test method for {@link RelationalInputInput#getValues()} and {@link
+   * RelationalInputInput#setValues(de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput)}
    * <p/> The getValue and setValue methods should set and retrieve settings.
    */
   public void testGetSetRequiredValues() {

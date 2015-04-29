@@ -87,7 +87,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   }
 
   /**
-   *
    * @param fileName the file name of the algorithm jar
    */
   public Algorithm(String fileName) {
@@ -113,7 +112,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
     this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
-    this.databaseConnection = algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
+    this.databaseConnection =
+        algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
     this.progressEstimating = algorithmInterfaces.contains(ProgressEstimatingAlgorithm.class);
   }
 
@@ -337,7 +337,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   @Override
   public String toString() {
     return "Algorithm ["
-           +   "fileName=" + fileName
+           + "fileName=" + fileName
            + ", name=" + name
            + ", author=" + author
            + ", description=" + description

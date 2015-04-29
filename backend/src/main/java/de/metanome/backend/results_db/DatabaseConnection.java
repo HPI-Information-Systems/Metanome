@@ -41,7 +41,8 @@ public class DatabaseConnection extends Input implements Serializable {
   protected String comment;
 
   // Exists for Serialization
-  public DatabaseConnection() {}
+  public DatabaseConnection() {
+  }
 
   public DatabaseConnection(String name) {
     super(name);

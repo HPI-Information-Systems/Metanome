@@ -39,7 +39,9 @@ public class ResultCounter extends ResultReceiver {
     super(algorithmExecutionIdentifier);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
-  protected ResultCounter(String algorithmExecutionIdentifier, Boolean test) throws FileNotFoundException {
+
+  protected ResultCounter(String algorithmExecutionIdentifier, Boolean test)
+      throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
@@ -88,7 +90,6 @@ public class ResultCounter extends ResultReceiver {
 
   /**
    * When the result receiver is closed, the results are written to disk.
-   * @throws IOException
    */
   @Override
   public void close() throws IOException {

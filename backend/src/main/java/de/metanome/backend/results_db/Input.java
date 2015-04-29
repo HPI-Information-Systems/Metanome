@@ -41,7 +41,8 @@ public class Input implements Serializable {
   protected String name;
 
   // Exists for Serialization
-  public Input() {}
+  public Input() {
+  }
 
   public Input(String name) {
     this.name = name;

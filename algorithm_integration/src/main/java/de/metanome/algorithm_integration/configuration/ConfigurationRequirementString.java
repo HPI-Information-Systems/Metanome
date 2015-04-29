@@ -38,7 +38,8 @@ public class ConfigurationRequirementString
   // Needed for restful serialization
   public String type = "ConfigurationRequirementString";
 
-  public ConfigurationRequirementString() { }
+  public ConfigurationRequirementString() {
+  }
 
   public ConfigurationRequirementString(String identifier) {
     super(identifier);
@@ -48,7 +49,8 @@ public class ConfigurationRequirementString
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementString(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementString(String identifier, int minNumberOfSetting,
+                                        int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

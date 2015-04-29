@@ -18,7 +18,7 @@ package de.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FlexTable;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -113,7 +113,7 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(InputParameterIntegerWidget.class, pt.table.getWidget(4, 1).getClass());
 
     // - Radio buttons
-    assertEquals(FlowPanel.class, pt.getWidget(1).getClass());
+    assertEquals(FlexTable.class, pt.getWidget(1).getClass());
 
     // - Submit button row
     assertEquals(Button.class, pt.getWidget(2).getClass());
@@ -312,9 +312,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -393,9 +397,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values, 2);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable, 2);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable, 2);
 
     TabWrapper tabWrapper = new TabWrapper();
 

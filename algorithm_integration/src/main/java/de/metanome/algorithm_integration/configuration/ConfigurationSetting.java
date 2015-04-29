@@ -31,16 +31,17 @@ import java.io.Serializable;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
-                  @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
-              })
+    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput"),
+    @JsonSubTypes.Type(value = ConfigurationSettingDatabaseConnection.class, name = "ConfigurationSettingDatabaseConnection"),
+    @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
+    @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
+    @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
+    @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
+})
 public abstract class ConfigurationSetting implements Serializable {
 
-  public ConfigurationSetting() {}
+  public ConfigurationSetting() {
+  }
 
 }

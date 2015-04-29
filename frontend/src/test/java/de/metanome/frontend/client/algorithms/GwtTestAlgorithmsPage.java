@@ -213,7 +213,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#updateRow(com.google.gwt.user.client.ui.FlexTable, de.metanome.backend.results_db.Algorithm, String)}
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#updateRow(com.google.gwt.user.client.ui.FlexTable,
+   * de.metanome.backend.results_db.Algorithm, String)}
    */
   public void testUpdateAlgorithm() {
     // Setup
@@ -253,7 +254,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm, Algorithm)}
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmsPage#callUpdateAlgorithm(de.metanome.backend.results_db.Algorithm,
+   * Algorithm)}
    */
   public void testFailureOfUpdateCallbackAlgorithm() throws InputValidationException {
     // Setup
@@ -269,7 +271,8 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     // Expected Values
 
     // Execute
-    algorithmsPage.getUpdateCallback(new Algorithm("old file")).onFailure(null, new Throwable("error"));
+    algorithmsPage.getUpdateCallback(new Algorithm("old file"))
+        .onFailure(null, new Throwable("error"));
 
     // Check
     assertEquals(1, algorithmsPage.editForm.fileListBox.getValues().size());
@@ -277,7 +280,6 @@ public class GwtTestAlgorithmsPage extends GWTTestCase {
     assertEquals("", algorithmsPage.editForm.nameTextBox.getText());
     assertEquals("", algorithmsPage.editForm.descriptionTextArea.getText());
     assertEquals("", algorithmsPage.editForm.authorTextBox.getText());
-
 
     // Clean up
     TestHelper.resetDatabaseSync();

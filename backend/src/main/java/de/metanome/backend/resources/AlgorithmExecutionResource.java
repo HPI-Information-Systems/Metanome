@@ -24,10 +24,11 @@ import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProgressCache;
 import de.metanome.backend.algorithm_execution.TempFileGenerator;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.result_receiver.ResultReader;
+import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.Execution;
@@ -52,6 +53,7 @@ public class AlgorithmExecutionResource {
 
   /**
    * Executes an algorithm.
+   *
    * @param params all parameters to execute the algorithm
    * @return the execution time
    */
@@ -66,7 +68,8 @@ public class AlgorithmExecutionResource {
     } catch (FileNotFoundException e) {
       throw new WebException("Could not generate result file", Response.Status.BAD_REQUEST);
     } catch (UnsupportedEncodingException e) {
-      throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
+      throw new WebException("Could not build temporary file generator",
+                             Response.Status.BAD_REQUEST);
     }
 
     AlgorithmResource algorithmResource = new AlgorithmResource();
@@ -74,7 +77,10 @@ public class AlgorithmExecutionResource {
 
     Execution execution = null;
     try {
-      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
+      execution =
+          executor.executeAlgorithm(algorithm, params.getRequirements(),
+                                    params.getExecutionIdentifier(),
+                                    params.getCountResults());
     } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -82,7 +88,18 @@ public class AlgorithmExecutionResource {
     try {
       executor.close();
     } catch (IOException e) {
-      throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
+      throw new WebException("Could not close algorithm executor: " + e.getMessage(),
+                             Response.Status.BAD_REQUEST);
+    }
+
+    try {
+      // Only execute result post processing, if the results are not just counted.
+      if (!params.getCountResults()) {
+        ResultPostProcessor.extractAndStoreResults(execution);
+      }
+    } catch (Exception e) {
+      throw new WebException("Could not execute result post processing: " + e.getMessage(),
+                             Response.Status.BAD_REQUEST);
     }
 
     return execution;
@@ -115,7 +132,8 @@ public class AlgorithmExecutionResource {
   @GET
   @Path("/result_counter/{identifier}")
   @Produces("application/json")
-  public EnumMap<ResultType, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
+  public EnumMap<ResultType, Integer> getCounterResults(
+      @PathParam("identifier") String executionIdentifier) {
     try {
       return AlgorithmExecutionCache.getResultCounter(executionIdentifier).getResults();
     } catch (Exception e) {
@@ -139,7 +157,8 @@ public class AlgorithmExecutionResource {
   @GET
   @Path("/read_result/{file_name}/{type}")
   @Produces("application/json")
-  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
+  public List<Result> readResultFromFile(@PathParam("file_name") String fileName,
+                                         @PathParam("type") String type) {
     try {
       return ResultReader.readResultsFromFile(fileName, type);
     } catch (Exception e) {
@@ -150,8 +169,9 @@ public class AlgorithmExecutionResource {
 
 
   /**
-   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
-   * result files and cache results for the frontend.
+   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link
+   * de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write result
+   * files and cache results for the frontend.
    *
    * @param params all parameters for executing the algorithm
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
@@ -178,7 +198,9 @@ public class AlgorithmExecutionResource {
 
     AlgorithmExecutionCache.add(identifier, progressCache);
 
-    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    AlgorithmExecutor
+        executor =
+        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
 
     return executor;

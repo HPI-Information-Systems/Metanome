@@ -96,13 +96,14 @@ public class GwtTestBooleanParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#addInputField(boolean, int)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterBooleanWidget#addInputField(boolean,
+   * int)}
    */
   public void testAddInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationRequirementBoolean
         specification = new ConfigurationRequirementBoolean("bool",
-                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     Boolean expectedValue = true;
     specification.checkAndSetDefaultValues(expectedValue);
 
@@ -128,7 +129,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     //Setup
     ConfigurationRequirementBoolean
         specification = new ConfigurationRequirementBoolean("bool",
-                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
         new InputParameterBooleanWidget(specification, new TabWrapper());
@@ -150,7 +151,7 @@ public class GwtTestBooleanParameter extends GWTTestCase {
     //Setup
     ConfigurationRequirementBoolean
         specification = new ConfigurationRequirementBoolean("bool",
-                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterBooleanWidget
         widget =
         new InputParameterBooleanWidget(specification, new TabWrapper());

@@ -29,7 +29,8 @@ public class ConfigurationSettingBoolean extends ConfigurationSettingPrimitive<B
   // Needed for restful serialization
   public String type = "ConfigurationSettingBoolean";
 
-  public ConfigurationSettingBoolean() {}
+  public ConfigurationSettingBoolean() {
+  }
 
   public ConfigurationSettingBoolean(Boolean value) {
     super(value);

@@ -24,8 +24,8 @@ import java.net.URLDecoder;
 
 /**
  * Creates a file for testing. The file content is stored upon construction and every call to {@link
- * de.metanome.backend.input.file.FileFixture#getTestData(String)} writes and returns a file with the
- * content to the given path.
+ * de.metanome.backend.input.file.FileFixture#getTestData(String)} writes and returns a file with
+ * the content to the given path.
  *
  * @author Jakob Zwiener
  */

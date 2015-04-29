@@ -78,7 +78,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
     this.odList = new FlexTable();
     this.add(this.odList);
     updateOdAlgorithms();
-    
+
     this.add(new HTML("<h3>Inclusion Dependencies<//h3>"));
     this.indList = new FlexTable();
     this.add(this.indList);
@@ -123,7 +123,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
   private void updateIndAlgorithms() {
     this.restService.listInclusionDependencyAlgorithms(getRetrieveCallback(this.indList));
   }
-  
+
   /**
    * Request a list of available OD algorithms and display them in the odList
    */
@@ -191,6 +191,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Calls the rest service to delete the algorithm.
+   *
    * @param algorithm the algorithm, which should be deleted.
    */
   protected void deleteAlgorithm(Algorithm algorithm) {
@@ -199,6 +200,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
 
   /**
    * Creates the callback for the deletion of an algorithm.
+   *
    * @param algorithm the algorithm, which should be deleted.
    * @return the callback
    */
@@ -276,7 +278,7 @@ public class AlgorithmsPage extends FlowPanel implements TabContent {
       public void onFailure(Method method, Throwable throwable) {
         if (method != null) {
           messageReceiver.addError(method.getResponse().getText());
-        } else{
+        } else {
           messageReceiver.addError(throwable.getMessage());
         }
       }

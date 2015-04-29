@@ -39,17 +39,17 @@ import static org.mockito.Mockito.verify;
 public class OrderDependencyTest {
 
   @Before
-  public void setUp() throws Exception {}
+  public void setUp() throws Exception {
+  }
 
   @After
-  public void tearDown() throws Exception {}
+  public void tearDown() throws Exception {
+  }
 
   /**
-   * Test method for {@link OrderDependency#OrderDependency()}
-   * <p/>
-   * A {@link OrderDependency} should store the left-hand {@link ColumnPermutation} and the
-   * right-hand {@link ColumnPermutation}, as well as the underlying sort order and comparison
-   * operator used.
+   * Test method for {@link OrderDependency#OrderDependency()} <p/> A {@link OrderDependency} should
+   * store the left-hand {@link ColumnPermutation} and the right-hand {@link ColumnPermutation}, as
+   * well as the underlying sort order and comparison operator used.
    */
   @Test
   public void testConstructor() {
@@ -64,7 +64,7 @@ public class OrderDependencyTest {
     // Execute functionality
     final OrderDependency orderDependency =
         new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
-            ComparisonOperator.SMALLER_EQUAL);
+                            ComparisonOperator.SMALLER_EQUAL);
 
     // Check result
     assertEquals(expectedLhs, orderDependency.getLhs());
@@ -75,8 +75,7 @@ public class OrderDependencyTest {
 
   /**
    * Test method for {@link OrderDependency#equals(Object)} and {@link OrderDependency#hashCode()}
-   * <p/>
-   * {@link OrderDependency}s with equal left- and right-hand sides as well as order type and
+   * <p/> {@link OrderDependency}s with equal left- and right-hand sides as well as order type and
    * comparison operator should be equal.
    */
   @Test
@@ -84,26 +83,26 @@ public class OrderDependencyTest {
     // Setup
     final OrderDependency expectedOd =
         new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedEqualOd =
         new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedNotEqualLhsOd =
         new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
-            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedNotEqualRhsOd =
         new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-            new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
-            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+                            new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
+                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
 
     // Execute functionality
     // Check result
     final EqualsAndHashCodeTester<OrderDependency> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(expectedOd, expectedEqualOd, expectedNotEqualLhsOd,
-        expectedNotEqualRhsOd);
+                                               expectedNotEqualRhsOd);
   }
 
   /**
@@ -117,9 +116,8 @@ public class OrderDependencyTest {
   }
 
   /**
-   * Test method for {@link OrderDependency#sendResultTo(OmniscientResultReceiver)}
-   * <p/>
-   * The {@link OrderDependency} should be sendable to the {@link OmniscientResultReceiver}.
+   * Test method for {@link OrderDependency#sendResultTo(OmniscientResultReceiver)} <p/> The {@link
+   * OrderDependency} should be sendable to the {@link OmniscientResultReceiver}.
    */
   @Test
   public void testSendResultTo() throws CouldNotReceiveResultException {
@@ -127,7 +125,7 @@ public class OrderDependencyTest {
     final OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     final OrderDependency od =
         new OrderDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class),
-            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
 
     // Execute functionality
     od.sendResultTo(resultReceiver);
@@ -137,9 +135,8 @@ public class OrderDependencyTest {
   }
 
   /**
-   * Test method for {@link OrderDependency#toString()}
-   * <p/>
-   * A {@link OrderDependency} should return a human readable string representation.
+   * Test method for {@link OrderDependency#toString()} <p/> A {@link OrderDependency} should return
+   * a human readable string representation.
    */
   @Test
   public void testToString() {
@@ -152,7 +149,7 @@ public class OrderDependencyTest {
             "table1", "column4"));
     final OrderDependency orderDependency =
         new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
-            ComparisonOperator.SMALLER_EQUAL);
+                            ComparisonOperator.SMALLER_EQUAL);
     // Expected values
     final String expectedStringRepresentation =
         expectedLhs + OrderDependency.OD_SEPARATOR + "[" + "<=" + "," + "lex" + "]" + expectedRhs;

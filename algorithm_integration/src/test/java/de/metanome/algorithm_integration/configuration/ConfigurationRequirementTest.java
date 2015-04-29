@@ -121,15 +121,23 @@ public class ConfigurationRequirementTest {
   @Test
   public void testGetSetSettings() throws AlgorithmConfigurationException {
     // Setup
-    ConfigurationRequirementRelationalInput configSpec = new ConfigurationRequirementRelationalInput("parameter1", 2);
+    ConfigurationRequirementRelationalInput
+        configSpec =
+        new ConfigurationRequirementRelationalInput("parameter1", 2);
 
     // Expected values
-    ConfigurationSettingRelationalInput expectedSetting0 = mock(ConfigurationSettingRelationalInput.class);
-    ConfigurationSettingRelationalInput expectedSetting1 = mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting0 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting1 =
+        mock(ConfigurationSettingRelationalInput.class);
 
     // Execute functionality
     configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1);
-    List<ConfigurationSettingRelationalInput> actualSettings = Arrays.asList(configSpec.getSettings());
+    List<ConfigurationSettingRelationalInput>
+        actualSettings =
+        Arrays.asList(configSpec.getSettings());
 
     // Check result
     assertThat(actualSettings, IsIterableContainingInAnyOrder
@@ -143,7 +151,9 @@ public class ConfigurationRequirementTest {
   @Test
   public void testGetSetSettingsAsRange() throws AlgorithmConfigurationException {
     // Setup
-    ConfigurationRequirementTableInput configSpec = new ConfigurationRequirementTableInput("parameter1", 2, 4);
+    ConfigurationRequirementTableInput
+        configSpec =
+        new ConfigurationRequirementTableInput("parameter1", 2, 4);
     // Expected values
     ConfigurationSettingTableInput expectedSetting0 = mock(ConfigurationSettingTableInput.class);
     ConfigurationSettingTableInput expectedSetting1 = mock(ConfigurationSettingTableInput.class);
@@ -166,7 +176,9 @@ public class ConfigurationRequirementTest {
   @Test
   public void testCheckAndSetSettingsWithWrongNumber() {
     // Setup
-    ConfigurationRequirementListBox configSpec = new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
+    ConfigurationRequirementListBox
+        configSpec =
+        new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
     // Expected values
     ConfigurationSettingListBox expectedSetting0 = mock(ConfigurationSettingListBox.class);
     ConfigurationSettingListBox expectedSetting1 = mock(ConfigurationSettingListBox.class);
@@ -202,12 +214,22 @@ public class ConfigurationRequirementTest {
   @Test
   public void testCheckAndSetSettingsWithWrongNumberRange() {
     // Setup
-    ConfigurationRequirementRelationalInput configSpec = new ConfigurationRequirementRelationalInput("parameter1", 2, 4);
+    ConfigurationRequirementRelationalInput
+        configSpec =
+        new ConfigurationRequirementRelationalInput("parameter1", 2, 4);
     // Expected values
-    ConfigurationSettingRelationalInput expectedSetting0 = mock(ConfigurationSettingRelationalInput.class);
-    ConfigurationSettingRelationalInput expectedSetting1 = mock(ConfigurationSettingRelationalInput.class);
-    ConfigurationSettingRelationalInput expectedSetting2 = mock(ConfigurationSettingRelationalInput.class);
-    ConfigurationSettingRelationalInput expectedSetting3 = mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting0 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting1 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting2 =
+        mock(ConfigurationSettingRelationalInput.class);
+    ConfigurationSettingRelationalInput
+        expectedSetting3 =
+        mock(ConfigurationSettingRelationalInput.class);
 
     // Execute functionality
     // Check result

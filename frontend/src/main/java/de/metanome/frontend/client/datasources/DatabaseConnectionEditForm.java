@@ -36,8 +36,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.Arrays;
 
-import javax.activation.DataContentHandler;
-
 /**
  * Input field to configure a database connection.
  */
@@ -59,7 +57,8 @@ public class DatabaseConnectionEditForm extends Grid {
     super(6, 2);
 
     this.parent = parent;
-    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
+    this.databaseConnectionService =
+        com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
 
     this.dbUrlTextbox = new TextBox();
     this.dbUrlTextbox.getElement().setPropertyString("placeholder", "jdbc:mysql://localhost/db");
@@ -113,7 +112,8 @@ public class DatabaseConnectionEditForm extends Grid {
    * @param password the password for the database connection
    * @param comment  the comment for the database connection
    */
-  public void setValues(String url, String system, String username, String password, String comment) {
+  public void setValues(String url, String system, String username, String password,
+                        String comment) {
     this.dbUrlTextbox.setValue(url);
     this.usernameTextbox.setValue(username);
     this.passwordTextbox.setValue(password);
@@ -160,7 +160,8 @@ public class DatabaseConnectionEditForm extends Grid {
             @Override
             public void onFailure(Method method, Throwable throwable) {
               messageReceiver
-                  .addError("Database Connection could not be stored:" + method.getResponse().getText());
+                  .addError(
+                      "Database Connection could not be stored:" + method.getResponse().getText());
             }
 
             @Override
@@ -183,14 +184,17 @@ public class DatabaseConnectionEditForm extends Grid {
   private void submitUpdate() {
     messageReceiver.clearErrors();
     try {
-      final DatabaseConnection currentConnection = this.getValue().setId(oldDatabaseConnection.getId());
+      final DatabaseConnection
+          currentConnection =
+          this.getValue().setId(oldDatabaseConnection.getId());
 
       this.databaseConnectionService
           .updateDatabaseConnection(currentConnection, new MethodCallback<DatabaseConnection>() {
             @Override
             public void onFailure(Method method, Throwable throwable) {
               messageReceiver
-                  .addError("Database Connection could not be updated:" + method.getResponse().getText());
+                  .addError(
+                      "Database Connection could not be updated:" + method.getResponse().getText());
               reset();
               showSaveButton();
             }
@@ -212,6 +216,7 @@ public class DatabaseConnectionEditForm extends Grid {
 
   /**
    * Fills the form with the values of the database connection, which should be updated.
+   *
    * @param databaseConnection the database connection
    */
   public void updateDatabaseConnection(DatabaseConnection databaseConnection) {

@@ -83,9 +83,9 @@ public class DatabaseInitializer implements ServletContextListener {
 
     for (String filePath : algorithmFileNames) {
       try {
-          Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-          algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
-                                             .setName(filePath.replaceAll(".jar", "")));
+        Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+        algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
+                                    .setName(filePath.replaceAll(".jar", "")));
       } catch (WebException e) {
         // Do something with this exception
       }

@@ -108,7 +108,7 @@ public class GwtTestBasePage extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-/**
+  /**
    * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
    * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
    * control flow from Algorithms to Run configuration
@@ -148,7 +148,7 @@ public class GwtTestBasePage extends GWTTestCase {
   }
 
 
-/**
+  /**
    * Test method for {@link de.metanome.frontend.client.BasePage#switchToRunConfiguration(String,
    * de.metanome.algorithm_integration.configuration.ConfigurationSettingDataSource)} </p> Test
    * control flow from Data sources to Run configuration
