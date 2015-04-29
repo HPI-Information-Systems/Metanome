@@ -50,11 +50,13 @@ import java.util.Map;
  */
 public class ResultsPaginationTablePage extends FlowPanel implements TabContent {
 
-  protected ResultStoreRestService restService;
+  protected ResultStoreRestService resultStoreService;
+  protected ResultRestService resultService;
   protected TabWrapper messageReceiver;
 
   public ResultsPaginationTablePage() {
-    this.restService = GWT.create(ResultStoreRestService.class);
+    this.resultService = GWT.create(ResultRestService.class);
+    this.resultStoreService = GWT.create(ResultStoreRestService.class);
   }
 
   /**
@@ -64,7 +66,12 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param execution the execution
    */
   public void showResultsFor(Execution execution) {
-    this.restService.loadExecution(execution.getId(), getMethodCallbackExecution(execution));
+    if (execution.getCountResult()) {
+      addCountResults(execution);
+    } else {
+      this.resultStoreService
+          .loadExecution(execution.getId(), getMethodCallbackExecution(execution));
+    }
   }
 
   /**
@@ -74,7 +81,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param fileInput the execution
    */
   public void showResultsFor(FileInput fileInput) {
-    this.restService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
+    this.resultStoreService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
   }
 
   private MethodCallback<Void> getMethodCallbackExecution(final Execution execution) {
@@ -173,19 +180,18 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
 
 
   public void addCountResults(Execution execution) {
-    ResultRestService service = GWT.create(ResultRestService.class);
+    this.resultService.readCounterResult(execution.getId(),
+                                        new MethodCallback<Map<String, Integer>>() {
+                                          @Override
+                                          public void onFailure(Method method, Throwable caught) {
+                                          }
 
-    service.readCounterResult(execution.getId(),
-                              new MethodCallback<Map<String, Integer>>() {
-                                @Override
-                                public void onFailure(Method method, Throwable caught) {
-                                }
-
-                                @Override
-                                public void onSuccess(Method method, Map<String, Integer> results) {
-                                  displayCountResult(results);
-                                }
-                              });
+                                          @Override
+                                          public void onSuccess(Method method,
+                                                                Map<String, Integer> results) {
+                                            displayCountResult(results);
+                                          }
+                                        });
   }
 
   protected void displayCountResult(Map<String, Integer> results) {

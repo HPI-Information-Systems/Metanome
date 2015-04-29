@@ -98,10 +98,8 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
    * @param execution the execution
    */
   public void addExecution(Execution execution) {
-    if (!execution.getCountResult()) {
-      int index = this.executionsTable.insertRow(1);
-      this.addExecutionToTable(execution, index);
-    }
+    int index = this.executionsTable.insertRow(1);
+    this.addExecutionToTable(execution, index);
   }
 
   /**
@@ -116,7 +114,7 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     int row;
     for (final Execution execution : executions) {
       row = this.executionsTable.getRowCount();
-      if (!execution.isAborted() && !execution.getCountResult()) {
+      if (!execution.isAborted()) {
         addExecutionToTable(execution, row);
       } else {
         addAbortedExecutionToTable(execution, row);
