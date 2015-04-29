@@ -35,7 +35,8 @@ import java.util.Set;
 public class ConfigurationValueTableInputGenerator
     extends ConfigurationValue<TableInputGenerator, ConfigurationRequirementTableInput> {
 
-  protected ConfigurationValueTableInputGenerator() {}
+  protected ConfigurationValueTableInputGenerator() {
+  }
 
   public ConfigurationValueTableInputGenerator(String identifier,
                                                TableInputGenerator... values) {

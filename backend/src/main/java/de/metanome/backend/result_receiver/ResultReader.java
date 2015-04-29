@@ -101,4 +101,20 @@ public class ResultReader<T> {
     return results;
   }
 
+  public static Integer readCounterResultFromFile(String fileName)
+      throws IOException {
+    File resultFile = new File(fileName);
+
+    BufferedReader br = new BufferedReader(new FileReader(resultFile));
+    String line;
+    while ((line = br.readLine()) != null) {
+      if (line.startsWith("###")) {
+        continue;
+      }
+
+      return Integer.valueOf(line.split(": ")[1]);
+    }
+    return 0;
+  }
+
 }

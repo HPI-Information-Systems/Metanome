@@ -41,7 +41,8 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   protected DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator;
   protected String table;
 
-  protected DefaultTableInputGenerator(){}
+  protected DefaultTableInputGenerator() {
+  }
 
   /**
    * Exists for tests.

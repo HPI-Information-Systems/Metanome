@@ -30,7 +30,8 @@ import java.util.Set;
 public class ConfigurationValueBoolean
     extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
 
-  protected ConfigurationValueBoolean(){}
+  protected ConfigurationValueBoolean() {
+  }
 
   public ConfigurationValueBoolean(String identifier, Boolean... values) {
     super(identifier, values);

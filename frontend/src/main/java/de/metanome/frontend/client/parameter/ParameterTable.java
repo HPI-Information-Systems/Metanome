@@ -101,7 +101,9 @@ public class ParameterTable extends FlowPanel {
     // Radio Buttons to select way of result handling
     FlexTable radioButtonTable = new FlexTable();
     Label label = new Label("How to handle results?");
-    this.rbCache = new RadioButton("resultReceiver", "Cache result and write it to disk when the algorithm is finished.");
+    this.rbCache =
+        new RadioButton("resultReceiver",
+                        "Cache result and write it to disk when the algorithm is finished.");
     this.rbDisk = new RadioButton("resultReceiver", "Write result immediately to disk.");
     this.rbCount = new RadioButton("resultReceiver", "Just count the results.");
     this.rbCache.setValue(true);
@@ -126,9 +128,9 @@ public class ParameterTable extends FlowPanel {
     });
 
     // add some css
-    this.table.addStyleName("space_button");
-    radioButtonTable.addStyleName("space_button");
-    memoryPanel.addStyleName("space_button");
+    this.table.addStyleName("space_bottom");
+    radioButtonTable.addStyleName("space_bottom");
+    memoryPanel.addStyleName("space_bottom");
 
     this.add(this.table);
     this.add(radioButtonTable);
@@ -150,7 +152,8 @@ public class ParameterTable extends FlowPanel {
       List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
       List<ConfigurationRequirement> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
-      getAlgorithmTab().startExecution(parameters, dataSources, cacheResult, writeResult, countResult, memory);
+      getAlgorithmTab()
+          .startExecution(parameters, dataSources, cacheResult, writeResult, countResult, memory);
     } catch (InputValidationException | AlgorithmConfigurationException e) {
       this.messageReceiver.clearErrors();
       // mark required input fields
@@ -215,7 +218,8 @@ public class ParameterTable extends FlowPanel {
 
   /**
    * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose
-   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has the given identifier.
+   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has
+   * the given identifier.
    *
    * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
    * @return This parameter's child widgets that corresponds to the given identifier, or null if

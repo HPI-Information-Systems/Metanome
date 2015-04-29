@@ -67,7 +67,8 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     // algorithm, time, input, result type, show button
     this.executionsTable.setWidget(0, 0, new HTML("<b style='font-size:14px'>Algorithm Name</b>"));
     this.executionsTable.setWidget(0, 1, new HTML("<b style='font-size:14px'>Date</b>"));
-    this.executionsTable.setWidget(0, 2, new HTML("<b style='font-size:14px'>Execution Time (HH:mm:ss)</b>"));
+    this.executionsTable
+        .setWidget(0, 2, new HTML("<b style='font-size:14px'>Execution Time (HH:mm:ss)</b>"));
     this.executionsTable.setWidget(0, 3, new HTML("<b style='font-size:14px'>Inputs</b>"));
     this.executionsTable.setWidget(0, 4, new HTML("<b style='font-size:14px'>Result Types</b>"));
   }
@@ -97,8 +98,10 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
    * @param execution the execution
    */
   public void addExecution(Execution execution) {
-    int index = this.executionsTable.insertRow(1);
-    this.addExecutionToTable(execution, index);
+    if (!execution.getCountResult()) {
+      int index = this.executionsTable.insertRow(1);
+      this.addExecutionToTable(execution, index);
+    }
   }
 
   /**
@@ -113,10 +116,9 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     int row;
     for (final Execution execution : executions) {
       row = this.executionsTable.getRowCount();
-      if(!execution.isAborted()) {
+      if (!execution.isAborted() && !execution.getCountResult()) {
         addExecutionToTable(execution, row);
-      }
-      else{
+      } else {
         addAbortedExecutionToTable(execution, row);
       }
     }
@@ -176,9 +178,9 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     this.executionsTable.setWidget(row, 0,
                                    new HTML(execution.getAlgorithm().getName()));
     this.executionsTable.setWidget(row, 1, new HTML(this.getDate(execution)));
-    this.executionsTable.setWidget(row, 2, new HTML("-"+"<br>"));
+    this.executionsTable.setWidget(row, 2, new HTML("-" + "<br>"));
     this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
-    this.executionsTable.setWidget(row, 4, new HTML("EXECUTION ABORTED"+"<br>"));
+    this.executionsTable.setWidget(row, 4, new HTML("EXECUTION ABORTED" + "<br>"));
     this.executionsTable.setWidget(row, 6, deleteButton);
   }
 

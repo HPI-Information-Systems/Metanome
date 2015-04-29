@@ -24,22 +24,28 @@ public final class ProcessExecutor {
   private ProcessExecutor() {
   }
 
-  public static Process exec(Class myClass, String algorithmId, String executionIdentifier, String memory) throws IOException,
-                                                                                 InterruptedException {
+  public static Process exec(Class myClass, String algorithmId, String executionIdentifier,
+                             String memory, boolean countResult) throws IOException,
+                                                                        InterruptedException {
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
                      File.separator + "bin" +
                      File.separator + "java";
     String classpath = System.getProperty("java.class.path");
     String className = myClass.getCanonicalName();
-    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + classpath + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + className + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    System.out
+        .println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + classpath + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    System.out
+        .println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + className + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+    String countResultStr = String.valueOf(countResult);
 
     ProcessBuilder builder = new ProcessBuilder(
-        javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);
-    if(!memory.equals("")){
+        javaBin, "-cp", classpath, className, algorithmId, executionIdentifier, countResultStr);
+    if (!memory.equals("")) {
       builder = new ProcessBuilder(
-          javaBin, "-Xmx"+memory+"m", "-Xms"+memory+"m", "-cp", classpath, className, algorithmId, executionIdentifier);
+          javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-cp", classpath, className,
+          algorithmId, executionIdentifier, countResultStr);
     }
     builder.redirectErrorStream(true);
     return builder.start();

@@ -22,6 +22,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -51,4 +52,8 @@ public interface ResultRestService extends RestService {
   @Path("/update")
   public void updateResult(Result result, MethodCallback<Result> callback);
 
+  @POST
+  @Path("/readCounterResults/{executionId}")
+  public void readCounterResult(@PathParam("executionId") long executionId,
+                                MethodCallback<Map<String, Integer>> callback);
 }

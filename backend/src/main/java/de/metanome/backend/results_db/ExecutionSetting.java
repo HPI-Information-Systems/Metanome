@@ -74,9 +74,11 @@ public class ExecutionSetting implements Serializable {
   /**
    * Exists for hibernate serialization
    */
-  protected ExecutionSetting(){}
+  protected ExecutionSetting() {
+  }
 
-  public ExecutionSetting(List<String> parameterValuesJson, List<String> inputsJson, String executionIdentifier) {
+  public ExecutionSetting(List<String> parameterValuesJson, List<String> inputsJson,
+                          String executionIdentifier) {
     this.parameterValuesJson = parameterValuesJson;
     this.inputsJson = inputsJson;
     this.executionIdentifier = executionIdentifier;
@@ -111,7 +113,9 @@ public class ExecutionSetting implements Serializable {
 
   @Id
   @GeneratedValue
-  public long getId() { return id; }
+  public long getId() {
+    return id;
+  }
 
   public ExecutionSetting setId(long id) {
     this.id = id;
