@@ -18,6 +18,9 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -35,6 +38,14 @@ import javax.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @GwtCompatible
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = FileInput.class, name = "fileInput"),
+    @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
+})
 public class Input implements Serializable {
 
   protected long id;

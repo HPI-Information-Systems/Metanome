@@ -73,6 +73,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
     assertNotNull(page.executionTimePanel);
+    assertNotNull(page.stopButton);
 
     // Cleanup
     TestHelper.resetDatabaseSync();

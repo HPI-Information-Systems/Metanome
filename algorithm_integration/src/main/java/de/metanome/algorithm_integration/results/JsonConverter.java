@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.results;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,7 +26,7 @@ import java.io.IOException;
 
 public class JsonConverter<T> {
 
-  ObjectMapper mapper = new ObjectMapper();
+  ObjectMapper mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   public String toJsonString(T type) throws JsonProcessingException {
     return this.mapper.writeValueAsString(type);
@@ -32,6 +34,10 @@ public class JsonConverter<T> {
 
   public T fromJsonString(String json, Class<T> clazz) throws IOException {
     return this.mapper.readValue(json, clazz);
+  }
+
+  public void addMixIn(Class target, Class mixIn){
+    mapper.addMixInAnnotations(target, mixIn);
   }
 
 }

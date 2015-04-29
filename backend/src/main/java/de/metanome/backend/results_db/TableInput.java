@@ -18,6 +18,8 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -90,6 +92,7 @@ public class TableInput extends Input implements Serializable {
 
   @Override
   @Transient
+  @JsonIgnore
   public String getIdentifier() {
     return tableName + "; " + databaseConnection.getIdentifier();
   }

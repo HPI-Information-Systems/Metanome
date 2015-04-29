@@ -21,6 +21,8 @@ import com.google.common.annotations.GwtCompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.metanome.backend.input.file.FileIterator;
 
 import java.io.Serializable;
@@ -50,8 +52,7 @@ public class FileInput extends Input implements Serializable {
   protected String nullValue;
 
   // Exists for Serialization
-  public FileInput() {
-  }
+  public FileInput() {}
 
   /**
    * Constructs a FileInput with a given file name. Default parser settings are set.
@@ -152,6 +153,7 @@ public class FileInput extends Input implements Serializable {
 
   @Override
   @Transient
+  @JsonIgnore
   public String getIdentifier() {
     return this.fileName;
   }
@@ -197,20 +199,18 @@ public class FileInput extends Input implements Serializable {
   }
 
   @Transient
-  public char getSeparatorAsChar() {
-    return toChar(this.separator);
-  }
-
+  @JsonIgnore
+  public char getSeparatorAsChar() { return toChar(this.separator); }
   @Transient
+  @JsonIgnore
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
-
   @Transient
+  @JsonIgnore
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
-
   @Transient
   private char toChar(String str) {
     if (str.isEmpty()) {

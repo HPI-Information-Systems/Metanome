@@ -17,9 +17,12 @@
 package de.metanome.frontend.client.results;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -59,6 +62,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
   protected Label algorithmLabel;
 
+  protected Button stopButton;
+
   protected ResultsPaginationTablePage tablePage;
 
   protected String executionIdentifier;
@@ -92,6 +97,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
     }
     this.remove(this.runningIndicator);
     this.remove(this.executionTimePanel);
+    if (this.stopButton != null) {
+      this.remove(this.stopButton);
+    }
 
     // Add a label for the execution time
     this.insert(new Label(
@@ -130,7 +138,16 @@ public class ResultsPage extends FlowPanel implements TabContent {
     // Add label for the algorithm, which is executed at the moment
     this.algorithmLabel = new Label("Executing algorithm " + this.algorithmFileName);
     this.algorithmLabel.setStyleName("space_bottom");
-    this.add(algorithmLabel);
+    this.add(this.algorithmLabel);
+
+    // Add button to stop the execution
+    this.stopButton = new Button("Stop Execution", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        executionRestService.stopExecution(executionIdentifier, getStopCallback());
+      }
+    });
+    this.add(this.stopButton);
 
     // Add a running indicator
     this.runningIndicator = new Image("ajax-loader.gif");
@@ -171,6 +188,25 @@ public class ResultsPage extends FlowPanel implements TabContent {
   }
 
   /**
+   * Creates the callback to stop an execution.
+   *
+   * @return the callback
+   */
+  private MethodCallback<Void> getStopCallback() {
+    return new MethodCallback<Void>() {
+      @Override
+      public void onFailure(Method method, Throwable throwable) {
+        updateOnError(method.getResponse().getText());
+      }
+
+      @Override
+      public void onSuccess(Method method, Void aVoid) {
+        updateOnError("The execution was stopped successfully.");
+      }
+    };
+  }
+
+  /**
    * Displays the results of the given execution.
    *
    * @param execution the execution
@@ -202,7 +238,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.tablePage.showResultsFor(input);
 
     this.insert(
-        new Label("All results of the file input " + FilePathHelper.getFileName(input.getName())), 0);
+        new Label("All results of the file input " + FilePathHelper.getFileName(input.getName())),
+        0);
   }
 
 

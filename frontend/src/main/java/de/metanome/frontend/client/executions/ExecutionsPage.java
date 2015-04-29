@@ -113,7 +113,12 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     int row;
     for (final Execution execution : executions) {
       row = this.executionsTable.getRowCount();
-      addExecutionToTable(execution, row);
+      if(!execution.isAborted()) {
+        addExecutionToTable(execution, row);
+      }
+      else{
+        addAbortedExecutionToTable(execution, row);
+      }
     }
   }
 
@@ -148,6 +153,32 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
     this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
     this.executionsTable.setWidget(row, 4, new HTML(this.getResultTypes(execution)));
     this.executionsTable.setWidget(row, 5, showButton);
+    this.executionsTable.setWidget(row, 6, deleteButton);
+  }
+
+  /**
+   * Adds an executions to the execution table.
+   *
+   * @param execution the aborted execution to be displayed
+   * @param row       the row, in which the execution should be inserted
+   */
+  protected void addAbortedExecutionToTable(final Execution execution, int row) {
+
+    Button deleteButton = new Button("Delete");
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        deleteExecution(execution);
+      }
+    });
+
+    // algorithm, date, time, input, result type, show button
+    this.executionsTable.setWidget(row, 0,
+                                   new HTML(execution.getAlgorithm().getName()));
+    this.executionsTable.setWidget(row, 1, new HTML(this.getDate(execution)));
+    this.executionsTable.setWidget(row, 2, new HTML("-"+"<br>"));
+    this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
+    this.executionsTable.setWidget(row, 4, new HTML("EXECUTION ABORTED"+"<br>"));
     this.executionsTable.setWidget(row, 6, deleteButton);
   }
 

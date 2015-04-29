@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextBox;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -47,6 +48,7 @@ public class ParameterTable extends FlowPanel {
   private RadioButton rbCache;
   private RadioButton rbDisk;
   private RadioButton rbCount;
+  private TextBox memoryTextBox;
   protected FlexTable table;
 
   /**
@@ -64,17 +66,17 @@ public class ParameterTable extends FlowPanel {
     super();
     this.messageReceiver = messageReceiver;
 
-    table = new FlexTable();
+    this.table = new FlexTable();
     int row = 0;
     for (ConfigurationRequirement param : paramList) {
       if (param.isRequired()) {
-        table.setText(row, 0, param.getIdentifier() + " *");
+        this.table.setText(row, 0, param.getIdentifier() + " *");
       } else {
-        table.setText(row, 0, param.getIdentifier());
+        this.table.setText(row, 0, param.getIdentifier());
       }
 
       InputParameterWidget currentWidget = WidgetFactory.buildWidget(param, messageReceiver);
-      table.setWidget(row, 1, currentWidget);
+      this.table.setWidget(row, 1, currentWidget);
 
       if (currentWidget.isDataSource()) {
         InputParameterDataSourceWidget dataSourceWidget =
@@ -94,14 +96,12 @@ public class ParameterTable extends FlowPanel {
       row++;
     }
 
-    table.setText(row, 0, "* are required fields");
+    this.table.setText(row, 0, "* are required fields");
 
     // Radio Buttons to select way of result handling
     FlexTable radioButtonTable = new FlexTable();
     Label label = new Label("How to handle results?");
-    this.rbCache =
-        new RadioButton("resultReceiver",
-                        "Cache result and write it to disk when the algorithm is finished.");
+    this.rbCache = new RadioButton("resultReceiver", "Cache result and write it to disk when the algorithm is finished.");
     this.rbDisk = new RadioButton("resultReceiver", "Write result immediately to disk.");
     this.rbCount = new RadioButton("resultReceiver", "Just count the results.");
     this.rbCache.setValue(true);
@@ -110,6 +110,13 @@ public class ParameterTable extends FlowPanel {
     radioButtonTable.setWidget(3, 0, this.rbDisk);
     radioButtonTable.setWidget(4, 0, this.rbCount);
 
+    // Input field for memory
+    FlowPanel memoryPanel = new FlowPanel();
+    memoryPanel.add(new Label("Memory (in MB):"));
+    this.memoryTextBox = new TextBox();
+    memoryPanel.add(memoryTextBox);
+
+    // run button
     Button executeButton = new Button("Run");
     executeButton.addClickHandler(new ClickHandler() {
       @Override
@@ -119,11 +126,13 @@ public class ParameterTable extends FlowPanel {
     });
 
     // add some css
-    this.table.addStyleName("space_bottom");
-    radioButtonTable.addStyleName("space_bottom");
+    this.table.addStyleName("space_button");
+    radioButtonTable.addStyleName("space_button");
+    memoryPanel.addStyleName("space_button");
 
     this.add(this.table);
     this.add(radioButtonTable);
+    this.add(memoryPanel);
     this.add(executeButton);
   }
 
@@ -135,13 +144,13 @@ public class ParameterTable extends FlowPanel {
     Boolean cacheResult = this.rbCache.getValue();
     Boolean writeResult = this.rbDisk.getValue();
     Boolean countResult = this.rbCount.getValue();
+    String memory = this.memoryTextBox.getValue();
 
     try {
       List<ConfigurationRequirement> parameters = getConfigurationSpecificationsWithValues();
       List<ConfigurationRequirement> dataSources =
           getConfigurationSpecificationDataSourcesWithValues();
-      getAlgorithmTab()
-          .startExecution(parameters, dataSources, cacheResult, writeResult, countResult);
+      getAlgorithmTab().startExecution(parameters, dataSources, cacheResult, writeResult, countResult, memory);
     } catch (InputValidationException | AlgorithmConfigurationException e) {
       this.messageReceiver.clearErrors();
       // mark required input fields
@@ -206,8 +215,7 @@ public class ParameterTable extends FlowPanel {
 
   /**
    * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose
-   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has
-   * the given identifier.
+   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has the given identifier.
    *
    * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
    * @return This parameter's child widgets that corresponds to the given identifier, or null if

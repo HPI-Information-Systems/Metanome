@@ -25,6 +25,10 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 
+import org.hsqldb.persist.HsqlProperties;
+import org.hsqldb.server.Server;
+import org.hsqldb.server.ServerAcl;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -42,6 +46,8 @@ public class DatabaseInitializer implements ServletContextListener {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
   InputResource inputResource = new InputResource();
+  Server server = new Server();
+
 
   /**
    * Initializes the database.
@@ -50,6 +56,21 @@ public class DatabaseInitializer implements ServletContextListener {
    */
   @Override
   public void contextInitialized(ServletContextEvent servletContextEvent) {
+    try {
+      System.out.println("Starting Database");
+      HsqlProperties p = new HsqlProperties();
+      p.setProperty("server.database.0", "file:" + new File(".").getAbsolutePath()+"/db/metanomedb");
+      p.setProperty("server.dbname.0", "metanomedb");
+      p.setProperty("server.port", "9001");
+      server.setProperties(p);
+      server.setLogWriter(null); // can use custom writer
+      server.setErrWriter(null); // can use custom writer
+      server.start();
+    } catch (ServerAcl.AclFormatException afex) {
+       afex.printStackTrace();
+    } catch (IOException ioex) {
+      ioex.printStackTrace();
+    }
     try {
       addAlgorithms();
     } catch (IOException | ClassNotFoundException | EntityStorageException e) {
@@ -116,5 +137,6 @@ public class DatabaseInitializer implements ServletContextListener {
 
   @Override
   public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    server.shutdown();
   }
 }

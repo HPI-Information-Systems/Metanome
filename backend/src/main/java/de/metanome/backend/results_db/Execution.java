@@ -43,6 +43,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -69,6 +70,8 @@ public class Execution implements Serializable, Comparable<Execution> {
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
   protected String description;
+  protected ExecutionSetting executionSetting;
+  protected boolean aborted;
 
   /**
    * Exists for hibernate serialization
@@ -93,6 +96,7 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution(Algorithm algorithm, long begin) {
     this.algorithm = algorithm;
     this.begin = begin;
+    this.aborted = false;
   }
 
   @Id
@@ -125,6 +129,17 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setAlgorithm(Algorithm algorithm) {
     this.algorithm = algorithm;
 
+    return this;
+  }
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  public ExecutionSetting getExecutionSetting() {
+    return executionSetting;
+  }
+
+  public Execution setExecutionSetting(ExecutionSetting executionSetting) {
+    this.executionSetting = executionSetting;
     return this;
   }
 
@@ -210,6 +225,15 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setDescription(String description) {
     this.description = description;
 
+    return this;
+  }
+
+  public boolean isAborted() {
+    return this.aborted;
+  }
+
+  public Execution setAborted(boolean aborted) {
+    this.aborted = aborted;
     return this;
   }
 

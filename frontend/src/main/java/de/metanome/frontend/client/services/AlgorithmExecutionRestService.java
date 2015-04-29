@@ -66,4 +66,8 @@ public interface AlgorithmExecutionRestService extends RestService {
                                  @PathParam("type") String type,
                                  MethodCallback<List<Result>> callback);
 
+  @GET
+  @Path("/stop/{identifier}")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier, MethodCallback<Void> callback);
+
 }
