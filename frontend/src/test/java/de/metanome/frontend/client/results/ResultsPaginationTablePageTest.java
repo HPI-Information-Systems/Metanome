@@ -22,8 +22,6 @@ import com.google.gwt.user.client.ui.Label;
 import de.metanome.backend.results_db.ResultType;
 import de.metanome.frontend.client.results.pagination_table.FunctionalDependencyPaginationTable;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +29,6 @@ import java.util.Map;
 
 public class ResultsPaginationTablePageTest extends GWTTestCase {
 
-  @Test
   public void testAddTables() throws Exception {
     // Set up
     ResultsPaginationTablePage page = new ResultsPaginationTablePage();
@@ -48,7 +45,6 @@ public class ResultsPaginationTablePageTest extends GWTTestCase {
     assertEquals(FunctionalDependencyPaginationTable.class, page.getWidget(1).getClass());
   }
 
-  @Test
   public void testDisplayCountResult() throws Exception {
     // Set up
     ResultsPaginationTablePage page = new ResultsPaginationTablePage();
