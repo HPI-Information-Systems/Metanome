@@ -40,6 +40,7 @@ import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
+import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
@@ -101,37 +102,29 @@ public class AlgorithmExecutor implements Closeable {
    * de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write result
    * files and cache results for the frontend.
    *
-   * @param identifier executionIdentifier
-   * @param write      flag to indicate if results should be written to disc
+   * @param executionSetting executionSetting
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-  protected static AlgorithmExecutor buildExecutor(String identifier,
-                                                   boolean write) //todo: change to some boolean/string/int flag that is tested and given as process param...
+  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting)
       throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
     ProgressCache progressCache = new ProgressCache();
+    String identifier = executionSetting.getExecutionIdentifier();
 
     ResultReceiver resultReceiver = null;
-    /*if (params.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier);
-      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);*/
-    if (!write) {
-      resultReceiver = new ResultCounter(identifier);
-      //AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
-    } else {
-      resultReceiver = new ResultPrinter(identifier);
-      //AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
+    if (executionSetting.getCacheResults()) {
+      resultReceiver =  new ResultCache(identifier);
     }
-
-    //AlgorithmExecutionCache.add(identifier, progressCache);
-
-    AlgorithmExecutor
-        executor =
-        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    else if (executionSetting.getCountResults()) {
+      resultReceiver = new ResultCounter(identifier);
+    }
+    else {
+      resultReceiver = new ResultPrinter(identifier);
+    }
+    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
-
     return executor;
   }
 
@@ -169,10 +162,6 @@ public class AlgorithmExecutor implements Closeable {
 
     Long algorithmId = Long.valueOf(args[0]);
     String executionIdentifier = args[1];
-    boolean write = true;
-    /*if (args[3] == "w") { //todo: put in executionSetting
-      write = true;
-    }*/
     AlgorithmResource algorithmResource = new AlgorithmResource();
     de.metanome.backend.results_db.Algorithm algorithm = algorithmResource.get(algorithmId);
 
@@ -186,12 +175,13 @@ public class AlgorithmExecutor implements Closeable {
     session.close();
 
     Execution execution = null;
-    AlgorithmExecutor executor = buildExecutor(executionIdentifier, write);
+    AlgorithmExecutor executor = buildExecutor(executionSetting);
     try {
       execution = executor.executeAlgorithm(algorithm, parameters, inputs, executionIdentifier);
       execution.setExecutionSetting(executionSetting);
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
+      executor.close();
     } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
         | InvocationTargetException | NoSuchMethodException | AlgorithmExecutionException
         | EntityStorageException e) {

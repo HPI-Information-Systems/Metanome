@@ -36,6 +36,9 @@ public class ExecutionSetting implements Serializable {
   protected List<String> parameterValuesJson;
   protected List<String> inputsJson;
   protected String executionIdentifier;
+  private Boolean cacheResults = false;
+  private Boolean writeResults = false;
+  private Boolean countResults = false;
 
   //Todo:find better solution - no strict length limit or similiar?
   @XmlTransient
@@ -77,6 +80,33 @@ public class ExecutionSetting implements Serializable {
     this.parameterValuesJson = parameterValuesJson;
     this.inputsJson = inputsJson;
     this.executionIdentifier = executionIdentifier;
+  }
+
+  public Boolean getCacheResults() {
+    return cacheResults;
+  }
+
+  public ExecutionSetting setCacheResults(Boolean cacheResults) {
+    this.cacheResults = cacheResults;
+    return this;
+  }
+
+  public Boolean getWriteResults() {
+    return writeResults;
+  }
+
+  public ExecutionSetting setWriteResults(Boolean writeResults) {
+    this.writeResults = writeResults;
+    return this;
+  }
+
+  public Boolean getCountResults() {
+    return countResults;
+  }
+
+  public ExecutionSetting setCountResults(Boolean countResults) {
+    this.countResults = countResults;
+    return this;
   }
 
   @Id

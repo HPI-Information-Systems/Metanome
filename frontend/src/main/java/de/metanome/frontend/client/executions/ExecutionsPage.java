@@ -173,8 +173,8 @@ public class ExecutionsPage  extends FlowPanel implements TabContent {
                                    new HTML(execution.getAlgorithm().getName()));
     this.executionsTable.setWidget(row, 1, new HTML(this.getDate(execution)));
     this.executionsTable.setWidget(row, 2, new HTML("-"+"<br>"));
-    this.executionsTable.setWidget(row, 3, new HTML("-"+"<br>"));
-    this.executionsTable.setWidget(row, 4, new HTML("EXECUTION UNSUCCESSFULL"+"<br>"));
+    this.executionsTable.setWidget(row, 3, new HTML(this.getInputs(execution)));
+    this.executionsTable.setWidget(row, 4, new HTML("EXECUTION ABORTED"+"<br>"));
     this.executionsTable.setWidget(row, 6, deleteButton);
   }
 

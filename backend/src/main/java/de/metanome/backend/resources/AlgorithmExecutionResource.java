@@ -63,8 +63,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -76,6 +78,8 @@ import javax.ws.rs.core.Response;
 
 @Path("algorithm_execution")
 public class AlgorithmExecutionResource {
+
+  public final Map<String, EnumMap<ResultType, Integer>> resultCounts = new HashMap<String, EnumMap<ResultType, Integer>>();
 
   /**
    * Executes an algorithm.
@@ -123,10 +127,19 @@ public class AlgorithmExecutionResource {
           (Execution) HibernateUtil
               .queryCriteria(Execution.class,
                              criteria.toArray(new Criterion[criteria.size()])).get(0);
-    } catch (EntityStorageException | IndexOutOfBoundsException e) {
+      if(executionSetting.getCountResults()){
+        EnumMap<ResultType, Integer> typeCounts = new EnumMap<ResultType, Integer>(ResultType.class);
+        typeCounts.put(execution.getResults().iterator().next().getType(), execution.getResults().size());
+        //Todo: do typeCounts properly (for every possible type)
+        this.resultCounts.put(executionIdentifier, typeCounts);
+      }
+    } catch (EntityStorageException | IndexOutOfBoundsException e) { // in case execution process is killed
       AlgorithmResource algorithmResource = new AlgorithmResource();
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
-      execution = new Execution(algorithm).setExecutionSetting(executionSetting).setAborted(true);
+      execution = new Execution(algorithm)
+          .setExecutionSetting(executionSetting)
+          .setAborted(true)
+          .setInputs(parseInputs(executionSetting));
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
     }
@@ -162,7 +175,7 @@ public class AlgorithmExecutionResource {
   @Produces("application/json")
   public EnumMap<ResultType, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
     try {
-      return AlgorithmExecutionCache.getResultCounter(executionIdentifier).getResults();
+      return this.resultCounts.get(executionIdentifier);
     } catch (Exception e) {
       throw new WebException("Could not find any progress to the given identifier",
                              Response.Status.BAD_REQUEST);
@@ -240,8 +253,10 @@ public class AlgorithmExecutionResource {
           e.printStackTrace();
         }
       }
-      inputsJson = inputsJson;
-      executionSetting = new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier());
+      executionSetting = new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+          .setCacheResults(params.getCacheResults())
+          .setWriteResults(params.getWriteResults())
+          .setCountResults(params.getCountResults());
     } catch (AlgorithmConfigurationException e) {
       e.printStackTrace();
     }
@@ -291,6 +306,19 @@ public class AlgorithmExecutionResource {
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
 
     return executor;
+  }
+
+  public static List<Input> parseInputs(ExecutionSetting setting) {
+    JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
+    List<Input> inputs = new ArrayList<Input>();
+    for (String json : setting.getInputsJson()) {
+      try {
+        inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    return inputs;
   }
 
 }
