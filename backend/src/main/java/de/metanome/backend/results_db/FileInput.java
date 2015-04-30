@@ -22,6 +22,8 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import de.metanome.backend.input.file.FileIterator;
 
@@ -37,6 +39,13 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = FileInput.class, name = "fileInput")
+})
 public class FileInput extends Input implements Serializable {
 
   protected String fileName;
@@ -159,18 +168,12 @@ public class FileInput extends Input implements Serializable {
     return this.fileName;
   }
 
-  public FileInput setSeparator(String separator) {
-    this.separator = separator;
-
-    return this;
-  }
-
   public String getSeparator() {
     return separator;
   }
 
-  public FileInput setQuoteChar(String quoteChar) {
-    this.quoteChar = quoteChar;
+  public FileInput setSeparator(String separator) {
+    this.separator = separator;
 
     return this;
   }
@@ -179,8 +182,8 @@ public class FileInput extends Input implements Serializable {
     return quoteChar;
   }
 
-  public FileInput setEscapeChar(String escapeChar) {
-    this.escapeChar = escapeChar;
+  public FileInput setQuoteChar(String quoteChar) {
+    this.quoteChar = quoteChar;
 
     return this;
   }
@@ -189,14 +192,20 @@ public class FileInput extends Input implements Serializable {
     return escapeChar;
   }
 
-  public FileInput setNullValue(String nullValue) {
-    this.nullValue = nullValue;
+  public FileInput setEscapeChar(String escapeChar) {
+    this.escapeChar = escapeChar;
 
     return this;
   }
 
   public String getNullValue() {
     return nullValue;
+  }
+
+  public FileInput setNullValue(String nullValue) {
+    this.nullValue = nullValue;
+
+    return this;
   }
 
   @Transient
