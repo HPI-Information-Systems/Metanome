@@ -26,7 +26,9 @@ import java.io.IOException;
 
 public class JsonConverter<T> {
 
-  ObjectMapper mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+  ObjectMapper
+      mapper =
+      new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   public String toJsonString(T type) throws JsonProcessingException {
     return this.mapper.writeValueAsString(type);
@@ -36,7 +38,7 @@ public class JsonConverter<T> {
     return this.mapper.readValue(json, clazz);
   }
 
-  public void addMixIn(Class target, Class mixIn){
+  public void addMixIn(Class target, Class mixIn) {
     mapper.addMixInAnnotations(target, mixIn);
   }
 

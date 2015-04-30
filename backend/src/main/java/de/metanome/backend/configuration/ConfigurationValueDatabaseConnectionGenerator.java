@@ -35,7 +35,8 @@ public class ConfigurationValueDatabaseConnectionGenerator
     extends
     ConfigurationValue<DatabaseConnectionGenerator, ConfigurationRequirementDatabaseConnection> {
 
-  protected ConfigurationValueDatabaseConnectionGenerator(){}
+  protected ConfigurationValueDatabaseConnectionGenerator() {
+  }
 
   public ConfigurationValueDatabaseConnectionGenerator(String identifier,
                                                        DatabaseConnectionGenerator... values) {

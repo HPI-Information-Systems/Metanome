@@ -17,16 +17,11 @@
 package de.metanome.frontend.client.services;
 
 
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.resources.AlgorithmExecutionParams;
 import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.ResultType;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
-
-import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,28 +41,8 @@ public interface AlgorithmExecutionRestService extends RestService {
                             MethodCallback<Float> callback);
 
   @GET
-  @Path("/result_cache/{identifier}")
-  public void getCacheResults(@PathParam("identifier") String algorithmName,
-                              MethodCallback<List<Result>> callback);
-
-  @GET
-  @Path("/result_counter/{identifier}")
-  public void getCounterResults(@PathParam("identifier") String executionIdentifier,
-                                MethodCallback<Map<ResultType, Integer>> callback);
-
-  @GET
-  @Path("/result_printer/{identifier}")
-  public void getPrinterResults(@PathParam("identifier") String executionIdentifier,
-                                MethodCallback<List<Result>> callback);
-
-  @GET
-  @Path("/read_result/{file_name}/{type}")
-  public void readResultFromFile(@PathParam("file_name") String fileName,
-                                 @PathParam("type") String type,
-                                 MethodCallback<List<Result>> callback);
-
-  @GET
   @Path("/stop/{identifier}")
-  public void stopExecution(@PathParam("identifier") String executionIdentifier, MethodCallback<Void> callback);
+  public void stopExecution(@PathParam("identifier") String executionIdentifier,
+                            MethodCallback<Void> callback);
 
 }

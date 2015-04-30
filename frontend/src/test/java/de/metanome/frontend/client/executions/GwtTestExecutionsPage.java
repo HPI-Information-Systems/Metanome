@@ -68,6 +68,7 @@ public class GwtTestExecutionsPage extends GWTTestCase {
     algorithm.setName("some name");
 
     Execution execution = new Execution(algorithm, 1000);
+    execution.setCountResult(false);
     List<Execution> executionList = new ArrayList<>();
     executionList.add(execution);
 
@@ -99,8 +100,11 @@ public class GwtTestExecutionsPage extends GWTTestCase {
     algorithm3.setName("algorithm 3");
 
     Execution execution1 = new Execution(algorithm1, 500);
+    execution1.setCountResult(false);
     Execution execution2 = new Execution(algorithm2, 1000);
+    execution2.setCountResult(false);
     Execution execution3 = new Execution(algorithm3, 1500);
+    execution3.setCountResult(false);
 
     BasePage basePage = new BasePage();
     ExecutionsPage executionPage = new ExecutionsPage(basePage);

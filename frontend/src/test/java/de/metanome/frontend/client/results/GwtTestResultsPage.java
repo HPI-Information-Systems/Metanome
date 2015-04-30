@@ -61,14 +61,14 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
 
-    page.setExecutionParameter("identifier", "name", null);
+    page.setExecutionParameter("identifier", "name", null, false);
 
     // Expected Values
     // Execute
     page.startPolling(true);
 
     // Check
-    assertEquals(4, page.getWidgetCount());
+    assertEquals(5, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
     assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
@@ -122,7 +122,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     BasePage parent = new BasePage();
     ResultsPage page = new ResultsPage(parent);
     page.setMessageReceiver(new TabWrapper());
-    page.setExecutionParameter("identifier", "name", null);
+    page.setExecutionParameter("identifier", "name", null, false);
 
     page.startPolling(true);
 

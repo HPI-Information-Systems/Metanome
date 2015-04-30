@@ -84,7 +84,8 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.algorithmChooser = new AlgorithmChooser(null, new TabWrapper());
     this.addNorth(this.algorithmChooser, 4);
 
-    this.executionService = com.google.gwt.core.client.GWT.create(AlgorithmExecutionRestService.class);
+    this.executionService =
+        com.google.gwt.core.client.GWT.create(AlgorithmExecutionRestService.class);
   }
 
 
@@ -152,8 +153,9 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.messageReceiver.clearInfos();
 
     String dataSourceName = dataSource.getValueAsString();
-    if (dataSource instanceof ConfigurationSettingFileInput)
+    if (dataSource instanceof ConfigurationSettingFileInput) {
       dataSourceName = FilePathHelper.getFileName(dataSourceName);
+    }
 
     this.primaryDataSource = dataSource;
     this.primaryDataSourceLabel.setText(
@@ -177,7 +179,8 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
    *
    * @param parameters    parameters to use for the algorithm execution
    * @param configuration the configuration to start executing with
-   * @param cacheResults  true, if if true, the results should be cached and written to disk after the algorithm is finished
+   * @param cacheResults  true, if if true, the results should be cached and written to disk after
+   *                      the algorithm is finished
    * @param writeResults  true, if the results should be written to disk immediately
    * @param countResults  true, if the results should be counted
    */
@@ -192,7 +195,8 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     final Algorithm algorithm = getAlgorithm(algorithmName);
     parameters.addAll(configuration);
 
-    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,writeResults, countResults, memory);
+    basePage.startAlgorithmExecution(executionService, algorithm, parameters, cacheResults,
+                                     writeResults, countResults, memory);
   }
 
   /**
@@ -227,8 +231,7 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
   }
 
   /**
-   * Updates an algorithm on the algorithm chooser.
-   * Removes the old algorithm and add the new one.
+   * Updates an algorithm on the algorithm chooser. Removes the old algorithm and add the new one.
    *
    * @param algorithm the algorithm name, which was updated
    * @param oldName   the old algorithm name

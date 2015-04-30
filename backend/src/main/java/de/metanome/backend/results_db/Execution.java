@@ -66,6 +66,7 @@ public class Execution implements Serializable, Comparable<Execution> {
   protected long end;
   protected String identifier;
   protected String config;
+  protected Boolean countResult;
   protected List<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
@@ -171,6 +172,15 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setConfig(String config) {
     this.config = config;
 
+    return this;
+  }
+
+  public Boolean getCountResult() {
+    return countResult;
+  }
+
+  public Execution setCountResult(Boolean countResult) {
+    this.countResult = countResult;
     return this;
   }
 

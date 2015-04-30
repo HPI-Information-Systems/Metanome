@@ -21,11 +21,15 @@ import java.util.Map;
 
 public class ProcessRegistry {
 
-  public static class Key {}
+  public static class Key {
+
+  }
 
   private static final ProcessRegistry INSTANCE = new ProcessRegistry();
 
-  public static ProcessRegistry getInstance() { return INSTANCE; }
+  public static ProcessRegistry getInstance() {
+    return INSTANCE;
+  }
 
   private final Map<String, Process> _processes = new HashMap<String, Process>();
 

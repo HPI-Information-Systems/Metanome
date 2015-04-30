@@ -16,11 +16,15 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -125,6 +129,30 @@ public class ResultResource implements Resource<Result> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
     return result;
+  }
+
+
+  /**
+   * Reads counter results from file.
+   *
+   * @return the updated result
+   */
+  @POST
+  @Path("/readCounterResults/{executionId}")
+  @Produces("application/json")
+  public Map<String, Integer> readCounterResult(@PathParam("executionId") long id) {
+    Map<String, Integer> results = new HashMap<>();
+    try {
+      Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
+
+      for (Result result : execution.getResults()) {
+        results.put(result.getType().getName(),
+                    ResultReader.readCounterResultFromFile(result.getFileName()));
+      }
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+    return results;
   }
 
 }

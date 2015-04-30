@@ -60,6 +60,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected FlowPanel executionTimePanel;
   protected TabLayoutPanel panel;
 
+  protected Boolean countResults;
+
   protected Label algorithmLabel;
 
   protected Button stopButton;
@@ -109,7 +111,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add the result table
     this.addChildPages();
-    this.tablePage.addTables(execution);
+
+    if (this.countResults) {
+      this.tablePage.addCountResults(execution);
+    } else {
+      this.tablePage.addTables(execution);
+    }
   }
 
   /**
@@ -140,15 +147,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.algorithmLabel.setStyleName("space_bottom");
     this.add(this.algorithmLabel);
 
-    // Add button to stop the execution
-    this.stopButton = new Button("Stop Execution", new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        executionRestService.stopExecution(executionIdentifier, getStopCallback());
-      }
-    });
-    this.add(this.stopButton);
-
     // Add a running indicator
     this.runningIndicator = new Image("ajax-loader.gif");
     this.runningIndicator.setStyleName("space_bottom");
@@ -165,8 +163,18 @@ public class ResultsPage extends FlowPanel implements TabContent {
     // Add a progress bar if the algorithm supports it
     if (showProgress) {
       this.progressBar = new ProgressBar(0, 1);
+      this.progressBar.setStyleName("space_bottom");
       this.add(this.progressBar);
     }
+
+    // Add button to stop the execution
+    this.stopButton = new Button("Stop Execution", new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        executionRestService.stopExecution(executionIdentifier, getStopCallback());
+      }
+    });
+    this.add(this.stopButton);
 
     // Start timer for the execution Panel
     this.executionTimeTimer = new Timer() {
@@ -300,10 +308,12 @@ public class ResultsPage extends FlowPanel implements TabContent {
    */
   public void setExecutionParameter(String executionIdentifier,
                                     String algorithmFileName,
-                                    AlgorithmExecutionRestService restService) {
+                                    AlgorithmExecutionRestService restService,
+                                    Boolean countResults) {
     this.algorithmFileName = algorithmFileName;
     this.executionIdentifier = executionIdentifier;
     this.executionRestService = restService;
+    this.countResults = countResults;
   }
 
   /**

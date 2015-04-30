@@ -30,7 +30,6 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
 import de.metanome.backend.algorithm_execution.ProcessExecutor;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
@@ -44,7 +43,6 @@ import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
-import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -52,7 +50,6 @@ import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
-import de.metanome.backend.results_db.ResultType;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -63,11 +60,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -80,10 +74,30 @@ import javax.ws.rs.core.Response;
 @Path("algorithm_execution")
 public class AlgorithmExecutionResource {
 
-  public final Map<String, EnumMap<ResultType, Integer>> resultCounts = new HashMap<String, EnumMap<ResultType, Integer>>();
+  @GET
+  @Path("/stop/{identifier}")
+  @Produces("application/json")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier) {
+    Process process = ProcessRegistry.getInstance().get(executionIdentifier);
+    ProcessRegistry.getInstance().remove(executionIdentifier);
+    process.destroy();
+  }
+
+  @GET
+  @Path("/fetch_progress/{identifier}")
+  @Produces("application/json")
+  public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
+    try {
+      return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
+    } catch (Exception e) {
+      throw new WebException("Could not find any progress to the given identifier",
+                             Response.Status.BAD_REQUEST);
+    }
+  }
 
   /**
    * Executes an algorithm.
+   *
    * @param params all parameters to execute the algorithm
    * @return the resulting execution
    */
@@ -104,7 +118,7 @@ public class AlgorithmExecutionResource {
       Process
           process =
           ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
-                               executionIdentifier, params.getMemory());
+                               executionIdentifier, params.getMemory(), params.getCountResults());
       ProcessRegistry.getInstance().put(executionIdentifier,
                                         process);
       InputStreamReader isr = new InputStreamReader(process.getInputStream());
@@ -128,12 +142,6 @@ public class AlgorithmExecutionResource {
           (Execution) HibernateUtil
               .queryCriteria(Execution.class,
                              criteria.toArray(new Criterion[criteria.size()])).get(0);
-      if(executionSetting.getCountResults()){
-        EnumMap<ResultType, Integer> typeCounts = new EnumMap<ResultType, Integer>(ResultType.class);
-        typeCounts.put(execution.getResults().iterator().next().getType(), execution.getResults().size());
-        //Todo: do typeCounts properly (for every possible type)
-        this.resultCounts.put(executionIdentifier, typeCounts);
-      }
     } catch (EntityStorageException | IndexOutOfBoundsException e) { // in case execution process is killed
       AlgorithmResource algorithmResource = new AlgorithmResource();
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
@@ -144,7 +152,7 @@ public class AlgorithmExecutionResource {
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
     }
-    if(!executionSetting.getCountResults()){
+    if (!executionSetting.getCountResults()) {
       try {
         ResultPostProcessor.extractAndStoreResults(execution);
       } catch (Exception e) {
@@ -154,66 +162,6 @@ public class AlgorithmExecutionResource {
     }
     System.out.println("Done");
     return execution;
-  }
-
-  @GET
-  @Path("/result_cache/{identifier}")
-  @Produces("application/json")
-  public List<Result> getCacheResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getResultCache(executionIdentifier).fetchNewResults();
-    } catch (Exception e) {
-      throw new WebException("Could not find any results to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
-
-  @GET
-  @Path("/fetch_progress/{identifier}")
-  @Produces("application/json")
-  public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
-
-  @GET
-  @Path("/result_counter/{identifier}")
-  @Produces("application/json")
-  public EnumMap<ResultType, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return this.resultCounts.get(executionIdentifier);
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
-
-  @GET
-  @Path("/result_printer/{identifier}")
-  @Produces("application/json")
-  public List<Result> getPrinterResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getResultPrinter(executionIdentifier).getResults();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
-
-  @GET
-  @Path("/read_result/{file_name}/{type}")
-  @Produces("application/json")
-  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
-    try {
-      return ResultReader.readResultsFromFile(fileName, type);
-    } catch (Exception e) {
-      throw new WebException("Could not read result file",
-                             Response.Status.BAD_REQUEST);
-    }
   }
 
   protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
@@ -247,7 +195,7 @@ public class AlgorithmExecutionResource {
       jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
       List<String> parameterValuesJson = new ArrayList<String>();
       try {
-        for(ConfigurationValue config : parameterValues){
+        for (ConfigurationValue config : parameterValues) {
           parameterValuesJson.add(jsonConverter.toJsonString(config));
         }
       } catch (JsonProcessingException e) {
@@ -256,36 +204,28 @@ public class AlgorithmExecutionResource {
 
       List<String> inputsJson = new ArrayList<String>();
       JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
-      for(Input input: inputs){
+      for (Input input : inputs) {
         try {
           inputsJson.add(jsonConverterInput.toJsonString(input));
         } catch (JsonProcessingException e) {
           e.printStackTrace();
         }
       }
-      executionSetting = new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
-          .setCacheResults(params.getCacheResults())
-          .setWriteResults(params.getWriteResults())
-          .setCountResults(params.getCountResults());
+      executionSetting =
+          new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+              .setCacheResults(params.getCacheResults())
+              .setWriteResults(params.getWriteResults())
+              .setCountResults(params.getCountResults());
     } catch (AlgorithmConfigurationException e) {
       e.printStackTrace();
     }
     return executionSetting;
   }
 
-  @GET
-  @Path("/stop/{identifier}")
-  @Produces("application/json")
-  public void stopExecution(@PathParam("identifier") String executionIdentifier) {
-    Process process = ProcessRegistry.getInstance().get(executionIdentifier);
-    ProcessRegistry.getInstance().remove(executionIdentifier);
-    process.destroy();
-  }
-
-
   /**
-   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
-   * result files and cache results for the frontend.
+   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link
+   * de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write result
+   * files and cache results for the frontend.
    *
    * @param params all parameters for executing the algorithm
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
@@ -312,7 +252,9 @@ public class AlgorithmExecutionResource {
 
     AlgorithmExecutionCache.add(identifier, progressCache);
 
-    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    AlgorithmExecutor
+        executor =
+        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
 
     return executor;

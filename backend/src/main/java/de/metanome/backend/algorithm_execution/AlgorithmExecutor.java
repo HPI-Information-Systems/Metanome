@@ -115,15 +115,15 @@ public class AlgorithmExecutor implements Closeable {
 
     ResultReceiver resultReceiver = null;
     if (executionSetting.getCacheResults()) {
-      resultReceiver =  new ResultCache(identifier);
-    }
-    else if (executionSetting.getCountResults()) {
+      resultReceiver = new ResultCache(identifier);
+    } else if (executionSetting.getCountResults()) {
       resultReceiver = new ResultCounter(identifier);
-    }
-    else {
+    } else {
       resultReceiver = new ResultPrinter(identifier);
     }
-    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    AlgorithmExecutor
+        executor =
+        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
     return executor;
   }
@@ -162,6 +162,7 @@ public class AlgorithmExecutor implements Closeable {
 
     Long algorithmId = Long.valueOf(args[0]);
     String executionIdentifier = args[1];
+    boolean countResult = args[2].equals("true");
     AlgorithmResource algorithmResource = new AlgorithmResource();
     de.metanome.backend.results_db.Algorithm algorithm = algorithmResource.get(algorithmId);
     ExecutionSetting executionSetting = null;
@@ -175,7 +176,9 @@ public class AlgorithmExecutor implements Closeable {
     Execution execution = null;
     AlgorithmExecutor executor = buildExecutor(executionSetting);
     try {
-      execution = executor.executeAlgorithm(algorithm, parameters, inputs, executionIdentifier);
+      execution =
+          executor
+              .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier, countResult);
       execution.setExecutionSetting(executionSetting);
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
@@ -199,11 +202,16 @@ public class AlgorithmExecutor implements Closeable {
    * @param parameters          parameters for algorithm execution
    * @param inputs              inputs for algorithm execution
    * @param executionIdentifier identifier for execution
+   * @param countResult         true, if the results of the execution are just count results
    * @return the execution
    */
-  public Execution executeAlgorithm(de.metanome.backend.results_db.Algorithm storedAlgorithm,
-                                    List<ConfigurationValue> parameters, List<Input> inputs,
-                                    String executionIdentifier)
+
+  public Execution executeAlgorithm(
+      de.metanome.backend.results_db.Algorithm storedAlgorithm,
+      List<ConfigurationValue> parameters,
+      List<Input> inputs,
+      String executionIdentifier,
+      Boolean countResult)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -288,7 +296,8 @@ public class AlgorithmExecutor implements Closeable {
         .setEnd(beforeWallClockTime + executionTimeInMs)
         .setInputs(inputs)
         .setIdentifier(executionIdentifier)
-        .setResults(results);
+        .setResults(results)
+        .setCountResult(countResult);
 
     for (Result result : results) {
       result.setExecution(execution);

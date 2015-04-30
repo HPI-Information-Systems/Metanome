@@ -59,7 +59,8 @@ public class DatabaseInitializer implements ServletContextListener {
     try {
       System.out.println("Starting Database");
       HsqlProperties p = new HsqlProperties();
-      p.setProperty("server.database.0", "file:" + new File(".").getAbsolutePath()+"/db/metanomedb");
+      p.setProperty("server.database.0",
+                    "file:" + new File(".").getAbsolutePath() + "/db/metanomedb");
       p.setProperty("server.dbname.0", "metanomedb");
       p.setProperty("server.port", "9001");
       server.setProperties(p);
@@ -67,7 +68,7 @@ public class DatabaseInitializer implements ServletContextListener {
       server.setErrWriter(null); // can use custom writer
       server.start();
     } catch (ServerAcl.AclFormatException afex) {
-       afex.printStackTrace();
+      afex.printStackTrace();
     } catch (IOException ioex) {
       ioex.printStackTrace();
     }

@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * Abstract UI element for displaying results in a pagination table.
+ *
  * @param <CellType> the type of the results
  */
 public abstract class AbstractPaginationTable<CellType extends Result> extends FlowPanel {

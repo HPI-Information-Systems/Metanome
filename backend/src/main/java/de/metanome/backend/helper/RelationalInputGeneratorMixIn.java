@@ -29,4 +29,6 @@ import de.metanome.backend.input.file.DefaultFileInputGenerator;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = DefaultFileInputGenerator.class, name = "defaultFileInputGenerator"),
     @JsonSubTypes.Type(value = DefaultTableInputGenerator.class, name = "defaultTableInputGenerator")})
-public abstract class RelationalInputGeneratorMixIn{}
+public abstract class RelationalInputGeneratorMixIn {
+
+}

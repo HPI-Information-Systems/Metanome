@@ -16,51 +16,16 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.backend.results_db.ResultType;
-
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.util.EnumMap;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionResourceTest {
 
   AlgorithmExecutionResource executionService = new AlgorithmExecutionResource();
-
-  @Test
-  public void testFetchNewResults() throws Exception {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCacheResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination
-        expectedUcc =
-        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
-
-    // Execute functionality
-    AlgorithmExecutionCache.getResultCache(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    List<Result>
-        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
-
-    // Check result
-    assertFalse(actualResult.isEmpty());
-    assertTrue(actualResult.contains(expectedUcc));
-  }
 
   /**
    * Test method for {@link AlgorithmExecutionResource#fetchProgress(String)}
@@ -87,77 +52,6 @@ public class AlgorithmExecutionResourceTest {
 
     // Check result
     assertEquals(expectedProgress, actualProgress, 0.0);
-  }
-
-
-  @Test(expected = WebException.class)
-  public void testFetchResultsNotPossible()
-      throws FileNotFoundException, UnsupportedEncodingException {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-
-    // Check
-    List<Result>
-        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
-  }
-
-  @Test
-  public void testGetCounterResults() throws Exception {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination
-        expectedUcc =
-        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
-
-    // Execute functionality
-    AlgorithmExecutionCache.getResultCounter(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    EnumMap<ResultType, Integer>
-        results = executionService.getCounterResults(expectedExecutionIdentifier);
-
-    // Check result
-    assertFalse(results.isEmpty());
-    assertTrue(results.get(ResultType.UCC) == 1);
-  }
-
-  @Test
-  public void testGetPrinterResults() throws Exception {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setWriteResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination
-        expectedUcc =
-        new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
-    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).setResultTestDir();
-
-    // Execute functionality
-    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    List<Result> results = executionService.getPrinterResults(expectedExecutionIdentifier);
-
-    // Check result
-    assertFalse(results.isEmpty());
-    assertTrue(results.contains(expectedUcc));
   }
 
 }
