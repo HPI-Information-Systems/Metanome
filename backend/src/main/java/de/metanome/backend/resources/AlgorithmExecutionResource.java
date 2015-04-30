@@ -118,7 +118,7 @@ public class AlgorithmExecutionResource {
       Process
           process =
           ProcessExecutor.exec(AlgorithmExecutor.class, String.valueOf(params.getAlgorithmId()),
-                               executionIdentifier, params.getMemory(), params.getCountResults());
+                               executionIdentifier, params.getMemory());
       ProcessRegistry.getInstance().put(executionIdentifier,
                                         process);
       InputStreamReader isr = new InputStreamReader(process.getInputStream());
@@ -127,7 +127,6 @@ public class AlgorithmExecutionResource {
       while ((lineRead = br.readLine()) != null) {
         System.out.println(lineRead);
       }
-      System.out.println("hello Again!");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {

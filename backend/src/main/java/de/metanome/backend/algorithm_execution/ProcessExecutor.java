@@ -26,34 +26,34 @@ public final class ProcessExecutor {
   private ProcessExecutor() {
   }
 
-  public static Process exec(Class myClass, String algorithmId, String executionIdentifier, String memory) throws IOException,
-                                                                                 InterruptedException {
+  public static Process exec(Class myClass, String algorithmId, String executionIdentifier,
+                             String memory) throws IOException,
+                                                   InterruptedException {
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
                      File.separator + "bin" +
                      File.separator + "java";
     String myPath = System.getProperty("java.class.path");
     String className = myClass.getCanonicalName();
-    try
-    {
+    try {
       URL baseUrl = myClass.getProtectionDomain().getCodeSource().getLocation();
       File file = new File(baseUrl.toURI());
       String parent = file.getAbsoluteFile().getParent();
-      String classesFolder = file.getAbsoluteFile().getParentFile().getParent()+File.separator+"classes";
-      String parentPathWildCard = parent+File.separator+"*";
-      myPath += File.pathSeparator+parentPathWildCard+File.pathSeparator+classesFolder;
-      System.out.println("!!!!!!!!!!!!!!!!!!!!!! - Path is " + myPath + "!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
-    catch (URISyntaxException ex)
-    {
+      String
+          classesFolder =
+          file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
+      String parentPathWildCard = parent + File.separator + "*";
+      myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
+    } catch (URISyntaxException ex) {
       // Deal with exception
     }
 
     ProcessBuilder builder = new ProcessBuilder(
         javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
-    if(!memory.equals("")){
+    if (!memory.equals("")) {
       builder = new ProcessBuilder(
-          javaBin, "-Xmx"+memory+"m", "-Xms"+memory+"m", "-classpath", myPath, className, algorithmId, executionIdentifier);
+          javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
+          algorithmId, executionIdentifier);
     }
     builder.redirectErrorStream(true);
     return builder.start();
