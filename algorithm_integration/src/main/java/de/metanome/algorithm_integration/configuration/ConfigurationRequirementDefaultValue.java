@@ -90,7 +90,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
-    applyDefaultValues();
+    //applyDefaultValues(); Todo: check with Tanja -> this is probably a mistake as it overwrites everything with default Values
   }
 
   /**

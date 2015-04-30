@@ -91,6 +91,10 @@ public class ResultReader<T> {
 
     File resultFile = new File(fileName);
 
+    if(!resultFile.exists()){
+      resultFile.createNewFile();
+    }
+
     BufferedReader br = new BufferedReader(new FileReader(resultFile));
     String line;
     while ((line = br.readLine()) != null) {
