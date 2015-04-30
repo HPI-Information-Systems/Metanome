@@ -164,7 +164,6 @@ public class AlgorithmExecutor implements Closeable {
     String executionIdentifier = args[1];
     AlgorithmResource algorithmResource = new AlgorithmResource();
     de.metanome.backend.results_db.Algorithm algorithm = algorithmResource.get(algorithmId);
-
     ExecutionSetting executionSetting = null;
     Session session = HibernateUtil.getSessionFactory().openSession();
     Criteria cr2 = session.createCriteria(ExecutionSetting.class);
@@ -173,7 +172,6 @@ public class AlgorithmExecutor implements Closeable {
     List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting);
     List<Input> inputs = parseInputs(executionSetting);
     session.close();
-
     Execution execution = null;
     AlgorithmExecutor executor = buildExecutor(executionSetting);
     try {

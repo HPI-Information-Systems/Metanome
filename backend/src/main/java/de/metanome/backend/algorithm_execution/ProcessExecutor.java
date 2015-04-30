@@ -18,6 +18,8 @@ package de.metanome.backend.algorithm_execution;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public final class ProcessExecutor {
 
@@ -30,16 +32,28 @@ public final class ProcessExecutor {
     String javaBin = javaHome +
                      File.separator + "bin" +
                      File.separator + "java";
-    String classpath = System.getProperty("java.class.path");
+    String myPath = System.getProperty("java.class.path");
     String className = myClass.getCanonicalName();
-    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + classpath + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + className + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    try
+    {
+      URL baseUrl = myClass.getProtectionDomain().getCodeSource().getLocation();
+      File file = new File(baseUrl.toURI());
+      String parent = file.getAbsoluteFile().getParent();
+      String classesFolder = file.getAbsoluteFile().getParentFile().getParent()+File.separator+"classes";
+      String parentPathWildCard = parent+File.separator+"*";
+      myPath += File.pathSeparator+parentPathWildCard+File.pathSeparator+classesFolder;
+      System.out.println("!!!!!!!!!!!!!!!!!!!!!! - Path is " + myPath + "!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+    catch (URISyntaxException ex)
+    {
+      // Deal with exception
+    }
 
     ProcessBuilder builder = new ProcessBuilder(
-        javaBin, "-cp", classpath, className, algorithmId, executionIdentifier);
+        javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
     if(!memory.equals("")){
       builder = new ProcessBuilder(
-          javaBin, "-Xmx"+memory+"m", "-Xms"+memory+"m", "-cp", classpath, className, algorithmId, executionIdentifier);
+          javaBin, "-Xmx"+memory+"m", "-Xms"+memory+"m", "-classpath", myPath, className, algorithmId, executionIdentifier);
     }
     builder.redirectErrorStream(true);
     return builder.start();
