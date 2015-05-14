@@ -28,6 +28,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * TODO docs
+ */
 @Entity
 @GwtCompatible
 public class ExecutionSetting implements Serializable {

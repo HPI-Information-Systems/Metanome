@@ -315,7 +315,6 @@ public class AlgorithmExecutorTest {
 
     assertTrue(actualExecution.getResults().size() > 0);
 
-    // TODO assert other execution fields
 
     // Cleanup
     HibernateUtil.clear();

@@ -58,7 +58,7 @@ public class AlgorithmExecutorObject {
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with the given
    * execution settings.
    *
-   * @param executionSetting the execution sSetting
+   * @param executionSetting the execution setting
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
