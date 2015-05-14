@@ -17,7 +17,7 @@
 
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 
@@ -25,7 +25,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:hsql://localhost:9001/metanomedb</property>
+        <property name="connection.url">jdbc:hsqldb:file:metanomedb</property>
         <property name="shutdown">true</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"/>
@@ -52,6 +52,7 @@
         <mapping class="de.metanome.backend.results_db.Input"/>
         <mapping class="de.metanome.backend.results_db.Result"/>
         <mapping class="de.metanome.backend.results_db.TableInput"/>
+        <mapping class="de.metanome.backend.results_db.ResultType"/>
         <mapping class="de.metanome.backend.results_db.ExecutionSetting"/>
 
     </session-factory>

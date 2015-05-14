@@ -17,7 +17,7 @@
 
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 
@@ -45,7 +45,6 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="de.metanome.backend.results_db.Algorithm"/>
         <mapping class="de.metanome.backend.results_db.Algorithm"/>
         <mapping class="de.metanome.backend.results_db.DatabaseConnection"/>
         <mapping class="de.metanome.backend.results_db.Execution"/>
