@@ -54,6 +54,8 @@ public class ConfigurationRequirementDefaultValueTest {
 
   /**
    * Test method for {@link ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   *
+   * If the number of default values does not match the number of settings an exception is thrown.
    */
   @Test(expected = AlgorithmConfigurationException.class)
   public void testCheckAndSetDefaultValuesException() throws AlgorithmConfigurationException {
@@ -71,7 +73,9 @@ public class ConfigurationRequirementDefaultValueTest {
 
 
   /**
-   * Test method for {@link ConfigurationRequirementDefaultValue <String>#checkAndSetDefaultValues(String...)}
+   * Test method for {@link ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   *
+   * The default values should be correctly settable on the specification.
    */
   @Test
   public void testSetDefaultValues() throws AlgorithmConfigurationException {

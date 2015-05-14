@@ -62,7 +62,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
   }
 
   /**
-   * Checks if the number of default values match with the number of settings. If it match, the
+   * Checks if the number of default values match with the number of settings. If it matches, the
    * default values are set.
    *
    * @throws AlgorithmConfigurationException if the number of default values does not match the
@@ -79,18 +79,6 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
 
     this.defaultValues = values;
     applyDefaultValues();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @XmlTransient
-  @Override
-  public void checkAndSetSettings(S... settings)
-      throws AlgorithmConfigurationException {
-    checkNumberOfSettings(settings.length);
-    this.settings = settings;
-    //applyDefaultValues(); Todo: check with Tanja -> this is probably a mistake as it overwrites everything with default Values
   }
 
   /**
