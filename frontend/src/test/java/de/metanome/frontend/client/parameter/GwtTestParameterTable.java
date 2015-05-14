@@ -452,7 +452,6 @@ public class GwtTestParameterTable extends GWTTestCase {
 
   /**
    * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
-   * TODO fix FieldSerializer bug
    */
 /*
   public void testSetPrimaryDataSource() {

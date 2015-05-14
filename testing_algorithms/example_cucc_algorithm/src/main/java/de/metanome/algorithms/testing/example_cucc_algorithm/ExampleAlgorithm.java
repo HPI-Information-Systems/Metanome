@@ -64,7 +64,6 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
             new ColumnConditionValue(new ColumnIdentifier("table2", "column2"), "hello world")));
 
       } catch (CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }

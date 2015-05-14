@@ -49,7 +49,6 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
             "table1", "column2")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
 
       } catch (final CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }

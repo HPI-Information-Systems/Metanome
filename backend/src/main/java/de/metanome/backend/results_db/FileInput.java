@@ -49,9 +49,9 @@ import javax.persistence.Transient;
 public class FileInput extends Input implements Serializable {
 
   protected String fileName;
-  protected String separator; //Todo: atm needs to be String instead of char for serialization
-  protected String quoteChar; //Todo: atm needs to be String instead of char for serialization
-  protected String escapeChar; //Todo: atm needs to be String instead of char for serialization
+  protected String separator;
+  protected String quoteChar;
+  protected String escapeChar;
   protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;

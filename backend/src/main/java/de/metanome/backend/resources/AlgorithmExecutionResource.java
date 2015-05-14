@@ -175,6 +175,12 @@ public class AlgorithmExecutionResource {
 
       // build configuration values
       for (ConfigurationRequirement requirement : params.getRequirements()) {
+        // no value was set in the frontend
+        // TODO test
+        if (requirement.getSettings().length == 0)
+          continue;
+
+        // convert the requirement and add it to the parameters
         parameterValues.add(requirement.build(configurationFactory));
 
         // add inputs
