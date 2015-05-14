@@ -135,7 +135,8 @@ public class ListBoxInput extends InputField {
    * @return false, if no values are set, true otherwise
    */
   public boolean containsValues() {
-    return this.listbox.getItemCount() > 0;
+    return !(this.listbox.getItemCount() == 1 && this.listbox.getValue(0).equals("--"))
+           && this.listbox.getItemCount() <= 0;
   }
 
   /**

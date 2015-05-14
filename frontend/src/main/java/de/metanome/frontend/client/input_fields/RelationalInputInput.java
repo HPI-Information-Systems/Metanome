@@ -81,10 +81,6 @@ public class RelationalInputInput extends InputField {
 
     fileInputService.listFileInputs(getFileInputCallback());
     tableInputService.listTableInputs(getTableInputCallback());
-
-    if (preselectedIdentifier != null) {
-      listbox.setSelectedValue(preselectedIdentifier);
-    }
   }
 
   private void addInput(Input input, String identifier) {
@@ -108,6 +104,10 @@ public class RelationalInputInput extends InputField {
               preselectedIdentifier = identifier;
             }
           }
+
+          if (preselectedIdentifier != null) {
+            listbox.setSelectedValue(preselectedIdentifier);
+          }
         }
       }
     };
@@ -128,6 +128,10 @@ public class RelationalInputInput extends InputField {
             if (input.getIdentifier().equals(preselectedInput)) {
               preselectedIdentifier = identifier;
             }
+          }
+
+          if (preselectedIdentifier != null) {
+            listbox.setSelectedValue(preselectedIdentifier);
           }
         }
       }

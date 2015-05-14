@@ -352,6 +352,10 @@ public class AlgorithmChooser extends FlowPanel {
     }
   }
 
+  public void setMessageReceiver(TabWrapper receiver) {
+    this.messageReceiver = receiver;
+  }
+
   /**
    * Enum that holds all available algorithm categories.
    */
@@ -374,10 +378,6 @@ public class AlgorithmChooser extends FlowPanel {
       }
       return categories;
     }
-  }
-
-  public void setMessageReceiver(TabWrapper receiver) {
-    this.messageReceiver = receiver;
   }
 
 }
