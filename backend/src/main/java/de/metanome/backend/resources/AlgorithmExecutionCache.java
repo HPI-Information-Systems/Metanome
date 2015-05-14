@@ -17,49 +17,19 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.algorithm_execution.ProgressCache;
-import de.metanome.backend.result_receiver.ResultCache;
-import de.metanome.backend.result_receiver.ResultCounter;
-import de.metanome.backend.result_receiver.ResultPrinter;
 
 import java.util.HashMap;
 
 public class AlgorithmExecutionCache {
 
-  static public HashMap<String, ResultCache> currentResultCache = new HashMap<>();
-  static public HashMap<String, ResultPrinter> currentResultPrinter = new HashMap<>();
-  static public HashMap<String, ResultCounter> currentResultCounter = new HashMap<>();
   static public HashMap<String, ProgressCache> currentProgressCaches = new HashMap<>();
-
-  static void add(String identifier, ResultCache resultCache) {
-    currentResultCache.put(identifier, resultCache);
-  }
 
   static void add(String identifier, ProgressCache progressCache) {
     currentProgressCaches.put(identifier, progressCache);
   }
 
-  static void add(String identifier, ResultPrinter resultPrinter) {
-    currentResultPrinter.put(identifier, resultPrinter);
-  }
-
-  static void add(String identifier, ResultCounter resultCounter) {
-    currentResultCounter.put(identifier, resultCounter);
-  }
-
-  static ResultCache getResultCache(String identifier) {
-    return currentResultCache.get(identifier);
-  }
-
   static ProgressCache getProgressCache(String identifier) {
     return currentProgressCaches.get(identifier);
-  }
-
-  static ResultCounter getResultCounter(String identifier) {
-    return currentResultCounter.get(identifier);
-  }
-
-  static ResultPrinter getResultPrinter(String identifier) {
-    return currentResultPrinter.get(identifier);
   }
 
 }

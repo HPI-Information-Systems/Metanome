@@ -50,8 +50,7 @@ public final class ProcessExecutor {
     String className = myClass.getCanonicalName();
 
     try {
-      // TODO Maybe you can use something like this
-      // Thread.currentThread().getContextClassLoader().getResource("").getPath();
+      // TODO Maybe you can use something like this: Thread.currentThread().getContextClassLoader().getResource("").getPath();
       URL baseUrl = myClass.getProtectionDomain().getCodeSource().getLocation();
       File file = new File(baseUrl.toURI());
       String parent = file.getAbsoluteFile().getParent();
