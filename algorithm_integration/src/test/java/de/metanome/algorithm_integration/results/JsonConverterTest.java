@@ -110,7 +110,7 @@ public class JsonConverterTest {
    * string.
    */
   @Test
-  public void testToAndFromJsonString() throws IOException {
+  public void testToAndFromJsonStringOrderDependency() throws IOException {
     // Setup
     final ColumnPermutation expectedLhs =
         new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(

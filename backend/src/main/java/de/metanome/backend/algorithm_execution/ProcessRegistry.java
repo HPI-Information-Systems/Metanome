@@ -19,6 +19,9 @@ package de.metanome.backend.algorithm_execution;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TODO docs
+ */
 public class ProcessRegistry {
 
   public static class Key {

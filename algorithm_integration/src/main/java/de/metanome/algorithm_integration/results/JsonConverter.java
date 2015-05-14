@@ -24,20 +24,42 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * Converts a object from a string to Json and vice versa.
+ *
+ * @param <T> the type object, which should be converted
+ */
 public class JsonConverter<T> {
 
-  ObjectMapper
-      mapper =
+  ObjectMapper mapper =
       new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
+  /**
+   * Converts the given object to a json string.
+   * @param type the object
+   * @return the json string
+   * @throws JsonProcessingException
+   */
   public String toJsonString(T type) throws JsonProcessingException {
     return this.mapper.writeValueAsString(type);
   }
 
+  /**
+   * Converts the given json string to an object of the given class.
+   * @param json  the json string
+   * @param clazz the class of the object
+   * @return the object
+   * @throws IOException
+   */
   public T fromJsonString(String json, Class<T> clazz) throws IOException {
     return this.mapper.readValue(json, clazz);
   }
 
+  /**
+   * TODO docs
+   * @param target
+   * @param mixIn
+   */
   public void addMixIn(Class target, Class mixIn) {
     mapper.addMixInAnnotations(target, mixIn);
   }

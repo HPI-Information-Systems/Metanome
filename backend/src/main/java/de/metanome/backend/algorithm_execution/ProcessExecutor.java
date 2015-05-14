@@ -21,11 +21,24 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * TODO docs
+ */
 public final class ProcessExecutor {
 
   private ProcessExecutor() {
   }
 
+  /**
+   * TODO docs
+   * @param myClass
+   * @param algorithmId
+   * @param executionIdentifier
+   * @param memory
+   * @return
+   * @throws IOException
+   * @throws InterruptedException
+   */
   public static Process exec(Class myClass, String algorithmId, String executionIdentifier,
                              String memory) throws IOException,
                                                    InterruptedException {
@@ -35,27 +48,32 @@ public final class ProcessExecutor {
                      File.separator + "java";
     String myPath = System.getProperty("java.class.path");
     String className = myClass.getCanonicalName();
+
     try {
+      // TODO Maybe you can use something like this
+      // Thread.currentThread().getContextClassLoader().getResource("").getPath();
       URL baseUrl = myClass.getProtectionDomain().getCodeSource().getLocation();
       File file = new File(baseUrl.toURI());
       String parent = file.getAbsoluteFile().getParent();
-      String
-          classesFolder =
+      String classesFolder =
           file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
       String parentPathWildCard = parent + File.separator + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
-      // Deal with exception
+      // TODO deal with exception
     }
 
-    ProcessBuilder builder = new ProcessBuilder(
-        javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
+    ProcessBuilder builder;
     if (!memory.equals("")) {
       builder = new ProcessBuilder(
           javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
           algorithmId, executionIdentifier);
+    } else {
+      builder = new ProcessBuilder(
+          javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
     }
     builder.redirectErrorStream(true);
+
     return builder.start();
   }
 

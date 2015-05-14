@@ -50,9 +50,9 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
 
   private String fileName;
   private boolean advanced;
-  private String separatorChar; //Todo: atm needs to be String instead of char for serialization
-  private String quoteChar;     //Todo: atm needs to be String instead of char for serialization
-  private String escapeChar;    //Todo: atm needs to be String instead of char for serialization
+  private String separatorChar;
+  private String quoteChar;
+  private String escapeChar;
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
   private int skipLines;
