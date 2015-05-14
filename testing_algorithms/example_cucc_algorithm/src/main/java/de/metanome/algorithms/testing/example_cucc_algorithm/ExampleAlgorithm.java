@@ -20,10 +20,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
@@ -39,12 +37,10 @@ import java.util.ArrayList;
  * @author Jens Ehrlich
  */
 public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgorithm,
-                                         StringParameterAlgorithm, FileInputParameterAlgorithm,
-                                         ProgressEstimatingAlgorithm {
+                                         StringParameterAlgorithm, FileInputParameterAlgorithm {
 
   protected String path1, path2 = null;
   protected ConditionalUniqueColumnCombinationResultReceiver resultReceiver;
-  protected ProgressReceiver progressReceiver;
 
   @Override
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
@@ -72,16 +68,6 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
         e.printStackTrace();
       }
     }
-    try {
-      for (int i = 0; i < 10; i++) {
-        Thread.sleep(500);
-        progressReceiver.updateProgress(1f / (10 - i));
-      }
-    } catch (InterruptedException ex) {
-      Thread.currentThread().interrupt();
-    }
-
-
   }
 
   @Override
@@ -102,11 +88,6 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
     if (identifier.equals("input file")) {
       System.out.println("Input file is not being set on algorithm.");
     }
-  }
-
-  @Override
-  public void setProgressReceiver(ProgressReceiver progressReceiver) {
-    this.progressReceiver = progressReceiver;
   }
 
   @Override

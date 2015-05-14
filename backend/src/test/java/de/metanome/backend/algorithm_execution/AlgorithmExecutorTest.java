@@ -32,7 +32,6 @@ import static org.mockito.Mockito.mock;
 public class AlgorithmExecutorTest {
 
   private CloseableOmniscientResultReceiver resultReceiver;
-  private ProgressCache progressCache;
   private FileGenerator fileGenerator;
   private AlgorithmExecutor executor;
   private AlgorithmResource resource;
@@ -40,11 +39,10 @@ public class AlgorithmExecutorTest {
   @Before
   public void setUp() throws UnsupportedEncodingException {
     resultReceiver = mock(CloseableOmniscientResultReceiver.class);
-    progressCache = mock(ProgressCache.class);
     fileGenerator = new TempFileGenerator();
     resource = new AlgorithmResource();
 
-    executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
   }
 /*
   /**

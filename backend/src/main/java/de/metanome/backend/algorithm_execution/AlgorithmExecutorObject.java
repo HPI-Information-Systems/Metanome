@@ -66,7 +66,6 @@ public class AlgorithmExecutorObject {
   protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting)
       throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
-    ProgressCache progressCache = new ProgressCache();
     String identifier = executionSetting.getExecutionIdentifier();
 
     ResultReceiver resultReceiver;
@@ -79,7 +78,7 @@ public class AlgorithmExecutorObject {
     }
 
     AlgorithmExecutor executor =
-        new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+        new AlgorithmExecutor(resultReceiver, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
     return executor;
   }

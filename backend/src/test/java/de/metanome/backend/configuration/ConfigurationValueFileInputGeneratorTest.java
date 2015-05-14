@@ -18,7 +18,6 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -81,7 +80,6 @@ public class ConfigurationValueFileInputGeneratorTest {
     FileInputParameterAlgorithm algorithm = mock(FileInputParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(ProgressEstimatingAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     FileInputGenerator[]

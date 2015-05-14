@@ -143,11 +143,10 @@ public class BasePage extends TabLayoutPanel {
         .setMemory(memory);
 
     executionService.executeAlgorithm(params, this.getExecutionCallback());
-    // During execution the progress is shown on the result page
     this.resultsPage
         .setExecutionParameter(executionIdentifier, algorithm.getFileName(), executionService,
                                countResults);
-    this.resultsPage.startPolling(algorithm.isProgressEstimating());
+    this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
   }

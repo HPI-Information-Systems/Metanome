@@ -80,24 +80,6 @@ public class AlgorithmExecutionResource {
   }
 
   /**
-   * Fetches the progress of an algorithm.
-   *
-   * @param executionIdentifier the execution identifier
-   * @return the progress
-   */
-  @GET
-  @Path("/fetch_progress/{identifier}")
-  @Produces("application/json")
-  public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
-
-  /**
    * Executes an algorithm.
    *
    * @param params all parameters to execute the algorithm

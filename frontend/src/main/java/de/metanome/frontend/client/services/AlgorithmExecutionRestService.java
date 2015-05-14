@@ -36,11 +36,6 @@ public interface AlgorithmExecutionRestService extends RestService {
                                MethodCallback<Execution> callback);
 
   @GET
-  @Path("/fetch_progress/{identifier}")
-  public void fetchProgress(@PathParam("identifier") String executionIdentifier,
-                            MethodCallback<Float> callback);
-
-  @GET
   @Path("/stop/{identifier}")
   public void stopExecution(@PathParam("identifier") String executionIdentifier,
                             MethodCallback<Void> callback);

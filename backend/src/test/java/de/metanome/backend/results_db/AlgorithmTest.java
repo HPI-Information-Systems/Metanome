@@ -23,7 +23,6 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -62,7 +61,6 @@ public class AlgorithmTest {
     algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
     algorithmInterfaces.add(OrderDependencyAlgorithm.class);
     algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
-    algorithmInterfaces.add(ProgressEstimatingAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
     algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
     algorithmInterfaces.add(RelationalInputParameterAlgorithm.class);

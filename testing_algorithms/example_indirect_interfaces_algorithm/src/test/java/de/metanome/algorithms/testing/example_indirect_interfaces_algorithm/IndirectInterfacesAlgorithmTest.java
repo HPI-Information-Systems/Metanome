@@ -17,7 +17,6 @@
 package de.metanome.algorithms.testing.example_indirect_interfaces_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -58,7 +57,6 @@ public class IndirectInterfacesAlgorithmTest {
     algorithm.execute();
     verify(resultReceiver, never()).receiveResult(any(UniqueColumnCombination.class));
 
-    algorithm.setProgressReceiver(mock(ProgressReceiver.class));
     algorithm.execute();
     verify(resultReceiver, never()).receiveResult(any(UniqueColumnCombination.class));
 

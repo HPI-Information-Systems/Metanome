@@ -52,7 +52,7 @@ public class GwtTestResultsPage extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link ResultsPage#startPolling(boolean)}
+   * Test method for {@link ResultsPage#startPolling()}
    */
   public void testStartPolling() {
     // Set up
@@ -65,12 +65,11 @@ public class GwtTestResultsPage extends GWTTestCase {
 
     // Expected Values
     // Execute
-    page.startPolling(true);
+    page.startPolling();
 
     // Check
-    assertEquals(5, page.getWidgetCount());
+    assertEquals(4, page.getWidgetCount());
     assertNotNull(page.runningIndicator);
-    assertNotNull(page.progressBar);
     assertNotNull(page.algorithmLabel);
     assertNotNull(page.executionTimePanel);
     assertNotNull(page.stopButton);
@@ -124,7 +123,7 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.setMessageReceiver(new TabWrapper());
     page.setExecutionParameter("identifier", "name", null, false);
 
-    page.startPolling(true);
+    page.startPolling();
 
     // Expected Values
     // Execute

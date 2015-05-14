@@ -27,7 +27,6 @@ public enum AlgorithmType implements Serializable {
   OD("Order Dependency Algorithm", ResultType.OD),
   BASIC_STAT("Basic Statistic Algorithm", ResultType.STAT),
   TEMP_FILE("Temporary File Algorithm", null),
-  PROGRESS_EST("Progress Estimating Algorithm", null),
   RELATIONAL_INPUT("Relational Input Algorithm", null),
   FILE_INPUT("File Input Algorithm", null),
   TABLE_INPUT("Table Input Algorithm", null),

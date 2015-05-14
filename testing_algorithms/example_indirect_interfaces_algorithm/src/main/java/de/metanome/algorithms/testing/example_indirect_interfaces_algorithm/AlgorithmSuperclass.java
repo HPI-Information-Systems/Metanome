@@ -16,7 +16,6 @@
 
 package de.metanome.algorithms.testing.example_indirect_interfaces_algorithm;
 
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 
@@ -26,7 +25,6 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
  * @author Jakob Zwiener
  */
 public abstract class AlgorithmSuperclass
-    implements UniqueColumnCombinationsAlgorithm, ProgressEstimatingAlgorithm,
-               RelationalInputParameterAlgorithm {
+    implements UniqueColumnCombinationsAlgorithm, RelationalInputParameterAlgorithm {
 
 }

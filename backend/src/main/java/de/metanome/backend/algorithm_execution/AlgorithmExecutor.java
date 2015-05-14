@@ -24,7 +24,6 @@ import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumn
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
@@ -51,7 +50,6 @@ import java.util.Set;
 public class AlgorithmExecutor implements Closeable {
 
   protected CloseableOmniscientResultReceiver resultReceiver;
-  protected ProgressCache progressCache;
   protected FileGenerator fileGenerator;
   protected String resultPathPrefix;
 
@@ -60,13 +58,10 @@ public class AlgorithmExecutor implements Closeable {
    *
    * @param resultReceiver receives all of the algorithms results
    * @param fileGenerator  generates temp files
-   * @param progressCache  receives the progress of the algorithm
    */
   public AlgorithmExecutor(CloseableOmniscientResultReceiver resultReceiver,
-                           ProgressCache progressCache,
                            FileGenerator fileGenerator) {
     this.resultReceiver = resultReceiver;
-    this.progressCache = progressCache;
     this.fileGenerator = fileGenerator;
   }
 
@@ -151,13 +146,6 @@ public class AlgorithmExecutor implements Closeable {
     if (analyzer.hasType(AlgorithmType.TEMP_FILE)) {
       TempFileAlgorithm tempFileAlgorithm = (TempFileAlgorithm) algorithm;
       tempFileAlgorithm.setTempFileGenerator(fileGenerator);
-    }
-
-    if (analyzer.hasType(AlgorithmType.PROGRESS_EST)) {
-      ProgressEstimatingAlgorithm
-          progressEstimatingAlgorithm =
-          (ProgressEstimatingAlgorithm) algorithm;
-      progressEstimatingAlgorithm.setProgressReceiver(progressCache);
     }
 
     long beforeWallClockTime = new Date().getTime(); // milliseconds

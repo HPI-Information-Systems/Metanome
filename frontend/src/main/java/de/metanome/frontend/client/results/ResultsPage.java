@@ -54,9 +54,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected TabWrapper messageReceiver;
 
   protected Image runningIndicator;
-  protected ProgressBar progressBar;
   protected Timer executionTimeTimer;
-  protected Timer progressTimer;
   protected FlowPanel executionTimePanel;
   protected TabLayoutPanel panel;
 
@@ -91,12 +89,8 @@ public class ResultsPage extends FlowPanel implements TabContent {
    */
   public void updateOnSuccess(Execution execution) {
     this.executionTimeTimer.cancel();
-    this.progressTimer.cancel();
 
     this.remove(this.algorithmLabel);
-    if (this.progressBar != null) {
-      this.remove(this.progressBar);
-    }
     this.remove(this.runningIndicator);
     this.remove(this.executionTimePanel);
     if (this.stopButton != null) {
@@ -128,9 +122,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
     if (this.executionTimeTimer != null) {
       this.executionTimeTimer.cancel();
     }
-    if (this.progressTimer != null) {
-      this.progressTimer.cancel();
-    }
     this.clear();
 
     this.messageReceiver.addErrorHTML("The execution was not successful: " + message);
@@ -139,7 +130,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
   /**
    * Displays the current status of execution.
    */
-  public void startPolling(final boolean showProgress) {
+  public void startPolling() {
     this.clear();
 
     // Add label for the algorithm, which is executed at the moment
@@ -160,13 +151,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
     this.executionTimePanel.add(executionTimeLabel);
     this.add(this.executionTimePanel);
 
-    // Add a progress bar if the algorithm supports it
-    if (showProgress) {
-      this.progressBar = new ProgressBar(0, 1);
-      this.progressBar.setStyleName("space_bottom");
-      this.add(this.progressBar);
-    }
-
     // Add button to stop the execution
     this.stopButton = new Button("Stop Execution", new ClickHandler() {
       @Override
@@ -183,16 +167,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
       }
     };
     this.executionTimeTimer.scheduleRepeating(1000);
-
-    // Start timer for fetching the progress
-    this.progressTimer = new Timer() {
-      public void run() {
-        if (showProgress) {
-          updateProgress();
-        }
-      }
-    };
-    this.progressTimer.scheduleRepeating(10000);
   }
 
   /**
@@ -270,34 +244,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
     panel.add(new ScrollPanel(tablePage), "Table");
     panel.add(new ScrollPanel(visualizationPage), "Visualization");
     this.add(panel);
-  }
-
-  /**
-   * Fetching the current progress of execution and update the progress bar on success.
-   */
-  protected void updateProgress() {
-    this.executionRestService.fetchProgress(executionIdentifier, new MethodCallback<Float>() {
-      @Override
-      public void onFailure(Method method, Throwable caught) {
-        messageReceiver.addError(method.getResponse().getText());
-      }
-
-      @Override
-      public void onSuccess(Method method, Float progress) {
-        updateProgress(progress);
-      }
-    });
-  }
-
-  /**
-   * Updates the progress of the progress bar.
-   *
-   * @param progress the current progress
-   */
-  protected void updateProgress(Float progress) {
-    if (progress > 0) {
-      progressBar.setProgress(progress);
-    }
   }
 
   /**

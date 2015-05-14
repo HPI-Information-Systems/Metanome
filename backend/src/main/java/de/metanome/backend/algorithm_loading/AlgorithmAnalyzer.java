@@ -25,7 +25,6 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
@@ -94,9 +93,6 @@ public class AlgorithmAnalyzer {
     }
     if (interfaces.contains(TempFileAlgorithm.class)) {
       types.add(AlgorithmType.TEMP_FILE);
-    }
-    if (interfaces.contains(ProgressEstimatingAlgorithm.class)) {
-      types.add(AlgorithmType.PROGRESS_EST);
     }
     if (interfaces.contains(RelationalInputParameterAlgorithm.class)) {
       types.add(AlgorithmType.RELATIONAL_INPUT);
