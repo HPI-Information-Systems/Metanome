@@ -63,7 +63,7 @@ public class OrderDependencyPaginationTable
     TextColumn<OrderDependency> rhsColumn = new TextColumn<OrderDependency>() {
       @Override
       public String getValue(OrderDependency orderDependency) {
-        return orderDependency.getLhs().toString();
+        return orderDependency.getRhs().toString();
       }
     };
     this.table.addColumn(rhsColumn, "RHS");
