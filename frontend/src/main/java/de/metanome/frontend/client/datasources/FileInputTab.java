@@ -53,7 +53,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
     this.parent = parent;
 
     this.fileInputList = new FlexTable();
-    this.fileInputList = new FlexTable();
     this.editForm = new FileInputEditForm(this);
 
     this.addFileInputsToTable(this);
@@ -84,7 +83,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
             listFileInputs(fileInputs);
             addEditForm();
           }
-
         });
   }
 

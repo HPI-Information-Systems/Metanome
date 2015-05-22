@@ -31,6 +31,31 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestTableInputEditForm extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#TableInputEditForm(TableInputTab)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    TableInputEditForm
+        input =
+        new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.tableInputService);
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.dbConnectionListBox);
+    assertNotNull(input.commentTextbox);
+    assertNotNull(input.tableNameTextbox);
+    assertNotNull(input.updateButton);
+    assertNotNull(input.saveButton);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#getValue()}
    */
   public void testGetValue() throws EntityStorageException, InputValidationException {

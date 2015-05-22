@@ -36,6 +36,26 @@ import java.util.ArrayList;
 public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#DatabaseConnectionTab(DataSourcePage)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    DatabaseConnectionTab input = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.tableInputService);
+    assertNotNull(input.parent);
+    assertNotNull(input.connectionInputList);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#addDatabaseConnectionToTable(de.metanome.backend.results_db.DatabaseConnection)}
    */
   public void testAddDatabaseConnectionToTable() {

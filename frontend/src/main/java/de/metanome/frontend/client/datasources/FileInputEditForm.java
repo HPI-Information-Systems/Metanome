@@ -74,8 +74,8 @@ public class FileInputEditForm extends Grid {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
   protected TextArea commentTextArea;
-  private FileInputRestService fileInputService;
-  private FileInputTab parent;
+  protected FileInputRestService fileInputService;
+  protected FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
   private List<String> filesOnStorage;

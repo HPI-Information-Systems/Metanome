@@ -31,6 +31,33 @@ import java.util.Arrays;
 public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#DatabaseConnectionEditForm(DatabaseConnectionTab)}
+   */
+  public void testSetUp() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    DatabaseConnectionEditForm
+        input =
+        new DatabaseConnectionEditForm(
+            new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.dbUrlTextbox);
+    assertNotNull(input.systemListBox);
+    assertNotNull(input.usernameTextbox);
+    assertNotNull(input.passwordTextbox);
+    assertNotNull(input.commentTextbox);
+    assertNotNull(input.saveButton);
+    assertNotNull(input.updateButton);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#getValue()}
    */
   public void testGetValue() throws InputValidationException {

@@ -176,6 +176,8 @@ public class AlgorithmExecutionResource {
       // build configuration values
       for (ConfigurationRequirement requirement : params.getRequirements()) {
         // no value was set in the frontend
+        // do not create a configuration value, so that the value can not be set
+        // on the algorithm
         // TODO test
         if (requirement.getSettings().length == 0)
           continue;

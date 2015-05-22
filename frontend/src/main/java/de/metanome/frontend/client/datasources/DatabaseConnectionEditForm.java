@@ -46,12 +46,12 @@ public class DatabaseConnectionEditForm extends Grid {
   protected PasswordTextBox passwordTextbox;
   protected ListBoxInput systemListBox;
   protected TextArea commentTextbox;
-  private DatabaseConnectionRestService databaseConnectionService;
-  private DatabaseConnectionTab parent;
-  private TabWrapper messageReceiver;
-  private Button saveButton;
-  private Button updateButton;
-  private DatabaseConnection oldDatabaseConnection;
+  protected DatabaseConnectionRestService databaseConnectionService;
+  protected DatabaseConnectionTab parent;
+  protected TabWrapper messageReceiver;
+  protected Button saveButton;
+  protected Button updateButton;
+  protected DatabaseConnection oldDatabaseConnection;
 
   public DatabaseConnectionEditForm(DatabaseConnectionTab parent) {
     super(6, 2);

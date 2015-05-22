@@ -33,6 +33,13 @@ import java.util.ArrayList;
 public class GwtTestFileInputTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab}
+   */
+  public void testSetUp() {
+
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#addFileInputToTable(de.metanome.backend.results_db.FileInput)}
    */
   public void testAddFileInputToTable() {

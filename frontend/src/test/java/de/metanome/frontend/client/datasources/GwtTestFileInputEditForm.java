@@ -33,6 +33,26 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestFileInputEditForm extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputEditForm}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    FileInputEditForm input =
+        new FileInputEditForm(new FileInputTab(new DataSourcePage(new BasePage())));
+
+    // Check
+    assertNotNull(input.fileListBox);
+    assertNotNull(input.fileInputService);
+    assertNotNull(input.parent);
+    assertNotNull(input.advancedCheckbox);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.FileInputEditForm#getValue()}
    */
   public void testGetValue() throws InputValidationException, AlgorithmConfigurationException {

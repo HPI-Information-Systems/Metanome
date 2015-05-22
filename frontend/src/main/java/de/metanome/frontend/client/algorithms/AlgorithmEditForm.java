@@ -48,8 +48,8 @@ public class AlgorithmEditForm extends Grid {
   protected TextBox authorTextBox = new TextBox();
   protected TextArea descriptionTextArea = new TextArea();
 
-  private List<String> algorithmsInDatabase;
-  private List<String> algorithmsOnStorage;
+  protected List<String> algorithmsInDatabase;
+  protected List<String> algorithmsOnStorage;
 
   private Algorithm oldAlgorithm;
   private Button submitButton;
@@ -130,7 +130,7 @@ public class AlgorithmEditForm extends Grid {
    *
    * @return the callback
    */
-  private MethodCallback<List<Algorithm>> getDatabaseCallback() {
+  protected MethodCallback<List<Algorithm>> getDatabaseCallback() {
     return new MethodCallback<List<Algorithm>>() {
       @Override
       public void onFailure(Method method, Throwable caught) {
@@ -162,7 +162,7 @@ public class AlgorithmEditForm extends Grid {
    *
    * @return the callback
    */
-  private MethodCallback<List<String>> getStorageCallback() {
+  protected MethodCallback<List<String>> getStorageCallback() {
     return new MethodCallback<List<String>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
