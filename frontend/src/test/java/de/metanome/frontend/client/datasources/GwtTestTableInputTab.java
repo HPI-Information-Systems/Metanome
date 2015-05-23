@@ -36,6 +36,25 @@ import java.util.ArrayList;
 public class GwtTestTableInputTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#TableInputTab(DataSourcePage)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    TableInputTab input = new TableInputTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.tableInputList);
+    assertNotNull(input.tableInputRestService);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#addTableInputToTable(de.metanome.backend.results_db.TableInput)}
    */
   public void testAddTableInputToTable() {

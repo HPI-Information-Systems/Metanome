@@ -217,29 +217,6 @@ public class ParameterTable extends FlowPanel {
   }
 
   /**
-   * Gives access to this ParameterTable's {@link InputParameterWidget} child widget whose
-   * underlying {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement} has
-   * the given identifier.
-   *
-   * @param identifier The identifier of the ConfigurationSpecification of the wanted widget.
-   * @return This parameter's child widgets that corresponds to the given identifier, or null if
-   * such a child does not exist.
-   */
-  public InputParameterWidget getInputParameterWidget(String identifier) {
-    for (InputParameterWidget w : this.childWidgets) {
-      if (w.getSpecification().getIdentifier().equals(identifier)) {
-        return w;
-      }
-    }
-    for (InputParameterWidget w : this.dataSourceChildWidgets) {
-      if (w.getSpecification().getIdentifier().equals(identifier)) {
-        return w;
-      }
-    }
-    return null;
-  }
-
-  /**
    * Forwards the update call to the data source widgets.
    */
   public void updateDataSources() {

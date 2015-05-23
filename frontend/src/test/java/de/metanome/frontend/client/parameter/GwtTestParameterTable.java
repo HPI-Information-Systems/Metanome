@@ -450,62 +450,6 @@ public class GwtTestParameterTable extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-  /**
-   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
-   */
-/*
-  public void testSetPrimaryDataSource() {
-    // Setup
-    TestHelper.resetDatabaseSync();
-
-    FileInput fileInput = new FileInput();
-    fileInput.setFileName("/inputA.csv");
-    TestHelper.storeFileInputSync(fileInput);
-
-    final ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
-    primaryDataSource.setFileName("/inputA.csv");
-
-    final ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
-    ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-    paramList.add(ConfigurationSpecificationCsvFile);
-
-    final ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
-
-    Timer executeTimer = new Timer() {
-      @Override
-      public void run() {
-        //Check
-        boolean foundDataSource = false;
-          try {
-            for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
-              for (Object setting : dataSource.getSettings()) {
-                if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
-                  foundDataSource = true;
-              }
-            }
-          } catch (InputValidationException e) {
-            TestHelper.resetDatabaseSync();
-            e.printStackTrace();
-            fail();
-          }
-          assertTrue(foundDataSource);
-
-        ListBoxInput
-            listBox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listBox;
-        assertEquals(primaryDataSource.getValueAsString(), listBox.getSelectedValue());
-
-        // Cleanup
-        TestHelper.resetDatabaseSync();
-
-        finishTest();
-      }
-    };
-    // Waiting for asynchronous calls to finish.
-    executeTimer.schedule(2000);
-
-    delayTestFinish(4000);
-  }
-*/
   @Override
   public String getModuleName() {
     return "de.metanome.frontend.client.MetanomeTest";

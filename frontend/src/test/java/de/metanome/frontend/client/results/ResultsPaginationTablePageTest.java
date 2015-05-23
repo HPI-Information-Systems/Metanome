@@ -29,6 +29,15 @@ import java.util.Map;
 
 public class ResultsPaginationTablePageTest extends GWTTestCase {
 
+  public void testSetup() {
+    // Execute
+    ResultsPaginationTablePage page = new ResultsPaginationTablePage();
+
+    // Check
+    assertNotNull(page.resultService);
+    assertNotNull(page.resultStoreService);
+  }
+
   public void testAddTables() throws Exception {
     // Set up
     ResultsPaginationTablePage page = new ResultsPaginationTablePage();

@@ -41,8 +41,8 @@ public class TableInputTab extends FlowPanel implements TabContent {
 
   protected FlexTable tableInputList;
   protected TableInputEditForm editForm;
-  private TableInputRestService tableInputRestService;
-  private DataSourcePage parent;
+  protected TableInputRestService tableInputRestService;
+  protected DataSourcePage parent;
   private TabWrapper messageReceiver;
 
   /**

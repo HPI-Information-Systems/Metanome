@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * UI element that displays the results of an algorithm execution in a table.
  */
@@ -75,15 +74,11 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
   /**
-   * Sends a request to the backend to load the results of the file input into memory. Afterwards
-   * the corresponding tables showing the results are added.
-   *
-   * @param fileInput the execution
+   * Creates the callback for loading the results of an execution into the result store.
+   * If the callback was successful, the results of the execution are shown.
+   * @param execution the execution
+   * @return the callback
    */
-  public void showResultsFor(FileInput fileInput) {
-    this.resultStoreService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
-  }
-
   private MethodCallback<Void> getMethodCallbackExecution(final Execution execution) {
     return new MethodCallback<Void>() {
       @Override
@@ -98,6 +93,21 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
     };
   }
 
+  /**
+   * Sends a request to the backend to load the results of the file input into memory. Afterwards
+   * the corresponding tables showing the results are added.
+   *
+   * @param fileInput the execution
+   */
+  public void showResultsFor(FileInput fileInput) {
+    this.resultStoreService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
+  }
+
+  /**
+   * Creates the callback for loading the results of the given file input into memory.
+   * @param input the file input
+   * @return the callback
+   */
   private MethodCallback<List<String>> getMethodCallbackResults(final FileInput input) {
     return new MethodCallback<List<String>>() {
       @Override
@@ -167,34 +177,43 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
     }
   }
 
+  /**
+   * Adds a label with the given title.
+   * @param title the title
+   */
   private void addTitle(String title) {
     Label label = new Label(title);
     label.setStyleName("resultTable-caption");
     this.add(label);
   }
 
-  @Override
-  public void setMessageReceiver(TabWrapper tab) {
-    this.messageReceiver = tab;
-  }
-
-
+  /**
+   * Sends a call to the backend to get the count results for the given execution.
+   * If the call was successful the results are shown.
+   * @param execution the execution
+   */
   public void addCountResults(Execution execution) {
     this.resultService.readCounterResult(execution.getId(),
-                                        new MethodCallback<Map<String, Integer>>() {
-                                          @Override
-                                          public void onFailure(Method method, Throwable caught) {
-                                          }
+       new MethodCallback<Map<String, Integer>>() {
+         @Override
+         public void onFailure(Method method, Throwable caught) {
+           messageReceiver.addError(
+               "Could not display results: " + method
+                   .getResponse().getText());
+         }
 
-                                          @Override
-                                          public void onSuccess(Method method,
-                                                                Map<String, Integer> results) {
-                                            displayCountResult(results);
-                                          }
-                                        });
+         @Override
+         public void onSuccess(Method method, Map<String, Integer> results) {
+           displayCountResult(results);
+         }
+       });
   }
 
-  protected void displayCountResult(Map<String, Integer> results) {
+  /**
+   * Adds widgets for every result type listed in the map showing the number of results.
+   * @param results map containing for each result type the number of results
+   */
+   protected void displayCountResult(Map<String, Integer> results) {
     for (Map.Entry<String, Integer> result : results.entrySet()) {
       this.addTitle(result.getKey());
       Label label = new Label("# " + result.getValue().toString());
@@ -202,4 +221,10 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
       this.add(label);
     }
   }
+
+  @Override
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+  }
+
 }

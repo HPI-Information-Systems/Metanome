@@ -33,10 +33,22 @@ import java.util.ArrayList;
 public class GwtTestFileInputTab extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab}
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#FileInputTab(DataSourcePage)}
    */
   public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
 
+    // Execute
+    FileInputTab input = new FileInputTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.fileInputList);
+    assertNotNull(input.fileInputService);
+    assertNotNull(input.parent);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
   }
 
   /**
@@ -60,7 +72,7 @@ public class GwtTestFileInputTab extends GWTTestCase {
   /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#listDatabaseConnections(java.util.List)}
    */
-  public void testListDatabaseConnections() {
+  public void testListFileInputs() {
     //Setup
     FileInput fileInput1 = new FileInput();
     fileInput1.setFileName("name");

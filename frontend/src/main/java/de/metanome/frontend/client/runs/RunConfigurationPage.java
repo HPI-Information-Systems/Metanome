@@ -213,16 +213,6 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     return algorithmChooser;
   }
 
-
-  /* (non-Javadoc)
-   * @see de.metanome.frontend.client.TabContent#setMessageReceiver(de.metanome.frontend.client.TabWrapper)
-   */
-  @Override
-  public void setMessageReceiver(TabWrapper tab) {
-    this.messageReceiver = tab;
-    this.algorithmChooser.setMessageReceiver(tab);
-  }
-
   /**
    * Returns the algorithm with the given name
    */
@@ -240,4 +230,15 @@ public class RunConfigurationPage extends DockLayoutPanel implements TabContent 
     this.algorithmChooser.update(algorithm, oldName);
     this.algorithmChooser.updateAlgorithmListBox();
   }
+
+  /* (non-Javadoc)
+   * @see de.metanome.frontend.client.TabContent#setMessageReceiver(de.metanome.frontend.client.TabWrapper)
+   */
+  @Override
+  public void setMessageReceiver(TabWrapper tab) {
+    this.messageReceiver = tab;
+    this.algorithmChooser.setMessageReceiver(tab);
+  }
+
+
 }

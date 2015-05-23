@@ -163,7 +163,6 @@ public class ExecutionsPage extends FlowPanel implements TabContent {
    * @param row       the row, in which the execution should be inserted
    */
   protected void addAbortedExecutionToTable(final Execution execution, int row) {
-
     Button deleteButton = new Button("Delete");
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
