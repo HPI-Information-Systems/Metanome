@@ -23,10 +23,12 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,7 +132,9 @@ public class ResultStoreResource {
     try {
       FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
       Set<de.metanome.backend.results_db.Result> results = getResults(fileInput);
-      ResultPostProcessor.extractAndStoreResults(results);
+      Collection<Input> inputs = new ArrayList<>();
+      inputs.add(fileInput);
+      ResultPostProcessor.extractAndStoreResults(results, inputs);
       return getTypes(results);
     } catch (EntityStorageException | IOException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);

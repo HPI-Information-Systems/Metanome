@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @JsonTypeName("ConfigurationSettingFileInput")
-public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput {
+public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput implements Comparable {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
@@ -55,7 +55,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   private String escapeChar;
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
-  private int skipLines;
+  private Integer skipLines;
   private boolean header;
   private boolean skipDifferingLines;
   private String nullValue;
@@ -168,7 +168,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
     return this;
   }
 
-  public int getSkipLines() {
+  public Integer getSkipLines() {
     return skipLines;
   }
 
@@ -281,6 +281,19 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
              !(this.skipDifferingLines != that.skipDifferingLines) ||
              !(this.header != that.header) ||
              !(this.skipLines != that.skipLines));
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    if (o == null || getClass() != o.getClass()) {
+      return 1;
+    }
+
+    if (this.equals(o))
+      return 0;
+
+    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
+    return this.getFileName().compareTo(that.getFileName());
   }
 
   @Override

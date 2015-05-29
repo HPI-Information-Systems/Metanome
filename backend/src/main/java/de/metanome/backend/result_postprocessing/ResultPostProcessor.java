@@ -17,12 +17,15 @@
 package de.metanome.backend.result_postprocessing;
 
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.input.InputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.helper.InputToGeneratorConverter;
 import de.metanome.backend.result_postprocessing.result_store.BasicStatisticResultStore;
 import de.metanome.backend.result_postprocessing.result_store.ConditionalUniqueColumnCombinationResultStore;
 import de.metanome.backend.result_postprocessing.result_store.FunctionalDependencyResultStore;
@@ -32,10 +35,14 @@ import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder
 import de.metanome.backend.result_postprocessing.result_store.UniqueColumnCombinationResultStore;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,17 +56,26 @@ public class ResultPostProcessor {
    *
    * @param execution Execution containing the algorithm results file path
    */
-  public static void extractAndStoreResults(Execution execution) throws IOException {
-    extractAndStoreResults(execution.getResults());
+  public static void extractAndStoreResults(Execution execution)
+      throws IOException, AlgorithmConfigurationException {
+    extractAndStoreResults(execution.getResults(), execution.getInputs());
   }
 
   /**
-   * Loads the results of a algorithm run from hard disk and stores them.
+   * Loads the results of a algorithm run from hard disk, analyzes and stores them.
    *
    * @param results the results
+   * @param inputs  the inputs used by the algorithm
    */
-  public static void extractAndStoreResults(Set<Result> results) throws IOException {
+  public static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs)
+      throws IOException, AlgorithmConfigurationException {
     ResultsStoreHolder.clearStores();
+
+    // get input generators
+    List<InputGenerator> inputGenerators = new ArrayList<>();
+    for (Input input: inputs) {
+      inputGenerators.add(InputToGeneratorConverter.convertInput(input));
+    }
 
     for (de.metanome.backend.results_db.Result result : results) {
       String fileName = result.getFileName();

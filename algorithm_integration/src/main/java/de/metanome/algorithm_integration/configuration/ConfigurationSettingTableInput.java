@@ -56,16 +56,18 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingRelation
     return this.table;
   }
 
-  public void setTable(String table) {
+  public ConfigurationSettingTableInput setTable(String table) {
     this.table = table;
+    return this;
   }
 
   public ConfigurationSettingDatabaseConnection getDatabaseConnection() {
     return this.databaseConnection;
   }
 
-  public void setDatabaseConnection(ConfigurationSettingDatabaseConnection databaseConnection) {
+  public ConfigurationSettingTableInput setDatabaseConnection(ConfigurationSettingDatabaseConnection databaseConnection) {
     this.databaseConnection = databaseConnection;
+    return this;
   }
 
   @Override

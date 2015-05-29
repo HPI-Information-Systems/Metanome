@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,8 @@
 package de.metanome.algorithm_integration.input;
 
 /**
- * Generates new copies of a {@link RelationalInput}.
- *
- * @author Jakob Zwiener
+ * Empty interface to capture all input generator interfaces.
  */
-public interface RelationalInputGenerator extends InputGenerator {
+public interface InputGenerator {
 
-  /**
-   * Generates a new copy of the relational input that can be iterated from the beginning.
-   *
-   * @return new copy of the relational input
-   */
-  public RelationalInput generateNewCopy() throws InputGenerationException;
 }
