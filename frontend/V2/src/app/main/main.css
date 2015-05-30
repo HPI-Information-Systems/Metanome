@@ -1,3 +1,10 @@
+.metanome-logo {
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
 .tabsdemoDynamicTabs md-content {
   background-color: transparent !important; }
   .tabsdemoDynamicTabs md-content md-tabs {
