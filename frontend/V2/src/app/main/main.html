@@ -1,0 +1,12 @@
+<div layout="column" layout-fill>
+  <md-content class="md-padding">
+    <md-tabs md-selected="selectedIndex" md-border-bottom>
+      <md-tab ng-repeat="tab in tabs"
+              label="{{tab.title}}">
+        <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+                  <div ng-bind="tab.content"></div>
+        </div>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>
