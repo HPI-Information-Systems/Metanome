@@ -5,8 +5,7 @@
       <md-tab ng-repeat="tab in tabs"
               label="{{tab.title}}">
         <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-                  <div ng-bind="tab.content"></div>
-                  <div ui-view="{{tab.view}}"></div> 
+          <div ui-view="{{tab.view}}"></div> 
         </div>
       </md-tab>
     </md-tabs>
