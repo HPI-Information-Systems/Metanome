@@ -1,10 +1,40 @@
 'use strict';
 
-angular.module('v2')
+angular.module('v2.home', [
+  'ui.router'
+])
+
+  .config(function config( $stateProvider ) {
+    $stateProvider
+      .state('home', {
+        url: '/',
+        views: {
+          'main@': {
+             controller: 'MainCtrl',
+             templateUrl: 'app/main/main.html'
+           },
+           'new@home': {
+              controller: 'NewCtrl',
+              templateUrl: 'app/new/new.html'
+           },
+           'history@home': {
+              controller: 'HistoryCtrl',
+              templateUrl: 'app/history/history.html'
+           }
+        }
+      })
+  })
+
   .controller('MainCtrl', function ($scope, $log) {
     var tabs = [
-      { title: 'New', content: 'Tabs will become paginated if there isn\'t enough room for them.'},
-      { title: 'History', content: 'You can swipe left and right on a mobile device to change tabs.'}
+      { 
+        title: 'New', 
+        view: 'new'
+      },
+      { 
+        title: 'History', 
+        view: 'history'
+      }
     ],
       selected = null,
       previous = null
