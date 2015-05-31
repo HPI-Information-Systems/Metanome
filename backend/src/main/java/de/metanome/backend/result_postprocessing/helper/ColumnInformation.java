@@ -54,6 +54,15 @@ public class ColumnInformation {
   // Average length of cell values in string columns
   private float averageValueLength = 0.0f;
 
+  /**
+   * Creates a new column information for given column name and index
+   *
+   * @param columnName                 name of the column
+   * @param columnIndex                index of the column
+   */
+  public ColumnInformation(String columnName, int columnIndex) throws InputIterationException {
+    this(columnName, columnIndex, null, false);
+  }
 
   /**
    * Creates a new column information for given column name and index

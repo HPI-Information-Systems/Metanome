@@ -214,7 +214,7 @@ public class ColumnInformationTest {
   public void testIsUniqueColumn()
       throws InputIterationException, InputGenerationException {
     // Set up
-    UniqueFileFixture fileFixture = new UniqueFileFixture();
+    FileUniqueFixture fileFixture = new FileUniqueFixture();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -241,7 +241,7 @@ public class ColumnInformationTest {
   public void testGetUniquenessRate()
       throws InputIterationException, InputGenerationException {
     // Set up
-    UniqueFileFixture fileFixture = new UniqueFileFixture();
+    FileUniqueFixture fileFixture = new FileUniqueFixture();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -268,7 +268,7 @@ public class ColumnInformationTest {
   public void testGetInformationContent()
       throws InputIterationException, InputGenerationException {
     // Set up
-    UniqueFileFixture fileFixture = new UniqueFileFixture();
+    FileUniqueFixture fileFixture = new FileUniqueFixture();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
