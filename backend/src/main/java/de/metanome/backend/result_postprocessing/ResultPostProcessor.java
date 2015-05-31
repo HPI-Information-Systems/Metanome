@@ -18,7 +18,7 @@ package de.metanome.backend.result_postprocessing;
 
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.input.InputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -26,6 +26,13 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.helper.InputToGeneratorConverter;
+import de.metanome.backend.result_postprocessing.result_analyzer.BasicStatisticResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.ConditionalUniqueColumnCombinationResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.FunctionalDependencyResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.InclusionDependencyResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.OrderDependencyResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.ResultAnalyzer;
+import de.metanome.backend.result_postprocessing.result_analyzer.UniqueColumnCombinationResultAnalyzer;
 import de.metanome.backend.result_postprocessing.result_store.BasicStatisticResultStore;
 import de.metanome.backend.result_postprocessing.result_store.ConditionalUniqueColumnCombinationResultStore;
 import de.metanome.backend.result_postprocessing.result_store.FunctionalDependencyResultStore;
@@ -72,16 +79,23 @@ public class ResultPostProcessor {
     ResultsStoreHolder.clearStores();
 
     // get input generators
-    List<InputGenerator> inputGenerators = new ArrayList<>();
-    for (Input input: inputs) {
+    List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
+    for (Input input : inputs) {
       inputGenerators.add(InputToGeneratorConverter.convertInput(input));
     }
+
+    // check if a database connection was used
+    // if this is true, we can not compute ranking results based on column count etc.,
+    // because we do not know which specific column was used for profiling
+    boolean usedDatabaseConnection = inputGenerators.contains(null);
+    inputGenerators =
+        usedDatabaseConnection ? new ArrayList<RelationalInputGenerator>() : inputGenerators;
 
     for (de.metanome.backend.results_db.Result result : results) {
       String fileName = result.getFileName();
       String resultTypeName = result.getType().getName();
 
-      storeResults(fileName, resultTypeName);
+      analyzeAndStoreResults(fileName, resultTypeName, inputGenerators);
     }
   }
 
@@ -91,61 +105,109 @@ public class ResultPostProcessor {
    * @param fileName the file name
    * @param name     the name of the result type
    */
-  private static void storeResults(String fileName, String name) throws IOException {
+  private static void analyzeAndStoreResults(String fileName, String name,
+                                             List<RelationalInputGenerator> inputGenerators)
+      throws IOException {
 
     if (name.equals(ResultType.CUCC.getName())) {
-      ConditionalUniqueColumnCombinationResultStore
-          resultsStore = new ConditionalUniqueColumnCombinationResultStore();
-      ResultReader<ConditionalUniqueColumnCombination>
-          resultReader =
+      // read results
+      ResultReader<ConditionalUniqueColumnCombination> resultReader =
           new ResultReader<>(ConditionalUniqueColumnCombination.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<ConditionalUniqueColumnCombination>
+          conditionalUniqueColumnCombinations =
+          resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<ConditionalUniqueColumnCombination>
+          resultAnalyzer =
+          new ConditionalUniqueColumnCombinationResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(conditionalUniqueColumnCombinations);
+      // store results
+      ConditionalUniqueColumnCombinationResultStore
+          resultsStore =
+          new ConditionalUniqueColumnCombinationResultStore();
+      resultsStore.store(conditionalUniqueColumnCombinations);
       ResultsStoreHolder.register(name, resultsStore);
+
 
     } else if (name.equals(ResultType.OD.getName())) {
-      OrderDependencyResultStore resultsStore = new OrderDependencyResultStore();
-      ResultReader<OrderDependency>
-          resultReader =
+      // read results
+      ResultReader<OrderDependency> resultReader =
           new ResultReader<>(OrderDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<OrderDependency> orderDependencies = resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<OrderDependency>
+          resultAnalyzer = new OrderDependencyResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(orderDependencies);
+      // store results
+      OrderDependencyResultStore resultsStore = new OrderDependencyResultStore();
+      resultsStore.store(orderDependencies);
       ResultsStoreHolder.register(name, resultsStore);
+
 
     } else if (name.equals(ResultType.IND.getName())) {
-      InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
-      ResultReader<InclusionDependency>
-          resultReader =
+      // read results
+      ResultReader<InclusionDependency> resultReader =
           new ResultReader<>(InclusionDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<InclusionDependency> inclusionDependencies = resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<InclusionDependency>
+          resultAnalyzer = new InclusionDependencyResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(inclusionDependencies);
+      // store results
+      InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
+      resultsStore.store(inclusionDependencies);
       ResultsStoreHolder.register(name, resultsStore);
+
 
     } else if (name.equals(ResultType.FD.getName())) {
-      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
-      ResultReader<FunctionalDependency>
-          resultReader =
+      // read results
+      ResultReader<FunctionalDependency> resultReader =
           new ResultReader<>(FunctionalDependency.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<FunctionalDependency>
+          functionalDependencies =
+          resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<FunctionalDependency>
+          resultAnalyzer =
+          new FunctionalDependencyResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(functionalDependencies);
+      // store results
+      FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
+      resultsStore.store(functionalDependencies);
       ResultsStoreHolder.register(name, resultsStore);
+
 
     } else if (name.equals(ResultType.UCC.getName())) {
-      UniqueColumnCombinationResultStore resultsStore = new UniqueColumnCombinationResultStore();
-      ResultReader<UniqueColumnCombination>
-          resultReader =
+      // read results
+      ResultReader<UniqueColumnCombination> resultReader =
           new ResultReader<>(UniqueColumnCombination.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<UniqueColumnCombination>
+          uniqueColumnCombinations =
+          resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<UniqueColumnCombination>
+          resultAnalyzer =
+          new UniqueColumnCombinationResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(uniqueColumnCombinations);
+      // store results
+      UniqueColumnCombinationResultStore resultsStore = new UniqueColumnCombinationResultStore();
+      resultsStore.store(uniqueColumnCombinations);
       ResultsStoreHolder.register(name, resultsStore);
+
 
     } else if (name.equals(ResultType.STAT.getName())) {
-      BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();
-      ResultReader<BasicStatistic>
-          resultReader =
+      // read results
+      ResultReader<BasicStatistic> resultReader =
           new ResultReader<>(BasicStatistic.class);
-      resultsStore.store(resultReader.readResultsFromFile(fileName));
+      List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<BasicStatistic>
+          resultAnalyzer = new BasicStatisticResultAnalyzer(inputGenerators, false);
+      resultAnalyzer.analyzeResults(basicStatistics);
+      // store results
+      BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();
+      resultsStore.store(basicStatistics);
       ResultsStoreHolder.register(name, resultsStore);
-
     }
-
-
   }
-
-
 }

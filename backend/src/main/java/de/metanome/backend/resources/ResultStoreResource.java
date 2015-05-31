@@ -16,6 +16,7 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
@@ -136,7 +137,7 @@ public class ResultStoreResource {
       inputs.add(fileInput);
       ResultPostProcessor.extractAndStoreResults(results, inputs);
       return getTypes(results);
-    } catch (EntityStorageException | IOException e) {
+    } catch (EntityStorageException | IOException | AlgorithmConfigurationException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }

@@ -21,8 +21,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
-import de.metanome.algorithm_integration.input.InputGenerator;
-import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -32,7 +31,7 @@ import de.metanome.backend.results_db.TableInput;
 
 public class InputToGeneratorConverter {
 
-  public static InputGenerator convertInput(Input input) throws AlgorithmConfigurationException {
+  public static RelationalInputGenerator convertInput(Input input) throws AlgorithmConfigurationException {
     if (input instanceof FileInput) {
       return new DefaultFileInputGenerator(convertInputToSetting((FileInput) input));
     }
@@ -40,7 +39,9 @@ public class InputToGeneratorConverter {
       return new DefaultTableInputGenerator(convertInputToSetting((TableInput) input));
     }
     else if (input instanceof DatabaseConnection) {
-      return new DefaultDatabaseConnectionGenerator(convertInputToSetting((DatabaseConnection) input));
+      // we do not know which table was used for profiling, thus we can not compute
+      // ranking results for results on database connections
+      return null;
     }
 
     return null;
