@@ -187,7 +187,7 @@ public class ColumnInformationTest {
     assertEquals(this.columnName, columnInformation.getColumnName());
     assertEquals(ColumnInformation.ColumnType.DATE_COLUMN, columnInformation.getColumnType());
     assertEquals(3, columnInformation.getDistinctValuesCount());
-    assertEquals(0, columnInformation.getNullValuesCount());
+    assertEquals(4, columnInformation.getNullValuesCount());
     assertEquals(11, columnInformation.getRowCount());
     assertNotNull(columnInformation.getHistogram());
     assertEquals(0.0, columnInformation.getAverageValueLength(), 0.01);
