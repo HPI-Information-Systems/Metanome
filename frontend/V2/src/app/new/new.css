@@ -1,1 +1,36 @@
-New Controller
+/*Hack to always show scrollbar on OSX http://stackoverflow.com/questions/7492062/css-overflow-scroll-always-show-vertical-scroll-bar */
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.listdemoBasicUsage md-divider {
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}
+
+.algo-desc {
+  margin-top: -12px;
+  margin-bottom: 10px;
+}
+
+.algo-in-list:hover {
+  background: #C5E1A5;
+  cursor: pointer;
+}
+
+.algorithms-container {
+  overflow: scroll;
+  height: 330px;
+  overflow-y: scroll;
+}
+
+.md-no-sticky {
+  margin-left: -15px;
+  margin-bottom: -20px;
+}       
