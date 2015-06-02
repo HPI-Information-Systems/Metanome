@@ -1,13 +1,15 @@
-<div layout="column" layout-fill>
-  <img class="metanome-logo" src="/assets/images/logo.png">
-  <md-content class="md-padding">
-    <md-tabs md-selected="selectedIndex" md-border-bottom>
-      <md-tab ng-repeat="tab in tabs"
-              label="{{tab.title}}">
-        <div class="metanome-tab tab{{$index%4}}" style="padding: 25px;">
-          <div ui-view="{{tab.view}}"></div> 
-        </div>
-      </md-tab>
-    </md-tabs>
-  </md-content>
+<div class="main-container">
+  <div layout="column" layout-fill>
+    <img class="metanome-logo" src="/assets/images/logo.png">
+    <md-content class="md-padding">
+      <md-tabs md-selected="selectedIndex" md-border-bottom>
+        <md-tab ng-repeat="tab in tabs"
+                label="{{tab.title}}">
+          <div class="metanome-tab tab{{$index%4}}" style="padding: 25px;">
+            <div ui-view="{{tab.view}}"></div> 
+          </div>
+        </md-tab>
+      </md-tabs>
+    </md-content>
+  </div>
 </div>

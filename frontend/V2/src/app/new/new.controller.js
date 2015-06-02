@@ -76,10 +76,14 @@ angular.module('v2')
         ]
       }
     ]
-    $scope.clickToOpen = function () {
+    $scope.openDatasourceSettings = function() {
       ngDialog.open({ 
         template: '/assets/settings-algorithm.html'
       });
+    };    
+    $scope.openAlgorithmSettings = function() {
+      ngDialog.open({ 
+        template: '/assets/settings-datasource.html'
+      });
     };
-    $scope.clickToOpen()
   });
