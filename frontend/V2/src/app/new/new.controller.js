@@ -2,6 +2,45 @@
 
 angular.module('v2')
   .controller('NewCtrl', function ($scope, $log) {
+    $scope.datasources = [
+      {
+        name: 'File input',
+        datasource: [
+          {
+            name: 'File 1',
+            desc: 'Example description',
+          },
+          {
+            name: 'File 2',
+            desc: 'Example description',
+          },
+          {
+            name: 'File 3',
+            desc: 'Example description'
+          }
+        ]
+      },
+      {
+        name: 'Database connection',
+        datasource: [
+          {
+            name: 'DB1',
+            desc: 'Example description',
+          }
+        ]
+      },
+      {
+        name: 'Table input',
+        datasource: [
+          {
+            name: 'Super Table',
+            desc: 'Example description',
+          }
+        ]
+      }
+    ]
+
+
     $scope.category = [
       {
         name: 'Unique Column Combinations',

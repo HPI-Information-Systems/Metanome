@@ -15,7 +15,7 @@
 }
 
 .algo-desc {
-  margin-top: -12px;
+  margin-top: -18px;
   margin-bottom: 10px;
 }
 
@@ -34,3 +34,30 @@
   margin-left: -15px;
   margin-bottom: -20px;
 }       
+
+.settings-algorithm {
+  position: absolute;
+  right: 50%;
+  top: 30px;
+  margin-right: 30px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.settings-datasources{
+  position: absolute;
+  right: 0;
+  top: 30px;
+  margin-right: 50px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+md-checkbox .md-label {
+  border: none !important;
+}
+
+md-checkbox {
+  margin: 0 !important;
+  margin-bottom: -5px !important
+}

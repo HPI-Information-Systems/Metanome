@@ -1,15 +1,16 @@
-<h1>Create a new job</h1>
 <div layout="row" layout-wrap>
   <div flex="50">
     <md-card>
       <md-card-content>
+        <h2>Choose algorithm</h2>
+        <a class="settings-algorithm"><i class="fa fa-cog fa-2x"></i></a>
         <div class="algorithms-container">
           <md-list>
             <div ng-repeat="algorithms in category">
              <md-subheader class="md-no-sticky" ng-bind="algorithms.name"></md-subheader>
              <md-list-item class="md-2-line" ng-repeat="item in algorithms.algorithms">
                <div class="algo-in-list md-list-item-text">
-                 <h3>{{ item.name }}</h3>
+                 <h4>{{ item.name }}</h4>
                  <p class="algo-desc">{{ item.desc }}</p>
                </div>
              </md-list-item>
@@ -22,17 +23,32 @@
   </div>
   <div flex="50">
     <md-card>
-      <img class="md-card-image" src="http://placehold.it/400x150" />
       <md-card-content>
-        <span>Select data source</span>
+        <h2>Select datasource</h2>
+        <a class="settings-datasources"><i class="fa fa-cog fa-2x"></i></a>
+        <div class="algorithms-container">
+          <md-list>
+            <div ng-repeat="datasource in datasources">
+             <md-subheader class="md-no-sticky" ng-bind="datasource.name"></md-subheader>
+             <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
+             <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="data.cb5" class="md-primary">
+               <div class="algo-in-list md-list-item-text">
+                 <h4>{{ item.name }}</h4>
+                 <p class="algo-desc">{{ item.desc }}</p>
+               </div>
+             </md-checkbox>
+             </md-list-item>
+             <md-divider ></md-divider>
+            </div>
+         </md-list>
+        </div>
       </md-card-content>
     </md-card>
   </div>
   <div flex="100">
     <md-card>
-      <img class="md-card-image" src="http://placehold.it/1000x150" />
       <md-card-content>
-        <span>Configuration</span>
+        <h2>Additional configuration</h2>
       </md-card-content>
     </md-card>
   </div>
