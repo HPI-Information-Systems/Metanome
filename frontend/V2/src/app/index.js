@@ -6,10 +6,10 @@ angular.module('v2', [
   'ngCookies', 
   'ngResource', 
   'ui.router', 
-  'ngMaterial'
+  'ngMaterial',
+  'ngDialog'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
-
     $urlRouterProvider.otherwise('/');
   })
 ;

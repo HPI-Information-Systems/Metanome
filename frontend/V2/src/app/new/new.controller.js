@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('v2')
-  .controller('NewCtrl', function ($scope, $log) {
+  .controller('NewCtrl', function ($scope, $log, ngDialog) {
     $scope.datasources = [
       {
         name: 'File input',
@@ -39,8 +39,6 @@ angular.module('v2')
         ]
       }
     ]
-
-
     $scope.category = [
       {
         name: 'Unique Column Combinations',
@@ -78,4 +76,10 @@ angular.module('v2')
         ]
       }
     ]
+    $scope.clickToOpen = function () {
+      ngDialog.open({ 
+        template: '/assets/settings-algorithm.html'
+      });
+    };
+    $scope.clickToOpen()
   });
