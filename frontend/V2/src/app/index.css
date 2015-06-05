@@ -5,12 +5,15 @@ html {
 }
 
 body, md-content.md-default-theme {
-  background-color: #8BC34A;
-
+  background-color: #CFD8DC;
 }
 
 md-card, md-card-content, md-list-item, .md-header{
   background-color: #ffffff !important;
+}
+
+h1, h2 {
+  color: #263238;
 }
 
 [layout=row] {
