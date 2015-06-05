@@ -33,21 +33,21 @@ import java.util.Map;
  */
 public abstract class ResultAnalyzer<T extends Result, R> {
 
-  protected boolean useDataDependentStatistics = false;
+  protected boolean useDataIndependentStatistics = true;
   protected List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
   protected Map<String, TableInformation> tableInformationList;
 
   public ResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                        boolean useDataDependentStatistics)
+                        boolean useDataIndependentStatistics)
       throws InputGenerationException, InputIterationException {
     this.inputGenerators = inputGenerators;
-    this.useDataDependentStatistics = useDataDependentStatistics;
+    this.useDataIndependentStatistics = useDataIndependentStatistics;
     this.tableInformationList = new HashMap<>();
 
     for (RelationalInputGenerator relationalInputGenerator : inputGenerators) {
       TableInformation
           tableInformation =
-          new TableInformation(relationalInputGenerator, useDataDependentStatistics);
+          new TableInformation(relationalInputGenerator, useDataIndependentStatistics);
       this.tableInformationList.put(tableInformation.getTableName(), tableInformation);
     }
   }
@@ -58,10 +58,10 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    * @param results Results of the algorithm
    */
   public List<R> analyzeResults(List<T> results) {
-    if (useDataDependentStatistics) {
-      return analyzeResultsDataDependent(results);
-    } else {
+    if (useDataIndependentStatistics) {
       return analyzeResultsDataIndependent(results);
+    } else {
+      return analyzeResultsDataDependent(results);
     }
   }
 

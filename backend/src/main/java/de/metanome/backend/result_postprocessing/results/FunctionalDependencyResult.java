@@ -16,12 +16,15 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 
 /**
  * Represents an functional dependency result with different ranking values.
  */
+@JsonTypeName("FunctionalDependencyResult")
 public class FunctionalDependencyResult implements RankingResult {
 
   protected ColumnCombination determinant;

@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.OrderDependencyResultComparator;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for order dependency results.
  */
 public class OrderDependencyPaginationTable
-    extends AbstractPaginationTable<OrderDependency> {
+    extends AbstractPaginationTable<OrderDependencyResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,9 +50,9 @@ public class OrderDependencyPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // lhs column
-    TextColumn<OrderDependency> lhsColumn = new TextColumn<OrderDependency>() {
+    TextColumn<OrderDependencyResult> lhsColumn = new TextColumn<OrderDependencyResult>() {
       @Override
-      public String getValue(OrderDependency orderDependency) {
+      public String getValue(OrderDependencyResult orderDependency) {
         return orderDependency.getLhs().toString();
       }
     };
@@ -60,9 +60,9 @@ public class OrderDependencyPaginationTable
     columnNames.add(OrderDependencyResultComparator.LHS_COLUMN);
 
     // rhs column
-    TextColumn<OrderDependency> rhsColumn = new TextColumn<OrderDependency>() {
+    TextColumn<OrderDependencyResult> rhsColumn = new TextColumn<OrderDependencyResult>() {
       @Override
-      public String getValue(OrderDependency orderDependency) {
+      public String getValue(OrderDependencyResult orderDependency) {
         return orderDependency.getRhs().toString();
       }
     };

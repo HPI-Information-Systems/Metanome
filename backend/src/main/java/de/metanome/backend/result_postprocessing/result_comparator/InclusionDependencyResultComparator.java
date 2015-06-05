@@ -11,6 +11,12 @@ public class InclusionDependencyResultComparator
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String REFERENCED_COLUMN = "referenced";
+  public static final String DEPENDANT_COLUMN_RATIO = "dependantColumnRatio";
+  public static final String REFERENCED_COLUMN_RATIO = "referencedColumnRatio";
+  public static final String DEPENDANT_OCCURRENCE_RATIO = "dependantOccurrenceRatio";
+  public static final String REFERENCED_OCCURRENCE_RATIO = "referencedOccurrenceRatio";
+  public static final String DEPENDANT_UNIQUENESS_RATIO = "dependantUniquenessRatio";
+  public static final String REFERENCED_UNIQUENESS_RATIO = "referencedUniquenessRatio";
 
   /**
    * Creates an inclusion dependency result comparator for given property and direction
@@ -38,6 +44,24 @@ public class InclusionDependencyResultComparator
     }
     if (REFERENCED_COLUMN.equals(sortProperty)) {
       return ind1.getReferenced().toString().compareTo(ind2.getReferenced().toString());
+    }
+    if (DEPENDANT_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getDependantColumnRatio(), ind2.getDependantColumnRatio());
+    }
+    if (REFERENCED_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getReferencedColumnRatio(), ind2.getReferencedColumnRatio());
+    }
+    if (DEPENDANT_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getDependantOccurrenceRatio(), ind2.getDependantOccurrenceRatio());
+    }
+    if (REFERENCED_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getReferencedOccurrenceRatio(), ind2.getReferencedOccurrenceRatio());
+    }
+    if (DEPENDANT_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getDependantUniquenessRatio(), ind2.getDependantUniquenessRatio());
+    }
+    if (REFERENCED_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
     }
 
     return 0;

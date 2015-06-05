@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.backend.result_postprocessing.result_comparator.BasicStatisticResultComparator;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for basic statistic results.
  */
 public class BasicStatisticPaginationTable
-    extends AbstractPaginationTable<BasicStatistic> {
+    extends AbstractPaginationTable<BasicStatisticResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,9 +50,9 @@ public class BasicStatisticPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // name column
-    TextColumn<BasicStatistic> nameColumn = new TextColumn<BasicStatistic>() {
+    TextColumn<BasicStatisticResult> nameColumn = new TextColumn<BasicStatisticResult>() {
       @Override
-      public String getValue(BasicStatistic basicStatistic) {
+      public String getValue(BasicStatisticResult basicStatistic) {
         return basicStatistic.getStatisticName();
       }
     };
@@ -60,9 +60,9 @@ public class BasicStatisticPaginationTable
     columnNames.add(BasicStatisticResultComparator.NAME_COLUMN);
 
     // unique column combination column
-    TextColumn<BasicStatistic> columnCombinationColumn = new TextColumn<BasicStatistic>() {
+    TextColumn<BasicStatisticResult> columnCombinationColumn = new TextColumn<BasicStatisticResult>() {
       @Override
-      public String getValue(BasicStatistic basicStatistic) {
+      public String getValue(BasicStatisticResult basicStatistic) {
         return basicStatistic.getColumnCombination().toString();
       }
     };
@@ -70,9 +70,9 @@ public class BasicStatisticPaginationTable
     columnNames.add(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN);
 
     // value column
-    TextColumn<BasicStatistic> valueColumn = new TextColumn<BasicStatistic>() {
+    TextColumn<BasicStatisticResult> valueColumn = new TextColumn<BasicStatisticResult>() {
       @Override
-      public String getValue(BasicStatistic basicStatistic) {
+      public String getValue(BasicStatisticResult basicStatistic) {
         return basicStatistic.getStatisticValue().toString();
       }
     };

@@ -17,11 +17,14 @@
 package de.metanome.backend.result_postprocessing.results;
 
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 
 /**
  * Represents an inclusion dependency result with different ranking values.
  */
+@JsonTypeName("InclusionDependencyResult")
 public class InclusionDependencyResult implements RankingResult {
 
   // Columns of the dependant and referenced side
@@ -126,5 +129,33 @@ public class InclusionDependencyResult implements RankingResult {
 
   public void setReferencedUniquenessRatio(float referencedUniquenessRatio) {
     this.referencedUniquenessRatio = referencedUniquenessRatio;
+  }
+
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    InclusionDependencyResult other = (InclusionDependencyResult) obj;
+    if (dependant == null) {
+      if (other.dependant != null) {
+        return false;
+      }
+    } else if (!dependant.equals(other.dependant)) {
+      return false;
+    }
+    if (referenced == null) {
+      if (other.referenced != null) {
+        return false;
+      }
+    } else if (!referenced.equals(other.referenced)) {
+      return false;
+    }
+    return true;
   }
 }

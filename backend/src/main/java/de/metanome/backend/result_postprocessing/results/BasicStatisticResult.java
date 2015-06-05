@@ -16,11 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 
 /**
  * Represents a basic statistic result with different ranking values.
  */
+@JsonTypeName("BasicStatisticResult")
 public class BasicStatisticResult implements RankingResult {
 
   ColumnCombination columnCombination;

@@ -16,12 +16,15 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.OrderDependency;
 
 /**
  * Represents an order dependency result with different ranking values.
  */
+@JsonTypeName("OrderDependencyResult")
 public class OrderDependencyResult implements RankingResult {
 
   protected OrderDependency.ComparisonOperator comparisonOperator;

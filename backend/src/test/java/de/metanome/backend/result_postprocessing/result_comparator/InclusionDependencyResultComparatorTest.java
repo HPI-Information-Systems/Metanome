@@ -38,6 +38,12 @@ public class InclusionDependencyResultComparatorTest {
         new ColumnIdentifier("table1", "column2"));
     ind1.setDependant(expectedDependant1);
     ind1.setReferenced(expectedReferenced1);
+    ind1.setDependantColumnRatio(0.5f);
+    ind1.setReferencedColumnRatio(0.3f);
+    ind1.setDependantOccurrenceRatio(0.6f);
+    ind1.setReferencedOccurrenceRatio(0.7f);
+    ind1.setDependantUniquenessRatio(0.4f);
+    ind1.setReferencedUniquenessRatio(0.1f);
 
     ColumnPermutation expectedDependant2 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
@@ -45,6 +51,12 @@ public class InclusionDependencyResultComparatorTest {
         new ColumnIdentifier("table1", "column1"));
     ind2.setDependant(expectedDependant2);
     ind2.setReferenced(expectedReferenced2);
+    ind2.setDependantColumnRatio(0.6f);
+    ind2.setReferencedColumnRatio(0.2f);
+    ind2.setDependantOccurrenceRatio(0.9f);
+    ind2.setReferencedOccurrenceRatio(0.6f);
+    ind2.setDependantUniquenessRatio(0.7f);
+    ind2.setReferencedUniquenessRatio(0.3f);
   }
 
   @Test
@@ -81,6 +93,116 @@ public class InclusionDependencyResultComparatorTest {
         new InclusionDependencyResultComparator(
             InclusionDependencyResultComparator.REFERENCED_COLUMN, false);
     assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareDependantColumnRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_COLUMN_RATIO, true);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareDependantColumnRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_COLUMN_RATIO, false);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceColumnRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_COLUMN_RATIO, true);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceColumnRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_COLUMN_RATIO, false);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+
+  @Test
+  public void compareDependantOccurrenceRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO, true);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareDependantOccurrenceRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO, false);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceOccurrenceRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_OCCURRENCE_RATIO, true);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceOccurrenceRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_OCCURRENCE_RATIO, false);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+
+  @Test
+  public void compareDependantUniquenessRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO, true);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareDependantUniquenessRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO, false);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceUniquenessRatioAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_UNIQUENESS_RATIO, true);
+    assertEquals(-1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareReferenceUniquenessRatioDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.REFERENCED_UNIQUENESS_RATIO, false);
+    assertEquals(1, resultComparator.compare(ind1, ind2));
   }
 
 }

@@ -16,12 +16,15 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 
 /**
  * Represents a conditional unique column combination result with different ranking values.
  */
+@JsonTypeName("ConditionalUniqueColumnCombinationResult")
 public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
   protected ColumnCombination columnCombination;

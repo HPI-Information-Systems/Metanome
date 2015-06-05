@@ -16,7 +16,7 @@
 
 package de.metanome.frontend.client.services;
 
-import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.results.RankingResult;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
@@ -33,7 +33,7 @@ public interface ResultStoreRestService extends RestService {
   @GET
   @Path("/getAll/{type}")
   public void listAll(@PathParam("type") String type,
-                      MethodCallback<List<Result>> callback);
+                      MethodCallback<List<RankingResult>> callback);
 
   @GET
   @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
@@ -42,7 +42,7 @@ public interface ResultStoreRestService extends RestService {
                             @PathParam("sortOrder") boolean ascending,
                             @PathParam("start") int start,
                             @PathParam("end") int end,
-                            MethodCallback<List<Result>> callback);
+                            MethodCallback<List<RankingResult>> callback);
 
   @GET
   @Path("/count/{type}")
@@ -50,11 +50,11 @@ public interface ResultStoreRestService extends RestService {
                     MethodCallback<Integer> callback);
 
   @GET
-  @Path("/loadExecution/{executionId}")
-  public void loadExecution(@PathParam("executionId") long id, MethodCallback<Void> callback);
+  @Path("/loadExecution/{executionId}/{dataIndependent}")
+  public void loadExecution(@PathParam("executionId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<Void> callback);
 
   @GET
-  @Path("/loadResults/{fileInputId}")
-  public void loadResults(@PathParam("fileInputId") long id, MethodCallback<List<String>> callback);
+  @Path("/loadResults/{fileInputId}/{dataIndependent}")
+  public void loadResults(@PathParam("fileInputId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<List<String>> callback);
 
 }

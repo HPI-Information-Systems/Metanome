@@ -61,29 +61,71 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Starting point for the result post processing. The results are extracted from disk and hold in
- * memory for further analyses.
+ * Starting point for the result post processing. The results are extracted from disk, analyzed
+ * and hold in memory for further analyses.
  */
 public class ResultPostProcessor {
 
   /**
-   * Loads the results of a algorithm run from hard disk and stores them.
+   * Loads the results of an algorithm run from hard disk, analyze them without using
+   * the actual data and stores them.
    *
    * @param execution Execution containing the algorithm results file path
    */
-  public static void extractAndStoreResults(Execution execution)
+  public static void extractAndStoreResultsDataIndependent(Execution execution)
       throws IOException, AlgorithmConfigurationException, InputGenerationException,
              InputIterationException {
-    extractAndStoreResults(execution.getResults(), execution.getInputs());
+    extractAndStoreResults(execution.getResults(), execution.getInputs(), true);
   }
 
   /**
-   * Loads the results of a algorithm run from hard disk, analyzes and stores them.
+   * Loads the results of an algorithm run from hard disk, analyze them using
+   * the actual data and stores them.
    *
-   * @param results the results
-   * @param inputs  the inputs used by the algorithm
+   * @param execution Execution containing the algorithm results file path
    */
-  public static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs)
+  public static void extractAndStoreResultsDataDependent(Execution execution)
+      throws IOException, AlgorithmConfigurationException, InputGenerationException,
+             InputIterationException {
+    extractAndStoreResults(execution.getResults(), execution.getInputs(), false);
+  }
+
+  /**
+   * Loads the results of an algorithm run from hard disk, analyzes them without
+   * using the actual data and stores them.
+   *
+   * @param results         the results
+   * @param inputs          the inputs used by the algorithm
+   */
+  public static void extractAndStoreResultsDataIndependent(Set<Result> results, Collection<Input> inputs)
+      throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
+             IOException {
+    extractAndStoreResults(results, inputs, true);
+  }
+
+  /**
+   * Loads the results of an algorithm run from hard disk, analyzes them
+   * using the actual data and stores them.
+   *
+   * @param results         the results
+   * @param inputs          the inputs used by the algorithm
+   */
+  public static void extractAndStoreResultsDataDependent(Set<Result> results, Collection<Input> inputs)
+      throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
+             IOException {
+    extractAndStoreResults(results, inputs, false);
+  }
+
+
+
+  /**
+   * Loads the results of an algorithm run from hard disk, analyzes and stores them.
+   *
+   * @param results         the results
+   * @param inputs          the inputs used by the algorithm
+   * @param dataIndependent true, if the result analyzes should use the actual data, false otherwise
+   */
+  protected static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs, boolean dataIndependent)
       throws IOException, AlgorithmConfigurationException, InputGenerationException,
              InputIterationException {
     ResultsStoreHolder.clearStores();
@@ -105,17 +147,16 @@ public class ResultPostProcessor {
       String fileName = result.getFileName();
       String resultTypeName = result.getType().getName();
 
-      analyzeAndStoreResults(fileName, resultTypeName, inputGenerators, false);
+      analyzeAndStoreResults(fileName, resultTypeName, inputGenerators, dataIndependent);
     }
   }
 
   /**
-   * Reads the results from the given file and stores them in a result store.
+   * Reads the results from the given file, analyzes them and stores them in a result store.
    *
    * @param fileName        the file name
    * @param name            the name of the result type
-   * @param dataIndependent true, if only data independent statistics should be calculated, false
-   *                        otherwise
+   * @param dataIndependent true, if the result analyzes should use the actual data, false otherwise
    */
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators,

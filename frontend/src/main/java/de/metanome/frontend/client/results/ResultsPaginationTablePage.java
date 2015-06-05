@@ -69,7 +69,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
       addCountResults(execution);
     } else {
       this.resultStoreService
-          .loadExecution(execution.getId(), getMethodCallbackExecution(execution));
+          .loadExecution(execution.getId(), false, getMethodCallbackExecution(execution));
     }
   }
 
@@ -100,7 +100,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param fileInput the execution
    */
   public void showResultsFor(FileInput fileInput) {
-    this.resultStoreService.loadResults(fileInput.getId(), getMethodCallbackResults(fileInput));
+    this.resultStoreService.loadResults(fileInput.getId(), false, getMethodCallbackResults(fileInput));
   }
 
   /**

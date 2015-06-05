@@ -148,7 +148,7 @@ public class AlgorithmExecutionResource {
     // Execute the result post processing
     if (!executionSetting.getCountResults()) {
       try {
-        ResultPostProcessor.extractAndStoreResults(execution);
+        ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
       } catch (Exception e) {
         throw new WebException("Could not execute result post processing: " + e.getMessage(),
                                Response.Status.BAD_REQUEST);

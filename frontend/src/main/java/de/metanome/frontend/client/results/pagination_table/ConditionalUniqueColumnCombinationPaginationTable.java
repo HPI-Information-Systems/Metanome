@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.result_comparator.ConditionalUniqueColumnCombinationResultComparator;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for conditional unique column combination results.
  */
 public class ConditionalUniqueColumnCombinationPaginationTable
-    extends AbstractPaginationTable<ConditionalUniqueColumnCombination> {
+    extends AbstractPaginationTable<ConditionalUniqueColumnCombinationResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,11 +50,11 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Unique Column Combination column
-    TextColumn<ConditionalUniqueColumnCombination>
+    TextColumn<ConditionalUniqueColumnCombinationResult>
         columnCombinationColumn =
-        new TextColumn<ConditionalUniqueColumnCombination>() {
+        new TextColumn<ConditionalUniqueColumnCombinationResult>() {
           @Override
-          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+          public String getValue(ConditionalUniqueColumnCombinationResult columnCombination) {
             return columnCombination.getColumnCombination().toString();
           }
         };
@@ -62,11 +62,11 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
 
     // condition column
-    TextColumn<ConditionalUniqueColumnCombination>
+    TextColumn<ConditionalUniqueColumnCombinationResult>
         conditionColumn =
-        new TextColumn<ConditionalUniqueColumnCombination>() {
+        new TextColumn<ConditionalUniqueColumnCombinationResult>() {
           @Override
-          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+          public String getValue(ConditionalUniqueColumnCombinationResult columnCombination) {
             return columnCombination.getCondition().toString();
           }
         };
@@ -74,11 +74,11 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.CONDITION_COLUMN);
 
     // coverage column
-    TextColumn<ConditionalUniqueColumnCombination>
+    TextColumn<ConditionalUniqueColumnCombinationResult>
         coverageColumn =
-        new TextColumn<ConditionalUniqueColumnCombination>() {
+        new TextColumn<ConditionalUniqueColumnCombinationResult>() {
           @Override
-          public String getValue(ConditionalUniqueColumnCombination columnCombination) {
+          public String getValue(ConditionalUniqueColumnCombinationResult columnCombination) {
             return String.valueOf(columnCombination.getCondition().getCoverage());
           }
         };

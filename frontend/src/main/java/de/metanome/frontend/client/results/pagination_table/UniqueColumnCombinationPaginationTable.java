@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.result_comparator.UniqueColumnCombinationResultComparator;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for unique column combination results.
  */
 public class UniqueColumnCombinationPaginationTable
-    extends AbstractPaginationTable<UniqueColumnCombination> {
+    extends AbstractPaginationTable<UniqueColumnCombinationResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,11 +50,11 @@ public class UniqueColumnCombinationPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Unique Column Combination column
-    TextColumn<UniqueColumnCombination>
+    TextColumn<UniqueColumnCombinationResult>
         columnCombinationColumn =
-        new TextColumn<UniqueColumnCombination>() {
+        new TextColumn<UniqueColumnCombinationResult>() {
           @Override
-          public String getValue(UniqueColumnCombination functionalDependency) {
+          public String getValue(UniqueColumnCombinationResult functionalDependency) {
             return functionalDependency.getColumnCombination().toString();
           }
         };

@@ -25,6 +25,7 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.results.RankingResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.List;
  *
  * @param <CellType> the type of the results
  */
-public abstract class AbstractPaginationTable<CellType extends Result> extends FlowPanel {
+public abstract class AbstractPaginationTable<CellType extends RankingResult> extends FlowPanel {
 
   private static final int ELEMENTS_PER_PAGE = 50;
 

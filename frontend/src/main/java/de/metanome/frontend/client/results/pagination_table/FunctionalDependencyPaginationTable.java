@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.FunctionalDependencyResultComparator;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for functional dependency results.
  */
 public class FunctionalDependencyPaginationTable
-    extends AbstractPaginationTable<FunctionalDependency> {
+    extends AbstractPaginationTable<FunctionalDependencyResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,9 +50,9 @@ public class FunctionalDependencyPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Determinant column
-    TextColumn<FunctionalDependency> determinantColumn = new TextColumn<FunctionalDependency>() {
+    TextColumn<FunctionalDependencyResult> determinantColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
-      public String getValue(FunctionalDependency functionalDependency) {
+      public String getValue(FunctionalDependencyResult functionalDependency) {
         return functionalDependency.getDeterminant().toString();
       }
 
@@ -61,9 +61,9 @@ public class FunctionalDependencyPaginationTable
     columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN);
 
     // Determinant column
-    TextColumn<FunctionalDependency> dependantColumn = new TextColumn<FunctionalDependency>() {
+    TextColumn<FunctionalDependencyResult> dependantColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
-      public String getValue(FunctionalDependency functionalDependency) {
+      public String getValue(FunctionalDependencyResult functionalDependency) {
         return functionalDependency.getDependant().toString();
       }
     };

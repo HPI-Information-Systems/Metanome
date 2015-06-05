@@ -19,9 +19,9 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
+import de.metanome.backend.result_postprocessing.results.RankingResult;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.FileInput;
@@ -71,9 +71,9 @@ public class ResultStoreResource {
   @GET
   @Path("/getAll/{type}")
   @Produces("application/json")
-  public List<Result> getAll(@PathParam("type") String type) {
+  public List<RankingResult> getAll(@PathParam("type") String type) {
     try {
-      return (List<Result>) ResultsStoreHolder.getStore(type).list();
+      return (List<RankingResult>) ResultsStoreHolder.getStore(type).list();
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -92,13 +92,13 @@ public class ResultStoreResource {
   @GET
   @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
-  public List<Result> getAllFromTo(@PathParam("type") String type,
-                                   @PathParam("sortProperty") String sortProperty,
-                                   @PathParam("sortOrder") boolean ascending,
-                                   @PathParam("start") int start,
-                                   @PathParam("end") int end) {
+  public List<RankingResult> getAllFromTo(@PathParam("type") String type,
+                                          @PathParam("sortProperty") String sortProperty,
+                                          @PathParam("sortOrder") boolean ascending,
+                                          @PathParam("start") int start,
+                                          @PathParam("end") int end) {
     try {
-      return (List<Result>) ResultsStoreHolder.getStore(type).subList(
+      return (List<RankingResult>) ResultsStoreHolder.getStore(type).subList(
           sortProperty, ascending, start, end);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -112,12 +112,17 @@ public class ResultStoreResource {
    * @param id Execution id of the execution
    */
   @GET
-  @Path("/loadExecution/{executionId}")
+  @Path("/loadExecution/{executionId}/{dataIndependent}")
   @Produces("application/json")
-  public void loadExecution(@PathParam("executionId") long id) {
+  public void loadExecution(@PathParam("executionId") long id,
+                            @PathParam("dataIndependent") boolean dataIndependent) {
     try {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
-      ResultPostProcessor.extractAndStoreResults(execution);
+      if (dataIndependent) {
+        ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
+      } else {
+        ResultPostProcessor.extractAndStoreResultsDataDependent(execution);
+      }
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -129,15 +134,21 @@ public class ResultStoreResource {
    * @param id the id of the file input
    */
   @GET
-  @Path("/loadResults/{id}")
+  @Path("/loadResults/{id}/{dataIndependent}")
   @Produces("application/json")
-  public List<String> loadResults(@PathParam("id") long id) {
+  public List<String> loadResults(@PathParam("id") long id,
+                                  @PathParam("dataIndependent") boolean dataIndependent) {
     try {
       FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
       Set<de.metanome.backend.results_db.Result> results = getResults(fileInput);
       Collection<Input> inputs = new ArrayList<>();
       inputs.add(fileInput);
-      ResultPostProcessor.extractAndStoreResults(results, inputs);
+
+      if (dataIndependent) {
+        ResultPostProcessor.extractAndStoreResultsDataIndependent(results, inputs);
+      } else {
+        ResultPostProcessor.extractAndStoreResultsDataDependent(results, inputs);
+      }
       return getTypes(results);
     } catch (EntityStorageException | IOException | AlgorithmConfigurationException |
         InputIterationException | InputGenerationException e) {
