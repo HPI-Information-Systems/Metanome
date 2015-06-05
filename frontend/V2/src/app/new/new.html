@@ -27,15 +27,14 @@
         <md-card-content>
           <h2>Select datasource</h2>
           <a class="settings-datasources" ng-click="openDatasourceSettings()"><i class="fa fa-cog fa-2x"></i></a>
-          <div class="algorithms-container">
+          <div class="datasources-container">
             <md-list>
               <div ng-repeat="datasource in datasources">
                <md-subheader class="md-no-sticky" ng-bind="datasource.name"></md-subheader>
                <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
                <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="data.cb5" class="md-primary">
                  <div class="algo-in-list md-list-item-text">
-                   <h4>{{ item.name }}</h4>
-                   <p class="algo-desc">{{ item.desc }}</p>
+                   <h4>{{ item.name }} ({{ item.desc }})</h4>
                  </div>
                </md-checkbox>
                </md-list-item>
