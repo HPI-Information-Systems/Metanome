@@ -64,7 +64,7 @@ section.jumbotron h1 {
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-content {
-  width: 95% !important;
+  width: 800px !important;
   height: 95% !important;
 }
 
@@ -140,7 +140,7 @@ section.jumbotron h1 {
 }
 
 /* ##### NEW CONTROLLER #### */
-/*Hack to always show scrollbar on OSX http://stackoverflow.com/questions/7492062/css-overflow-scroll-always-show-vertical-scroll-bar */
+/*Hack to always show scrollbar on OSX http://stackoverflow.com/questions/7492062/css-overflow-scroll-always-show-vertical-scroll-bar 
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -150,6 +150,7 @@ section.jumbotron h1 {
     background-color: rgba(0,0,0,.5);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+*/
 .new-controller .listdemoBasicUsage md-divider {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -217,9 +218,20 @@ section.jumbotron h1 {
 
 .settings-container .settings {
   margin-top: -65px;
-  margin-left: 400px;
+  margin-left: 650px;
 }
 
+.settings-container .add-new {
+  margin-top: -25px;
+  margin-left: 710px;
+  margin-bottom: -30px;
+}
+
+.settings-container .add-new .md-button {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 10px;
+}
 .settings-container .settings .md-button {
   padding-left: 15px;
   padding-right: 15px;
@@ -232,4 +244,16 @@ section.jumbotron h1 {
 
 .settings-container h3 {
   margin-top: 55px;
+}
+
+.md-select-menu-container {
+  z-index: 10000 !important;
+}
+
+.md-select-menu-container md-content {
+  background-color: white !important;
+}
+
+h4.additional-settings {
+  margin-bottom: -0px;
 }

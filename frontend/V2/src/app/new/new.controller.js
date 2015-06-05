@@ -88,4 +88,11 @@ angular.module('v2')
         scope: $scope
       });
     };
+    $scope.openNewDatasource = function() {
+      ngDialog.open({ 
+        template: '/assets/new-datasource.html',
+        scope: $scope
+      });
+    };
+
   });
