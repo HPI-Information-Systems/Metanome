@@ -21,8 +21,9 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides metadata and statistics about a table including all columns
@@ -34,7 +35,7 @@ public class TableInformation {
   // Table name
   private String tableName;
   // List of column information
-  private List<ColumnInformation> columnInformationList;
+  private Map<String, ColumnInformation> columnInformationList;
   // Relational input generator
   private RelationalInputGenerator relationalInputGenerator;
 
@@ -59,21 +60,23 @@ public class TableInformation {
 
     // Create the column information
     List<String> columnNames = relationalInput.columnNames();
-    this.columnInformationList = new ArrayList<>(this.columnCount);
-    for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
+    this.columnInformationList = new HashMap<>();
 
+    for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
       // Compute the column information for the current column
       if (useDataDependentStatistics) {
         // Generate a new data iterator for each column
         relationalInput = relationalInputGenerator.generateNewCopy();
         this.columnInformationList
-            .add(new ColumnInformation(columnNames.get(columnIndex),
+            .put(columnNames.get(columnIndex),
+                 new ColumnInformation(columnNames.get(columnIndex),
                                        columnIndex,
                                        relationalInput,
                                        true));
       } else {
         this.columnInformationList.
-            add(new ColumnInformation(columnNames.get(columnIndex),
+            put(columnNames.get(columnIndex),
+                new ColumnInformation(columnNames.get(columnIndex),
                                       columnIndex));
       }
     }
@@ -86,7 +89,7 @@ public class TableInformation {
    */
   public long getInformationContent() {
     long sum = 0l;
-    for (ColumnInformation columnInformation : columnInformationList) {
+    for (ColumnInformation columnInformation : columnInformationList.values()) {
       sum += columnInformation.getInformationContent(getRowCount());
     }
     return sum;
@@ -101,14 +104,14 @@ public class TableInformation {
   }
 
   public long getRowCount() {
-    return columnInformationList.get(0).getRowCount();
+    return columnInformationList.values().iterator().next().getRowCount();
   }
 
   public ColumnInformation getColumn(int columnIndex) {
     return columnInformationList.get(columnIndex);
   }
 
-  public List<ColumnInformation> getColumnInformationList() {
+  public Map<String, ColumnInformation> getColumnInformationList() {
     return columnInformationList;
   }
 

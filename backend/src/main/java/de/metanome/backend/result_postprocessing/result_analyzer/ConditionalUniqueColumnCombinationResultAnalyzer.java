@@ -16,6 +16,8 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 
@@ -28,7 +30,7 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends ResultAnal
 
   public ConditionalUniqueColumnCombinationResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
-      boolean useDataDependentStatistics) {
+      boolean useDataDependentStatistics) throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataDependentStatistics);
   }
 

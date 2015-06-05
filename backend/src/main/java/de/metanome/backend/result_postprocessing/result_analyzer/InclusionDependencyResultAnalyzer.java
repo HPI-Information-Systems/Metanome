@@ -16,9 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.result_ranking.InclusionDependencyRanking;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +32,16 @@ import java.util.List;
 public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionDependency> {
 
   public InclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                           boolean useDataDependentStatistics) {
+                                           boolean useDataDependentStatistics)
+      throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataDependentStatistics);
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<InclusionDependency> results) {
-
+  protected void analyzeResultsDataIndependent(List<InclusionDependency> prevResults) {
+    List<InclusionDependencyResult> results = convertResults(prevResults);
+    InclusionDependencyRanking ranking = new InclusionDependencyRanking(results, tableInformationList);
+    ranking.calculateDatDependentRankings();
   }
 
   @Override
@@ -46,5 +54,24 @@ public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionD
 
   }
 
+  /**
+   * Converts a InclusionDependency into a InclusionDependencyResult.
+   * The InclusionDependencyResult contains additional information like different ranking
+   * values.
+   * @param prevResults the list of InclusionDependency results
+   * @return a list of InclusionDependencyResult
+   */
+  protected List<InclusionDependencyResult> convertResults(List<InclusionDependency> prevResults) {
+    List<InclusionDependencyResult> results = new ArrayList<>();
+    for (InclusionDependency prevResult : prevResults) {
+      InclusionDependencyResult result = new InclusionDependencyResult();
+      result.setDependant(prevResult.getDependant());
+      result.setReferenced(prevResult.getReferenced());
+      result.setDependantTableName(prevResult.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
+      result.setReferencedTableName(prevResult.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
+      results.add(result);
+    }
+    return results;
+  }
 
 }

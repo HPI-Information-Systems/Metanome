@@ -16,11 +16,16 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The results of the algorithm are analyzed. Different statistics and metrics are calculated to
@@ -28,13 +33,21 @@ import java.util.List;
  */
 public abstract class ResultAnalyzer<T extends Result> {
 
-  boolean useDataDependentStatistics = false;
-  List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
+  protected boolean useDataDependentStatistics = false;
+  protected List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
+  protected Map<String, TableInformation> tableInformationList;
 
   public ResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                        boolean useDataDependentStatistics) {
+                        boolean useDataDependentStatistics)
+      throws InputGenerationException, InputIterationException {
     this.inputGenerators = inputGenerators;
     this.useDataDependentStatistics = useDataDependentStatistics;
+    this.tableInformationList = new HashMap<>();
+
+    for (RelationalInputGenerator relationalInputGenerator : inputGenerators) {
+      TableInformation tableInformation = new TableInformation(relationalInputGenerator, useDataDependentStatistics);
+      this.tableInformationList.put(tableInformation.getTableName(), tableInformation);
+    }
   }
 
   /**

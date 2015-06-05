@@ -16,6 +16,8 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
@@ -27,7 +29,8 @@ import java.util.List;
 public class UniqueColumnCombinationResultAnalyzer extends ResultAnalyzer<UniqueColumnCombination> {
 
   public UniqueColumnCombinationResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                               boolean useDataDependentStatistics) {
+                                               boolean useDataDependentStatistics)
+      throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataDependentStatistics);
   }
 

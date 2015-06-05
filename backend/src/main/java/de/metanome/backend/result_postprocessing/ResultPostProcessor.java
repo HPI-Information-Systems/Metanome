@@ -18,6 +18,8 @@ package de.metanome.backend.result_postprocessing;
 
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.input.InputGenerationException;
+import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
@@ -64,7 +66,8 @@ public class ResultPostProcessor {
    * @param execution Execution containing the algorithm results file path
    */
   public static void extractAndStoreResults(Execution execution)
-      throws IOException, AlgorithmConfigurationException {
+      throws IOException, AlgorithmConfigurationException, InputGenerationException,
+             InputIterationException {
     extractAndStoreResults(execution.getResults(), execution.getInputs());
   }
 
@@ -75,7 +78,8 @@ public class ResultPostProcessor {
    * @param inputs  the inputs used by the algorithm
    */
   public static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs)
-      throws IOException, AlgorithmConfigurationException {
+      throws IOException, AlgorithmConfigurationException, InputGenerationException,
+             InputIterationException {
     ResultsStoreHolder.clearStores();
 
     // get input generators
@@ -107,7 +111,7 @@ public class ResultPostProcessor {
    */
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators)
-      throws IOException {
+      throws IOException, InputGenerationException, InputIterationException {
 
     if (name.equals(ResultType.CUCC.getName())) {
       // read results
