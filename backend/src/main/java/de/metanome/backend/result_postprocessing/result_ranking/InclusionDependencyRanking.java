@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Calculates the rankings for inclusion dependency results.
  */
-public class InclusionDependencyRanking {
+public class InclusionDependencyRanking implements Ranking {
 
   protected static final float UNIQUENESS_THRESHOLD = 0.1f;
 
@@ -74,6 +74,7 @@ public class InclusionDependencyRanking {
   /**
    * Calculates the data independent ranking and stores them in the results.
    */
+  @Override
   public void calculateDataIndependentRankings() {
     for (InclusionDependencyResult result : this.inclusionDependencyResults) {
       calculateSizeRatios(result);
@@ -84,6 +85,7 @@ public class InclusionDependencyRanking {
   /**
    * Calculates the data dependent ranking and stores them in the results.
    */
+  @Override
   public void calculateDatDependentRankings() {
     for (InclusionDependencyResult result : this.inclusionDependencyResults) {
       calculateUniquenessRatios(result);

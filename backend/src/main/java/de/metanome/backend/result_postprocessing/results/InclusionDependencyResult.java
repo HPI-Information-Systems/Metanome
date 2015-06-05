@@ -19,6 +19,9 @@ package de.metanome.backend.result_postprocessing.results;
 
 import de.metanome.algorithm_integration.ColumnPermutation;
 
+/**
+ * Represents an inclusion dependency result with different ranking values.
+ */
 public class InclusionDependencyResult {
 
   protected ColumnPermutation dependant;
