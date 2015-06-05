@@ -20,13 +20,15 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
 import java.util.List;
 
 /**
  * Analyzes Conditional Unique Column Combination Results.
  */
-public class ConditionalUniqueColumnCombinationResultAnalyzer extends ResultAnalyzer<ConditionalUniqueColumnCombination> {
+public class ConditionalUniqueColumnCombinationResultAnalyzer extends
+                                                              ResultAnalyzer<ConditionalUniqueColumnCombination, ConditionalUniqueColumnCombinationResult> {
 
   public ConditionalUniqueColumnCombinationResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
@@ -35,13 +37,15 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends ResultAnal
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<ConditionalUniqueColumnCombination> results) {
-
+  protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataIndependent(
+      List<ConditionalUniqueColumnCombination> results) {
+    return null;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<ConditionalUniqueColumnCombination> results) {
-
+  protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataDependent(
+      List<ConditionalUniqueColumnCombination> results) {
+    return null;
   }
 
   @Override

@@ -18,22 +18,30 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class FunctionalDependencyResultComparatorTest {
 
+  FunctionalDependencyResult fd1 = new FunctionalDependencyResult();
+  FunctionalDependencyResult fd2 = new FunctionalDependencyResult();
 
-  ColumnCombination determinant1 = new ColumnCombination(new ColumnIdentifier("table1", "column5"));
-  ColumnIdentifier dependant1 = new ColumnIdentifier("table1", "column2");
-  FunctionalDependency fd1 = new FunctionalDependency(determinant1, dependant1);
+  @Before
+  public void setUp() {
+    ColumnCombination determinant1 = new ColumnCombination(new ColumnIdentifier("table1", "column5"));
+    ColumnIdentifier dependant1 = new ColumnIdentifier("table1", "column2");
+    fd1.setDependant(dependant1);
+    fd1.setDeterminant(determinant1);
 
-  ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
-  ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
-  FunctionalDependency fd2 = new FunctionalDependency(determinant2, dependant2);
+    ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
+    ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
+    fd2.setDependant(dependant2);
+    fd2.setDeterminant(determinant2);
+  }
 
   @Test
   public void compareDependantAsc() {

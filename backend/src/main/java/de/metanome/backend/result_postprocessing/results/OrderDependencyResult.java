@@ -16,9 +16,48 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.results.OrderDependency;
+
 /**
  * Represents an order dependency result with different ranking values.
  */
-public class OrderDependencyResult {
+public class OrderDependencyResult implements RankingResult {
 
+  protected OrderDependency.ComparisonOperator comparisonOperator;
+  protected ColumnPermutation lhs;
+  protected OrderDependency.OrderType orderType;
+  protected ColumnPermutation rhs;
+
+  public OrderDependency.ComparisonOperator getComparisonOperator() {
+    return comparisonOperator;
+  }
+
+  public void setComparisonOperator(OrderDependency.ComparisonOperator comparisonOperator) {
+    this.comparisonOperator = comparisonOperator;
+  }
+
+  public ColumnPermutation getLhs() {
+    return lhs;
+  }
+
+  public void setLhs(ColumnPermutation lhs) {
+    this.lhs = lhs;
+  }
+
+  public OrderDependency.OrderType getOrderType() {
+    return orderType;
+  }
+
+  public void setOrderType(OrderDependency.OrderType orderType) {
+    this.orderType = orderType;
+  }
+
+  public ColumnPermutation getRhs() {
+    return rhs;
+  }
+
+  public void setRhs(ColumnPermutation rhs) {
+    this.rhs = rhs;
+  }
 }

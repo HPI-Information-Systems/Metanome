@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
 /**
  * Defines a basic statistic comparator based on a predefined sort property and sort direction
  * order.
  */
 public class BasicStatisticResultComparator
-    extends ResultComparator<BasicStatistic> {
+    extends ResultComparator<BasicStatisticResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String VALUE_COLUMN = "value";
@@ -49,8 +49,8 @@ public class BasicStatisticResultComparator
    * @return Returns 1 if b1 is greater than b2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(BasicStatistic b1,
-                        BasicStatistic b2, String sortProperty) {
+  protected int compare(BasicStatisticResult b1,
+                        BasicStatisticResult b2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return b1.getColumnCombination().toString()
           .compareTo(b2.getColumnCombination().toString());

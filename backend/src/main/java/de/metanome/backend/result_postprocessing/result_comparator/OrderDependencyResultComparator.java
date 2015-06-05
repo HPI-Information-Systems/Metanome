@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 /**
  * Defines an order dependency comparator based on a predefined sort property and sort direction
  * order.
  */
 public class OrderDependencyResultComparator
-    extends ResultComparator<OrderDependency> {
+    extends ResultComparator<OrderDependencyResult> {
 
   public static final String LHS_COLUMN = "lhs";
   public static final String RHS_COLUMN = "rhs";
@@ -48,8 +48,8 @@ public class OrderDependencyResultComparator
    * @return Returns 1 if od1 is greater than od2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(OrderDependency od1,
-                        OrderDependency od2, String sortProperty) {
+  protected int compare(OrderDependencyResult od1,
+                        OrderDependencyResult od2, String sortProperty) {
     if (LHS_COLUMN.equals(sortProperty)) {
       return od1.getLhs().toString()
           .compareTo(od2.getLhs().toString());

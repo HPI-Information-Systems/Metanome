@@ -16,22 +16,30 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
+import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class UniqueColumnCombinationResultComparatorTest {
 
-  ColumnIdentifier column1 = new ColumnIdentifier("table1", "column1");
-  ColumnIdentifier column2 = new ColumnIdentifier("table1", "column2");
-  ColumnIdentifier column3 = new ColumnIdentifier("table1", "column3");
-  ColumnIdentifier column4 = new ColumnIdentifier("table1", "column4");
+  UniqueColumnCombinationResult ucc1 = new UniqueColumnCombinationResult();
+  UniqueColumnCombinationResult ucc2 = new UniqueColumnCombinationResult();
 
-  UniqueColumnCombination ucc1 = new UniqueColumnCombination(column1, column2, column2);
-  UniqueColumnCombination ucc2 = new UniqueColumnCombination(column3, column4, column2);
+  @Before
+  public void setUp() {
+    ColumnIdentifier column1 = new ColumnIdentifier("table1", "column1");
+    ColumnIdentifier column2 = new ColumnIdentifier("table1", "column2");
+    ColumnIdentifier column3 = new ColumnIdentifier("table1", "column3");
+    ColumnIdentifier column4 = new ColumnIdentifier("table1", "column4");
+
+    ucc1.setColumnCombination(new ColumnCombination(column1, column2, column2));
+    ucc2.setColumnCombination(new ColumnCombination(column3, column4, column2));
+  }
 
   @Test
   public void compare1() {

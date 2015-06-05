@@ -36,6 +36,7 @@ public class InclusionDependencyRanking implements Ranking {
    */
   protected void createOccurrenceList() {
     initializeOccurrenceList();
+
     for (InclusionDependencyResult result : this.inclusionDependencyResults) {
       for (ColumnIdentifier column : result.getReferenced().getColumnIdentifiers()) {
         updateOccurrenceList(column);
@@ -46,10 +47,14 @@ public class InclusionDependencyRanking implements Ranking {
     }
   }
 
+  /**
+   * Initializes the occurrence list, so that each entry is present.
+   */
   private void initializeOccurrenceList() {
-    for (String tableName : tableInformationMap.keySet()) {
+    for (String tableName : this.tableInformationMap.keySet()) {
       Map<String, Integer> subMap = new HashMap<>();
-      for (String columnName : tableInformationMap.get(tableName).getColumnInformationList().keySet()) {
+      for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationList()
+          .keySet()) {
         subMap.put(columnName, 0);
       }
       this.occurrenceMap.put(tableName, subMap);
@@ -77,8 +82,8 @@ public class InclusionDependencyRanking implements Ranking {
   @Override
   public void calculateDataIndependentRankings() {
     for (InclusionDependencyResult result : this.inclusionDependencyResults) {
-      calculateSizeRatios(result);
-      calculateColumnCountOccurrenceRatios(result);
+      calculateColumnRatios(result);
+      calculateOccurrenceRatios(result);
     }
   }
 
@@ -98,16 +103,16 @@ public class InclusionDependencyRanking implements Ranking {
    *
    * @param result the inclusion dependency result
    */
-  protected void calculateColumnCountOccurrenceRatios(InclusionDependencyResult result) {
+  protected void calculateOccurrenceRatios(InclusionDependencyResult result) {
     // calculate referenced occurrence ratio
     ColumnPermutation referenced = result.getReferenced();
-    result.setReferencedColumnOccurrence(
-        calculateColumnCountOccurrenceRatio(referenced, result.getReferencedTableName()));
+    result.setReferencedOccurrenceRatio(
+        calculateOccurrenceRatio(referenced, result.getReferencedTableName()));
 
     // calculate dependant occurrence ratio
     ColumnPermutation dependant = result.getDependant();
-    result.setDependantColumnOccurrence(
-        calculateColumnCountOccurrenceRatio(dependant, result.getDependantTableName()));
+    result.setDependantOccurrenceRatio(
+        calculateOccurrenceRatio(dependant, result.getDependantTableName()));
   }
 
   /**
@@ -118,8 +123,8 @@ public class InclusionDependencyRanking implements Ranking {
    * @param tableName         the table name
    * @return the ratio
    */
-  protected float calculateColumnCountOccurrenceRatio(ColumnPermutation columnPermutation,
-                                                      String tableName) {
+  protected float calculateOccurrenceRatio(ColumnPermutation columnPermutation,
+                                           String tableName) {
     Integer referencedOccurrences = 0;
     for (ColumnIdentifier column : columnPermutation.getColumnIdentifiers()) {
       referencedOccurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
@@ -133,7 +138,7 @@ public class InclusionDependencyRanking implements Ranking {
    *
    * @param result the result
    */
-  protected void calculateSizeRatios(InclusionDependencyResult result) {
+  protected void calculateColumnRatios(InclusionDependencyResult result) {
     Integer referencedColumnCount = result.getReferenced().getColumnIdentifiers().size();
     Integer dependantColumnCount = result.getDependant().getColumnIdentifiers().size();
 
@@ -144,8 +149,8 @@ public class InclusionDependencyRanking implements Ranking {
         dependantTableColumnCount =
         this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
 
-    result.setReferencedSizeRatio((float) referencedColumnCount / referencedTableColumnCount);
-    result.setDependantSizeRatio((float) dependantColumnCount / dependantTableColumnCount);
+    result.setReferencedColumnRatio((float) referencedColumnCount / referencedTableColumnCount);
+    result.setDependantColumnRatio((float) dependantColumnCount / dependantTableColumnCount);
   }
 
 
@@ -160,14 +165,21 @@ public class InclusionDependencyRanking implements Ranking {
     float referenceUniqueRatio = calculateUniquenessRatio(
         this.tableInformationMap.get(result.getReferencedTableName()),
         result.getReferenced().getColumnIdentifiers());
-    result.setReferencedUniqueRatio(referenceUniqueRatio);
+    result.setReferencedUniquenessRatio(referenceUniqueRatio);
 
     float dependantUniqueRatio = calculateUniquenessRatio(
         this.tableInformationMap.get(result.getDependantTableName()),
         result.getDependant().getColumnIdentifiers());
-    result.setDependantUniqueRatio(dependantUniqueRatio);
+    result.setDependantUniquenessRatio(dependantUniqueRatio);
   }
 
+  /**
+   * Calculate the ratio of the number of almost unique columns and all columns
+   *
+   * @param table   the table, the columns belong to
+   * @param columns the columns
+   * @return the ratio
+   */
   protected float calculateUniquenessRatio(TableInformation table, List<ColumnIdentifier> columns) {
     Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
     Integer uniqueColumns = 0;

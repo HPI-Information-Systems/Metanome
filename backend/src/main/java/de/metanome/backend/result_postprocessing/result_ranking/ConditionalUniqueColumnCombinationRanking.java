@@ -19,7 +19,7 @@ package de.metanome.backend.result_postprocessing.result_ranking;
 /**
  * Calculates the rankings for conditional unique column combination results.
  */
-public class ConditionalUniqueColumnCombinationRanking implements Ranking{
+public class ConditionalUniqueColumnCombinationRanking implements Ranking {
 
   @Override
   public void calculateDataIndependentRankings() {

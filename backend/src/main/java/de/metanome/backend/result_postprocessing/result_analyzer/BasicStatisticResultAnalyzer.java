@@ -20,13 +20,15 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
 import java.util.List;
 
 /**
  * Analyzes Basic Statistic Results.
  */
-public class BasicStatisticResultAnalyzer extends ResultAnalyzer<BasicStatistic> {
+public class BasicStatisticResultAnalyzer
+    extends ResultAnalyzer<BasicStatistic, BasicStatisticResult> {
 
   public BasicStatisticResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
@@ -35,13 +37,13 @@ public class BasicStatisticResultAnalyzer extends ResultAnalyzer<BasicStatistic>
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<BasicStatistic> results) {
-
+  protected List<BasicStatisticResult> analyzeResultsDataIndependent(List<BasicStatistic> results) {
+    return null;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<BasicStatistic> results) {
-
+  protected List<BasicStatisticResult> analyzeResultsDataDependent(List<BasicStatistic> results) {
+    return null;
   }
 
   @Override

@@ -20,13 +20,15 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 import java.util.List;
 
 /**
  * Analyzes Unique Column Combination Results.
  */
-public class UniqueColumnCombinationResultAnalyzer extends ResultAnalyzer<UniqueColumnCombination> {
+public class UniqueColumnCombinationResultAnalyzer
+    extends ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult> {
 
   public UniqueColumnCombinationResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                                boolean useDataDependentStatistics)
@@ -35,13 +37,15 @@ public class UniqueColumnCombinationResultAnalyzer extends ResultAnalyzer<Unique
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<UniqueColumnCombination> results) {
-
+  protected List<UniqueColumnCombinationResult> analyzeResultsDataIndependent(
+      List<UniqueColumnCombination> results) {
+    return null;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<UniqueColumnCombination> results) {
-
+  protected List<UniqueColumnCombinationResult> analyzeResultsDataDependent(
+      List<UniqueColumnCombination> results) {
+    return null;
   }
 
   @Override

@@ -16,9 +16,31 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnCondition;
+
 /**
  * Represents a conditional unique column combination result with different ranking values.
  */
-public class ConditionalUniqueColumnCombinationResult {
+public class ConditionalUniqueColumnCombinationResult implements RankingResult {
+
+  protected ColumnCombination columnCombination;
+  protected ColumnCondition condition;
+
+  public ColumnCombination getColumnCombination() {
+    return columnCombination;
+  }
+
+  public void setColumnCombination(ColumnCombination columnCombination) {
+    this.columnCombination = columnCombination;
+  }
+
+  public ColumnCondition getCondition() {
+    return condition;
+  }
+
+  public void setCondition(ColumnCondition condition) {
+    this.condition = condition;
+  }
 
 }

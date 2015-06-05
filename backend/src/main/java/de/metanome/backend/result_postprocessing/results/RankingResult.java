@@ -16,20 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
 
-/**
- * Represents an unique column combination result with different ranking values.
- */
-public class UniqueColumnCombinationResult implements RankingResult {
+public interface RankingResult {
 
-  protected ColumnCombination columnCombination;
-
-  public ColumnCombination getColumnCombination() {
-    return columnCombination;
-  }
-
-  public void setColumnCombination(ColumnCombination columnCombination) {
-    this.columnCombination = columnCombination;
-  }
 }

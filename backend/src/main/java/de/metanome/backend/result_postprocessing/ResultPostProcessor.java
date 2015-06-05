@@ -42,6 +42,12 @@ import de.metanome.backend.result_postprocessing.result_store.InclusionDependenc
 import de.metanome.backend.result_postprocessing.result_store.OrderDependencyResultStore;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
 import de.metanome.backend.result_postprocessing.result_store.UniqueColumnCombinationResultStore;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.Input;
@@ -99,18 +105,21 @@ public class ResultPostProcessor {
       String fileName = result.getFileName();
       String resultTypeName = result.getType().getName();
 
-      analyzeAndStoreResults(fileName, resultTypeName, inputGenerators);
+      analyzeAndStoreResults(fileName, resultTypeName, inputGenerators, false);
     }
   }
 
   /**
    * Reads the results from the given file and stores them in a result store.
    *
-   * @param fileName the file name
-   * @param name     the name of the result type
+   * @param fileName        the file name
+   * @param name            the name of the result type
+   * @param dataIndependent true, if only data independent statistics should be calculated, false
+   *                        otherwise
    */
   private static void analyzeAndStoreResults(String fileName, String name,
-                                             List<RelationalInputGenerator> inputGenerators)
+                                             List<RelationalInputGenerator> inputGenerators,
+                                             boolean dataIndependent)
       throws IOException, InputGenerationException, InputIterationException {
 
     if (name.equals(ResultType.CUCC.getName())) {
@@ -121,15 +130,17 @@ public class ResultPostProcessor {
           conditionalUniqueColumnCombinations =
           resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<ConditionalUniqueColumnCombination>
+      ResultAnalyzer<ConditionalUniqueColumnCombination, ConditionalUniqueColumnCombinationResult>
           resultAnalyzer =
-          new ConditionalUniqueColumnCombinationResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(conditionalUniqueColumnCombinations);
+          new ConditionalUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+      List<ConditionalUniqueColumnCombinationResult>
+          rankingResults =
+          resultAnalyzer.analyzeResults(conditionalUniqueColumnCombinations);
       // store results
       ConditionalUniqueColumnCombinationResultStore
           resultsStore =
           new ConditionalUniqueColumnCombinationResultStore();
-      resultsStore.store(conditionalUniqueColumnCombinations);
+      resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
 
@@ -139,12 +150,12 @@ public class ResultPostProcessor {
           new ResultReader<>(OrderDependency.class);
       List<OrderDependency> orderDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<OrderDependency>
-          resultAnalyzer = new OrderDependencyResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(orderDependencies);
+      ResultAnalyzer<OrderDependency, OrderDependencyResult>
+          resultAnalyzer = new OrderDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<OrderDependencyResult> rankingResults = resultAnalyzer.analyzeResults(orderDependencies);
       // store results
       OrderDependencyResultStore resultsStore = new OrderDependencyResultStore();
-      resultsStore.store(orderDependencies);
+      resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
 
@@ -154,12 +165,14 @@ public class ResultPostProcessor {
           new ResultReader<>(InclusionDependency.class);
       List<InclusionDependency> inclusionDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<InclusionDependency>
-          resultAnalyzer = new InclusionDependencyResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(inclusionDependencies);
+      ResultAnalyzer<InclusionDependency, InclusionDependencyResult>
+          resultAnalyzer = new InclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<InclusionDependencyResult>
+          rankingResults =
+          resultAnalyzer.analyzeResults(inclusionDependencies);
       // store results
       InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
-      resultsStore.store(inclusionDependencies);
+      resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
 
@@ -171,13 +184,15 @@ public class ResultPostProcessor {
           functionalDependencies =
           resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<FunctionalDependency>
+      ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult>
           resultAnalyzer =
-          new FunctionalDependencyResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(functionalDependencies);
+          new FunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<FunctionalDependencyResult>
+          rankingResults =
+          resultAnalyzer.analyzeResults(functionalDependencies);
       // store results
       FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
-      resultsStore.store(functionalDependencies);
+      resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
 
@@ -189,13 +204,15 @@ public class ResultPostProcessor {
           uniqueColumnCombinations =
           resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<UniqueColumnCombination>
+      ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult>
           resultAnalyzer =
-          new UniqueColumnCombinationResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(uniqueColumnCombinations);
+          new UniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+      List<UniqueColumnCombinationResult>
+          rankingResult =
+          resultAnalyzer.analyzeResults(uniqueColumnCombinations);
       // store results
       UniqueColumnCombinationResultStore resultsStore = new UniqueColumnCombinationResultStore();
-      resultsStore.store(uniqueColumnCombinations);
+      resultsStore.store(rankingResult);
       ResultsStoreHolder.register(name, resultsStore);
 
 
@@ -205,12 +222,12 @@ public class ResultPostProcessor {
           new ResultReader<>(BasicStatistic.class);
       List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<BasicStatistic>
-          resultAnalyzer = new BasicStatisticResultAnalyzer(inputGenerators, false);
-      resultAnalyzer.analyzeResults(basicStatistics);
+      ResultAnalyzer<BasicStatistic, BasicStatisticResult>
+          resultAnalyzer = new BasicStatisticResultAnalyzer(inputGenerators, dataIndependent);
+      List<BasicStatisticResult> rankingResults = resultAnalyzer.analyzeResults(basicStatistics);
       // store results
       BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();
-      resultsStore.store(basicStatistics);
+      resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
     }
   }

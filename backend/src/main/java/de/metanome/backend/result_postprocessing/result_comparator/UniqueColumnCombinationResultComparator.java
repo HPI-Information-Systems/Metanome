@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 /**
  * Defines an unique column combination comparator based on a predefined sort property and sort
  * direction order.
  */
 public class UniqueColumnCombinationResultComparator
-    extends ResultComparator<UniqueColumnCombination> {
+    extends ResultComparator<UniqueColumnCombinationResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
 
@@ -47,8 +47,8 @@ public class UniqueColumnCombinationResultComparator
    * @return Returns 1 if ucc1 is greater than ucc2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(UniqueColumnCombination ucc1,
-                        UniqueColumnCombination ucc2, String sortProperty) {
+  protected int compare(UniqueColumnCombinationResult ucc1,
+                        UniqueColumnCombinationResult ucc2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return ucc1.getColumnCombination().toString()
           .compareTo(ucc2.getColumnCombination().toString());

@@ -31,14 +31,13 @@ import de.metanome.backend.results_db.TableInput;
 
 public class InputToGeneratorConverter {
 
-  public static RelationalInputGenerator convertInput(Input input) throws AlgorithmConfigurationException {
+  public static RelationalInputGenerator convertInput(Input input)
+      throws AlgorithmConfigurationException {
     if (input instanceof FileInput) {
       return new DefaultFileInputGenerator(convertInputToSetting((FileInput) input));
-    }
-    else if (input instanceof TableInput) {
+    } else if (input instanceof TableInput) {
       return new DefaultTableInputGenerator(convertInputToSetting((TableInput) input));
-    }
-    else if (input instanceof DatabaseConnection) {
+    } else if (input instanceof DatabaseConnection) {
       // we do not know which table was used for profiling, thus we can not compute
       // ranking results for results on database connections
       return null;
@@ -49,6 +48,7 @@ public class InputToGeneratorConverter {
 
   /**
    * Converts the given file input to a configuration setting.
+   *
    * @param input file input
    * @return the configuration setting
    */
@@ -68,6 +68,7 @@ public class InputToGeneratorConverter {
 
   /**
    * Converts the given table input to a configuration setting.
+   *
    * @param input table input
    * @return the configuration setting
    */
@@ -79,10 +80,12 @@ public class InputToGeneratorConverter {
 
   /**
    * Converts the given database connection input to a configuration setting.
+   *
    * @param input database connection
    * @return the configuration setting
    */
-  protected static ConfigurationSettingDatabaseConnection convertInputToSetting(DatabaseConnection input) {
+  protected static ConfigurationSettingDatabaseConnection convertInputToSetting(
+      DatabaseConnection input) {
     return new ConfigurationSettingDatabaseConnection()
         .setDbUrl(input.getUrl())
         .setPassword(input.getPassword())

@@ -1,12 +1,13 @@
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
 /**
  * Defines an inclusion dependency comparator based on a predefined sort property and sort direction
  * order.
  */
-public class InclusionDependencyResultComparator extends ResultComparator<InclusionDependency> {
+public class InclusionDependencyResultComparator
+    extends ResultComparator<InclusionDependencyResult> {
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String REFERENCED_COLUMN = "referenced";
@@ -30,7 +31,8 @@ public class InclusionDependencyResultComparator extends ResultComparator<Inclus
    * @return Returns 1 if ind1 is greater than ind2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(InclusionDependency ind1, InclusionDependency ind2, String sortProperty) {
+  protected int compare(InclusionDependencyResult ind1, InclusionDependencyResult ind2,
+                        String sortProperty) {
     if (DEPENDANT_COLUMN.equals(sortProperty)) {
       return ind1.getDependant().toString().compareTo(ind2.getDependant().toString());
     }

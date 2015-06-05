@@ -16,9 +16,30 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+
 /**
  * Represents an functional dependency result with different ranking values.
  */
-public class FunctionalDependencyResult {
+public class FunctionalDependencyResult implements RankingResult {
 
+  protected ColumnCombination determinant;
+  protected ColumnIdentifier dependant;
+
+  public ColumnCombination getDeterminant() {
+    return determinant;
+  }
+
+  public void setDeterminant(ColumnCombination determinant) {
+    this.determinant = determinant;
+  }
+
+  public ColumnIdentifier getDependant() {
+    return dependant;
+  }
+
+  public void setDependant(ColumnIdentifier dependant) {
+    this.dependant = dependant;
+  }
 }

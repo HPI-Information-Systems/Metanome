@@ -107,11 +107,11 @@ public class InclusionDependencyRankingTest {
     InclusionDependencyResult result = inclusionDependencyResults.get(0);
 
     // Execute Functionality
-    ranking.calculateColumnCountOccurrenceRatios(result);
+    ranking.calculateOccurrenceRatios(result);
 
     // Check
-    assertEquals(0.5, result.getDependantColumnOccurrence(), 0.0);
-    assertEquals(0.5, result.getReferencedColumnOccurrence(), 0.0);
+    assertEquals(0.5, result.getDependantOccurrenceRatio(), 0.0);
+    assertEquals(0.5, result.getReferencedOccurrenceRatio(), 0.0);
   }
 
   @Test
@@ -122,11 +122,11 @@ public class InclusionDependencyRankingTest {
     InclusionDependencyResult result = inclusionDependencyResults.get(1);
 
     // Execute Functionality
-    ranking.calculateSizeRatios(result);
+    ranking.calculateColumnRatios(result);
 
     // Check
-    assertEquals(0.25, result.getDependantSizeRatio(), 0.0);
-    assertEquals(0.25, result.getReferencedSizeRatio(), 0.0);
+    assertEquals(0.25, result.getDependantColumnRatio(), 0.0);
+    assertEquals(0.25, result.getReferencedColumnRatio(), 0.0);
   }
 
   @Test

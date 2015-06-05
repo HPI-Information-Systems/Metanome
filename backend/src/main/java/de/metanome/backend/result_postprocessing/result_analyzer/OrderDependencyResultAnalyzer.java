@@ -20,13 +20,15 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 import java.util.List;
 
 /**
  * Analyzes Order Dependency Results.
  */
-public class OrderDependencyResultAnalyzer extends ResultAnalyzer<OrderDependency> {
+public class OrderDependencyResultAnalyzer
+    extends ResultAnalyzer<OrderDependency, OrderDependencyResult> {
 
   public OrderDependencyResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
@@ -35,13 +37,14 @@ public class OrderDependencyResultAnalyzer extends ResultAnalyzer<OrderDependenc
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<OrderDependency> results) {
-
+  protected List<OrderDependencyResult> analyzeResultsDataIndependent(
+      List<OrderDependency> results) {
+    return null;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<OrderDependency> results) {
-
+  protected List<OrderDependencyResult> analyzeResultsDataDependent(List<OrderDependency> results) {
+    return null;
   }
 
   @Override

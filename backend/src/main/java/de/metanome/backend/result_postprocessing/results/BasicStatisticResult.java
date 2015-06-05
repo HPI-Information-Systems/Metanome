@@ -16,9 +16,38 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
+import de.metanome.algorithm_integration.ColumnCombination;
+
 /**
  * Represents a basic statistic result with different ranking values.
  */
-public class BasicStatisticResult {
+public class BasicStatisticResult implements RankingResult {
 
+  ColumnCombination columnCombination;
+  String statisticName;
+  Object statisticValue;
+
+  public ColumnCombination getColumnCombination() {
+    return columnCombination;
+  }
+
+  public void setColumnCombination(ColumnCombination columnCombination) {
+    this.columnCombination = columnCombination;
+  }
+
+  public String getStatisticName() {
+    return statisticName;
+  }
+
+  public void setStatisticName(String statisticName) {
+    this.statisticName = statisticName;
+  }
+
+  public Object getStatisticValue() {
+    return statisticValue;
+  }
+
+  public void setStatisticValue(Object statisticValue) {
+    this.statisticValue = statisticValue;
+  }
 }

@@ -22,26 +22,30 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 /**
  * Represents an inclusion dependency result with different ranking values.
  */
-public class InclusionDependencyResult {
+public class InclusionDependencyResult implements RankingResult {
 
+  // Columns of the dependant and referenced side
   protected ColumnPermutation dependant;
   protected ColumnPermutation referenced;
 
-  // id of the input, which holds the dependant/referenced columns
+  // Table names of the dependant/referenced columns
   protected String dependantTableName;
   protected String referencedTableName;
 
-  // number of columns on lhs
-  private float dependantSizeRatio;
-  private float referencedSizeRatio;
+  // How many columns of the table are involved
+  // in the dependant/referenced side of the result?
+  private float dependantColumnRatio;
+  private float referencedColumnRatio;
 
-  //average number of appearances of lhs columns in other INDs
-  private float dependantColumnOccurrence;
-  private float referencedColumnOccurrence;
+  // On how many results are the columns of the
+  // dependant/referenced side involved?
+  private float dependantOccurrenceRatio;
+  private float referencedOccurrenceRatio;
 
-  //number of almost unique columns in lhs
-  private float dependantConstancyRatio;
-  private float referencedConstancyRatio;
+  // How many of the columns of the dependant/referenced
+  // side are (almost) unique?
+  private float dependantUniquenessRatio;
+  private float referencedUniquenessRatio;
 
 
   public ColumnPermutation getDependant() {
@@ -76,51 +80,51 @@ public class InclusionDependencyResult {
     this.referencedTableName = referencedTableName;
   }
 
-  public float getDependantSizeRatio() {
-    return dependantSizeRatio;
+  public float getDependantColumnRatio() {
+    return dependantColumnRatio;
   }
 
-  public void setDependantSizeRatio(float dependantSizeRatio) {
-    this.dependantSizeRatio = dependantSizeRatio;
+  public void setDependantColumnRatio(float dependantColumnRatio) {
+    this.dependantColumnRatio = dependantColumnRatio;
   }
 
-  public float getReferencedSizeRatio() {
-    return referencedSizeRatio;
+  public float getReferencedColumnRatio() {
+    return referencedColumnRatio;
   }
 
-  public void setReferencedSizeRatio(float referencedSizeRatio) {
-    this.referencedSizeRatio = referencedSizeRatio;
+  public void setReferencedColumnRatio(float referencedColumnRatio) {
+    this.referencedColumnRatio = referencedColumnRatio;
   }
 
-  public float getDependantColumnOccurrence() {
-    return dependantColumnOccurrence;
+  public float getDependantOccurrenceRatio() {
+    return dependantOccurrenceRatio;
   }
 
-  public void setDependantColumnOccurrence(float dependantColumnOccurrence) {
-    this.dependantColumnOccurrence = dependantColumnOccurrence;
+  public void setDependantOccurrenceRatio(float dependantOccurrenceRatio) {
+    this.dependantOccurrenceRatio = dependantOccurrenceRatio;
   }
 
-  public float getReferencedColumnOccurrence() {
-    return referencedColumnOccurrence;
+  public float getReferencedOccurrenceRatio() {
+    return referencedOccurrenceRatio;
   }
 
-  public void setReferencedColumnOccurrence(float referencedColumnOccurrence) {
-    this.referencedColumnOccurrence = referencedColumnOccurrence;
+  public void setReferencedOccurrenceRatio(float referencedOccurrenceRatio) {
+    this.referencedOccurrenceRatio = referencedOccurrenceRatio;
   }
 
   public float getDependantUniquenessRatio() {
-    return dependantConstancyRatio;
+    return dependantUniquenessRatio;
   }
 
-  public void setDependantUniqueRatio(float dependantConstancyRatio) {
-    this.dependantConstancyRatio = dependantConstancyRatio;
+  public void setDependantUniquenessRatio(float dependantUniquenessRatio) {
+    this.dependantUniquenessRatio = dependantUniquenessRatio;
   }
 
   public float getReferencedUniquenessRatio() {
-    return referencedConstancyRatio;
+    return referencedUniquenessRatio;
   }
 
-  public void setReferencedUniqueRatio(float referencedConstancyRatio) {
-    this.referencedConstancyRatio = referencedConstancyRatio;
+  public void setReferencedUniquenessRatio(float referencedUniquenessRatio) {
+    this.referencedUniquenessRatio = referencedUniquenessRatio;
   }
 }

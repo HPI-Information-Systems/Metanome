@@ -16,9 +16,11 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
+import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,15 +28,25 @@ import static org.junit.Assert.assertTrue;
 
 public class BasicStatisticResultComparatorTest {
 
-  String name1 = "Min";
-  String value1 = "minValue";
-  ColumnIdentifier column1 = new ColumnIdentifier("table1", "column2");
-  BasicStatistic statistic1 = new BasicStatistic(name1, value1, column1);
+  BasicStatisticResult statistic1 = new BasicStatisticResult();
+  BasicStatisticResult statistic2 = new BasicStatisticResult();
 
-  String name2 = "Max";
-  String value2 = "maxValue";
-  ColumnIdentifier column2 = new ColumnIdentifier("table1", "column3");
-  BasicStatistic statistic2 = new BasicStatistic(name2, value2, column2);
+  @Before
+  public void setUp() {
+    String name1 = "Min";
+    String value1 = "minValue";
+    ColumnIdentifier column1 = new ColumnIdentifier("table1", "column2");
+    statistic1.setColumnCombination(new ColumnCombination(column1));
+    statistic1.setStatisticName(name1);
+    statistic1.setStatisticValue(value1);
+
+    String name2 = "Max";
+    String value2 = "maxValue";
+    ColumnIdentifier column2 = new ColumnIdentifier("table1", "column3");
+    statistic2.setColumnCombination(new ColumnCombination(column2));
+    statistic2.setStatisticName(name2);
+    statistic2.setStatisticValue(value2);
+  }
 
   @Test
   public void compare1() {

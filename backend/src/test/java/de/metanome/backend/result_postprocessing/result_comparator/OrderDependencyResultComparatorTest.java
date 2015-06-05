@@ -19,30 +19,40 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class OrderDependencyResultComparatorTest {
 
-  ColumnPermutation lhs1 =
-      new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
-          "table1", "column2"));
-  ColumnPermutation rhs1 =
-      new ColumnPermutation(new ColumnIdentifier("table1", "column7"));
-  OrderDependency od1 =
-      new OrderDependency(lhs1, rhs1, OrderDependency.OrderType.LEXICOGRAPHICAL,
-                          OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+  OrderDependencyResult od1 = new OrderDependencyResult();
+  OrderDependencyResult od2 = new OrderDependencyResult();
 
-  ColumnPermutation lhs2 =
-      new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
-          "table1", "column3"));
-  ColumnPermutation rhs2 =
-      new ColumnPermutation(new ColumnIdentifier("table1", "column6"));
-  OrderDependency od2 =
-      new OrderDependency(lhs2, rhs2, OrderDependency.OrderType.LEXICOGRAPHICAL,
-                          OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+  @Before
+  public void setUp() {
+    ColumnPermutation lhs1 =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
+            "table1", "column2"));
+    ColumnPermutation rhs1 =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column7"));
+    od1.setLhs(lhs1);
+    od1.setRhs(rhs1);
+    od1.setComparisonOperator(OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+    od1.setOrderType(OrderDependency.OrderType.LEXICOGRAPHICAL);
+
+    ColumnPermutation lhs2 =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
+            "table1", "column3"));
+    ColumnPermutation rhs2 =
+        new ColumnPermutation(new ColumnIdentifier("table1", "column6"));
+    od2.setLhs(lhs2);
+    od2.setRhs(rhs2);
+    od2.setComparisonOperator(OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+    od2.setOrderType(OrderDependency.OrderType.LEXICOGRAPHICAL);
+  }
 
   @Test
   public void compare1() {

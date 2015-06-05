@@ -31,7 +31,7 @@ import java.util.Map;
  * The results of the algorithm are analyzed. Different statistics and metrics are calculated to
  * allow sorting, ordering and filtering.
  */
-public abstract class ResultAnalyzer<T extends Result> {
+public abstract class ResultAnalyzer<T extends Result, R> {
 
   protected boolean useDataDependentStatistics = false;
   protected List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
@@ -45,7 +45,9 @@ public abstract class ResultAnalyzer<T extends Result> {
     this.tableInformationList = new HashMap<>();
 
     for (RelationalInputGenerator relationalInputGenerator : inputGenerators) {
-      TableInformation tableInformation = new TableInformation(relationalInputGenerator, useDataDependentStatistics);
+      TableInformation
+          tableInformation =
+          new TableInformation(relationalInputGenerator, useDataDependentStatistics);
       this.tableInformationList.put(tableInformation.getTableName(), tableInformation);
     }
   }
@@ -55,11 +57,11 @@ public abstract class ResultAnalyzer<T extends Result> {
    *
    * @param results Results of the algorithm
    */
-  public void analyzeResults(List<T> results) {
+  public List<R> analyzeResults(List<T> results) {
     if (useDataDependentStatistics) {
-      analyzeResultsDataDependent(results);
+      return analyzeResultsDataDependent(results);
     } else {
-      analyzeResultsDataIndependent(results);
+      return analyzeResultsDataIndependent(results);
     }
   }
 
@@ -68,14 +70,14 @@ public abstract class ResultAnalyzer<T extends Result> {
    *
    * @param results Results of the algorithm
    */
-  protected abstract void analyzeResultsDataIndependent(List<T> results);
+  protected abstract List<R> analyzeResultsDataIndependent(List<T> results);
 
   /**
    * Analyzes the results using the raw data from the inputs.
    *
    * @param results Results of the algorithm
    */
-  protected abstract void analyzeResultsDataDependent(List<T> results);
+  protected abstract List<R> analyzeResultsDataDependent(List<T> results);
 
   /**
    * Prints the results of postprocessing to file

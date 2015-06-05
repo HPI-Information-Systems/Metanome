@@ -18,25 +18,34 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
-import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class InclusionDependencyResultComparatorTest {
 
-  ColumnPermutation expectedDependant1 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column1"));
-  ColumnPermutation expectedReferenced1 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column2"));
-  InclusionDependency ind1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+  InclusionDependencyResult ind1 = new InclusionDependencyResult();
+  InclusionDependencyResult ind2 = new InclusionDependencyResult();
 
-  ColumnPermutation expectedDependant2 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column2"));
-  ColumnPermutation expectedReferenced2 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column1"));
-  InclusionDependency ind2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
+  @Before
+  public void setUp() {
+    ColumnPermutation expectedDependant1 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column1"));
+    ColumnPermutation expectedReferenced1 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2"));
+    ind1.setDependant(expectedDependant1);
+    ind1.setReferenced(expectedReferenced1);
+
+    ColumnPermutation expectedDependant2 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2"));
+    ColumnPermutation expectedReferenced2 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column1"));
+    ind2.setDependant(expectedDependant2);
+    ind2.setReferenced(expectedReferenced2);
+  }
 
   @Test
   public void compareDependantAsc() {

@@ -29,7 +29,8 @@ import java.util.List;
 /**
  * Analyzes Inclusion Dependency Results.
  */
-public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionDependency> {
+public class InclusionDependencyResultAnalyzer
+    extends ResultAnalyzer<InclusionDependency, InclusionDependencyResult> {
 
   public InclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                            boolean useDataDependentStatistics)
@@ -38,15 +39,20 @@ public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionD
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<InclusionDependency> prevResults) {
+  protected List<InclusionDependencyResult> analyzeResultsDataIndependent(
+      List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
-    InclusionDependencyRanking ranking = new InclusionDependencyRanking(results, tableInformationList);
+    InclusionDependencyRanking
+        ranking =
+        new InclusionDependencyRanking(results, tableInformationList);
     ranking.calculateDatDependentRankings();
+    return results;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<InclusionDependency> results) {
-
+  protected List<InclusionDependencyResult> analyzeResultsDataDependent(
+      List<InclusionDependency> results) {
+    return null;
   }
 
   @Override
@@ -55,9 +61,9 @@ public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionD
   }
 
   /**
-   * Converts a InclusionDependency into a InclusionDependencyResult.
-   * The InclusionDependencyResult contains additional information like different ranking
-   * values.
+   * Converts a InclusionDependency into a InclusionDependencyResult. The InclusionDependencyResult
+   * contains additional information like different ranking values.
+   *
    * @param prevResults the list of InclusionDependency results
    * @return a list of InclusionDependencyResult
    */
@@ -67,8 +73,10 @@ public class InclusionDependencyResultAnalyzer extends ResultAnalyzer<InclusionD
       InclusionDependencyResult result = new InclusionDependencyResult();
       result.setDependant(prevResult.getDependant());
       result.setReferenced(prevResult.getReferenced());
-      result.setDependantTableName(prevResult.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
-      result.setReferencedTableName(prevResult.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
+      result.setDependantTableName(
+          prevResult.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
+      result.setReferencedTableName(
+          prevResult.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
       results.add(result);
     }
     return results;

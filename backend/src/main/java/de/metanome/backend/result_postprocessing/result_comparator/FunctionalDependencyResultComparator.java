@@ -16,13 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
 /**
  * Defines an functional dependency comparator based on a predefined sort property and sort
  * direction order.
  */
-public class FunctionalDependencyResultComparator extends ResultComparator<FunctionalDependency> {
+public class FunctionalDependencyResultComparator
+    extends ResultComparator<FunctionalDependencyResult> {
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String DETERMINANT_COLUMN = "determinant";
@@ -46,7 +47,8 @@ public class FunctionalDependencyResultComparator extends ResultComparator<Funct
    * @return Returns 1 if fd1 is greater than fd2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(FunctionalDependency fd1, FunctionalDependency fd2, String sortProperty) {
+  protected int compare(FunctionalDependencyResult fd1, FunctionalDependencyResult fd2,
+                        String sortProperty) {
     if (DEPENDANT_COLUMN.equals(sortProperty)) {
       return fd1.getDependant().toString().compareTo(fd2.getDependant().toString());
     }

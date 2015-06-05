@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.OrderDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 /**
  * Stores order dependency results of one execution.
  */
-public class OrderDependencyResultStore extends ResultsStore<OrderDependency> {
+public class OrderDependencyResultStore extends ResultsStore<OrderDependencyResult> {
 
   /**
    * Defines an order dependency result comparator
@@ -33,8 +33,8 @@ public class OrderDependencyResultStore extends ResultsStore<OrderDependency> {
    * @return Returns a new order dependency result comparator
    */
   @Override
-  protected ResultComparator<OrderDependency> getResultComparator(String sortProperty,
-                                                                  boolean ascending) {
+  protected ResultComparator<OrderDependencyResult> getResultComparator(String sortProperty,
+                                                                        boolean ascending) {
     return new OrderDependencyResultComparator(sortProperty, ascending);
   }
 

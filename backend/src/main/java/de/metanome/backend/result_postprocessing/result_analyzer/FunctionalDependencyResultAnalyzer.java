@@ -20,28 +20,32 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
 import java.util.List;
 
 /**
  * Analyzes Functional Dependency Results.
  */
-public class FunctionalDependencyResultAnalyzer extends ResultAnalyzer<FunctionalDependency> {
+public class FunctionalDependencyResultAnalyzer
+    extends ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult> {
 
   public FunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                           boolean useDataDependentStatistics)
+                                            boolean useDataDependentStatistics)
       throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataDependentStatistics);
   }
 
   @Override
-  protected void analyzeResultsDataIndependent(List<FunctionalDependency> results) {
-
+  protected List<FunctionalDependencyResult> analyzeResultsDataIndependent(
+      List<FunctionalDependency> results) {
+    return null;
   }
 
   @Override
-  protected void analyzeResultsDataDependent(List<FunctionalDependency> results) {
-
+  protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
+      List<FunctionalDependency> results) {
+    return null;
   }
 
   @Override
