@@ -64,13 +64,13 @@ section.jumbotron h1 {
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-content {
-  width: 90% !important;
-  height: 90% !important;
+  width: 95% !important;
+  height: 95% !important;
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-content .settings-container {
   overflow-y: scroll;
-  height: 85% !important;
+  height: 95% !important;
 }
 
 /* ##### MAIN ##### */
@@ -215,3 +215,21 @@ section.jumbotron h1 {
   margin-top: -30px;
 } 
 
+.settings-container .settings {
+  margin-top: -65px;
+  margin-left: 400px;
+}
+
+.settings-container .settings .md-button {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 10px;
+}
+
+.settings-container h2 {
+  margin-bottom: -25px;
+}
+
+.settings-container h3 {
+  margin-top: 55px;
+}
