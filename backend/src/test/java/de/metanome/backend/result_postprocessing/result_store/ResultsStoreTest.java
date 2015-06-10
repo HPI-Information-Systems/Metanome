@@ -18,6 +18,7 @@ package de.metanome.backend.result_postprocessing.result_store;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
@@ -32,9 +33,9 @@ import static org.junit.Assert.assertTrue;
 
 public class ResultsStoreTest {
 
-  InclusionDependencyResult ind1 = new InclusionDependencyResult();
-  InclusionDependencyResult ind2 = new InclusionDependencyResult();
-  InclusionDependencyResult ind3 = new InclusionDependencyResult();
+  InclusionDependencyResult ind1;
+  InclusionDependencyResult ind2;
+  InclusionDependencyResult ind3;
 
   @Before
   public void setUp() {
@@ -42,22 +43,22 @@ public class ResultsStoreTest {
         new ColumnIdentifier("table1", "column1"));
     ColumnPermutation expectedReferenced1 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
-    ind1.setDependant(expectedDependant1);
-    ind1.setReferenced(expectedReferenced1);
+    InclusionDependency result1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+    ind1 = new InclusionDependencyResult(result1);
 
     ColumnPermutation expectedDependant2 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
     ColumnPermutation expectedReferenced2 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"));
-    ind2.setDependant(expectedDependant2);
-    ind2.setReferenced(expectedReferenced2);
+    InclusionDependency result2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
+    ind2 = new InclusionDependencyResult(result2);
 
     ColumnPermutation expectedDependant3 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column3"));
     ColumnPermutation expectedReferenced3 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column3"));
-    ind3.setDependant(expectedDependant3);
-    ind3.setReferenced(expectedReferenced3);
+    InclusionDependency result3 = new InclusionDependency(expectedDependant3, expectedReferenced3);
+    ind3 = new InclusionDependencyResult(result3);
   }
 
   @Test

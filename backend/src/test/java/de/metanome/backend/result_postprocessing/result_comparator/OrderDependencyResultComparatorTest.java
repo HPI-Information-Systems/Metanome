@@ -28,8 +28,8 @@ import static org.junit.Assert.assertEquals;
 
 public class OrderDependencyResultComparatorTest {
 
-  OrderDependencyResult od1 = new OrderDependencyResult();
-  OrderDependencyResult od2 = new OrderDependencyResult();
+  OrderDependencyResult od1;
+  OrderDependencyResult od2;
 
   @Before
   public void setUp() {
@@ -38,20 +38,18 @@ public class OrderDependencyResultComparatorTest {
             "table1", "column2"));
     ColumnPermutation rhs1 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column7"));
-    od1.setLhs(lhs1);
-    od1.setRhs(rhs1);
-    od1.setComparisonOperator(OrderDependency.ComparisonOperator.SMALLER_EQUAL);
-    od1.setOrderType(OrderDependency.OrderType.LEXICOGRAPHICAL);
+    OrderDependency result1 = new OrderDependency(lhs1, rhs1, OrderDependency.OrderType.LEXICOGRAPHICAL,
+                                                  OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+    od1 = new OrderDependencyResult(result1);
 
     ColumnPermutation lhs2 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
             "table1", "column3"));
     ColumnPermutation rhs2 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column6"));
-    od2.setLhs(lhs2);
-    od2.setRhs(rhs2);
-    od2.setComparisonOperator(OrderDependency.ComparisonOperator.SMALLER_EQUAL);
-    od2.setOrderType(OrderDependency.OrderType.LEXICOGRAPHICAL);
+    OrderDependency result2 = new OrderDependency(lhs2, rhs2, OrderDependency.OrderType.LEXICOGRAPHICAL,
+                                                  OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+    od2 = new OrderDependencyResult(result2);
   }
 
   @Test

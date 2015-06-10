@@ -18,6 +18,7 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
 import org.junit.Before;
@@ -27,8 +28,8 @@ import static org.junit.Assert.assertEquals;
 
 public class InclusionDependencyResultComparatorTest {
 
-  InclusionDependencyResult ind1 = new InclusionDependencyResult();
-  InclusionDependencyResult ind2 = new InclusionDependencyResult();
+  InclusionDependencyResult ind1;
+  InclusionDependencyResult ind2;
 
   @Before
   public void setUp() {
@@ -36,8 +37,8 @@ public class InclusionDependencyResultComparatorTest {
         new ColumnIdentifier("table1", "column1"));
     ColumnPermutation expectedReferenced1 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
-    ind1.setDependant(expectedDependant1);
-    ind1.setReferenced(expectedReferenced1);
+    InclusionDependency result1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+    ind1 = new InclusionDependencyResult(result1);
     ind1.setDependantColumnRatio(0.5f);
     ind1.setReferencedColumnRatio(0.3f);
     ind1.setDependantOccurrenceRatio(0.6f);
@@ -49,8 +50,8 @@ public class InclusionDependencyResultComparatorTest {
         new ColumnIdentifier("table1", "column2"));
     ColumnPermutation expectedReferenced2 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column1"));
-    ind2.setDependant(expectedDependant2);
-    ind2.setReferenced(expectedReferenced2);
+    InclusionDependency result2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
+    ind2 = new InclusionDependencyResult(result2);
     ind2.setDependantColumnRatio(0.6f);
     ind2.setReferencedColumnRatio(0.2f);
     ind2.setDependantOccurrenceRatio(0.9f);

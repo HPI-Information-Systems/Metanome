@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,19 +39,34 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
 
   @Override
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataIndependent(
-      List<ConditionalUniqueColumnCombination> results) {
-    return null;
+      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataDependent(
-      List<ConditionalUniqueColumnCombination> results) {
-    return null;
+      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   public void printResultsToFile() {
 
+  }
+
+  @Override
+  protected List<ConditionalUniqueColumnCombinationResult> convertResults(
+      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombinationResult> results = new ArrayList<>();
+
+    for (ConditionalUniqueColumnCombination prevResult : prevResults) {
+      ConditionalUniqueColumnCombinationResult result = new ConditionalUniqueColumnCombinationResult(prevResult);
+      results.add(result);
+    }
+
+    return results;
   }
 
 

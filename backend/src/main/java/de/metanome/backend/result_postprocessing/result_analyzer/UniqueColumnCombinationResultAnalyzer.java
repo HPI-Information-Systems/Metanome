@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,14 +39,16 @@ public class UniqueColumnCombinationResultAnalyzer
 
   @Override
   protected List<UniqueColumnCombinationResult> analyzeResultsDataIndependent(
-      List<UniqueColumnCombination> results) {
-    return null;
+      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombinationResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   protected List<UniqueColumnCombinationResult> analyzeResultsDataDependent(
-      List<UniqueColumnCombination> results) {
-    return null;
+      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombinationResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
@@ -53,5 +56,17 @@ public class UniqueColumnCombinationResultAnalyzer
 
   }
 
+  @Override
+  protected List<UniqueColumnCombinationResult> convertResults(
+      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombinationResult> results = new ArrayList<>();
+
+    for (UniqueColumnCombination prevResult : prevResults) {
+      UniqueColumnCombinationResult result = new UniqueColumnCombinationResult(prevResult);
+      results.add(result);
+    }
+
+    return results;
+  }
 
 }

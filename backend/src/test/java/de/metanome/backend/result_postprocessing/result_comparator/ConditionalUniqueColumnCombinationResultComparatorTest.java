@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.ColumnConditionAnd;
 import de.metanome.algorithm_integration.ColumnConditionOr;
 import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
 import org.junit.Before;
@@ -30,8 +31,8 @@ import static org.junit.Assert.assertEquals;
 
 public class ConditionalUniqueColumnCombinationResultComparatorTest {
 
-  ConditionalUniqueColumnCombinationResult cucc1 = new ConditionalUniqueColumnCombinationResult();
-  ConditionalUniqueColumnCombinationResult cucc2 = new ConditionalUniqueColumnCombinationResult();
+  ConditionalUniqueColumnCombinationResult cucc1;
+  ConditionalUniqueColumnCombinationResult cucc2;
 
   @Before
   public void setUp() {
@@ -43,14 +44,16 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
     ColumnConditionOr orCondition = new ColumnConditionOr(
         new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
                                new ColumnConditionValue(column2, "condition2")));
-    cucc1.setColumnCombination(new ColumnCombination(column1, column2));
-    cucc1.setCondition(orCondition);
+    ConditionalUniqueColumnCombination result1 = new ConditionalUniqueColumnCombination(
+        new ColumnCombination(column1, column2), orCondition);
+    cucc1 = new ConditionalUniqueColumnCombinationResult(result1);
 
     ColumnConditionAnd andCondition = new ColumnConditionAnd(
         new ColumnConditionAnd(new ColumnConditionValue(column3, "condition3"),
                                new ColumnConditionValue(column4, "condition4")));
-    cucc2.setColumnCombination(new ColumnCombination(column3, column4));
-    cucc2.setCondition(andCondition);
+    ConditionalUniqueColumnCombination result2 = new ConditionalUniqueColumnCombination(
+        new ColumnCombination(column3, column4), andCondition);
+    cucc2 = new ConditionalUniqueColumnCombinationResult(result2);
   }
 
   @Test

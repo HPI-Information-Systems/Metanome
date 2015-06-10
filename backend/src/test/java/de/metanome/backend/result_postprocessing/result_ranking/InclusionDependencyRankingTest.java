@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
@@ -60,21 +61,20 @@ public class InclusionDependencyRankingTest {
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
-    InclusionDependencyResult result1 = new InclusionDependencyResult();
-    result1.setDependant(new ColumnPermutation(new ColumnIdentifier(tableName, "column2")));
-    result1.setReferenced(new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
-    result1.setDependantTableName(tableName);
-    result1.setReferencedTableName(tableName);
-    InclusionDependencyResult result2 = new InclusionDependencyResult();
-    result2.setDependant(new ColumnPermutation(new ColumnIdentifier(tableName, "column3")));
-    result2.setReferenced(new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
-    result2.setDependantTableName(tableName);
-    result2.setReferencedTableName(tableName);
-    InclusionDependencyResult result3 = new InclusionDependencyResult();
-    result3.setDependant(new ColumnPermutation(new ColumnIdentifier(tableName, "column3")));
-    result3.setReferenced(new ColumnPermutation(new ColumnIdentifier(tableName, "column2")));
-    result3.setDependantTableName(tableName);
-    result3.setReferencedTableName(tableName);
+    InclusionDependency ind1 = new InclusionDependency(
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column2")),
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
+    InclusionDependencyResult result1 = new InclusionDependencyResult(ind1);
+
+    InclusionDependency ind2 = new InclusionDependency(
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
+    InclusionDependencyResult result2 = new InclusionDependencyResult(ind2);
+
+    InclusionDependency ind3 = new InclusionDependency(
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
+        new ColumnPermutation(new ColumnIdentifier(tableName, "column2")));
+    InclusionDependencyResult result3 = new InclusionDependencyResult(ind3);
 
     inclusionDependencyResults = new ArrayList<>();
     inclusionDependencyResults.add(result1);

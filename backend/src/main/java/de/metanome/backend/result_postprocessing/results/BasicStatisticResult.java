@@ -19,6 +19,7 @@ package de.metanome.backend.result_postprocessing.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.results.BasicStatistic;
 
 /**
  * Represents a basic statistic result with different ranking values.
@@ -26,31 +27,52 @@ import de.metanome.algorithm_integration.ColumnCombination;
 @JsonTypeName("BasicStatisticResult")
 public class BasicStatisticResult implements RankingResult {
 
-  ColumnCombination columnCombination;
-  String statisticName;
-  Object statisticValue;
+  protected BasicStatistic result;
+  protected String tableName;
 
-  public ColumnCombination getColumnCombination() {
-    return columnCombination;
+  public BasicStatisticResult(BasicStatistic result) {
+    this.result = result;
+    if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
+      this.tableName =
+          result.getColumnCombination().getColumnIdentifiers().iterator().next()
+              .getTableIdentifier();
+    } else {
+      this.tableName = "";
+    }
   }
 
-  public void setColumnCombination(ColumnCombination columnCombination) {
-    this.columnCombination = columnCombination;
+  public BasicStatistic getResult() {
+    return this.result;
+  }
+
+  public ColumnCombination getColumnCombination() {
+    return this.result.getColumnCombination();
   }
 
   public String getStatisticName() {
-    return statisticName;
-  }
-
-  public void setStatisticName(String statisticName) {
-    this.statisticName = statisticName;
+    return this.result.getStatisticName();
   }
 
   public Object getStatisticValue() {
-    return statisticValue;
+    return this.result.getStatisticValue();
   }
 
-  public void setStatisticValue(Object statisticValue) {
-    this.statisticValue = statisticValue;
+  public String getTableName() {
+    return tableName;
   }
+
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    BasicStatisticResult other = (BasicStatisticResult) obj;
+    return this.result.equals(other.getResult());
+  }
+
 }

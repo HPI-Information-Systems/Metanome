@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,18 +39,32 @@ public class OrderDependencyResultAnalyzer
 
   @Override
   protected List<OrderDependencyResult> analyzeResultsDataIndependent(
-      List<OrderDependency> results) {
-    return null;
+      List<OrderDependency> prevResults) {
+    List<OrderDependencyResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
-  protected List<OrderDependencyResult> analyzeResultsDataDependent(List<OrderDependency> results) {
-    return null;
+  protected List<OrderDependencyResult> analyzeResultsDataDependent(List<OrderDependency> prevResults) {
+    List<OrderDependencyResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   public void printResultsToFile() {
 
+  }
+
+  @Override
+  protected List<OrderDependencyResult> convertResults(List<OrderDependency> prevResults) {
+    List<OrderDependencyResult> results = new ArrayList<>();
+
+    for (OrderDependency prevResult : prevResults) {
+      OrderDependencyResult result = new OrderDependencyResult(prevResult);
+      results.add(result);
+    }
+
+    return results;
   }
 
 

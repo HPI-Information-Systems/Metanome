@@ -27,40 +27,68 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 @JsonTypeName("OrderDependencyResult")
 public class OrderDependencyResult implements RankingResult {
 
-  protected OrderDependency.ComparisonOperator comparisonOperator;
-  protected ColumnPermutation lhs;
-  protected OrderDependency.OrderType orderType;
-  protected ColumnPermutation rhs;
+  protected OrderDependency result;
 
-  public OrderDependency.ComparisonOperator getComparisonOperator() {
-    return comparisonOperator;
+  protected String lhsTableName;
+  protected String rhsTableName;
+
+
+  public OrderDependencyResult(OrderDependency result) {
+    this.result = result;
+
+    if (result.getLhs().getColumnIdentifiers().size() > 0) {
+      this.lhsTableName = result.getLhs().getColumnIdentifiers().get(0).getTableIdentifier();
+    } else {
+      this.lhsTableName = "";
+    }
+    if (result.getRhs().getColumnIdentifiers().size() > 0) {
+      this.rhsTableName =
+          result.getRhs().getColumnIdentifiers().iterator().next().getTableIdentifier();
+    } else {
+      this.rhsTableName = "";
+    }
   }
 
-  public void setComparisonOperator(OrderDependency.ComparisonOperator comparisonOperator) {
-    this.comparisonOperator = comparisonOperator;
+  public OrderDependency getResult() {
+    return this.result;
+  }
+
+  public OrderDependency.ComparisonOperator getComparisonOperator() {
+    return this.result.getComparisonOperator();
   }
 
   public ColumnPermutation getLhs() {
-    return lhs;
-  }
-
-  public void setLhs(ColumnPermutation lhs) {
-    this.lhs = lhs;
+    return this.result.getLhs();
   }
 
   public OrderDependency.OrderType getOrderType() {
-    return orderType;
-  }
-
-  public void setOrderType(OrderDependency.OrderType orderType) {
-    this.orderType = orderType;
+    return this.result.getOrderType();
   }
 
   public ColumnPermutation getRhs() {
-    return rhs;
+    return this.result.getRhs();
   }
 
-  public void setRhs(ColumnPermutation rhs) {
-    this.rhs = rhs;
+  public String getLhsTableName() {
+    return lhsTableName;
   }
+
+  public String getRhsTableName() {
+    return rhsTableName;
+  }
+
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    OrderDependencyResult other = (OrderDependencyResult) obj;
+    return this.result.equals(other.getResult());
+  }
+
 }

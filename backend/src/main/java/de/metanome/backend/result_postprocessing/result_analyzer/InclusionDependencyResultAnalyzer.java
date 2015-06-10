@@ -73,25 +73,15 @@ public class InclusionDependencyResultAnalyzer
 
   }
 
-  /**
-   * Converts a InclusionDependency into a InclusionDependencyResult. The InclusionDependencyResult
-   * contains additional information like different ranking values.
-   *
-   * @param prevResults the list of InclusionDependency results
-   * @return a list of InclusionDependencyResult
-   */
+  @Override
   protected List<InclusionDependencyResult> convertResults(List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = new ArrayList<>();
+
     for (InclusionDependency prevResult : prevResults) {
-      InclusionDependencyResult result = new InclusionDependencyResult();
-      result.setDependant(prevResult.getDependant());
-      result.setReferenced(prevResult.getReferenced());
-      result.setDependantTableName(
-          prevResult.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
-      result.setReferencedTableName(
-          prevResult.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
+      InclusionDependencyResult result = new InclusionDependencyResult(prevResult);
       results.add(result);
     }
+
     return results;
   }
 

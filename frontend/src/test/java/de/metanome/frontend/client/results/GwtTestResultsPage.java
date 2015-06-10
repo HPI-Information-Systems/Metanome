@@ -130,9 +130,9 @@ public class GwtTestResultsPage extends GWTTestCase {
     page.updateOnSuccess(execution);
 
     // Check
-    assertEquals(2, page.getWidgetCount());
-    assertTrue(page.getWidget(1) instanceof TabLayoutPanel);
-    assertEquals(2, ((TabLayoutPanel) page.getWidget(1)).getWidgetCount());
+    assertEquals(4, page.getWidgetCount());
+    assertTrue(page.getWidget(3) instanceof TabLayoutPanel);
+    assertEquals(2, ((TabLayoutPanel) page.getWidget(3)).getWidgetCount());
 
     // Cleanup
     TestHelper.resetDatabaseSync();

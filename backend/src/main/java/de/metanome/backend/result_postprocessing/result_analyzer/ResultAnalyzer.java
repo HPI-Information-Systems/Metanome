@@ -68,20 +68,28 @@ public abstract class ResultAnalyzer<T extends Result, R> {
   /**
    * Analyzes the results without using the raw data from the inputs.
    *
-   * @param results Results of the algorithm
+   * @param prevResults Results of the algorithm
    */
-  protected abstract List<R> analyzeResultsDataIndependent(List<T> results);
+  protected abstract List<R> analyzeResultsDataIndependent(List<T> prevResults);
 
   /**
    * Analyzes the results using the raw data from the inputs.
    *
-   * @param results Results of the algorithm
+   * @param prevResults Results of the algorithm
    */
-  protected abstract List<R> analyzeResultsDataDependent(List<T> results);
+  protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults);
 
   /**
    * Prints the results of postprocessing to file
    */
   public abstract void printResultsToFile();
 
+  /**
+   * Converts a list of results into a list of ranking results.
+   * The ranking results contain additional information like different ranking values.
+   *
+   * @param prevResults the list of results
+   * @return a list of ranking results
+   */
+  protected abstract List<R> convertResults(List<T> prevResults);
 }

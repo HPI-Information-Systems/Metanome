@@ -19,6 +19,7 @@ package de.metanome.backend.result_postprocessing.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 
 /**
  * Represents an unique column combination result with different ranking values.
@@ -26,13 +27,45 @@ import de.metanome.algorithm_integration.ColumnCombination;
 @JsonTypeName("UniqueColumnCombinationResult")
 public class UniqueColumnCombinationResult implements RankingResult {
 
-  protected ColumnCombination columnCombination;
+  protected UniqueColumnCombination result;
+  protected String tableName;
+
+
+  public UniqueColumnCombinationResult(UniqueColumnCombination result) {
+    this.result = result;
+    if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
+      this.tableName =
+          result.getColumnCombination().getColumnIdentifiers().iterator().next()
+              .getTableIdentifier();
+    } else {
+      this.tableName = "";
+    }
+  }
+
+  public UniqueColumnCombination getResult() {
+    return this.result;
+  }
 
   public ColumnCombination getColumnCombination() {
-    return columnCombination;
+    return this.result.getColumnCombination();
   }
 
-  public void setColumnCombination(ColumnCombination columnCombination) {
-    this.columnCombination = columnCombination;
+  public String getTableName() {
+    return tableName;
   }
+
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    UniqueColumnCombinationResult other = (UniqueColumnCombinationResult) obj;
+    return this.result.equals(other.getResult());
+  }
+
 }

@@ -20,6 +20,7 @@ package de.metanome.backend.result_postprocessing.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.results.InclusionDependency;
 
 /**
  * Represents an inclusion dependency result with different ranking values.
@@ -27,9 +28,8 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 @JsonTypeName("InclusionDependencyResult")
 public class InclusionDependencyResult implements RankingResult {
 
-  // Columns of the dependant and referenced side
-  protected ColumnPermutation dependant;
-  protected ColumnPermutation referenced;
+  // Original result
+  protected InclusionDependency result;
 
   // Table names of the dependant/referenced columns
   protected String dependantTableName;
@@ -50,37 +50,40 @@ public class InclusionDependencyResult implements RankingResult {
   private float dependantUniquenessRatio;
   private float referencedUniquenessRatio;
 
-
-  public ColumnPermutation getDependant() {
-    return dependant;
+  public InclusionDependencyResult(InclusionDependency result) {
+    this.result = result;
+    if (result.getDependant().getColumnIdentifiers().size() > 0) {
+      this.dependantTableName =
+          result.getDependant().getColumnIdentifiers().get(0).getTableIdentifier();
+    } else {
+      this.dependantTableName = "";
+    }
+    if (result.getReferenced().getColumnIdentifiers().size() > 0) {
+      this.referencedTableName =
+          result.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier();
+    } else {
+      this.referencedTableName = "";
+    }
   }
 
-  public void setDependant(ColumnPermutation dependant) {
-    this.dependant = dependant;
+  public InclusionDependency getResult() {
+    return this.result;
+  }
+
+  public ColumnPermutation getDependant() {
+    return this.result.getDependant();
   }
 
   public ColumnPermutation getReferenced() {
-    return referenced;
-  }
-
-  public void setReferenced(ColumnPermutation referenced) {
-    this.referenced = referenced;
+    return this.result.getReferenced();
   }
 
   public String getDependantTableName() {
     return dependantTableName;
   }
 
-  public void setDependantTableName(String dependantTableName) {
-    this.dependantTableName = dependantTableName;
-  }
-
   public String getReferencedTableName() {
     return referencedTableName;
-  }
-
-  public void setReferencedTableName(String referencedTableName) {
-    this.referencedTableName = referencedTableName;
   }
 
   public float getDependantColumnRatio() {
@@ -142,20 +145,6 @@ public class InclusionDependencyResult implements RankingResult {
       return false;
     }
     InclusionDependencyResult other = (InclusionDependencyResult) obj;
-    if (dependant == null) {
-      if (other.dependant != null) {
-        return false;
-      }
-    } else if (!dependant.equals(other.dependant)) {
-      return false;
-    }
-    if (referenced == null) {
-      if (other.referenced != null) {
-        return false;
-      }
-    } else if (!referenced.equals(other.referenced)) {
-      return false;
-    }
-    return true;
+    return this.result.equals(other.result);
   }
 }

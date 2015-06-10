@@ -16,8 +16,8 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 import org.junit.Before;
@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UniqueColumnCombinationResultComparatorTest {
 
-  UniqueColumnCombinationResult ucc1 = new UniqueColumnCombinationResult();
-  UniqueColumnCombinationResult ucc2 = new UniqueColumnCombinationResult();
+  UniqueColumnCombinationResult ucc1;
+  UniqueColumnCombinationResult ucc2;
 
   @Before
   public void setUp() {
@@ -37,8 +37,11 @@ public class UniqueColumnCombinationResultComparatorTest {
     ColumnIdentifier column3 = new ColumnIdentifier("table1", "column3");
     ColumnIdentifier column4 = new ColumnIdentifier("table1", "column4");
 
-    ucc1.setColumnCombination(new ColumnCombination(column1, column2, column2));
-    ucc2.setColumnCombination(new ColumnCombination(column3, column4, column2));
+    UniqueColumnCombination result1 = new UniqueColumnCombination(column1, column2, column2);
+    UniqueColumnCombination result2 = new UniqueColumnCombination(column3, column4, column2);
+
+    ucc1 = new UniqueColumnCombinationResult(result1);
+    ucc2 = new UniqueColumnCombinationResult(result2);
   }
 
   @Test

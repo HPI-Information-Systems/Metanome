@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,19 +39,34 @@ public class FunctionalDependencyResultAnalyzer
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataIndependent(
-      List<FunctionalDependency> results) {
-    return null;
+      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependencyResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
-      List<FunctionalDependency> results) {
-    return null;
+      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependencyResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   public void printResultsToFile() {
 
+  }
+
+  @Override
+  protected List<FunctionalDependencyResult> convertResults(
+      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependencyResult> results = new ArrayList<>();
+
+    for (FunctionalDependency prevResult : prevResults) {
+      FunctionalDependencyResult result = new FunctionalDependencyResult(prevResult);
+      results.add(result);
+    }
+
+    return results;
   }
 
 

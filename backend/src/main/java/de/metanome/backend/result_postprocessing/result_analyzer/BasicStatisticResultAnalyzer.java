@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,18 +38,32 @@ public class BasicStatisticResultAnalyzer
   }
 
   @Override
-  protected List<BasicStatisticResult> analyzeResultsDataIndependent(List<BasicStatistic> results) {
-    return null;
+  protected List<BasicStatisticResult> analyzeResultsDataIndependent(List<BasicStatistic> prevResults) {
+    List<BasicStatisticResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
-  protected List<BasicStatisticResult> analyzeResultsDataDependent(List<BasicStatistic> results) {
-    return null;
+  protected List<BasicStatisticResult> analyzeResultsDataDependent(List<BasicStatistic> prevResults) {
+    List<BasicStatisticResult> results = convertResults(prevResults);
+    return results;
   }
 
   @Override
   public void printResultsToFile() {
 
+  }
+
+  @Override
+  protected List<BasicStatisticResult> convertResults(List<BasicStatistic> prevResults) {
+    List<BasicStatisticResult> results = new ArrayList<>();
+
+    for (BasicStatistic prevResult : prevResults) {
+      BasicStatisticResult result = new BasicStatisticResult(prevResult);
+      results.add(result);
+    }
+
+    return results;
   }
 
 

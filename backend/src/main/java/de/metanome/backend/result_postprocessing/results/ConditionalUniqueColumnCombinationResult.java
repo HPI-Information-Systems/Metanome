@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
+import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 
 /**
  * Represents a conditional unique column combination result with different ranking values.
@@ -27,23 +28,48 @@ import de.metanome.algorithm_integration.ColumnCondition;
 @JsonTypeName("ConditionalUniqueColumnCombinationResult")
 public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
-  protected ColumnCombination columnCombination;
-  protected ColumnCondition condition;
+  protected ConditionalUniqueColumnCombination result;
+  protected String tableName;
 
-  public ColumnCombination getColumnCombination() {
-    return columnCombination;
+  public ConditionalUniqueColumnCombinationResult(ConditionalUniqueColumnCombination result) {
+    this.result = result;
+    if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
+      this.tableName =
+          result.getColumnCombination().getColumnIdentifiers().iterator().next()
+              .getTableIdentifier();
+    } else {
+      this.tableName = "";
+    }
   }
 
-  public void setColumnCombination(ColumnCombination columnCombination) {
-    this.columnCombination = columnCombination;
+  public ConditionalUniqueColumnCombination getResult() {
+    return this.result;
+  }
+
+  public ColumnCombination getColumnCombination() {
+    return this.result.getColumnCombination();
   }
 
   public ColumnCondition getCondition() {
-    return condition;
+    return this.result.getCondition();
   }
 
-  public void setCondition(ColumnCondition condition) {
-    this.condition = condition;
+  public String getTableName() {
+    return tableName;
+  }
+
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ConditionalUniqueColumnCombinationResult other = (ConditionalUniqueColumnCombinationResult) obj;
+    return this.result.equals(other.getResult());
   }
 
 }
