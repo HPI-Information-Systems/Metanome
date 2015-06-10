@@ -50,6 +50,9 @@ public class InclusionDependencyResult implements RankingResult {
   private float dependantUniquenessRatio;
   private float referencedUniquenessRatio;
 
+  // Needed for serialization
+  public InclusionDependencyResult() {}
+
   public InclusionDependencyResult(InclusionDependency result) {
     this.result = result;
     if (result.getDependant().getColumnIdentifiers().size() > 0) {

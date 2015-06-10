@@ -32,6 +32,9 @@ public class FunctionalDependencyResult implements RankingResult {
   protected String determinantTableName;
   protected String dependantTableName;
 
+  // Needed for serialization
+  public FunctionalDependencyResult() {}
+
   public FunctionalDependencyResult(FunctionalDependency result) {
     this.result = result;
     if (result.getDependant() != null) {

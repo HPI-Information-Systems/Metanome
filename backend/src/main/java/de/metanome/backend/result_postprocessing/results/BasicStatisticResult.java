@@ -30,6 +30,9 @@ public class BasicStatisticResult implements RankingResult {
   protected BasicStatistic result;
   protected String tableName;
 
+  // Needed for serialization
+  public BasicStatisticResult() {}
+
   public BasicStatisticResult(BasicStatistic result) {
     this.result = result;
     if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
