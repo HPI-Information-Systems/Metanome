@@ -25,15 +25,14 @@ import java.util.Map;
 /**
  * Calculates the rankings for order dependency results.
  */
-public class OrderDependencyRanking implements Ranking {
+public class OrderDependencyRanking extends Ranking {
 
   protected List<OrderDependencyResult> results;
-  protected Map<String, TableInformation> tableInformationMap;
 
   public OrderDependencyRanking(List<OrderDependencyResult> results,
                                 Map<String, TableInformation> tableInformationMap) {
+    super(tableInformationMap);
     this.results = results;
-    this.tableInformationMap = tableInformationMap;
   }
 
   @Override

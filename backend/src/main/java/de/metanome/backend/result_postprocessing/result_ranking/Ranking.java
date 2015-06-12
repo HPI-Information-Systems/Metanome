@@ -16,10 +16,56 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
-public interface Ranking {
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
-  public void calculateDataIndependentRankings();
+import java.util.HashMap;
+import java.util.Map;
 
-  public void calculateDataDependentRankings();
+public abstract class Ranking {
+
+  protected Map<String, TableInformation> tableInformationMap;
+  protected Map<String, Map<String, Integer>> occurrenceMap;
+
+  public Ranking(Map<String, TableInformation> tableInformationMap) {
+    this.tableInformationMap = tableInformationMap;
+  }
+
+  /**
+   *
+   */
+  public abstract void calculateDataIndependentRankings();
+
+  public abstract void calculateDataDependentRankings();
+
+  /**
+   * Initializes the occurrence list, so that each entry is present.
+   */
+  protected void initializeOccurrenceList() {
+    for (String tableName : this.tableInformationMap.keySet()) {
+      Map<String, Integer> subMap = new HashMap<>();
+      for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationList()
+          .keySet()) {
+        subMap.put(columnName, 0);
+      }
+      this.occurrenceMap.put(tableName, subMap);
+    }
+  }
+
+  /**
+   * Increases the occurrence of the given column in the given table.
+   *
+   * @param column the column identifier
+   */
+  protected void updateOccurrenceList(ColumnIdentifier column) {
+    String columnName = column.getColumnIdentifier();
+    String tableName = column.getTableIdentifier();
+
+    Map<String, Integer> subMap = this.occurrenceMap.get(tableName);
+    Integer oldValue = subMap.get(columnName);
+    subMap.put(columnName, oldValue + 1);
+    this.occurrenceMap.put(tableName, subMap);
+  }
+
 
 }

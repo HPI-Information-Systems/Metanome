@@ -13,19 +13,16 @@ import java.util.Map;
 /**
  * Calculates the rankings for inclusion dependency results.
  */
-public class InclusionDependencyRanking implements Ranking {
+public class InclusionDependencyRanking extends Ranking {
 
   protected static final float UNIQUENESS_THRESHOLD = 0.1f;
 
   protected List<InclusionDependencyResult> results;
-  protected Map<String, TableInformation> tableInformationMap;
-  protected Map<String, Map<String, Integer>> occurrenceMap;
-
 
   public InclusionDependencyRanking(List<InclusionDependencyResult> results,
                                     Map<String, TableInformation> tableInformationMap) {
+    super(tableInformationMap);
     this.results = results;
-    this.tableInformationMap = tableInformationMap;
     this.occurrenceMap = new HashMap<>();
 
     createOccurrenceList();
@@ -45,35 +42,6 @@ public class InclusionDependencyRanking implements Ranking {
         updateOccurrenceList(column);
       }
     }
-  }
-
-  /**
-   * Initializes the occurrence list, so that each entry is present.
-   */
-  private void initializeOccurrenceList() {
-    for (String tableName : this.tableInformationMap.keySet()) {
-      Map<String, Integer> subMap = new HashMap<>();
-      for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationList()
-          .keySet()) {
-        subMap.put(columnName, 0);
-      }
-      this.occurrenceMap.put(tableName, subMap);
-    }
-  }
-
-  /**
-   * Increases the occurrence of the given column in the given table.
-   *
-   * @param column the column identifier
-   */
-  protected void updateOccurrenceList(ColumnIdentifier column) {
-    String columnName = column.getColumnIdentifier();
-    String tableName = column.getTableIdentifier();
-
-    Map<String, Integer> subMap = this.occurrenceMap.get(tableName);
-    Integer oldValue = subMap.get(columnName);
-    subMap.put(columnName, oldValue + 1);
-    this.occurrenceMap.put(tableName, subMap);
   }
 
   /**

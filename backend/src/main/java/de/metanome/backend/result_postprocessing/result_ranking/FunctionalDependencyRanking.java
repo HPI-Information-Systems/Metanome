@@ -25,15 +25,15 @@ import java.util.Map;
 /**
  * Calculates the rankings for functional dependency results.
  */
-public class FunctionalDependencyRanking implements Ranking {
+public class FunctionalDependencyRanking extends Ranking {
 
   protected List<FunctionalDependencyResult> results;
   protected Map<String, TableInformation> tableInformationMap;
 
   public FunctionalDependencyRanking(List<FunctionalDependencyResult> results,
                                      Map<String, TableInformation> tableInformationMap) {
+    super(tableInformationMap);
     this.results = results;
-    this.tableInformationMap = tableInformationMap;
   }
 
   @Override

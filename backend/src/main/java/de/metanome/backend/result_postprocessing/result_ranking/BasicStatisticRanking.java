@@ -25,15 +25,14 @@ import java.util.Map;
 /**
  * Calculates the rankings for basic statistic results.
  */
-public class BasicStatisticRanking implements Ranking {
+public class BasicStatisticRanking extends Ranking {
 
   protected List<BasicStatisticResult> results;
-  protected Map<String, TableInformation> tableInformationMap;
 
   public BasicStatisticRanking(List<BasicStatisticResult> results,
                                Map<String, TableInformation> tableInformationMap) {
+    super(tableInformationMap);
     this.results = results;
-    this.tableInformationMap = tableInformationMap;
   }
 
   @Override

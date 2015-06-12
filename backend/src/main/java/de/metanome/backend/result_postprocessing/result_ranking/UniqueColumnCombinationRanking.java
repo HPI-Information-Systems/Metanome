@@ -25,15 +25,14 @@ import java.util.Map;
 /**
  * Calculates the rankings for unique column combination results.
  */
-public class UniqueColumnCombinationRanking implements Ranking {
+public class UniqueColumnCombinationRanking extends Ranking {
 
   protected List<UniqueColumnCombinationResult> results;
-  protected Map<String, TableInformation> tableInformationMap;
 
   public UniqueColumnCombinationRanking(List<UniqueColumnCombinationResult> results,
                                         Map<String, TableInformation> tableInformationMap) {
+    super(tableInformationMap);
     this.results = results;
-    this.tableInformationMap = tableInformationMap;
   }
 
 
