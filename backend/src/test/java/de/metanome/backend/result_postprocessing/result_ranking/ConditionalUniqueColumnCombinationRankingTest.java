@@ -59,7 +59,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true);
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
@@ -124,6 +124,20 @@ public class ConditionalUniqueColumnCombinationRankingTest {
 
     // Check
     assertEquals(1.0, result.getOccurrenceRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateUniquenessRatio() throws Exception {
+    // Set up
+    ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
+        results, tableInformationMap);
+    ConditionalUniqueColumnCombinationResult result = results.get(0);
+
+    // Execute Functionality
+    ranking.calculateUniquenessRatio(result);
+
+    // Check
+    assertEquals(0.5, result.getUniquenessRatio(), 0.0);
   }
 
 }

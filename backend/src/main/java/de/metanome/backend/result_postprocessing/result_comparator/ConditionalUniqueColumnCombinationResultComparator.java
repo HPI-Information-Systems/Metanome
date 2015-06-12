@@ -30,6 +30,7 @@ public class ConditionalUniqueColumnCombinationResultComparator
   public static final String COVERAGE_COLUMN = "coverage";
   public static final String COLUMN_RATIO = "column_ratio";
   public static final String OCCURRENCE_RATIO = "occurrence_ratio";
+  public static final String UNIQUENESS_RATIO = "uniqueness_ratio";
 
   /**
    * Creates a conditional unique column combination result comparator for given property and
@@ -70,6 +71,9 @@ public class ConditionalUniqueColumnCombinationResultComparator
     }
     if (OCCURRENCE_RATIO.equals(sortProperty)) {
       return Float.compare(cucc1.getOccurrenceRatio(), cucc2.getOccurrenceRatio());
+    }
+    if (UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(cucc1.getUniquenessRatio(), cucc2.getUniquenessRatio());
     }
 
     return 0;
