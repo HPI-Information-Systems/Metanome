@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO docs
+ * Used to manage/maintain process instances
  */
 public class ProcessRegistry {
 
