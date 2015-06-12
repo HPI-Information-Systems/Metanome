@@ -39,6 +39,10 @@ public class OrderDependencyResult implements RankingResult {
   protected float lhsColumnRatio;
   protected float rhsColumnRatio;
 
+  // How many columns of the lhs and rhs
+  // table are involved in the result?
+  private float generalCoverage;
+
   // Needed for serialization
   public OrderDependencyResult() {
   }
@@ -101,6 +105,14 @@ public class OrderDependencyResult implements RankingResult {
 
   public void setRhsColumnRatio(float rhsColumnRatio) {
     this.rhsColumnRatio = rhsColumnRatio;
+  }
+
+  public float getGeneralCoverage() {
+    return generalCoverage;
+  }
+
+  public void setGeneralCoverage(float generalCoverage) {
+    this.generalCoverage = generalCoverage;
   }
 
   public boolean equals(Object obj) {

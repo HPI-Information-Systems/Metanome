@@ -110,5 +110,19 @@ public class OrderDependencyRankingTest {
     assertEquals(0.25, result.getRhsColumnRatio(), 0.0);
   }
 
+  @Test
+  public void testCalculateCoverage() throws Exception {
+    // Set up
+    OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
+                                                                tableInformationMap);
+    OrderDependencyResult result = orderDependencyResults.get(0);
+
+    // Execute Functionality
+    ranking.calculateGeneralCoverage(result);
+
+    // Check
+    assertEquals(0.5, result.getGeneralCoverage(), 0.0);
+  }
+
 
 }

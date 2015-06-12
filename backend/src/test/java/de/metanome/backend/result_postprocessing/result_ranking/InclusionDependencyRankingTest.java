@@ -115,7 +115,7 @@ public class InclusionDependencyRankingTest {
   }
 
   @Test
-  public void testCalculateSizeRatios() throws Exception {
+  public void testCalculateColumnRatios() throws Exception {
     // Set up
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
                                                                         tableInformationMap);
@@ -127,6 +127,20 @@ public class InclusionDependencyRankingTest {
     // Check
     assertEquals(0.25, result.getDependantColumnRatio(), 0.0);
     assertEquals(0.25, result.getReferencedColumnRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateGeneralCoverage() throws Exception {
+    // Set up
+    InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
+                                                                        tableInformationMap);
+    InclusionDependencyResult result = inclusionDependencyResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateGeneralCoverage(result);
+
+    // Check
+    assertEquals(0.5, result.getGeneralCoverage(), 0.0);
   }
 
   @Test

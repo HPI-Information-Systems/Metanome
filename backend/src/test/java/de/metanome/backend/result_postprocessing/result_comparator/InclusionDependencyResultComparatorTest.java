@@ -45,6 +45,7 @@ public class InclusionDependencyResultComparatorTest {
     ind1.setReferencedOccurrenceRatio(0.7f);
     ind1.setDependantUniquenessRatio(0.4f);
     ind1.setReferencedUniquenessRatio(0.1f);
+    ind1.setGeneralCoverage(1.3f);
 
     ColumnPermutation expectedDependant2 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
@@ -58,6 +59,7 @@ public class InclusionDependencyResultComparatorTest {
     ind2.setReferencedOccurrenceRatio(0.6f);
     ind2.setDependantUniquenessRatio(0.7f);
     ind2.setReferencedUniquenessRatio(0.3f);
+    ind2.setGeneralCoverage(1.3f);
   }
 
   @Test
@@ -204,6 +206,24 @@ public class InclusionDependencyResultComparatorTest {
         new InclusionDependencyResultComparator(
             InclusionDependencyResultComparator.REFERENCED_UNIQUENESS_RATIO, false);
     assertEquals(1, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareCoverageAsc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.COVERAGE, true);
+    assertEquals(0, resultComparator.compare(ind1, ind2));
+  }
+
+  @Test
+  public void compareCoverageDesc() {
+    InclusionDependencyResultComparator
+        resultComparator =
+        new InclusionDependencyResultComparator(
+            InclusionDependencyResultComparator.COVERAGE, false);
+    assertEquals(0, resultComparator.compare(ind1, ind2));
   }
 
 }

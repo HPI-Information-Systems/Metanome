@@ -89,6 +89,16 @@ public class OrderDependencyPaginationTable
     this.table.addColumn(rhsColumnRatioColumn, "RHS Column Ratio");
     columnNames.add(OrderDependencyResultComparator.RHS_COLUMN_RATIO);
 
+    // coverage column
+    TextColumn<OrderDependencyResult> coverageColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getGeneralCoverage());
+      }
+    };
+    this.table.addColumn(coverageColumn, "General Coverage");
+    columnNames.add(OrderDependencyResultComparator.COVERAGE);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

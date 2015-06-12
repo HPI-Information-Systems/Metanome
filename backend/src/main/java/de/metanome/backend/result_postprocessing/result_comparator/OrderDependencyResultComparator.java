@@ -29,6 +29,7 @@ public class OrderDependencyResultComparator
   public static final String RHS_COLUMN = "rhs";
   public static final String LHS_COLUMN_RATIO = "lhs_column_ratio";
   public static final String RHS_COLUMN_RATIO = "rhs_column_ratio";
+  public static final String COVERAGE = "coverage";
 
   /**
    * Creates an order dependency result comparator for given property and direction
@@ -64,6 +65,9 @@ public class OrderDependencyResultComparator
     }
     if (RHS_COLUMN_RATIO.equals(sortProperty)) {
       return Float.compare(od1.getRhsColumnRatio(), od2.getRhsColumnRatio());
+    }
+    if (COVERAGE.equals(sortProperty)) {
+      return Float.compare(od1.getGeneralCoverage(), od2.getGeneralCoverage());
     }
 
     return 0;

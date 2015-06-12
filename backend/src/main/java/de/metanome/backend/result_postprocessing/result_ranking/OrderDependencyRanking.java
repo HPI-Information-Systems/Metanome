@@ -40,6 +40,7 @@ public class OrderDependencyRanking implements Ranking {
   public void calculateDataIndependentRankings() {
     for (OrderDependencyResult result : this.results) {
       calculateColumnRatios(result);
+      calculateGeneralCoverage(result);
     }
   }
 
@@ -47,6 +48,7 @@ public class OrderDependencyRanking implements Ranking {
   public void calculateDataDependentRankings() {
     for (OrderDependencyResult result : this.results) {
       calculateColumnRatios(result);
+      calculateGeneralCoverage(result);
     }
   }
 
@@ -70,4 +72,28 @@ public class OrderDependencyRanking implements Ranking {
     result.setLhsColumnRatio((float) lhsColumnCount / lhsTableColumnCount);
     result.setRhsColumnRatio((float) rhsColumnCount / rhsTableColumnCount);
   }
+
+
+  /**
+   * Calculates the relation between the total number of columns of the result and the number of
+   * columns of tables, which are involved.
+   *
+   * @param result the result
+   */
+  protected void calculateGeneralCoverage(OrderDependencyResult result) {
+    Integer referencedColumnCount = result.getLhs().getColumnIdentifiers().size();
+    Integer dependantColumnCount = result.getRhs().getColumnIdentifiers().size();
+
+    int tableCount;
+    if (result.getRhsTableName().equals(result.getLhsTableName())) {
+      tableCount = this.tableInformationMap.get(result.getRhsTableName()).getColumnCount();
+    } else {
+      tableCount = this.tableInformationMap.get(result.getRhsTableName()).getColumnCount() +
+                   this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
+    }
+
+    result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
+  }
+
+
 }

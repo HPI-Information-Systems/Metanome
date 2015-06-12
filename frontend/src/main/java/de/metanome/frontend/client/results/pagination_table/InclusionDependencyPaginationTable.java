@@ -110,6 +110,16 @@ public class InclusionDependencyPaginationTable
     this.table.addColumn(referencedOccurrenceRatioColumn, "Referenced Occurrence Ratio");
     columnNames.add(InclusionDependencyResultComparator.REFERENCED_OCCURRENCE_RATIO);
 
+    // Coverage column
+    TextColumn<InclusionDependencyResult> coverageColumn = new TextColumn<InclusionDependencyResult>() {
+      @Override
+      public String getValue(InclusionDependencyResult inclusionDependency) {
+        return String.valueOf(inclusionDependency.getGeneralCoverage());
+      }
+    };
+    this.table.addColumn(coverageColumn, "General Coverage");
+    columnNames.add(InclusionDependencyResultComparator.COVERAGE);
+
     // Dependant uniqueness ratio
     TextColumn<InclusionDependencyResult> dependantUniquenessRatioColumn = new TextColumn<InclusionDependencyResult>() {
       @Override

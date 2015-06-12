@@ -44,6 +44,7 @@ public class OrderDependencyResultComparatorTest {
     od1 = new OrderDependencyResult(result1);
     od1.setLhsColumnRatio(4.3f);
     od1.setRhsColumnRatio(1.3f);
+    od1.setGeneralCoverage(2.4f);
 
     ColumnPermutation lhs2 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
@@ -55,6 +56,7 @@ public class OrderDependencyResultComparatorTest {
     od2 = new OrderDependencyResult(result2);
     od2.setLhsColumnRatio(2.3f);
     od2.setRhsColumnRatio(5.2f);
+    od2.setGeneralCoverage(2.4f);
   }
 
   @Test
@@ -111,6 +113,20 @@ public class OrderDependencyResultComparatorTest {
     OrderDependencyResultComparator resultComparator =
         new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_COLUMN_RATIO, false);
     assertTrue(resultComparator.compare(od1, od2) > 0);
+  }
+
+  @Test
+  public void compare9() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.COVERAGE, true);
+    assertEquals(0, resultComparator.compare(od1, od2));
+  }
+
+  @Test
+  public void compare10() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.COVERAGE, false);
+    assertEquals(0, resultComparator.compare(od1, od2));
   }
 
 

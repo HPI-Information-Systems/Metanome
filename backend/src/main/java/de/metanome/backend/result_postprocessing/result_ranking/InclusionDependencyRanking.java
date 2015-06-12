@@ -84,6 +84,7 @@ public class InclusionDependencyRanking implements Ranking {
     for (InclusionDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateOccurrenceRatios(result);
+      calculateGeneralCoverage(result);
     }
   }
 
@@ -96,6 +97,7 @@ public class InclusionDependencyRanking implements Ranking {
       calculateColumnRatios(result);
       calculateOccurrenceRatios(result);
       calculateUniquenessRatios(result);
+      calculateGeneralCoverage(result);
     }
   }
 
@@ -155,6 +157,26 @@ public class InclusionDependencyRanking implements Ranking {
     result.setDependantColumnRatio((float) dependantColumnCount / dependantTableColumnCount);
   }
 
+  /**
+   * Calculates the relation between the total number of columns of the result and the number of
+   * columns of tables, which are involved.
+   *
+   * @param result the inclusion dependency result
+   */
+  protected void calculateGeneralCoverage(InclusionDependencyResult result) {
+    Integer referencedColumnCount = result.getReferenced().getColumnIdentifiers().size();
+    Integer dependantColumnCount = result.getDependant().getColumnIdentifiers().size();
+
+    int tableCount;
+    if (result.getReferencedTableName().equals(result.getDependantTableName())) {
+      tableCount = this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount();
+    } else {
+      tableCount = this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount() +
+                   this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+    }
+
+    result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
+  }
 
   /**
    * Calculates the ratio of columns of the reference/dependant side, which are almost unique, and

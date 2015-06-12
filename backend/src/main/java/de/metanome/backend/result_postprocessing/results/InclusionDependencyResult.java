@@ -45,6 +45,10 @@ public class InclusionDependencyResult implements RankingResult {
   private float dependantOccurrenceRatio;
   private float referencedOccurrenceRatio;
 
+  // How many columns of the dependant and referenced
+  // table are involved in the result?
+  private float generalCoverage;
+
   // How many of the columns of the dependant/referenced
   // side are (almost) unique?
   private float dependantUniquenessRatio;
@@ -136,6 +140,14 @@ public class InclusionDependencyResult implements RankingResult {
 
   public void setReferencedUniquenessRatio(float referencedUniquenessRatio) {
     this.referencedUniquenessRatio = referencedUniquenessRatio;
+  }
+
+  public float getGeneralCoverage() {
+    return generalCoverage;
+  }
+
+  public void setGeneralCoverage(float generalCoverage) {
+    this.generalCoverage = generalCoverage;
   }
 
   public boolean equals(Object obj) {

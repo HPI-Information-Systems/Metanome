@@ -17,6 +17,7 @@ public class InclusionDependencyResultComparator
   public static final String REFERENCED_OCCURRENCE_RATIO = "referenced_occurrence_ratio";
   public static final String DEPENDANT_UNIQUENESS_RATIO = "dependant_uniqueness_ratio";
   public static final String REFERENCED_UNIQUENESS_RATIO = "referenced_uniqueness_ratio";
+  public static final String COVERAGE = "coverage";
 
   /**
    * Creates an inclusion dependency result comparator for given property and direction
@@ -64,6 +65,10 @@ public class InclusionDependencyResultComparator
     if (REFERENCED_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float
           .compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
+    }
+    if (COVERAGE.equals(sortProperty)) {
+      return Float
+          .compare(ind1.getGeneralCoverage(), ind2.getGeneralCoverage());
     }
 
     return 0;
