@@ -50,7 +50,6 @@ public class BasicStatisticRanking implements Ranking {
     }
   }
 
-
   /**
    * Calculates the ratio of the size of the column combination and the column count of the
    * corresponding table.
@@ -62,6 +61,5 @@ public class BasicStatisticRanking implements Ranking {
     Integer tableColumnCount = this.tableInformationMap.get(result.getTableName()).getColumnCount();
     result.setColumnRatio((float) columnCount / tableColumnCount);
   }
-
 
 }

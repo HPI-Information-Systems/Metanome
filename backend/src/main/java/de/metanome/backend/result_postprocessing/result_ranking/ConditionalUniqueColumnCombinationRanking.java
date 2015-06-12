@@ -40,11 +40,28 @@ public class ConditionalUniqueColumnCombinationRanking implements Ranking {
 
   @Override
   public void calculateDataIndependentRankings() {
-
+    for (ConditionalUniqueColumnCombinationResult result : this.results) {
+      calculateColumnRatio(result);
+    }
   }
 
   @Override
   public void calculateDataDependentRankings() {
-
+    for (ConditionalUniqueColumnCombinationResult result : this.results) {
+      calculateColumnRatio(result);
+    }
   }
+
+  /**
+   * Calculates the ratio of the size of the column combination and the column count of the
+   * corresponding table.
+   *
+   * @param result the result
+   */
+  protected void calculateColumnRatio(ConditionalUniqueColumnCombinationResult result) {
+    Integer columnCount = result.getColumnCombination().getColumnIdentifiers().size();
+    Integer tableColumnCount = this.tableInformationMap.get(result.getTableName()).getColumnCount();
+    result.setColumnRatio((float) columnCount / tableColumnCount);
+  }
+
 }

@@ -85,6 +85,18 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     this.table.addColumn(coverageColumn, "Coverage");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COVERAGE_COLUMN);
 
+    // column ratio column
+    TextColumn<ConditionalUniqueColumnCombinationResult>
+        columnRatioColumn =
+        new TextColumn<ConditionalUniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(ConditionalUniqueColumnCombinationResult columnCombination) {
+            return String.valueOf(columnCombination.getColumnRatio());
+          }
+        };
+    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

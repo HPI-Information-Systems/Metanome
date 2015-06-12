@@ -91,6 +91,7 @@ public class BasicStatisticResultComparatorTest {
         new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
+
   @Test
   public void compare7() {
     BasicStatisticResultComparator resultComparator =

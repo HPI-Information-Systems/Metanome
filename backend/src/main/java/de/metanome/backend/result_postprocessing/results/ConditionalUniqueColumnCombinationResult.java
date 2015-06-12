@@ -28,8 +28,15 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 @JsonTypeName("ConditionalUniqueColumnCombinationResult")
 public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
+  // Original result
   protected ConditionalUniqueColumnCombination result;
+
+  // The table name of the columns
   protected String tableName;
+
+  // How many columns of the table are involved
+  // in the column combination of the result?
+  private float columnRatio;
 
   // Needed for serialization
   public ConditionalUniqueColumnCombinationResult() {
@@ -60,6 +67,14 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
   public String getTableName() {
     return tableName;
+  }
+
+  public float getColumnRatio() {
+    return columnRatio;
+  }
+
+  public void setColumnRatio(float columnRatio) {
+    this.columnRatio = columnRatio;
   }
 
   public boolean equals(Object obj) {

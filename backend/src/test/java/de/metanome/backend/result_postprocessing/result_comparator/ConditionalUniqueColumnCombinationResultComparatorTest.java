@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ConditionalUniqueColumnCombinationResultComparatorTest {
 
@@ -47,6 +48,7 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
     ConditionalUniqueColumnCombination result1 = new ConditionalUniqueColumnCombination(
         new ColumnCombination(column1, column2), orCondition);
     cucc1 = new ConditionalUniqueColumnCombinationResult(result1);
+    cucc1.setColumnRatio(3.5f);
 
     ColumnConditionAnd andCondition = new ColumnConditionAnd(
         new ColumnConditionAnd(new ColumnConditionValue(column3, "condition3"),
@@ -54,6 +56,7 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
     ConditionalUniqueColumnCombination result2 = new ConditionalUniqueColumnCombination(
         new ColumnCombination(column3, column4), andCondition);
     cucc2 = new ConditionalUniqueColumnCombinationResult(result2);
+    cucc2.setColumnRatio(1.3f);
   }
 
   @Test
@@ -86,6 +89,20 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
         new ConditionalUniqueColumnCombinationResultComparator(
             ConditionalUniqueColumnCombinationResultComparator.CONDITION_COLUMN, false);
     assertEquals(2, resultComparator.compare(cucc1, cucc2));
+  }
+
+  @Test
+  public void compare7() {
+    ConditionalUniqueColumnCombinationResultComparator resultComparator =
+        new ConditionalUniqueColumnCombinationResultComparator(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(cucc1, cucc2) > 0);
+  }
+
+  @Test
+  public void compare8() {
+    ConditionalUniqueColumnCombinationResultComparator resultComparator =
+        new ConditionalUniqueColumnCombinationResultComparator(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(cucc1, cucc2) < 0);
   }
 
 }
