@@ -124,5 +124,20 @@ public class OrderDependencyRankingTest {
     assertEquals(0.5, result.getGeneralCoverage(), 0.0);
   }
 
+  @Test
+  public void testCalculateOccurrenceRatio() throws Exception {
+    // Set up
+    OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
+                                                                tableInformationMap);
+    OrderDependencyResult result = orderDependencyResults.get(0);
+
+    // Execute Functionality
+    ranking.calculateOccurrenceRatios(result);
+
+    // Check
+    assertEquals(1.0, result.getLhsOccurrenceRatio(), 0.0);
+    assertEquals(0.5, result.getRhsOccurrenceRatio(), 0.0);
+  }
+
 
 }

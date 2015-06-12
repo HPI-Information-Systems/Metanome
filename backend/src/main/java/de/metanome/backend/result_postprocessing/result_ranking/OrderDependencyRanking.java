@@ -16,9 +16,12 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,25 @@ public class OrderDependencyRanking extends Ranking {
                                 Map<String, TableInformation> tableInformationMap) {
     super(tableInformationMap);
     this.results = results;
+    this.occurrenceMap = new HashMap<>();
+
+    createOccurrenceList();
+  }
+
+  /**
+   * The occurrence list stores how often a column occurs in the results.
+   */
+  protected void createOccurrenceList() {
+    initializeOccurrenceList();
+
+    for (OrderDependencyResult result : this.results) {
+      for (ColumnIdentifier column : result.getLhs().getColumnIdentifiers()) {
+        updateOccurrenceList(column);
+      }
+      for (ColumnIdentifier column : result.getRhs().getColumnIdentifiers()) {
+        updateOccurrenceList(column);
+      }
+    }
   }
 
   @Override
@@ -40,6 +62,7 @@ public class OrderDependencyRanking extends Ranking {
     for (OrderDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
+      calculateOccurrenceRatios(result);
     }
   }
 
@@ -48,6 +71,7 @@ public class OrderDependencyRanking extends Ranking {
     for (OrderDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
+      calculateOccurrenceRatios(result);
     }
   }
 
@@ -94,5 +118,22 @@ public class OrderDependencyRanking extends Ranking {
     result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
   }
 
+  /**
+   * Calculates the ratio of the lhs/rhs column count and the overall occurrence of the
+   * lhs/rhs columns in the result.
+   *
+   * @param result the result
+   */
+  protected void calculateOccurrenceRatios(OrderDependencyResult result) {
+    // calculate lhs occurrence ratio
+    ColumnPermutation lhs = result.getLhs();
+    result.setLhsOccurrenceRatio(
+        calculateOccurrenceRatio(lhs, result.getLhsTableName()));
+
+    // calculate rhs occurrence ratio
+    ColumnPermutation rhs = result.getRhs();
+    result.setRhsOccurrenceRatio(
+        calculateOccurrenceRatio(rhs, result.getRhsTableName()));
+  }
 
 }

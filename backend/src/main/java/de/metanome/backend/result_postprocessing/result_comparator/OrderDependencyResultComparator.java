@@ -30,6 +30,8 @@ public class OrderDependencyResultComparator
   public static final String LHS_COLUMN_RATIO = "lhs_column_ratio";
   public static final String RHS_COLUMN_RATIO = "rhs_column_ratio";
   public static final String COVERAGE = "coverage";
+  public static final String LHS_OCCURRENCE_RATIO = "lhs_occurrence_ratio";
+  public static final String RHS_OCCURRENCE_RATIO = "rhs_occurrence_ratio";
 
   /**
    * Creates an order dependency result comparator for given property and direction
@@ -68,6 +70,12 @@ public class OrderDependencyResultComparator
     }
     if (COVERAGE.equals(sortProperty)) {
       return Float.compare(od1.getGeneralCoverage(), od2.getGeneralCoverage());
+    }
+    if (LHS_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsOccurrenceRatio(), od2.getLhsOccurrenceRatio());
+    }
+    if (RHS_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsOccurrenceRatio(), od2.getRhsOccurrenceRatio());
     }
 
     return 0;

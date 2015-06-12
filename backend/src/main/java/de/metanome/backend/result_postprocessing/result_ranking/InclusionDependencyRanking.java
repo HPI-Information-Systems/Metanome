@@ -88,23 +88,6 @@ public class InclusionDependencyRanking extends Ranking {
   }
 
   /**
-   * Calculate the ratio of the given column permutation count and the overall occurrence of the
-   * columns in that column permutation.
-   *
-   * @param columnPermutation the column permutation
-   * @param tableName         the table name
-   * @return the ratio
-   */
-  protected float calculateOccurrenceRatio(ColumnPermutation columnPermutation,
-                                           String tableName) {
-    Integer occurrences = 0;
-    for (ColumnIdentifier column : columnPermutation.getColumnIdentifiers()) {
-      occurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
-    }
-    return (float) columnPermutation.getColumnIdentifiers().size() / occurrences;
-  }
-
-  /**
    * Calculates the ratio of the reference/dependant column count and the column count of the
    * corresponding table.
    *

@@ -17,6 +17,7 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
 import java.util.HashMap;
@@ -70,5 +71,20 @@ public abstract class Ranking {
     this.occurrenceMap.put(tableName, subMap);
   }
 
-
+  /**
+   * Calculate the ratio of the given column permutation count and the overall occurrence of the
+   * columns in that column permutation.
+   *
+   * @param columnPermutation the column permutation
+   * @param tableName         the table name
+   * @return the ratio
+   */
+  protected float calculateOccurrenceRatio(ColumnPermutation columnPermutation,
+                                           String tableName) {
+    Integer occurrences = 0;
+    for (ColumnIdentifier column : columnPermutation.getColumnIdentifiers()) {
+      occurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
+    }
+    return (float) columnPermutation.getColumnIdentifiers().size() / occurrences;
+  }
 }

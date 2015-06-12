@@ -43,6 +43,11 @@ public class OrderDependencyResult implements RankingResult {
   // table are involved in the result?
   private float generalCoverage;
 
+  // On how many results are the columns of the
+  // lhs/rhs side involved?
+  private float lhsOccurrenceRatio;
+  private float rhsOccurrenceRatio;
+
   // Needed for serialization
   public OrderDependencyResult() {
   }
@@ -113,6 +118,22 @@ public class OrderDependencyResult implements RankingResult {
 
   public void setGeneralCoverage(float generalCoverage) {
     this.generalCoverage = generalCoverage;
+  }
+
+  public float getLhsOccurrenceRatio() {
+    return lhsOccurrenceRatio;
+  }
+
+  public void setLhsOccurrenceRatio(float lhsOccurrenceRatio) {
+    this.lhsOccurrenceRatio = lhsOccurrenceRatio;
+  }
+
+  public float getRhsOccurrenceRatio() {
+    return rhsOccurrenceRatio;
+  }
+
+  public void setRhsOccurrenceRatio(float rhsOccurrenceRatio) {
+    this.rhsOccurrenceRatio = rhsOccurrenceRatio;
   }
 
   public boolean equals(Object obj) {

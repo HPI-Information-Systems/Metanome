@@ -99,6 +99,26 @@ public class OrderDependencyPaginationTable
     this.table.addColumn(coverageColumn, "General Coverage");
     columnNames.add(OrderDependencyResultComparator.COVERAGE);
 
+    // lhs occurrence ratio column
+    TextColumn<OrderDependencyResult> lhsOccurrenceRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getLhsOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(lhsOccurrenceRatioColumn, "LHS Occurrence Ratio");
+    columnNames.add(OrderDependencyResultComparator.LHS_OCCURRENCE_RATIO);
+
+    // rhs occurrence ratio column
+    TextColumn<OrderDependencyResult> rhsOccurrenceRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getRhsOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(rhsOccurrenceRatioColumn, "RHS Occurrence Ratio");
+    columnNames.add(OrderDependencyResultComparator.RHS_OCCURRENCE_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);
