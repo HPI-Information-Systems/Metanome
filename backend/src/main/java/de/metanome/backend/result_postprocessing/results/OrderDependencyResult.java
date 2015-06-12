@@ -48,6 +48,12 @@ public class OrderDependencyResult implements RankingResult {
   private float lhsOccurrenceRatio;
   private float rhsOccurrenceRatio;
 
+  // How many of the columns of the lhs/rhs
+  // side are (almost) unique?
+  private float lhsUniquenessRatio;
+  private float rhsUniquenessRatio;
+
+
   // Needed for serialization
   public OrderDependencyResult() {
   }
@@ -134,6 +140,22 @@ public class OrderDependencyResult implements RankingResult {
 
   public void setRhsOccurrenceRatio(float rhsOccurrenceRatio) {
     this.rhsOccurrenceRatio = rhsOccurrenceRatio;
+  }
+
+  public float getLhsUniquenessRatio() {
+    return lhsUniquenessRatio;
+  }
+
+  public void setLhsUniquenessRatio(float lhsUniquenessRatio) {
+    this.lhsUniquenessRatio = lhsUniquenessRatio;
+  }
+
+  public float getRhsUniquenessRatio() {
+    return rhsUniquenessRatio;
+  }
+
+  public void setRhsUniquenessRatio(float rhsUniquenessRatio) {
+    this.rhsUniquenessRatio = rhsUniquenessRatio;
   }
 
   public boolean equals(Object obj) {

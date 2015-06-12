@@ -47,6 +47,8 @@ public class OrderDependencyResultComparatorTest {
     od1.setGeneralCoverage(2.4f);
     od1.setLhsOccurrenceRatio(1.2f);
     od1.setRhsOccurrenceRatio(4.3f);
+    od1.setLhsUniquenessRatio(2.1f);
+    od1.setRhsUniquenessRatio(1.1f);
 
     ColumnPermutation lhs2 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
@@ -61,6 +63,8 @@ public class OrderDependencyResultComparatorTest {
     od2.setGeneralCoverage(2.4f);
     od2.setLhsOccurrenceRatio(1.2f);
     od2.setRhsOccurrenceRatio(3.3f);
+    od2.setLhsUniquenessRatio(2.1f);
+    od2.setRhsUniquenessRatio(3.2f);
   }
 
   @Test
@@ -159,6 +163,34 @@ public class OrderDependencyResultComparatorTest {
     OrderDependencyResultComparator resultComparator =
         new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_OCCURRENCE_RATIO, false);
     assertTrue(resultComparator.compare(od1, od2) < 0);
+  }
+
+  @Test
+  public void compare15() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.LHS_UNIQUENESS_RATIO, true);
+    assertTrue(resultComparator.compare(od1, od2) == 0);
+  }
+
+  @Test
+  public void compare16() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.LHS_UNIQUENESS_RATIO, false);
+    assertTrue(resultComparator.compare(od1, od2) == 0);
+  }
+
+  @Test
+  public void compare17() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_UNIQUENESS_RATIO, true);
+    assertTrue(resultComparator.compare(od1, od2) < 0);
+  }
+
+  @Test
+  public void compare18() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_UNIQUENESS_RATIO, false);
+    assertTrue(resultComparator.compare(od1, od2) > 0);
   }
 
 }

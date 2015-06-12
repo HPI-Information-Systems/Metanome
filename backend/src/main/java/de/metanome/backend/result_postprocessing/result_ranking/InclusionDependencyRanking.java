@@ -2,7 +2,6 @@ package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
-import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
@@ -14,8 +13,6 @@ import java.util.Map;
  * Calculates the rankings for inclusion dependency results.
  */
 public class InclusionDependencyRanking extends Ranking {
-
-  protected static final float UNIQUENESS_THRESHOLD = 0.1f;
 
   protected List<InclusionDependencyResult> results;
 
@@ -146,27 +143,6 @@ public class InclusionDependencyRanking extends Ranking {
         this.tableInformationMap.get(result.getDependantTableName()),
         result.getDependant().getColumnIdentifiers());
     result.setDependantUniquenessRatio(dependantUniqueRatio);
-  }
-
-  /**
-   * Calculate the ratio of the number of almost unique columns and all columns
-   *
-   * @param table   the table, the columns belong to
-   * @param columns the columns
-   * @return the ratio
-   */
-  protected float calculateUniquenessRatio(TableInformation table, List<ColumnIdentifier> columns) {
-    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
-    Integer uniqueColumns = 0;
-
-    for (ColumnIdentifier column : columns) {
-      if (columnInformationList.get(column.getColumnIdentifier()).getUniquenessRate()
-          < UNIQUENESS_THRESHOLD) {
-        uniqueColumns++;
-      }
-    }
-
-    return (float) uniqueColumns / columns.size();
   }
 
 }

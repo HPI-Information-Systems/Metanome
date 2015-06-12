@@ -18,15 +18,20 @@ package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Ranking {
 
+  protected static final float UNIQUENESS_THRESHOLD = 0.9f;
+
   protected Map<String, TableInformation> tableInformationMap;
   protected Map<String, Map<String, Integer>> occurrenceMap;
+
 
   public Ranking(Map<String, TableInformation> tableInformationMap) {
     this.tableInformationMap = tableInformationMap;
@@ -87,4 +92,26 @@ public abstract class Ranking {
     }
     return (float) columnPermutation.getColumnIdentifiers().size() / occurrences;
   }
+
+  /**
+   * Calculate the ratio of the number of almost unique columns and all columns
+   *
+   * @param table   the table, the columns belong to
+   * @param columns the columns
+   * @return the ratio
+   */
+  protected float calculateUniquenessRatio(TableInformation table, List<ColumnIdentifier> columns) {
+    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
+    Integer uniqueColumns = 0;
+
+    for (ColumnIdentifier column : columns) {
+      if (columnInformationList.get(column.getColumnIdentifier()).getUniquenessRate()
+          >= UNIQUENESS_THRESHOLD) {
+        uniqueColumns++;
+      }
+    }
+
+    return (float) uniqueColumns / columns.size();
+  }
+
 }

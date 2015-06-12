@@ -119,6 +119,26 @@ public class OrderDependencyPaginationTable
     this.table.addColumn(rhsOccurrenceRatioColumn, "RHS Occurrence Ratio");
     columnNames.add(OrderDependencyResultComparator.RHS_OCCURRENCE_RATIO);
 
+    // lhs uniqueness ratio column
+    TextColumn<OrderDependencyResult> lhsUniquenessRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getLhsUniquenessRatio());
+      }
+    };
+    this.table.addColumn(lhsUniquenessRatioColumn, "LHS Uniqueness Ratio*");
+    columnNames.add(OrderDependencyResultComparator.LHS_UNIQUENESS_RATIO);
+
+    // rhs uniqueness ratio column
+    TextColumn<OrderDependencyResult> rhsUniquenessRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getRhsUniquenessRatio());
+      }
+    };
+    this.table.addColumn(rhsUniquenessRatioColumn, "RHS Uniqueness Ratio");
+    columnNames.add(OrderDependencyResultComparator.RHS_UNIQUENESS_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

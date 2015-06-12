@@ -72,6 +72,7 @@ public class OrderDependencyRanking extends Ranking {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
       calculateOccurrenceRatios(result);
+      calculateUniquenessRatios(result);
     }
   }
 
@@ -135,5 +136,24 @@ public class OrderDependencyRanking extends Ranking {
     result.setRhsOccurrenceRatio(
         calculateOccurrenceRatio(rhs, result.getRhsTableName()));
   }
+
+  /**
+   * Calculates the ratio of columns of the lhs/rhs side, which are almost unique, and
+   * the column count of the lhs/rhs side.
+   *
+   * @param result the result
+   */
+  protected void calculateUniquenessRatios(OrderDependencyResult result) {
+    float lhsUniqueRatio = calculateUniquenessRatio(
+        this.tableInformationMap.get(result.getLhsTableName()),
+        result.getLhs().getColumnIdentifiers());
+    result.setLhsUniquenessRatio(lhsUniqueRatio);
+
+    float rhsUniqueRatio = calculateUniquenessRatio(
+        this.tableInformationMap.get(result.getRhsTableName()),
+        result.getRhs().getColumnIdentifiers());
+    result.setRhsUniquenessRatio(rhsUniqueRatio);
+  }
+
 
 }

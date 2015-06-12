@@ -57,7 +57,7 @@ public class OrderDependencyRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true);
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
@@ -137,6 +137,21 @@ public class OrderDependencyRankingTest {
     // Check
     assertEquals(1.0, result.getLhsOccurrenceRatio(), 0.0);
     assertEquals(0.5, result.getRhsOccurrenceRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateUniquenessRatio() throws Exception {
+    // Set up
+    OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
+                                                                tableInformationMap);
+    OrderDependencyResult result = orderDependencyResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateUniquenessRatios(result);
+
+    // Check
+    assertEquals(0.0, result.getLhsUniquenessRatio(), 0.0);
+    assertEquals(1.0, result.getRhsUniquenessRatio(), 0.0);
   }
 
 

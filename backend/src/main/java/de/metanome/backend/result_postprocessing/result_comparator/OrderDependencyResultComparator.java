@@ -32,6 +32,8 @@ public class OrderDependencyResultComparator
   public static final String COVERAGE = "coverage";
   public static final String LHS_OCCURRENCE_RATIO = "lhs_occurrence_ratio";
   public static final String RHS_OCCURRENCE_RATIO = "rhs_occurrence_ratio";
+  public static final String LHS_UNIQUENESS_RATIO = "lhs_uniqueness_ratio";
+  public static final String RHS_UNIQUENESS_RATIO = "rhs_uniqueness_ratio";
 
   /**
    * Creates an order dependency result comparator for given property and direction
@@ -76,6 +78,12 @@ public class OrderDependencyResultComparator
     }
     if (RHS_OCCURRENCE_RATIO.equals(sortProperty)) {
       return Float.compare(od1.getRhsOccurrenceRatio(), od2.getRhsOccurrenceRatio());
+    }
+    if (LHS_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsUniquenessRatio(), od2.getLhsUniquenessRatio());
+    }
+    if (RHS_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsUniquenessRatio(), od2.getRhsUniquenessRatio());
     }
 
     return 0;
