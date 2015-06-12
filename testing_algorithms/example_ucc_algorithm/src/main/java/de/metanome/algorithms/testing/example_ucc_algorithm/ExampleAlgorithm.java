@@ -76,7 +76,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
       try {
         resultReceiver.receiveResult(new UniqueColumnCombination(
             new ColumnIdentifier("WDC_planets.csv", "Name"),
-            new ColumnIdentifier("WDC_planetz.csv", "Planet")));
+            new ColumnIdentifier("WDC_planets.csv", "Type")));
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();
       }
