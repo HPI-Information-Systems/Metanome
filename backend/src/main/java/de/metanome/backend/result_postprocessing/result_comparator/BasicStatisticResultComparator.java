@@ -28,6 +28,7 @@ public class BasicStatisticResultComparator
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String VALUE_COLUMN = "value";
   public static final String NAME_COLUMN = "name";
+  public static final String COLUMN_RATIO = "column_ratio";
 
   /**
    * Creates a basic statistic result comparator for given property and direction
@@ -60,6 +61,9 @@ public class BasicStatisticResultComparator
     }
     if (NAME_COLUMN.equals(sortProperty)) {
       return b1.getStatisticName().compareTo(b2.getStatisticName());
+    }
+    if (COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(b1.getColumnRatio(), b2.getColumnRatio());
     }
 
     return 0;

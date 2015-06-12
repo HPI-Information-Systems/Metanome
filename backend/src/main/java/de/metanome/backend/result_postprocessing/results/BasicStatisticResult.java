@@ -27,8 +27,15 @@ import de.metanome.algorithm_integration.results.BasicStatistic;
 @JsonTypeName("BasicStatisticResult")
 public class BasicStatisticResult implements RankingResult {
 
+  // Original result
   protected BasicStatistic result;
+
+  // The table name of the columns
   protected String tableName;
+
+  // How many columns of the table are involved
+  // in the column combination of the result?
+  private float columnRatio;
 
   // Needed for serialization
   public BasicStatisticResult() {
@@ -65,6 +72,14 @@ public class BasicStatisticResult implements RankingResult {
     return tableName;
   }
 
+  public float getColumnRatio() {
+    return columnRatio;
+  }
+
+  public void setColumnRatio(float columnRatio) {
+    this.columnRatio = columnRatio;
+  }
+
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -74,6 +89,7 @@ public class BasicStatisticResult implements RankingResult {
     }
     if (getClass() != obj.getClass()) {
       return false;
+
     }
     BasicStatisticResult other = (BasicStatisticResult) obj;
     return this.result.equals(other.getResult());

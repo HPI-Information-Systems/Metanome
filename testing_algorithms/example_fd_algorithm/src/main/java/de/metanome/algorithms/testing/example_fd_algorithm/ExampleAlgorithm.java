@@ -88,9 +88,9 @@ public class ExampleAlgorithm
       resultReceiver.receiveResult(
           new FunctionalDependency(
               new ColumnCombination(
-                  new ColumnIdentifier("table1", "column1"),
-                  new ColumnIdentifier("table1", "column2")),
-              new ColumnIdentifier("table1", "column5")
+                  new ColumnIdentifier("WDC_planets.csv", "Name"),
+                  new ColumnIdentifier("WDC_planets.csv", "Type")),
+              new ColumnIdentifier("WDC_planets.csv", "Mass")
           )
       );
     } catch (CouldNotReceiveResultException e) {

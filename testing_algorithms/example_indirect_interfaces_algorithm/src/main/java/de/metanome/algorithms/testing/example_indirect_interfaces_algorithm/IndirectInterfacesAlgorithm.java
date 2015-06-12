@@ -76,7 +76,7 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
   public void execute() throws AlgorithmExecutionException {
     if ((inputGenerator != null) && (resultReceiver != null)) {
       resultReceiver
-          .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("table1", "column3")));
+          .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("WDC_planets.csv", "Name")));
     }
   }
 }

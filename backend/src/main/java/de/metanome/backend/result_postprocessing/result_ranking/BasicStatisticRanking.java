@@ -38,11 +38,30 @@ public class BasicStatisticRanking implements Ranking {
 
   @Override
   public void calculateDataIndependentRankings() {
-
+    for (BasicStatisticResult result : this.results) {
+      calculateColumnRatio(result);
+    }
   }
 
   @Override
   public void calculateDataDependentRankings() {
-
+    for (BasicStatisticResult result : this.results) {
+      calculateColumnRatio(result);
+    }
   }
+
+
+  /**
+   * Calculates the ratio of the size of the column combination and the column count of the
+   * corresponding table.
+   *
+   * @param result the result
+   */
+  protected void calculateColumnRatio(BasicStatisticResult result) {
+    Integer columnCount = result.getColumnCombination().getColumnIdentifiers().size();
+    Integer tableColumnCount = this.tableInformationMap.get(result.getTableName()).getColumnCount();
+    result.setColumnRatio((float) columnCount / tableColumnCount);
+  }
+
+
 }

@@ -60,8 +60,8 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
       System.out.println("CUCC Algorithm executing");
       try {
         resultReceiver.receiveResult(new ConditionalUniqueColumnCombination(
-            new ColumnCombination(new ColumnIdentifier("table1", "column1")),
-            new ColumnConditionValue(new ColumnIdentifier("table2", "column2"), "hello world")));
+            new ColumnCombination(new ColumnIdentifier("WDC_planets.csv", "Name")),
+            new ColumnConditionValue(new ColumnIdentifier("WDC_planetz.csv", "Planet"), "hello world")));
 
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();

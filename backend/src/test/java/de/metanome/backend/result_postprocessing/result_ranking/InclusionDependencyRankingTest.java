@@ -41,11 +41,11 @@ public class InclusionDependencyRankingTest {
 
   Map<String, TableInformation> tableInformationMap;
   List<InclusionDependencyResult> inclusionDependencyResults;
-  String tableName = InclusionDependencyFileFixture.TABLE_NAME;
+  String tableName = FileFixture1.TABLE_NAME;
 
   @Before
   public void setUp() throws Exception {
-    final InclusionDependencyFileFixture fileFixture = new InclusionDependencyFileFixture();
+    final FileFixture1 fileFixture = new FileFixture1();
     RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
       @Override
       public RelationalInput generateNewCopy() throws InputGenerationException {

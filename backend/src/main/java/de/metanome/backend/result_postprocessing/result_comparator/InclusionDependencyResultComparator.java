@@ -11,12 +11,12 @@ public class InclusionDependencyResultComparator
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String REFERENCED_COLUMN = "referenced";
-  public static final String DEPENDANT_COLUMN_RATIO = "dependantColumnRatio";
-  public static final String REFERENCED_COLUMN_RATIO = "referencedColumnRatio";
-  public static final String DEPENDANT_OCCURRENCE_RATIO = "dependantOccurrenceRatio";
-  public static final String REFERENCED_OCCURRENCE_RATIO = "referencedOccurrenceRatio";
-  public static final String DEPENDANT_UNIQUENESS_RATIO = "dependantUniquenessRatio";
-  public static final String REFERENCED_UNIQUENESS_RATIO = "referencedUniquenessRatio";
+  public static final String DEPENDANT_COLUMN_RATIO = "dependant_column_ratio";
+  public static final String REFERENCED_COLUMN_RATIO = "referenced_column_ratio";
+  public static final String DEPENDANT_OCCURRENCE_RATIO = "dependant_occurrence_ratio";
+  public static final String REFERENCED_OCCURRENCE_RATIO = "referenced_occurrence_ratio";
+  public static final String DEPENDANT_UNIQUENESS_RATIO = "dependant_uniqueness_ratio";
+  public static final String REFERENCED_UNIQUENESS_RATIO = "referenced_uniqueness_ratio";
 
   /**
    * Creates an inclusion dependency result comparator for given property and direction

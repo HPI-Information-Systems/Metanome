@@ -43,8 +43,7 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
   public static final String STATISTIC_NAME = "file name statistic";
   public static final ColumnIdentifier
       COLUMN_IDENTIFIER =
-      new ColumnIdentifier("testTable", "testColumn");
-
+      new ColumnIdentifier("WDC_planets.csv", "Name");
   protected BasicStatisticsResultReceiver resultReceiver = null;
   protected FileInputGenerator[] inputs = null;
 

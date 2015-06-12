@@ -79,6 +79,16 @@ public class BasicStatisticPaginationTable
     this.table.addColumn(valueColumn, "Value");
     columnNames.add(BasicStatisticResultComparator.VALUE_COLUMN);
 
+    // column ratio
+    TextColumn<BasicStatisticResult> columnRatioColumn = new TextColumn<BasicStatisticResult>() {
+      @Override
+      public String getValue(BasicStatisticResult basicStatistic) {
+        return String.valueOf(basicStatistic.getColumnRatio());
+      }
+    };
+    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    columnNames.add(BasicStatisticResultComparator.COLUMN_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

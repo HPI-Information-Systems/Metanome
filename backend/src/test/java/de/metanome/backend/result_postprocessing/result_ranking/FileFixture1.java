@@ -26,7 +26,7 @@ import de.metanome.backend.input.file.FileIterator;
 
 import java.io.StringReader;
 
-public class InclusionDependencyFileFixture {
+public class FileFixture1 {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
