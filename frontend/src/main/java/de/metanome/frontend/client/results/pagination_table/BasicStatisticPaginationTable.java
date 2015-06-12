@@ -99,6 +99,16 @@ public class BasicStatisticPaginationTable
     this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio");
     columnNames.add(BasicStatisticResultComparator.OCCURRENCE_RATIO);
 
+    // uniqueness ratio
+    TextColumn<BasicStatisticResult> uniquenessRatioColumn = new TextColumn<BasicStatisticResult>() {
+      @Override
+      public String getValue(BasicStatisticResult basicStatistic) {
+        return String.valueOf(basicStatistic.getUniquenessRatio());
+      }
+    };
+    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio");
+    columnNames.add(BasicStatisticResultComparator.UNIQUENESS_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

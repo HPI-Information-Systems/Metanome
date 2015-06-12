@@ -40,6 +40,7 @@ public class BasicStatisticResultComparatorTest {
     statistic1 = new BasicStatisticResult(result1);
     statistic1.setColumnRatio(3.4f);
     statistic1.setOccurrenceRatio(1.2f);
+    statistic1.setUniquenessRatio(3.2f);
 
     String name2 = "Max";
     String value2 = "maxValue";
@@ -48,6 +49,7 @@ public class BasicStatisticResultComparatorTest {
     statistic2 = new BasicStatisticResult(result2);
     statistic2.setColumnRatio(1.3f);
     statistic2.setOccurrenceRatio(4.2f);
+    statistic2.setUniquenessRatio(1.2f);
   }
 
   @Test
@@ -120,6 +122,20 @@ public class BasicStatisticResultComparatorTest {
     BasicStatisticResultComparator resultComparator =
         new BasicStatisticResultComparator(BasicStatisticResultComparator.OCCURRENCE_RATIO, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
+  }
+
+  @Test
+  public void compare11() {
+    BasicStatisticResultComparator resultComparator =
+        new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, true);
+    assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
+  }
+
+  @Test
+  public void compare12() {
+    BasicStatisticResultComparator resultComparator =
+        new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, false);
+    assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
 

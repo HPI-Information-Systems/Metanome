@@ -67,6 +67,8 @@ public class BasicStatisticRanking extends Ranking {
     for (BasicStatisticResult result : this.results) {
       calculateColumnRatio(result);
       calculateOccurrenceRatio(result);
+
+      calculateUniquenessRatio(result);
     }
   }
 
@@ -94,6 +96,18 @@ public class BasicStatisticRanking extends Ranking {
     String tableName = result.getTableName();
 
     result.setOccurrenceRatio(calculateOccurrenceRatio(columns, tableName));
+  }
+
+  /**
+   * Calculate the ratio of the number of almost unique columns and all columns.
+   *
+   * @param result the result
+   */
+  protected void calculateUniquenessRatio(BasicStatisticResult result) {
+    TableInformation table = this.tableInformationMap.get(result.getTableName());
+    Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
+
+    result.setUniquenessRatio(calculateUniquenessRatio(table, columns));
   }
 
 }

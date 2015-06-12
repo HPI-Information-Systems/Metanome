@@ -111,4 +111,19 @@ public class BasicStatisticRankingTest {
   }
 
 
+  @Test
+  public void testCalculateUniquenessRatio() throws Exception {
+    // Set up
+    BasicStatisticRanking ranking = new BasicStatisticRanking(basicStatisticResults,
+                                                              tableInformationMap);
+    BasicStatisticResult result = basicStatisticResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateUniquenessRatio(result);
+
+    // Check
+    assertEquals(1.0, result.getUniquenessRatio(), 0.0);
+  }
+
+
 }

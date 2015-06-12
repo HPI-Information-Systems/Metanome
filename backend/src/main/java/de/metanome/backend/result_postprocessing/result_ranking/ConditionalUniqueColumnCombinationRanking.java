@@ -99,7 +99,6 @@ public class ConditionalUniqueColumnCombinationRanking extends Ranking {
     result.setOccurrenceRatio(calculateOccurrenceRatio(columns, tableName));
   }
 
-
   /**
    * Calculate the ratio of the number of almost unique columns and all columns.
    *

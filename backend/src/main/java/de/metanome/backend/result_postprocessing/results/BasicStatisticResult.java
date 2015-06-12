@@ -41,6 +41,10 @@ public class BasicStatisticResult implements RankingResult {
   // column combination involved?
   private float occurrenceRatio;
 
+  // How many of the columns of the column combination
+  // are (almost) unique?
+  private float uniquenessRatio;
+
   // Needed for serialization
   public BasicStatisticResult() {
   }
@@ -90,6 +94,14 @@ public class BasicStatisticResult implements RankingResult {
 
   public void setOccurrenceRatio(float occurrenceRatio) {
     this.occurrenceRatio = occurrenceRatio;
+  }
+
+  public float getUniquenessRatio() {
+    return uniquenessRatio;
+  }
+
+  public void setUniquenessRatio(float uniquenessRatio) {
+    this.uniquenessRatio = uniquenessRatio;
   }
 
   public boolean equals(Object obj) {
