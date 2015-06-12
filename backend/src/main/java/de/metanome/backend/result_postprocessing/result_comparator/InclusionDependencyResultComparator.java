@@ -55,13 +55,15 @@ public class InclusionDependencyResultComparator
       return Float.compare(ind1.getDependantOccurrenceRatio(), ind2.getDependantOccurrenceRatio());
     }
     if (REFERENCED_OCCURRENCE_RATIO.equals(sortProperty)) {
-      return Float.compare(ind1.getReferencedOccurrenceRatio(), ind2.getReferencedOccurrenceRatio());
+      return Float
+          .compare(ind1.getReferencedOccurrenceRatio(), ind2.getReferencedOccurrenceRatio());
     }
     if (DEPENDANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(ind1.getDependantUniquenessRatio(), ind2.getDependantUniquenessRatio());
     }
     if (REFERENCED_UNIQUENESS_RATIO.equals(sortProperty)) {
-      return Float.compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
+      return Float
+          .compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
     }
 
     return 0;

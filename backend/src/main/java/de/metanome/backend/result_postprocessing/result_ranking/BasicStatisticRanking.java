@@ -16,10 +16,25 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Calculates the rankings for basic statistic results.
  */
 public class BasicStatisticRanking implements Ranking {
+
+  protected List<BasicStatisticResult> results;
+  protected Map<String, TableInformation> tableInformationMap;
+
+  public BasicStatisticRanking(List<BasicStatisticResult> results,
+                               Map<String, TableInformation> tableInformationMap) {
+    this.results = results;
+    this.tableInformationMap = tableInformationMap;
+  }
 
   @Override
   public void calculateDataIndependentRankings() {
@@ -27,7 +42,7 @@ public class BasicStatisticRanking implements Ranking {
   }
 
   @Override
-  public void calculateDatDependentRankings() {
+  public void calculateDataDependentRankings() {
 
   }
 }

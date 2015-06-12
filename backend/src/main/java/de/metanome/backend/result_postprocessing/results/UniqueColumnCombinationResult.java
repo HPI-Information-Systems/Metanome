@@ -31,7 +31,8 @@ public class UniqueColumnCombinationResult implements RankingResult {
   protected String tableName;
 
   // Needed for serialization
-  public UniqueColumnCombinationResult() {}
+  public UniqueColumnCombinationResult() {
+  }
 
   public UniqueColumnCombinationResult(UniqueColumnCombination result) {
     this.result = result;

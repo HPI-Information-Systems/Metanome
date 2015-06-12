@@ -16,10 +16,27 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Calculates the rankings for conditional unique column combination results.
  */
 public class ConditionalUniqueColumnCombinationRanking implements Ranking {
+
+  protected List<ConditionalUniqueColumnCombinationResult> results;
+  protected Map<String, TableInformation> tableInformationMap;
+
+  public ConditionalUniqueColumnCombinationRanking(
+      List<ConditionalUniqueColumnCombinationResult> results,
+      Map<String, TableInformation> tableInformationMap) {
+    this.results = results;
+    this.tableInformationMap = tableInformationMap;
+  }
+
 
   @Override
   public void calculateDataIndependentRankings() {
@@ -27,7 +44,7 @@ public class ConditionalUniqueColumnCombinationRanking implements Ranking {
   }
 
   @Override
-  public void calculateDatDependentRankings() {
+  public void calculateDataDependentRankings() {
 
   }
 }

@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.result_ranking.OrderDependencyRanking;
 import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 import java.util.ArrayList;
@@ -41,12 +42,27 @@ public class OrderDependencyResultAnalyzer
   protected List<OrderDependencyResult> analyzeResultsDataIndependent(
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      OrderDependencyRanking ranking =
+          new OrderDependencyRanking(results, tableInformationList);
+      ranking.calculateDataIndependentRankings();
+    }
+
     return results;
   }
 
   @Override
-  protected List<OrderDependencyResult> analyzeResultsDataDependent(List<OrderDependency> prevResults) {
+  protected List<OrderDependencyResult> analyzeResultsDataDependent(
+      List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      OrderDependencyRanking ranking =
+          new OrderDependencyRanking(results, tableInformationList);
+      ranking.calculateDataDependentRankings();
+    }
+
     return results;
   }
 

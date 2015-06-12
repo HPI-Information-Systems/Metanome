@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.result_ranking.BasicStatisticRanking;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
 import java.util.ArrayList;
@@ -38,14 +39,32 @@ public class BasicStatisticResultAnalyzer
   }
 
   @Override
-  protected List<BasicStatisticResult> analyzeResultsDataIndependent(List<BasicStatistic> prevResults) {
+  protected List<BasicStatisticResult> analyzeResultsDataIndependent(
+      List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      BasicStatisticRanking
+          ranking =
+          new BasicStatisticRanking(results, tableInformationList);
+      ranking.calculateDataIndependentRankings();
+    }
+
     return results;
   }
 
   @Override
-  protected List<BasicStatisticResult> analyzeResultsDataDependent(List<BasicStatistic> prevResults) {
+  protected List<BasicStatisticResult> analyzeResultsDataDependent(
+      List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      BasicStatisticRanking
+          ranking =
+          new BasicStatisticRanking(results, tableInformationList);
+      ranking.calculateDataDependentRankings();
+    }
+
     return results;
   }
 

@@ -20,6 +20,6 @@ public interface Ranking {
 
   public void calculateDataIndependentRankings();
 
-  public void calculateDatDependentRankings();
+  public void calculateDataDependentRankings();
 
 }

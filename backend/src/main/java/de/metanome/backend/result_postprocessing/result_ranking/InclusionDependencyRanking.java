@@ -17,14 +17,14 @@ public class InclusionDependencyRanking implements Ranking {
 
   protected static final float UNIQUENESS_THRESHOLD = 0.1f;
 
-  protected List<InclusionDependencyResult> inclusionDependencyResults;
+  protected List<InclusionDependencyResult> results;
   protected Map<String, TableInformation> tableInformationMap;
   protected Map<String, Map<String, Integer>> occurrenceMap;
 
 
-  public InclusionDependencyRanking(List<InclusionDependencyResult> inclusionDependencyResults,
+  public InclusionDependencyRanking(List<InclusionDependencyResult> results,
                                     Map<String, TableInformation> tableInformationMap) {
-    this.inclusionDependencyResults = inclusionDependencyResults;
+    this.results = results;
     this.tableInformationMap = tableInformationMap;
     this.occurrenceMap = new HashMap<>();
 
@@ -37,7 +37,7 @@ public class InclusionDependencyRanking implements Ranking {
   protected void createOccurrenceList() {
     initializeOccurrenceList();
 
-    for (InclusionDependencyResult result : this.inclusionDependencyResults) {
+    for (InclusionDependencyResult result : this.results) {
       for (ColumnIdentifier column : result.getReferenced().getColumnIdentifiers()) {
         updateOccurrenceList(column);
       }
@@ -81,7 +81,7 @@ public class InclusionDependencyRanking implements Ranking {
    */
   @Override
   public void calculateDataIndependentRankings() {
-    for (InclusionDependencyResult result : this.inclusionDependencyResults) {
+    for (InclusionDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateOccurrenceRatios(result);
     }
@@ -91,8 +91,8 @@ public class InclusionDependencyRanking implements Ranking {
    * Calculates the data dependent ranking and stores them in the results.
    */
   @Override
-  public void calculateDatDependentRankings() {
-    for (InclusionDependencyResult result : this.inclusionDependencyResults) {
+  public void calculateDataDependentRankings() {
+    for (InclusionDependencyResult result : this.results) {
       calculateUniquenessRatios(result);
     }
   }

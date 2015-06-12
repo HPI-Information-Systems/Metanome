@@ -47,7 +47,7 @@ public class InclusionDependencyResultAnalyzer
       InclusionDependencyRanking
           ranking =
           new InclusionDependencyRanking(results, tableInformationList);
-      ranking.calculateDatDependentRankings();
+      ranking.calculateDataIndependentRankings();
     }
 
     return results;
@@ -62,7 +62,7 @@ public class InclusionDependencyResultAnalyzer
       InclusionDependencyRanking ranking =
           new InclusionDependencyRanking(results, tableInformationList);
       ranking.calculateDataIndependentRankings();
-      ranking.calculateDatDependentRankings();
+      ranking.calculateDataDependentRankings();
     }
 
     return results;

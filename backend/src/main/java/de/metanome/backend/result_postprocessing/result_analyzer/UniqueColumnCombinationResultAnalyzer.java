@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.result_ranking.UniqueColumnCombinationRanking;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 import java.util.ArrayList;
@@ -41,6 +42,13 @@ public class UniqueColumnCombinationResultAnalyzer
   protected List<UniqueColumnCombinationResult> analyzeResultsDataIndependent(
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      UniqueColumnCombinationRanking ranking =
+          new UniqueColumnCombinationRanking(results, tableInformationList);
+      ranking.calculateDataIndependentRankings();
+    }
+
     return results;
   }
 
@@ -48,6 +56,13 @@ public class UniqueColumnCombinationResultAnalyzer
   protected List<UniqueColumnCombinationResult> analyzeResultsDataDependent(
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      UniqueColumnCombinationRanking ranking =
+          new UniqueColumnCombinationRanking(results, tableInformationList);
+      ranking.calculateDataDependentRankings();
+    }
+
     return results;
   }
 

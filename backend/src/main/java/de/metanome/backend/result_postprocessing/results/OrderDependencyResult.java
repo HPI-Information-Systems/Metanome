@@ -33,7 +33,8 @@ public class OrderDependencyResult implements RankingResult {
   protected String rhsTableName;
 
   // Needed for serialization
-  public OrderDependencyResult() {}
+  public OrderDependencyResult() {
+  }
 
   public OrderDependencyResult(OrderDependency result) {
     this.result = result;

@@ -32,7 +32,8 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
   protected String tableName;
 
   // Needed for serialization
-  public ConditionalUniqueColumnCombinationResult() {}
+  public ConditionalUniqueColumnCombinationResult() {
+  }
 
   public ConditionalUniqueColumnCombinationResult(ConditionalUniqueColumnCombination result) {
     this.result = result;

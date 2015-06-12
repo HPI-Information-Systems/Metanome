@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.result_ranking.ConditionalUniqueColumnCombinationRanking;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
 import java.util.ArrayList;
@@ -41,6 +42,14 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataIndependent(
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      ConditionalUniqueColumnCombinationRanking
+          ranking =
+          new ConditionalUniqueColumnCombinationRanking(results, tableInformationList);
+      ranking.calculateDataIndependentRankings();
+    }
+
     return results;
   }
 
@@ -48,6 +57,14 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataDependent(
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      ConditionalUniqueColumnCombinationRanking
+          ranking =
+          new ConditionalUniqueColumnCombinationRanking(results, tableInformationList);
+      ranking.calculateDataDependentRankings();
+    }
+
     return results;
   }
 
@@ -62,7 +79,9 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
     List<ConditionalUniqueColumnCombinationResult> results = new ArrayList<>();
 
     for (ConditionalUniqueColumnCombination prevResult : prevResults) {
-      ConditionalUniqueColumnCombinationResult result = new ConditionalUniqueColumnCombinationResult(prevResult);
+      ConditionalUniqueColumnCombinationResult
+          result =
+          new ConditionalUniqueColumnCombinationResult(prevResult);
       results.add(result);
     }
 

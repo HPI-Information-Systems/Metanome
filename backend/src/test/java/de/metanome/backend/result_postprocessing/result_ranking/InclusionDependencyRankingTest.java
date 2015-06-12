@@ -90,7 +90,7 @@ public class InclusionDependencyRankingTest {
 
     // Check
     assertNotNull(ranking.tableInformationMap);
-    assertNotNull(ranking.inclusionDependencyResults);
+    assertNotNull(ranking.results);
     assertNotNull(ranking.occurrenceMap);
 
     assertEquals(2, (int) ranking.occurrenceMap.get(tableName).get("column1"));

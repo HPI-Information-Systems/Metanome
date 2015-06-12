@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.result_ranking.FunctionalDependencyRanking;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
 import java.util.ArrayList;
@@ -41,6 +42,13 @@ public class FunctionalDependencyResultAnalyzer
   protected List<FunctionalDependencyResult> analyzeResultsDataIndependent(
       List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      FunctionalDependencyRanking ranking =
+          new FunctionalDependencyRanking(results, tableInformationList);
+      ranking.calculateDataIndependentRankings();
+    }
+
     return results;
   }
 
@@ -48,6 +56,13 @@ public class FunctionalDependencyResultAnalyzer
   protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
       List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
+
+    if (!this.tableInformationList.isEmpty()) {
+      FunctionalDependencyRanking ranking =
+          new FunctionalDependencyRanking(results, tableInformationList);
+      ranking.calculateDataDependentRankings();
+    }
+
     return results;
   }
 

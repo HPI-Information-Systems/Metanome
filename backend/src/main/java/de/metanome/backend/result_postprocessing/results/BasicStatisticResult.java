@@ -31,7 +31,8 @@ public class BasicStatisticResult implements RankingResult {
   protected String tableName;
 
   // Needed for serialization
-  public BasicStatisticResult() {}
+  public BasicStatisticResult() {
+  }
 
   public BasicStatisticResult(BasicStatistic result) {
     this.result = result;

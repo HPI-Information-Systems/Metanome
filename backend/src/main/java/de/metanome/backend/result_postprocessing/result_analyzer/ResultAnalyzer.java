@@ -85,8 +85,8 @@ public abstract class ResultAnalyzer<T extends Result, R> {
   public abstract void printResultsToFile();
 
   /**
-   * Converts a list of results into a list of ranking results.
-   * The ranking results contain additional information like different ranking values.
+   * Converts a list of results into a list of ranking results. The ranking results contain
+   * additional information like different ranking values.
    *
    * @param prevResults the list of results
    * @return a list of ranking results

@@ -16,10 +16,25 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Calculates the rankings for functional dependency results.
  */
 public class FunctionalDependencyRanking implements Ranking {
+
+  protected List<FunctionalDependencyResult> results;
+  protected Map<String, TableInformation> tableInformationMap;
+
+  public FunctionalDependencyRanking(List<FunctionalDependencyResult> results,
+                                     Map<String, TableInformation> tableInformationMap) {
+    this.results = results;
+    this.tableInformationMap = tableInformationMap;
+  }
 
   @Override
   public void calculateDataIndependentRankings() {
@@ -27,7 +42,7 @@ public class FunctionalDependencyRanking implements Ranking {
   }
 
   @Override
-  public void calculateDatDependentRankings() {
+  public void calculateDataDependentRankings() {
 
   }
 }
