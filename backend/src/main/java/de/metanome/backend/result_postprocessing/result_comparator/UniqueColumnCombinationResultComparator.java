@@ -28,6 +28,7 @@ public class UniqueColumnCombinationResultComparator
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String COLUMN_RATIO = "column_ratio";
   public static final String OCCURRENCE_RATIO = "occurrence_ratio";
+  public static final String UNIQUENESS_RATIO = "uniqueness_ratio";
 
   /**
    * Creates an unique column combination result comparator for given property and direction
@@ -60,6 +61,9 @@ public class UniqueColumnCombinationResultComparator
     }
     if (OCCURRENCE_RATIO.equals(sortProperty)) {
       return Float.compare(ucc1.getOccurrenceRatio(), ucc2.getOccurrenceRatio());
+    }
+    if (UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(ucc1.getUniquenessRatio(), ucc2.getUniquenessRatio());
     }
 
     return 0;

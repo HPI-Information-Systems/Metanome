@@ -120,5 +120,19 @@ public class UniqueColumnCombinationRankingTest {
     assertEquals(1.0, result.getOccurrenceRatio(), 0.0);
   }
 
+  @Test
+  public void testCalculateUniquenessRatio() throws Exception {
+    // Set up
+    UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
+        uniqueColumnCombinationResults, tableInformationMap);
+    UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateUniquenessRatio(result);
+
+    // Check
+    assertEquals(1.0, result.getUniquenessRatio(), 0.0);
+  }
+
 
 }

@@ -72,6 +72,7 @@ public class OrderDependencyRanking extends Ranking {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
       calculateOccurrenceRatios(result);
+
       calculateUniquenessRatios(result);
     }
   }

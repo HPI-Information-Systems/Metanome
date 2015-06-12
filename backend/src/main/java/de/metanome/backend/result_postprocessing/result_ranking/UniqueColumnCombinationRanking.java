@@ -17,12 +17,14 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Calculates the rankings for unique column combination results.
@@ -66,6 +68,8 @@ public class UniqueColumnCombinationRanking extends Ranking {
     for (UniqueColumnCombinationResult result : this.results) {
       calculateColumnRatio(result);
       calculateOccurrenceRatio(result);
+
+      calculateUniquenessRatio(result);
     }
   }
 
@@ -93,6 +97,28 @@ public class UniqueColumnCombinationRanking extends Ranking {
       occurrences += this.occurrenceMap.get(result.getTableName()).get(column.getColumnIdentifier());
     }
     result.setOccurrenceRatio((float) result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
+  }
+
+  /**
+   * Calculate the ratio of the number of almost unique columns and all columns.
+   *
+   * @param result the result
+   */
+  protected void calculateUniquenessRatio(UniqueColumnCombinationResult result) {
+    TableInformation table = this.tableInformationMap.get(result.getTableName());
+    Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
+
+    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
+    Integer uniqueColumns = 0;
+
+    for (ColumnIdentifier column : columns) {
+      if (columnInformationList.get(column.getColumnIdentifier()).getUniquenessRate()
+          >= UNIQUENESS_THRESHOLD) {
+        uniqueColumns++;
+      }
+    }
+
+    result.setUniquenessRatio((float) uniqueColumns / columns.size());
   }
 
 }

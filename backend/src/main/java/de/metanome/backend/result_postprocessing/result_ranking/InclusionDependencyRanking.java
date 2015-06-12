@@ -61,8 +61,9 @@ public class InclusionDependencyRanking extends Ranking {
     for (InclusionDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateOccurrenceRatios(result);
-      calculateUniquenessRatios(result);
       calculateGeneralCoverage(result);
+
+      calculateUniquenessRatios(result);
     }
   }
 
