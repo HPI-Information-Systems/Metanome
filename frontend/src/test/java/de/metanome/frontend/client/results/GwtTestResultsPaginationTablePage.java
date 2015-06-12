@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultsPaginationTablePageTest extends GWTTestCase {
+public class GwtTestResultsPaginationTablePage extends GWTTestCase {
 
   public void testSetup() {
     // Execute
