@@ -17,11 +17,11 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -128,14 +128,14 @@ public class OrderDependencyRanking extends Ranking {
    */
   protected void calculateOccurrenceRatios(OrderDependencyResult result) {
     // calculate lhs occurrence ratio
-    ColumnPermutation lhs = result.getLhs();
+    List<ColumnIdentifier> lhs = result.getLhs().getColumnIdentifiers();
     result.setLhsOccurrenceRatio(
-        calculateOccurrenceRatio(lhs, result.getLhsTableName()));
+        calculateOccurrenceRatio(new HashSet<>(lhs), result.getLhsTableName()));
 
     // calculate rhs occurrence ratio
-    ColumnPermutation rhs = result.getRhs();
+    List<ColumnIdentifier> rhs = result.getRhs().getColumnIdentifiers();
     result.setRhsOccurrenceRatio(
-        calculateOccurrenceRatio(rhs, result.getRhsTableName()));
+        calculateOccurrenceRatio(new HashSet<>(rhs), result.getRhsTableName()));
   }
 
   /**
@@ -147,12 +147,12 @@ public class OrderDependencyRanking extends Ranking {
   protected void calculateUniquenessRatios(OrderDependencyResult result) {
     float lhsUniqueRatio = calculateUniquenessRatio(
         this.tableInformationMap.get(result.getLhsTableName()),
-        result.getLhs().getColumnIdentifiers());
+        new HashSet<>(result.getLhs().getColumnIdentifiers()));
     result.setLhsUniquenessRatio(lhsUniqueRatio);
 
     float rhsUniqueRatio = calculateUniquenessRatio(
         this.tableInformationMap.get(result.getRhsTableName()),
-        result.getRhs().getColumnIdentifiers());
+        new HashSet<>(result.getRhs().getColumnIdentifiers()));
     result.setRhsUniquenessRatio(rhsUniqueRatio);
   }
 

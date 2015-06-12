@@ -1,7 +1,6 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
@@ -75,12 +74,12 @@ public class InclusionDependencyRanking extends Ranking {
    */
   protected void calculateOccurrenceRatios(InclusionDependencyResult result) {
     // calculate referenced occurrence ratio
-    ColumnPermutation referenced = result.getReferenced();
+    List<ColumnIdentifier> referenced = result.getReferenced().getColumnIdentifiers();
     result.setReferencedOccurrenceRatio(
         calculateOccurrenceRatio(referenced, result.getReferencedTableName()));
 
     // calculate dependant occurrence ratio
-    ColumnPermutation dependant = result.getDependant();
+    List<ColumnIdentifier> dependant = result.getDependant().getColumnIdentifiers();
     result.setDependantOccurrenceRatio(
         calculateOccurrenceRatio(dependant, result.getDependantTableName()));
   }

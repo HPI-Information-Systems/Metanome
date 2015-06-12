@@ -23,6 +23,7 @@ import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Calculates the rankings for basic statistic results.
@@ -89,11 +90,10 @@ public class BasicStatisticRanking extends Ranking {
    * @param result the result
    */
   protected void calculateOccurrenceRatio(BasicStatisticResult result) {
-    Integer occurrences = 0;
-    for (ColumnIdentifier column : result.getColumnCombination().getColumnIdentifiers()) {
-      occurrences += this.occurrenceMap.get(result.getTableName()).get(column.getColumnIdentifier());
-    }
-    result.setOccurrenceRatio((float) result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
+    Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
+    String tableName = result.getTableName();
+
+    result.setOccurrenceRatio(calculateOccurrenceRatio(columns, tableName));
   }
 
 }

@@ -17,7 +17,6 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
@@ -94,11 +93,10 @@ public class ConditionalUniqueColumnCombinationRanking extends Ranking {
    * @param result the result
    */
   protected void calculateOccurrenceRatio(ConditionalUniqueColumnCombinationResult result) {
-    Integer occurrences = 0;
-    for (ColumnIdentifier column : result.getColumnCombination().getColumnIdentifiers()) {
-      occurrences += this.occurrenceMap.get(result.getTableName()).get(column.getColumnIdentifier());
-    }
-    result.setOccurrenceRatio((float) result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
+    Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
+    String tableName = result.getTableName();
+
+    result.setOccurrenceRatio(calculateOccurrenceRatio(columns, tableName));
   }
 
 
@@ -111,17 +109,7 @@ public class ConditionalUniqueColumnCombinationRanking extends Ranking {
     TableInformation table = this.tableInformationMap.get(result.getTableName());
     Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
 
-    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
-    Integer uniqueColumns = 0;
-
-    for (ColumnIdentifier column : columns) {
-      if (columnInformationList.get(column.getColumnIdentifier()).getUniquenessRate()
-          >= UNIQUENESS_THRESHOLD) {
-        uniqueColumns++;
-      }
-    }
-
-    result.setUniquenessRatio((float) uniqueColumns / columns.size());
+    result.setUniquenessRatio(calculateUniquenessRatio(table, columns));
   }
 
 }

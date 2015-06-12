@@ -17,13 +17,14 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Ranking {
 
@@ -77,20 +78,33 @@ public abstract class Ranking {
   }
 
   /**
-   * Calculate the ratio of the given column permutation count and the overall occurrence of the
-   * columns in that column permutation.
+   * Calculate the ratio of the given number of columns and the overall occurrence of the
+   * columns.
    *
-   * @param columnPermutation the column permutation
-   * @param tableName         the table name
+   * @param columns   the columns
+   * @param tableName the table name
    * @return the ratio
    */
-  protected float calculateOccurrenceRatio(ColumnPermutation columnPermutation,
+  protected float calculateOccurrenceRatio(List<ColumnIdentifier> columns,
                                            String tableName) {
     Integer occurrences = 0;
-    for (ColumnIdentifier column : columnPermutation.getColumnIdentifiers()) {
+    for (ColumnIdentifier column : columns) {
       occurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
     }
-    return (float) columnPermutation.getColumnIdentifiers().size() / occurrences;
+    return (float) columns.size() / occurrences;
+  }
+
+  /**
+   * Calculate the ratio of the given number of columns and the overall occurrence of the
+   * columns.
+   *
+   * @param columns   the columns
+   * @param tableName the table name
+   * @return the ratio
+   */
+  protected float calculateOccurrenceRatio(Set<ColumnIdentifier> columns,
+                                           String tableName) {
+    return calculateOccurrenceRatio(new ArrayList<>(columns), tableName);
   }
 
   /**
@@ -112,6 +126,17 @@ public abstract class Ranking {
     }
 
     return (float) uniqueColumns / columns.size();
+  }
+
+  /**
+   * Calculate the ratio of the number of almost unique columns and all columns
+   *
+   * @param table   the table, the columns belong to
+   * @param columns the columns
+   * @return the ratio
+   */
+  protected float calculateUniquenessRatio(TableInformation table, Set<ColumnIdentifier> columns) {
+    return calculateUniquenessRatio(table, new ArrayList<>(columns));
   }
 
 }
