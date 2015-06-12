@@ -27,8 +27,15 @@ import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 @JsonTypeName("UniqueColumnCombinationResult")
 public class UniqueColumnCombinationResult implements RankingResult {
 
+  // Original result
   protected UniqueColumnCombination result;
+
+  // Table name of the column combination
   protected String tableName;
+
+  // How many columns of the table are involved
+  // in the lhs/rhs of the result?
+  protected float columnRatio;
 
   // Needed for serialization
   public UniqueColumnCombinationResult() {
@@ -55,6 +62,14 @@ public class UniqueColumnCombinationResult implements RankingResult {
 
   public String getTableName() {
     return tableName;
+  }
+
+  public float getColumnRatio() {
+    return columnRatio;
+  }
+
+  public void setColumnRatio(float columnRatio) {
+    this.columnRatio = columnRatio;
   }
 
   public boolean equals(Object obj) {

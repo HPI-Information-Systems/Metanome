@@ -54,12 +54,24 @@ public class UniqueColumnCombinationPaginationTable
         columnCombinationColumn =
         new TextColumn<UniqueColumnCombinationResult>() {
           @Override
-          public String getValue(UniqueColumnCombinationResult functionalDependency) {
-            return functionalDependency.getColumnCombination().toString();
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return uniqueColumnCombination.getColumnCombination().toString();
           }
         };
     this.table.addColumn(columnCombinationColumn, "Column Combination");
     columnNames.add(UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
+
+    // Column ratio column
+    TextColumn<UniqueColumnCombinationResult>
+        columnRatioColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getColumnRatio());
+          }
+        };
+    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    columnNames.add(UniqueColumnCombinationResultComparator.COLUMN_RATIO);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

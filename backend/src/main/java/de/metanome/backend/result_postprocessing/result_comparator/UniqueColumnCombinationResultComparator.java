@@ -26,6 +26,7 @@ public class UniqueColumnCombinationResultComparator
     extends ResultComparator<UniqueColumnCombinationResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
+  public static final String COLUMN_RATIO = "column_ratio";
 
   /**
    * Creates an unique column combination result comparator for given property and direction
@@ -52,6 +53,9 @@ public class UniqueColumnCombinationResultComparator
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return ucc1.getColumnCombination().toString()
           .compareTo(ucc2.getColumnCombination().toString());
+    }
+    if (COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(ucc1.getColumnRatio(), ucc2.getColumnRatio());
     }
 
     return 0;

@@ -74,7 +74,7 @@ public class FileFixture1 {
     return ImmutableList.of("2", "2", "2", "one");
   }
 
-  public ImmutableList<String> getLineThree() { return ImmutableList.of("3", "2", "1", "one");
+  public ImmutableList<String> getLineThree() { return ImmutableList.of("3", "2", "1", "two");
   }
 
   public ImmutableList<String> getLineFour() {

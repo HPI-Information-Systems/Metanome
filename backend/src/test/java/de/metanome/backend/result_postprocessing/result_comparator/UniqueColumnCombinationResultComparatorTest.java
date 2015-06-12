@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UniqueColumnCombinationResultComparatorTest {
 
@@ -41,7 +42,9 @@ public class UniqueColumnCombinationResultComparatorTest {
     UniqueColumnCombination result2 = new UniqueColumnCombination(column3, column4, column2);
 
     ucc1 = new UniqueColumnCombinationResult(result1);
+    ucc1.setColumnRatio(3.2f);
     ucc2 = new UniqueColumnCombinationResult(result2);
+    ucc2.setColumnRatio(1.3f);
   }
 
   @Test
@@ -58,6 +61,22 @@ public class UniqueColumnCombinationResultComparatorTest {
         new UniqueColumnCombinationResultComparator(
             UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN, false);
     assertEquals(1, resultComparator.compare(ucc1, ucc2));
+  }
+
+  @Test
+  public void compare3() {
+    UniqueColumnCombinationResultComparator resultComparator =
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(ucc1, ucc2) > 0);
+  }
+
+  @Test
+  public void compare4() {
+    UniqueColumnCombinationResultComparator resultComparator =
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(ucc1, ucc2) < 0);
   }
 
 }
