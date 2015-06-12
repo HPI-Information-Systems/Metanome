@@ -97,6 +97,18 @@ public class ConditionalUniqueColumnCombinationPaginationTable
     this.table.addColumn(columnRatioColumn, "Column Ratio");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO);
 
+    // occurrence ratio column
+    TextColumn<ConditionalUniqueColumnCombinationResult>
+        occurrenceRatioColumn =
+        new TextColumn<ConditionalUniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(ConditionalUniqueColumnCombinationResult columnCombination) {
+            return String.valueOf(columnCombination.getOccurrenceRatio());
+          }
+        };
+    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio");
+    columnNames.add(ConditionalUniqueColumnCombinationResultComparator.OCCURRENCE_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

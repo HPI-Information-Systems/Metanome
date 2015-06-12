@@ -92,7 +92,7 @@ public class UniqueColumnCombinationRanking extends Ranking {
     for (ColumnIdentifier column : result.getColumnCombination().getColumnIdentifiers()) {
       occurrences += this.occurrenceMap.get(result.getTableName()).get(column.getColumnIdentifier());
     }
-    result.setOccurrenceRatio(result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
+    result.setOccurrenceRatio((float) result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
   }
 
 }

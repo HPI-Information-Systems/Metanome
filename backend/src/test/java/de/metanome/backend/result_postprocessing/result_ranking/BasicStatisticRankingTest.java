@@ -61,7 +61,7 @@ public class BasicStatisticRankingTest {
     tableInformationMap.put(tableName, tableInformation);
 
     BasicStatistic basicStatistic1 = new BasicStatistic("unique values", "3", new ColumnIdentifier(tableName, "column2"));
-    BasicStatistic basicStatistic2 = new BasicStatistic("unique values", "4", new ColumnIdentifier(tableName, "column1"));
+    BasicStatistic basicStatistic2 = new BasicStatistic("unique values", "4", new ColumnIdentifier(tableName, "column1"), new ColumnIdentifier(tableName, "column2"));
 
     BasicStatisticResult result1 = new BasicStatisticResult(basicStatistic1);
     BasicStatisticResult result2 = new BasicStatisticResult(basicStatistic2);
@@ -94,6 +94,20 @@ public class BasicStatisticRankingTest {
 
     // Check
     assertEquals(0.25, result.getColumnRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateOccurrenceRatio() throws Exception {
+    // Set up
+    BasicStatisticRanking ranking = new BasicStatisticRanking(basicStatisticResults,
+                                                              tableInformationMap);
+    BasicStatisticResult result = basicStatisticResults.get(0);
+
+    // Execute Functionality
+    ranking.calculateOccurrenceRatio(result);
+
+    // Check
+    assertEquals(0.5, result.getOccurrenceRatio(), 0.0);
   }
 
 

@@ -112,4 +112,18 @@ public class ConditionalUniqueColumnCombinationRankingTest {
     assertEquals(0.5, result.getColumnRatio(), 0.0);
   }
 
+  @Test
+  public void testCalculateOccurrenceRatio() throws Exception {
+    // Set up
+    ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
+        results, tableInformationMap);
+    ConditionalUniqueColumnCombinationResult result = results.get(0);
+
+    // Execute Functionality
+    ranking.calculateOccurrenceRatio(result);
+
+    // Check
+    assertEquals(1.0, result.getOccurrenceRatio(), 0.0);
+  }
+
 }

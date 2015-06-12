@@ -49,6 +49,7 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
         new ColumnCombination(column1, column2), orCondition);
     cucc1 = new ConditionalUniqueColumnCombinationResult(result1);
     cucc1.setColumnRatio(3.5f);
+    cucc1.setOccurrenceRatio(1.2f);
 
     ColumnConditionAnd andCondition = new ColumnConditionAnd(
         new ColumnConditionAnd(new ColumnConditionValue(column3, "condition3"),
@@ -57,6 +58,7 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
         new ColumnCombination(column3, column4), andCondition);
     cucc2 = new ConditionalUniqueColumnCombinationResult(result2);
     cucc2.setColumnRatio(1.3f);
+    cucc2.setOccurrenceRatio(4.2f);
   }
 
   @Test
@@ -103,6 +105,20 @@ public class ConditionalUniqueColumnCombinationResultComparatorTest {
     ConditionalUniqueColumnCombinationResultComparator resultComparator =
         new ConditionalUniqueColumnCombinationResultComparator(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO, false);
     assertTrue(resultComparator.compare(cucc1, cucc2) < 0);
+  }
+
+  @Test
+  public void compare9() {
+    ConditionalUniqueColumnCombinationResultComparator resultComparator =
+        new ConditionalUniqueColumnCombinationResultComparator(ConditionalUniqueColumnCombinationResultComparator.OCCURRENCE_RATIO, true);
+    assertTrue(resultComparator.compare(cucc1, cucc2) < 0);
+  }
+
+  @Test
+  public void compare10() {
+    ConditionalUniqueColumnCombinationResultComparator resultComparator =
+        new ConditionalUniqueColumnCombinationResultComparator(ConditionalUniqueColumnCombinationResultComparator.OCCURRENCE_RATIO, false);
+    assertTrue(resultComparator.compare(cucc1, cucc2) > 0);
   }
 
 }

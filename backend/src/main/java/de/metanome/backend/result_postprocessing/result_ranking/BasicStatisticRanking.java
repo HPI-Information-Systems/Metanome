@@ -16,9 +16,11 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +35,29 @@ public class BasicStatisticRanking extends Ranking {
                                Map<String, TableInformation> tableInformationMap) {
     super(tableInformationMap);
     this.results = results;
+    this.occurrenceMap = new HashMap<>();
+
+    createOccurrenceList();
+  }
+
+  /**
+   * The occurrence list stores how often a column occurs in the results.
+   */
+  protected void createOccurrenceList() {
+    initializeOccurrenceList();
+
+    for (BasicStatisticResult result : this.results) {
+      for (ColumnIdentifier column : result.getColumnCombination().getColumnIdentifiers()) {
+        updateOccurrenceList(column);
+      }
+    }
   }
 
   @Override
   public void calculateDataIndependentRankings() {
     for (BasicStatisticResult result : this.results) {
       calculateColumnRatio(result);
+      calculateOccurrenceRatio(result);
     }
   }
 
@@ -46,6 +65,7 @@ public class BasicStatisticRanking extends Ranking {
   public void calculateDataDependentRankings() {
     for (BasicStatisticResult result : this.results) {
       calculateColumnRatio(result);
+      calculateOccurrenceRatio(result);
     }
   }
 
@@ -59,6 +79,21 @@ public class BasicStatisticRanking extends Ranking {
     Integer columnCount = result.getColumnCombination().getColumnIdentifiers().size();
     Integer tableColumnCount = this.tableInformationMap.get(result.getTableName()).getColumnCount();
     result.setColumnRatio((float) columnCount / tableColumnCount);
+  }
+
+
+  /**
+   * Calculates the ratio of the column count and the overall occurrence of the
+   * columns in the result.
+   *
+   * @param result the result
+   */
+  protected void calculateOccurrenceRatio(BasicStatisticResult result) {
+    Integer occurrences = 0;
+    for (ColumnIdentifier column : result.getColumnCombination().getColumnIdentifiers()) {
+      occurrences += this.occurrenceMap.get(result.getTableName()).get(column.getColumnIdentifier());
+    }
+    result.setOccurrenceRatio((float) result.getColumnCombination().getColumnIdentifiers().size() / occurrences);
   }
 
 }

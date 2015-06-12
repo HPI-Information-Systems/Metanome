@@ -24,7 +24,6 @@ import com.google.gwt.user.cellview.client.PageSizePager;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.results.RankingResult;
 import de.metanome.backend.results_db.ResultType;
 
@@ -44,7 +43,7 @@ public abstract class AbstractPaginationTable<CellType extends RankingResult> ex
   protected AbstractPager controlsPager;
   protected AbstractPager pageSizePager;
   // GWT cell table
-  protected CellTable<CellType> table;
+  protected CellTable<CellType>table;
 
 
   /**

@@ -29,6 +29,7 @@ public class BasicStatisticResultComparator
   public static final String VALUE_COLUMN = "value";
   public static final String NAME_COLUMN = "name";
   public static final String COLUMN_RATIO = "column_ratio";
+  public static final String OCCURRENCE_RATIO = "occurrence_ratio";
 
   /**
    * Creates a basic statistic result comparator for given property and direction
@@ -64,6 +65,9 @@ public class BasicStatisticResultComparator
     }
     if (COLUMN_RATIO.equals(sortProperty)) {
       return Float.compare(b1.getColumnRatio(), b2.getColumnRatio());
+    }
+    if (OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(b1.getOccurrenceRatio(), b2.getOccurrenceRatio());
     }
 
     return 0;

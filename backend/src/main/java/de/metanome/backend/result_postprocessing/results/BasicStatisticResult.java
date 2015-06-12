@@ -37,6 +37,10 @@ public class BasicStatisticResult implements RankingResult {
   // in the column combination of the result?
   private float columnRatio;
 
+  // On how many results are the columns of the
+  // column combination involved?
+  private float occurrenceRatio;
+
   // Needed for serialization
   public BasicStatisticResult() {
   }
@@ -78,6 +82,14 @@ public class BasicStatisticResult implements RankingResult {
 
   public void setColumnRatio(float columnRatio) {
     this.columnRatio = columnRatio;
+  }
+
+  public float getOccurrenceRatio() {
+    return occurrenceRatio;
+  }
+
+  public void setOccurrenceRatio(float occurrenceRatio) {
+    this.occurrenceRatio = occurrenceRatio;
   }
 
   public boolean equals(Object obj) {
