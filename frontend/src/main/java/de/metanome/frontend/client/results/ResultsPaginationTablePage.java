@@ -133,6 +133,10 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param execution the execution
    */
   public void addTables(Execution execution) {
+    Label dataDependentLabel = new Label("* are data dependent columns");
+    dataDependentLabel.addStyleName("space_bottom");
+    this.add(dataDependentLabel);
+
     List<String> types = new ArrayList<>();
     for (Result result : execution.getResults()) {
       types.add(result.getType().getName());

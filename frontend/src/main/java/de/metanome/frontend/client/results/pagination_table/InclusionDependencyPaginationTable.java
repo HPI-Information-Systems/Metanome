@@ -110,6 +110,26 @@ public class InclusionDependencyPaginationTable
     this.table.addColumn(referencedOccurrenceRatioColumn, "Referenced Occurrence Ratio");
     columnNames.add(InclusionDependencyResultComparator.REFERENCED_OCCURRENCE_RATIO);
 
+    // Dependant uniqueness ratio
+    TextColumn<InclusionDependencyResult> dependantUniquenessRatioColumn = new TextColumn<InclusionDependencyResult>() {
+      @Override
+      public String getValue(InclusionDependencyResult inclusionDependency) {
+        return String.valueOf(inclusionDependency.getDependantUniquenessRatio());
+      }
+    };
+    this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio*");
+    columnNames.add(InclusionDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
+
+    // Reference occurrence ratio column
+    TextColumn<InclusionDependencyResult> referencedUniquenessRatioColumn = new TextColumn<InclusionDependencyResult>() {
+      @Override
+      public String getValue(InclusionDependencyResult inclusionDependency) {
+        return String.valueOf(inclusionDependency.getReferencedUniquenessRatio());
+      }
+    };
+    this.table.addColumn(referencedUniquenessRatioColumn, "Referenced Uniqueness Ratio*");
+    columnNames.add(InclusionDependencyResultComparator.REFERENCED_UNIQUENESS_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

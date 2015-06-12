@@ -112,7 +112,6 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add button for calculating data dependent result statistics
     if (!this.countResults && !this.clickedAdvancedResults) {
-      this.add(new Label("If you want to calculate some more statistics, please click here (this may take a while):"));
       this.add(getAdvancedResultsButton(execution));
     }
 
@@ -133,7 +132,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @return the button
    */
   protected Button getAdvancedResultsButton(final Execution execution) {
-    return new Button("More Statistics", new ClickHandler() {
+    return new Button("Calculate Data Dependent Statistics", new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         clear();
