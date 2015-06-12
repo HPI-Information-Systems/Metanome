@@ -84,6 +84,12 @@ public class UniqueColumnCombinationRankingTest {
     // Check
     assertNotNull(ranking.tableInformationMap);
     assertNotNull(ranking.results);
+    assertNotNull(ranking.occurrenceMap);
+
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("column1"));
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("column2"));
+    assertEquals(0, (int) ranking.occurrenceMap.get(tableName).get("column3"));
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("column4"));
   }
 
   @Test
@@ -98,6 +104,20 @@ public class UniqueColumnCombinationRankingTest {
 
     // Check
     assertEquals(0.5, result.getColumnRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateOccurrenceRatio() throws Exception {
+    // Set up
+    UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
+        uniqueColumnCombinationResults, tableInformationMap);
+    UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateOccurrenceRatio(result);
+
+    // Check
+    assertEquals(1.0, result.getOccurrenceRatio(), 0.0);
   }
 
 

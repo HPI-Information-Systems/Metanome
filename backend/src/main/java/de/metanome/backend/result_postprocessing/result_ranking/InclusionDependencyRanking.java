@@ -97,11 +97,11 @@ public class InclusionDependencyRanking extends Ranking {
    */
   protected float calculateOccurrenceRatio(ColumnPermutation columnPermutation,
                                            String tableName) {
-    Integer referencedOccurrences = 0;
+    Integer occurrences = 0;
     for (ColumnIdentifier column : columnPermutation.getColumnIdentifiers()) {
-      referencedOccurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
+      occurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
     }
-    return (float) columnPermutation.getColumnIdentifiers().size() / referencedOccurrences;
+    return (float) columnPermutation.getColumnIdentifiers().size() / occurrences;
   }
 
   /**

@@ -37,6 +37,10 @@ public class UniqueColumnCombinationResult implements RankingResult {
   // in the lhs/rhs of the result?
   protected float columnRatio;
 
+  // On how many results are the columns of the
+  // column combination involved?
+  private float occurrenceRatio;
+
   // Needed for serialization
   public UniqueColumnCombinationResult() {
   }
@@ -70,6 +74,14 @@ public class UniqueColumnCombinationResult implements RankingResult {
 
   public void setColumnRatio(float columnRatio) {
     this.columnRatio = columnRatio;
+  }
+
+  public float getOccurrenceRatio() {
+    return occurrenceRatio;
+  }
+
+  public void setOccurrenceRatio(float occurrenceRatio) {
+    this.occurrenceRatio = occurrenceRatio;
   }
 
   public boolean equals(Object obj) {

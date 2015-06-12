@@ -43,8 +43,10 @@ public class UniqueColumnCombinationResultComparatorTest {
 
     ucc1 = new UniqueColumnCombinationResult(result1);
     ucc1.setColumnRatio(3.2f);
+    ucc1.setOccurrenceRatio(1.2f);
     ucc2 = new UniqueColumnCombinationResult(result2);
     ucc2.setColumnRatio(1.3f);
+    ucc2.setOccurrenceRatio(5.3f);
   }
 
   @Test
@@ -77,6 +79,22 @@ public class UniqueColumnCombinationResultComparatorTest {
         new UniqueColumnCombinationResultComparator(
             UniqueColumnCombinationResultComparator.COLUMN_RATIO, false);
     assertTrue(resultComparator.compare(ucc1, ucc2) < 0);
+  }
+
+  @Test
+  public void compare5() {
+    UniqueColumnCombinationResultComparator resultComparator =
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.OCCURRENCE_RATIO, true);
+    assertTrue(resultComparator.compare(ucc1, ucc2) < 0);
+  }
+
+  @Test
+  public void compare6() {
+    UniqueColumnCombinationResultComparator resultComparator =
+        new UniqueColumnCombinationResultComparator(
+            UniqueColumnCombinationResultComparator.OCCURRENCE_RATIO, false);
+    assertTrue(resultComparator.compare(ucc1, ucc2) > 0);
   }
 
 }

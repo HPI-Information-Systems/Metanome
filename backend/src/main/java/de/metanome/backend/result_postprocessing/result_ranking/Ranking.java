@@ -32,10 +32,13 @@ public abstract class Ranking {
   }
 
   /**
-   *
+   * Calculate data independent rankings.
    */
   public abstract void calculateDataIndependentRankings();
 
+  /**
+   * Calculate data dependent rankings.
+   */
   public abstract void calculateDataDependentRankings();
 
   /**
