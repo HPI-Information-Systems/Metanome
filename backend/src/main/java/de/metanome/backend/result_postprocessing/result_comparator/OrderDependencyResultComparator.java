@@ -27,6 +27,8 @@ public class OrderDependencyResultComparator
 
   public static final String LHS_COLUMN = "lhs";
   public static final String RHS_COLUMN = "rhs";
+  public static final String LHS_COLUMN_RATIO = "lhs_column_ratio";
+  public static final String RHS_COLUMN_RATIO = "rhs_column_ratio";
 
   /**
    * Creates an order dependency result comparator for given property and direction
@@ -56,6 +58,12 @@ public class OrderDependencyResultComparator
     }
     if (RHS_COLUMN.equals(sortProperty)) {
       return od1.getRhs().toString().compareTo(od2.getRhs().toString());
+    }
+    if (LHS_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsColumnRatio(), od2.getLhsColumnRatio());
+    }
+    if (RHS_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsColumnRatio(), od2.getRhsColumnRatio());
     }
 
     return 0;

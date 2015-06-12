@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OrderDependencyResultComparatorTest {
 
@@ -41,6 +42,8 @@ public class OrderDependencyResultComparatorTest {
     OrderDependency result1 = new OrderDependency(lhs1, rhs1, OrderDependency.OrderType.LEXICOGRAPHICAL,
                                                   OrderDependency.ComparisonOperator.SMALLER_EQUAL);
     od1 = new OrderDependencyResult(result1);
+    od1.setLhsColumnRatio(4.3f);
+    od1.setRhsColumnRatio(1.3f);
 
     ColumnPermutation lhs2 =
         new ColumnPermutation(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier(
@@ -50,6 +53,8 @@ public class OrderDependencyResultComparatorTest {
     OrderDependency result2 = new OrderDependency(lhs2, rhs2, OrderDependency.OrderType.LEXICOGRAPHICAL,
                                                   OrderDependency.ComparisonOperator.SMALLER_EQUAL);
     od2 = new OrderDependencyResult(result2);
+    od2.setLhsColumnRatio(2.3f);
+    od2.setRhsColumnRatio(5.2f);
   }
 
   @Test
@@ -78,6 +83,34 @@ public class OrderDependencyResultComparatorTest {
     OrderDependencyResultComparator resultComparator =
         new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_COLUMN, false);
     assertEquals(-1, resultComparator.compare(od1, od2));
+  }
+
+  @Test
+  public void compare5() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.LHS_COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(od1, od2) > 0);
+  }
+
+  @Test
+  public void compare6() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.LHS_COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(od1, od2) < 0);
+  }
+
+  @Test
+  public void compare7() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(od1, od2) < 0);
+  }
+
+  @Test
+  public void compare8() {
+    OrderDependencyResultComparator resultComparator =
+        new OrderDependencyResultComparator(OrderDependencyResultComparator.RHS_COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(od1, od2) > 0);
   }
 
 

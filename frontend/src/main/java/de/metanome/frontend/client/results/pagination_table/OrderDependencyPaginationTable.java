@@ -69,6 +69,26 @@ public class OrderDependencyPaginationTable
     this.table.addColumn(rhsColumn, "RHS");
     columnNames.add(OrderDependencyResultComparator.RHS_COLUMN);
 
+    // lhs column ratio column
+    TextColumn<OrderDependencyResult> lhsColumnRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getLhsColumnRatio());
+      }
+    };
+    this.table.addColumn(lhsColumnRatioColumn, "LHS Column Ratio");
+    columnNames.add(OrderDependencyResultComparator.LHS_COLUMN_RATIO);
+
+    // rhs column ratio column
+    TextColumn<OrderDependencyResult> rhsColumnRatioColumn = new TextColumn<OrderDependencyResult>() {
+      @Override
+      public String getValue(OrderDependencyResult orderDependency) {
+        return String.valueOf(orderDependency.getRhsColumnRatio());
+      }
+    };
+    this.table.addColumn(rhsColumnRatioColumn, "RHS Column Ratio");
+    columnNames.add(OrderDependencyResultComparator.RHS_COLUMN_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

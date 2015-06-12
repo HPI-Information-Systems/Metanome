@@ -27,10 +27,17 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 @JsonTypeName("OrderDependencyResult")
 public class OrderDependencyResult implements RankingResult {
 
+  // Original result
   protected OrderDependency result;
 
+  // Table names of the dependant/referenced columns
   protected String lhsTableName;
   protected String rhsTableName;
+
+  // How many columns of the table are involved
+  // in the lhs/rhs of the result?
+  protected float lhsColumnRatio;
+  protected float rhsColumnRatio;
 
   // Needed for serialization
   public OrderDependencyResult() {
@@ -78,6 +85,22 @@ public class OrderDependencyResult implements RankingResult {
 
   public String getRhsTableName() {
     return rhsTableName;
+  }
+
+  public float getLhsColumnRatio() {
+    return lhsColumnRatio;
+  }
+
+  public void setLhsColumnRatio(float lhsColumnRatio) {
+    this.lhsColumnRatio = lhsColumnRatio;
+  }
+
+  public float getRhsColumnRatio() {
+    return rhsColumnRatio;
+  }
+
+  public void setRhsColumnRatio(float rhsColumnRatio) {
+    this.rhsColumnRatio = rhsColumnRatio;
   }
 
   public boolean equals(Object obj) {

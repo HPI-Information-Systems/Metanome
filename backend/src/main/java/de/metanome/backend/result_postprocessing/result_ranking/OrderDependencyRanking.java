@@ -38,11 +38,36 @@ public class OrderDependencyRanking implements Ranking {
 
   @Override
   public void calculateDataIndependentRankings() {
-
+    for (OrderDependencyResult result : this.results) {
+      calculateColumnRatios(result);
+    }
   }
 
   @Override
   public void calculateDataDependentRankings() {
+    for (OrderDependencyResult result : this.results) {
+      calculateColumnRatios(result);
+    }
+  }
 
+  /**
+   * Calculates the ratio of the lhs/rhs column count and the column count of the
+   * corresponding table.
+   *
+   * @param result the result
+   */
+  protected void calculateColumnRatios(OrderDependencyResult result) {
+    Integer lhsColumnCount = result.getLhs().getColumnIdentifiers().size();
+    Integer rhsColumnCount = result.getRhs().getColumnIdentifiers().size();
+
+    Integer
+        lhsTableColumnCount =
+        this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
+    Integer
+        rhsTableColumnCount =
+        this.tableInformationMap.get(result.getRhsTableName()).getColumnCount();
+
+    result.setLhsColumnRatio((float) lhsColumnCount / lhsTableColumnCount);
+    result.setRhsColumnRatio((float) rhsColumnCount / rhsTableColumnCount);
   }
 }

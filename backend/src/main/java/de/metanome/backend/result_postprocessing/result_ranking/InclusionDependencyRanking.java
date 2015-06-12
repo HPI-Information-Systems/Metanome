@@ -93,6 +93,8 @@ public class InclusionDependencyRanking implements Ranking {
   @Override
   public void calculateDataDependentRankings() {
     for (InclusionDependencyResult result : this.results) {
+      calculateColumnRatios(result);
+      calculateOccurrenceRatios(result);
       calculateUniquenessRatios(result);
     }
   }
