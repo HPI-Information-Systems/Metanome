@@ -16,8 +16,6 @@
 
 package de.metanome.backend.resources;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
@@ -29,7 +27,7 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.backend.algorithm_execution.AlgorithmExecutorObject;
+import de.metanome.backend.algorithm_execution.AlgorithmExecution;
 import de.metanome.backend.algorithm_execution.ProcessExecutor;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -105,7 +103,7 @@ public class AlgorithmExecutionResource {
     try {
       // Start the process, which executes the algorithm
       Process process =
-          ProcessExecutor.exec(AlgorithmExecutorObject.class,
+          ProcessExecutor.exec(AlgorithmExecution.class,
                                String.valueOf(params.getAlgorithmId()),
                                executionIdentifier,
                                params.getMemory());
@@ -140,7 +138,7 @@ public class AlgorithmExecutionResource {
       execution = new Execution(algorithm)
           .setExecutionSetting(executionSetting)
           .setAborted(true)
-          .setInputs(AlgorithmExecutorObject.parseInputs(executionSetting));
+          .setInputs(AlgorithmExecution.parseInputs(executionSetting));
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
     }
@@ -159,7 +157,7 @@ public class AlgorithmExecutionResource {
   }
 
   /**
-   * TODO docs
+   * builds ExecutionSetting Object to persist information in AlgorithmExecutionParams to Database
    */
   protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
     ExecutionSetting executionSetting = null;
@@ -198,33 +196,11 @@ public class AlgorithmExecutionResource {
         }
       }
 
-      //Todo: designated Method
-      JsonConverter<ConfigurationValue>
-          jsonConverter = new JsonConverter<>();
-      jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
-      jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
-      jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
-
       // convert configuration values to json strings
-      List<String> parameterValuesJson = new ArrayList<String>();
-      try {
-        for (ConfigurationValue config : parameterValues) {
-          parameterValuesJson.add(jsonConverter.toJsonString(config));
-        }
-      } catch (JsonProcessingException e) {
-        e.printStackTrace();
-      }
+      List<String> parameterValuesJson = configurationValuesToJson(parameterValues);
 
       // convert inputs to json strings
-      List<String> inputsJson = new ArrayList<String>();
-      JsonConverter<Input> jsonConverterInput = new JsonConverter<Input>();
-      for (Input input : inputs) {
-        try {
-          inputsJson.add(jsonConverterInput.toJsonString(input));
-        } catch (JsonProcessingException e) {
-          e.printStackTrace();
-        }
-      }
+      List<String> inputsJson = inputsToJson(inputs);
 
       // create a new execution setting object
       executionSetting =
@@ -237,6 +213,26 @@ public class AlgorithmExecutionResource {
     }
 
     return executionSetting;
+  }
+
+  /**
+   * Converts a list of ConfigurationValues to their Json representations
+   *
+   * @param parameterValues all parameters to execute the algorithm
+   * @return the resulting list of Json Strings
+   */
+  public List<String> configurationValuesToJson(List<ConfigurationValue> parameterValues){
+    JsonConverter<ConfigurationValue>
+        jsonConverter = new JsonConverter<>();
+    jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+    return jsonConverter.toJsonStrings(parameterValues);
+  }
+
+  public List<String> inputsToJson(List<Input> inputs){
+    JsonConverter<Input> jsonConverter = new JsonConverter<Input>();
+    return jsonConverter.toJsonStrings(inputs);
   }
 
 }

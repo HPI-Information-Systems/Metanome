@@ -29,7 +29,7 @@ import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * TODO docs
+ * Represents ExecutionSetting in Database containing configurationValues, inputs and Execution Identifier
  */
 @Entity
 @GwtCompatible
@@ -42,6 +42,19 @@ public class ExecutionSetting implements Serializable {
   private Boolean cacheResults = false;
   private Boolean writeResults = false;
   private Boolean countResults = false;
+
+  /**
+   * Exists for hibernate serialization
+   */
+  protected ExecutionSetting() {
+  }
+
+  public ExecutionSetting(List<String> parameterValuesJson, List<String> inputsJson,
+                          String executionIdentifier) {
+    this.parameterValuesJson = parameterValuesJson;
+    this.inputsJson = inputsJson;
+    this.executionIdentifier = executionIdentifier;
+  }
 
   //Todo:find better solution - no strict length limit or similiar?
   @XmlTransient
@@ -71,19 +84,6 @@ public class ExecutionSetting implements Serializable {
   }
 
   public void setExecutionIdentifier(String executionIdentifier) {
-    this.executionIdentifier = executionIdentifier;
-  }
-
-  /**
-   * Exists for hibernate serialization
-   */
-  protected ExecutionSetting() {
-  }
-
-  public ExecutionSetting(List<String> parameterValuesJson, List<String> inputsJson,
-                          String executionIdentifier) {
-    this.parameterValuesJson = parameterValuesJson;
-    this.inputsJson = inputsJson;
     this.executionIdentifier = executionIdentifier;
   }
 

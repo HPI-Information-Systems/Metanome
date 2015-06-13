@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * TODO docs
+ * Todo: maybe put this Code in Algorithm execution and the main etc in Algorithm executor as it is specific for executing Algorithms anyway
  */
 public final class ProcessExecutor {
 

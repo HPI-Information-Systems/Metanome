@@ -50,9 +50,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO docs
+ * Takes care of executing algorithms with specified settings in a designated/separate process
  */
-public class AlgorithmExecutorObject {
+public class AlgorithmExecution {
 
   /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with the given
@@ -84,7 +84,7 @@ public class AlgorithmExecutorObject {
   }
 
   /**
-   * TODO docs
+   * Generates a list of ConfigurationValues from an ExecutionSetting
    *
    * @param setting the execution settings
    * @return a list of all configuration values
@@ -108,12 +108,12 @@ public class AlgorithmExecutorObject {
   }
 
   /**
-   * TODO docs
+   * Generates a list of Inputs from an ExecutionSetting
    *
    * @param setting the execution settings
    * @return a list of inputs
    */
-  public static List<Input> parseInputs(ExecutionSetting setting) {
+  public  static List<Input> parseInputs(ExecutionSetting setting) {
     JsonConverter<Input> jsonConverterInput = new JsonConverter<>();
     List<Input> inputs = new ArrayList<>();
 
@@ -129,7 +129,9 @@ public class AlgorithmExecutorObject {
   }
 
   /**
-   * TODO docs
+   * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and ExecutionSetting
+   * from the database, which are then used to execute the specified Algorithm with the specified
+   * setting in the designated process
    */
   public static void main(String args[])
       throws FileNotFoundException, UnsupportedEncodingException {
