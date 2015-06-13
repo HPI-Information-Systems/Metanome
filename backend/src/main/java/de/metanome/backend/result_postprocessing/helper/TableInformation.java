@@ -35,7 +35,7 @@ public class TableInformation {
   // Table name
   private String tableName;
   // List of column information
-  private Map<String, ColumnInformation> columnInformationList;
+  private Map<String, ColumnInformation> columnInformationMap;
   // Relational input generator
   private RelationalInputGenerator relationalInputGenerator;
 
@@ -60,21 +60,21 @@ public class TableInformation {
 
     // Create the column information
     List<String> columnNames = relationalInput.columnNames();
-    this.columnInformationList = new HashMap<>();
+    this.columnInformationMap = new HashMap<>();
 
     for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
       // Compute the column information for the current column
       if (useDataDependentStatistics) {
         // Generate a new data iterator for each column
         relationalInput = relationalInputGenerator.generateNewCopy();
-        this.columnInformationList
+        this.columnInformationMap
             .put(columnNames.get(columnIndex),
                  new ColumnInformation(columnNames.get(columnIndex),
                                        columnIndex,
                                        relationalInput,
                                        true));
       } else {
-        this.columnInformationList.
+        this.columnInformationMap.
             put(columnNames.get(columnIndex),
                 new ColumnInformation(columnNames.get(columnIndex),
                                       columnIndex));
@@ -89,7 +89,7 @@ public class TableInformation {
    */
   public long getInformationContent() {
     long sum = 0l;
-    for (ColumnInformation columnInformation : columnInformationList.values()) {
+    for (ColumnInformation columnInformation : columnInformationMap.values()) {
       sum += columnInformation.getInformationContent(getRowCount());
     }
     return sum;
@@ -104,15 +104,15 @@ public class TableInformation {
   }
 
   public long getRowCount() {
-    return columnInformationList.values().iterator().next().getRowCount();
+    return columnInformationMap.values().iterator().next().getRowCount();
   }
 
   public ColumnInformation getColumn(int columnIndex) {
-    return columnInformationList.get(columnIndex);
+    return columnInformationMap.get(columnIndex);
   }
 
-  public Map<String, ColumnInformation> getColumnInformationList() {
-    return columnInformationList;
+  public Map<String, ColumnInformation> getColumnInformationMap() {
+    return columnInformationMap;
   }
 
   public RelationalInputGenerator getRelationalInputGenerator() {

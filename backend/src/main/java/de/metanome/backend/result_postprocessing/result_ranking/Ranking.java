@@ -54,7 +54,7 @@ public abstract class Ranking {
   protected void initializeOccurrenceList() {
     for (String tableName : this.tableInformationMap.keySet()) {
       Map<String, Integer> subMap = new HashMap<>();
-      for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationList()
+      for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationMap()
           .keySet()) {
         subMap.put(columnName, 0);
       }
@@ -115,7 +115,7 @@ public abstract class Ranking {
    * @return the ratio
    */
   protected float calculateUniquenessRatio(TableInformation table, List<ColumnIdentifier> columns) {
-    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationList();
+    Map<String, ColumnInformation> columnInformationList = table.getColumnInformationMap();
     Integer uniqueColumns = 0;
 
     for (ColumnIdentifier column : columns) {

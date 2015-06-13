@@ -39,11 +39,17 @@ public class UniqueColumnCombinationResult implements RankingResult {
 
   // On how many results are the columns of the
   // column combination involved?
-  private float occurrenceRatio;
+  protected float occurrenceRatio;
 
   // How many of the columns of the column combination
   // are (almost) unique?
-  private float uniquenessRatio;
+  protected float uniquenessRatio;
+
+  // UCCs that contain many columns with a high number
+  // of distinct values are more likely to be unique,
+  // while UCCs that contain many columns with a low number
+  // of distinct values are less likely to be unique.
+  protected float randomness;
 
 
   // Needed for serialization
@@ -95,6 +101,14 @@ public class UniqueColumnCombinationResult implements RankingResult {
 
   public void setUniquenessRatio(float uniquenessRatio) {
     this.uniquenessRatio = uniquenessRatio;
+  }
+
+  public float getRandomness() {
+    return randomness;
+  }
+
+  public void setRandomness(float randomness) {
+    this.randomness = randomness;
   }
 
   public boolean equals(Object obj) {

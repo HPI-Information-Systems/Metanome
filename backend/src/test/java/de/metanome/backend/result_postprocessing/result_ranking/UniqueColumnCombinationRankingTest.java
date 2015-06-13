@@ -56,7 +56,7 @@ public class UniqueColumnCombinationRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true);
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
@@ -131,7 +131,30 @@ public class UniqueColumnCombinationRankingTest {
     ranking.calculateUniquenessRatio(result);
 
     // Check
-    assertEquals(1.0, result.getUniquenessRatio(), 0.0);
+    assertEquals(0.0, result.getUniquenessRatio(), 0.0);
+  }
+
+  @Test
+  public void testCalculateRandomness() throws Exception {
+    // Set up
+    UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
+        uniqueColumnCombinationResults, tableInformationMap);
+    UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateRandomness(result);
+
+    // Check
+    assertEquals(-0.66, result.getRandomness(), 0.01);
+
+
+    result = uniqueColumnCombinationResults.get(0);
+
+    // Execute Functionality
+    ranking.calculateRandomness(result);
+
+    // Check
+    assertEquals(0.0, result.getRandomness(), 0.00);
   }
 
 

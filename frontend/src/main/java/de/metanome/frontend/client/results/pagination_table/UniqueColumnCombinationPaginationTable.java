@@ -97,6 +97,19 @@ public class UniqueColumnCombinationPaginationTable
     this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio");
     columnNames.add(UniqueColumnCombinationResultComparator.UNIQUENESS_RATIO);
 
+    // randomness column
+    TextColumn<UniqueColumnCombinationResult>
+        randomnessColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getRandomness());
+          }
+        };
+    this.table.addColumn(randomnessColumn, "Randomness");
+    columnNames.add(UniqueColumnCombinationResultComparator.RANDOMNESS);
+
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

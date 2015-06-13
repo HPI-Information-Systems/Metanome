@@ -49,7 +49,7 @@ public class TableInformationTest {
     // Check
     assertEquals(4, tableInformation.getColumnCount());
     assertEquals("some_file", tableInformation.getTableName());
-    assertEquals(4, tableInformation.getColumnInformationList().size());
+    assertEquals(4, tableInformation.getColumnInformationMap().size());
     assertNotNull(tableInformation.getRelationalInputGenerator());
     assertEquals(0L, tableInformation.getRowCount());
     assertEquals(0L, tableInformation.getInformationContent());
@@ -64,7 +64,7 @@ public class TableInformationTest {
     // Check
     assertEquals(4, tableInformation.getColumnCount());
     assertEquals("some_file", tableInformation.getTableName());
-    assertEquals(4, tableInformation.getColumnInformationList().size());
+    assertEquals(4, tableInformation.getColumnInformationMap().size());
     assertNotNull(tableInformation.getRelationalInputGenerator());
     assertEquals(11, tableInformation.getRowCount());
     assertEquals(190, tableInformation.getInformationContent());

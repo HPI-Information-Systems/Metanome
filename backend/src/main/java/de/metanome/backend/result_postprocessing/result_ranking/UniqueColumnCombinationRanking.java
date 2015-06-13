@@ -17,6 +17,7 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
@@ -69,6 +70,7 @@ public class UniqueColumnCombinationRanking extends Ranking {
       calculateOccurrenceRatio(result);
 
       calculateUniquenessRatio(result);
+      calculateRandomness(result);
     }
   }
 
@@ -107,6 +109,30 @@ public class UniqueColumnCombinationRanking extends Ranking {
     Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
 
     result.setUniquenessRatio(calculateUniquenessRatio(table, columns));
+  }
+
+  /**
+   * Calculates how unique the given column combination is.
+   * Therefor the uniqueness of each column of the column combination is
+   * determined and multiplied. Afterward this value is normalized.
+   *
+   * @param result the result
+   */
+  protected void calculateRandomness(UniqueColumnCombinationResult result) {
+    TableInformation table = this.tableInformationMap.get(result.getTableName());
+    Map<String, ColumnInformation> columnInformationMap = table.getColumnInformationMap();
+    Set<ColumnIdentifier> columns = result.getColumnCombination().getColumnIdentifiers();
+
+    long min = table.getRowCount();
+    long max = (min - 1) ^ columns.size();
+    float distinctValue = 1;
+
+    for (ColumnIdentifier column : columns) {
+      distinctValue = distinctValue * columnInformationMap.get(column.getColumnIdentifier()).getDistinctValuesCount();
+    }
+
+    float randomness = (distinctValue - min) / (max - min);
+    result.setRandomness(randomness);
   }
 
 }
