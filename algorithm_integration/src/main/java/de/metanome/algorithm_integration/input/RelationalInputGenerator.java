@@ -21,7 +21,7 @@ package de.metanome.algorithm_integration.input;
  *
  * @author Jakob Zwiener
  */
-public interface RelationalInputGenerator extends InputGenerator {
+public interface RelationalInputGenerator {
 
   /**
    * Generates a new copy of the relational input that can be iterated from the beginning.

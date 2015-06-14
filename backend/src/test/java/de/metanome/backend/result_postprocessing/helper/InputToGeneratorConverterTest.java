@@ -21,7 +21,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.DbSystem;
-import de.metanome.algorithm_integration.input.InputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
@@ -49,7 +49,7 @@ public class InputToGeneratorConverterTest {
     DefaultFileInputGenerator expectedGenerator = new DefaultFileInputGenerator(setting);
 
     // Execute Functionality
-    InputGenerator generator = InputToGeneratorConverter.convertInput(input);
+    RelationalInputGenerator generator = InputToGeneratorConverter.convertInput(input);
 
     // Check
     assertTrue(generator instanceof DefaultFileInputGenerator);
