@@ -36,15 +36,15 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
   // How many columns of the table are involved
   // in the column combination of the result?
-  private float columnRatio;
+  private float columnRatio = 0.0f;
 
   // On how many results are the columns of the
   // column combination involved?
-  private float occurrenceRatio;
+  private float occurrenceRatio = 0.0f;
 
   // How many of the columns of the column combination
   // are (almost) unique?
-  private float uniquenessRatio;
+  private float uniquenessRatio = 0.0f;
 
   // Needed for serialization
   public ConditionalUniqueColumnCombinationResult() {
@@ -65,6 +65,10 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(ConditionalUniqueColumnCombination result) {
+    this.result = result;
+  }
+
   public ColumnCombination getColumnCombination() {
     return this.result.getColumnCombination();
   }
@@ -75,6 +79,10 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
 
   public String getTableName() {
     return tableName;
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
   }
 
   public float getColumnRatio() {

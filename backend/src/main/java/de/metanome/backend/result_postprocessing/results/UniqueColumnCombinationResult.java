@@ -35,21 +35,21 @@ public class UniqueColumnCombinationResult implements RankingResult {
 
   // How many columns of the table are involved
   // in the lhs/rhs of the result?
-  protected float columnRatio;
+  protected float columnRatio = 0.0f;
 
   // On how many results are the columns of the
   // column combination involved?
-  protected float occurrenceRatio;
+  protected float occurrenceRatio = 0.0f;
 
   // How many of the columns of the column combination
   // are (almost) unique?
-  protected float uniquenessRatio;
+  protected float uniquenessRatio = 0.0f;
 
   // UCCs that contain many columns with a high number
   // of distinct values are more likely to be unique,
   // while UCCs that contain many columns with a low number
   // of distinct values are less likely to be unique.
-  protected float randomness;
+  protected float randomness = 0.0f;
 
 
   // Needed for serialization
@@ -71,12 +71,20 @@ public class UniqueColumnCombinationResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(UniqueColumnCombination result) {
+    this.result = result;
+  }
+
   public ColumnCombination getColumnCombination() {
     return this.result.getColumnCombination();
   }
 
   public String getTableName() {
     return tableName;
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
   }
 
   public float getColumnRatio() {

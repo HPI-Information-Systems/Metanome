@@ -37,22 +37,22 @@ public class InclusionDependencyResult implements RankingResult {
 
   // How many columns of the table are involved
   // in the dependant/referenced side of the result?
-  private float dependantColumnRatio;
-  private float referencedColumnRatio;
+  private float dependantColumnRatio = 0.0f;
+  private float referencedColumnRatio = 0.0f;
 
   // On how many results are the columns of the
   // dependant/referenced side involved?
-  private float dependantOccurrenceRatio;
-  private float referencedOccurrenceRatio;
+  private float dependantOccurrenceRatio = 0.0f;
+  private float referencedOccurrenceRatio = 0.0f;
 
   // How many columns of the dependant and referenced
   // table are involved in the result?
-  private float generalCoverage;
+  private float generalCoverage = 0.0f;
 
   // How many of the columns of the dependant/referenced
   // side are (almost) unique?
-  private float dependantUniquenessRatio;
-  private float referencedUniquenessRatio;
+  private float dependantUniquenessRatio = 0.0f;
+  private float referencedUniquenessRatio = 0.0f;
 
   // Needed for serialization
   public InclusionDependencyResult() {
@@ -78,6 +78,10 @@ public class InclusionDependencyResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(InclusionDependency result) {
+    this.result = result;
+  }
+
   public ColumnPermutation getDependant() {
     return this.result.getDependant();
   }
@@ -90,8 +94,16 @@ public class InclusionDependencyResult implements RankingResult {
     return dependantTableName;
   }
 
+  public void setDependantTableName(String dependantTableName) {
+    this.dependantTableName = dependantTableName;
+  }
+
   public String getReferencedTableName() {
     return referencedTableName;
+  }
+
+  public void setReferencedTableName(String referencedTableName) {
+    this.referencedTableName = referencedTableName;
   }
 
   public float getDependantColumnRatio() {

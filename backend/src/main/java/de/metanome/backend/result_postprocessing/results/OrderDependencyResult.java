@@ -36,22 +36,22 @@ public class OrderDependencyResult implements RankingResult {
 
   // How many columns of the table are involved
   // in the lhs/rhs of the result?
-  protected float lhsColumnRatio;
-  protected float rhsColumnRatio;
+  protected float lhsColumnRatio = 0.0f;
+  protected float rhsColumnRatio = 0.0f;
 
   // How many columns of the lhs and rhs
   // table are involved in the result?
-  private float generalCoverage;
+  private float generalCoverage = 0.0f;
 
   // On how many results are the columns of the
   // lhs/rhs side involved?
-  private float lhsOccurrenceRatio;
-  private float rhsOccurrenceRatio;
+  private float lhsOccurrenceRatio = 0.0f;
+  private float rhsOccurrenceRatio = 0.0f;
 
   // How many of the columns of the lhs/rhs
   // side are (almost) unique?
-  private float lhsUniquenessRatio;
-  private float rhsUniquenessRatio;
+  private float lhsUniquenessRatio = 0.0f;
+  private float rhsUniquenessRatio = 0.0f;
 
 
   // Needed for serialization
@@ -78,6 +78,10 @@ public class OrderDependencyResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(OrderDependency result) {
+    this.result = result;
+  }
+
   public OrderDependency.ComparisonOperator getComparisonOperator() {
     return this.result.getComparisonOperator();
   }
@@ -98,8 +102,16 @@ public class OrderDependencyResult implements RankingResult {
     return lhsTableName;
   }
 
+  public void setLhsTableName(String lhsTableName) {
+    this.lhsTableName = lhsTableName;
+  }
+
   public String getRhsTableName() {
     return rhsTableName;
+  }
+
+  public void setRhsTableName(String rhsTableName) {
+    this.rhsTableName = rhsTableName;
   }
 
   public float getLhsColumnRatio() {

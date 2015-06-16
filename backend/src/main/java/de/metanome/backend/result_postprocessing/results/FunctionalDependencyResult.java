@@ -55,6 +55,10 @@ public class FunctionalDependencyResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(FunctionalDependency result) {
+    this.result = result;
+  }
+
   public ColumnCombination getDeterminant() {
     return this.result.getDeterminant();
   }
@@ -67,8 +71,16 @@ public class FunctionalDependencyResult implements RankingResult {
     return determinantTableName;
   }
 
+  public void setDeterminantTableName(String determinantTableName) {
+    this.determinantTableName = determinantTableName;
+  }
+
   public String getDependantTableName() {
     return dependantTableName;
+  }
+
+  public void setDependantTableName(String dependantTableName) {
+    this.dependantTableName = dependantTableName;
   }
 
   public boolean equals(Object obj) {

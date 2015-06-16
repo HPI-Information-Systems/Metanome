@@ -35,15 +35,15 @@ public class BasicStatisticResult implements RankingResult {
 
   // How many columns of the table are involved
   // in the column combination of the result?
-  private float columnRatio;
+  private float columnRatio = 0.0f;
 
   // On how many results are the columns of the
   // column combination involved?
-  private float occurrenceRatio;
+  private float occurrenceRatio = 0.0f;
 
   // How many of the columns of the column combination
   // are (almost) unique?
-  private float uniquenessRatio;
+  private float uniquenessRatio = 0.0f;
 
   // Needed for serialization
   public BasicStatisticResult() {
@@ -64,6 +64,10 @@ public class BasicStatisticResult implements RankingResult {
     return this.result;
   }
 
+  public void setResult(BasicStatistic result) {
+    this.result = result;
+  }
+
   public ColumnCombination getColumnCombination() {
     return this.result.getColumnCombination();
   }
@@ -74,6 +78,10 @@ public class BasicStatisticResult implements RankingResult {
 
   public Object getStatisticValue() {
     return this.result.getStatisticValue();
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
   }
 
   public String getTableName() {
