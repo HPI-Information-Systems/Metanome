@@ -22,15 +22,28 @@ import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 
+import java.util.BitSet;
+
 /**
  * Represents an functional dependency result with different ranking values.
  */
 @JsonTypeName("FunctionalDependencyResult")
 public class FunctionalDependencyResult implements RankingResult {
 
+  // Original result
   protected FunctionalDependency result;
+
+  // Table names of the determinant/dependent columns
   protected String determinantTableName;
   protected String dependantTableName;
+
+  // Extended dependant column
+  protected ColumnCombination extendedDependant;
+
+  // Determinant/dependent columns as BitSet (needed for
+  // calculating the extended dependant column
+  protected BitSet determinantAsBitSet;
+  protected BitSet dependantAsBitSet;
 
   // Needed for serialization
   public FunctionalDependencyResult() {
@@ -81,6 +94,30 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setDependantTableName(String dependantTableName) {
     this.dependantTableName = dependantTableName;
+  }
+
+  public ColumnCombination getExtendedDependant() {
+    return extendedDependant;
+  }
+
+  public void setExtendedDependant(ColumnCombination extendedDependant) {
+    this.extendedDependant = extendedDependant;
+  }
+
+  public BitSet getDeterminantAsBitSet() {
+    return determinantAsBitSet;
+  }
+
+  public void setDeterminantAsBitSet(BitSet determinantAsBitSet) {
+    this.determinantAsBitSet = determinantAsBitSet;
+  }
+
+  public BitSet getDependantAsBitSet() {
+    return dependantAsBitSet;
+  }
+
+  public void setDependantAsBitSet(BitSet dependantAsBitSet) {
+    this.dependantAsBitSet = dependantAsBitSet;
   }
 
   public boolean equals(Object obj) {

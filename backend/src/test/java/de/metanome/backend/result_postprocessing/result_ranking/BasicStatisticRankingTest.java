@@ -56,7 +56,7 @@ public class BasicStatisticRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, 0);
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 

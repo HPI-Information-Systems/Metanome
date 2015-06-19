@@ -6,6 +6,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -41,6 +42,8 @@ public class ColumnInformation {
   private String columnName = null;
   // Index of the column inside the table (starting with 0)
   private int columnIndex = 0;
+  // Unique bit set representing this column
+  private BitSet bitSet;
   // Type of the column (heuristically determined)
   private ColumnType columnType = ColumnType.STRING_COLUMN;
   // Count of distinct values
@@ -77,6 +80,8 @@ public class ColumnInformation {
                            boolean useDataDependentStatistics) throws InputIterationException {
     this.columnName = columnName;
     this.columnIndex = columnIndex;
+    this.bitSet = new BitSet();
+    bitSet.set(columnIndex);
     if (useDataDependentStatistics) {
       this.computeDataDependentStatistics(relationalInput);
     }
@@ -362,6 +367,10 @@ public class ColumnInformation {
 
   public float getAverageValueLength() {
     return averageValueLength;
+  }
+
+  public BitSet getBitSet() {
+    return bitSet;
   }
 
   /**

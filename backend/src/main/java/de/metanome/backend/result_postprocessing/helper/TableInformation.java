@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class TableInformation {
   private Map<String, ColumnInformation> columnInformationMap;
   // Relational input generator
   private RelationalInputGenerator relationalInputGenerator;
+  // Unique bit set representing this table
+  private BitSet bitSet;
 
   /**
    * Computes table metadata on the input data
@@ -46,12 +49,16 @@ public class TableInformation {
    *                                   stream
    * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
+   * @param index                      index of the bit set, which should be set, to represent this
+   *                                   table
    * @throws InputGenerationException Will be thrown if the input data is not accessible
    */
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
-                          boolean useDataDependentStatistics)
+                          boolean useDataDependentStatistics, int index)
       throws InputGenerationException, InputIterationException {
     this.relationalInputGenerator = relationalInputGenerator;
+    this.bitSet = new BitSet();
+    bitSet.set(index);
 
     // Get table data
     RelationalInput relationalInput = relationalInputGenerator.generateNewCopy();
@@ -119,4 +126,7 @@ public class TableInformation {
     return relationalInputGenerator;
   }
 
+  public BitSet getBitSet() {
+    return bitSet;
+  }
 }

@@ -44,6 +44,8 @@ public class FunctionalDependencyResultAnalyzer
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
     if (!this.tableInformationList.isEmpty()) {
+
+
       FunctionalDependencyRanking ranking =
           new FunctionalDependencyRanking(results, tableInformationList);
       ranking.calculateDataIndependentRankings();

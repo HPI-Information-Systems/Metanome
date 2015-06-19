@@ -44,10 +44,11 @@ public abstract class ResultAnalyzer<T extends Result, R> {
     this.useDataIndependentStatistics = useDataIndependentStatistics;
     this.tableInformationList = new HashMap<>();
 
+    int index = 0;
     for (RelationalInputGenerator relationalInputGenerator : inputGenerators) {
       TableInformation
           tableInformation =
-          new TableInformation(relationalInputGenerator, useDataIndependentStatistics);
+          new TableInformation(relationalInputGenerator, useDataIndependentStatistics, index);
       this.tableInformationList.put(tableInformation.getTableName(), tableInformation);
     }
   }

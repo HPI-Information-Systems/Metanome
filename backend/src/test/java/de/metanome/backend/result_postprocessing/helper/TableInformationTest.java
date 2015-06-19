@@ -23,6 +23,8 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import org.junit.Test;
 
+import java.util.BitSet;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -43,8 +45,12 @@ public class TableInformationTest {
   @Test
   public void testSetUpWithoutDataDependentStatistics()
       throws InputIterationException, InputGenerationException {
+    // Expected values
+    BitSet expectedBitSet = new BitSet();
+    expectedBitSet.set(3);
+
     // Execute Functionality
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, 3);
 
     // Check
     assertEquals(4, tableInformation.getColumnCount());
@@ -53,13 +59,18 @@ public class TableInformationTest {
     assertNotNull(tableInformation.getRelationalInputGenerator());
     assertEquals(0L, tableInformation.getRowCount());
     assertEquals(0L, tableInformation.getInformationContent());
+    assertEquals(expectedBitSet, tableInformation.getBitSet());
   }
 
   @Test
   public void testSetUpWithDataDependentStatistics()
       throws InputIterationException, InputGenerationException {
+    // Expected values
+    BitSet expectedBitSet = new BitSet();
+    expectedBitSet.set(0);
+
     // Execute Functionality
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, 0);
 
     // Check
     assertEquals(4, tableInformation.getColumnCount());
@@ -68,6 +79,7 @@ public class TableInformationTest {
     assertNotNull(tableInformation.getRelationalInputGenerator());
     assertEquals(11, tableInformation.getRowCount());
     assertEquals(190, tableInformation.getInformationContent());
+    assertEquals(expectedBitSet, tableInformation.getBitSet());
   }
 
 }

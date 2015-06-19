@@ -22,6 +22,8 @@ import de.metanome.backend.input.file.FileIterator;
 
 import org.junit.Test;
 
+import java.util.BitSet;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -127,13 +129,17 @@ public class ColumnInformationTest {
   @Test
   public void testCreationOfDataDependentStatisticsForStringColumn()
       throws InputIterationException, InputGenerationException {
+    // Expected Values
+    BitSet expectedBitSet = new BitSet();
+    expectedBitSet.set(2);
+
     // Set up
     FileFixture fileFixture = new FileFixture();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                0,
+                                                                2,
                                                                 fileIterator,
                                                                 true);
 
@@ -145,11 +151,16 @@ public class ColumnInformationTest {
     assertEquals(11, columnInformation.getRowCount());
     assertNotNull(columnInformation.getHistogram());
     assertEquals(3.2727272727, columnInformation.getAverageValueLength(), 0.01);
+    assertEquals(expectedBitSet, columnInformation.getBitSet());
   }
 
   @Test
   public void testCreationOfDataDependentStatisticsForIntegerColumn()
       throws InputIterationException, InputGenerationException {
+    // Expected Values
+    BitSet expectedBitSet = new BitSet();
+    expectedBitSet.set(1);
+
     // Set up
     FileFixture fileFixture = new FileFixture();
     FileIterator fileIterator = fileFixture.getTestData();
@@ -168,6 +179,7 @@ public class ColumnInformationTest {
     assertEquals(11, columnInformation.getRowCount());
     assertNotNull(columnInformation.getHistogram());
     assertEquals(0.0, columnInformation.getAverageValueLength(), 0.01);
+    assertEquals(expectedBitSet, columnInformation.getBitSet());
   }
 
   @Test
