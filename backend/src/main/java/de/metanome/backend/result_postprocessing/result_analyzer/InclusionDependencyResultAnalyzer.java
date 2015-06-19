@@ -43,10 +43,10 @@ public class InclusionDependencyResultAnalyzer
       List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       InclusionDependencyRanking
           ranking =
-          new InclusionDependencyRanking(results, tableInformationList);
+          new InclusionDependencyRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
     }
 
@@ -58,9 +58,9 @@ public class InclusionDependencyResultAnalyzer
       List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       InclusionDependencyRanking ranking =
-          new InclusionDependencyRanking(results, tableInformationList);
+          new InclusionDependencyRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
       ranking.calculateDataDependentRankings();
     }

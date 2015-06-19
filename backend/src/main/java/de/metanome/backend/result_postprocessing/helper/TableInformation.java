@@ -49,16 +49,15 @@ public class TableInformation {
    *                                   stream
    * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
-   * @param index                      index of the bit set, which should be set, to represent this
-   *                                   table
+   * @param bitSet                     bit set, which represents this table
    * @throws InputGenerationException Will be thrown if the input data is not accessible
    */
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
-                          boolean useDataDependentStatistics, int index)
+                          boolean useDataDependentStatistics,
+                          BitSet bitSet)
       throws InputGenerationException, InputIterationException {
     this.relationalInputGenerator = relationalInputGenerator;
-    this.bitSet = new BitSet();
-    bitSet.set(index);
+    this.bitSet = bitSet;
 
     // Get table data
     RelationalInput relationalInput = relationalInputGenerator.generateNewCopy();
@@ -70,6 +69,9 @@ public class TableInformation {
     this.columnInformationMap = new HashMap<>();
 
     for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
+      BitSet columnBitSet = new BitSet(this.columnCount);
+      columnBitSet.set(columnIndex);
+
       // Compute the column information for the current column
       if (useDataDependentStatistics) {
         // Generate a new data iterator for each column
@@ -78,13 +80,15 @@ public class TableInformation {
             .put(columnNames.get(columnIndex),
                  new ColumnInformation(columnNames.get(columnIndex),
                                        columnIndex,
+                                       columnBitSet,
                                        relationalInput,
                                        true));
       } else {
         this.columnInformationMap.
             put(columnNames.get(columnIndex),
                 new ColumnInformation(columnNames.get(columnIndex),
-                                      columnIndex));
+                                      columnIndex,
+                                      columnBitSet));
       }
     }
   }

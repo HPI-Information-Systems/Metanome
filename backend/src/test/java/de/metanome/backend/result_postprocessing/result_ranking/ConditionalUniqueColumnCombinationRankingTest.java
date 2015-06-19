@@ -33,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, 0);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, new BitSet());
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 

@@ -43,9 +43,9 @@ public class UniqueColumnCombinationResultAnalyzer
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       UniqueColumnCombinationRanking ranking =
-          new UniqueColumnCombinationRanking(results, tableInformationList);
+          new UniqueColumnCombinationRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
     }
 
@@ -57,9 +57,9 @@ public class UniqueColumnCombinationResultAnalyzer
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       UniqueColumnCombinationRanking ranking =
-          new UniqueColumnCombinationRanking(results, tableInformationList);
+          new UniqueColumnCombinationRanking(results, tableInformationMap);
       ranking.calculateDataDependentRankings();
     }
 

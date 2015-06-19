@@ -43,10 +43,10 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       ConditionalUniqueColumnCombinationRanking
           ranking =
-          new ConditionalUniqueColumnCombinationRanking(results, tableInformationList);
+          new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
     }
 
@@ -58,10 +58,10 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       ConditionalUniqueColumnCombinationRanking
           ranking =
-          new ConditionalUniqueColumnCombinationRanking(results, tableInformationList);
+          new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
       ranking.calculateDataDependentRankings();
     }
 

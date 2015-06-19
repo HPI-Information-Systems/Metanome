@@ -41,7 +41,7 @@ public class ColumnInformation {
   // Name of the column
   private String columnName = null;
   // Index of the column inside the table (starting with 0)
-  private int columnIndex = 0;
+  private int columnIndex;
   // Unique bit set representing this column
   private BitSet bitSet;
   // Type of the column (heuristically determined)
@@ -62,9 +62,10 @@ public class ColumnInformation {
    *
    * @param columnName  name of the column
    * @param columnIndex index of the column
+   * @param bitSet      bit set representing this column
    */
-  public ColumnInformation(String columnName, int columnIndex) throws InputIterationException {
-    this(columnName, columnIndex, null, false);
+  public ColumnInformation(String columnName, int columnIndex, BitSet bitSet) throws InputIterationException {
+    this(columnName, columnIndex, bitSet, null, false);
   }
 
   /**
@@ -72,16 +73,17 @@ public class ColumnInformation {
    *
    * @param columnName                 name of the column
    * @param columnIndex                index of the column
+   * @param bitSet                     bit set representing this column
    * @param relationalInput            relational input used to provide the column information
    * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
    */
-  public ColumnInformation(String columnName, int columnIndex, RelationalInput relationalInput,
-                           boolean useDataDependentStatistics) throws InputIterationException {
+  public ColumnInformation(String columnName, int columnIndex, BitSet bitSet,
+                           RelationalInput relationalInput, boolean useDataDependentStatistics)
+      throws InputIterationException {
     this.columnName = columnName;
     this.columnIndex = columnIndex;
-    this.bitSet = new BitSet();
-    bitSet.set(columnIndex);
+    this.bitSet = bitSet;
     if (useDataDependentStatistics) {
       this.computeDataDependentStatistics(relationalInput);
     }
@@ -119,7 +121,7 @@ public class ColumnInformation {
     // iterate over data and add each cell value to the histogram
     while (relationalInput.hasNext()) {
       List<String> row = relationalInput.next();
-      String cellValue = row.get(this.getColumnIndex());
+      String cellValue = row.get(this.columnIndex);
 
       // determine type of cell and store it in a map
       if (cellValue != null) {
@@ -339,10 +341,6 @@ public class ColumnInformation {
 
   public String getColumnName() {
     return columnName;
-  }
-
-  public int getColumnIndex() {
-    return columnIndex;
   }
 
   public long getDistinctValuesCount() {

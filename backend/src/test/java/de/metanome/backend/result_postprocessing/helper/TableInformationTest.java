@@ -50,7 +50,7 @@ public class TableInformationTest {
     expectedBitSet.set(3);
 
     // Execute Functionality
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, 3);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, expectedBitSet);
 
     // Check
     assertEquals(4, tableInformation.getColumnCount());
@@ -70,7 +70,7 @@ public class TableInformationTest {
     expectedBitSet.set(0);
 
     // Execute Functionality
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, 0);
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, expectedBitSet);
 
     // Check
     assertEquals(4, tableInformation.getColumnCount());

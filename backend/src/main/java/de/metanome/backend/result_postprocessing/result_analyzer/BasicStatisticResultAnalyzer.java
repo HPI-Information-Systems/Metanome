@@ -43,10 +43,10 @@ public class BasicStatisticResultAnalyzer
       List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       BasicStatisticRanking
           ranking =
-          new BasicStatisticRanking(results, tableInformationList);
+          new BasicStatisticRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
     }
 
@@ -58,10 +58,10 @@ public class BasicStatisticResultAnalyzer
       List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       BasicStatisticRanking
           ranking =
-          new BasicStatisticRanking(results, tableInformationList);
+          new BasicStatisticRanking(results, tableInformationMap);
       ranking.calculateDataDependentRankings();
     }
 

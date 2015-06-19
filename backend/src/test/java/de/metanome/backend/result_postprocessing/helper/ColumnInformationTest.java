@@ -39,6 +39,7 @@ public class ColumnInformationTest {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 this.columnIndex,
+                                                                new BitSet(),
                                                                 null,
                                                                 false);
 
@@ -62,6 +63,7 @@ public class ColumnInformationTest {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 this.columnIndex,
+                                                                new BitSet(),
                                                                 null,
                                                                 false);
 
@@ -85,6 +87,7 @@ public class ColumnInformationTest {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 this.columnIndex,
+                                                                new BitSet(),
                                                                 null,
                                                                 false);
 
@@ -108,6 +111,7 @@ public class ColumnInformationTest {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 this.columnIndex,
+                                                                new BitSet(),
                                                                 null,
                                                                 false);
 
@@ -131,7 +135,7 @@ public class ColumnInformationTest {
       throws InputIterationException, InputGenerationException {
     // Expected Values
     BitSet expectedBitSet = new BitSet();
-    expectedBitSet.set(2);
+    expectedBitSet.set(0);
 
     // Set up
     FileFixture fileFixture = new FileFixture();
@@ -139,7 +143,8 @@ public class ColumnInformationTest {
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                2,
+                                                                0,
+                                                                expectedBitSet,
                                                                 fileIterator,
                                                                 true);
 
@@ -168,6 +173,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 1,
+                                                                expectedBitSet,
                                                                 fileIterator,
                                                                 true);
 
@@ -192,6 +198,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 2,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 
@@ -215,6 +222,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 2,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 
@@ -232,6 +240,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 0,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 
@@ -242,6 +251,7 @@ public class ColumnInformationTest {
     fileIterator = fileFixture.getTestData();
     columnInformation = new ColumnInformation(this.columnName,
                                                                 1,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 
@@ -259,6 +269,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 0,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 
@@ -269,6 +280,7 @@ public class ColumnInformationTest {
     fileIterator = fileFixture.getTestData();
     columnInformation = new ColumnInformation(this.columnName,
                                               1,
+                                              new BitSet(),
                                               fileIterator,
                                               true);
 
@@ -286,6 +298,7 @@ public class ColumnInformationTest {
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
                                                                 0,
+                                                                new BitSet(),
                                                                 fileIterator,
                                                                 true);
 

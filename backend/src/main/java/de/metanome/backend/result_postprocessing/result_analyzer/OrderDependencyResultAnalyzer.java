@@ -43,9 +43,9 @@ public class OrderDependencyResultAnalyzer
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       OrderDependencyRanking ranking =
-          new OrderDependencyRanking(results, tableInformationList);
+          new OrderDependencyRanking(results, tableInformationMap);
       ranking.calculateDataIndependentRankings();
     }
 
@@ -57,9 +57,9 @@ public class OrderDependencyResultAnalyzer
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationList.isEmpty()) {
+    if (!this.tableInformationMap.isEmpty()) {
       OrderDependencyRanking ranking =
-          new OrderDependencyRanking(results, tableInformationList);
+          new OrderDependencyRanking(results, tableInformationMap);
       ranking.calculateDataDependentRankings();
     }
 

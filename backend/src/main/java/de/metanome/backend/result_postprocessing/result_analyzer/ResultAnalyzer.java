@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,21 +36,23 @@ public abstract class ResultAnalyzer<T extends Result, R> {
 
   protected boolean useDataIndependentStatistics = true;
   protected List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
-  protected Map<String, TableInformation> tableInformationList;
+  protected Map<String, TableInformation> tableInformationMap;
 
   public ResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                         boolean useDataIndependentStatistics)
       throws InputGenerationException, InputIterationException {
     this.inputGenerators = inputGenerators;
     this.useDataIndependentStatistics = useDataIndependentStatistics;
-    this.tableInformationList = new HashMap<>();
+    this.tableInformationMap = new HashMap<>();
 
     int index = 0;
     for (RelationalInputGenerator relationalInputGenerator : inputGenerators) {
+      BitSet bitSet = new BitSet(inputGenerators.size());
+      bitSet.set(index);
       TableInformation
           tableInformation =
-          new TableInformation(relationalInputGenerator, useDataIndependentStatistics, index);
-      this.tableInformationList.put(tableInformation.getTableName(), tableInformation);
+          new TableInformation(relationalInputGenerator, useDataIndependentStatistics, bitSet);
+      this.tableInformationMap.put(tableInformation.getTableName(), tableInformation);
     }
   }
 
