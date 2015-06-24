@@ -30,6 +30,7 @@ public class FunctionalDependencyResultComparator
   public static final String EXTENDED_DEPENDANT_COLUMN = "extended_dependant";
   public static final String DEPENDANT_COLUMN_RATIO = "dependant_column_ratio";
   public static final String DETERMINANT_COLUMN_RATIO = "determinant_column_ratio";
+  public static final String GENERAL_COVERAGE = "coverage";
 
   /**
    * Creates a functional dependency result comparator for given property and direction
@@ -66,6 +67,9 @@ public class FunctionalDependencyResultComparator
     }
     if (DETERMINANT_COLUMN_RATIO.equals(sortProperty)) {
       return Float.compare(fd1.getDeterminantColumnRatio(), fd2.getDeterminantColumnRatio());
+    }
+    if (GENERAL_COVERAGE.equals(sortProperty)) {
+      return Float.compare(fd1.getGeneralCoverage(), fd2.getGeneralCoverage());
     }
 
     return 0;

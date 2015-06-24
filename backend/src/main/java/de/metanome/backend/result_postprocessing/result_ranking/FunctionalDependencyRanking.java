@@ -51,22 +51,39 @@ public class FunctionalDependencyRanking extends Ranking {
 
   /**
    * Calculates the ratio of the determinant/dependant column count and the column count of the
-   * corresponding table.
+   * whole result.
    *
    * @param result the result
    */
   protected void calculateColumnRatios(FunctionalDependencyResult result) {
-    Integer determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
-    Integer dependantColumnCount = result.getExtendedDependant().getColumnIdentifiers().size();
+    int determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
+    int dependantColumnCount = result.getExtendedDependant().getColumnIdentifiers().size();
 
-    Integer
-        determinantTableColumnCount =
-        this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount();
-    Integer
-        dependantTableColumnCount =
-        this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+    int overallSize = dependantColumnCount + determinantColumnCount;
 
-    result.setDeterminantColumnRatio((float) determinantColumnCount / determinantTableColumnCount);
-    result.setDependantColumnRatio((float) dependantColumnCount / dependantTableColumnCount);
+    result.setDeterminantColumnRatio((float) determinantColumnCount / overallSize);
+    result.setDependantColumnRatio((float) dependantColumnCount / overallSize);
   }
+
+  /**
+   * Calculates the relation between the total number of columns of the result and the number of
+   * columns of tables, which are involved.
+   *
+   * @param result the result
+   */
+  protected void calculateGeneralCoverage(FunctionalDependencyResult result) {
+    int referencedColumnCount = result.getDeterminant().getColumnIdentifiers().size();
+    int dependantColumnCount = result.getExtendedDependant().getColumnIdentifiers().size();
+
+    int tableCount;
+    if (result.getDeterminantTableName().equals(result.getDependantTableName())) {
+      tableCount = this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount();
+    } else {
+      tableCount = this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount() +
+                   this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+    }
+
+    result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
+  }
+
 }

@@ -115,4 +115,19 @@ public class FunctionalDependencyRankingTest {
     assertEquals(0.4, result.getDeterminantColumnRatio(), 0.001);
     assertEquals(0.6, result.getDependantColumnRatio(), 0.001);
   }
+
+  @Test
+  public void testCalculateGeneralCoverage() throws Exception {
+    // Set up
+    FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
+                                                                          tableInformationMap);
+    FunctionalDependencyResult result = functionalDependencyResults.get(1);
+
+    // Execute Functionality
+    ranking.calculateGeneralCoverage(result);
+
+    // Check
+    assertEquals(0.4, result.getGeneralCoverage(), 0.001);
+  }
+
 }

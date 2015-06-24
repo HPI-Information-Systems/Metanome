@@ -41,6 +41,7 @@ public class FunctionalDependencyResultComparatorTest {
     fd1.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column5"), new ColumnIdentifier("table1", "column7")));
     fd1.setDependantColumnRatio(1.2f);
     fd1.setDeterminantColumnRatio(3.4f);
+    fd1.setGeneralCoverage(3.3f);
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
@@ -49,6 +50,7 @@ public class FunctionalDependencyResultComparatorTest {
     fd2.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier("table1", "column4")));
     fd2.setDependantColumnRatio(4.2f);
     fd2.setDeterminantColumnRatio(1.2f);
+    fd2.setGeneralCoverage(3.3f);
   }
 
   @Test
@@ -129,6 +131,22 @@ public class FunctionalDependencyResultComparatorTest {
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO, false);
     assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareGeneralCoverageAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.GENERAL_COVERAGE, true);
+    assertTrue(resultComparator.compare(fd1, fd2) == 0);
+  }
+
+  @Test
+  public void compareGeneralCoverageDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.GENERAL_COVERAGE, false);
+    assertTrue(resultComparator.compare(fd1, fd2) == 0);
   }
 
 

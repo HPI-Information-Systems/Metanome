@@ -43,10 +43,14 @@ public class FunctionalDependencyResult implements RankingResult {
   // Extended dependant column
   protected ColumnCombination extendedDependant;
 
-  // How many columns of the table are involved
+  // How many columns of the whole result are involved
   // in the dependant/determinant side of the result?
   private float dependantColumnRatio = 0.0f;
   private float determinantColumnRatio = 0.0f;
+
+  // How many columns of the dependant and determinant
+  // table are involved in the result?
+  private float generalCoverage = 0.0f;
 
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
@@ -130,6 +134,14 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setDeterminantColumnRatio(float determinantColumnRatio) {
     this.determinantColumnRatio = determinantColumnRatio;
+  }
+
+  public float getGeneralCoverage() {
+    return generalCoverage;
+  }
+
+  public void setGeneralCoverage(float generalCoverage) {
+    this.generalCoverage = generalCoverage;
   }
 
   @JsonIgnore

@@ -101,6 +101,16 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
 
+    // General coverage column
+    TextColumn<FunctionalDependencyResult> coverageColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getGeneralCoverage());
+      }
+    };
+    this.table.addColumn(coverageColumn, "General Coverage");
+    columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);
