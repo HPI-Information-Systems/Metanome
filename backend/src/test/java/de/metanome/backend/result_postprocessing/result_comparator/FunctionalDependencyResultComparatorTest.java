@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FunctionalDependencyResultComparatorTest {
 
@@ -37,11 +38,13 @@ public class FunctionalDependencyResultComparatorTest {
     ColumnIdentifier dependant1 = new ColumnIdentifier("table1", "column2");
     FunctionalDependency result1 = new FunctionalDependency(determinant1, dependant1);
     fd1 = new FunctionalDependencyResult(result1);
+    fd1.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column5"), new ColumnIdentifier("table1", "column7")));
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
     FunctionalDependency result2 = new FunctionalDependency(determinant2, dependant2);
     fd2 = new FunctionalDependencyResult(result2);
+    fd2.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier("table1", "column4")));
   }
 
   @Test
@@ -74,6 +77,22 @@ public class FunctionalDependencyResultComparatorTest {
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.DETERMINANT_COLUMN, false);
     assertEquals(-1, resultComparator.compare(fd1, fd2));
+  }
+
+  @Test
+  public void compareExtendedDependantAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareExtendedDependantDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
   }
 
 
