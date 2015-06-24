@@ -101,15 +101,15 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
 
-    // General coverage column
-    TextColumn<FunctionalDependencyResult> coverageColumn = new TextColumn<FunctionalDependencyResult>() {
+    // Determinant occurrence ratio column
+    TextColumn<FunctionalDependencyResult> determinantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
       public String getValue(FunctionalDependencyResult functionalDependency) {
-        return String.valueOf(functionalDependency.getGeneralCoverage());
+        return String.valueOf(functionalDependency.getDeterminantOccurrenceRatio());
       }
     };
-    this.table.addColumn(coverageColumn, "General Coverage");
-    columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
+    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO);
 
     // Dependant occurrence ratio column
     TextColumn<FunctionalDependencyResult> dependantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
@@ -121,15 +121,35 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO);
 
-    // Determinant occurrence ratio column
-    TextColumn<FunctionalDependencyResult> determinantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+    // General coverage column
+    TextColumn<FunctionalDependencyResult> coverageColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
       public String getValue(FunctionalDependencyResult functionalDependency) {
-        return String.valueOf(functionalDependency.getDeterminantOccurrenceRatio());
+        return String.valueOf(functionalDependency.getGeneralCoverage());
       }
     };
-    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio");
-    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO);
+    this.table.addColumn(coverageColumn, "General Coverage");
+    columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
+
+    // Determinant uniqueness ratio column
+    TextColumn<FunctionalDependencyResult> determinantUniquenessRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantUniquenessRatio());
+      }
+    };
+    this.table.addColumn(determinantUniquenessRatioColumn, "Determinant Uniqueness Ratio*");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_UNIQUENESS_RATIO);
+
+    // Dependant uniqueness ratio column
+    TextColumn<FunctionalDependencyResult> dependantUniquenessRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantUniquenessRatio());
+      }
+    };
+    this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
 
 
     // Set all columns as sortable

@@ -44,6 +44,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd1.setGeneralCoverage(3.3f);
     fd1.setDependantOccurrenceRatio(3.3f);
     fd1.setDeterminantOccurrenceRatio(5.3f);
+    fd1.setDependantUniquenessRatio(3.3f);
+    fd1.setDeterminantUniquenessRatio(5.3f);
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
@@ -55,6 +57,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd2.setGeneralCoverage(3.3f);
     fd2.setDependantOccurrenceRatio(6.2f);
     fd2.setDeterminantOccurrenceRatio(3.3f);
+    fd2.setDependantUniquenessRatio(6.2f);
+    fd2.setDeterminantUniquenessRatio(3.3f);
   }
 
   @Test
@@ -182,6 +186,38 @@ public class FunctionalDependencyResultComparatorTest {
     FunctionalDependencyResultComparator resultComparator =
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDependantUniquenessRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDependantUniquenessRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareDeterminantUniquenessRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_UNIQUENESS_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareDeterminantUniquenessRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_UNIQUENESS_RATIO, false);
     assertTrue(resultComparator.compare(fd1, fd2) < 0);
   }
 

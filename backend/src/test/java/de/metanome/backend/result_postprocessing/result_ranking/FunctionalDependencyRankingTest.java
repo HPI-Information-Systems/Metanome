@@ -152,4 +152,19 @@ public class FunctionalDependencyRankingTest {
     assertEquals(1, result.getDependantOccurrenceRatio(), 0.001);
   }
 
+  @Test
+  public void testCalculateUniquenessRatio() throws Exception {
+    // Set up
+    FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
+                                                                          tableInformationMap);
+    FunctionalDependencyResult result = functionalDependencyResults.get(2);
+
+    // Execute Functionality
+    ranking.calculateUniquenessRatios(result);
+
+    // Check
+    assertEquals(0.0, result.getDeterminantUniquenessRatio(), 0.01);
+    assertEquals(0.33, result.getDependantUniquenessRatio(), 0.01);
+  }
+
 }

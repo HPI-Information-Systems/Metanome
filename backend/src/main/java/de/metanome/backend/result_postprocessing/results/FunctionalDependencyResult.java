@@ -57,6 +57,11 @@ public class FunctionalDependencyResult implements RankingResult {
   private float dependantOccurrenceRatio = 0.0f;
   private float determinantOccurrenceRatio = 0.0f;
 
+  // How many of the columns of the dependant/determinant
+  // side are (almost) unique?
+  private float dependantUniquenessRatio = 0.0f;
+  private float determinantUniquenessRatio = 0.0f;
+
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
   @JsonIgnore
@@ -163,6 +168,22 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setDependantOccurrenceRatio(float dependantOccurrenceRatio) {
     this.dependantOccurrenceRatio = dependantOccurrenceRatio;
+  }
+
+  public float getDependantUniquenessRatio() {
+    return dependantUniquenessRatio;
+  }
+
+  public void setDependantUniquenessRatio(float dependantUniquenessRatio) {
+    this.dependantUniquenessRatio = dependantUniquenessRatio;
+  }
+
+  public float getDeterminantUniquenessRatio() {
+    return determinantUniquenessRatio;
+  }
+
+  public void setDeterminantUniquenessRatio(float determinantUniquenessRatio) {
+    this.determinantUniquenessRatio = determinantUniquenessRatio;
   }
 
   @JsonIgnore

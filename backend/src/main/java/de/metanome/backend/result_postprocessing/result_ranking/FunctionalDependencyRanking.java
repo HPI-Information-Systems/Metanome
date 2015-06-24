@@ -70,6 +70,7 @@ public class FunctionalDependencyRanking extends Ranking {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
       calculateOccurrenceRatios(result);
+      calculateUniquenessRatios(result);
     }
   }
 
@@ -126,6 +127,25 @@ public class FunctionalDependencyRanking extends Ranking {
     Set<ColumnIdentifier> determinant = result.getDeterminant().getColumnIdentifiers();
     result.setDeterminantOccurrenceRatio(
         calculateOccurrenceRatio(determinant, result.getDeterminantTableName()));
+  }
+
+  /**
+   * Calculates the ratio of columns of the determinant/dependant side, which are almost unique, and
+   * the column count of the determinant/dependant side. How many of the column in the
+   * determinant/dependant side are almost unique?
+   *
+   * @param result the result
+   */
+  protected void calculateUniquenessRatios(FunctionalDependencyResult result) {
+    float determinantUniqueRatio = calculateUniquenessRatio(
+        this.tableInformationMap.get(result.getDeterminantTableName()),
+        result.getDeterminant().getColumnIdentifiers());
+    result.setDeterminantUniquenessRatio(determinantUniqueRatio);
+
+    float dependantUniqueRatio = calculateUniquenessRatio(
+        this.tableInformationMap.get(result.getDependantTableName()),
+        result.getExtendedDependant().getColumnIdentifiers());
+    result.setDependantUniquenessRatio(dependantUniqueRatio);
   }
 
 }
