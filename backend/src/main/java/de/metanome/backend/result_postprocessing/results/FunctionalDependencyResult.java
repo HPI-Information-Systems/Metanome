@@ -52,6 +52,11 @@ public class FunctionalDependencyResult implements RankingResult {
   // table are involved in the result?
   private float generalCoverage = 0.0f;
 
+  // On how many results are the columns of the
+  // dependant/determinant side involved?
+  private float dependantOccurrenceRatio = 0.0f;
+  private float determinantOccurrenceRatio = 0.0f;
+
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
   @JsonIgnore
@@ -142,6 +147,22 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setGeneralCoverage(float generalCoverage) {
     this.generalCoverage = generalCoverage;
+  }
+
+  public float getDeterminantOccurrenceRatio() {
+    return determinantOccurrenceRatio;
+  }
+
+  public void setDeterminantOccurrenceRatio(float determinantOccurrenceRatio) {
+    this.determinantOccurrenceRatio = determinantOccurrenceRatio;
+  }
+
+  public float getDependantOccurrenceRatio() {
+    return dependantOccurrenceRatio;
+  }
+
+  public void setDependantOccurrenceRatio(float dependantOccurrenceRatio) {
+    this.dependantOccurrenceRatio = dependantOccurrenceRatio;
   }
 
   @JsonIgnore

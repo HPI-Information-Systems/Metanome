@@ -42,6 +42,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd1.setDependantColumnRatio(1.2f);
     fd1.setDeterminantColumnRatio(3.4f);
     fd1.setGeneralCoverage(3.3f);
+    fd1.setDependantOccurrenceRatio(3.3f);
+    fd1.setDeterminantOccurrenceRatio(5.3f);
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
@@ -51,6 +53,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd2.setDependantColumnRatio(4.2f);
     fd2.setDeterminantColumnRatio(1.2f);
     fd2.setGeneralCoverage(3.3f);
+    fd2.setDependantOccurrenceRatio(6.2f);
+    fd2.setDeterminantOccurrenceRatio(3.3f);
   }
 
   @Test
@@ -147,6 +151,38 @@ public class FunctionalDependencyResultComparatorTest {
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.GENERAL_COVERAGE, false);
     assertTrue(resultComparator.compare(fd1, fd2) == 0);
+  }
+
+  @Test
+  public void compareDependantOccurrenceRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDependantOccurrenceRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareDeterminantOccurrenceRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareDeterminantOccurrenceRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
   }
 
 

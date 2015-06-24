@@ -111,6 +111,27 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(coverageColumn, "General Coverage");
     columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
 
+    // Dependant occurrence ratio column
+    TextColumn<FunctionalDependencyResult> dependantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO);
+
+    // Determinant occurrence ratio column
+    TextColumn<FunctionalDependencyResult> determinantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO);
+
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);

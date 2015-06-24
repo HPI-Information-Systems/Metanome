@@ -99,6 +99,13 @@ public class FunctionalDependencyRankingTest {
     // Check
     assertNotNull(ranking.tableInformationMap);
     assertNotNull(ranking.results);
+    assertNotNull(ranking.occurrenceMap);
+
+    assertEquals(2, (int) ranking.occurrenceMap.get(tableName).get("A"));
+    assertEquals(3, (int) ranking.occurrenceMap.get(tableName).get("B"));
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("C"));
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("D"));
+    assertEquals(1, (int) ranking.occurrenceMap.get(tableName).get("E"));
   }
 
   @Test
@@ -128,6 +135,21 @@ public class FunctionalDependencyRankingTest {
 
     // Check
     assertEquals(0.4, result.getGeneralCoverage(), 0.001);
+  }
+
+  @Test
+  public void testCalculateOccurrenceRatio() throws Exception {
+    // Set up
+    FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
+                                                                          tableInformationMap);
+    FunctionalDependencyResult result = functionalDependencyResults.get(0);
+
+    // Execute Functionality
+    ranking.calculateOccurrenceRatios(result);
+
+    // Check
+    assertEquals(0.4, result.getDeterminantOccurrenceRatio(), 0.001);
+    assertEquals(1, result.getDependantOccurrenceRatio(), 0.001);
   }
 
 }

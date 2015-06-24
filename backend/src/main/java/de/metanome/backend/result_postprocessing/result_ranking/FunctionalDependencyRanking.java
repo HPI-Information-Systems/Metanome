@@ -16,11 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Calculates the rankings for functional dependency results.
@@ -33,12 +36,31 @@ public class FunctionalDependencyRanking extends Ranking {
                                      Map<String, TableInformation> tableInformationMap) {
     super(tableInformationMap);
     this.results = results;
+    this.occurrenceMap = new HashMap<>();
+
+    createOccurrenceList();
+  }
+
+  /**
+   * The occurrence list stores how often a column occurs in the results.
+   */
+  protected void createOccurrenceList() {
+    initializeOccurrenceList();
+
+    for (FunctionalDependencyResult result : this.results) {
+      updateOccurrenceList(result.getDependant());
+      for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
+        updateOccurrenceList(column);
+      }
+    }
   }
 
   @Override
   public void calculateDataIndependentRankings() {
     for (FunctionalDependencyResult result : this.results) {
       calculateColumnRatios(result);
+      calculateGeneralCoverage(result);
+      calculateOccurrenceRatios(result);
     }
   }
 
@@ -46,6 +68,8 @@ public class FunctionalDependencyRanking extends Ranking {
   public void calculateDataDependentRankings() {
     for (FunctionalDependencyResult result : this.results) {
       calculateColumnRatios(result);
+      calculateGeneralCoverage(result);
+      calculateOccurrenceRatios(result);
     }
   }
 
@@ -84,6 +108,24 @@ public class FunctionalDependencyRanking extends Ranking {
     }
 
     result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
+  }
+
+  /**
+   * Calculates the ratio of the determinant/dependant column count and the overall occurrence of the
+   * determinant/dependant columns in the result.
+   *
+   * @param result the result
+   */
+  protected void calculateOccurrenceRatios(FunctionalDependencyResult result) {
+    // calculate dependant occurrence ratio
+    Set<ColumnIdentifier> dependant = result.getExtendedDependant().getColumnIdentifiers();
+    result.setDependantOccurrenceRatio(
+        calculateOccurrenceRatio(dependant, result.getDependantTableName()));
+
+    // calculate determinant occurrence ratio
+    Set<ColumnIdentifier> determinant = result.getDeterminant().getColumnIdentifiers();
+    result.setDeterminantOccurrenceRatio(
+        calculateOccurrenceRatio(determinant, result.getDeterminantTableName()));
   }
 
 }
