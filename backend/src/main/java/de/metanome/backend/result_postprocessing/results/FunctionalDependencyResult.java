@@ -43,8 +43,13 @@ public class FunctionalDependencyResult implements RankingResult {
   // Extended dependant column
   protected ColumnCombination extendedDependant;
 
+  // How many columns of the table are involved
+  // in the dependant/determinant side of the result?
+  private float dependantColumnRatio = 0.0f;
+  private float determinantColumnRatio = 0.0f;
+
   // Determinant/dependent columns as BitSet (needed for
-  // calculating the extended dependant column
+  // calculating the extended dependant column)
   @JsonIgnore
   @GwtIncompatible("Gwt does not support java.util.BitSet")
   protected BitSet determinantAsBitSet;
@@ -109,6 +114,22 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setExtendedDependant(ColumnCombination extendedDependant) {
     this.extendedDependant = extendedDependant;
+  }
+
+  public float getDependantColumnRatio() {
+    return dependantColumnRatio;
+  }
+
+  public void setDependantColumnRatio(float dependantColumnRatio) {
+    this.dependantColumnRatio = dependantColumnRatio;
+  }
+
+  public float getDeterminantColumnRatio() {
+    return determinantColumnRatio;
+  }
+
+  public void setDeterminantColumnRatio(float determinantColumnRatio) {
+    this.determinantColumnRatio = determinantColumnRatio;
   }
 
   @JsonIgnore

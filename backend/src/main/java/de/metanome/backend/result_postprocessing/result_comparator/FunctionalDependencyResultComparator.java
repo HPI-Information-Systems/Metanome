@@ -28,6 +28,8 @@ public class FunctionalDependencyResultComparator
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String DETERMINANT_COLUMN = "determinant";
   public static final String EXTENDED_DEPENDANT_COLUMN = "extended_dependant";
+  public static final String DEPENDANT_COLUMN_RATIO = "dependant_column_ratio";
+  public static final String DETERMINANT_COLUMN_RATIO = "determinant_column_ratio";
 
   /**
    * Creates a functional dependency result comparator for given property and direction
@@ -58,6 +60,12 @@ public class FunctionalDependencyResultComparator
     }
     if (EXTENDED_DEPENDANT_COLUMN.equals(sortProperty)) {
       return fd1.getExtendedDependant().toString().compareTo(fd2.getExtendedDependant().toString());
+    }
+    if (DEPENDANT_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(fd1.getDependantColumnRatio(), fd2.getDependantColumnRatio());
+    }
+    if (DETERMINANT_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(fd1.getDeterminantColumnRatio(), fd2.getDeterminantColumnRatio());
     }
 
     return 0;

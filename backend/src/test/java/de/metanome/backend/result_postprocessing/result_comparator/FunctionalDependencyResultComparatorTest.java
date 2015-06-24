@@ -39,12 +39,16 @@ public class FunctionalDependencyResultComparatorTest {
     FunctionalDependency result1 = new FunctionalDependency(determinant1, dependant1);
     fd1 = new FunctionalDependencyResult(result1);
     fd1.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column5"), new ColumnIdentifier("table1", "column7")));
+    fd1.setDependantColumnRatio(1.2f);
+    fd1.setDeterminantColumnRatio(3.4f);
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
     FunctionalDependency result2 = new FunctionalDependency(determinant2, dependant2);
     fd2 = new FunctionalDependencyResult(result2);
     fd2.setExtendedDependant(new ColumnCombination(new ColumnIdentifier("table1", "column2"), new ColumnIdentifier("table1", "column4")));
+    fd2.setDependantColumnRatio(4.2f);
+    fd2.setDeterminantColumnRatio(1.2f);
   }
 
   @Test
@@ -93,6 +97,38 @@ public class FunctionalDependencyResultComparatorTest {
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN, false);
     assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDeterminantColumnRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareDeterminantColumnRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DETERMINANT_COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDependantColumnRatioAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO, true);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareDepedantColumnRatioDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
   }
 
 

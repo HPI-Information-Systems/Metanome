@@ -28,7 +28,6 @@ import java.util.Map;
 public class FunctionalDependencyRanking extends Ranking {
 
   protected List<FunctionalDependencyResult> results;
-  protected Map<String, TableInformation> tableInformationMap;
 
   public FunctionalDependencyRanking(List<FunctionalDependencyResult> results,
                                      Map<String, TableInformation> tableInformationMap) {
@@ -38,11 +37,36 @@ public class FunctionalDependencyRanking extends Ranking {
 
   @Override
   public void calculateDataIndependentRankings() {
-
+    for (FunctionalDependencyResult result : this.results) {
+      calculateColumnRatios(result);
+    }
   }
 
   @Override
   public void calculateDataDependentRankings() {
+    for (FunctionalDependencyResult result : this.results) {
+      calculateColumnRatios(result);
+    }
+  }
 
+  /**
+   * Calculates the ratio of the determinant/dependant column count and the column count of the
+   * corresponding table.
+   *
+   * @param result the result
+   */
+  protected void calculateColumnRatios(FunctionalDependencyResult result) {
+    Integer determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
+    Integer dependantColumnCount = result.getExtendedDependant().getColumnIdentifiers().size();
+
+    Integer
+        determinantTableColumnCount =
+        this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount();
+    Integer
+        dependantTableColumnCount =
+        this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+
+    result.setDeterminantColumnRatio((float) determinantColumnCount / determinantTableColumnCount);
+    result.setDependantColumnRatio((float) dependantColumnCount / dependantTableColumnCount);
   }
 }

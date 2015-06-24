@@ -79,7 +79,7 @@ public class FunctionalDependencyResultAnalyzer
   }
 
   @Override
-  protected List<FunctionalDependencyResult> convertResults(
+  public List<FunctionalDependencyResult> convertResults(
       List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = new ArrayList<>();
 
@@ -131,7 +131,8 @@ public class FunctionalDependencyResultAnalyzer
    * @param results the results
    * @return the results with the extended dependant side
    */
-  protected List<FunctionalDependencyResult> extendDependantSide(List<FunctionalDependencyResult> results) {
+  public List<FunctionalDependencyResult> extendDependantSide(
+      List<FunctionalDependencyResult> results) {
     for (FunctionalDependencyResult curResult : results) {
       Set<ColumnIdentifier> extendedDependant = new HashSet<>();
 

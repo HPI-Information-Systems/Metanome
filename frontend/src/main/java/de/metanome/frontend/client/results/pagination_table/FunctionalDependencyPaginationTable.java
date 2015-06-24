@@ -80,6 +80,27 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(extendedDependantColumn, "Extended Dependant");
     columnNames.add(FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN);
 
+    // Determinant column ratio column
+    TextColumn<FunctionalDependencyResult> determinantColumnRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantColumnRatio());
+      }
+
+    };
+    this.table.addColumn(determinantColumnRatioColumn, "Determinant Column Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN_RATIO);
+
+    // Dependant column ratio column
+    TextColumn<FunctionalDependencyResult> dependantColumnRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantColumnRatio());
+      }
+    };
+    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);
