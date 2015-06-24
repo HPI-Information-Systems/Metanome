@@ -19,6 +19,8 @@ package de.metanome.backend.result_postprocessing.helper;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.input.file.FileIterator;
+import de.metanome.backend.result_postprocessing.FileFixtureDifferentColumnTypes;
+import de.metanome.backend.result_postprocessing.FileFixtureUniqueColumn;
 
 import org.junit.Test;
 
@@ -138,7 +140,7 @@ public class ColumnInformationTest {
     expectedBitSet.set(0);
 
     // Set up
-    FileFixture fileFixture = new FileFixture();
+    FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -167,7 +169,7 @@ public class ColumnInformationTest {
     expectedBitSet.set(1);
 
     // Set up
-    FileFixture fileFixture = new FileFixture();
+    FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -192,7 +194,7 @@ public class ColumnInformationTest {
   public void testCreationOfDataDependentStatisticsForDateColumn()
       throws InputIterationException, InputGenerationException {
     // Set up
-    FileFixture fileFixture = new FileFixture();
+    FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -216,7 +218,7 @@ public class ColumnInformationTest {
   public void testGetNullRate()
       throws InputIterationException, InputGenerationException {
     // Set up
-    FileFixture fileFixture = new FileFixture();
+    FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -234,7 +236,7 @@ public class ColumnInformationTest {
   public void testIsUniqueColumn()
       throws InputIterationException, InputGenerationException {
     // Set up
-    FileUniqueFixture fileFixture = new FileUniqueFixture();
+    FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -263,7 +265,7 @@ public class ColumnInformationTest {
   public void testGetUniquenessRate()
       throws InputIterationException, InputGenerationException {
     // Set up
-    FileUniqueFixture fileFixture = new FileUniqueFixture();
+    FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
@@ -292,7 +294,7 @@ public class ColumnInformationTest {
   public void testGetInformationContent()
       throws InputIterationException, InputGenerationException {
     // Set up
-    FileUniqueFixture fileFixture = new FileUniqueFixture();
+    FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality

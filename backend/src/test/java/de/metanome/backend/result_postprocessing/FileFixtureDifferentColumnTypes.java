@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing.result_ranking;
+package de.metanome.backend.result_postprocessing;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +26,7 @@ import de.metanome.backend.input.file.FileIterator;
 
 import java.io.StringReader;
 
-public class FileFixture1 {
+public class FileFixtureDifferentColumnTypes {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
@@ -36,8 +36,6 @@ public class FileFixture1 {
   protected static final boolean HAS_HEADER = false;
   protected static final int SKIP_LINES = 0;
 
-  public static final String TABLE_NAME = "ind_file";
-
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
   }
@@ -45,7 +43,7 @@ public class FileFixture1 {
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
 
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput(TABLE_NAME)
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("file_with_different_types")
         .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
         .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
@@ -57,28 +55,32 @@ public class FileFixture1 {
         .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator(
-        TABLE_NAME,
+        "some_file",
         new StringReader(
+            Joiner.on(',').join(getLineThree()) + "\n" +
             Joiner.on(',').join(getLineOne()) + "\n" +
             Joiner.on(',').join(getLineTwo()) + "\n" +
             Joiner.on(',').join(getLineThree()) + "\n" +
-            Joiner.on(',').join(getLineFour()) + "\n"),
+            Joiner.on(',').join(getLineOne()) + "\n" +
+            Joiner.on(',').join(getLineTwo()) + "\n" +
+            Joiner.on(',').join(getLineThree()) + "\n" +
+            Joiner.on(',').join(getLineOne()) + "\n" +
+            Joiner.on(',').join(getLineTwo()) + "\n" +
+            Joiner.on(',').join(getLineTwo()) + "\n" +
+            Joiner.on(',').join(getLineOne()) + "\n"),
         setting);
   }
 
   public ImmutableList<String> getLineOne() {
-    return ImmutableList.of("1", "1", "1", "one");
+    return ImmutableList.of("one", "1", "null", "unique");
   }
 
   public ImmutableList<String> getLineTwo() {
-    return ImmutableList.of("2", "2", "2", "one");
+    return ImmutableList.of("six", "3", "12.12.2012", "unique");
   }
 
-  public ImmutableList<String> getLineThree() { return ImmutableList.of("3", "2", "1", "two");
-  }
-
-  public ImmutableList<String> getLineFour() {
-    return ImmutableList.of("4", "3", "2", "one");
+  public ImmutableList<String> getLineThree() {
+    return ImmutableList.of("four", "4", "28.02.2001", "unique");
   }
 
 }

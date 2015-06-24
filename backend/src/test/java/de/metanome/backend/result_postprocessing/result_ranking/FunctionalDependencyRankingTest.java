@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.FileFixtureFunctionalDependency;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_analyzer.FunctionalDependencyResultAnalyzer;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
@@ -43,11 +44,11 @@ public class FunctionalDependencyRankingTest {
 
   Map<String, TableInformation> tableInformationMap;
   List<FunctionalDependencyResult> functionalDependencyResults;
-  String tableName = FileFixture2.TABLE_NAME;
+  String tableName = FileFixtureFunctionalDependency.TABLE_NAME;
 
   @Before
   public void setUp() throws Exception {
-    final FileFixture2 fileFixture = new FileFixture2();
+    final FileFixtureFunctionalDependency fileFixture = new FileFixtureFunctionalDependency();
     RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
       @Override
       public RelationalInput generateNewCopy() throws InputGenerationException {

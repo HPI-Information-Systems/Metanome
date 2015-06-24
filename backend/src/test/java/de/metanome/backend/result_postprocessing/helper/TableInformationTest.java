@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.backend.result_postprocessing.FileFixtureDifferentColumnTypes;
 
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class TableInformationTest {
 
-  FileFixture fileFixture = new FileFixture();
+  FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
   RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
     @Override
     public RelationalInput generateNewCopy() throws InputGenerationException {

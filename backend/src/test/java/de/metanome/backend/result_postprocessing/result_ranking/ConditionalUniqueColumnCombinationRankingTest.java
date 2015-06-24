@@ -26,6 +26,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
@@ -44,11 +45,11 @@ import static org.junit.Assert.assertNotNull;
 public class ConditionalUniqueColumnCombinationRankingTest {
   Map<String, TableInformation> tableInformationMap;
   List<ConditionalUniqueColumnCombinationResult> results;
-  String tableName = FileFixture1.TABLE_NAME;
+  String tableName = FileFixtureGeneral.TABLE_NAME;
 
   @Before
   public void setUp() throws Exception {
-    final FileFixture1 fileFixture = new FileFixture1();
+    final FileFixtureGeneral fileFixture = new FileFixtureGeneral();
     RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
       @Override
       public RelationalInput generateNewCopy() throws InputGenerationException {
