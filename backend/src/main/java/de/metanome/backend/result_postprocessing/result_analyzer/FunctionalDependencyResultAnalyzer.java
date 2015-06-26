@@ -38,9 +38,9 @@ public class FunctionalDependencyResultAnalyzer
     extends ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult> {
 
   public FunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                            boolean useDataDependentStatistics)
+                                            boolean useDataIndependentStatistics)
       throws InputGenerationException, InputIterationException {
-    super(inputGenerators, useDataDependentStatistics);
+    super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override

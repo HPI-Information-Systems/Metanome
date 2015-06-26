@@ -67,6 +67,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected Button stopButton;
 
   protected ResultsPaginationTablePage tablePage;
+  protected ResultsVisualizationPage visualizationPage;
 
   protected String executionIdentifier;
   private String algorithmFileName;
@@ -122,6 +123,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
       this.tablePage.addCountResults(execution);
     } else {
       this.tablePage.addTables(execution);
+      if (this.clickedAdvancedResults) {
+        this.visualizationPage.addVisualisations(execution);
+      }
     }
   }
 
@@ -137,9 +141,13 @@ public class ResultsPage extends FlowPanel implements TabContent {
       public void onClick(ClickEvent event) {
         clear();
         clickedAdvancedResults = true;
-        resultStoreService.loadExecution(execution.getId(), true, new MethodCallback<Void>() {
+        // Add a running indicator
+        runningIndicator = new Image("ajax-loader.gif");
+        add(runningIndicator);
+        resultStoreService.loadExecution(execution.getId(), false, new MethodCallback<Void>() {
           @Override
           public void onFailure(Method method, Throwable throwable) {
+            clear();
             messageReceiver.addError(method.getResponse().getText());
           }
 
@@ -271,19 +279,19 @@ public class ResultsPage extends FlowPanel implements TabContent {
   private void addChildPages() {
     // Create new tab with result table
     this.tablePage = new ResultsPaginationTablePage();
-    tablePage.setMessageReceiver(this.messageReceiver);
-    tablePage.setStyleName("result_inner_tab");
+    this.tablePage.setMessageReceiver(this.messageReceiver);
+    this.tablePage.setStyleName("result_inner_tab");
 
     // Create new tab with visualization page
-    ResultsVisualizationPage visualizationPage = new ResultsVisualizationPage();
-    visualizationPage.setMessageReceiver(this.messageReceiver);
-    visualizationPage.setStyleName("result_inner_tab");
+    this.visualizationPage = new ResultsVisualizationPage();
+    this.visualizationPage.setMessageReceiver(this.messageReceiver);
+    this.visualizationPage.setStyleName("result_inner_tab");
 
     // Add the result table
     this.panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(new ScrollPanel(tablePage), "Table");
-    panel.add(new ScrollPanel(visualizationPage), "Visualization");
-    this.add(panel);
+    this.panel.add(new ScrollPanel(this.tablePage), "Table");
+    this.panel.add(new ScrollPanel(this.visualizationPage), "Visualization");
+    this.add(this.panel);
   }
 
   /**

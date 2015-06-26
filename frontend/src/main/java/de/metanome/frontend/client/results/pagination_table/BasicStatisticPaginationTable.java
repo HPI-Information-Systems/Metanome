@@ -106,7 +106,7 @@ public class BasicStatisticPaginationTable
         return String.valueOf(basicStatistic.getUniquenessRatio());
       }
     };
-    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio");
+    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio*");
     columnNames.add(BasicStatisticResultComparator.UNIQUENESS_RATIO);
 
     // Set all columns as sortable

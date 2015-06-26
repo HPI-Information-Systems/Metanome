@@ -20,8 +20,10 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_ranking.UniqueColumnCombinationRanking;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
+import de.metanome.backend.result_postprocessing.visualization.UniqueColumnCombination.UniqueColumnCombinationVisualization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +35,9 @@ public class UniqueColumnCombinationResultAnalyzer
     extends ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult> {
 
   public UniqueColumnCombinationResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                               boolean useDataDependentStatistics)
+                                               boolean useDataIndependentStatistics)
       throws InputGenerationException, InputIterationException {
-    super(inputGenerators, useDataDependentStatistics);
+    super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
@@ -63,6 +65,14 @@ public class UniqueColumnCombinationResultAnalyzer
       ranking.calculateDataDependentRankings();
     }
 
+    if (this.tableInformationMap.size() == 1) {
+      TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+      UniqueColumnCombinationVisualization
+          visualization =
+          new UniqueColumnCombinationVisualization(results, tableInformation);
+      visualization.createVisualizationData();
+    }
+
     return results;
   }
 
@@ -83,5 +93,6 @@ public class UniqueColumnCombinationResultAnalyzer
 
     return results;
   }
+
 
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  
+  <link rel="stylesheet" type="text/css" href="visualization/CSS/sunburst.css">
+  <style type="text/css">
+    
+    .centered {
+      margin: 0; 
+      padding: 0;
+      text-align: center;
+    }
+  </style>
+  
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="visualization/D3Diagrams/d3-zoomable-sunburst.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>  
+    
+  function draw(){
+	 d3_zoomable_sunburst("visualization/FDResultAnalyzer/PrefixTree.json", 
+                         $(window).width()-25, 
+                         $(window).height(),
+                         function () {
+                          $("svg").appendTo($("div.centered"));
+                         }
+                        );
+  };
+  
+
+  
+  $(window).load(function(){
+    $("svg").remove();
+	$("div.tooltip").remove();
+	draw();
+	$("#reload").click( function(){
+		$("svg").remove();
+		$("div.tooltip").remove();
+		draw();
+	  });
+  });
+  
+  $(window).resize(function(){
+	var svg = $("svg");
+	//workaround: resize gets called twice but for some mysterious reason, it doesn't find the svg the second time around which leads to double drawings
+	//therefore, if no svg exists, don't draw it
+	var plsDraw = true;
+	if (svg.length == 0){
+		plsDraw = false;
+	}
+    $("svg").remove();
+	$("div.tooltip").remove();
+	if (plsDraw){
+		draw();
+	}
+  });
+
+    
+  </script>
+</head>
+
+<body>
+
+<input id="reload" type="button" value="Go back to root node"/>
+
+<div class="centered">
+<div id="sequence"></div>
+<div id="chart"></div>
+</div>
+
+</body>

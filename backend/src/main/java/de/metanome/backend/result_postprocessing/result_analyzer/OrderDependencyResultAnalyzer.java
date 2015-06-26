@@ -34,8 +34,8 @@ public class OrderDependencyResultAnalyzer
 
   public OrderDependencyResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
-      boolean useDataDependentStatistics) throws InputGenerationException, InputIterationException {
-    super(inputGenerators, useDataDependentStatistics);
+      boolean useDataIndependentStatistics) throws InputGenerationException, InputIterationException {
+    super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override

@@ -47,13 +47,13 @@ public class TableInformation {
    *
    * @param relationalInputGenerator   The input data generator providing access to the input data
    *                                   stream
-   * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
+   * @param useDataIndependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
    * @param bitSet                     bit set, which represents this table
    * @throws InputGenerationException Will be thrown if the input data is not accessible
    */
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
-                          boolean useDataDependentStatistics,
+                          boolean useDataIndependentStatistics,
                           BitSet bitSet)
       throws InputGenerationException, InputIterationException {
     this.relationalInputGenerator = relationalInputGenerator;
@@ -73,7 +73,7 @@ public class TableInformation {
       columnBitSet.set(columnIndex);
 
       // Compute the column information for the current column
-      if (useDataDependentStatistics) {
+      if (!useDataIndependentStatistics) {
         // Generate a new data iterator for each column
         relationalInput = relationalInputGenerator.generateNewCopy();
         this.columnInformationMap

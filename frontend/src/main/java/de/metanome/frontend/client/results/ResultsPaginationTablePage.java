@@ -74,8 +74,9 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
   /**
-   * Creates the callback for loading the results of an execution into the result store.
-   * If the callback was successful, the results of the execution are shown.
+   * Creates the callback for loading the results of an execution into the result store. If the
+   * callback was successful, the results of the execution are shown.
+   *
    * @param execution the execution
    * @return the callback
    */
@@ -100,11 +101,13 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param fileInput the execution
    */
   public void showResultsFor(FileInput fileInput) {
-    this.resultStoreService.loadResults(fileInput.getId(), false, getMethodCallbackResults(fileInput));
+    this.resultStoreService
+        .loadResults(fileInput.getId(), false, getMethodCallbackResults(fileInput));
   }
 
   /**
    * Creates the callback for loading the results of the given file input into memory.
+   *
    * @param input the file input
    * @return the callback
    */
@@ -183,6 +186,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
 
   /**
    * Adds a label with the given title.
+   *
    * @param title the title
    */
   private void addTitle(String title) {
@@ -192,32 +196,35 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
   }
 
   /**
-   * Sends a call to the backend to get the count results for the given execution.
-   * If the call was successful the results are shown.
+   * Sends a call to the backend to get the count results for the given execution. If the call was
+   * successful the results are shown.
+   *
    * @param execution the execution
    */
   public void addCountResults(Execution execution) {
     this.resultService.readCounterResult(execution.getId(),
-       new MethodCallback<Map<String, Integer>>() {
-         @Override
-         public void onFailure(Method method, Throwable caught) {
-           messageReceiver.addError(
-               "Could not display results: " + method
-                   .getResponse().getText());
-         }
+                                         new MethodCallback<Map<String, Integer>>() {
+                                           @Override
+                                           public void onFailure(Method method, Throwable caught) {
+                                             messageReceiver.addError(
+                                                 "Could not display results: " + method
+                                                     .getResponse().getText());
+                                           }
 
-         @Override
-         public void onSuccess(Method method, Map<String, Integer> results) {
-           displayCountResult(results);
-         }
-       });
+                                           @Override
+                                           public void onSuccess(Method method,
+                                                                 Map<String, Integer> results) {
+                                             displayCountResult(results);
+                                           }
+                                         });
   }
 
   /**
    * Adds widgets for every result type listed in the map showing the number of results.
+   *
    * @param results map containing for each result type the number of results
    */
-   protected void displayCountResult(Map<String, Integer> results) {
+  protected void displayCountResult(Map<String, Integer> results) {
     for (Map.Entry<String, Integer> result : results.entrySet()) {
       this.addTitle(result.getKey());
       Label label = new Label("# " + result.getValue().toString());

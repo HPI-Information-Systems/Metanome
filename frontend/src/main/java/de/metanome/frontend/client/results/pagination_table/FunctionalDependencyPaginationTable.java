@@ -148,7 +148,7 @@ public class FunctionalDependencyPaginationTable
         return String.valueOf(functionalDependency.getDependantUniquenessRatio());
       }
     };
-    this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio");
+    this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
 
 

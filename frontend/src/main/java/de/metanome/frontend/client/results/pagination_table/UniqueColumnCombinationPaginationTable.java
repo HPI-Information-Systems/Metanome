@@ -94,7 +94,7 @@ public class UniqueColumnCombinationPaginationTable
             return String.valueOf(uniqueColumnCombination.getUniquenessRatio());
           }
         };
-    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio");
+    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio*");
     columnNames.add(UniqueColumnCombinationResultComparator.UNIQUENESS_RATIO);
 
     // randomness column
@@ -106,7 +106,7 @@ public class UniqueColumnCombinationPaginationTable
             return String.valueOf(uniqueColumnCombination.getRandomness());
           }
         };
-    this.table.addColumn(randomnessColumn, "Randomness");
+    this.table.addColumn(randomnessColumn, "Randomness*");
     columnNames.add(UniqueColumnCombinationResultComparator.RANDOMNESS);
 
 

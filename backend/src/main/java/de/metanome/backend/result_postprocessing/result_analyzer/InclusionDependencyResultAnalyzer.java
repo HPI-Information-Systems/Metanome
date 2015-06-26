@@ -33,9 +33,9 @@ public class InclusionDependencyResultAnalyzer
     extends ResultAnalyzer<InclusionDependency, InclusionDependencyResult> {
 
   public InclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                           boolean useDataDependentStatistics)
+                                           boolean useDataIndependentStatistics)
       throws InputGenerationException, InputIterationException {
-    super(inputGenerators, useDataDependentStatistics);
+    super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override

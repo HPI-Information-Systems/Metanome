@@ -59,7 +59,7 @@ public class InclusionDependencyRankingTest {
       }
     };
 
-    TableInformation tableInformation = new TableInformation(relationalInputGenerator, true, new BitSet());
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, new BitSet());
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
