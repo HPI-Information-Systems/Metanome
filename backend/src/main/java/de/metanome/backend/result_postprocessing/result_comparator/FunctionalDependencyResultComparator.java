@@ -35,6 +35,8 @@ public class FunctionalDependencyResultComparator
   public static final String DETERMINANT_OCCURRENCE_RATIO = "determinant_occurrence_ratio";
   public static final String DEPENDANT_UNIQUENESS_RATIO = "dependant_uniqueness_ratio";
   public static final String DETERMINANT_UNIQUENESS_RATIO = "determinant_uniqueness_ratio";
+  public static final String POLLUTION = "pollution";
+  public static final String POLLUTION_COLUMN = "pollution_column";
 
   /**
    * Creates a functional dependency result comparator for given property and direction
@@ -86,6 +88,12 @@ public class FunctionalDependencyResultComparator
     }
     if (DETERMINANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(fd1.getDeterminantUniquenessRatio(), fd2.getDeterminantUniquenessRatio());
+    }
+    if (POLLUTION.equals(sortProperty)) {
+      return Float.compare(fd1.getPollution(), fd2.getPollution());
+    }
+    if (POLLUTION_COLUMN.equals(sortProperty)) {
+      return fd1.getPollutionColumn().compareTo(fd2.getPollutionColumn());
     }
 
     return 0;

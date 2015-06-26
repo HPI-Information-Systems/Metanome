@@ -46,6 +46,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd1.setDeterminantOccurrenceRatio(5.3f);
     fd1.setDependantUniquenessRatio(3.3f);
     fd1.setDeterminantUniquenessRatio(5.3f);
+    fd1.setPollution(2.3f);
+    fd1.setPollutionColumn("E");
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
@@ -59,6 +61,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd2.setDeterminantOccurrenceRatio(3.3f);
     fd2.setDependantUniquenessRatio(6.2f);
     fd2.setDeterminantUniquenessRatio(3.3f);
+    fd2.setPollution(1.2f);
+    fd2.setPollutionColumn("D");
   }
 
   @Test
@@ -218,6 +222,38 @@ public class FunctionalDependencyResultComparatorTest {
     FunctionalDependencyResultComparator resultComparator =
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.DETERMINANT_UNIQUENESS_RATIO, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void comparePollutionAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.POLLUTION, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void comparePollutionDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.POLLUTION, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void comparePollutionColumnAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.POLLUTION_COLUMN, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void comparePollutionColumnDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.POLLUTION_COLUMN, false);
     assertTrue(resultComparator.compare(fd1, fd2) < 0);
   }
 

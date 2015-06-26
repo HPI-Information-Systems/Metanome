@@ -64,10 +64,10 @@ public class FunctionalDependencyResult implements RankingResult {
 
   // Describes the minimal ratio of tuples needed to change
   // for increasing the dependant of the functional dependency
-  private float pollution;
+  private float pollution = 0.0f;
   // Describes the column which would be added to the dependant
   // if the "polluted" tuples would be changed
-  private String pollutionColumn;
+  private String pollutionColumn = "";
 
 
   // Determinant/dependent columns as BitSet (needed for

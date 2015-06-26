@@ -152,6 +152,27 @@ public class FunctionalDependencyPaginationTable
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
 
 
+    // Pollution column
+    TextColumn<FunctionalDependencyResult> pollutionColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getPollution());
+      }
+    };
+    this.table.addColumn(pollutionColumn, "Pollution*");
+    columnNames.add(FunctionalDependencyResultComparator.POLLUTION);
+
+    // Pollution column column
+    TextColumn<FunctionalDependencyResult> pollutionColumnColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return functionalDependency.getPollutionColumn();
+      }
+    };
+    this.table.addColumn(pollutionColumnColumn, "Pollution Column*");
+    columnNames.add(FunctionalDependencyResultComparator.POLLUTION_COLUMN);
+
+
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {
       table.getColumn(i).setSortable(true);
