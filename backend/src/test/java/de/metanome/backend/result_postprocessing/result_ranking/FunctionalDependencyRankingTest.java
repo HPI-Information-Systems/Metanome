@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.FileFixtureFunctionalDependency;
+import de.metanome.backend.result_postprocessing.FileFixturePollutionTest;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_analyzer.FunctionalDependencyResultAnalyzer;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
@@ -165,6 +166,57 @@ public class FunctionalDependencyRankingTest {
     // Check
     assertEquals(0.0, result.getDeterminantUniquenessRatio(), 0.01);
     assertEquals(0.33, result.getDependantUniquenessRatio(), 0.01);
+  }
+
+  @Test
+  public void testCalculatePollution() throws Exception {
+    // Set up
+    final FileFixturePollutionTest fileFixture = new FileFixturePollutionTest();
+    RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
+      @Override
+      public RelationalInput generateNewCopy() throws InputGenerationException {
+        try {
+          return fileFixture.getTestData();
+        } catch (InputIterationException e) {
+          return null;
+        }
+      }
+    };
+    String tableName = FileFixturePollutionTest.TABLE_NAME;
+    TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, new BitSet());
+    Map<String, TableInformation> pollutionTableInformation = new HashMap<>();
+    pollutionTableInformation.put(tableName, tableInformation);
+
+    FunctionalDependency fd1 = new FunctionalDependency(
+        new ColumnCombination(
+            new ColumnIdentifier(tableName, "B")),
+        new ColumnIdentifier(tableName, "C"));
+    FunctionalDependency fd2 = new FunctionalDependency(
+        new ColumnCombination(
+            new ColumnIdentifier(tableName, "B")),
+        new ColumnIdentifier(tableName, "E"));
+    List<FunctionalDependency> fds = new ArrayList<>();
+    fds.add(fd1);
+    fds.add(fd2);
+    List<RelationalInputGenerator> generators = new ArrayList<>();
+    generators.add(relationalInputGenerator);
+
+    FunctionalDependencyResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(
+        generators, true);
+    List<FunctionalDependencyResult> functionalDependencyResults;
+    functionalDependencyResults = analyzer.convertResults(fds);
+    functionalDependencyResults = analyzer.extendDependantSide(functionalDependencyResults);
+
+    FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
+                                                                          pollutionTableInformation);
+    FunctionalDependencyResult result = functionalDependencyResults.get(1);
+
+    // Execute Functionality
+    ranking.calculatePollution(result);
+
+    // Check
+    assertEquals(0.2, result.getPollution(), 0.01);
+    assertEquals("D", result.getPollutionColumn());
   }
 
 }

@@ -175,6 +175,11 @@ public class FunctionalDependencyResultAnalyzerTest {
     ColumnCombination extendedDependant2 = new ColumnCombination(
         new ColumnIdentifier(tableName, "D"));
 
+    BitSet expectedBitSet = new BitSet(5);
+    expectedBitSet.set(2);
+    expectedBitSet.set(3);
+    expectedBitSet.set(4);
+
     // Execute
     List<FunctionalDependencyResult> actualResults = analyzer.extendDependantSide(this.results);
 
@@ -182,6 +187,7 @@ public class FunctionalDependencyResultAnalyzerTest {
     assertEquals(extendedDependant1, actualResults.get(0).getExtendedDependant());
     assertEquals(extendedDependant2, actualResults.get(1).getExtendedDependant());
     assertEquals(extendedDependant1, actualResults.get(2).getExtendedDependant());
+    assertEquals(expectedBitSet, actualResults.get(2).getExtendedDependantAsBitSet());
   }
 
 }

@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_ranking.FunctionalDependencyRanking;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
@@ -60,7 +61,8 @@ public class FunctionalDependencyResultAnalyzer
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
-      List<FunctionalDependency> prevResults) {
+      List<FunctionalDependency> prevResults)
+      throws InputGenerationException, InputIterationException {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
     if (!this.tableInformationMap.isEmpty()) {
@@ -133,8 +135,14 @@ public class FunctionalDependencyResultAnalyzer
    */
   public List<FunctionalDependencyResult> extendDependantSide(
       List<FunctionalDependencyResult> results) {
+    int columnCount = 0;
+    for (TableInformation tableInformation : this.tableInformationMap.values()) {
+      columnCount += tableInformation.getColumnCount();
+    }
+
     for (FunctionalDependencyResult curResult : results) {
       Set<ColumnIdentifier> extendedDependant = new HashSet<>();
+      BitSet extendedDependantBitSet = new BitSet(columnCount);
 
       // Go over all results and check if we can extend the current dependant or not
       for (FunctionalDependencyResult otherResult : results) {
@@ -146,6 +154,7 @@ public class FunctionalDependencyResultAnalyzer
         curBitSet.and(otherBitSet);
         if (curBitSet.equals(otherBitSet)) {
           extendedDependant.add(otherResult.getDependant());
+          extendedDependantBitSet.or(otherResult.getDependantAsBitSet());
         }
       }
 
@@ -153,6 +162,7 @@ public class FunctionalDependencyResultAnalyzer
       ColumnCombination combination = new ColumnCombination();
       combination.setColumnIdentifiers(extendedDependant);
       curResult.setExtendedDependant(combination);
+      curResult.setExtendedDependantAsBitSet(extendedDependantBitSet);
     }
 
     return results;

@@ -371,6 +371,10 @@ public class ColumnInformation {
     return bitSet;
   }
 
+  public int getColumnIndex() {
+    return columnIndex;
+  }
+
   /**
    * Defines different types of a column
    */

@@ -61,7 +61,8 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    *
    * @param results Results of the algorithm
    */
-  public List<R> analyzeResults(List<T> results) {
+  public List<R> analyzeResults(List<T> results)
+      throws InputGenerationException, InputIterationException {
     if (useDataIndependentStatistics) {
       return analyzeResultsDataIndependent(results);
     } else {
@@ -81,7 +82,8 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    *
    * @param prevResults Results of the algorithm
    */
-  protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults);
+  protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults)
+      throws InputGenerationException, InputIterationException;
 
   /**
    * Prints the results of postprocessing to file

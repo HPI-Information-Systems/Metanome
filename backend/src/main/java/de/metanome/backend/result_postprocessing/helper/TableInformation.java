@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -119,7 +120,14 @@ public class TableInformation {
   }
 
   public ColumnInformation getColumn(int columnIndex) {
-    return columnInformationMap.get(columnIndex);
+    Iterator iterator = columnInformationMap.values().iterator();
+    for (int i = 0; i <= this.columnCount; i++) {
+      ColumnInformation columnInformation = (ColumnInformation) iterator.next();
+      if (columnInformation.getColumnIndex() == columnIndex) {
+        return columnInformation;
+      }
+    }
+    return null;
   }
 
   public Map<String, ColumnInformation> getColumnInformationMap() {
@@ -133,4 +141,5 @@ public class TableInformation {
   public BitSet getBitSet() {
     return bitSet;
   }
+
 }

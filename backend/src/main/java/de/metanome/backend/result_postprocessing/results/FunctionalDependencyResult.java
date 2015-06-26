@@ -62,6 +62,14 @@ public class FunctionalDependencyResult implements RankingResult {
   private float dependantUniquenessRatio = 0.0f;
   private float determinantUniquenessRatio = 0.0f;
 
+  // Describes the minimal ratio of tuples needed to change
+  // for increasing the dependant of the functional dependency
+  private float pollution;
+  // Describes the column which would be added to the dependant
+  // if the "polluted" tuples would be changed
+  private String pollutionColumn;
+
+
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
   @JsonIgnore
@@ -70,6 +78,9 @@ public class FunctionalDependencyResult implements RankingResult {
   @JsonIgnore
   @GwtIncompatible("Gwt does not support java.util.BitSet")
   protected BitSet dependantAsBitSet;
+  @JsonIgnore
+  @GwtIncompatible("Gwt does not support java.util.BitSet")
+  protected BitSet extendedDependantAsBitSet;
 
   // Needed for serialization
   public FunctionalDependencyResult() {
@@ -186,6 +197,22 @@ public class FunctionalDependencyResult implements RankingResult {
     this.determinantUniquenessRatio = determinantUniquenessRatio;
   }
 
+  public float getPollution() {
+    return pollution;
+  }
+
+  public void setPollution(float pollution) {
+    this.pollution = pollution;
+  }
+
+  public String getPollutionColumn() {
+    return pollutionColumn;
+  }
+
+  public void setPollutionColumn(String pollutionColumn) {
+    this.pollutionColumn = pollutionColumn;
+  }
+
   @JsonIgnore
   @GwtIncompatible("Gwt does not support java.util.BitSet")
   public BitSet getDeterminantAsBitSet() {
@@ -208,6 +235,18 @@ public class FunctionalDependencyResult implements RankingResult {
   @GwtIncompatible("Gwt does not support java.util.BitSet")
   public void setDependantAsBitSet(BitSet dependantAsBitSet) {
     this.dependantAsBitSet = dependantAsBitSet;
+  }
+
+  @JsonIgnore
+  @GwtIncompatible("Gwt does not support java.util.BitSet")
+  public BitSet getExtendedDependantAsBitSet() {
+    return extendedDependantAsBitSet;
+  }
+
+  @JsonIgnore
+  @GwtIncompatible("Gwt does not support java.util.BitSet")
+  public void setExtendedDependantAsBitSet(BitSet extendedDependantAsBitSet) {
+    this.extendedDependantAsBitSet = extendedDependantAsBitSet;
   }
 
   public boolean equals(Object obj) {
