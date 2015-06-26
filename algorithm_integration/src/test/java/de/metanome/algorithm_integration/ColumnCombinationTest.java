@@ -154,6 +154,30 @@ public class ColumnCombinationTest {
                     expectedColumnCombinationNotEquals.hashCode());
   }
 
+  @Test
+  public void testCompareTo() {
+    // Setup
+    ColumnIdentifier column11 = new ColumnIdentifier("table1", "column1");
+    ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
+    ColumnIdentifier column13 = new ColumnIdentifier("table3", "column4");
+    ColumnCombination
+        columnCombination1 =
+        new ColumnCombination(column12, column13, column11);
+    ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
+    ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
+    ColumnIdentifier column23 = new ColumnIdentifier("table3", "column2");
+    ColumnCombination
+        columnCombination2 =
+        new ColumnCombination(column21, column22, column23);
+
+    // Execute functionality
+    // Check result
+    assertTrue(columnCombination1.compareTo(columnCombination2) > 0);
+    assertTrue(columnCombination1.compareTo(columnCombination1) == 0);
+    assertTrue(columnCombination2.compareTo(columnCombination2) == 0);
+    assertTrue(columnCombination2.compareTo(columnCombination1) < 0);
+  }
+
   /**
    * Tests that the instances of {@link ColumnCombination} are serializable in GWT.
    */

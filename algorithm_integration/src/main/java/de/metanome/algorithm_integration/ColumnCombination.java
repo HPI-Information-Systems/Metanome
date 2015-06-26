@@ -18,13 +18,14 @@ package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * Represents column combinations.
  */
-public class ColumnCombination implements Serializable {
+public class ColumnCombination implements Serializable, Comparable {
 
   protected Set<ColumnIdentifier> columnIdentifiers;
 
@@ -71,6 +72,51 @@ public class ColumnCombination implements Serializable {
              + ((columnIdentifiers == null) ? 0 : columnIdentifiers
         .hashCode());
     return result;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    if (o instanceof ColumnCombination) {
+      ColumnCombination other = (ColumnCombination) o;
+
+      int lengthComparison = this.columnIdentifiers.size() - other.columnIdentifiers.size();
+      if (lengthComparison != 0) {
+        return lengthComparison;
+
+      } else {
+        Iterator<ColumnIdentifier> otherIterator = other.columnIdentifiers.iterator();
+        int equalCount = 0;
+        int negativeCount = 0;
+        int positiveCount = 0;
+
+        while (otherIterator.hasNext()) {
+          ColumnIdentifier currentOther = otherIterator.next();
+          // because the order of the single column values can differ,
+          // you have to compare all permutations
+          for (ColumnIdentifier currentThis : this.columnIdentifiers) {
+            int currentComparison = currentThis.compareTo(currentOther);
+            if (currentComparison == 0) {
+              equalCount++;
+            } else if (currentComparison > 0) {
+              positiveCount++;
+            } else if (currentComparison < 0) {
+              negativeCount++;
+            }
+          }
+        }
+
+        if (equalCount == this.columnIdentifiers.size()) {
+          return 0;
+        } else if (positiveCount > negativeCount) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    } else {
+      //and always last
+      return 1;
+    }
   }
 
   @Override
