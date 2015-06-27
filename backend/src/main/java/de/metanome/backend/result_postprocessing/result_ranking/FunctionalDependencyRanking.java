@@ -225,7 +225,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param PLIs    the position list indexes
    * @return the key error
    */
-  private float calculateKeyError(BitSet columns, Map<Integer, PositionListIndex> PLIs, long rowCount) {
+  protected float calculateKeyError(BitSet columns, Map<Integer, PositionListIndex> PLIs, long rowCount) {
     List<Integer> indexes = new ArrayList<>();
     for (int i = columns.nextSetBit(0); i != -1; i = columns.nextSetBit(i + 1)) {
       indexes.add(i);
@@ -240,13 +240,7 @@ public class FunctionalDependencyRanking extends Ranking {
       pli = pli.intersect(PLIs.get(indexes.get(i)));
     }
 
-    int clusterSize = pli.getClusters().size();
-
-    if (clusterSize == 0) {
-      return 0;
-    }
-
-    return rowCount - clusterSize;
+    return pli.getRawKeyError();
   }
 
 }
