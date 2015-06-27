@@ -151,7 +151,6 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
 
-
     // Pollution column
     TextColumn<FunctionalDependencyResult> pollutionColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
@@ -172,6 +171,26 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(pollutionColumnColumn, "Pollution Column*");
     columnNames.add(FunctionalDependencyResultComparator.POLLUTION_COLUMN);
 
+    // Information gain cell column
+    TextColumn<FunctionalDependencyResult> informationGainCellColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getInformationGainCells());
+      }
+    };
+    this.table.addColumn(informationGainCellColumn, "Information Gain Cell*");
+    columnNames.add(FunctionalDependencyResultComparator.INFORMATION_GAIN_CELL);
+
+
+    // Information gain byte column
+    TextColumn<FunctionalDependencyResult> informationGainByte = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getInformationGainBytes());
+      }
+    };
+    this.table.addColumn(informationGainByte, "Information Gain Byte*");
+    columnNames.add(FunctionalDependencyResultComparator.INFORMATION_GAIN_BYTE);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

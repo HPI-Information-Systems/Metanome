@@ -48,6 +48,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd1.setDeterminantUniquenessRatio(5.3f);
     fd1.setPollution(2.3f);
     fd1.setPollutionColumn("E");
+    fd1.setInformationGainCells(4.3f);
+    fd1.setInformationGainBytes(5.3f);
 
     ColumnCombination determinant2 = new ColumnCombination(new ColumnIdentifier("table1", "column4"));
     ColumnIdentifier dependant2 = new ColumnIdentifier("table1", "column3");
@@ -63,6 +65,8 @@ public class FunctionalDependencyResultComparatorTest {
     fd2.setDeterminantUniquenessRatio(3.3f);
     fd2.setPollution(1.2f);
     fd2.setPollutionColumn("D");
+    fd2.setInformationGainCells(3.2f);
+    fd2.setInformationGainBytes(2.2f);
   }
 
   @Test
@@ -254,6 +258,38 @@ public class FunctionalDependencyResultComparatorTest {
     FunctionalDependencyResultComparator resultComparator =
         new FunctionalDependencyResultComparator(
             FunctionalDependencyResultComparator.POLLUTION_COLUMN, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareInformationGainCellAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.INFORMATION_GAIN_CELL, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareInformationGainCellDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.INFORMATION_GAIN_CELL, false);
+    assertTrue(resultComparator.compare(fd1, fd2) < 0);
+  }
+
+  @Test
+  public void compareInformationGainByteAsc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.INFORMATION_GAIN_BYTE, true);
+    assertTrue(resultComparator.compare(fd1, fd2) > 0);
+  }
+
+  @Test
+  public void compareInformationGainByteDesc() {
+    FunctionalDependencyResultComparator resultComparator =
+        new FunctionalDependencyResultComparator(
+            FunctionalDependencyResultComparator.INFORMATION_GAIN_BYTE, false);
     assertTrue(resultComparator.compare(fd1, fd2) < 0);
   }
 
