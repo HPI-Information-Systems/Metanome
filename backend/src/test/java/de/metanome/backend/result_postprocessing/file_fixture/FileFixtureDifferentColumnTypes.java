@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing;
+package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

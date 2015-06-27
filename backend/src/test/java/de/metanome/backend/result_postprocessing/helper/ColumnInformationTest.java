@@ -19,8 +19,8 @@ package de.metanome.backend.result_postprocessing.helper;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.input.file.FileIterator;
-import de.metanome.backend.result_postprocessing.FileFixtureDifferentColumnTypes;
-import de.metanome.backend.result_postprocessing.FileFixtureUniqueColumn;
+import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureDifferentColumnTypes;
+import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureUniqueColumn;
 
 import org.junit.Test;
 
@@ -305,7 +305,7 @@ public class ColumnInformationTest {
                                                                 true);
 
     // Check
-    assertEquals(10.0, columnInformation.getInformationContent(3), 0.0);
+    assertEquals(80.0, columnInformation.getInformationContent(3), 0.0);
   }
 
 }

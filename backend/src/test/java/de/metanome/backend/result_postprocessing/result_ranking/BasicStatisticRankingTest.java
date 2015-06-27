@@ -22,7 +22,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.backend.result_postprocessing.FileFixtureGeneral;
+import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 

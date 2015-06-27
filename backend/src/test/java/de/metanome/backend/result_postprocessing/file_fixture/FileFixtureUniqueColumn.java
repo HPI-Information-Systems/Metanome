@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing;
+package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -26,17 +26,15 @@ import de.metanome.backend.input.file.FileIterator;
 
 import java.io.StringReader;
 
-public class FileFixtureFunctionalDependency {
+public class FileFixtureUniqueColumn {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
   protected static final char ESCAPE = '\\';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
-  protected static final boolean HAS_HEADER = true;
+  protected static final boolean HAS_HEADER = false;
   protected static final int SKIP_LINES = 0;
-
-  public static final String TABLE_NAME = "file_fd";
 
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
@@ -45,7 +43,7 @@ public class FileFixtureFunctionalDependency {
   public FileIterator getTestData(boolean skipDifferingLines)
       throws InputIterationException, InputGenerationException {
 
-    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput(TABLE_NAME)
+    ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("unique_file")
         .setSeparatorChar(String.valueOf(SEPARATOR))
         .setHeader(HAS_HEADER)
         .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
@@ -57,33 +55,24 @@ public class FileFixtureFunctionalDependency {
         .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator(
-        TABLE_NAME,
+        "unique_file",
         new StringReader(
-            Joiner.on(',').join(getLineOne()) + "\n" +
-            Joiner.on(',').join(getLineTwo()) + "\n" +
             Joiner.on(',').join(getLineThree()) + "\n" +
-            Joiner.on(',').join(getLineFour()) + "\n"),
+            Joiner.on(',').join(getLineOne()) + "\n" +
+            Joiner.on(',').join(getLineTwo()) + "\n"),
         setting);
   }
 
   public ImmutableList<String> getLineOne() {
-    return ImmutableList.of("A", "B", "C", "D", "E");
+    return ImmutableList.of("one", "1");
   }
 
   public ImmutableList<String> getLineTwo() {
-    return ImmutableList.of("1", "2", "4", "3", "e");
+    return ImmutableList.of("six", "2");
   }
 
   public ImmutableList<String> getLineThree() {
-    return ImmutableList.of("2", "2", "3", "3", "e");
-  }
-
-  public ImmutableList<String> getLineFour() {
-    return ImmutableList.of("2", "3", "5", "5", "e");
-  }
-
-  public ImmutableList<String> getLineFive() {
-    return ImmutableList.of("2", "3", "5", "5", "f");
+    return ImmutableList.of("four", "1");
   }
 
 }

@@ -33,7 +33,7 @@ public class ColumnInformation {
     sizes.put(ColumnInformation.ColumnType.DATE_COLUMN, 4);
     sizes.put(ColumnInformation.ColumnType.FLOAT_COLUMN, 4);
     sizes.put(ColumnInformation.ColumnType.INTEGER_COLUMN, 4);
-    sizes.put(ColumnInformation.ColumnType.STRING_COLUMN, 1);
+    sizes.put(ColumnInformation.ColumnType.STRING_COLUMN, 8);
 
     contentSizes = Collections.unmodifiableMap(sizes);
   }
@@ -328,7 +328,7 @@ public class ColumnInformation {
   }
 
   /**
-   * TODO docs
+   * Calculates the bytes needed by the column for the given number of rows.
    */
   public long getInformationContent(long rows) {
     float factor = contentSizes.get(this.columnType);

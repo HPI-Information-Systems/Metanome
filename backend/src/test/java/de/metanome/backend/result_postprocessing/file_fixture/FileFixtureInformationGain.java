@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing;
+package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +26,7 @@ import de.metanome.backend.input.file.FileIterator;
 
 import java.io.StringReader;
 
-public class FileFixturePollution {
+public class FileFixtureInformationGain {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
@@ -36,7 +36,7 @@ public class FileFixturePollution {
   protected static final boolean HAS_HEADER = true;
   protected static final int SKIP_LINES = 0;
 
-  public static final String TABLE_NAME = "file_pollution";
+  public static final String TABLE_NAME = "file_informationGain";
 
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
@@ -63,32 +63,28 @@ public class FileFixturePollution {
             Joiner.on(',').join(getLineTwo())   + "\n" +
             Joiner.on(',').join(getLineThree()) + "\n" +
             Joiner.on(',').join(getLineFour())  + "\n" +
-            Joiner.on(',').join(getLineFive())  + "\n" +
-            Joiner.on(',').join(getLineSix())),
+            Joiner.on(',').join(getLineFive())),
         setting);
   }
 
   public ImmutableList<String> getLineOne() {
-    return ImmutableList.of("A", "B", "C", "D", "E");
+    return ImmutableList.of("A", "B", "C");
   }
 
   public ImmutableList<String> getLineTwo() {
-    return ImmutableList.of("1", "1", "0", "2", "0");
+    return ImmutableList.of("1", "1", "a");
   }
 
   public ImmutableList<String> getLineThree() {
-    return ImmutableList.of("2", "2", "0", "1", "1");
+    return ImmutableList.of("2", "2", "b");
   }
 
   public ImmutableList<String> getLineFour() {
-    return ImmutableList.of("3", "1", "0", "1", "0");
+    return ImmutableList.of("3", "3", "b");
   }
 
   public ImmutableList<String> getLineFive() {
-    return ImmutableList.of("4", "2", "0", "2", "1");
-  }
-
-  public ImmutableList<String> getLineSix() { return ImmutableList.of("5", "2", "0", "1", "1");
+    return ImmutableList.of("4", "1", "a");
   }
 
 }

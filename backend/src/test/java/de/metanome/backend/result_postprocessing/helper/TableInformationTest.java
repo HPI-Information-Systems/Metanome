@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.backend.result_postprocessing.FileFixtureDifferentColumnTypes;
+import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureDifferentColumnTypes;
 
 import org.junit.Test;
 
@@ -79,7 +79,7 @@ public class TableInformationTest {
     assertEquals(4, tableInformation.getColumnInformationMap().size());
     assertNotNull(tableInformation.getRelationalInputGenerator());
     assertEquals(11, tableInformation.getRowCount());
-    assertEquals(190, tableInformation.getInformationContent());
+    assertEquals(904, tableInformation.getInformationContent());
     assertEquals(expectedBitSet, tableInformation.getBitSet());
   }
 

@@ -21,12 +21,14 @@ import de.metanome.algorithm_helper.data_structures.PositionListIndex;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
+import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,7 +80,17 @@ public class FunctionalDependencyRanking extends Ranking {
       calculateGeneralCoverage(result);
       calculateOccurrenceRatios(result);
       calculateUniquenessRatios(result);
-      calculatePollution(result);
+
+      // The pollution rank and information gain are
+      // only defined on one table
+      if (this.tableInformationMap.size() == 1) {
+        TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+        Map<Integer, PositionListIndex> PLIs = createPLIs(tableInformation);
+
+        calculatePollution(result, tableInformation, PLIs);
+        calculateInformationGainCells(result, tableInformation, PLIs);
+        calculateInformationGainBytes(result, tableInformation, PLIs);
+      }
     }
   }
 
@@ -163,13 +175,10 @@ public class FunctionalDependencyRanking extends Ranking {
    *
    * @param result the functional dependency result
    */
-  protected void calculatePollution(FunctionalDependencyResult result)
+  protected void calculatePollution(FunctionalDependencyResult result,
+                                    TableInformation tableInformation,
+                                    Map<Integer, PositionListIndex> PLIs)
       throws InputGenerationException, InputIterationException {
-    // The pollution rank for functional dependencies over multiple tables is not defined.
-    if (this.tableInformationMap.size() != 1) {
-      return;
-    }
-
     // Ignore functional dependencies which are already determine all columns
     if (result.getGeneralCoverage() == 1.0) {
       result.setPollution(0.0f);
@@ -177,24 +186,11 @@ public class FunctionalDependencyRanking extends Ranking {
       return;
     }
 
-    int index = 0;
-    Map<Integer, PositionListIndex> allPLIs = new HashMap<>();
-
-    // Calculate the PLIs for all tables
-    TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
-    PLIBuilder pliBuilder = new PLIBuilder(tableInformation.getRelationalInputGenerator().generateNewCopy());
-    List<PositionListIndex> PLIs = pliBuilder.getPLIList();
-    for (PositionListIndex PLI : PLIs) {
-      allPLIs.put(index, PLI);
-      index++;
-    }
-
     // Determine all columns which should be checked as possible dependants
     BitSet candidateSet = new BitSet(tableInformation.getColumnCount());
     candidateSet.or(result.getExtendedDependantAsBitSet());
     candidateSet.or(result.getDeterminantAsBitSet());
     candidateSet.flip(0, tableInformation.getColumnCount());
-
 
     // Get the minimal key error
     float minKeyError = -1;
@@ -206,8 +202,9 @@ public class FunctionalDependencyRanking extends Ranking {
       BitSet columnsToTest = (BitSet) result.getDeterminantAsBitSet().clone();
       columnsToTest.or(testColumn);
       // Calculate the key error
-      float keyError = Math.abs(calculateKeyError(columnsToTest, allPLIs,tableInformation.getRowCount()) -
-                                calculateKeyError(result.getDeterminantAsBitSet(), allPLIs, tableInformation.getRowCount()));
+      float keyError =
+          Math.abs(calculateKeyError(columnsToTest, PLIs) -
+                   calculateKeyError(result.getDeterminantAsBitSet(), PLIs));
       minKeyError = (minKeyError == -1) ? keyError : Math.min(minKeyError, keyError);
       // Set the name of the minimal polluted column
       if (minKeyError == keyError) {
@@ -220,19 +217,21 @@ public class FunctionalDependencyRanking extends Ranking {
   }
 
   /**
-   * Calculates the key error for the given columns using the given PLIs.
+   * Calculates the key error for the given columns using the given PLIs. The key error is equal to
+   * the number of entries, which has to be removed, so that the columns become unique.
+   *
    * @param columns the columns as BitSet
    * @param PLIs    the position list indexes
    * @return the key error
    */
-  protected float calculateKeyError(BitSet columns, Map<Integer, PositionListIndex> PLIs, long rowCount) {
+  protected long calculateKeyError(BitSet columns, Map<Integer, PositionListIndex> PLIs) {
     List<Integer> indexes = new ArrayList<>();
     for (int i = columns.nextSetBit(0); i != -1; i = columns.nextSetBit(i + 1)) {
       indexes.add(i);
     }
 
     if (indexes.isEmpty()) {
-      return 0.0f;
+      return 0L;
     }
 
     PositionListIndex pli = PLIs.get(indexes.get(0));
@@ -241,6 +240,117 @@ public class FunctionalDependencyRanking extends Ranking {
     }
 
     return pli.getRawKeyError();
+  }
+
+  /**
+   * Calculates the information gain of the given functional dependency in cells. How many cells can
+   * be removed, when using the functional dependency for normalization?
+   *
+   * @param result           the result
+   * @param tableInformation the table
+   * @param PLIs             the position list indices for each column
+   */
+  protected void calculateInformationGainCells(FunctionalDependencyResult result,
+                                             TableInformation tableInformation,
+                                             Map<Integer, PositionListIndex> PLIs) {
+    long rowCount = tableInformation.getRowCount();
+    long columnCount = tableInformation.getColumnCount();
+    int determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
+    int dependantColumnCount = result.getExtendedDependant().getColumnIdentifiers().size();
+
+    // Calculate the cell count of the original table
+    long cellCountTable = columnCount * rowCount;
+
+    // Normalizing the table using the given functional dependency:
+    // The original table lose the dependant columns
+    long cellCountWithoutDependant = (columnCount - dependantColumnCount) * rowCount;
+
+    // Calculate the number of cells in the new "determinant-dependant" table
+    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet(), PLIs);
+    long cellCountNewTable = (dependantColumnCount + determinantColumnCount) * uniqueRowsCount;
+
+    // Store the information gain in the ranking structure
+    result
+        .setInformationGainCells(cellCountTable - (cellCountWithoutDependant + cellCountNewTable));
+  }
+
+  /**
+   * Calculates the information gain of the given functional dependency in bytes. How many bytes can
+   * be saved, when using the functional dependency for normalization?
+   *
+   * @param result           the result
+   * @param tableInformation the table
+   * @param PLIs             the position list indices for each column
+   */
+  protected void calculateInformationGainBytes(FunctionalDependencyResult result,
+                                             TableInformation tableInformation,
+                                             Map<Integer, PositionListIndex> PLIs) {
+    long rowCount = tableInformation.getRowCount();
+
+    // Get the information content of the whole table in bytes
+    long informationGainTable = tableInformation.getInformationContent();
+
+    Map<String, ColumnInformation>
+        columnInformationMap =
+        tableInformation.getColumnInformationMap();
+    Set<String> dependantColumnNames = new HashSet<>();
+    for (ColumnIdentifier column : result.getExtendedDependant().getColumnIdentifiers()) {
+      dependantColumnNames.add(column.getColumnIdentifier());
+    }
+
+    // Normalizing the table using the given functional dependency:
+    // The original table lose the dependant columns
+    // Get the information gain for this new table
+    long informationGainTableWithoutDependant = 0L;
+    for (String columnName : columnInformationMap.keySet()) {
+      if (!dependantColumnNames.contains(columnName)) {
+        informationGainTableWithoutDependant +=
+            columnInformationMap.get(columnName).getInformationContent(rowCount);
+      }
+    }
+
+    // Calculate the information gain in the new "determinant-dependant" table
+    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet(), PLIs);
+    long informationGainNewTable = 0L;
+    for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
+      informationGainNewTable +=
+          columnInformationMap.get(column.getColumnIdentifier())
+              .getInformationContent(uniqueRowsCount);
+    }
+    for (ColumnIdentifier column : result.getExtendedDependant().getColumnIdentifiers()) {
+      informationGainNewTable +=
+          columnInformationMap.get(column.getColumnIdentifier())
+              .getInformationContent(uniqueRowsCount);
+    }
+
+    // Store the information gain in the result
+    result.setInformationGainBytes(informationGainTable -
+                                   (informationGainTableWithoutDependant
+                                    + informationGainNewTable));
+  }
+
+  /**
+   * Creates the position list indices for the given table.
+   *
+   * @param tableInformation the table
+   * @return a map containing for each column its position list index
+   */
+  protected Map<Integer, PositionListIndex> createPLIs(TableInformation tableInformation)
+      throws InputGenerationException, InputIterationException {
+    int index = 0;
+    Map<Integer, PositionListIndex> pliList = new HashMap<>();
+
+    PLIBuilder pliBuilder =
+        new PLIBuilder(tableInformation.getRelationalInputGenerator().generateNewCopy());
+    List<PositionListIndex> PLIs = pliBuilder.getPLIList();
+
+    for (PositionListIndex PLI : PLIs) {
+      pliList.put(index, PLI);
+      index++;
+    }
+
+    return pliList;
+
   }
 
 }

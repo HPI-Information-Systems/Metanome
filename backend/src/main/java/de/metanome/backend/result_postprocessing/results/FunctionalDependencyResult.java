@@ -69,6 +69,12 @@ public class FunctionalDependencyResult implements RankingResult {
   // if the "polluted" tuples would be changed
   private String pollutionColumn = "";
 
+  // Approximate number of bytes, which can be saved,
+  // when using the functional dependency for normalization
+  private float informationGainBytes;
+  // Approximate number of cells, which can be saved,
+  // when using the functional dependency for normalization
+  private float informationGainCells;
 
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
@@ -211,6 +217,22 @@ public class FunctionalDependencyResult implements RankingResult {
 
   public void setPollutionColumn(String pollutionColumn) {
     this.pollutionColumn = pollutionColumn;
+  }
+
+  public float getInformationGainBytes() {
+    return informationGainBytes;
+  }
+
+  public void setInformationGainBytes(float informationGainBytes) {
+    this.informationGainBytes = informationGainBytes;
+  }
+
+  public float getInformationGainCells() {
+    return informationGainCells;
+  }
+
+  public void setInformationGainCells(float informationGainCells) {
+    this.informationGainCells = informationGainCells;
   }
 
   @JsonIgnore

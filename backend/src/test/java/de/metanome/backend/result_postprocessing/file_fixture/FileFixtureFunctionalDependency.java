@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing;
+package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -26,17 +26,17 @@ import de.metanome.backend.input.file.FileIterator;
 
 import java.io.StringReader;
 
-public class FileFixtureGeneral {
+public class FileFixtureFunctionalDependency {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
   protected static final char ESCAPE = '\\';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
-  protected static final boolean HAS_HEADER = false;
+  protected static final boolean HAS_HEADER = true;
   protected static final int SKIP_LINES = 0;
 
-  public static final String TABLE_NAME = "general_file";
+  public static final String TABLE_NAME = "file_fd";
 
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
@@ -67,18 +67,23 @@ public class FileFixtureGeneral {
   }
 
   public ImmutableList<String> getLineOne() {
-    return ImmutableList.of("1", "1", "1", "one");
+    return ImmutableList.of("A", "B", "C", "D", "E");
   }
 
   public ImmutableList<String> getLineTwo() {
-    return ImmutableList.of("2", "2", "2", "one");
+    return ImmutableList.of("1", "2", "4", "3", "e");
   }
 
-  public ImmutableList<String> getLineThree() { return ImmutableList.of("3", "2", "1", "two");
+  public ImmutableList<String> getLineThree() {
+    return ImmutableList.of("2", "2", "3", "3", "e");
   }
 
   public ImmutableList<String> getLineFour() {
-    return ImmutableList.of("4", "3", "2", "one");
+    return ImmutableList.of("2", "3", "5", "5", "e");
+  }
+
+  public ImmutableList<String> getLineFive() {
+    return ImmutableList.of("2", "3", "5", "5", "f");
   }
 
 }
