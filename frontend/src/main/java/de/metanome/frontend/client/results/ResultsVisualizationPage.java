@@ -117,6 +117,7 @@ public class ResultsVisualizationPage extends FlowPanel implements TabContent {
   }
 
   private void showFunctionalDependencyVisualization() {
+    this.getElement().setId("visualizationTab");
     final Frame visualizationFrame = new Frame();
     final ListBox listBox = new ListBox();
     listBox.addItem("Sunburst", "ZoomableSunburst.html");

@@ -23,6 +23,9 @@ import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 import de.metanome.backend.result_postprocessing.visualization.JSONPrinter;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,9 +79,9 @@ public class UniqueColumnCombinationVisualization {
       currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
 
       // Print data for visualization to files
-      JSONPrinter.printCluster(currentPath + "/UCCClusters.json", kMeans.getClusterInformation());
-      JSONPrinter.printClusterData(currentPath + "/UCCData.json", kMeans.getClusters());
-      JSONPrinter.printColumnCombinations(
+      printCluster(currentPath + "/UCCClusters.json", kMeans.getClusterInformation());
+      printClusterData(currentPath + "/UCCData.json", kMeans.getClusters());
+      printColumnCombinations(
           currentPath + "/UCCHistograms.json",
           getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
     }
@@ -165,5 +168,107 @@ public class UniqueColumnCombinationVisualization {
     }
     return columnCombinationUniqueness;
   }
+
+
+  /**
+   * Prints information about clusters to file.
+   *
+   * @param filePath File path to the output file
+   * @param clusters List of clusters
+   */
+  @SuppressWarnings("unchecked")
+  public void printCluster(String filePath,
+                                  List<HashMap<String, Double>> clusters) {
+    JSONArray jsonCluster = new JSONArray();
+
+    for (int i = 0; i < clusters.size(); i++) {
+      HashMap<String, Double> info = clusters.get(i);
+      JSONObject jsonEntry = new JSONObject();
+
+      jsonEntry.put("ClusterNr", i);
+      for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
+        jsonEntry.put(infoEntry.getKey(), infoEntry.getValue());
+      }
+      jsonCluster.add(jsonEntry);
+    }
+
+    JSONPrinter.writeToFile(filePath, jsonCluster);
+  }
+
+  /**
+   * Prints the contained data of all clusters to file.
+   *
+   * @param filePath    File path to the output file
+   * @param clusterData Data of the cluster
+   */
+  @SuppressWarnings("unchecked")
+  public void printClusterData(String filePath,
+                                      List<List<UniqueColumnCombinationVisualizationData>> clusterData) {
+    JSONArray jsonData = new JSONArray();
+    int id = 0;
+
+    for (int i = 0; i < clusterData.size(); i++) {
+      List<UniqueColumnCombinationVisualizationData> dataList = clusterData.get(i);
+
+      for (UniqueColumnCombinationVisualizationData data : dataList) {
+        HashMap<String, Double> info = data.getValues();
+        JSONObject jsonEntry = new JSONObject();
+
+        //Insert Cluster Number
+        jsonEntry.put("ClusterNr", i);
+        //Insert UCC ID
+        jsonEntry.put("UCCid", id);
+
+        //Insert all info items
+        for (Map.Entry<String, Double> infoEntry : info.entrySet()) {
+          jsonEntry.put(infoEntry.getKey(), infoEntry.getValue());
+        }
+
+        jsonData.add(jsonEntry);
+        id++;
+      }
+    }
+    JSONPrinter.writeToFile(filePath, jsonData);
+  }
+
+
+  /**
+   * Prints the data of the cluster for a histogram.
+   *
+   * @param filePath File path to the output file
+   * @param clusters Clusters containing the information for plotting histograms
+   */
+  @SuppressWarnings("unchecked")
+  public void printColumnCombinations(String filePath,
+                                             List<List<HashMap<String, Double>>> clusters) {
+    JSONArray json = new JSONArray();
+    int id = 0;
+
+    for (List<HashMap<String, Double>> cluster : clusters) {
+      for (HashMap<String, Double> data : cluster) {
+        JSONObject entryJSON = new JSONObject();
+
+        // Insert UCC ID
+        entryJSON.put("UCCid", id);
+
+        // Insert Histogram Data
+        JSONArray jsonData = new JSONArray();
+
+        for (Map.Entry<String, Double> dataPoint : data.entrySet()) {
+          JSONObject jsonEntry = new JSONObject();
+          jsonEntry.put("Column Name", dataPoint.getKey());
+          jsonEntry.put("Uniqueness", dataPoint.getValue());
+          jsonData.add(jsonEntry);
+        }
+
+        entryJSON.put("histogramData", jsonData);
+        json.add(entryJSON);
+        id++;
+      }
+    }
+
+    JSONPrinter.writeToFile(filePath, json);
+  }
+
 
 }

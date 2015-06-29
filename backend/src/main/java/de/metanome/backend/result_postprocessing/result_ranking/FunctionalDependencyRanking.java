@@ -86,6 +86,7 @@ public class FunctionalDependencyRanking extends Ranking {
       if (this.tableInformationMap.size() == 1) {
         TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
         Map<Integer, PositionListIndex> PLIs = createPLIs(tableInformation);
+        tableInformation.setPLIs(PLIs);
 
         calculatePollution(result, tableInformation, PLIs);
         calculateInformationGainCells(result, tableInformation, PLIs);

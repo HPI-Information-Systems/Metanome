@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.helper;
 
+import de.metanome.algorithm_helper.data_structures.PositionListIndex;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -42,6 +43,8 @@ public class TableInformation {
   private RelationalInputGenerator relationalInputGenerator;
   // Unique bit set representing this table
   private BitSet bitSet;
+  // Map of the column indices to the corresponding position list index
+  private Map<Integer, PositionListIndex> PLIs;
 
   /**
    * Computes table metadata on the input data
@@ -142,4 +145,11 @@ public class TableInformation {
     return bitSet;
   }
 
+  public Map<Integer, PositionListIndex> getPLIs() {
+    return PLIs;
+  }
+
+  public void setPLIs(Map<Integer, PositionListIndex> PLIs) {
+    this.PLIs = PLIs;
+  }
 }

@@ -25,6 +25,7 @@ import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_ranking.FunctionalDependencyRanking;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
+import de.metanome.backend.result_postprocessing.visualization.FunctionalDependency.FunctionalDependencyVisualization;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -70,6 +71,14 @@ public class FunctionalDependencyResultAnalyzer
       FunctionalDependencyRanking ranking =
           new FunctionalDependencyRanking(results, tableInformationMap);
       ranking.calculateDataDependentRankings();
+    }
+
+    if (this.tableInformationMap.size() == 1) {
+      TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+      FunctionalDependencyVisualization
+          visualization =
+          new FunctionalDependencyVisualization(results, tableInformation);
+      visualization.createVisualizationData();
     }
 
     return results;
