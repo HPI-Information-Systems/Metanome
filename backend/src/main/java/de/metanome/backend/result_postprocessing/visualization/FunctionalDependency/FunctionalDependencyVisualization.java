@@ -79,14 +79,11 @@ public class FunctionalDependencyVisualization {
 
     // Add for each dependant column all its determinant columns to the map
     for (FunctionalDependencyResult result : results) {
-      ColumnCombination dependantColumns = result.getExtendedDependant();
-      for (ColumnIdentifier dependantColumn : dependantColumns.getColumnIdentifiers()) {
-        if (!dependantMap.containsKey(dependantColumn)) {
-          dependantMap.put(dependantColumn, new TreeSet<ColumnCombination>() {
-          });
-        }
-        dependantMap.get(dependantColumn).add(result.getDeterminant());
-      }
+      ColumnIdentifier dependantColumn = result.getDependant();
+      if (!dependantMap.containsKey(dependantColumn)) {
+        dependantMap.put(dependantColumn, new TreeSet<ColumnCombination>());
+      };
+      dependantMap.get(dependantColumn).add(result.getDeterminant());
     }
 
     return dependantMap;
@@ -123,7 +120,7 @@ public class FunctionalDependencyVisualization {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
 
       // Create a JSON for the dependant column
-      JSONObject dependantJSON = printRecursive(dependantColumn, determinants, -1, 0, determinants.size() - 1, "");
+      JSONObject dependantJSON = printRecursive(dependantColumn, determinants, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
       dependantJSON.put("name", dependantColumn.getColumnIdentifier());
@@ -144,14 +141,16 @@ public class FunctionalDependencyVisualization {
    * @return the prefix tree branch as JSON defined by the parameters
    */
   @SuppressWarnings("unchecked")
-  private JSONObject printRecursive(ColumnIdentifier dependant,
+  protected JSONObject printRecursive(ColumnIdentifier dependant,
                                     Set<ColumnCombination> determinants,
                                     int columnIndex,
-                                    int start,
-                                    int end,
+                                    int determinantStartIndex,
+                                    int determinantEndIndex,
                                     String columnName) {
     // Prepare the result structure
     JSONObject result = new JSONObject();
+    // Prepare the children array of the result
+    JSONArray children = new JSONArray();
 
     if (columnIndex >= 0) {
       result.put("name", columnName);
@@ -159,27 +158,26 @@ public class FunctionalDependencyVisualization {
       result.put("keyError", 1);
     }
 
-    // Prepare the children array of the result
-    JSONArray children = new JSONArray();
-
     // Add all columns of determinants at index 'columnIndex + 1'
-    ColumnIdentifier nextColumn = get(determinants, start, columnIndex + 1);
-    for (int i = start + 1; i < end; i++) {
+    ColumnIdentifier nextColumn = get(determinants, determinantStartIndex, columnIndex + 1);
+    int lastStart = determinantStartIndex;
+    for (int i = determinantStartIndex + 1; i < determinantEndIndex; i++) {
       ColumnIdentifier otherColumn = get(determinants, i, columnIndex + 1);
       if (otherColumn != null && !otherColumn.equals(nextColumn)) {
         if (nextColumn != null) {
           children.add(
-              printRecursive(dependant, determinants, columnIndex + 1, start, i - 1,otherColumn.getColumnIdentifier()));
+              printRecursive(dependant, determinants, columnIndex + 1, lastStart, i, nextColumn.getColumnIdentifier()));
         }
         nextColumn = otherColumn;
+        lastStart = i;
       }
     }
 
-    // Add the column at index 'columnIndex + 1' of the first determinant
-    ColumnIdentifier column = get(determinants, start, columnIndex + 1);
+    // Add the column at index 'columnIndex + 1' of the last determinant
+    ColumnIdentifier column = get(determinants, lastStart, columnIndex + 1);
     if (column != null) {
       children.add(
-          printRecursive(dependant, determinants, columnIndex + 1, start, end, column.getColumnIdentifier()));
+          printRecursive(dependant, determinants, columnIndex + 1, lastStart, determinantEndIndex, column.getColumnIdentifier()));
     }
 
     // Only add the children if they exist
