@@ -16,8 +16,10 @@
 
 package de.metanome.backend.result_postprocessing.visualization.FunctionalDependency;
 
+import de.metanome.algorithm_helper.data_structures.PositionListIndex;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 import de.metanome.backend.result_postprocessing.visualization.JSONPrinter;
@@ -120,7 +122,9 @@ public class FunctionalDependencyVisualization {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
 
       // Create a JSON for the dependant column
-      JSONObject dependantJSON = printRecursive(dependantColumn, determinants, -1, 0, determinants.size(), "");
+      List<Integer> path = new ArrayList<>();
+      path.add(this.tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getColumnIndex());
+      JSONObject dependantJSON = printRecursive(determinants, path, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
       dependantJSON.put("name", dependantColumn.getColumnIdentifier());
@@ -141,8 +145,8 @@ public class FunctionalDependencyVisualization {
    * @return the prefix tree branch as JSON defined by the parameters
    */
   @SuppressWarnings("unchecked")
-  protected JSONObject printRecursive(ColumnIdentifier dependant,
-                                    Set<ColumnCombination> determinants,
+  protected JSONObject printRecursive(Set<ColumnCombination> determinants,
+                                    List<Integer> path,
                                     int columnIndex,
                                     int determinantStartIndex,
                                     int determinantEndIndex,
@@ -153,9 +157,12 @@ public class FunctionalDependencyVisualization {
     JSONArray children = new JSONArray();
 
     if (columnIndex >= 0) {
+      ColumnInformation columnInformation = tableInformation.getColumnInformationMap().get(
+          columnName);
+      path.add(columnInformation.getColumnIndex());
       result.put("name", columnName);
-      result.put("size", tableInformation.getColumnInformationMap().get(columnName).getUniquenessRate());
-      result.put("keyError", 1);
+      result.put("size", columnInformation.getUniquenessRate());
+      result.put("keyError", calculateKeyError(path));
     }
 
     // Add all columns of determinants at index 'columnIndex + 1'
@@ -166,7 +173,7 @@ public class FunctionalDependencyVisualization {
       if (otherColumn != null && !otherColumn.equals(nextColumn)) {
         if (nextColumn != null) {
           children.add(
-              printRecursive(dependant, determinants, columnIndex + 1, lastStart, i, nextColumn.getColumnIdentifier()));
+              printRecursive(determinants, path, columnIndex + 1, lastStart, i, nextColumn.getColumnIdentifier()));
         }
         nextColumn = otherColumn;
         lastStart = i;
@@ -177,7 +184,7 @@ public class FunctionalDependencyVisualization {
     ColumnIdentifier column = get(determinants, lastStart, columnIndex + 1);
     if (column != null) {
       children.add(
-          printRecursive(dependant, determinants, columnIndex + 1, lastStart, determinantEndIndex, column.getColumnIdentifier()));
+          printRecursive(determinants, path, columnIndex + 1, lastStart, determinantEndIndex, column.getColumnIdentifier()));
     }
 
     // Only add the children if they exist
@@ -186,6 +193,16 @@ public class FunctionalDependencyVisualization {
     }
 
     return result;
+  }
+
+  private long calculateKeyError(List<Integer> path) {
+    Map<Integer, PositionListIndex> PLIs = this.tableInformation.getPLIs();
+    PositionListIndex pli = PLIs.get(path.get(0));
+    for (int i = 1; i < path.size(); i++) {
+      pli = pli.intersect(PLIs.get(path.get(i)));
+    }
+
+    return pli.getRawKeyError();
   }
 
   protected static ColumnIdentifier get(Set<ColumnCombination> columnCombinations, int index,
