@@ -35,19 +35,4 @@ public class StringHelper {
     return fileName;
   }
 
-  /**
-   * Removes brackets from the column name.
-   * @param columnName the column name
-   * @return the cleaned column name
-   */
-  public static String cleanColumnName(String columnName) {
-    if (columnName.startsWith("[")) {
-      columnName = columnName.substring(1, columnName.length());
-    }
-    if (columnName.endsWith("]")) {
-      columnName = columnName.substring(0, columnName.length() - 1);
-    }
-    return columnName;
-  }
-
 }

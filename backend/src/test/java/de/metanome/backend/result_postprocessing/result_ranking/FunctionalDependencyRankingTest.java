@@ -41,6 +41,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class FunctionalDependencyRankingTest {
 
@@ -252,6 +253,26 @@ public class FunctionalDependencyRankingTest {
   }
 
   @Test
+  public void testCreatePLIs() throws Exception {
+    // Set up
+    setUpPollution();
+    FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
+                                                                          tableInformationMap);
+    TableInformation tableInformation = tableInformationMap.values().iterator().next();
+
+    // Execute functionality
+    Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+
+    // Check
+    BitSet bitSet = new BitSet();
+    bitSet.set(0);
+    assertTrue(plis.containsKey(bitSet));
+    bitSet.clear();
+    bitSet.set(tableInformation.getColumnCount() - 1);
+    assertTrue(plis.containsKey(bitSet));
+  }
+
+  @Test
   public void testCalculatePollution() throws Exception {
     // Set up
     setUpPollution();
@@ -289,6 +310,7 @@ public class FunctionalDependencyRankingTest {
 
     // Check
     assertEquals(0.0, keyError, 0.00);
+    assertEquals(tableInformation.getColumnCount(), ranking.PLIs.keySet().size());
 
     // Execute Functionality
     columns = new BitSet(5);
@@ -298,6 +320,7 @@ public class FunctionalDependencyRankingTest {
 
     // Check
     assertEquals(0.0, keyError, 0.0001);
+    assertEquals(tableInformation.getColumnCount() + 1, ranking.PLIs.keySet().size());
 
     // Execute Functionality
     columns = new BitSet(5);
@@ -307,6 +330,7 @@ public class FunctionalDependencyRankingTest {
 
     // Check
     assertEquals(1.0, keyError, 0.0001);
+    assertEquals(tableInformation.getColumnCount() + 2, ranking.PLIs.keySet().size());
 
     // Execute Functionality
     columns = new BitSet(5);
@@ -316,6 +340,7 @@ public class FunctionalDependencyRankingTest {
 
     // Check
     assertEquals(3.0, keyError, 0.0001);
+    assertEquals(tableInformation.getColumnCount() + 3, ranking.PLIs.keySet().size());
   }
 
   @Test
