@@ -82,8 +82,4 @@ public class FileFixtureFunctionalDependency {
     return ImmutableList.of("2", "3", "5", "5", "e");
   }
 
-  public ImmutableList<String> getLineFive() {
-    return ImmutableList.of("2", "3", "5", "5", "f");
-  }
-
 }

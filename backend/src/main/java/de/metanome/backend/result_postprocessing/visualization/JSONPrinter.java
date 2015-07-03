@@ -19,8 +19,10 @@ package de.metanome.backend.result_postprocessing.visualization;
 import org.json.simple.JSONAware;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Allows to print result structures for visualizations as JSON to use them in D3 later.
@@ -46,6 +48,21 @@ public class JSONPrinter {
       fileWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Clear all the content in the given file.
+   *
+   * @param filePath the file path
+   */
+  public static void clearFile(String filePath) {
+    try {
+      PrintWriter writer = new PrintWriter(filePath);
+      writer.print("");
+      writer.close();
+    } catch (FileNotFoundException e) {
+      // File does not exists, can not be cleared.
     }
   }
 

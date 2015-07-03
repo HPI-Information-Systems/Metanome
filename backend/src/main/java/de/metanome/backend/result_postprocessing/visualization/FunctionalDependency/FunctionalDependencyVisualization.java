@@ -28,6 +28,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -41,51 +42,53 @@ import java.util.regex.Matcher;
 
 public class FunctionalDependencyVisualization {
 
-  private List<FunctionalDependencyResult> results;
-  private TableInformation tableInformation;
-
+  protected List<FunctionalDependencyResult> results;
+  protected TableInformation tableInformation;
+  protected String prefixTreeJsonFile;
 
   public FunctionalDependencyVisualization(List<FunctionalDependencyResult> results,
                                            TableInformation tableInformation) {
     this.results = results;
     this.tableInformation = tableInformation;
+
   }
 
   /**
-   * Creates all visualization data and writes them to disc.
+   * Creates all visualization data for functional dependencies and writes them to a file.
    */
-  public void createVisualizationData() {
+  public void createVisualizationData() throws FileNotFoundException {
+    // set the path to store the data
+    String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    String relativeVisualizationPath = "../../visualization/FDResultAnalyzer/";
+    this.prefixTreeJsonFile =
+        combinePaths(currentPath + relativeVisualizationPath, "PrefixTree.json");
+
+    // Clear the content of the json file
+    JSONPrinter.clearFile(this.prefixTreeJsonFile);
+
     // Create a map from a dependant to all its determinants
     Map<ColumnIdentifier, Set<ColumnCombination>>
-        dependantMap = createDependantMap(this.results);
-
-    // Get the storage directory path
-    String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        dependantMap = createDependantMap();
 
     // Print to JSON file
-    printFunctionalDependencyVisualizationData(
-        currentPath + "../../visualization/FDResultAnalyzer/",
-        this.results,
-        dependantMap,
-        this.tableInformation);
+    printFunctionalDependencyVisualizationData(dependantMap);
   }
 
   /**
    * Creates a reverted index on the functional dependency dependants.
    *
-   * @param results the functional dependencies
    * @return a mapping of each dependant to a sorted list of all its determinants
    */
-  private Map<ColumnIdentifier, Set<ColumnCombination>> createDependantMap(
-      List<FunctionalDependencyResult> results) {
+  protected Map<ColumnIdentifier, Set<ColumnCombination>> createDependantMap() {
     Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap = new HashMap<>();
 
     // Add for each dependant column all its determinant columns to the map
-    for (FunctionalDependencyResult result : results) {
+    for (FunctionalDependencyResult result : this.results) {
       ColumnIdentifier dependantColumn = result.getDependant();
       if (!dependantMap.containsKey(dependantColumn)) {
         dependantMap.put(dependantColumn, new TreeSet<ColumnCombination>());
-      };
+      }
+      ;
       dependantMap.get(dependantColumn).add(result.getDeterminant());
     }
 
@@ -95,37 +98,32 @@ public class FunctionalDependencyVisualization {
   /**
    * Prints the data for the visualization for functional dependencies.
    *
-   * @param filePath         the file
-   * @param results          the results
-   * @param dependantMap     the dependant map
-   * @param tableInformation the table information
+   * @param dependantMap the dependant map
    */
   @SuppressWarnings("unchecked")
-  public void printFunctionalDependencyVisualizationData(String filePath,
-                                                         List<FunctionalDependencyResult> results,
-                                                         Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap,
-                                                         TableInformation tableInformation) {
+  public void printFunctionalDependencyVisualizationData(
+      Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap) {
 
-    // Table name should be the root
+    // table name should be the root
     JSONObject root = new JSONObject();
     root.put("name", tableInformation.getTableName());
-    //store table size in root to show it in keyError
+    // store table size in root to show it in keyError
     root.put("tableSize", tableInformation.getRowCount());
 
-    // Build tree for each dependant column
+    // build tree for each dependant column
     JSONArray rootChildren = new JSONArray();
 
-    // Sort the dependant columns based on their index
+    // sort the dependant columns
     List<ColumnIdentifier> dependantColumns = new ArrayList<>(dependantMap.keySet());
     Collections.sort(dependantColumns);
 
     for (ColumnIdentifier dependantColumn : dependantColumns) {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
+      BitSet dependantAsBitSet = tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getBitSet();
 
-      // Create a JSON for the dependant column
+      // create a JSON for the dependant column
       BitSet path = new BitSet();
-      path.set(this.tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getColumnIndex());
-      JSONObject dependantJSON = printRecursive(determinants, path, -1, 0, determinants.size(), "");
+      JSONObject dependantJSON = printRecursive(dependantAsBitSet, determinants, path, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
       dependantJSON.put("name", dependantColumn.getColumnIdentifier());
@@ -135,23 +133,30 @@ public class FunctionalDependencyVisualization {
 
     root.put("children", rootChildren);
 
-    filePath = combinePaths(filePath, "PrefixTree.json");
-    JSONPrinter.writeToFile(filePath, root);
+    JSONPrinter.writeToFile(this.prefixTreeJsonFile, root);
   }
 
-
   /**
-   * Recursive helper function for printing prefix trees as JSON
+   * Recursive helper function for printing prefix trees as JSON.
+   * The resulting JSON should look like this:
+   * dependant
+   *   - first column of first determinant
+   *       - second column of first determinant
+   *       - third column of first determinant
+   *   - first column of second determinant
+   *   - first column of third determinant
+   *       - second column of third determinant
    *
    * @return the prefix tree branch as JSON defined by the parameters
    */
   @SuppressWarnings("unchecked")
-  protected JSONObject printRecursive(Set<ColumnCombination> determinants,
-                                    BitSet path,
-                                    int columnIndex,
-                                    int determinantStartIndex,
-                                    int determinantEndIndex,
-                                    String columnName) {
+  protected JSONObject printRecursive(BitSet dependant,
+                                      Set<ColumnCombination> determinants,
+                                      BitSet path,
+                                      int columnIndex,
+                                      int determinantStartIndex,
+                                      int determinantEndIndex,
+                                      String columnName) {
     // Prepare the result structure
     JSONObject result = new JSONObject();
     // Prepare the children array of the result
@@ -163,18 +168,20 @@ public class FunctionalDependencyVisualization {
       path.set(columnInformation.getColumnIndex());
       result.put("name", columnName);
       result.put("size", columnInformation.getUniquenessRate());
-      result.put("keyError", calculateKeyError(path));
+      result.put("keyError",  Math.abs(calculateKeyError(path) - calculateKeyError(path, dependant)));
     }
 
     // Add all columns of determinants at index 'columnIndex + 1'
-    ColumnIdentifier nextColumn = get(determinants, determinantStartIndex, columnIndex + 1);
+    ColumnIdentifier nextColumn = getColumnIdentifier(determinants, determinantStartIndex,
+                                                      columnIndex + 1);
     int lastStart = determinantStartIndex;
     for (int i = determinantStartIndex + 1; i < determinantEndIndex; i++) {
-      ColumnIdentifier otherColumn = get(determinants, i, columnIndex + 1);
+      ColumnIdentifier otherColumn = getColumnIdentifier(determinants, i, columnIndex + 1);
       if (otherColumn != null && !otherColumn.equals(nextColumn)) {
         if (nextColumn != null) {
           children.add(
-              printRecursive(determinants, path, columnIndex + 1, lastStart, i, nextColumn.getColumnIdentifier()));
+              printRecursive(dependant, determinants, path, columnIndex + 1, lastStart, i,
+                             nextColumn.getColumnIdentifier()));
         }
         nextColumn = otherColumn;
         lastStart = i;
@@ -182,10 +189,11 @@ public class FunctionalDependencyVisualization {
     }
 
     // Add the column at index 'columnIndex + 1' of the last determinant
-    ColumnIdentifier column = get(determinants, lastStart, columnIndex + 1);
+    ColumnIdentifier column = getColumnIdentifier(determinants, lastStart, columnIndex + 1);
     if (column != null) {
       children.add(
-          printRecursive(determinants, path, columnIndex + 1, lastStart, determinantEndIndex, column.getColumnIdentifier()));
+          printRecursive(dependant, determinants, path, columnIndex + 1, lastStart, determinantEndIndex,
+                         column.getColumnIdentifier()));
     }
 
     // Only add the children if they exist
@@ -196,17 +204,39 @@ public class FunctionalDependencyVisualization {
     return result;
   }
 
-  private long calculateKeyError(BitSet path) {
+
+  /**
+   * Combines the bit sets of the determinants and dependant and calls
+   * calculate key error.
+   * @param determinants the determinants as bit set
+   * @param dependant    the dependant as bit set
+   * @return the key error
+   */
+  private long calculateKeyError(BitSet determinants, BitSet dependant) {
+    BitSet bitSet = (BitSet) determinants.clone();
+    bitSet.set(dependant.nextSetBit(0));
+    return calculateKeyError(bitSet);
+  }
+
+  /**
+   * Calculates the key error for the given columns using the PLIs of the table.
+   * The key error is equal to the number of entries, which has to be removed,
+   * so that the columns become unique.
+   *
+   * @param columnBitSet the columns as bit set
+   * @return the key error
+   */
+  private long calculateKeyError(BitSet columnBitSet) {
     Map<BitSet, PositionListIndex> PLIs = this.tableInformation.getPLIs();
 
     // the PLI already exists
-    if (PLIs.containsKey(path)) {
-      return PLIs.get(path).getRawKeyError();
+    if (PLIs.containsKey(columnBitSet)) {
+      return PLIs.get(columnBitSet).getRawKeyError();
     }
 
     // get all individual columns as bit set
     List<BitSet> columns = new ArrayList<>();
-    for (int i = path.nextSetBit(0); i != -1; i = path.nextSetBit(i + 1)) {
+    for (int i = columnBitSet.nextSetBit(0); i != -1; i = columnBitSet.nextSetBit(i + 1)) {
       BitSet bitSet = new BitSet();
       bitSet.set(i);
       columns.add(bitSet);
@@ -217,29 +247,10 @@ public class FunctionalDependencyVisualization {
     for (int i = 1; i < columns.size(); i++) {
       pli = pli.intersect(PLIs.get(columns.get(i)));
     }
-    PLIs.put(path, pli);
+    PLIs.put(columnBitSet, pli);
     this.tableInformation.setPLIs(PLIs);
 
     return pli.getRawKeyError();
-  }
-
-  protected static ColumnIdentifier get(Set<ColumnCombination> columnCombinations, int index,
-                               int columnIndex) {
-    int curIndex = -1;
-    for (ColumnCombination combination : columnCombinations) {
-      curIndex++;
-      if (curIndex != index) {
-        continue;
-      }
-      int curColumnIndex = -1;
-      for (ColumnIdentifier columnIdentifier : combination.getColumnIdentifiers()) {
-        curColumnIndex++;
-        if (curColumnIndex == columnIndex)
-          return columnIdentifier;
-      }
-    }
-
-    return null;
   }
 
   /**
@@ -279,5 +290,32 @@ public class FunctionalDependencyVisualization {
     return correctDirPath + File.separator + correctFilePath;
   }
 
+  /**
+   * Gets the column identifier on given index of the column combination, which
+   * is at the given index of the given set.
+   * @param columnCombinations the column combinations
+   * @param index              the index of the column combination in the set
+   * @param columnIndex        the index of the column in the column combination
+   * @return the required column identifier
+   */
+  protected ColumnIdentifier getColumnIdentifier(Set<ColumnCombination> columnCombinations, int index,
+                                                 int columnIndex) {
+    int curIndex = -1;
+    for (ColumnCombination combination : columnCombinations) {
+      curIndex++;
+      if (curIndex != index) {
+        continue;
+      }
+      int curColumnIndex = -1;
+      for (ColumnIdentifier columnIdentifier : combination.getColumnIdentifiers()) {
+        curColumnIndex++;
+        if (curColumnIndex == columnIndex) {
+          return columnIdentifier;
+        }
+      }
+    }
+
+    return null;
+  }
 
 }

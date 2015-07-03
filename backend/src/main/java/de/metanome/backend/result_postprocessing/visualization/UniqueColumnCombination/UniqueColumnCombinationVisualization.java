@@ -26,6 +26,7 @@ import de.metanome.backend.result_postprocessing.visualization.JSONPrinter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,12 +56,24 @@ public class UniqueColumnCombinationVisualization {
       columnUniqueness.put(column.getColumnName(),
                            (double) column.getDistinctValuesCount() / rowCount);
     }
+
   }
 
   /**
    * Creates all visualization data and writes them to disc.
    */
-  public void createVisualizationData() {
+  public void createVisualizationData() throws FileNotFoundException {
+    // Get file paths
+    String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
+    String clusterFile = currentPath + "/UCCClusters.json";
+    String dataFile = currentPath + "/UCCData.json";
+    String histogramFile = currentPath + "/UCCHistograms.json";
+
+    JSONPrinter.clearFile(clusterFile);
+    JSONPrinter.clearFile(clusterFile);
+    JSONPrinter.clearFile(clusterFile);
+
     // Convert results into visualization results
     List<UniqueColumnCombinationVisualizationData> visualizationResults = new LinkedList<>();
     for (UniqueColumnCombinationResult result : this.results) {
@@ -74,15 +87,10 @@ public class UniqueColumnCombinationVisualization {
       KMeans kMeans = new KMeans();
       kMeans.cluster(visualizationResults);
 
-      // Get the storage directory path
-      String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-      currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
-
       // Print data for visualization to files
-      printCluster(currentPath + "/UCCClusters.json", kMeans.getClusterInformation());
-      printClusterData(currentPath + "/UCCData.json", kMeans.getClusters());
-      printColumnCombinations(
-          currentPath + "/UCCHistograms.json",
+      printCluster(clusterFile, kMeans.getClusterInformation());
+      printClusterData(dataFile, kMeans.getClusters());
+      printColumnCombinations(histogramFile,
           getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
     }
 

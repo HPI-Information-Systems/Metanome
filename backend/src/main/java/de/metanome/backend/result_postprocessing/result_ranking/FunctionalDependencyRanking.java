@@ -342,7 +342,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param tableInformation the table
    * @return a map containing for each column its position list index
    */
-  protected Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
+  public Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
       throws InputGenerationException, InputIterationException {
     Map<BitSet, PositionListIndex> pliList = new HashMap<>();
 
