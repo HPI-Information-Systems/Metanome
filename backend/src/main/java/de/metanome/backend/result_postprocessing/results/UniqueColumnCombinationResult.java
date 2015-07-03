@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 
 /**
  * Represents an unique column combination result with different ranking values.
@@ -59,9 +60,9 @@ public class UniqueColumnCombinationResult implements RankingResult {
   public UniqueColumnCombinationResult(UniqueColumnCombination result) {
     this.result = result;
     if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
-      this.tableName =
+      this.tableName = StringHelper.removeFileEnding(
           result.getColumnCombination().getColumnIdentifiers().iterator().next()
-              .getTableIdentifier();
+              .getTableIdentifier());
     } else {
       this.tableName = "";
     }

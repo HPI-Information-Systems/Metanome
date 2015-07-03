@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public abstract class Ranking {
    */
   protected void updateOccurrenceList(ColumnIdentifier column) {
     String columnName = column.getColumnIdentifier();
-    String tableName = column.getTableIdentifier();
+    String tableName = StringHelper.removeFileEnding(column.getTableIdentifier());
 
     Map<String, Integer> subMap = this.occurrenceMap.get(tableName);
     Integer oldValue = subMap.get(columnName);
@@ -92,7 +93,8 @@ public abstract class Ranking {
                                            String tableName) {
     Integer occurrences = 0;
     for (ColumnIdentifier column : columns) {
-      occurrences += this.occurrenceMap.get(tableName).get(column.getColumnIdentifier());
+      occurrences += this.occurrenceMap.get(tableName).get(
+          column.getColumnIdentifier());
     }
     return (float) columns.size() / occurrences;
   }

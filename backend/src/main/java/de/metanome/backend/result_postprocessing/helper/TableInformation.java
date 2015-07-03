@@ -66,7 +66,7 @@ public class TableInformation {
     // Get table data
     RelationalInput relationalInput = relationalInputGenerator.generateNewCopy();
     this.columnCount = relationalInput.numberOfColumns();
-    this.tableName = relationalInput.relationName();
+    this.tableName = StringHelper.removeFileEnding(relationalInput.relationName());
 
     // Create the column information
     List<String> columnNames = relationalInput.columnNames();

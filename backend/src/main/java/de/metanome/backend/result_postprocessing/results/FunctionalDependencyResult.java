@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 
 import java.util.BitSet;
 
@@ -95,13 +96,14 @@ public class FunctionalDependencyResult implements RankingResult {
   public FunctionalDependencyResult(FunctionalDependency result) {
     this.result = result;
     if (result.getDependant() != null) {
-      this.dependantTableName = result.getDependant().getTableIdentifier();
+      this.dependantTableName = StringHelper
+          .removeFileEnding(result.getDependant().getTableIdentifier());
     } else {
       this.dependantTableName = "";
     }
     if (result.getDeterminant().getColumnIdentifiers().size() > 0) {
-      this.determinantTableName =
-          result.getDeterminant().getColumnIdentifiers().iterator().next().getTableIdentifier();
+      this.determinantTableName = StringHelper.removeFileEnding(
+          result.getDeterminant().getColumnIdentifiers().iterator().next().getTableIdentifier());
     } else {
       this.determinantTableName = "";
     }

@@ -53,6 +53,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
           tableInformation =
           new TableInformation(relationalInputGenerator, useDataIndependentStatistics, bitSet);
       this.tableInformationMap.put(tableInformation.getTableName(), tableInformation);
+      index = index + 1;
     }
   }
 

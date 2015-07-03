@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 
 /**
  * Represents a basic statistic result with different ranking values.
@@ -52,9 +53,9 @@ public class BasicStatisticResult implements RankingResult {
   public BasicStatisticResult(BasicStatistic result) {
     this.result = result;
     if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
-      this.tableName =
+      this.tableName = StringHelper.removeFileEnding(
           result.getColumnCombination().getColumnIdentifiers().iterator().next()
-              .getTableIdentifier();
+              .getTableIdentifier());
     } else {
       this.tableName = "";
     }

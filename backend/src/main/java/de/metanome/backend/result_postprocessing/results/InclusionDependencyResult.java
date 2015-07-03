@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 
 /**
  * Represents an inclusion dependency result with different ranking values.
@@ -61,14 +62,14 @@ public class InclusionDependencyResult implements RankingResult {
   public InclusionDependencyResult(InclusionDependency result) {
     this.result = result;
     if (result.getDependant().getColumnIdentifiers().size() > 0) {
-      this.dependantTableName =
-          result.getDependant().getColumnIdentifiers().get(0).getTableIdentifier();
+      this.dependantTableName = StringHelper.removeFileEnding(
+          result.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
       this.dependantTableName = "";
     }
     if (result.getReferenced().getColumnIdentifiers().size() > 0) {
-      this.referencedTableName =
-          result.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier();
+      this.referencedTableName = StringHelper.removeFileEnding(
+          result.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
       this.referencedTableName = "";
     }

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.helper.StringHelper;
 
 /**
  * Represents an order dependency result with different ranking values.
@@ -62,13 +63,14 @@ public class OrderDependencyResult implements RankingResult {
     this.result = result;
 
     if (result.getLhs().getColumnIdentifiers().size() > 0) {
-      this.lhsTableName = result.getLhs().getColumnIdentifiers().get(0).getTableIdentifier();
+      this.lhsTableName = StringHelper
+          .removeFileEnding(result.getLhs().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
       this.lhsTableName = "";
     }
     if (result.getRhs().getColumnIdentifiers().size() > 0) {
-      this.rhsTableName =
-          result.getRhs().getColumnIdentifiers().iterator().next().getTableIdentifier();
+      this.rhsTableName = StringHelper.removeFileEnding(
+          result.getRhs().getColumnIdentifiers().iterator().next().getTableIdentifier());
     } else {
       this.rhsTableName = "";
     }

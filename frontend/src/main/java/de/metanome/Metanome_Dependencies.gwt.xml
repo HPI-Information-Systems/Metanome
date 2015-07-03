@@ -121,6 +121,9 @@
         <include name="OrderDependencyResult.java"/>
         <include name="BasicStatisticResult.java"/>
     </source>
+    <source path="backend/result_postprocessing/helper">
+        <include name="StringHelper.java"/>
+    </source>
     <source path="backend/results_db">
         <include name="ExecutionSetting.java"/>
         <include name="Execution.java"/>
