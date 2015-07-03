@@ -260,10 +260,11 @@ public class FunctionalDependencyRankingTest {
     FunctionalDependencyResult result = functionalDependencyResults.get(1);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
-    Map<Integer, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    ranking.PLIs = plis;
 
     // Execute Functionality
-    ranking.calculatePollution(result, tableInformation, plis);
+    ranking.calculatePollution(result, tableInformation);
 
     // Check
     assertEquals(0.4, result.getPollution(), 0.01);
@@ -278,12 +279,13 @@ public class FunctionalDependencyRankingTest {
                                                                           tableInformationMap);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
-    Map<Integer, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    ranking.PLIs = plis;
 
     // Execute Functionality
     BitSet columns = new BitSet(5);
     columns.set(0);
-    float keyError = ranking.calculateKeyError(columns, plis);
+    float keyError = ranking.calculateKeyError(columns);
 
     // Check
     assertEquals(0.0, keyError, 0.00);
@@ -292,7 +294,7 @@ public class FunctionalDependencyRankingTest {
     columns = new BitSet(5);
     columns.set(0);
     columns.set(3);
-    keyError = ranking.calculateKeyError(columns, plis);
+    keyError = ranking.calculateKeyError(columns);
 
     // Check
     assertEquals(0.0, keyError, 0.0001);
@@ -301,7 +303,7 @@ public class FunctionalDependencyRankingTest {
     columns = new BitSet(5);
     columns.set(1);
     columns.set(3);
-    keyError = ranking.calculateKeyError(columns, plis);
+    keyError = ranking.calculateKeyError(columns);
 
     // Check
     assertEquals(1.0, keyError, 0.0001);
@@ -310,7 +312,7 @@ public class FunctionalDependencyRankingTest {
     columns = new BitSet(5);
     columns.set(2);
     columns.set(4);
-    keyError = ranking.calculateKeyError(columns, plis);
+    keyError = ranking.calculateKeyError(columns);
 
     // Check
     assertEquals(3.0, keyError, 0.0001);
@@ -325,10 +327,11 @@ public class FunctionalDependencyRankingTest {
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
-    Map<Integer, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    ranking.PLIs = plis;
 
     // Execute Functionality
-    ranking.calculateInformationGainCells(result, tableInformation, plis);
+    ranking.calculateInformationGainCells(result, tableInformation);
 
     // Check
     assertEquals(-2.0, result.getInformationGainCells(), 0.00);
@@ -344,10 +347,11 @@ public class FunctionalDependencyRankingTest {
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
-    Map<Integer, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
+    ranking.PLIs = plis;
 
     // Execute Functionality
-    ranking.calculateInformationGainBytes(result, tableInformation, plis);
+    ranking.calculateInformationGainBytes(result, tableInformation);
 
     // Check
     assertEquals(-4.0, result.getInformationGainBytes(), 0.00);

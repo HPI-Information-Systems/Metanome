@@ -39,6 +39,7 @@ import java.util.Set;
 public class FunctionalDependencyRanking extends Ranking {
 
   protected List<FunctionalDependencyResult> results;
+  protected Map<BitSet, PositionListIndex> PLIs;
 
   public FunctionalDependencyRanking(List<FunctionalDependencyResult> results,
                                      Map<String, TableInformation> tableInformationMap) {
@@ -85,12 +86,13 @@ public class FunctionalDependencyRanking extends Ranking {
       // only defined on one table
       if (this.tableInformationMap.size() == 1) {
         TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
-        Map<Integer, PositionListIndex> PLIs = createPLIs(tableInformation);
-        tableInformation.setPLIs(PLIs);
+        this.PLIs = createPLIs(tableInformation);
 
-        calculatePollution(result, tableInformation, PLIs);
-        calculateInformationGainCells(result, tableInformation, PLIs);
-        calculateInformationGainBytes(result, tableInformation, PLIs);
+        calculatePollution(result, tableInformation);
+        calculateInformationGainCells(result, tableInformation);
+        calculateInformationGainBytes(result, tableInformation);
+
+        tableInformation.setPLIs(PLIs);
       }
     }
   }
@@ -177,8 +179,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param result the functional dependency result
    */
   protected void calculatePollution(FunctionalDependencyResult result,
-                                    TableInformation tableInformation,
-                                    Map<Integer, PositionListIndex> PLIs)
+                                    TableInformation tableInformation)
       throws InputGenerationException, InputIterationException {
     // Ignore functional dependencies which are already determine all columns
     if (result.getGeneralCoverage() == 1.0) {
@@ -204,8 +205,8 @@ public class FunctionalDependencyRanking extends Ranking {
       columnsToTest.or(testColumn);
       // Calculate the key error
       float keyError =
-          Math.abs(calculateKeyError(columnsToTest, PLIs) -
-                   calculateKeyError(result.getDeterminantAsBitSet(), PLIs));
+          Math.abs(calculateKeyError(columnsToTest) -
+                   calculateKeyError(result.getDeterminantAsBitSet()));
       minKeyError = (minKeyError == -1) ? keyError : Math.min(minKeyError, keyError);
       // Set the name of the minimal polluted column
       if (minKeyError == keyError) {
@@ -221,24 +222,33 @@ public class FunctionalDependencyRanking extends Ranking {
    * Calculates the key error for the given columns using the given PLIs. The key error is equal to
    * the number of entries, which has to be removed, so that the columns become unique.
    *
-   * @param columns the columns as BitSet
-   * @param PLIs    the position list indexes
+   * @param columnBitSet the columns as BitSet
    * @return the key error
    */
-  protected long calculateKeyError(BitSet columns, Map<Integer, PositionListIndex> PLIs) {
-    List<Integer> indexes = new ArrayList<>();
-    for (int i = columns.nextSetBit(0); i != -1; i = columns.nextSetBit(i + 1)) {
-      indexes.add(i);
-    }
-
-    if (indexes.isEmpty()) {
+  protected long calculateKeyError(BitSet columnBitSet) {
+    if (columnBitSet.isEmpty()) {
       return 0L;
     }
 
-    PositionListIndex pli = PLIs.get(indexes.get(0));
-    for (int i = 1; i < indexes.size(); i++) {
-      pli = pli.intersect(PLIs.get(indexes.get(i)));
+    // the PLI already exists
+    if (this.PLIs.containsKey(columnBitSet)) {
+      return this.PLIs.get(columnBitSet).getRawKeyError();
     }
+
+    // get all individual columns as bit set
+    List<BitSet> columns = new ArrayList<>();
+    for (int i = columnBitSet.nextSetBit(0); i != -1; i = columnBitSet.nextSetBit(i + 1)) {
+      BitSet bitSet = new BitSet();
+      bitSet.set(i);
+      columns.add(bitSet);
+    }
+
+    // calculate the new PLI
+    PositionListIndex pli = this.PLIs.get(columns.get(0));
+    for (int i = 1; i < columns.size(); i++) {
+      pli = pli.intersect(this.PLIs.get(columns.get(i)));
+    }
+    this.PLIs.put(columnBitSet, pli);
 
     return pli.getRawKeyError();
   }
@@ -249,11 +259,9 @@ public class FunctionalDependencyRanking extends Ranking {
    *
    * @param result           the result
    * @param tableInformation the table
-   * @param PLIs             the position list indices for each column
    */
   protected void calculateInformationGainCells(FunctionalDependencyResult result,
-                                             TableInformation tableInformation,
-                                             Map<Integer, PositionListIndex> PLIs) {
+                                             TableInformation tableInformation) {
     long rowCount = tableInformation.getRowCount();
     long columnCount = tableInformation.getColumnCount();
     int determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
@@ -267,7 +275,7 @@ public class FunctionalDependencyRanking extends Ranking {
     long cellCountWithoutDependant = (columnCount - dependantColumnCount) * rowCount;
 
     // Calculate the number of cells in the new "determinant-dependant" table
-    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet(), PLIs);
+    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet());
     long cellCountNewTable = (dependantColumnCount + determinantColumnCount) * uniqueRowsCount;
 
     // Store the information gain in the ranking structure
@@ -281,11 +289,9 @@ public class FunctionalDependencyRanking extends Ranking {
    *
    * @param result           the result
    * @param tableInformation the table
-   * @param PLIs             the position list indices for each column
    */
   protected void calculateInformationGainBytes(FunctionalDependencyResult result,
-                                             TableInformation tableInformation,
-                                             Map<Integer, PositionListIndex> PLIs) {
+                                             TableInformation tableInformation) {
     long rowCount = tableInformation.getRowCount();
 
     // Get the information content of the whole table in bytes
@@ -311,7 +317,7 @@ public class FunctionalDependencyRanking extends Ranking {
     }
 
     // Calculate the information gain in the new "determinant-dependant" table
-    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet(), PLIs);
+    long uniqueRowsCount = rowCount - calculateKeyError(result.getDeterminantAsBitSet());
     long informationGainNewTable = 0L;
     for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
       informationGainNewTable +=
@@ -336,17 +342,19 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param tableInformation the table
    * @return a map containing for each column its position list index
    */
-  protected Map<Integer, PositionListIndex> createPLIs(TableInformation tableInformation)
+  protected Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
       throws InputGenerationException, InputIterationException {
-    int index = 0;
-    Map<Integer, PositionListIndex> pliList = new HashMap<>();
+    Map<BitSet, PositionListIndex> pliList = new HashMap<>();
 
     PLIBuilder pliBuilder =
         new PLIBuilder(tableInformation.getRelationalInputGenerator().generateNewCopy());
     List<PositionListIndex> PLIs = pliBuilder.getPLIList();
 
+    int index = 0;
     for (PositionListIndex PLI : PLIs) {
-      pliList.put(index, PLI);
+      BitSet bitSet = new BitSet();
+      bitSet.set(index);
+      pliList.put(bitSet, PLI);
       index++;
     }
 

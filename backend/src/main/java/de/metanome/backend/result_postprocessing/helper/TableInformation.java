@@ -44,7 +44,7 @@ public class TableInformation {
   // Unique bit set representing this table
   private BitSet bitSet;
   // Map of the column indices to the corresponding position list index
-  private Map<Integer, PositionListIndex> PLIs;
+  private Map<BitSet, PositionListIndex> PLIs;
 
   /**
    * Computes table metadata on the input data
@@ -145,11 +145,11 @@ public class TableInformation {
     return bitSet;
   }
 
-  public Map<Integer, PositionListIndex> getPLIs() {
+  public Map<BitSet, PositionListIndex> getPLIs() {
     return PLIs;
   }
 
-  public void setPLIs(Map<Integer, PositionListIndex> PLIs) {
+  public void setPLIs(Map<BitSet, PositionListIndex> PLIs) {
     this.PLIs = PLIs;
   }
 }

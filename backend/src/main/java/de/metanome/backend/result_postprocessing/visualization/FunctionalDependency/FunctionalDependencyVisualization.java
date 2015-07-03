@@ -29,6 +29,7 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -122,8 +123,8 @@ public class FunctionalDependencyVisualization {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
 
       // Create a JSON for the dependant column
-      List<Integer> path = new ArrayList<>();
-      path.add(this.tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getColumnIndex());
+      BitSet path = new BitSet();
+      path.set(this.tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getColumnIndex());
       JSONObject dependantJSON = printRecursive(determinants, path, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
@@ -146,7 +147,7 @@ public class FunctionalDependencyVisualization {
    */
   @SuppressWarnings("unchecked")
   protected JSONObject printRecursive(Set<ColumnCombination> determinants,
-                                    List<Integer> path,
+                                    BitSet path,
                                     int columnIndex,
                                     int determinantStartIndex,
                                     int determinantEndIndex,
@@ -159,7 +160,7 @@ public class FunctionalDependencyVisualization {
     if (columnIndex >= 0) {
       ColumnInformation columnInformation = tableInformation.getColumnInformationMap().get(
           columnName);
-      path.add(columnInformation.getColumnIndex());
+      path.set(columnInformation.getColumnIndex());
       result.put("name", columnName);
       result.put("size", columnInformation.getUniquenessRate());
       result.put("keyError", calculateKeyError(path));
@@ -195,12 +196,29 @@ public class FunctionalDependencyVisualization {
     return result;
   }
 
-  private long calculateKeyError(List<Integer> path) {
-    Map<Integer, PositionListIndex> PLIs = this.tableInformation.getPLIs();
-    PositionListIndex pli = PLIs.get(path.get(0));
-    for (int i = 1; i < path.size(); i++) {
-      pli = pli.intersect(PLIs.get(path.get(i)));
+  private long calculateKeyError(BitSet path) {
+    Map<BitSet, PositionListIndex> PLIs = this.tableInformation.getPLIs();
+
+    // the PLI already exists
+    if (PLIs.containsKey(path)) {
+      return PLIs.get(path).getRawKeyError();
     }
+
+    // get all individual columns as bit set
+    List<BitSet> columns = new ArrayList<>();
+    for (int i = path.nextSetBit(0); i != -1; i = path.nextSetBit(i + 1)) {
+      BitSet bitSet = new BitSet();
+      bitSet.set(i);
+      columns.add(bitSet);
+    }
+
+    // calculate the new PLI
+    PositionListIndex pli = PLIs.get(columns.get(0));
+    for (int i = 1; i < columns.size(); i++) {
+      pli = pli.intersect(PLIs.get(columns.get(i)));
+    }
+    PLIs.put(path, pli);
+    this.tableInformation.setPLIs(PLIs);
 
     return pli.getRawKeyError();
   }
