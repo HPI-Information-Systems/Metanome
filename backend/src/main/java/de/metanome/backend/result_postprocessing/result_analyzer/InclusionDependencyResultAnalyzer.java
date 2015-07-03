@@ -43,11 +43,15 @@ public class InclusionDependencyResultAnalyzer
       List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      InclusionDependencyRanking
-          ranking =
-          new InclusionDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        InclusionDependencyRanking
+            ranking =
+            new InclusionDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
@@ -58,19 +62,18 @@ public class InclusionDependencyResultAnalyzer
       List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      InclusionDependencyRanking ranking =
-          new InclusionDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
-      ranking.calculateDataDependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        InclusionDependencyRanking ranking =
+            new InclusionDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+        ranking.calculateDataDependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
-  }
-
-  @Override
-  public void printResultsToFile() {
-
   }
 
   @Override

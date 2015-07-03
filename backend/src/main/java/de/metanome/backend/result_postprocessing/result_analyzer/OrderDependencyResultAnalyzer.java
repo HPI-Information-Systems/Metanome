@@ -43,10 +43,14 @@ public class OrderDependencyResultAnalyzer
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      OrderDependencyRanking ranking =
-          new OrderDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        OrderDependencyRanking ranking =
+            new OrderDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
@@ -57,18 +61,17 @@ public class OrderDependencyResultAnalyzer
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      OrderDependencyRanking ranking =
-          new OrderDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataDependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        OrderDependencyRanking ranking =
+            new OrderDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataDependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
-  }
-
-  @Override
-  public void printResultsToFile() {
-
   }
 
   @Override

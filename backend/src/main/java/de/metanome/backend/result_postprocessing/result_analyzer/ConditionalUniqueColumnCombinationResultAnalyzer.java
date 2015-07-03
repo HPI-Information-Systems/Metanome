@@ -43,11 +43,15 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      ConditionalUniqueColumnCombinationRanking
-          ranking =
-          new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        ConditionalUniqueColumnCombinationRanking
+            ranking =
+            new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
@@ -58,19 +62,18 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
       List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      ConditionalUniqueColumnCombinationRanking
-          ranking =
-          new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
-      ranking.calculateDataDependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        ConditionalUniqueColumnCombinationRanking
+            ranking =
+            new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
+        ranking.calculateDataDependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
-  }
-
-  @Override
-  public void printResultsToFile() {
-
   }
 
   @Override

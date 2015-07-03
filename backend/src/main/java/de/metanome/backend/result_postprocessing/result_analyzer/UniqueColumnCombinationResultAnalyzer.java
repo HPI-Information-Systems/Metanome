@@ -45,10 +45,14 @@ public class UniqueColumnCombinationResultAnalyzer
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      UniqueColumnCombinationRanking ranking =
-          new UniqueColumnCombinationRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        UniqueColumnCombinationRanking ranking =
+            new UniqueColumnCombinationRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
@@ -59,26 +63,25 @@ public class UniqueColumnCombinationResultAnalyzer
       List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      UniqueColumnCombinationRanking ranking =
-          new UniqueColumnCombinationRanking(results, tableInformationMap);
-      ranking.calculateDataDependentRankings();
-    }
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        UniqueColumnCombinationRanking ranking =
+            new UniqueColumnCombinationRanking(results, tableInformationMap);
+        ranking.calculateDataDependentRankings();
+      }
 
-    if (this.tableInformationMap.size() == 1) {
-      TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
-      UniqueColumnCombinationVisualization
-          visualization =
-          new UniqueColumnCombinationVisualization(results, tableInformation);
-      visualization.createVisualizationData();
+      if (this.tableInformationMap.size() == 1) {
+        TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+        UniqueColumnCombinationVisualization
+            visualization =
+            new UniqueColumnCombinationVisualization(results, tableInformation);
+        visualization.createVisualizationData();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
-  }
-
-  @Override
-  public void printResultsToFile() {
-
   }
 
   @Override

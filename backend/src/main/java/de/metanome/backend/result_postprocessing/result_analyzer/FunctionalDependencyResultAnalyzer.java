@@ -50,11 +50,15 @@ public class FunctionalDependencyResultAnalyzer
       List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      results = extendDependantSide(results);
-      FunctionalDependencyRanking ranking =
-          new FunctionalDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataIndependentRankings();
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        results = extendDependantSide(results);
+        FunctionalDependencyRanking ranking =
+            new FunctionalDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataIndependentRankings();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
@@ -62,31 +66,29 @@ public class FunctionalDependencyResultAnalyzer
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
-      List<FunctionalDependency> prevResults)
-      throws InputGenerationException, InputIterationException {
+      List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
-    if (!this.tableInformationMap.isEmpty()) {
-      results = extendDependantSide(results);
-      FunctionalDependencyRanking ranking =
-          new FunctionalDependencyRanking(results, tableInformationMap);
-      ranking.calculateDataDependentRankings();
-    }
+    try {
+      if (!this.tableInformationMap.isEmpty()) {
+        results = extendDependantSide(results);
+        FunctionalDependencyRanking ranking =
+            new FunctionalDependencyRanking(results, tableInformationMap);
+        ranking.calculateDataDependentRankings();
+      }
 
-    if (this.tableInformationMap.size() == 1) {
-      TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
-      FunctionalDependencyVisualization
-          visualization =
-          new FunctionalDependencyVisualization(results, tableInformation);
-      visualization.createVisualizationData();
+      if (this.tableInformationMap.size() == 1) {
+        TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+        FunctionalDependencyVisualization
+            visualization =
+            new FunctionalDependencyVisualization(results, tableInformation);
+        visualization.createVisualizationData();
+      }
+    } catch (Exception e) {
+      // Could not analyze results due to error
     }
 
     return results;
-  }
-
-  @Override
-  public void printResultsToFile() {
-
   }
 
   @Override

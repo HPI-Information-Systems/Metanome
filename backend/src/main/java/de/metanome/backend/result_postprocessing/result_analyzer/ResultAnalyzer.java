@@ -62,8 +62,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    *
    * @param results Results of the algorithm
    */
-  public List<R> analyzeResults(List<T> results)
-      throws InputGenerationException, InputIterationException {
+  public List<R> analyzeResults(List<T> results) {
     if (useDataIndependentStatistics) {
       return analyzeResultsDataIndependent(results);
     } else {
@@ -83,13 +82,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    *
    * @param prevResults Results of the algorithm
    */
-  protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults)
-      throws InputGenerationException, InputIterationException;
-
-  /**
-   * Prints the results of postprocessing to file
-   */
-  public abstract void printResultsToFile();
+  protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults);
 
   /**
    * Converts a list of results into a list of ranking results. The ranking results contain
