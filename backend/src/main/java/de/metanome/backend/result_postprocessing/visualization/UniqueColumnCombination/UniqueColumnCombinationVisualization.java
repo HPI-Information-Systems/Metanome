@@ -40,19 +40,17 @@ import java.util.Map;
 public class UniqueColumnCombinationVisualization {
 
   private List<UniqueColumnCombinationResult> results;
-  private TableInformation tableInformation;
   private Map<String, Double> columnUniqueness;
 
 
   public UniqueColumnCombinationVisualization(List<UniqueColumnCombinationResult> results,
                                               TableInformation tableInformation) {
     this.results = results;
-    this.tableInformation = tableInformation;
     this.columnUniqueness = new HashMap<>();
 
     // Calculate uniqueness value for each column
-    long rowCount = this.tableInformation.getRowCount();
-    for (ColumnInformation column : this.tableInformation.getColumnInformationMap().values()) {
+    long rowCount = tableInformation.getRowCount();
+    for (ColumnInformation column : tableInformation.getColumnInformationMap().values()) {
       columnUniqueness.put(column.getColumnName(),
                            (double) column.getDistinctValuesCount() / rowCount);
     }
@@ -63,13 +61,14 @@ public class UniqueColumnCombinationVisualization {
    * Creates all visualization data and writes them to disc.
    */
   public void createVisualizationData() throws FileNotFoundException {
-    // Get file paths
+    // Get paths for the json files
     String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
     String clusterFile = currentPath + "/UCCClusters.json";
     String dataFile = currentPath + "/UCCData.json";
     String histogramFile = currentPath + "/UCCHistograms.json";
 
+    // Clear the json files
     JSONPrinter.clearFile(clusterFile);
     JSONPrinter.clearFile(clusterFile);
     JSONPrinter.clearFile(clusterFile);
@@ -167,7 +166,7 @@ public class UniqueColumnCombinationVisualization {
    * @param columnCombination the unique column combination
    * @return the map
    */
-  private HashMap<String, Double> getColumnCombinationUniqueness(
+  protected HashMap<String, Double> getColumnCombinationUniqueness(
       ColumnCombination columnCombination) {
     HashMap<String, Double> columnCombinationUniqueness = new HashMap<>();
     for (ColumnIdentifier column : columnCombination.getColumnIdentifiers()) {

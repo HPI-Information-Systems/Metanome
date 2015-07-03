@@ -111,7 +111,6 @@ public class FunctionalDependencyVisualizationTest {
     // Check
     assertNotNull(visualization.tableInformation);
     assertNotNull(visualization.results);
-    assertNotNull(visualization.prefixTreeJsonFile);
   }
 
   @Test
