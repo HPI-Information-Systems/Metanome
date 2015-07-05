@@ -27,13 +27,11 @@ import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.resources.AlgorithmResource;
-import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
@@ -113,7 +111,7 @@ public class AlgorithmExecution {
    * @param setting the execution settings
    * @return a list of inputs
    */
-  public  static List<Input> parseInputs(ExecutionSetting setting) {
+  public static List<Input> parseInputs(ExecutionSetting setting) {
     JsonConverter<Input> jsonConverterInput = new JsonConverter<>();
     List<Input> inputs = new ArrayList<>();
 
@@ -129,9 +127,9 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and ExecutionSetting
-   * from the database, which are then used to execute the specified Algorithm with the specified
-   * setting in the designated process
+   * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and
+   * ExecutionSetting from the database, which are then used to execute the specified Algorithm with
+   * the specified setting in the designated process
    */
   public static void main(String args[])
       throws FileNotFoundException, UnsupportedEncodingException {
@@ -159,14 +157,9 @@ public class AlgorithmExecution {
 
     // Execute the algorithm
     try {
-      Execution execution = executor
+      executor
           .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
-                            executionSetting.getCountResults());
-
-      // Set the settings to the execution and store it
-      execution.setExecutionSetting(executionSetting);
-      ExecutionResource executionResource = new ExecutionResource();
-      executionResource.store(execution);
+                            executionSetting);
 
       executor.close();
     } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
