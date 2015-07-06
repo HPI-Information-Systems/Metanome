@@ -39,8 +39,8 @@ import java.util.Map;
  */
 public class UniqueColumnCombinationVisualization {
 
-  private List<UniqueColumnCombinationResult> results;
-  private Map<String, Double> columnUniqueness;
+  protected List<UniqueColumnCombinationResult> results;
+  protected Map<String, Double> columnUniqueness;
 
 
   public UniqueColumnCombinationVisualization(List<UniqueColumnCombinationResult> results,
