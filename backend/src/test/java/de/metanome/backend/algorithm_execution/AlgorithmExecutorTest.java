@@ -18,15 +18,27 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
+import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
+import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.configuration.ConfigurationValue;
+import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
+import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
+import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
@@ -43,6 +55,7 @@ import de.metanome.backend.results_db.Result;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -58,6 +71,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
@@ -147,6 +161,7 @@ public class AlgorithmExecutorTest {
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an ind algorithm.
    * Todo: fixme
+   */
 
   @Test
   public void testExecuteInclusionDependency()
@@ -178,38 +193,42 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String, ExecutionSetting)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    *
    * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm}
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
    * from a file.
+   */
 
 
   @Test
   public void testRelationalInputAlgorithm()
       throws AlgorithmExecutionException, AlgorithmLoadingException, EntityStorageException,
-             FileNotFoundException, UnsupportedEncodingException {
+             IOException, IllegalAccessException, InstantiationException, NoSuchMethodException,
+             InvocationTargetException, ClassNotFoundException {
     HibernateUtil.clear();
-
+    DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
     // Setup
     String path = new FileFixture("some file content").getTestData("some file name").getPath();
-    List<ConfigurationRequirement> requirements = new ArrayList<>();
+    List<ConfigurationValue> configurationValues = new ArrayList<>();
     ConfigurationRequirementRelationalInput
         requirementRelationalInput =
         new ConfigurationRequirementRelationalInput(
             ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     requirementRelationalInput.checkAndSetSettings(new ConfigurationSettingFileInput(path));
-    requirements.add(requirementRelationalInput);
+
+    //Todo: usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
+    configurationValues.add(requirementRelationalInput.build(configurationFactory));
 
     Algorithm algorithm = new Algorithm("example_relational_input_algorithm.jar");
     algorithm = resource.store(algorithm);
 
     // Execute functionality
     // Check result
-    executor.executeAlgorithm(algorithm, requirements, "identifier", false);
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
 
     HibernateUtil.clear();
-  }*/
+  }
 
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
@@ -387,18 +406,20 @@ public class AlgorithmExecutorTest {
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of a basic statistics algorithm that requires several
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
-
+*/
 
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
       throws AlgorithmExecutionException, AlgorithmLoadingException, IOException,
-             EntityStorageException {
+             EntityStorageException, ClassNotFoundException, InvocationTargetException,
+             InstantiationException, NoSuchMethodException, IllegalAccessException {
     HibernateUtil.clear();
 
     // Setup
     // Build file input specification
     int numberOfInputs = 5;
-    List<ConfigurationValue> configurationRequirements = new LinkedList<>();
+    List<ConfigurationValue> configurationValues = new LinkedList<>();
+    DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
     ConfigurationRequirementFileInput
         specification =
         new ConfigurationRequirementFileInput(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
@@ -428,13 +449,15 @@ public class AlgorithmExecutorTest {
     settings[4] = lastSetting;
     specification.checkAndSetSettings(settings);
 
-    configurationRequirements.add(specification);
+    configurationValues.add(specification.build(configurationFactory));
+
+    //Todo: usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
 
     Algorithm algorithm = new Algorithm("example_basic_stat_algorithm.jar");
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithm(algorithm, configurationRequirements, null, "identifier", false);
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
@@ -443,7 +466,6 @@ public class AlgorithmExecutorTest {
 
     HibernateUtil.clear();
   }
-  */
 
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#close()} <p/>

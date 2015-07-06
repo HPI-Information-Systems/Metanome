@@ -126,5 +126,28 @@ public class ExecutionSetting implements Serializable {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ExecutionSetting)) {
+      return false;
+    }
+
+    ExecutionSetting input = (ExecutionSetting) o;
+
+    if (id != input.id) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return (int) (id ^ (id >>> 32));
+  }
+
 
 }

@@ -27,7 +27,7 @@ import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorith
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
-import de.metanome.backend.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;

@@ -22,7 +22,7 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.backend.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;

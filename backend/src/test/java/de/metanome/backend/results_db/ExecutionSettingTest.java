@@ -18,6 +18,28 @@ package de.metanome.backend.results_db;
 
 //Todo: test me
 
+import de.metanome.test_helper.EqualsAndHashCodeTester;
+
+import org.junit.Test;
+
 public class ExecutionSettingTest {
+
+  /**
+   * Test method for {@link de.metanome.backend.results_db.ExecutionSetting#equals(Object)} and {@link
+   * ExecutionSetting#hashCode()}}.
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+    // Setup
+    int id = 42;
+    ExecutionSetting executionSetting = new ExecutionSetting(null, null, null).setId(id);
+    ExecutionSetting equalExecutionSetting = new ExecutionSetting(null, null, null).setId(id);
+    ExecutionSetting notEqualExecutionSetting = new ExecutionSetting(null, null, null).setId(23);
+
+    // Execute functionality
+    // Check result
+    new EqualsAndHashCodeTester<ExecutionSetting>()
+        .performBasicEqualsAndHashCodeChecks(executionSetting, equalExecutionSetting, notEqualExecutionSetting);
+  }
 
 }
