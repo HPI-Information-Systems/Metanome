@@ -406,7 +406,7 @@ public class AlgorithmExecutorTest {
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of a basic statistics algorithm that requires several
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
-*/
+   */
 
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()

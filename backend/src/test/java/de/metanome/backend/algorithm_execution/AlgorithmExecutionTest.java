@@ -16,24 +16,55 @@
 
 package de.metanome.backend.algorithm_execution;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.backend.configuration.ConfigurationValueString;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionTest {
 
   //Todo: write actual tests / move them here if appropriate
+
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecution#buildExecutor(de.metanome.backend.results_db.ExecutionSetting)}
+   */
 
   @Test
   public void testBuildExecutor() throws Exception {
     //Todo: test
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecution#parseConfigurationValues(java.util.List)}
+   */
+
   @Test
   public void testParseConfigurationValues() throws Exception {
-    //Todo: test
+    List<String> configurationJson = new ArrayList<>();
+    String
+        configurationStringJson =
+        "{\"type\":\"configurationValueString\",\"identifier\":\"configId\",\"values\":[\"s1\",\"s2\"]}";
+    configurationJson.add(configurationStringJson);
+
+    ConfigurationValue
+        configValue =
+        AlgorithmExecution.parseConfigurationValues(configurationJson).get(0);
+
+    assertTrue(configValue instanceof ConfigurationValueString);
   }
+
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecution#parseInputs(java.util.List)}
+   */
 
   @Test
   public void testParseInputs() throws Exception {
     //Todo: test
   }
+
 }

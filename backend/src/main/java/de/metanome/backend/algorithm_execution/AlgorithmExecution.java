@@ -18,11 +18,12 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.backend.helper.ConfigurationValueMixIn;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
@@ -82,7 +83,7 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Generates a list of ConfigurationValues from an ExecutionSetting
+   * Generates a list of ConfigurationValues from an List of ConfigurationValue json-strings
    *
    * @param parameterValuesJson List of parameter values in json format
    * @return a list of all configuration values
@@ -92,6 +93,7 @@ public class AlgorithmExecution {
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
     jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(ConfigurationValue.class, ConfigurationValueMixIn.class);
 
     List<ConfigurationValue> parameterValues = new ArrayList<>();
     for (String json : parameterValuesJson) {
@@ -106,7 +108,7 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Generates a list of Inputs from an ExecutionSetting
+   * Generates a list of Inputs from an List of Input json-strings
    *
    * @param inputsJson inputs in json format
    * @return a list of inputs
