@@ -16,8 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-//Todo: test me
-
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;

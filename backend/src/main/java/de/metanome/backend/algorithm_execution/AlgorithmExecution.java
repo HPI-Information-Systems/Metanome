@@ -84,17 +84,17 @@ public class AlgorithmExecution {
   /**
    * Generates a list of ConfigurationValues from an ExecutionSetting
    *
-   * @param setting the execution settings
+   * @param parameterValuesJson List of parameter values in json format
    * @return a list of all configuration values
    */
-  public static List<ConfigurationValue> parseConfigurationValues(ExecutionSetting setting) {
+  public static List<ConfigurationValue> parseConfigurationValues(List<String> parameterValuesJson) {
     JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
     jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
 
     List<ConfigurationValue> parameterValues = new ArrayList<>();
-    for (String json : setting.getParameterValuesJson()) {
+    for (String json : parameterValuesJson) {
       try {
         parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
       } catch (IOException e) {
@@ -108,14 +108,14 @@ public class AlgorithmExecution {
   /**
    * Generates a list of Inputs from an ExecutionSetting
    *
-   * @param setting the execution settings
+   * @param inputsJson inputs in json format
    * @return a list of inputs
    */
-  public static List<Input> parseInputs(ExecutionSetting setting) {
+  public static List<Input> parseInputs(List<String> inputsJson) {
     JsonConverter<Input> jsonConverterInput = new JsonConverter<>();
     List<Input> inputs = new ArrayList<>();
 
-    for (String json : setting.getInputsJson()) {
+    for (String json : inputsJson) {
       try {
         inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
       } catch (IOException e1) {
@@ -147,8 +147,8 @@ public class AlgorithmExecution {
     ExecutionSetting executionSetting = (ExecutionSetting) cr2.list().get(0);
 
     // Parse the parameters
-    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting);
-    List<Input> inputs = parseInputs(executionSetting);
+    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting.getParameterValuesJson());
+    List<Input> inputs = parseInputs(executionSetting.getInputsJson());
 
     session.close();
 
