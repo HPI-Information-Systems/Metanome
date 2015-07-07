@@ -173,7 +173,6 @@ public class AlgorithmExecutionResource {
         // no value was set in the frontend
         // do not create a configuration value, so that the value can not be set
         // on the algorithm
-        // TODO test
         if (requirement.getSettings().length == 0) {
           continue;
         }
@@ -260,7 +259,7 @@ public class AlgorithmExecutionResource {
       String parentPathWildCard = parent + File.separator + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
-      // TODO deal with exception
+      ex.printStackTrace();
     }
 
     ProcessBuilder builder;

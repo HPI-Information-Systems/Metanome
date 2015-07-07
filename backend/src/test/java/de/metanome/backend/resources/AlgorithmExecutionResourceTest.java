@@ -32,15 +32,27 @@ public class AlgorithmExecutionResourceTest {
 
   AlgorithmExecutionResource algorithmExecutionResource = new AlgorithmExecutionResource();
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#executeAlgorithm(AlgorithmExecutionParams)}
+   */
+
   @Test
   public void testExecuteAlgorithm() throws Exception {
     //Todo:test
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#buildExecutionSetting(AlgorithmExecutionParams)}
+   */
+
   @Test
   public void testBuildExecutionSetting() throws Exception {
     //Todo:test
   }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#configurationValuesToJson(java.util.List)}
+   */
 
   @Test
   public void testConfigurationValuesToJson() throws Exception {
@@ -50,10 +62,16 @@ public class AlgorithmExecutionResourceTest {
 
     List<String> configJsons = algorithmExecutionResource.configurationValuesToJson(configValues);
 
-    assertThat(configJsons, contains(
-        "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}"));
+    String expectedJson =  "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}";
+
+
+    assertThat(configJsons, contains(expectedJson));
 
   }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#inputsToJson(java.util.List)}
+   */
 
   @Test
   public void testInputsToJson() throws Exception {
@@ -61,8 +79,10 @@ public class AlgorithmExecutionResourceTest {
     inputValues.add(new Input("myFile"));
 
     List<String> inputsJson = algorithmExecutionResource.inputsToJson(inputValues);
-    assertThat(inputsJson, contains(
-        "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"identifier\":\"0\"}"));
+
+    String expectedJson = "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"identifier\":\"0\"}";
+
+    assertThat(inputsJson, contains(expectedJson));
 
 
   }

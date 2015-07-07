@@ -90,3 +90,4 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
       throws AlgorithmConfigurationException;
 
 }
+
