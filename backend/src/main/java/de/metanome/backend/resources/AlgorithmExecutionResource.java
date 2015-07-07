@@ -138,7 +138,7 @@ public class AlgorithmExecutionResource {
       execution = new Execution(algorithm)
           .setExecutionSetting(executionSetting)
           .setAborted(true)
-          .setInputs(AlgorithmExecution.parseInputs(executionSetting));
+          .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
       ExecutionResource executionResource = new ExecutionResource();
       executionResource.store(execution);
     }

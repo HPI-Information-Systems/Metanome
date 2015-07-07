@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,37 +16,54 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.backend.configuration.ConfigurationValueString;
+import de.metanome.backend.results_db.Input;
+
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+
 public class AlgorithmExecutionResourceTest {
 
-  //Todo: test me
+  AlgorithmExecutionResource algorithmExecutionResource = new AlgorithmExecutionResource();
 
-///*  AlgorithmExecutionResource executionService = new AlgorithmExecutionResource();
-//
-//  *//**
-//   * Test method for {@link AlgorithmExecutionResource#fetchProgress(String)}
-//   *
-//   * When fetching the current progress for an execution the correct progress should be returned.
-//   *//*
-//  @Test
-//  public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
-//    // Setup
-//    String expectedExecutionIdentifier = "executionIdentifier";
-//
-//    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-//    params.setExecutionIdentifier(expectedExecutionIdentifier)
-//        .setCountResults(true);
-//
-//    // Expected values
-//    AlgorithmExecutorObject.buildExecutor(params);
-//    float expectedProgress = 0.42f;
-//
-//    // Execute functionality
-//    AlgorithmExecutionCache.getProgressCache(expectedExecutionIdentifier)
-//        .updateProgress(expectedProgress);
-//    float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
-//
-//    // Check result
-//    assertEquals(expectedProgress, actualProgress, 0.0);
-//  }*/
+  @Test
+  public void testExecuteAlgorithm() throws Exception {
+    //Todo:test
+  }
 
+  @Test
+  public void testBuildExecutionSetting() throws Exception {
+    //Todo:test
+  }
+
+  @Test
+  public void testConfigurationValuesToJson() throws Exception {
+    List<ConfigurationValue> configValues = new ArrayList<>();
+    configValues.add(
+        new ConfigurationValueString("pathToOutputFile", "path/to/file1", "path/to/file1"));
+
+    List<String> configJsons = algorithmExecutionResource.configurationValuesToJson(configValues);
+
+    assertThat(configJsons, contains(
+        "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}"));
+
+  }
+
+  @Test
+  public void testInputsToJson() throws Exception {
+    List<Input> inputValues = new ArrayList<>();
+    inputValues.add(new Input("myFile"));
+
+    List<String> inputsJson = algorithmExecutionResource.inputsToJson(inputValues);
+    assertThat(inputsJson, contains(
+        "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"identifier\":\"0\"}"));
+
+
+  }
 }
