@@ -50,7 +50,8 @@ public interface AlgorithmRestService extends RestService {
 
   @GET
   @Path("/conditional_unique_column_combination_algorithms/")
-  public void listConditionalUniqueColumnCombinationsAlgorithms(MethodCallback<List<Algorithm>> callback);
+  public void listConditionalUniqueColumnCombinationsAlgorithms(
+      MethodCallback<List<Algorithm>> callback);
 
   @GET
   @Path("/order_dependency_algorithms/")

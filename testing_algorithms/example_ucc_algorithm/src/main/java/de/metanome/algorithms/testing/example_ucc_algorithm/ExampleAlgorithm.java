@@ -18,10 +18,8 @@ package de.metanome.algorithms.testing.example_ucc_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -37,11 +35,10 @@ import java.util.ArrayList;
 
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
                                          StringParameterAlgorithm, FileInputParameterAlgorithm,
-                                         IntegerParameterAlgorithm, ProgressEstimatingAlgorithm {
+                                         IntegerParameterAlgorithm {
 
   protected String path1, path2 = null;
   protected UniqueColumnCombinationResultReceiver resultReceiver;
-  protected ProgressReceiver progressReceiver;
 
   public final static String STRING_IDENTIFIER = "path to output";
   public final static String FILE_IDENTIFIER = "input file";
@@ -78,22 +75,12 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
       System.out.println("UCC Algorithm executing");
       try {
         resultReceiver.receiveResult(new UniqueColumnCombination(
-            new ColumnIdentifier("table1", "column1"),
-            new ColumnIdentifier("table2", "column2")));
+            new ColumnIdentifier("WDC_planets.csv", "Name"),
+            new ColumnIdentifier("WDC_planets.csv", "Type")));
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();
       }
     }
-    try {
-      for (int i = 0; i < 10; i++) {
-        Thread.sleep(500);
-        progressReceiver.updateProgress(1f / (10 - i));
-      }
-    } catch (InterruptedException ex) {
-      Thread.currentThread().interrupt();
-    }
-
-
   }
 
   @Override
@@ -127,10 +114,5 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
     if (!identifier.equals(INTEGER_IDENTIFIER) && values.length != 1) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
-  }
-
-  @Override
-  public void setProgressReceiver(ProgressReceiver progressReceiver) {
-    this.progressReceiver = progressReceiver;
   }
 }

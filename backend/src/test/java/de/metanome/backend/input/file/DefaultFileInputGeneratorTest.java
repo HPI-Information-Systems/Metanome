@@ -77,8 +77,8 @@ public class DefaultFileInputGeneratorTest {
   }
 
   /**
-   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File) and all
-   * set methods.
+   * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File) and
+   * all set methods.
    *
    * The generator should store the setting correctly.
    */
@@ -92,14 +92,16 @@ public class DefaultFileInputGeneratorTest {
   /**
    * Test method for {@link de.metanome.backend.input.file.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
    *
-   * The generator should store the file path correctly.
-   * The generator should use a default setting.
+   * The generator should store the file path correctly. The generator should use a default
+   * setting.
    */
   @Test
   public void testConstructorSetting() throws AlgorithmConfigurationException,
                                               FileNotFoundException {
     // Setup
-    ConfigurationSettingFileInput defaultSetting = new ConfigurationSettingFileInput(expectedFile.getPath());
+    ConfigurationSettingFileInput
+        defaultSetting =
+        new ConfigurationSettingFileInput(expectedFile.getPath());
 
     // Execute functionality
     DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedFile);
@@ -107,7 +109,8 @@ public class DefaultFileInputGeneratorTest {
     // Check result
     assertEquals(expectedFile, actualGenerator.inputFile);
     assertEquals(defaultSetting.hasHeader(), actualGenerator.getSetting().hasHeader());
-    assertEquals(defaultSetting.isSkipDifferingLines(), actualGenerator.getSetting().isSkipDifferingLines());
+    assertEquals(defaultSetting.isSkipDifferingLines(),
+                 actualGenerator.getSetting().isSkipDifferingLines());
     assertEquals(defaultSetting.isStrictQuotes(), actualGenerator.getSetting().isStrictQuotes());
   }
 

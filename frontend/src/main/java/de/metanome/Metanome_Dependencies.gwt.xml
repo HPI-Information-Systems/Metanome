@@ -112,7 +112,20 @@
     <source path="backend/result_receiver">
         <include name="ResultHandler.java"/>
     </source>
+    <source path="backend/result_postprocessing/results">
+        <include name="RankingResult.java"/>
+        <include name="ConditionalUniqueColumnCombinationResult.java"/>
+        <include name="UniqueColumnCombinationResult.java"/>
+        <include name="FunctionalDependencyResult.java"/>
+        <include name="InclusionDependencyResult.java"/>
+        <include name="OrderDependencyResult.java"/>
+        <include name="BasicStatisticResult.java"/>
+    </source>
+    <source path="backend/result_postprocessing/helper">
+        <include name="StringHelper.java"/>
+    </source>
     <source path="backend/results_db">
+        <include name="ExecutionSetting.java"/>
         <include name="Execution.java"/>
         <include name="Result.java"/>
         <include name="Algorithm.java"/>

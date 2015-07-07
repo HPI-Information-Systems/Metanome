@@ -81,10 +81,6 @@ public class RelationalInputInput extends InputField {
 
     fileInputService.listFileInputs(getFileInputCallback());
     tableInputService.listTableInputs(getTableInputCallback());
-
-    if (preselectedIdentifier != null) {
-      listbox.setSelectedValue(preselectedIdentifier);
-    }
   }
 
   private void addInput(Input input, String identifier) {
@@ -108,6 +104,10 @@ public class RelationalInputInput extends InputField {
               preselectedIdentifier = identifier;
             }
           }
+
+          if (preselectedIdentifier != null) {
+            listbox.setSelectedValue(preselectedIdentifier);
+          }
         }
       }
     };
@@ -129,6 +129,10 @@ public class RelationalInputInput extends InputField {
               preselectedIdentifier = identifier;
             }
           }
+
+          if (preselectedIdentifier != null) {
+            listbox.setSelectedValue(preselectedIdentifier);
+          }
         }
       }
     };
@@ -140,7 +144,10 @@ public class RelationalInputInput extends InputField {
    * available values, we save the value and set it when the list box is filled.
    *
    * @param dataSourceSetting the data source setting
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException If the data source setting is not a relational input setting
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException If the data source
+   *                                                                           setting is not a
+   *                                                                           relational input
+   *                                                                           setting
    */
   public void selectDataSource(ConfigurationSettingDataSource dataSourceSetting)
       throws AlgorithmConfigurationException {
@@ -151,7 +158,9 @@ public class RelationalInputInput extends InputField {
     }
 
     if (dataSourceSetting instanceof ConfigurationSettingRelationalInput) {
-      ConfigurationSettingRelationalInput setting = (ConfigurationSettingRelationalInput) dataSourceSetting;
+      ConfigurationSettingRelationalInput
+          setting =
+          (ConfigurationSettingRelationalInput) dataSourceSetting;
       this.setValues(setting);
     } else {
       throw new AlgorithmConfigurationException("This is not a relational input setting.");
@@ -206,23 +215,28 @@ public class RelationalInputInput extends InputField {
    */
   protected ConfigurationSettingRelationalInput getCurrentSetting(Input input)
       throws AlgorithmConfigurationException {
-    if (input instanceof FileInput)
+    if (input instanceof FileInput) {
       return getConfigurationSettingFileInput((FileInput) input);
-    if (input instanceof TableInput)
+    }
+    if (input instanceof TableInput) {
       return getConfigurationSettingTableInput((TableInput) input);
+    }
 
     throw new AlgorithmConfigurationException("Input not supported!");
   }
 
-  private ConfigurationSettingRelationalInput getConfigurationSettingTableInput(TableInput tableInput) {
+  private ConfigurationSettingRelationalInput getConfigurationSettingTableInput(
+      TableInput tableInput) {
     ConfigurationSettingTableInput setting = new ConfigurationSettingTableInput();
 
     DatabaseConnection databaseConnection = tableInput.getDatabaseConnection();
-    ConfigurationSettingDatabaseConnection databaseConnectionSetting = new ConfigurationSettingDatabaseConnection(
-        databaseConnection.getUrl(),
-        databaseConnection.getUsername(),
-        databaseConnection.getPassword(),
-        databaseConnection.getSystem());
+    ConfigurationSettingDatabaseConnection
+        databaseConnectionSetting =
+        new ConfigurationSettingDatabaseConnection(
+            databaseConnection.getUrl(),
+            databaseConnection.getUsername(),
+            databaseConnection.getPassword(),
+            databaseConnection.getSystem());
 
     setting.setId(tableInput.getId());
     setting.setTable(tableInput.getTableName());
@@ -231,7 +245,8 @@ public class RelationalInputInput extends InputField {
     return setting;
   }
 
-  private ConfigurationSettingRelationalInput getConfigurationSettingFileInput(FileInput fileInput) {
+  private ConfigurationSettingRelationalInput getConfigurationSettingFileInput(
+      FileInput fileInput) {
     ConfigurationSettingFileInput settingFileInput = new ConfigurationSettingFileInput()
         .setFileName(fileInput.getFileName())
         .setEscapeChar(fileInput.getEscapeChar())

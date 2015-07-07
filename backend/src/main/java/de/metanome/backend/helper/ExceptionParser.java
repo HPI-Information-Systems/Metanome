@@ -19,27 +19,28 @@ package de.metanome.backend.helper;
 /**
  * This class builds a detailed exception string.
  *
- * GWT does not support wrapper exceptions, so that the original cause of an exception is not
- * known in the frontend. However a string can be passed to the frontend with an exception. To
- * give the user the possibility to understand what went wrong, this class builds a detailed
- * exception string.
- *
+ * GWT does not support wrapper exceptions, so that the original cause of an exception is not known
+ * in the frontend. However a string can be passed to the frontend with an exception. To give the
+ * user the possibility to understand what went wrong, this class builds a detailed exception
+ * string.
  */
 public class ExceptionParser {
 
   /**
    * Builds a detailed exception string from the given exception.
+   *
    * @param throwable the exception
    * @return the detailed exception string containing the message and a part of the stack trace
    */
   public static String parse(Throwable throwable) {
-    return  ExceptionParser.parse(throwable, "");
+    return ExceptionParser.parse(throwable, "");
   }
 
   /**
    * Builds a details exception string with an optional additional message.
+   *
    * @param throwable the exception
-   * @param message the additional message
+   * @param message   the additional message
    * @return the detailed exception string containing the message and a part of the stack trace
    */
   public static String parse(Throwable throwable, String message) {

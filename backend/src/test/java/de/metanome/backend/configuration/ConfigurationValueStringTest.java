@@ -17,8 +17,8 @@
 package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 
 import org.junit.Test;
@@ -73,7 +73,7 @@ public class ConfigurationValueStringTest {
     StringParameterAlgorithm algorithm = mock(StringParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(ProgressEstimatingAlgorithm.class);
+    interfaces.add(TempFileAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     String[] expectedConfigurationValues = {"value1", "value2"};

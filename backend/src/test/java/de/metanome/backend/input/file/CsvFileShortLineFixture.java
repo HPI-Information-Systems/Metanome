@@ -26,8 +26,8 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import java.io.StringReader;
 
 /**
- * A fixture generating a file file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4
- * (long)).
+ * A fixture generating a file file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and
+ * 4 (long)).
  *
  * @author Jakob Zwiener
  */

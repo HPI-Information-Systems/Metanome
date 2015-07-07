@@ -23,7 +23,6 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -76,7 +75,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean tableInput;
   protected boolean fileInput;
   protected boolean basicStat;
-  protected boolean progressEstimating;
   protected List<Execution> executions = new ArrayList<>();
 
   /**
@@ -87,7 +85,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   }
 
   /**
-   *
    * @param fileName the file name of the algorithm jar
    */
   public Algorithm(String fileName) {
@@ -113,8 +110,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
     this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
-    this.databaseConnection = algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
-    this.progressEstimating = algorithmInterfaces.contains(ProgressEstimatingAlgorithm.class);
+    this.databaseConnection =
+        algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
   }
 
   /**
@@ -279,15 +276,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     return this;
   }
 
-  public boolean isProgressEstimating() {
-    return progressEstimating;
-  }
-
-  public Algorithm setProgressEstimating(boolean progressEstimating) {
-    this.progressEstimating = progressEstimating;
-    return this;
-  }
-
   @XmlTransient
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "algorithm")
   @OnDelete(action = OnDeleteAction.CASCADE)
@@ -337,7 +325,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   @Override
   public String toString() {
     return "Algorithm ["
-           +   "fileName=" + fileName
+           + "fileName=" + fileName
            + ", name=" + name
            + ", author=" + author
            + ", description=" + description

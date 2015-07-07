@@ -176,8 +176,9 @@ public class ResultSetIteratorTest {
   }
 
   /**
-   * Test method for {@link ResultSetIterator#close()} <p/> The database iterator should be closeable.
-   * After closing the iterator, the underlying result set and statement should be closed.
+   * Test method for {@link ResultSetIterator#close()} <p/> The database iterator should be
+   * closeable. After closing the iterator, the underlying result set and statement should be
+   * closed.
    */
   @Test
   public void testClose() throws Exception {

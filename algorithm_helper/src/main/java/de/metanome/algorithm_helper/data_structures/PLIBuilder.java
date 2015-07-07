@@ -44,6 +44,7 @@ public class PLIBuilder {
     this.input = input;
     this.nullEqualsNull = true;
   }
+
   public PLIBuilder(RelationalInput input, boolean nullEqualsNull) {
     this(input);
     this.nullEqualsNull = nullEqualsNull;
@@ -93,7 +94,8 @@ public class PLIBuilder {
   }
 
   /**
-   * Builds a {@link TreeSet} of the values of every column in the input. "null" values are filtered as they are not required for spider.
+   * Builds a {@link TreeSet} of the values of every column in the input. "null" values are filtered
+   * as they are not required for spider.
    *
    * @return all comlumns' sorted distinct values
    * @throws InputIterationException if the input cannot be iterated

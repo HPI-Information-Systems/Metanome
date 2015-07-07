@@ -29,7 +29,8 @@ public class ConfigurationSettingListBox extends ConfigurationSettingPrimitive<S
   // Needed for restful serialization
   public String type = "ConfigurationSettingListBox";
 
-  public ConfigurationSettingListBox() {}
+  public ConfigurationSettingListBox() {
+  }
 
   public ConfigurationSettingListBox(String value) {
     super(value);

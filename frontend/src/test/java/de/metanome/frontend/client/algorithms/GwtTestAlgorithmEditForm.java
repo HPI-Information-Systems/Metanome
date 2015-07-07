@@ -25,6 +25,8 @@ import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.TestHelper;
 import de.metanome.frontend.client.helpers.InputValidationException;
 
+import org.fusesource.restygwt.client.MethodCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,9 +171,9 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
    * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmEditForm#updateAlgorithm(de.metanome.backend.results_db.Algorithm)}
    * and test method for {@link AlgorithmEditForm#showSaveButton()}
    *
-   * If the edit button for an algorithm is clicked, the edit form should contain the values
-   * of that algorithm and the edit form should show a update button instead of an save button.
-   * If the method 'show save button' is called, the save button should be visible again.
+   * If the edit button for an algorithm is clicked, the edit form should contain the values of that
+   * algorithm and the edit form should show a update button instead of an save button. If the
+   * method 'show save button' is called, the save button should be visible again.
    */
   public void testEditButtonClicked() throws InputValidationException {
     // Setup
@@ -209,6 +211,49 @@ public class GwtTestAlgorithmEditForm extends GWTTestCase {
     assertEquals(((Button) form.getWidget(4, 1)).getText(), "Save");
     assertEquals(1, form.fileListBox.getValues().size());
 
+  }
+
+  /**
+   * Test method for {@link de.metanome.frontend.client.algorithms.AlgorithmEditForm#getStorageCallback}
+   * and test method for {@link AlgorithmEditForm#getDatabaseCallback()}
+   */
+  public void testDatabaseAndStorageCallback() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    TabWrapper tab = new TabWrapper();
+    AlgorithmEditForm form = new AlgorithmEditForm(new AlgorithmsPage(new BasePage()), tab);
+    form.algorithmsOnStorage.add("some file 2");
+    form.algorithmsOnStorage.add("some file 3");
+
+    // Expected Values
+    List<Algorithm> algorithms = new ArrayList<>();
+    algorithms.add(new Algorithm("some file 1"));
+    algorithms.add(new Algorithm("some file 2"));
+    List<String> storage = new ArrayList<>();
+    storage.add("some file 1");
+    storage.add("some file 4");
+    storage.add("some file 5");
+
+    // Execute
+    MethodCallback<List<Algorithm>> databaseCallback = form.getDatabaseCallback();
+    databaseCallback.onSuccess(null, algorithms);
+
+    // Check
+    assertEquals(2, form.algorithmsInDatabase.size());
+    assertEquals(2, form.algorithmsOnStorage.size());
+    assertEquals(2, form.fileListBox.getValues().size());
+
+    // Execute
+    MethodCallback<List<String>> storageCallback = form.getStorageCallback();
+    storageCallback.onSuccess(null, storage);
+
+    // Check
+    assertEquals(2, form.algorithmsInDatabase.size());
+    assertEquals(5, form.algorithmsOnStorage.size());
+    assertEquals(4, form.fileListBox.getValues().size());
+
+    TestHelper.resetDatabaseSync();
   }
 
   @Override

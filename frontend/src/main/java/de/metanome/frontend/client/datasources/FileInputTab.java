@@ -41,8 +41,8 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   protected FlexTable fileInputList;
   protected FileInputEditForm editForm;
-  private FileInputRestService fileInputService;
-  private DataSourcePage parent;
+  protected FileInputRestService fileInputService;
+  protected DataSourcePage parent;
   private TabWrapper messageReceiver;
 
   /**
@@ -52,7 +52,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
     this.fileInputService = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     this.parent = parent;
 
-    this.fileInputList = new FlexTable();
     this.fileInputList = new FlexTable();
     this.editForm = new FileInputEditForm(this);
 
@@ -84,7 +83,6 @@ public class FileInputTab extends FlowPanel implements TabContent {
             listFileInputs(fileInputs);
             addEditForm();
           }
-
         });
   }
 
@@ -194,7 +192,8 @@ public class FileInputTab extends FlowPanel implements TabContent {
     return new MethodCallback<Void>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not delete the file input: " + method.getResponse().getText());
+        messageReceiver
+            .addError("Could not delete the file input: " + method.getResponse().getText());
       }
 
       @Override
@@ -206,6 +205,7 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row in the table, which contains the given file input.
+   *
    * @param input the file input
    * @return the row number
    */
@@ -232,13 +232,15 @@ public class FileInputTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row of the old file input and updates the values.
+   *
    * @param updatedInput the updated file input
    * @param oldInput     the old file input
    */
   public void updateFileInputInTable(final FileInput updatedInput, FileInput oldInput) {
     int row = findRow(oldInput);
 
-    this.fileInputList.setWidget(row, 0, new HTML(FilePathHelper.getFileName(updatedInput.getFileName())));
+    this.fileInputList
+        .setWidget(row, 0, new HTML(FilePathHelper.getFileName(updatedInput.getFileName())));
     this.fileInputList.setText(row, 1, updatedInput.getComment());
 
     Button editButton = new Button("Edit");

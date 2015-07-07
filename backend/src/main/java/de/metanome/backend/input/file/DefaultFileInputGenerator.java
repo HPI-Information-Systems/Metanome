@@ -30,8 +30,7 @@ import java.io.FileReader;
 
 /**
  * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on file
- * files.
- * The setting holds all parameters to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s.
+ * files. The setting holds all parameters to construct new {@link de.metanome.algorithm_integration.input.RelationalInput}s.
  * To adapt the parameters you have to adapt the setting.
  *
  * @author Jakob Zwiener
@@ -41,9 +40,13 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   protected File inputFile;
   protected ConfigurationSettingFileInput setting;
 
+  protected DefaultFileInputGenerator() {
+  }
+
   /**
-   * Creates a DefaultFileInputGenerator with default settings.
-   * The default setting is used to construct a new {@link de.metanome.algorithm_integration.input.RelationalInput}.
+   * Creates a DefaultFileInputGenerator with default settings. The default setting is used to
+   * construct a new {@link de.metanome.algorithm_integration.input.RelationalInput}.
+   *
    * @param inputFile the file input file
    * @throws java.io.FileNotFoundException if the input file is not found
    */

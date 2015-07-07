@@ -52,7 +52,8 @@ public class EntityStorageExceptionTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.results_db.EntityStorageException#EntityStorageException(String, Throwable)}
+   * Test method for {@link de.metanome.backend.results_db.EntityStorageException#EntityStorageException(String,
+   * Throwable)}
    *
    * The exception should store the message and the cause.
    */

@@ -17,7 +17,6 @@
 package de.metanome.algorithms.testing.example_ucc_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -109,13 +108,11 @@ public class ExampleAlgorithmTest {
     UniqueColumnCombinationResultReceiver
         resultReceiver =
         mock(UniqueColumnCombinationResultReceiver.class);
-    ProgressReceiver progressCache = mock(ProgressReceiver.class);
     String[] configurationValues = {"something1", "something2"};
     this.algorithm.setStringConfigurationValue(pathIdentifier, configurationValues);
 
     // Execute functionality
     this.algorithm.setResultReceiver(resultReceiver);
-    this.algorithm.setProgressReceiver(progressCache);
     this.algorithm.execute();
 
     // Check result

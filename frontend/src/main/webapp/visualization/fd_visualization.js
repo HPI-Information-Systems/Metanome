@@ -82,7 +82,7 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
     var cns = [],
         fds = [],
         columns = [],
-        columnsfuncDep = [],
+        columnsfuncDep = [],UCCResultAnalyzer
         columnsSentate = [],
         conn = [],
         h_dems = [],

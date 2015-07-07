@@ -155,10 +155,11 @@ public class ColumnConditionAnd implements ColumnCondition {
           }
         }
 
-        if (equalCount == this.columnValues.size())
+        if (equalCount == this.columnValues.size()) {
           return 0;
-        else
+        } else {
           return 1;
+        }
       }
     } else {
       //and always last

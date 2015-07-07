@@ -160,7 +160,7 @@ public class ExecutionTest {
     HibernateUtil.clear();
   }
 
-  @Test(expected=EntityStorageException.class)
+  @Test(expected = EntityStorageException.class)
   public void testUniqueAlgorithmAndBegin() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

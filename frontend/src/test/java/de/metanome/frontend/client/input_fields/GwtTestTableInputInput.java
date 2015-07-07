@@ -33,8 +33,8 @@ public class GwtTestTableInputInput extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.input_fields.TableInputInput#TableInputInput(
-   * boolean, boolean, TabWrapper)} <p/> After calling the constructor the optional
-   * parameter should be set correctly and all widgets should be initialized.
+   *boolean, boolean, TabWrapper)} <p/> After calling the constructor the optional parameter should
+   * be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
     // Set up
@@ -47,7 +47,9 @@ public class GwtTestTableInputInput extends GWTTestCase {
     boolean expectedOptional = true;
 
     // Execute functionality
-    TableInputInput actualTableInputInput = new TableInputInput(expectedOptional, false, tabWrapper);
+    TableInputInput
+        actualTableInputInput =
+        new TableInputInput(expectedOptional, false, tabWrapper);
 
     // Check result
     assertEquals(expectedOptional, actualTableInputInput.isOptional);
@@ -59,8 +61,7 @@ public class GwtTestTableInputInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link TableInputInput#getValue()} and
-   * {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
+   * Test method for {@link TableInputInput#getValue()} and {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetValues() {
@@ -81,8 +82,9 @@ public class GwtTestTableInputInput extends GWTTestCase {
     final ConfigurationSettingTableInput expectedSetting =
         new ConfigurationSettingTableInput();
     expectedSetting.setTable("table");
-    expectedSetting.setDatabaseConnection(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",
-                                                                                     DbSystem.DB2));
+    expectedSetting
+        .setDatabaseConnection(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",
+                                                                          DbSystem.DB2));
 
     // Initialize TableInputInput (waiting for fetching all current file inputs)
     final TableInputInput tableInputInputs = new TableInputInput(false, false, new TabWrapper());
@@ -111,8 +113,7 @@ public class GwtTestTableInputInput extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link TableInputInput#getValue()} and
-   * {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
+   * Test method for {@link TableInputInput#getValue()} and {@link TableInputInput#setValue(de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput)}
    * <p/> The getValues and setValues methods should set and retrieve settings.
    */
   public void testGetSetRequiredValues() {

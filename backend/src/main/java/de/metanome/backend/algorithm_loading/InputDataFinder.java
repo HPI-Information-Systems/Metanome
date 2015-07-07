@@ -26,6 +26,8 @@ import java.net.URLDecoder;
  */
 public class InputDataFinder {
 
+  public static final String[] ACCEPTED_FILE_ENDINGS = new String[] {".csv", ".tsv"};
+
   /**
    * Returns all possible input files from Metanome's input file directory.
    *
@@ -50,7 +52,12 @@ public class InputDataFinder {
     return folder.listFiles(new FilenameFilter() {
       @Override
       public boolean accept(File file, String name) {
-        return name.endsWith(".csv") || name.endsWith(".tsv");
+        for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
+          if (name.endsWith(fileEnding)) {
+            return true;
+          }
+        }
+        return false;
       }
     });
   }

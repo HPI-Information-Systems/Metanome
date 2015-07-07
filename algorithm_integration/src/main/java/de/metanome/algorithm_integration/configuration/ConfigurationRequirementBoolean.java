@@ -39,7 +39,8 @@ public class ConfigurationRequirementBoolean
   // Needed for restful serialization
   public String type = "ConfigurationRequirementBoolean";
 
-  public ConfigurationRequirementBoolean() { }
+  public ConfigurationRequirementBoolean() {
+  }
 
   public ConfigurationRequirementBoolean(String identifier) {
     super(identifier);
@@ -49,7 +50,8 @@ public class ConfigurationRequirementBoolean
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementBoolean(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementBoolean(String identifier, int minNumberOfSetting,
+                                         int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

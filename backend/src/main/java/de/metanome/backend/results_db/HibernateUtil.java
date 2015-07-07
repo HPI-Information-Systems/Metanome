@@ -77,7 +77,8 @@ public class HibernateUtil {
       session.getTransaction().commit();
     } catch (ConstraintViolationException e) {
       session.getTransaction().rollback();
-      throw new EntityStorageException("Could not store object because of a constraint violation exception", e);
+      throw new EntityStorageException(
+          "Could not store object because of a constraint violation exception", e);
     } finally {
       session.close();
     }

@@ -18,8 +18,6 @@ package de.metanome.backend.algorithm_loading;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -57,9 +55,6 @@ public class AlgorithmJarLoaderTest {
 
     UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
     uccAlgorithm.setResultReceiver(mock(OmniscientResultReceiver.class));
-
-    ProgressEstimatingAlgorithm progressAlgorithm = (ProgressEstimatingAlgorithm) algorithm;
-    progressAlgorithm.setProgressReceiver(mock(ProgressReceiver.class));
 
     algorithm.execute();
   }

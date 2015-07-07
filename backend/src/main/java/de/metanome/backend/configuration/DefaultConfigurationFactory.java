@@ -29,14 +29,16 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementT
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
 
 /**
- * Converts given {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s to the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
+ * Converts given {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s
+ * to the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
  *
  * @author Jakob Zwiener
  */
 public class DefaultConfigurationFactory implements ConfigurationFactory {
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueBoolean} from a@{link ConfigurationRequirementBoolean}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueBoolean} from a@{link
+   * ConfigurationRequirementBoolean}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
@@ -48,7 +50,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueInteger} from a@{link ConfigurationRequirementInteger}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueInteger} from a@{link
+   * ConfigurationRequirementInteger}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
@@ -60,7 +63,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueListBox} from a@{link ConfigurationRequirementListBox}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueListBox} from a@{link
+   * ConfigurationRequirementListBox}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
@@ -72,26 +76,33 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator} from a@{link ConfigurationRequirementRelationalInput}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator}
+   * from a@{link ConfigurationRequirementRelationalInput}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} cannot be initialized
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
+   *                                                                           cannot be initialized
    */
   @Override
   public ConfigurationValueRelationalInputGenerator build(
       ConfigurationRequirementRelationalInput requirement)
       throws AlgorithmConfigurationException {
-    DefaultRelationalInputGeneratorInitializer inputGeneratorInitializer = new DefaultRelationalInputGeneratorInitializer(requirement);
+    DefaultRelationalInputGeneratorInitializer
+        inputGeneratorInitializer =
+        new DefaultRelationalInputGeneratorInitializer(requirement);
     return inputGeneratorInitializer.getConfigurationValue();
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueDatabaseConnectionGenerator} from a@{link ConfigurationRequirementDatabaseConnection}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueDatabaseConnectionGenerator}
+   * from a@{link ConfigurationRequirementDatabaseConnection}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
-   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException when the {@link de.metanome.algorithm_integration.input.DatabaseConnectionGenerator} cannot be initialized
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException when the {@link
+   *                                                                           de.metanome.algorithm_integration.input.DatabaseConnectionGenerator}
+   *                                                                           cannot be initialized
    */
   @Override
   public ConfigurationValueDatabaseConnectionGenerator build(
@@ -101,7 +112,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator} from a@{link ConfigurationRequirementFileInput}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator} from
+   * a@{link ConfigurationRequirementFileInput}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement

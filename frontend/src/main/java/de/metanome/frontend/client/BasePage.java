@@ -111,19 +111,21 @@ public class BasePage extends TabLayoutPanel {
   /**
    * Hand control from the Run Configuration to displaying Results. Start algorithm execution.
    *
-   * @param executionService  the service instance used for executing the algorithm
-   * @param algorithm         the algorithm to execute
-   * @param parameters        the specification with set settings used to configure the algorithm
-   * @param cacheResults      true, if the results should be cached and written to disk after the algorithm is finished
-   * @param writeResults      true, if the results should be written to disk immediately
-   * @param countResults      true, if the results should be counted
+   * @param executionService the service instance used for executing the algorithm
+   * @param algorithm        the algorithm to execute
+   * @param parameters       the specification with set settings used to configure the algorithm
+   * @param cacheResults     true, if the results should be cached and written to disk after the
+   *                         algorithm is finished
+   * @param writeResults     true, if the results should be written to disk immediately
+   * @param countResults     true, if the results should be counted
    */
   public void startAlgorithmExecution(AlgorithmExecutionRestService executionService,
                                       Algorithm algorithm,
                                       List<ConfigurationRequirement> parameters,
                                       Boolean cacheResults,
                                       Boolean writeResults,
-                                      Boolean countResults) {
+                                      Boolean countResults,
+                                      String memory) {
 
     // clear previous errors
     this.resultPageTabWrapper.clearErrors();
@@ -137,22 +139,21 @@ public class BasePage extends TabLayoutPanel {
         .setRequirements(parameters)
         .setCacheResults(cacheResults)
         .setWriteResults(writeResults)
-        .setCountResults(countResults);
+        .setCountResults(countResults)
+        .setMemory(memory);
 
-    executionService.executeAlgorithm(params,
-                                      this.getExecutionCallback(executionService,
-                                                                executionIdentifier));
-    // During execution the progress is shown on the result page
+    executionService.executeAlgorithm(params, this.getExecutionCallback());
     this.resultsPage
-        .setExecutionParameter(executionService, executionIdentifier, algorithm.getFileName(),
-                               cacheResults, writeResults, countResults);
-    this.resultsPage.startPolling(algorithm.isProgressEstimating());
+        .setExecutionParameter(executionIdentifier, algorithm.getFileName(), executionService,
+                               countResults);
+    this.resultsPage.startPolling();
 
     this.selectTab(Tabs.RESULTS.ordinal());
   }
 
   /**
    * Switches to the result page and shows the results of the given execution.
+   *
    * @param execution the execution
    */
   public void showResultsFor(Execution execution) {
@@ -162,6 +163,7 @@ public class BasePage extends TabLayoutPanel {
 
   /**
    * Switches to the result page and shows the results of the given input.
+   *
    * @param input the execution
    */
   public void showResultsFor(FileInput input) {
@@ -173,19 +175,19 @@ public class BasePage extends TabLayoutPanel {
    * If the algorithm execution is successful, the results will be shown. otherwise the reason of
    * failure will be displayed.
    *
-   * @param executionService    the service instance used for executing the algorithm
-   * @param executionIdentifier the execution identifier
    * @return the callback
    */
-  private MethodCallback<Execution> getExecutionCallback(final AlgorithmExecutionRestService executionService,
-                                                   final String executionIdentifier) {
+  private MethodCallback<Execution> getExecutionCallback() {
     return new MethodCallback<Execution>() {
       public void onFailure(Method method, Throwable caught) {
-        resultsPage.updateOnError(method.getResponse().getText());
+        resultsPage
+            .updateOnError(caught.getMessage() + " " + caught.getCause() + caught.toString());
       }
 
       public void onSuccess(Method method, Execution execution) {
-        resultsPage.updateOnSuccess(execution.getEnd() - execution.getBegin());
+        if (!execution.isAborted()) {
+          resultsPage.updateOnSuccess(execution);
+        }
         executionPage.addExecution(execution);
       }
     };
@@ -247,8 +249,7 @@ public class BasePage extends TabLayoutPanel {
   }
 
   /**
-   * Forwards an algorithm, which was updated, from the AlgorithmPage to the
-   * RunConfigurations
+   * Forwards an algorithm, which was updated, from the AlgorithmPage to the RunConfigurations
    *
    * @param algorithm the algorithm, which was updated
    * @param oldName   the old name of the algorithm

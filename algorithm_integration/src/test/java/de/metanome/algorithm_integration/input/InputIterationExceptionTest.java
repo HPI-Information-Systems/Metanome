@@ -69,7 +69,8 @@ public class InputIterationExceptionTest {
 
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.input.InputIterationException#InputIterationException(String, Throwable)}
+   * Test method for {@link de.metanome.algorithm_integration.input.InputIterationException#InputIterationException(String,
+   * Throwable)}
    *
    * The exception should store the message and the cause.
    */

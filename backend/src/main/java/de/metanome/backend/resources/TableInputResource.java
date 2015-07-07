@@ -55,6 +55,7 @@ public class TableInputResource implements Resource<TableInput> {
 
   /**
    * Deletes the TableInput, which has the given id, from the database.
+   *
    * @param id the id of the TableInput, which should be deleted
    */
   @DELETE
@@ -71,6 +72,7 @@ public class TableInputResource implements Resource<TableInput> {
 
   /**
    * retrieves a TableInput from the Database
+   *
    * @param id the id of the TableInput
    * @return the retrieved TableInput
    */
@@ -102,6 +104,7 @@ public class TableInputResource implements Resource<TableInput> {
 
   /**
    * Updates a table input in the database.
+   *
    * @param tableInput the table input
    * @return the updated table input
    */

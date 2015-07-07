@@ -18,7 +18,7 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
@@ -82,7 +82,7 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
         mock(DatabaseConnectionParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(ProgressEstimatingAlgorithm.class);
+    interfaces.add(TempFileAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     DatabaseConnectionGenerator[]

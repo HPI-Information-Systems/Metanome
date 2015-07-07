@@ -36,6 +36,25 @@ import java.util.ArrayList;
 public class GwtTestTableInputTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#TableInputTab(DataSourcePage)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    TableInputTab input = new TableInputTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.tableInputList);
+    assertNotNull(input.tableInputRestService);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#addTableInputToTable(de.metanome.backend.results_db.TableInput)}
    */
   public void testAddTableInputToTable() {
@@ -102,8 +121,9 @@ public class GwtTestTableInputTab extends GWTTestCase {
 
   /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#getDeleteCallback(de.metanome.backend.results_db.TableInput)}
-   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#increaseDatabaseConnectionUsage(String identifier)}
-   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#decreaseDatabaseConnectionUsage(String identifier)}
+   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#increaseDatabaseConnectionUsage(String
+   * identifier)} and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#decreaseDatabaseConnectionUsage(String
+   * identifier)}
    */
   public void testDeleteCallback() throws EntityStorageException, InputValidationException {
     // Setup
@@ -151,7 +171,7 @@ public class GwtTestTableInputTab extends GWTTestCase {
     int rowCount = tableInputTab.tableInputList.getRowCount();
 
     // Execute (delete Table Input 2)
-    MethodCallback<Void >
+    MethodCallback<Void>
         callback =
         tableInputTab.getDeleteCallback(tableInput2);
     callback.onSuccess(null, null);
@@ -159,7 +179,8 @@ public class GwtTestTableInputTab extends GWTTestCase {
     // Check
     assertEquals(rowCount - 1, tableInputTab.tableInputList.getRowCount());
     assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(1, 1)).getText());
-    assertFalse(((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 5)).isEnabled());
+    assertFalse(
+        ((Button) page.databaseConnectionTab.connectionInputList.getWidget(1, 5)).isEnabled());
 
     // Execute (delete Table Input 1)
     callback = tableInputTab.getDeleteCallback(tableInput1);
@@ -168,14 +189,16 @@ public class GwtTestTableInputTab extends GWTTestCase {
     // Check
     assertEquals(rowCount - 2, tableInputTab.tableInputList.getRowCount());
     assertEquals("table3", ((HTML) tableInputTab.tableInputList.getWidget(0, 1)).getText());
-    assertTrue(((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 5)).isEnabled());
+    assertTrue(
+        ((Button) page.databaseConnectionTab.connectionInputList.getWidget(0, 5)).isEnabled());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#updateTableInputInTable(TableInput updatedInput, TableInput oldInput)}
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputTab#updateTableInputInTable(TableInput
+   * updatedInput, TableInput oldInput)}
    */
   public void testUpdateTableInput() {
     // Setup
@@ -215,7 +238,8 @@ public class GwtTestTableInputTab extends GWTTestCase {
 
     // Check
     assertEquals(2, tableInputTab.tableInputList.getRowCount());
-    assertTrue(((HTML) (tableInputTab.tableInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(
+        ((HTML) (tableInputTab.tableInputList.getWidget(1, 0))).getText().contains(expectedValue));
     assertTrue(tableInputTab.tableInputList.getText(1, 1).contains(expectedValue));
     assertTrue(tableInputTab.tableInputList.getText(1, 2).contains(expectedValue));
 

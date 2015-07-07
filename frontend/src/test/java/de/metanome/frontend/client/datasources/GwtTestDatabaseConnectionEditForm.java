@@ -31,6 +31,33 @@ import java.util.Arrays;
 public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#DatabaseConnectionEditForm(DatabaseConnectionTab)}
+   */
+  public void testSetUp() {
+    // Set up
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    DatabaseConnectionEditForm
+        input =
+        new DatabaseConnectionEditForm(
+            new DatabaseConnectionTab(new DataSourcePage(new BasePage())));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.dbUrlTextbox);
+    assertNotNull(input.systemListBox);
+    assertNotNull(input.usernameTextbox);
+    assertNotNull(input.passwordTextbox);
+    assertNotNull(input.commentTextbox);
+    assertNotNull(input.saveButton);
+    assertNotNull(input.updateButton);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#getValue()}
    */
   public void testGetValue() throws InputValidationException {
@@ -116,9 +143,10 @@ public class GwtTestDatabaseConnectionEditForm extends GWTTestCase {
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionEditForm#updateDatabaseConnection(de.metanome.backend.results_db.DatabaseConnection)}
    * and test method for {@link DatabaseConnectionEditForm#showSaveButton()}
    *
-   * If the edit button for a database connection is clicked, the edit form should contain the values
-   * of that database connection and the edit form should show a update button instead of an save button.
-   * If the method 'show save button' is called, the save button should be visible again.
+   * If the edit button for a database connection is clicked, the edit form should contain the
+   * values of that database connection and the edit form should show a update button instead of an
+   * save button. If the method 'show save button' is called, the save button should be visible
+   * again.
    */
   public void testEditButtonClicked() throws InputValidationException {
     // Setup

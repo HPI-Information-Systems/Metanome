@@ -18,6 +18,7 @@ package de.metanome.frontend.client.parameter;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -113,10 +114,13 @@ public class GwtTestParameterTable extends GWTTestCase {
     assertEquals(InputParameterIntegerWidget.class, pt.table.getWidget(4, 1).getClass());
 
     // - Radio buttons
-    assertEquals(FlowPanel.class, pt.getWidget(1).getClass());
+    assertEquals(FlexTable.class, pt.getWidget(1).getClass());
+
+    // - Memory
+    assertEquals(FlowPanel.class, pt.getWidget(2).getClass());
 
     // - Submit button row
-    assertEquals(Button.class, pt.getWidget(2).getClass());
+    assertEquals(Button.class, pt.getWidget(3).getClass());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -312,9 +316,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -393,9 +401,13 @@ public class GwtTestParameterTable extends GWTTestCase {
         listboxParam =
         new ConfigurationRequirementListBox(identifierListbox, values, 2);
     String identifierRelationalInput = "relationalParam";
-    ConfigurationRequirementRelationalInput relationalParam = new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
+    ConfigurationRequirementRelationalInput
+        relationalParam =
+        new ConfigurationRequirementRelationalInput(identifierRelationalInput, 2);
     String identifierTable = "table";
-    ConfigurationRequirementTableInput tableParam = new ConfigurationRequirementTableInput(identifierTable, 2);
+    ConfigurationRequirementTableInput
+        tableParam =
+        new ConfigurationRequirementTableInput(identifierTable, 2);
 
     TabWrapper tabWrapper = new TabWrapper();
 
@@ -438,63 +450,6 @@ public class GwtTestParameterTable extends GWTTestCase {
     TestHelper.resetDatabaseSync();
   }
 
-  /**
-   * Test method for {@link ParameterTable#getConfigurationSpecificationDataSourcesWithValues()}
-   * TODO fix FieldSerializer bug
-   */
-/*
-  public void testSetPrimaryDataSource() {
-    // Setup
-    TestHelper.resetDatabaseSync();
-
-    FileInput fileInput = new FileInput();
-    fileInput.setFileName("/inputA.csv");
-    TestHelper.storeFileInputSync(fileInput);
-
-    final ConfigurationSettingCsvFile primaryDataSource = new ConfigurationSettingCsvFile();
-    primaryDataSource.setFileName("/inputA.csv");
-
-    final ArrayList<ConfigurationSpecification> paramList = new ArrayList<>();
-    ConfigurationSpecificationCsvFile ConfigurationSpecificationCsvFile = new ConfigurationSpecificationCsvFile("csv");
-    paramList.add(ConfigurationSpecificationCsvFile);
-
-    final ParameterTable pt = new ParameterTable(paramList, primaryDataSource, new TabWrapper());
-
-    Timer executeTimer = new Timer() {
-      @Override
-      public void run() {
-        //Check
-        boolean foundDataSource = false;
-          try {
-            for (ConfigurationSpecification dataSource : pt.getConfigurationSpecificationDataSourcesWithValues()){
-              for (Object setting : dataSource.getSettings()) {
-                if(((ConfigurationSettingDataSource) setting).getValueAsString().equals(primaryDataSource.getValueAsString()))
-                  foundDataSource = true;
-              }
-            }
-          } catch (InputValidationException e) {
-            TestHelper.resetDatabaseSync();
-            e.printStackTrace();
-            fail();
-          }
-          assertTrue(foundDataSource);
-
-        ListBoxInput
-            listBox = ((InputParameterCsvFileWidget) pt.getWidget(0, 1)).inputWidgets.get(0).listBox;
-        assertEquals(primaryDataSource.getValueAsString(), listBox.getSelectedValue());
-
-        // Cleanup
-        TestHelper.resetDatabaseSync();
-
-        finishTest();
-      }
-    };
-    // Waiting for asynchronous calls to finish.
-    executeTimer.schedule(2000);
-
-    delayTestFinish(4000);
-  }
-*/
   @Override
   public String getModuleName() {
     return "de.metanome.frontend.client.MetanomeTest";

@@ -131,7 +131,8 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     //Test
     assertEquals(3, jarChooser.getWidgetCount());
     assertEquals(algorithms.size() + 1, jarChooser.getListItemCount());
-    assertEquals(AlgorithmChooser.AlgorithmCategory.values().length, jarChooser.categoryListBox.getItemCount());
+    assertEquals(AlgorithmChooser.AlgorithmCategory.values().length,
+                 jarChooser.categoryListBox.getItemCount());
   }
 
   /**
@@ -153,15 +154,18 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     AlgorithmChooser jarChooser = new AlgorithmChooser(algorithms, new TabWrapper());
 
     // Check
-    assertTrue(jarChooser.algorithmListBox.getItemText(1).compareTo(jarChooser.algorithmListBox.getItemText(2)) < 0);
+    assertTrue(jarChooser.algorithmListBox.getItemText(1)
+                   .compareTo(jarChooser.algorithmListBox.getItemText(2)) < 0);
 
     // Add another algorithm
     jarChooser.addAlgorithm(algo3);
     jarChooser.updateAlgorithmListBox();
 
     // Check
-    assertTrue(jarChooser.algorithmListBox.getItemText(1).compareTo(jarChooser.algorithmListBox.getItemText(2)) < 0);
-    assertTrue(jarChooser.algorithmListBox.getItemText(2).compareTo(jarChooser.algorithmListBox.getItemText(3)) < 0);
+    assertTrue(jarChooser.algorithmListBox.getItemText(1)
+                   .compareTo(jarChooser.algorithmListBox.getItemText(2)) < 0);
+    assertTrue(jarChooser.algorithmListBox.getItemText(2)
+                   .compareTo(jarChooser.algorithmListBox.getItemText(3)) < 0);
   }
 
   /**
@@ -186,7 +190,8 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#update(de.metanome.backend.results_db.Algorithm, String)}
+   * Test method for {@link de.metanome.frontend.client.runs.AlgorithmChooser#update(de.metanome.backend.results_db.Algorithm,
+   * String)}
    */
   public void testUpdateAlgorithm() {
     LinkedList<Algorithm> algorithms = new LinkedList<>();
@@ -288,8 +293,9 @@ public class GwtTestAlgorithmChooser extends GWTTestCase {
     assertEquals(5, jarChooser.algorithmListBox.getItemCount());
 
     // Execute
-    jarChooser.filterForPrimaryDataSource(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",
-                                                                                     DbSystem.DB2));
+    jarChooser
+        .filterForPrimaryDataSource(new ConfigurationSettingDatabaseConnection("url", "user", "pwd",
+                                                                               DbSystem.DB2));
 
     assertEquals(2, jarChooser.algorithmListBox.getItemCount());
     assertEquals("--", jarChooser.algorithmListBox.getItemText(0));

@@ -23,8 +23,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import javax.ws.rs.Path;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 

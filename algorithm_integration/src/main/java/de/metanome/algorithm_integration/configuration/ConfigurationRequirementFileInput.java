@@ -38,7 +38,8 @@ public class ConfigurationRequirementFileInput
   // Needed for restful serialization
   public String type = "ConfigurationRequirementFileInput";
 
-  public ConfigurationRequirementFileInput() { }
+  public ConfigurationRequirementFileInput() {
+  }
 
   public ConfigurationRequirementFileInput(String identifier) {
     super(identifier);
@@ -48,7 +49,8 @@ public class ConfigurationRequirementFileInput
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementFileInput(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementFileInput(String identifier, int minNumberOfSetting,
+                                           int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

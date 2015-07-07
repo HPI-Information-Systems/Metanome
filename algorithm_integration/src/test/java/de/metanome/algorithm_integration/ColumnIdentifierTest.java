@@ -22,7 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
@@ -194,6 +196,8 @@ public class ColumnIdentifierTest {
     // Check result
     assertThat(identifier2, greaterThan(identifier1));
     assertThat(identifier3, greaterThan(identifier2));
+    assertThat(identifier2, lessThan(identifier3));
+    assertThat(identifier3, equalTo(identifier3));
   }
 
   /**

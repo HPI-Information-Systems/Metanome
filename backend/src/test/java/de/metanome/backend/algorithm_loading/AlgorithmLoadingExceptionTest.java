@@ -53,7 +53,8 @@ public class AlgorithmLoadingExceptionTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_loading.AlgorithmLoadingException#AlgorithmLoadingException(String, Throwable)}
+   * Test method for {@link de.metanome.backend.algorithm_loading.AlgorithmLoadingException#AlgorithmLoadingException(String,
+   * Throwable)}
    *
    * The exception should store the message and the cause.
    */

@@ -40,6 +40,7 @@ public class ExecutionResource implements Resource<Execution> {
 
   /**
    * Adds an execution to the database.
+   *
    * @param execution the execution
    * @return the stored execution
    */
@@ -60,6 +61,7 @@ public class ExecutionResource implements Resource<Execution> {
 
   /**
    * Deletes the execution, which has the given id, from the database.
+   *
    * @param id the id of the execution, which should be deleted
    */
   @DELETE
@@ -148,6 +150,7 @@ public class ExecutionResource implements Resource<Execution> {
 
   /**
    * Adds a result to the execution.
+   *
    * @param id     the id of the execution
    * @param result the result, which should be added to the execution
    */
@@ -167,6 +170,7 @@ public class ExecutionResource implements Resource<Execution> {
 
   /**
    * Updates an execution in the database.
+   *
    * @param execution the execution
    * @return the updated execution
    */

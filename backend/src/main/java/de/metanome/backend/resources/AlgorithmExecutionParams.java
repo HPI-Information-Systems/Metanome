@@ -29,6 +29,7 @@ public class AlgorithmExecutionParams {
   private Boolean cacheResults = false;
   private Boolean writeResults = false;
   private Boolean countResults = false;
+  private String memory;
 
   public long getAlgorithmId() {
     return algorithmId;
@@ -81,6 +82,15 @@ public class AlgorithmExecutionParams {
 
   public AlgorithmExecutionParams setCountResults(Boolean countResults) {
     this.countResults = countResults;
+    return this;
+  }
+
+  public String getMemory() {
+    return memory;
+  }
+
+  public AlgorithmExecutionParams setMemory(String memory) {
+    this.memory = memory;
     return this;
   }
 }

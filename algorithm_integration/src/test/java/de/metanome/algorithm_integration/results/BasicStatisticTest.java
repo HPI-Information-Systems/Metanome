@@ -117,7 +117,6 @@ public class BasicStatisticTest {
 
   /**
    * Test method for {@link BasicStatistic#equals(Object)} and {@link BasicStatistic#hashCode()}
-   * <p/> TODO docs
    */
   @Test
   public void testEqualsHashCode() {

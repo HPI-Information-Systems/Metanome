@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,24 +19,30 @@ package de.metanome.frontend.client.results;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Label;
 
+import de.metanome.frontend.client.TestHelper;
+
 public class GwtTestResultsVisualizationPage extends GWTTestCase {
 
   /**
-   * Test method for {@link de.metanome.frontend.client.results.ResultsVisualizationPage#ResultsVisualizationPage()}
+   * Test method for {@link de.metanome.frontend.client.results.ResultsVisualizationPage}
    */
-  public void testResultsVisualizationPage() {
+  public void testSetUp() {
     // Set up
+    TestHelper.resetDatabaseSync();
+
     // Expected Values
     // Execute
     ResultsVisualizationPage page = new ResultsVisualizationPage();
 
     // Check
     assertTrue(page.getWidget(0) instanceof Label);
+
+    // Cleanup
+    TestHelper.resetDatabaseSync();
   }
 
   @Override
   public String getModuleName() {
     return "de.metanome.frontend.MetanomeTest";
   }
-
 }

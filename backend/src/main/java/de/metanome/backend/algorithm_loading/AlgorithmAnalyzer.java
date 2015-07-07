@@ -25,7 +25,6 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
@@ -51,14 +50,13 @@ public class AlgorithmAnalyzer {
   Set<Class<?>> interfaces;
 
   /**
-   *
    * @param algorithmPath the algorithm file, which should be analyzed.
-   * @throws IllegalAccessException     if loading fails
-   * @throws IOException                if loading fails
-   * @throws InstantiationException     if loading fails
-   * @throws NoSuchMethodException      if loading fails
-   * @throws InvocationTargetException  if loading fails
-   * @throws ClassNotFoundException     if loading fails
+   * @throws IllegalAccessException    if loading fails
+   * @throws IOException               if loading fails
+   * @throws InstantiationException    if loading fails
+   * @throws NoSuchMethodException     if loading fails
+   * @throws InvocationTargetException if loading fails
+   * @throws ClassNotFoundException    if loading fails
    */
   public AlgorithmAnalyzer(String algorithmPath)
       throws IllegalAccessException, IOException, InstantiationException, NoSuchMethodException,
@@ -75,37 +73,46 @@ public class AlgorithmAnalyzer {
   private void analyzerInterfaces() {
     this.interfaces = extractInterfaces(algorithm);
 
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class))
+    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
       types.add(AlgorithmType.FD);
-    if (interfaces.contains(InclusionDependencyAlgorithm.class))
+    }
+    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
       types.add(AlgorithmType.IND);
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class))
+    }
+    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       types.add(AlgorithmType.UCC);
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class))
+    }
+    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
       types.add(AlgorithmType.CUCC);
-    if (interfaces.contains(OrderDependencyAlgorithm.class))
+    }
+    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
       types.add(AlgorithmType.OD);
-    if (interfaces.contains(BasicStatisticsAlgorithm.class))
+    }
+    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       types.add(AlgorithmType.BASIC_STAT);
-    if (interfaces.contains(TempFileAlgorithm.class))
+    }
+    if (interfaces.contains(TempFileAlgorithm.class)) {
       types.add(AlgorithmType.TEMP_FILE);
-    if (interfaces.contains(ProgressEstimatingAlgorithm.class))
-      types.add(AlgorithmType.PROGRESS_EST);
-    if (interfaces.contains(RelationalInputParameterAlgorithm.class))
+    }
+    if (interfaces.contains(RelationalInputParameterAlgorithm.class)) {
       types.add(AlgorithmType.RELATIONAL_INPUT);
-    if (interfaces.contains(FileInputParameterAlgorithm.class))
+    }
+    if (interfaces.contains(FileInputParameterAlgorithm.class)) {
       types.add(AlgorithmType.FILE_INPUT);
-    if (interfaces.contains(TableInputParameterAlgorithm.class))
+    }
+    if (interfaces.contains(TableInputParameterAlgorithm.class)) {
       types.add(AlgorithmType.TABLE_INPUT);
-    if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class))
+    }
+    if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
       types.add(AlgorithmType.DB_CONNECTION);
+    }
   }
 
-  public boolean hasType(AlgorithmType type){
+  public boolean hasType(AlgorithmType type) {
     return types.contains(type);
   }
 
-  public HashSet getTypes(){
+  public HashSet getTypes() {
     return this.types;
   }
 

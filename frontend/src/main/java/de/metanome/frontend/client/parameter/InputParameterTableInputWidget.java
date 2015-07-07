@@ -40,7 +40,7 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
   private ConfigurationRequirementTableInput specification;
 
   public InputParameterTableInputWidget(ConfigurationRequirementTableInput configSpec,
-                                       TabWrapper messageReceiver) {
+                                        TabWrapper messageReceiver) {
     super(configSpec, messageReceiver);
   }
 
@@ -65,7 +65,8 @@ public class InputParameterTableInputWidget extends InputParameterDataSourceWidg
       }
     }
 
-    specification.checkAndSetSettings(values.toArray(new ConfigurationSettingTableInput[values.size()]));
+    specification
+        .checkAndSetSettings(values.toArray(new ConfigurationSettingTableInput[values.size()]));
 
     return specification;
   }

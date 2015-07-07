@@ -36,6 +36,26 @@ import java.util.ArrayList;
 public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#DatabaseConnectionTab(DataSourcePage)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    DatabaseConnectionTab input = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.tableInputService);
+    assertNotNull(input.parent);
+    assertNotNull(input.connectionInputList);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#addDatabaseConnectionToTable(de.metanome.backend.results_db.DatabaseConnection)}
    */
   public void testAddDatabaseConnectionToTable() {
@@ -173,7 +193,8 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Check
     assertEquals(rowCount - 1, databaseConnectionTab.connectionInputList.getRowCount());
-    assertEquals("url3", ((HTML) databaseConnectionTab.connectionInputList.getWidget(1, 0)).getText());
+    assertEquals("url3",
+                 ((HTML) databaseConnectionTab.connectionInputList.getWidget(1, 0)).getText());
 
     // Execute (delete DatabaseConnection 1)
     callback = databaseConnectionTab.getDeleteCallback(databaseConnection1);
@@ -181,7 +202,8 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Check
     assertEquals(rowCount - 2, databaseConnectionTab.connectionInputList.getRowCount());
-    assertEquals("url3", ((HTML) databaseConnectionTab.connectionInputList.getWidget(0, 0)).getText());
+    assertEquals("url3",
+                 ((HTML) databaseConnectionTab.connectionInputList.getWidget(0, 0)).getText());
 
     // Cleanup
     TestHelper.resetDatabaseSync();
@@ -189,7 +211,8 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#updateDatabaseConnectionInTable(de.metanome.backend.results_db.DatabaseConnection, de.metanome.backend.results_db.DatabaseConnection)}
+   * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#updateDatabaseConnectionInTable(de.metanome.backend.results_db.DatabaseConnection,
+   * de.metanome.backend.results_db.DatabaseConnection)}
    */
   public void testUpdateDatabaseConnection() {
     // Setup
@@ -203,7 +226,9 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
     ArrayList<DatabaseConnection> connections = new ArrayList<DatabaseConnection>();
     connections.add(oldDatabaseConnection);
 
-    DatabaseConnectionTab connectionTab = new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
+    DatabaseConnectionTab
+        connectionTab =
+        new DatabaseConnectionTab(new DataSourcePage(new BasePage()));
     connectionTab.listDatabaseConnections(connections);
 
     // Expected Values
@@ -220,8 +245,10 @@ public class GwtTestDatabaseConnectionTab extends GWTTestCase {
 
     // Check
     assertEquals(2, connectionTab.connectionInputList.getRowCount());
-    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 0))).getText().contains(expectedValue));
-    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 1))).getText().contains(expectedValue));
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 0))).getText()
+                   .contains(expectedValue));
+    assertTrue(((HTML) (connectionTab.connectionInputList.getWidget(1, 1))).getText()
+                   .contains(expectedValue));
     assertEquals(((HTML) (connectionTab.connectionInputList.getWidget(1, 2))).getText(),
                  DbSystem.HANA.name());
     assertTrue(connectionTab.connectionInputList.getText(1, 3).contains(expectedValue));

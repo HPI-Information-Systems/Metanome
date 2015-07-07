@@ -103,7 +103,9 @@
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>2.6</version>
                     <configuration>
-                        <check/>
+                        <check>
+                            <haltOnFailure>false</haltOnFailure>
+                        </check>
                         <formats>
                             <format>xml</format>
                         </formats>
@@ -288,6 +290,12 @@
                 <groupId>org.fusesource.restygwt</groupId>
                 <artifactId>restygwt</artifactId>
                 <version>2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.json-simple</groupId>
+                <artifactId>json-simple</artifactId>
+                <version>1.1</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

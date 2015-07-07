@@ -32,7 +32,7 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 import de.metanome.frontend.client.input_fields.TableInputInput;
 
 
-public class GwtTestTableInputParameter  extends GWTTestCase {
+public class GwtTestTableInputParameter extends GWTTestCase {
 
   String aTableName = "table";
 
@@ -59,7 +59,8 @@ public class GwtTestTableInputParameter  extends GWTTestCase {
     TableInputInput widget = new TableInputInput(false, false, tabWrapper);
     ConfigurationSettingTableInput setting = new ConfigurationSettingTableInput();
     setting.setTable(aTableName);
-    setting.setDatabaseConnection(new ConfigurationSettingDatabaseConnection("url", "user", "pwd", DbSystem.DB2));
+    setting.setDatabaseConnection(
+        new ConfigurationSettingDatabaseConnection("url", "user", "pwd", DbSystem.DB2));
 
     widget.listBox.addValue("--");
     widget.listBox.addValue(aTableName);
@@ -100,7 +101,8 @@ public class GwtTestTableInputParameter  extends GWTTestCase {
 
     ConfigurationSettingTableInput setting = new ConfigurationSettingTableInput();
     setting.setTable(aTableName);
-    setting.setDatabaseConnection(new ConfigurationSettingDatabaseConnection("url", "user", "pwd", DbSystem.DB2));
+    setting.setDatabaseConnection(
+        new ConfigurationSettingDatabaseConnection("url", "user", "pwd", DbSystem.DB2));
 
     ConfigurationRequirementTableInput configSpec = new ConfigurationRequirementTableInput("test");
     InputParameterTableInputWidget

@@ -25,12 +25,16 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import java.util.Set;
 
 /**
- * Represents {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} configuration values for {@link Algorithm}s.
+ * Represents {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} configuration
+ * values for {@link Algorithm}s.
  *
  * @author Jakob Zwiener
  */
 public class ConfigurationValueRelationalInputGenerator
     extends ConfigurationValue<RelationalInputGenerator, ConfigurationRequirementRelationalInput> {
+
+  protected ConfigurationValueRelationalInputGenerator() {
+  }
 
   public ConfigurationValueRelationalInputGenerator(String identifier,
                                                     RelationalInputGenerator... values) {

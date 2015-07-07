@@ -17,9 +17,9 @@
 package de.metanome.frontend.client.parameter;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.input_fields.BooleanInput;
 import de.metanome.frontend.client.input_fields.InputField;
@@ -43,7 +43,9 @@ public class InputParameterBooleanWidget extends InputParameterWidget {
     // Create the field with the default value, if one is set
     Boolean defaultValue = this.specification.getDefaultValue(settingIndex);
     BooleanInput field = new BooleanInput(optional, required);
-    if (defaultValue != null) field.setValue(defaultValue);
+    if (defaultValue != null) {
+      field.setValue(defaultValue);
+    }
 
     // Add the field at the correct position
     this.inputWidgets.add(field);

@@ -33,7 +33,6 @@ package de.metanome.algorithms.testing.example_indirect_interfaces_algorithm;/*
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
@@ -49,14 +48,8 @@ import java.util.ArrayList;
  */
 public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
 
-  protected ProgressReceiver progressReceiver = null;
   protected RelationalInputGenerator inputGenerator = null;
   protected UniqueColumnCombinationResultReceiver resultReceiver = null;
-
-  @Override
-  public void setProgressReceiver(ProgressReceiver progressReceiver) {
-    this.progressReceiver = progressReceiver;
-  }
 
   @Override
   public void setRelationalInputConfigurationValue(String identifier,
@@ -81,9 +74,9 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
 
   @Override
   public void execute() throws AlgorithmExecutionException {
-    if ((progressReceiver != null) && (inputGenerator != null) && (resultReceiver != null)) {
+    if ((inputGenerator != null) && (resultReceiver != null)) {
       resultReceiver
-          .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("table1", "column3")));
+          .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("WDC_planets.csv", "Name")));
     }
   }
 }

@@ -43,6 +43,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -53,7 +54,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "execution",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
+    uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
 public class Execution implements Serializable, Comparable<Execution> {
 
   // TODO cascading save to children
@@ -65,10 +66,13 @@ public class Execution implements Serializable, Comparable<Execution> {
   protected long end;
   protected String identifier;
   protected String config;
+  protected Boolean countResult;
   protected List<Input> inputs = new ArrayList<>();
   protected Set<Result> results = new HashSet<>();
   protected String hardwareDescription;
   protected String description;
+  protected ExecutionSetting executionSetting;
+  protected boolean aborted;
 
   /**
    * Exists for hibernate serialization
@@ -93,11 +97,14 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution(Algorithm algorithm, long begin) {
     this.algorithm = algorithm;
     this.begin = begin;
+    this.aborted = false;
   }
 
   @Id
   @GeneratedValue
-  public long getId() { return id; }
+  public long getId() {
+    return id;
+  }
 
   public Execution setId(long id) {
     this.id = id;
@@ -123,6 +130,17 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setAlgorithm(Algorithm algorithm) {
     this.algorithm = algorithm;
 
+    return this;
+  }
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  public ExecutionSetting getExecutionSetting() {
+    return executionSetting;
+  }
+
+  public Execution setExecutionSetting(ExecutionSetting executionSetting) {
+    this.executionSetting = executionSetting;
     return this;
   }
 
@@ -154,6 +172,15 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setConfig(String config) {
     this.config = config;
 
+    return this;
+  }
+
+  public Boolean getCountResult() {
+    return countResult;
+  }
+
+  public Execution setCountResult(Boolean countResult) {
+    this.countResult = countResult;
     return this;
   }
 
@@ -211,6 +238,15 @@ public class Execution implements Serializable, Comparable<Execution> {
     return this;
   }
 
+  public boolean isAborted() {
+    return this.aborted;
+  }
+
+  public Execution setAborted(boolean aborted) {
+    this.aborted = aborted;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -240,16 +276,18 @@ public class Execution implements Serializable, Comparable<Execution> {
 
   @Override
   public int compareTo(Execution other) {
-    if (this.begin < other.getBegin())
+    if (this.begin < other.getBegin()) {
       return 1;
-    else if (this.begin > other.getBegin())
+    } else if (this.begin > other.getBegin()) {
       return -1;
+    }
 
     // begin is equal
-    if (other.getAlgorithm() != null)
+    if (other.getAlgorithm() != null) {
       return this.algorithm.compareTo(other.getAlgorithm());
-    else
+    } else {
       return 1;
+    }
   }
 
   /**

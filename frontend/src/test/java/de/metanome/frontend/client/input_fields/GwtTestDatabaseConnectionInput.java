@@ -37,10 +37,9 @@ import java.util.List;
 public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
   /**
-   * Test method for {@link DatabaseConnectionInput#DatabaseConnectionInput(
-   * boolean, boolean, de.metanome.frontend.client.TabWrapper, java.util.List)}
-   * <p/> After calling the constructor the optional
-   * parameter should be set correctly and all widgets should be initialized.
+   * Test method for {@link DatabaseConnectionInput#DatabaseConnectionInput(boolean, boolean,
+   * de.metanome.frontend.client.TabWrapper, java.util.List)} <p/> After calling the constructor the
+   * optional parameter should be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
     // Set up
@@ -54,7 +53,7 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
     // Execute functionality
     DatabaseConnectionInput
         actualDatabaseConnectionInput = new DatabaseConnectionInput(
-          expectedOptional, false, tabWrapper, new ArrayList<String>());
+        expectedOptional, false, tabWrapper, new ArrayList<String>());
 
     // Check result
     assertEquals(expectedOptional, actualDatabaseConnectionInput.isOptional);
@@ -67,8 +66,8 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
   /**
    * Test method for {@link DatabaseConnectionInput#getValues()} and {@link
-   * DatabaseConnectionInput#setValues(ConfigurationSettingDatabaseConnection)}
-   * <p/> The getValue and setValue methods should set and retrieve settings.
+   * DatabaseConnectionInput#setValues(ConfigurationSettingDatabaseConnection)} <p/> The getValue
+   * and setValue methods should set and retrieve settings.
    */
   public void testGetSetValues() throws AlgorithmConfigurationException {
     // Set up
@@ -151,7 +150,8 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
     // Check
     assertEquals(2, databaseConnectionInput.listBox.getValues().size());
     assertTrue(databaseConnectionInput.listBox.getValues().contains(dbConnection2.getIdentifier()));
-    assertFalse(databaseConnectionInput.listBox.getValues().contains(dbConnection1.getIdentifier()));
+    assertFalse(
+        databaseConnectionInput.listBox.getValues().contains(dbConnection1.getIdentifier()));
   }
 
   /**
@@ -188,14 +188,16 @@ public class GwtTestDatabaseConnectionInput extends GWTTestCase {
 
     // Check
     assertEquals(1, databaseConnectionInput.listBox.getValues().size());
-    assertFalse(databaseConnectionInput.listBox.getValues().contains(dbConnection2.getIdentifier()));
-    assertFalse(databaseConnectionInput.listBox.getValues().contains(dbConnection1.getIdentifier()));
+    assertFalse(
+        databaseConnectionInput.listBox.getValues().contains(dbConnection2.getIdentifier()));
+    assertFalse(
+        databaseConnectionInput.listBox.getValues().contains(dbConnection1.getIdentifier()));
   }
 
   /**
    * Test method for {@link DatabaseConnectionInput#getValues()} and {@link
-   * DatabaseConnectionInput#setValues(ConfigurationSettingDatabaseConnection)}
-   * <p/> The getValue and setValue methods should set and retrieve settings.
+   * DatabaseConnectionInput#setValues(ConfigurationSettingDatabaseConnection)} <p/> The getValue
+   * and setValue methods should set and retrieve settings.
    */
   public void testGetSetRequirementValues() throws AlgorithmConfigurationException {
     // Set up

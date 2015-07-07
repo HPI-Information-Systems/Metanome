@@ -45,11 +45,10 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
       System.out.println("Order Dependency Algorithm executing ...");
       try {
         resultReceiver.receiveResult(new OrderDependency(new ColumnPermutation(
-            new ColumnIdentifier("table1", "column1")), new ColumnPermutation(new ColumnIdentifier(
-                "table1", "column2")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
+            new ColumnIdentifier("WDC_planets.csv", "Name")), new ColumnPermutation(new ColumnIdentifier(
+            "WDC_planets.csv", "Type")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
 
       } catch (final CouldNotReceiveResultException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }

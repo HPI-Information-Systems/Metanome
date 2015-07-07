@@ -21,6 +21,10 @@ import com.google.common.annotations.GwtCompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.metanome.backend.input.file.FileIterator;
 
 import java.io.Serializable;
@@ -35,12 +39,19 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = FileInput.class, name = "fileInput")
+})
 public class FileInput extends Input implements Serializable {
 
   protected String fileName;
-  protected String separator; //Todo: atm needs to be String instead of char for serialization
-  protected String quoteChar; //Todo: atm needs to be String instead of char for serialization
-  protected String escapeChar; //Todo: atm needs to be String instead of char for serialization
+  protected String separator;
+  protected String quoteChar;
+  protected String escapeChar;
   protected Integer skipLines;
   protected boolean strictQuotes;
   protected boolean ignoreLeadingWhiteSpace;
@@ -50,7 +61,8 @@ public class FileInput extends Input implements Serializable {
   protected String nullValue;
 
   // Exists for Serialization
-  public FileInput() {}
+  public FileInput() {
+  }
 
   /**
    * Constructs a FileInput with a given file name. Default parser settings are set.
@@ -151,8 +163,13 @@ public class FileInput extends Input implements Serializable {
 
   @Override
   @Transient
+  @JsonIgnore
   public String getIdentifier() {
     return this.fileName;
+  }
+
+  public String getSeparator() {
+    return separator;
   }
 
   public FileInput setSeparator(String separator) {
@@ -161,8 +178,8 @@ public class FileInput extends Input implements Serializable {
     return this;
   }
 
-  public String getSeparator() {
-    return separator;
+  public String getQuoteChar() {
+    return quoteChar;
   }
 
   public FileInput setQuoteChar(String quoteChar) {
@@ -171,8 +188,8 @@ public class FileInput extends Input implements Serializable {
     return this;
   }
 
-  public String getQuoteChar() {
-    return quoteChar;
+  public String getEscapeChar() {
+    return escapeChar;
   }
 
   public FileInput setEscapeChar(String escapeChar) {
@@ -181,8 +198,8 @@ public class FileInput extends Input implements Serializable {
     return this;
   }
 
-  public String getEscapeChar() {
-    return escapeChar;
+  public String getNullValue() {
+    return nullValue;
   }
 
   public FileInput setNullValue(String nullValue) {
@@ -191,20 +208,24 @@ public class FileInput extends Input implements Serializable {
     return this;
   }
 
-  public String getNullValue() {
-    return nullValue;
+  @Transient
+  @JsonIgnore
+  public char getSeparatorAsChar() {
+    return toChar(this.separator);
   }
 
   @Transient
-  public char getSeparatorAsChar() { return toChar(this.separator); }
-  @Transient
+  @JsonIgnore
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
+
   @Transient
+  @JsonIgnore
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
+
   @Transient
   private char toChar(String str) {
     if (str.isEmpty()) {

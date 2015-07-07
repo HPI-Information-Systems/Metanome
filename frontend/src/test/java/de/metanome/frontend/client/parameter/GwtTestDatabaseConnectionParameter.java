@@ -54,7 +54,9 @@ public class GwtTestDatabaseConnectionParameter extends GWTTestCase {
     databaseConnection.setUsername(aUser);
     databaseConnection.setSystem(aSystem);
 
-    DatabaseConnectionInput widget = new DatabaseConnectionInput(false, false, tabWrapper, new ArrayList<String>());
+    DatabaseConnectionInput
+        widget =
+        new DatabaseConnectionInput(false, false, tabWrapper, new ArrayList<String>());
     ConfigurationSettingDatabaseConnection
         setting =
         new ConfigurationSettingDatabaseConnection(aUrl, aUser, aPassword, aSystem);

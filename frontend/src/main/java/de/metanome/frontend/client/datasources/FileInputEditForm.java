@@ -74,8 +74,8 @@ public class FileInputEditForm extends Grid {
   protected CheckBox headerCheckbox;
   protected CheckBox skipDifferingLinesCheckbox;
   protected TextArea commentTextArea;
-  private FileInputRestService fileInputService;
-  private FileInputTab parent;
+  protected FileInputRestService fileInputService;
+  protected FileInputTab parent;
   private String path = "";
   private TabWrapper messageReceiver;
   private List<String> filesOnStorage;
@@ -152,6 +152,7 @@ public class FileInputEditForm extends Grid {
     addRow(advancedTable, ignoreLeadingWhiteSpaceCheckbox, "Ignore Leading Whitespace");
 
     headerCheckbox = new CheckBox();
+    headerCheckbox.setValue(true);
     addRow(advancedTable, headerCheckbox, "Has Header");
 
     skipDifferingLinesCheckbox = new CheckBox();
@@ -185,7 +186,8 @@ public class FileInputEditForm extends Grid {
       this.fileInputService.updateFileInput(updatedFileInput, new MethodCallback<FileInput>() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-          messageReceiver.addError("File Input could not be updated: " + method.getResponse().getText());
+          messageReceiver
+              .addError("File Input could not be updated: " + method.getResponse().getText());
           reset();
           showSaveButton();
           advancedTable.setVisible(false);
@@ -315,7 +317,9 @@ public class FileInputEditForm extends Grid {
     // Add available CSV files
     MethodCallback<List<String>> storageCallback = getStorageCallback();
     MethodCallback<List<FileInput>> databaseCallback = getDatabaseCallback();
-    FileInputRestService service = com.google.gwt.core.client.GWT.create(FileInputRestService.class);
+    FileInputRestService
+        service =
+        com.google.gwt.core.client.GWT.create(FileInputRestService.class);
     service.listFileInputs(databaseCallback);
     service.listAvailableInputFiles(storageCallback);
   }
@@ -329,8 +333,9 @@ public class FileInputEditForm extends Grid {
       public void onSuccess(Method method, List<FileInput> result) {
         List<String> fileNames = new ArrayList<>();
 
-        for (FileInput input : result)
+        for (FileInput input : result) {
           filesInDatabase.add(input.getIdentifier());
+        }
 
         for (String path : filesOnStorage) {
           if (!filesInDatabase.contains(path)) {
@@ -474,7 +479,9 @@ public class FileInputEditForm extends Grid {
     this.skipLinesIntegerBox.setValue(skipLines);
   }
 
-  protected void setNullValue(String nullValue) { this.nullValueTextBox.setValue(nullValue); }
+  protected void setNullValue(String nullValue) {
+    this.nullValueTextBox.setValue(nullValue);
+  }
 
   protected void setStrictQuotes(boolean strictQuotes) {
     this.strictQuotesCheckbox.setValue(strictQuotes);
@@ -503,6 +510,7 @@ public class FileInputEditForm extends Grid {
 
   /**
    * Fills the form with the values of the file input, which should be updated.
+   *
    * @param fileInput the file input
    */
   public void updateFileInput(FileInput fileInput) {

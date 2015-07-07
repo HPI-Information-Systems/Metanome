@@ -59,7 +59,8 @@ public class DefaultConfigurationFactoryTest {
   /**
    * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean)}
    *
-   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}s should be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueBoolean}s.
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean}s should
+   * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueBoolean}s.
    */
   @Test
   public void testBuildBoolean() throws AlgorithmConfigurationException {

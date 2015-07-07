@@ -75,7 +75,6 @@ public class AlgorithmContentEquals {
       return false;
     }
 
-
     return algo1.isBasicStat() == algo2.isBasicStat();
 
   }

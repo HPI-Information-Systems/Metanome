@@ -57,7 +57,8 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   protected DefaultDatabaseConnectionGenerator() {
   }
 
-  public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password, DbSystem system)
+  public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password,
+                                            DbSystem system)
       throws AlgorithmConfigurationException {
     try {
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
