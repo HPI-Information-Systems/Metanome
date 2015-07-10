@@ -136,7 +136,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all inclusion dependency algorithms in the database
    */
   @GET
-  @Path("/inclusionDependencyAlgorithms/")
+  @Path("/inclusion-dependency-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listInclusionDependencyAlgorithms() {
     try {
@@ -150,7 +150,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all unique column combination algorithms in the database
    */
   @GET
-  @Path("/uniqueColumnCombinationAlgorithms/")
+  @Path("/unique-column-combination-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
     try {
@@ -164,7 +164,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all conditional unique column combination algorithms in the database
    */
   @GET
-  @Path("/conditionalUniqueColumnCombinationAlgorithms/")
+  @Path("/conditional-unique-column-combination-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
     try {
@@ -178,7 +178,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all functional dependency algorithms in the database
    */
   @GET
-  @Path("/functionalDependencyAlgorithms/")
+  @Path("/functional-dependency-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listFunctionalDependencyAlgorithms() {
     try {
@@ -192,7 +192,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all order dependency algorithms in the database
    */
   @GET
-  @Path("/orderDependencyAlgorithms/")
+  @Path("/order-dependency-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listOrderDependencyAlgorithms() {
     try {
@@ -206,7 +206,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return all basic statistics algorithms in the database
    */
   @GET
-  @Path("/basicStatisticsAlgorithms/")
+  @Path("/basic-statistics-algorithms/")
   @Produces("application/json")
   public List<Algorithm> listBasicStatisticsAlgorithms() {
     try {
@@ -272,7 +272,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @return list of algorithm file names
    */
   @GET
-  @Path("/availableAlgorithmFiles/")
+  @Path("/available-algorithm-files/")
   @Produces("application/json")
   public List<String> listAvailableAlgorithmFiles() {
     try {

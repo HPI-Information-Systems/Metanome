@@ -28,7 +28,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/algorithmExecution")
+@Path("/api/algorithm-execution")
 public interface AlgorithmExecutionRestService extends RestService {
 
   @POST

@@ -45,7 +45,7 @@ public interface ExecutionRestService extends RestService {
   public void deleteExecution(@PathParam("id") long id, MethodCallback<Void> callback);
 
   @GET
-  @Path("/getCountResults/{executionId}")
+  @Path("/count-results/{executionId}")
   public void readCounterResult(@PathParam("executionId") long executionId,
                                 MethodCallback<Map<String, Integer>> callback);
 }

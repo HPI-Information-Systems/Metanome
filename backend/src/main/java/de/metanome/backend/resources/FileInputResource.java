@@ -34,7 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("fileInputs")
+@Path("file-inputs")
 public class FileInputResource implements Resource<FileInput> {
 
   private final InputDataFinder inputDataFinder;
@@ -44,7 +44,7 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   @GET
-  @Path("/availableInputFiles")
+  @Path("/available-input-files")
   @Produces("application/json")
   public List<String> listAvailableInputFiles() throws Exception {
     File[] csvFiles = inputDataFinder.getAvailableFiles();

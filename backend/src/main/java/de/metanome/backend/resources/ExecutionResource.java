@@ -102,7 +102,7 @@ public class ExecutionResource {
    * @return the updated result
    */
   @GET
-  @Path("/getCountResults/{executionId}")
+  @Path("/count-results/{executionId}")
   @Produces("application/json")
   public Map<String, Integer> readCounterResult(@PathParam("executionId") long id) {
     Map<String, Integer> results = new HashMap<>();

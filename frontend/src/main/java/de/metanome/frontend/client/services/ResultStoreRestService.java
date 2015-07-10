@@ -27,11 +27,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/resultStore")
+@Path("/api/result-store")
 public interface ResultStoreRestService extends RestService {
 
   @GET
-  @Path("/getFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   public void listAllFromTo(@PathParam("type") String type,
                             @PathParam("sortProperty") String sortProperty,
                             @PathParam("sortOrder") boolean ascending,
@@ -45,11 +45,11 @@ public interface ResultStoreRestService extends RestService {
                     MethodCallback<Integer> callback);
 
   @GET
-  @Path("/loadExecution/{executionId}/{dataIndependent}")
+  @Path("/load-execution/{executionId}/{dataIndependent}")
   public void loadExecution(@PathParam("executionId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<Void> callback);
 
   @GET
-  @Path("/loadResults/{fileInputId}/{dataIndependent}")
+  @Path("/load-results/{fileInputId}/{dataIndependent}")
   public void loadResults(@PathParam("fileInputId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<List<String>> callback);
 
 }

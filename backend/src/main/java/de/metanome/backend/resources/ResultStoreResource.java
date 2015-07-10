@@ -42,7 +42,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("resultStore")
+@Path("result-store")
 public class ResultStoreResource {
 
   /**
@@ -73,7 +73,7 @@ public class ResultStoreResource {
    * @return Returns a sublist of persisted results sorted in given way
    */
   @GET
-  @Path("/getFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,
@@ -95,7 +95,7 @@ public class ResultStoreResource {
    * @param id Execution id of the execution
    */
   @GET
-  @Path("/loadExecution/{executionId}/{dataIndependent}")
+  @Path("/load-execution/{executionId}/{dataIndependent}")
   public void loadExecution(@PathParam("executionId") long id,
                             @PathParam("dataIndependent") boolean dataIndependent) {
     try {
@@ -116,7 +116,7 @@ public class ResultStoreResource {
    * @param id the id of the file input
    */
   @GET
-  @Path("/loadResults/{id}/{dataIndependent}")
+  @Path("/load-results/{id}/{dataIndependent}")
   @Produces("application/json")
   public List<String> loadResults(@PathParam("id") long id,
                                   @PathParam("dataIndependent") boolean dataIndependent) {

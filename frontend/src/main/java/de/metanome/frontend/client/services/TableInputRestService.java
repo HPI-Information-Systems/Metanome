@@ -29,7 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/tableInputs")
+@Path("/api/table-inputs")
 public interface TableInputRestService extends RestService {
 
   @GET
