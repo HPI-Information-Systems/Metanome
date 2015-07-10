@@ -97,6 +97,8 @@ public class ResultResource implements Resource<Result> {
   /**
    * @return all results in the database
    */
+  @GET
+  @Produces("application/json")
   @Override
   public List<Result> getAll() {
     List<Result> results = null;

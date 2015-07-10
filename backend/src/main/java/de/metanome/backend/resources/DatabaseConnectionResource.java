@@ -38,7 +38,7 @@ import javax.ws.rs.core.Response;
  * @author Moritz Finke
  */
 
-@Path("dbConnections")
+@Path("databaseConnections")
 public class DatabaseConnectionResource implements Resource<DatabaseConnection> {
 
   /**

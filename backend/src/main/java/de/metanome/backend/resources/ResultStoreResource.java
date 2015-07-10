@@ -42,7 +42,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("result_store")
+@Path("resultStore")
 public class ResultStoreResource {
 
   /**
@@ -90,7 +90,7 @@ public class ResultStoreResource {
    * @return Returns a sublist of persisted results sorted in given way
    */
   @GET
-  @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/getFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,

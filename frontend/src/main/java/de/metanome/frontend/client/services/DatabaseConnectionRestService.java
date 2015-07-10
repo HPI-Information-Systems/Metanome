@@ -29,7 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/dbConnections")
+@Path("/api/databaseConnections")
 public interface DatabaseConnectionRestService extends RestService {
 
   @GET
