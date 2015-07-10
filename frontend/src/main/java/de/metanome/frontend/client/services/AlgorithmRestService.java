@@ -37,32 +37,32 @@ public interface AlgorithmRestService extends RestService {
   public void listAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/inclusion_dependency_algorithms/")
+  @Path("/inclusionDependencyAlgorithms/")
   public void listInclusionDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/functional_dependency_algorithms/")
+  @Path("/functionalDependencyAlgorithms/")
   public void listFunctionalDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/unique_column_combination_algorithms/")
+  @Path("/uniqueColumnCombinationAlgorithms/")
   public void listUniqueColumnCombinationsAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/conditional_unique_column_combination_algorithms/")
+  @Path("/conditionalUniqueColumnCombinationAlgorithms/")
   public void listConditionalUniqueColumnCombinationsAlgorithms(
       MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/order_dependency_algorithms/")
+  @Path("/orderDependencyAlgorithms/")
   public void listOrderDependencyAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/basic_statistics_algorithms/")
+  @Path("/basicStatisticsAlgorithms/")
   public void listBasicStatisticsAlgorithms(MethodCallback<List<Algorithm>> callback);
 
   @GET
-  @Path("/files/")
+  @Path("/availableAlgorithmFiles/")
   public void listAvailableAlgorithmFiles(MethodCallback<List<String>> callback);
 
   @GET

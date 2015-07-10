@@ -31,11 +31,6 @@ import javax.ws.rs.PathParam;
 public interface ResultStoreRestService extends RestService {
 
   @GET
-  @Path("/getAll/{type}")
-  public void listAll(@PathParam("type") String type,
-                      MethodCallback<List<RankingResult>> callback);
-
-  @GET
   @Path("/getFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   public void listAllFromTo(@PathParam("type") String type,
                             @PathParam("sortProperty") String sortProperty,

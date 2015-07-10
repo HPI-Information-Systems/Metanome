@@ -16,48 +16,27 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 @Path("executions")
-public class ExecutionResource implements Resource<Execution> {
-
-  /**
-   * Adds an execution to the database.
-   *
-   * @param execution the execution
-   * @return the stored execution
-   */
-  @POST
-  @Path("/store")
-  @Consumes("application/json")
-  @Produces("application/json")
-  @Override
-  public Execution store(Execution execution) {
-    try {
-      HibernateUtil.store(execution);
-    } catch (EntityStorageException e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-
-    return execution;
-  }
+public class ExecutionResource {
 
   /**
    * Deletes the execution, which has the given id, from the database.
@@ -66,7 +45,6 @@ public class ExecutionResource implements Resource<Execution> {
    */
   @DELETE
   @Path("/delete/{id}")
-  @Override
   public void delete(@PathParam("id") long id) {
     try {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
@@ -93,7 +71,6 @@ public class ExecutionResource implements Resource<Execution> {
   @GET
   @Path("/get/{id}")
   @Produces("application/json")
-  @Override
   public Execution get(@PathParam("id") long id) {
     try {
       return (Execution) HibernateUtil.retrieve(Execution.class, id);
@@ -107,7 +84,6 @@ public class ExecutionResource implements Resource<Execution> {
    */
   @GET
   @Produces("application/json")
-  @Override
   public List<Execution> getAll() {
     List<Execution> executions = null;
     try {
@@ -121,71 +97,26 @@ public class ExecutionResource implements Resource<Execution> {
   }
 
   /**
-   * Retrieves all executions, which belong to the given algorithm.
+   * Reads counter results from file.
    *
-   * @param name the name of the algorithm
-   * @return all matching executions
+   * @return the updated result
    */
   @GET
-  @Path("/algorithm/{name}")
+  @Path("/getCountResults/{executionId}")
   @Produces("application/json")
-  public List<Execution> getExecutionsForAlgorithm(@PathParam("name") String name) {
-    List<Execution> executions = new ArrayList<>();
-
-    try {
-      List<Execution> all = HibernateUtil.queryCriteria(Execution.class);
-      // Filter all executions for those, which belong to the requested algorithm
-      for (Execution execution : all) {
-        if (execution.getAlgorithm().getName().equals(name)) {
-          executions.add(execution);
-        }
-      }
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return executions;
-  }
-
-  /**
-   * Adds a result to the execution.
-   *
-   * @param id     the id of the execution
-   * @param result the result, which should be added to the execution
-   */
-  @GET
-  @Path("/addResult/{id}")
-  @Consumes("application/json")
-  @Produces("application/json")
-  public void addResult(@PathParam("id") long id, Result result) {
+  public Map<String, Integer> readCounterResult(@PathParam("executionId") long id) {
+    Map<String, Integer> results = new HashMap<>();
     try {
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
-      execution.addResult(result);
-      HibernateUtil.update(execution);
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-  }
 
-  /**
-   * Updates an execution in the database.
-   *
-   * @param execution the execution
-   * @return the updated execution
-   */
-  @POST
-  @Path("/update")
-  @Consumes("application/json")
-  @Produces("application/json")
-  @Override
-  public Execution update(Execution execution) {
-    try {
-      HibernateUtil.update(execution);
+      for (Result result : execution.getResults()) {
+        results.put(result.getType().getName(),
+                    ResultReader.readCounterResultFromFile(result.getFileName()));
+      }
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return execution;
+    return results;
   }
 
 }

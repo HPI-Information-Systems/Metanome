@@ -23,6 +23,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -39,21 +40,12 @@ public interface ExecutionRestService extends RestService {
   @Path("/get/{id}")
   public void getExecution(@PathParam("id") long id, MethodCallback<Execution> callback);
 
-//  @POST
-//  @Path("/store")
-//  public void storeExecution(Execution execution, MethodCallback<Execution> callback);
-
   @DELETE
   @Path("/delete/{id}")
   public void deleteExecution(@PathParam("id") long id, MethodCallback<Void> callback);
 
-//  @GET
-//  @Path("/algorithm/{name}")
-//  public void getExecutionsForAlgorithm(@PathParam("name") String name, MethodCallback<List<Execution>> callback);
-//
-//  @Path("/update")
-//  public void updateExecution(Execution execution, MethodCallback<Execution> callback);
-//
-//  @Path("/addResult/{id}")
-//  public void addResult(@PathParam("id") long id, Result result, MethodCallback<Void> callback);
+  @GET
+  @Path("/getCountResults/{executionId}")
+  public void readCounterResult(@PathParam("executionId") long executionId,
+                                MethodCallback<Map<String, Integer>> callback);
 }

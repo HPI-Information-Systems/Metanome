@@ -27,7 +27,6 @@ import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.resources.AlgorithmResource;
-import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
@@ -165,8 +164,7 @@ public class AlgorithmExecution {
 
       // Set the settings to the execution and store it
       execution.setExecutionSetting(executionSetting);
-      ExecutionResource executionResource = new ExecutionResource();
-      executionResource.store(execution);
+      HibernateUtil.store(execution);
 
       executor.close();
     } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException

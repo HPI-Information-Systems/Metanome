@@ -19,7 +19,7 @@ package de.metanome.frontend.server;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.resources.AlgorithmResource;
-import de.metanome.backend.resources.InputResource;
+import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -45,7 +45,7 @@ import javax.servlet.ServletContextListener;
 public class DatabaseInitializer implements ServletContextListener {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
-  InputResource inputResource = new InputResource();
+  FileInputResource inputResource = new FileInputResource();
   Server server = new Server();
 
 

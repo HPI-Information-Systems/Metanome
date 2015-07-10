@@ -63,23 +63,6 @@ public class ResultStoreResource {
   }
 
   /**
-   * Returns all persisted results of the given type.
-   *
-   * @param type The type of the result
-   * @return Returns all persisted results
-   */
-  @GET
-  @Path("/getAll/{type}")
-  @Produces("application/json")
-  public List<RankingResult> getAll(@PathParam("type") String type) {
-    try {
-      return (List<RankingResult>) ResultsStoreHolder.getStore(type).list();
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-  }
-
-  /**
    * Returns a sublist of persisted results sorted in given way
    *
    * @param type         The type of the result

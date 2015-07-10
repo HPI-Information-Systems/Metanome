@@ -86,7 +86,7 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) throws EntityStorageException {
     String executionIdentifier = params.getExecutionIdentifier();
 
     // Build the execution setting and store it.
@@ -139,8 +139,7 @@ public class AlgorithmExecutionResource {
           .setExecutionSetting(executionSetting)
           .setAborted(true)
           .setInputs(AlgorithmExecution.parseInputs(executionSetting));
-      ExecutionResource executionResource = new ExecutionResource();
-      executionResource.store(execution);
+      HibernateUtil.store(execution);
     }
 
     // Execute the result post processing

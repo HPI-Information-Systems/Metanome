@@ -144,8 +144,8 @@ public class ExecutionTest {
 
     // Expected values
     ExecutionResource resource = new ExecutionResource();
-    resource.store(new Execution());
-    resource.store(new Execution());
+    HibernateUtil.store(new Execution());
+    HibernateUtil.store(new Execution());
 
     // Execute functionality
     List<Execution> actualExecutions = resource.getAll();

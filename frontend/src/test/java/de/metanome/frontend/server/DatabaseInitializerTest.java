@@ -20,7 +20,6 @@ import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.FileInputResource;
-import de.metanome.backend.resources.InputResource;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmContentEquals;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -54,9 +53,7 @@ import static org.mockito.Mockito.mock;
 public class DatabaseInitializerTest {
 
   private FileInputResource fileInputResource = new FileInputResource();
-
   AlgorithmResource algorithmResource = new AlgorithmResource();
-  InputResource inputResource = new InputResource();
 
   /**
    * Test method for {@link de.metanome.frontend.server.DatabaseInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
@@ -159,7 +156,7 @@ public class DatabaseInitializerTest {
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Input> actualInputs = inputResource.getAll();
+    List<FileInput> actualInputs = fileInputResource.getAll();
 
     // Check result
     // Extract actual input file names
@@ -191,7 +188,7 @@ public class DatabaseInitializerTest {
 
     // Execute functionality
     initializer.contextInitialized(mock(ServletContextEvent.class));
-    List<Input> actualInputs = inputResource.getAll();
+    List<FileInput> actualInputs = fileInputResource.getAll();
 
     // Check result
     assertThat(actualInputs,

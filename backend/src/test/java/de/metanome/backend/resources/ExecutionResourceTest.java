@@ -48,12 +48,9 @@ public class ExecutionResourceTest {
 
   AlgorithmResource algorithmResource = new AlgorithmResource();
   ExecutionResource executionResource = new ExecutionResource();
-  ResultResource resultResource = new ResultResource();
-  InputResource inputResource = new InputResource();
 
   /**
-   * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
-   * and {@link de.metanome.backend.resources.ExecutionResource#get(long)}
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#get(long)}
    *
    * Executions should be storable and retrievable by id.
    */
@@ -71,9 +68,8 @@ public class ExecutionResourceTest {
     Execution expectedExecution = new Execution(algorithm, begin);
 
     // Execute functionality
-    Execution storedExecution = executionResource.store(expectedExecution);
-    assertSame(expectedExecution, storedExecution);
-    Execution actualExecution = executionResource.get(storedExecution.getId());
+    HibernateUtil.store(expectedExecution);
+    Execution actualExecution = executionResource.get(expectedExecution.getId());
 
     // Check result
     assertEquals(expectedExecution, actualExecution);
@@ -97,9 +93,9 @@ public class ExecutionResourceTest {
     algorithmResource.store(expectedAlgorithm2);
 
     Execution expectedExecution1 = new Execution(expectedAlgorithm1);
-    executionResource.store(expectedExecution1);
+    HibernateUtil.store(expectedExecution1);
     Execution expectedExecution2 = new Execution(expectedAlgorithm2);
-    executionResource.store(expectedExecution2);
+    HibernateUtil.store(expectedExecution2);
 
     // Execute functionality
     List<Execution> actualExecutions = executionResource.getAll();
@@ -114,8 +110,7 @@ public class ExecutionResourceTest {
 
 
   /**
-   * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
-   * and {@link de.metanome.backend.resources.ExecutionResource#get(long)}
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#get(long)}
    *
    * After roundtripping an execution all its {@link de.metanome.backend.results_db.Input}s should
    * be retrievable from it.
@@ -131,9 +126,9 @@ public class ExecutionResourceTest {
     algorithmResource.store(algorithm);
 
     Input input1 = new Input("input");
-    inputResource.store(input1);
+    HibernateUtil.store(input1);
     Input input2 = new Input("input");
-    inputResource.store(input2);
+    HibernateUtil.store(input2);
 
     List<Input> inputs = new ArrayList<>();
     inputs.add(input1);
@@ -145,7 +140,7 @@ public class ExecutionResourceTest {
         .setInputs(inputs);
 
     // Execute functionality
-    expectedExecution = executionResource.store(expectedExecution);
+    HibernateUtil.store(expectedExecution);
     Execution actualExecution = executionResource.get(expectedExecution.getId());
     Collection<Input> actualInputs = actualExecution.getInputs();
 
@@ -159,8 +154,7 @@ public class ExecutionResourceTest {
 
 
   /**
-   * Test method for {@link de.metanome.backend.resources.ExecutionResource#store(de.metanome.backend.results_db.Execution)}
-   * and {@link de.metanome.backend.resources.ExecutionResource#get(long)}
+   * Test method for {@link de.metanome.backend.resources.ExecutionResource#get(long)}
    *
    * Test the database roundtrip of an Execution with multiple {@link
    * de.metanome.backend.results_db.Input}s and {@link de.metanome.backend.results_db.Result}s.
@@ -193,10 +187,9 @@ public class ExecutionResourceTest {
     expectedExecution.addInput(expectedTableInput);
 
     // Execute functionality
-    inputResource.store(expectedFileInput);
-    inputResource.store(expectedTableInput);
-
-    expectedExecution = executionResource.store(expectedExecution);
+    HibernateUtil.store(expectedFileInput);
+    HibernateUtil.store(expectedTableInput);
+    HibernateUtil.store(expectedExecution);
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());
 
@@ -246,7 +239,7 @@ public class ExecutionResourceTest {
     expectedExecution.addResult(expectedResult1);
     expectedExecution.addResult(expectedResult2);
 
-    expectedExecution = executionResource.store(expectedExecution);
+    HibernateUtil.store(expectedExecution);
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());
     Set<Result> actualResults = actualExecution.getResults();
@@ -262,82 +255,6 @@ public class ExecutionResourceTest {
     for (Result actualResult : actualResults) {
       assertSame(actualExecution, actualResult.getExecution());
     }
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  @Test
-  public void testAddResult() {
-    // Setup
-    HibernateUtil.clear();
-
-    // Store prerequisite objects in the database
-    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
-    algorithmResource.store(algorithm);
-
-    long begin = new Date().getTime();
-    Execution expectedExecution = new Execution(algorithm, begin);
-    expectedExecution = executionResource.store(expectedExecution);
-
-    // Expected values
-    Result expectedResult1 = new Result("some result file path");
-    Result expectedResult2 = new Result("some other result file path");
-
-    // Execute functionality
-    executionResource.addResult(expectedExecution.getId(), expectedResult1);
-    executionResource.addResult(expectedExecution.getId(), expectedResult2);
-
-    Execution actualExecution = executionResource.get(expectedExecution.getId());
-    Set<Result> actualResults = actualExecution.getResults();
-
-    // Check result
-    assertEquals(expectedExecution, actualExecution);
-    // All results should be properly retrieved
-    assertEquals(2, actualResults.size());
-    assertTrue(actualResults.contains(expectedResult1));
-    assertTrue(actualResults.contains(expectedResult2));
-
-    // All results should be properly attached to the execution
-    for (Result actualResult : actualResults) {
-      assertSame(actualExecution, actualResult.getExecution());
-    }
-
-    // Cleanup
-    HibernateUtil.clear();
-  }
-
-  /**
-   * Test method for {@link de.metanome.backend.resources.ExecutionResource#update(de.metanome.backend.results_db.Execution)}
-   * Executions should be storable and updatable.
-   */
-  @Test
-  public void testUpdate() throws EntityStorageException {
-    // Setup
-    HibernateUtil.clear();
-
-    Algorithm oldAlgorithm = new Algorithm("example_ind_algorithm.jar");
-    Algorithm newAlgorithm = new Algorithm("example_ucc_algorithm.jar");
-
-    algorithmResource.store(oldAlgorithm);
-    algorithmResource.store(newAlgorithm);
-
-    // Expected values
-    Execution execution = new Execution(oldAlgorithm);
-
-    // Execute functionality
-    Execution actualExecution = executionResource.store(execution);
-
-    // Check result
-    assertEquals(execution, actualExecution);
-
-    // Execute functionality
-    execution.setAlgorithm(newAlgorithm);
-    executionResource.update(execution);
-
-    // Check result
-    actualExecution = executionResource.get(execution.getId());
-    assertEquals(execution, actualExecution);
 
     // Cleanup
     HibernateUtil.clear();
@@ -361,11 +278,11 @@ public class ExecutionResourceTest {
     Result result = new Result(fileName);
 
     algorithmResource.store(algorithm);
-    resultResource.store(result);
+    HibernateUtil.store(result);
 
     Execution execution = new Execution(algorithm);
     execution.addResult(result);
-    execution = executionResource.store(execution);
+    HibernateUtil.store(execution);
 
     // Check result
     assertEquals(execution, execution);
