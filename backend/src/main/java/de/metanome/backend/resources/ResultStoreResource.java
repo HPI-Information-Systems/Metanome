@@ -96,7 +96,6 @@ public class ResultStoreResource {
    */
   @GET
   @Path("/loadExecution/{executionId}/{dataIndependent}")
-  @Produces("application/json")
   public void loadExecution(@PathParam("executionId") long id,
                             @PathParam("dataIndependent") boolean dataIndependent) {
     try {

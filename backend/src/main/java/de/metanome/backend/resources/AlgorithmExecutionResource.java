@@ -70,7 +70,6 @@ public class AlgorithmExecutionResource {
    */
   @GET
   @Path("/stop/{identifier}")
-  @Produces("application/json")
   public void stopExecution(@PathParam("identifier") String executionIdentifier) {
     Process process = ProcessRegistry.getInstance().get(executionIdentifier);
     ProcessRegistry.getInstance().remove(executionIdentifier);
