@@ -42,7 +42,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("result_store")
+@Path("result-store")
 public class ResultStoreResource {
 
   /**
@@ -63,23 +63,6 @@ public class ResultStoreResource {
   }
 
   /**
-   * Returns all persisted results of the given type.
-   *
-   * @param type The type of the result
-   * @return Returns all persisted results
-   */
-  @GET
-  @Path("/getAll/{type}")
-  @Produces("application/json")
-  public List<RankingResult> getAll(@PathParam("type") String type) {
-    try {
-      return (List<RankingResult>) ResultsStoreHolder.getStore(type).list();
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-  }
-
-  /**
    * Returns a sublist of persisted results sorted in given way
    *
    * @param type         The type of the result
@@ -90,7 +73,7 @@ public class ResultStoreResource {
    * @return Returns a sublist of persisted results sorted in given way
    */
   @GET
-  @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,
@@ -112,8 +95,7 @@ public class ResultStoreResource {
    * @param id Execution id of the execution
    */
   @GET
-  @Path("/loadExecution/{executionId}/{dataIndependent}")
-  @Produces("application/json")
+  @Path("/load-execution/{executionId}/{dataIndependent}")
   public void loadExecution(@PathParam("executionId") long id,
                             @PathParam("dataIndependent") boolean dataIndependent) {
     try {
@@ -134,7 +116,7 @@ public class ResultStoreResource {
    * @param id the id of the file input
    */
   @GET
-  @Path("/loadResults/{id}/{dataIndependent}")
+  @Path("/load-results/{id}/{dataIndependent}")
   @Produces("application/json")
   public List<String> loadResults(@PathParam("id") long id,
                                   @PathParam("dataIndependent") boolean dataIndependent) {

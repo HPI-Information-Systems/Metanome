@@ -34,7 +34,7 @@ import de.metanome.frontend.client.results.pagination_table.FunctionalDependency
 import de.metanome.frontend.client.results.pagination_table.InclusionDependencyPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.OrderDependencyPaginationTable;
 import de.metanome.frontend.client.results.pagination_table.UniqueColumnCombinationPaginationTable;
-import de.metanome.frontend.client.services.ResultRestService;
+import de.metanome.frontend.client.services.ExecutionRestService;
 import de.metanome.frontend.client.services.ResultStoreRestService;
 
 import org.fusesource.restygwt.client.Method;
@@ -50,12 +50,12 @@ import java.util.Map;
 public class ResultsPaginationTablePage extends FlowPanel implements TabContent {
 
   protected ResultStoreRestService resultStoreService;
-  protected ResultRestService resultService;
+  protected ExecutionRestService executionService;
   protected TabWrapper messageReceiver;
 
   public ResultsPaginationTablePage() {
-    this.resultService = GWT.create(ResultRestService.class);
     this.resultStoreService = GWT.create(ResultStoreRestService.class);
+    this.executionService = GWT.create(ExecutionRestService.class);
   }
 
   /**
@@ -202,7 +202,7 @@ public class ResultsPaginationTablePage extends FlowPanel implements TabContent 
    * @param execution the execution
    */
   public void addCountResults(Execution execution) {
-    this.resultService.readCounterResult(execution.getId(),
+    this.executionService.readCounterResult(execution.getId(),
                                          new MethodCallback<Map<String, Integer>>() {
                                            @Override
                                            public void onFailure(Method method, Throwable caught) {

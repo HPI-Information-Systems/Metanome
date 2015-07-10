@@ -60,7 +60,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("algorithm_execution")
+@Path("algorithm-execution")
 public class AlgorithmExecutionResource {
 
   /**
@@ -70,7 +70,6 @@ public class AlgorithmExecutionResource {
    */
   @GET
   @Path("/stop/{identifier}")
-  @Produces("application/json")
   public void stopExecution(@PathParam("identifier") String executionIdentifier) {
     Process process = ProcessRegistry.getInstance().get(executionIdentifier);
     ProcessRegistry.getInstance().remove(executionIdentifier);
@@ -86,7 +85,7 @@ public class AlgorithmExecutionResource {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) throws EntityStorageException {
     String executionIdentifier = params.getExecutionIdentifier();
 
     // Build the execution setting and store it.
@@ -139,8 +138,7 @@ public class AlgorithmExecutionResource {
           .setExecutionSetting(executionSetting)
           .setAborted(true)
           .setInputs(AlgorithmExecution.parseInputs(executionSetting));
-      ExecutionResource executionResource = new ExecutionResource();
-      executionResource.store(execution);
+      HibernateUtil.store(execution);
     }
 
     // Execute the result post processing

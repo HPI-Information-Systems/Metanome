@@ -34,7 +34,7 @@ public class GwtTestResultsPaginationTablePage extends GWTTestCase {
     ResultsPaginationTablePage page = new ResultsPaginationTablePage();
 
     // Check
-    assertNotNull(page.resultService);
+    assertNotNull(page.executionService);
     assertNotNull(page.resultStoreService);
   }
 

@@ -16,7 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.backend.resources.ResultResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
 import org.junit.Test;
@@ -42,12 +41,11 @@ public class ResultTest {
     HibernateUtil.clear();
 
     // Expected values
-    ResultResource resultResource = new ResultResource();
-    resultResource.store(new Result("file1"));
-    resultResource.store(new Result("file2"));
+    HibernateUtil.store(new Result("file1"));
+    HibernateUtil.store(new Result("file2"));
 
     // Execute functionality
-    List<Result> actualResults = resultResource.getAll();
+    List<Result> actualResults = HibernateUtil.queryCriteria(Result.class);
 
     long actualId1 = actualResults.get(0).getId();
     long actualId2 = actualResults.get(1).getId();
