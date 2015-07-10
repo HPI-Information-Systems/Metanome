@@ -1,0 +1,1842 @@
+FORMAT: 1A
+HOST: http://127.0.0.1:8888/api
+
+# Metanome
+The Metanome project is a project at HPI in cooperation with the Qatar Computing Reserach Institute (QCRI). 
+Metanome provides a fresh view on data profiling by developing and integrating efficient algorithms into a 
+common tool, expanding on the functionality of data profiling, and addressing performance and scalabilities 
+issues for Big Data.
+
+This documentation describes the API offered by Metanome.
+
+
+## Group File Inputs
+
+A *File Input* is one input type supported by Metanome, which can be analyzed by the algorithms. 
+A *File Input* can be for example a CSV- or TSV-file.
+A *File Input* has the following attributes:
++ file name
++ separator char
++ quote char
++ escape char
++ null value (the string representing the null value in the file)
++ skip lines
++ strict quotes
++ ignore leading white space
++ has header
++ skip differing lines     
++ comment               
+
+### List all File Inputs [GET /file-inputs]
+
+Returns a list of all *File Inputs* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "type": "fileInput",
+            "id": 1,
+            "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+            "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+            "separator": ",",
+            "quoteChar": "\"",
+            "escapeChar": "\\\\",
+            "skipLines": 0,
+            "strictQuotes": false,
+            "ignoreLeadingWhiteSpace": true,
+            "hasHeader": true,
+            "skipDifferingLines": false,
+            "comment": null,
+            "nullValue": ""
+          },
+          {
+            "type": "fileInput",
+            "id": 2,
+            "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_appearances.csv",
+            "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_appearances.csv",
+            "separator": ",",
+            "quoteChar": "\"",
+            "escapeChar": "\\\\",
+            "skipLines": 0,
+            "strictQuotes": false,
+            "ignoreLeadingWhiteSpace": true,
+            "hasHeader": true,
+            "skipDifferingLines": false,
+            "comment": null,
+            "nullValue": ""
+          },
+          {
+            "type": "fileInput",
+            "id": 3,
+            "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planetz.csv",
+            "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planetz.csv",
+            "separator": ",",
+            "quoteChar": "\"",
+            "escapeChar": "\\\\",
+            "skipLines": 0,
+            "strictQuotes": false,
+            "ignoreLeadingWhiteSpace": true,
+            "hasHeader": true,
+            "skipDifferingLines": false,
+            "comment": null,
+            "nullValue": ""
+          },
+          {
+            "type": "fileInput",
+            "id": 4,
+            "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/fd_reduced_15.csv",
+            "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/fd_reduced_15.csv",
+            "separator": ",",
+            "quoteChar": "\"",
+            "escapeChar": "\\\\",
+            "skipLines": 0,
+            "strictQuotes": false,
+            "ignoreLeadingWhiteSpace": true,
+            "hasHeader": true,
+            "skipDifferingLines": false,
+            "comment": null,
+            "nullValue": ""
+          },
+          {
+            "type": "fileInput",
+            "id": 5,
+            "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputB.csv",
+            "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputB.csv",
+            "separator": ",",
+            "quoteChar": "\"",
+            "escapeChar": "\\\\",
+            "skipLines": 0,
+            "strictQuotes": false,
+            "ignoreLeadingWhiteSpace": true,
+            "hasHeader": true,
+            "skipDifferingLines": false,
+            "comment": null,
+            "nullValue": ""
+          }
+        ]
+
+### Get one File Input [GET /file-inputs/get/{file_input_id}]
+
+Returns a specific *File Input*.
+
++ Parameters
+    + file_input_id: 1 (required, number) - ID of the *File Input* in form of an integer
+
++ Response 200 (application/json)
+
+        {
+          "type": "fileInput",
+          "id": 1,
+          "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "separator": ",",
+          "quoteChar": "\"",
+          "escapeChar": "\\\\",
+          "skipLines": 0,
+          "strictQuotes": false,
+          "ignoreLeadingWhiteSpace": true,
+          "hasHeader": true,
+          "skipDifferingLines": false,
+          "comment": null,
+          "nullValue": ""
+        }
+
+### Store a New File Input [POST /file-inputs/store]
+
+Stores a new *File Input*. 
+It takes a JSON object containing the new *File Input*. 
+It returns a JSON object containing the stored *File Input* with the updated ID.
+
++ Request (application/json)
+
+        {
+          "type": "fileInput",
+          "id": 1,
+          "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "separator": ",",
+          "quoteChar": "\"",
+          "escapeChar": "\\\\",
+          "skipLines": 0,
+          "strictQuotes": false,
+          "ignoreLeadingWhiteSpace": true,
+          "hasHeader": true,
+          "skipDifferingLines": false,
+          "comment": null,
+          "nullValue": ""
+        }
+
++ Response 200 (application/json)
+
+        {
+          "type": "fileInput",
+          "id": 16,
+          "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "separator": ",",
+          "quoteChar": "\"",
+          "escapeChar": "\\\\\\\\",
+          "skipLines": 0,
+          "strictQuotes": false,
+          "ignoreLeadingWhiteSpace": true,
+          "hasHeader": true,
+          "skipDifferingLines": false,
+          "comment": null,
+          "nullValue": ""
+        }
+
+### Update a File Input [POST /file-inputs/update]
+
+Updates an existing *File Input*. 
+It takes a JSON object containing a *File Input*, which should be updated. 
+The corresponding *File Input* with the same ID is then updated in the database. 
+The JSON object of the updated *File Input* is returned.
+
++ Request (application/json)
+
+        {
+          "type": "fileInput",
+          "id": 1,
+          "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "separator": ",",
+          "quoteChar": "\"",
+          "escapeChar": "\\\\",
+          "skipLines": 0,
+          "strictQuotes": false,
+          "ignoreLeadingWhiteSpace": true,
+          "hasHeader": true,
+          "skipDifferingLines": false,
+          "comment": null,
+          "nullValue": ""
+        }
+
++ Response 200 (application/json)
+
+        {
+          "type": "fileInput",
+          "id": 1,
+          "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "separator": ",",
+          "quoteChar": "\"",
+          "escapeChar": "\\\\\\\\",
+          "skipLines": 0,
+          "strictQuotes": false,
+          "ignoreLeadingWhiteSpace": true,
+          "hasHeader": true,
+          "skipDifferingLines": false,
+          "comment": null,
+          "nullValue": ""
+        }
+
+
+### Delete a File Input [DELETE /file-inputs/delete/{file_input_id}]
+
+Deletes the *File Input* with the given ID.
+
++ Parameters
+    + file_input_id: 1 (required, number) - ID of the *File Input* in form of an integer
+
++ Response 204
+
+
+### List all Files in the Resource Folder [GET /file-inputs/available-input-files]
+
+Lists all files, which are located in the resource folder for *File Inputs*.
+
++ Response 200 (application/json)
+
+        [
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/inputC.tsv",
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_appearances.csv",
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planetz.csv",
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_kepler.csv",
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_science.csv",
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_satellites.csv"
+        ]
+        
+        
+        
+## Group Database Connections
+
+A *Database Connection* is the second input type supported by Metanome.
+Analyzing a *Database Connection* means, that the algorithm has full access rights and can 
+chose the table to analyze by itselfs.
+A *Database Connection* has the following attributes:
++ url   
++ username
++ password
++ system
++ comment
+
+### List all Database Connections [GET /database-connections]
+
+Returns a list of all *Database Connections* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "type": "databaseConnection",
+            "id": 1,
+            "name": "jdbc:mysql://localhost:8888; user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+          },
+          {
+            "type": "databaseConnection",
+            "id": 2,
+            "name": "jdbc:mysql://example.com:8080; group; MySQL",
+            "url": "jdbc:mysql://example.com:8080",
+            "username": "group",
+            "password": "1234",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://example.com:8080; group; MySQL"
+          }
+        ]
+
+### Get one Database Connection [GET /database-connections/get/{database_connection_id}]
+
+Returns a specific *Database Connection*.
+
++ Parameters
+    + database_connection_id: 1 (required, number) - ID of the *Database Connection* in form of an integer
+
++ Response 200 (application/json)
+
+          {
+            "type": "databaseConnection",
+            "id": 1,
+            "name": "jdbc:mysql://localhost:8888; user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+          }
+
+### Store a New Database Connection [POST /database-connections/store]
+
+Stores a new *Database Connection*. 
+It takes a JSON object containing the new *Database Connection*. 
+It returns a JSON object containing the stored *Database Connection* with the updated ID.
+
++ Request (application/json)
+
+          {
+            "type": "databaseConnection",
+            "id": 1,
+            "name": "jdbc:mysql://localhost:8888; new_user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "new_user",
+            "password": "abcde",
+            "system": "MySQL",
+            "comment": ""
+          }
+
++ Response 200 (application/json)
+
+          {
+            "type": "databaseConnection",
+            "id": 19,
+            "name": "jdbc:mysql://localhost:8888; new_user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "new_user",
+            "password": "abcde",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://localhost:8888; new_user; MySQL"
+          }
+
+### Update a Database Connection [POST /database-connections/update]
+
+Updates an existing *Database Connection*. 
+It takes a JSON object containing a *Database Connection*, which should be updated. 
+The corresponding *Database Connection* with the same ID is updated in the database. 
+The JSON object of the updated *Database Connection* is returned.
+
++ Request (application/json)
+
+          {
+            "type": "databaseConnection",
+            "id": 19,
+            "name": "jdbc:mysql://localhost:8888; new_user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "new_user",
+            "password": "abcde1234",
+            "system": "MySQL",
+            "comment": ""
+          }
+
++ Response 200 (application/json)
+
+          {
+            "type": "databaseConnection",
+            "id": 19,
+            "name": "jdbc:mysql://localhost:8888; new_user; MySQL",
+            "url": "jdbc:mysql://localhost:8888",
+            "username": "new_user",
+            "password": "abcde1234",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://localhost:8888; new_user; MySQL"
+          }
+
+### Delete a Database Connecton [DELETE /database-connections/delete/{database_connection_id}]
+
+Deletes the *Database Connection* with the given ID.
+
++ Parameters
+    + database_connection_id: 1 (required, number) - ID of the *Database Connection* in form of an integer
+
++ Response 204
+
+
+
+## Group Table Inputs
+
+A *Table Input* is the third and last input type supported by Metanome, 
+which can be analyzed by the different algorithms.
+It represents a specific table in a database.
+A *Table Input* has the following attributes:
++ table name   
++ database connection
++ comment
+
+### List all Table Inputs [GET /table-inputs]
+
+Returns a list of all *Table Inputs* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "type": "tableInput",
+            "id": 1,
+            "name": "user_names; jdbc:mysql://localhost:8888; user; MySQL",
+            "tableName": "user_names",
+            "databaseConnection": {
+              "type": "databaseConnection",
+              "id": 1,
+              "name": "jdbc:mysql://localhost:8888; user; MySQL",
+              "url": "jdbc:mysql://localhost:8888",
+              "username": "user",
+              "password": "password",
+              "system": "MySQL",
+              "comment": "",
+              "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+            },
+            "comment": ""
+          },
+          {
+            "type": "tableInput",
+            "id": 2,
+            "name": "address; jdbc:mysql://example.com:8080; group; MySQL",
+            "tableName": "address",
+            "databaseConnection": {
+              "type": "databaseConnection",
+              "id": 2,
+              "name": "jdbc:mysql://example.com:8080; group; MySQL",
+              "url": "jdbc:mysql://example.com:8080",
+              "username": "group",
+              "password": "1234",
+              "system": "MySQL",
+              "comment": "",
+              "identifier": "jdbc:mysql://example.com:8080; group; MySQL"
+            },
+            "comment": ""
+          }
+        ]
+
+### Get one Table Input [GET /table-inputs/get/{table_input_id}]
+
+Returns a specific *Table Input*.
+
++ Parameters
+    + table_input_id: 1 (required, number) - ID of the *Table Input* in form of an integer
+
++ Response 200 (application/json)
+
+        {
+            "type": "tableInput",
+            "id": 1,
+            "name": "user_names; jdbc:mysql://localhost:8888; user; MySQL",
+            "tableName": "user_names",
+            "databaseConnection": {
+              "type": "databaseConnection",
+              "id": 1,
+              "name": "jdbc:mysql://localhost:8888; user; MySQL",
+              "url": "jdbc:mysql://localhost:8888",
+              "username": "user",
+              "password": "password",
+              "system": "MySQL",
+              "comment": "",
+              "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+            },
+            "comment": ""
+          }
+
+### Store a New Table Input [POST /table-inputs/store]
+
+Stores a new *Table Input*. 
+It takes a JSON object containing the new *Table Input*. 
+It returns a JSON object containing the stored *Table Input* with the updated ID.
+
++ Request (application/json)
+
+        {
+          "type": "tableInput",
+          "id": 20,
+          "name": "shippments; jdbc:mysql://example.org:3306; user; MySQL",
+          "tableName": "shippments",
+          "databaseConnection": {
+            "type": "databaseConnection",
+            "id": 17,
+            "name": "jdbc:mysql://example.org:3306; user; MySQL",
+            "url": "jdbc:mysql://example.org:3306",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": ""
+          },
+          "comment": ""
+        }
+
++ Response 200 (application/json)
+
+        {
+          "type": "tableInput",
+          "id": 20,
+          "name": "shippments; jdbc:mysql://example.org:3306; user; MySQL",
+          "tableName": "shippments",
+          "databaseConnection": {
+            "type": "databaseConnection",
+            "id": 17,
+            "name": "jdbc:mysql://example.org:3306; user; MySQL",
+            "url": "jdbc:mysql://example.org:3306",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://example.org:3306; user; MySQL"
+          },
+          "comment": ""
+        }
+
+### Update a Table Input [POST /table-inputs/update]
+
+Updates an existing *Table Input*. 
+It takes a JSON object containing a *Table Input*, which should be updated. 
+The corresponding *Table Input* with the same ID is updated in the database. 
+The JSON object of the updated *Table Input* is returned.
+
++ Request (application/json)
+
+        {
+          "type": "tableInput",
+          "id": 20,
+          "name": "shippment; jdbc:mysql://example.org:3306; user; MySQL",
+          "tableName": "shippment",
+          "databaseConnection": {
+            "type": "databaseConnection",
+            "id": 17,
+            "name": "jdbc:mysql://example.org:3306; user; MySQL",
+            "url": "jdbc:mysql://example.org:3306",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": ""
+          },
+          "comment": ""
+        }
+
++ Response 200 (application/json)
+
+        {
+          "type": "tableInput",
+          "id": 20,
+          "name": "shippment; jdbc:mysql://example.org:3306; user; MySQL",
+          "tableName": "shippment",
+          "databaseConnection": {
+            "type": "databaseConnection",
+            "id": 17,
+            "name": "jdbc:mysql://example.org:3306; user; MySQL",
+            "url": "jdbc:mysql://example.org:3306",
+            "username": "user",
+            "password": "password",
+            "system": "MySQL",
+            "comment": "",
+            "identifier": "jdbc:mysql://example.org:3306; user; MySQL"
+          },
+          "comment": ""
+        }
+
+
+### Delete a Table Input [DELETE /table-inputs/delete/{table_input_id}]
+
+Deletes the *Table Input* with the given ID.
+
++ Parameters
+    + table_input_id: 1 (required, number) - ID of the *Table Input* in form of an integer
+
++ Response 204
+
+
+
+## Group Algorithms
+
+An *Algorithm* represents a data profiling algorithm. 
+There are serveral types of data profiling algorithms, such as
+Functional Dependency Algorithms, Inclusion Dependency Algorithms or 
+Unique Column Combination Algorithms.
+An *Algorithm* has the following attributes:
++ file name
++ name
++ author
++ description
+
+Besides, an *Algorithm* has some boolean attributes, which indicate what kind of algorithm it is.
++ ind
++ fd
++ ucc 
++ cucc 
++ od
++ basic statistic
+
+And some boolean attriutes indicating what kind of input source the algorithm accepts.
++ relational input (either file or table input)
++ file input
++ database connection
++ table input
+
+### List all Algorithms [GET /algorithms]
+
+Returns a list of all *Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 1,
+            "fileName": "example_relational_input_algorithm.jar",
+            "name": "example_relational_input_algorithm",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": true,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": true,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 2,
+            "fileName": "SPIDERDatabase-0.0.2-SNAPSHOT.jar",
+            "name": "SPIDERDatabase-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": true,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": true,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 3,
+            "fileName": "fdmine_algorithm-0.0.2-SNAPSHOT.jar",
+            "name": "fdmine_algorithm-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 4,
+            "fileName": "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+            "name": "ducc_for_metanome-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": true,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          }
+        ]
+
+
+### List all Inclusion Dependency Algorithms [GET /algorithms/inclusion-dependency-algorithms/]
+
+Retruns a list of all *Inclusion Dependency Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 2,
+            "fileName": "SPIDERDatabase-0.0.2-SNAPSHOT.jar",
+            "name": "SPIDERDatabase-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": true,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": true,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 8,
+            "fileName": "SPIDERFile-0.0.2-SNAPSHOT.jar",
+            "name": "SPIDERFile-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": true,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": true,
+            "basicStat": false
+          },
+          {
+            "id": 12,
+            "fileName": "BINDERFile-0.0.2-SNAPSHOT.jar",
+            "name": "BINDERFile-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": true,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": true,
+            "basicStat": false
+          }
+        ]
+
+### List all Functional Dependency Algorithms [GET /algorithms/functional-dependency-algorithms/]
+
+Retruns a list of all *Functional Dependency Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 3,
+            "fileName": "fdmine_algorithm-0.0.2-SNAPSHOT.jar",
+            "name": "fdmine_algorithm-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 5,
+            "fileName": "fdep_algorithm-0.0.2-SNAPSHOT.jar",
+            "name": "fdep_algorithm-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          }
+        ]
+
+
+### List all Unique Column Combination Algorithms [GET /algorithms/unique-column-combination-algorithms/]
+
+Retruns a list of all *Unique Column Combination Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+           {
+            "id": 4,
+            "fileName": "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+            "name": "DUCC",
+            "author": "Thorsten",
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": true,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 14,
+            "fileName": "example_holistic_algorithm.jar",
+            "name": "example_holistic_algorithm",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": true,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 15,
+            "fileName": "example_ucc_algorithm.jar",
+            "name": "example_ucc_algorithm",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": true,
+            "cucc": false,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": true,
+            "basicStat": false
+          }
+        ]
+
+### List all Conditional Unique Column Combination Algorithms [GET /algorithms/conditional-unique-column-combination-algorithms/]
+
+Retruns a list of all *Conditional Unique Column Combination Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 16,
+            "fileName": "example_cucc_algorithm.jar",
+            "name": "example_cucc_algorithm",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": false,
+            "cucc": true,
+            "od": false,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": true,
+            "basicStat": false
+          }
+        ]
+
+
+### List all Order Dependency Algorithms [GET /algorithms/order-dependency-algorithms/]
+
+Retruns a list of all *Order Dependency Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+
+
+
+
+### List all Basic Statistics Algorithms [GET /algorithms/basic-statistics-algorithms/]
+
+Retruns a list of all *Basic Statistics Algorithms* currently stored in the database.
+
++ Response 200 (application/json)
+        
+        [
+          {
+            "id": 7,
+            "fileName": "ORDER-0.0.2-SNAPSHOT.jar",
+            "name": "ORDER-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": true,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          {
+            "id": 21,
+            "fileName": "example_od_algorithm.jar",
+            "name": "example_od_algorithm",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": false,
+            "ucc": false,
+            "cucc": false,
+            "od": true,
+            "relationalInput": false,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          }
+        ]
+
+### Get one Algorithm [GET /algorithms/get/{algorithm_id}]
+
+Returns a specific *Algorithm*.
+
++ Parameters
+    + algorithm_id: 1 (required, number) - ID of the *Algorithm* in form of an integer
+
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "fileName": "example_relational_input_algorithm.jar",
+          "name": "example_relational_input_algorithm",
+          "author": null,
+          "description": null,
+          "ind": false,
+          "fd": false,
+          "ucc": true,
+          "cucc": false,
+          "od": false,
+          "relationalInput": true,
+          "databaseConnection": false,
+          "tableInput": true,
+          "fileInput": false,
+          "basicStat": false
+        }
+
+### Store a New Algorithm [POST /algorithms/store]
+
+Stores a new *Algorithm*. 
+It takes a JSON object containing the new *Algorithm*. 
+It returns a JSON object containing the stored *Algorithm* with the updated ID.
+
++ Request (application/json)
+
+        {
+          "id": 1,
+          "fileName": "SPIDERFile-0.0.2-SNAPSHOT.jar",
+          "name": "SPIDERFile-0.0.2-SNAPSHOT",
+          "author": null,
+          "description": null,
+          "ind": true,
+          "fd": false,
+          "ucc": false,
+          "cucc": false,
+          "od": false,
+          "relationalInput": false,
+          "databaseConnection": false,
+          "tableInput": false,
+          "fileInput": true,
+          "basicStat": false
+        }
+
++ Response 200 (application/json)
+
+        {
+          "id": 5,
+          "fileName": "SPIDERFile-0.0.2-SNAPSHOT.jar",
+          "name": "SPIDERFile-0.0.2-SNAPSHOT",
+          "author": null,
+          "description": null,
+          "ind": true,
+          "fd": false,
+          "ucc": false,
+          "cucc": false,
+          "od": false,
+          "relationalInput": false,
+          "databaseConnection": false,
+          "tableInput": false,
+          "fileInput": true,
+          "basicStat": false
+        }
+
+### Update an Algorithm [POST /algorithms/update]
+
+Updates an existing *Algorithm*. 
+It takes a JSON object containing an *Algorithm*, which should be updated. 
+The corresponding *Algorithm* with the same ID is updated in the database. 
+The JSON object of the updated *Algorithm* is returned.
+
++ Request (application/json)
+
+        {
+          "id": 4,
+          "fileName": "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+          "name": "DUCC",
+          "author": "Thorsten",
+          "description": null,
+          "ind": false,
+          "fd": false,
+          "ucc": true,
+          "cucc": false,
+          "od": false,
+          "relationalInput": true,
+          "databaseConnection": false,
+          "tableInput": false,
+          "fileInput": false,
+          "basicStat": false
+        }
+
++ Response 200 (application/json)
+
+        {
+          "id": 4,
+          "fileName": "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+          "name": "DUCC",
+          "author": "Thorsten",
+          "description": null,
+          "ind": false,
+          "fd": false,
+          "ucc": true,
+          "cucc": false,
+          "od": false,
+          "relationalInput": true,
+          "databaseConnection": false,
+          "tableInput": false,
+          "fileInput": false,
+          "basicStat": false
+        }
+
+### Delete an Algorithm [DELETE /algorithms/delete/{algorithm_id}]
+
+Deletes the *Algorithm* with the given ID.
+
++ Parameters
+    + algorithm_id: 1 (required, number) - ID of the *Algorithm* in form of an integer
+
++ Response 204
+
+
+### List all Algorithm Files in the Resource Folder [GET /algorithms/available-algorithm-files]
+
+Lists all jar files, which are located in the resource folder for *Algorithms*.
+
++ Response 200 (application/json)
+
+        [
+          "example_relational_input_algorithm.jar",
+          "SPIDERDatabase-0.0.2-SNAPSHOT.jar",
+          "fdmine_algorithm-0.0.2-SNAPSHOT.jar",
+          "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+          "fdep_algorithm-0.0.2-SNAPSHOT.jar",
+          "tane_algorithm-0.0.2-SNAPSHOT.jar",
+          "ORDER-0.0.2-SNAPSHOT.jar",
+          "SPIDERFile-0.0.2-SNAPSHOT.jar",
+          "dfdMetanome-0.0.2-SNAPSHOT.jar",
+          "example_basic_stat_algorithm.jar",
+          "example_fd_algorithm.jar",
+          "BINDERFile-0.0.2-SNAPSHOT.jar",
+          "depminer_algorithm-0.0.2-SNAPSHOT.jar",
+          "example_holistic_algorithm.jar",
+          "example_ucc_algorithm.jar",
+          "MANY-0.0.2-SNAPSHOT.jar",
+          "example_sql_profiling_algorithm.jar",
+          "BINDERDatabase-0.0.2-SNAPSHOT.jar"
+        ]
+
+## Group Execution
+
+An algorithm run is stored in an *Execution*.
+An *Execution* has the following attributes:
++ algorithm
++ begin
++ end 
++ identifier
++ description
++ hardware descrition
++ config
++ inputs
++ results
++ aborted
++ count reuslts
+
+### List all Executions [GET /executions]
+
+Returns a list of all *Executions* currently stored in the database.
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 1,
+            "algorithm": {
+              "id": 6,
+              "fileName": "tane_algorithm-0.0.2-SNAPSHOT.jar",
+              "name": "tane_algorithm-0.0.2-SNAPSHOT",
+              "author": null,
+              "description": null,
+              "ind": false,
+              "fd": true,
+              "ucc": false,
+              "cucc": false,
+              "od": false,
+              "relationalInput": true,
+              "databaseConnection": false,
+              "tableInput": false,
+              "fileInput": false,
+              "basicStat": false
+            },
+            "begin": 1435602560628,
+            "end": 1435602560810,
+            "identifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918",
+            "config": null,
+            "countResult": false,
+            "inputs": [
+              {
+                "type": "fileInput",
+                "id": 7,
+                "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "separator": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\\\",
+                "skipLines": 0,
+                "strictQuotes": false,
+                "ignoreLeadingWhiteSpace": true,
+                "hasHeader": true,
+                "skipDifferingLines": false,
+                "comment": null,
+                "nullValue": ""
+              }
+            ],
+            "results": [
+              {
+                "id": 1,
+                "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918_fds",
+                "type": "FD"
+              }
+            ],
+            "hardwareDescription": null,
+            "description": null,
+            "executionSetting": {
+              "id": 1,
+              "executionIdentifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918",
+              "cacheResults": true,
+              "writeResults": false,
+              "countResults": false
+            },
+            "aborted": false
+          },
+          {
+            "id": 2,
+            "algorithm": {
+              "id": 6,
+              "fileName": "tane_algorithm-0.0.2-SNAPSHOT.jar",
+              "name": "tane_algorithm-0.0.2-SNAPSHOT",
+              "author": null,
+              "description": null,
+              "ind": false,
+              "fd": true,
+              "ucc": false,
+              "cucc": false,
+              "od": false,
+              "relationalInput": true,
+              "databaseConnection": false,
+              "tableInput": false,
+              "fileInput": false,
+              "basicStat": false
+            },
+            "begin": 1435602929484,
+            "end": 1435602929669,
+            "identifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T203527",
+            "config": null,
+            "countResult": false,
+            "inputs": [
+              {
+                "type": "fileInput",
+                "id": 7,
+                "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "separator": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\\\",
+                "skipLines": 0,
+                "strictQuotes": false,
+                "ignoreLeadingWhiteSpace": true,
+                "hasHeader": true,
+                "skipDifferingLines": false,
+                "comment": null,
+                "nullValue": ""
+              }
+            ],
+            "results": [
+              {
+                "id": 2,
+                "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T203527_fds",
+                "type": "FD"
+              }
+            ],
+            "hardwareDescription": null,
+            "description": null,
+            "executionSetting": {
+              "id": 2,
+              "executionIdentifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T203527",
+              "cacheResults": true,
+              "writeResults": false,
+              "countResults": false
+            },
+            "aborted": false
+          },
+          {
+            "id": 31,
+            "algorithm": {
+              "id": 4,
+              "fileName": "ducc_for_metanome-0.0.2-SNAPSHOT.jar",
+              "name": "DUCC",
+              "author": "Thorsten",
+              "description": null,
+              "ind": false,
+              "fd": false,
+              "ucc": true,
+              "cucc": false,
+              "od": false,
+              "relationalInput": true,
+              "databaseConnection": false,
+              "tableInput": false,
+              "fileInput": false,
+              "basicStat": false
+            },
+            "begin": 1435907665840,
+            "end": 1435907665867,
+            "identifier": "ducc_for_metanome-0.0.2-SNAPSHOT.jar2015-07-03T091423",
+            "config": null,
+            "countResult": false,
+            "inputs": [
+              {
+                "type": "fileInput",
+                "id": 7,
+                "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "separator": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\\\",
+                "skipLines": 0,
+                "strictQuotes": false,
+                "ignoreLeadingWhiteSpace": true,
+                "hasHeader": true,
+                "skipDifferingLines": false,
+                "comment": null,
+                "nullValue": ""
+              }
+            ],
+            "results": [
+              {
+                "id": 31,
+                "fileName": "results/ducc_for_metanome-0.0.2-SNAPSHOT.jar2015-07-03T091423_uccs",
+                "type": "UCC"
+              }
+            ],
+            "hardwareDescription": null,
+            "description": null,
+            "executionSetting": {
+              "id": 31,
+              "executionIdentifier": "ducc_for_metanome-0.0.2-SNAPSHOT.jar2015-07-03T091423",
+              "cacheResults": true,
+              "writeResults": false,
+              "countResults": false
+            },
+            "aborted": false
+          },
+          {
+            "id": 32,
+            "algorithm": {
+              "id": 12,
+              "fileName": "BINDERFile-0.0.2-SNAPSHOT.jar",
+              "name": "BINDERFile-0.0.2-SNAPSHOT",
+              "author": null,
+              "description": null,
+              "ind": true,
+              "fd": false,
+              "ucc": false,
+              "cucc": false,
+              "od": false,
+              "relationalInput": false,
+              "databaseConnection": false,
+              "tableInput": false,
+              "fileInput": true,
+              "basicStat": false
+            },
+            "begin": 1435907913313,
+            "end": 1435907913713,
+            "identifier": "BINDERFile-0.0.2-SNAPSHOT.jar2015-07-03T091831",
+            "config": null,
+            "countResult": false,
+            "inputs": [
+              {
+                "type": "fileInput",
+                "id": 7,
+                "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                "separator": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\\\",
+                "skipLines": 0,
+                "strictQuotes": false,
+                "ignoreLeadingWhiteSpace": true,
+                "hasHeader": true,
+                "skipDifferingLines": false,
+                "comment": null,
+                "nullValue": ""
+              },
+              {
+                "type": "fileInput",
+                "id": 6,
+                "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_astrology.csv",
+                "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_astrology.csv",
+                "separator": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\\\",
+                "skipLines": 0,
+                "strictQuotes": false,
+                "ignoreLeadingWhiteSpace": true,
+                "hasHeader": true,
+                "skipDifferingLines": false,
+                "comment": null,
+                "nullValue": ""
+              }
+            ],
+            "results": [
+              {
+                "id": 32,
+                "fileName": "results/BINDERFile-0.0.2-SNAPSHOT.jar2015-07-03T091831_inds",
+                "type": "IND"
+              }
+            ],
+            "hardwareDescription": null,
+            "description": null,
+            "executionSetting": {
+              "id": 32,
+              "executionIdentifier": "BINDERFile-0.0.2-SNAPSHOT.jar2015-07-03T091831",
+              "cacheResults": true,
+              "writeResults": false,
+              "countResults": false
+            },
+            "aborted": false
+          }
+        ]
+
+### Get one Exeuciton [GET /executions/get/{exeuction_id}]
+
+Returns a specific *Execution*.
+
++ Parameters
+    + exeuction_id: 1 (required, number) - ID of the *Execution* in form of an integer
+
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "algorithm": {
+            "id": 6,
+            "fileName": "tane_algorithm-0.0.2-SNAPSHOT.jar",
+            "name": "tane_algorithm-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          "begin": 1435602560628,
+          "end": 1435602560810,
+          "identifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918",
+          "config": null,
+          "countResult": false,
+          "inputs": [
+            {
+              "type": "fileInput",
+              "id": 7,
+              "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+              "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+              "separator": ",",
+              "quoteChar": "\"",
+              "escapeChar": "\\\\",
+              "skipLines": 0,
+              "strictQuotes": false,
+              "ignoreLeadingWhiteSpace": true,
+              "hasHeader": true,
+              "skipDifferingLines": false,
+              "comment": null,
+              "nullValue": ""
+            }
+          ],
+          "results": [
+            {
+              "id": 1,
+              "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918_fds",
+              "type": "FD"
+            }
+          ],
+          "hardwareDescription": null,
+          "description": null,
+          "executionSetting": {
+            "id": 1,
+            "executionIdentifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918",
+            "cacheResults": true,
+            "writeResults": false,
+            "countResults": false
+          },
+          "aborted": false
+        }
+
+### Delete a Execution [DELETE /executions/delete/{exeuction_id}]
+
+Deletes the *Execution* with the given ID.
+
++ Parameters
+    + exeuction_id: 1 (required, number) - ID of the *Execution* in form of an integer
+
++ Response 204
+
+
+### Get Count Results [GET /executions/count-results/{execution_id}]
+
+Some results of on algorithm run are just counted and stored in a file.
+The actual results are ignored.
+This request get the number of results for the different result types for the given *Execution*.
+
++ Parameters
+    + exeuction_id: 1 (required, number) - ID of the *Execution* in form of an integer
+
++ Response 200 (application/json)
+        
+            {
+              "Functional Dependency": 66
+            }
+
+
+## Group Parameter
+
+To run an algorithm, algorithm specific parameters must be set, which are represented by 
+so called *Configuration Requirements*.
+The parameters can be of type input (File Input, Table Input, Database Connection or Relational Input) or of type primitive (Integer, String, Boolean, List).
+
+### List Parameters of Algorithm [GET /parameter/{algorithm_file}]
+
+Returns a list of all parameters ( *Configuration Requirements* ) requested by the given algorithm. 
+
++ Parameters
+    + algorithm_file: ducc_for_metanome-0.0.2-SNAPSHOT.jar (required, string) - Name of the jar file of the algorithm
+
++ Response 200 (application/json)
+
+        [
+          {
+            "type": "ConfigurationRequirementRelationalInput",
+            "identifier": "Relational Input",
+            "required": true,
+            "numberOfSettings": 1,
+            "minNumberOfSettings": 1,
+            "maxNumberOfSettings": 1,
+            "fixNumberOfSettings": true,
+            "settings": null
+          },
+          {
+            "type": "ConfigurationRequirementBoolean",
+            "identifier": "NULL = NULL",
+            "required": true,
+            "numberOfSettings": 1,
+            "minNumberOfSettings": 1,
+            "maxNumberOfSettings": 1,
+            "fixNumberOfSettings": true,
+            "settings": null,
+            "defaultValues": [
+              true
+            ]
+          }
+        ]
+
+
+## Group Algorithm Execution
+
+Using this resoure an algorithm run can be started and sopped.
+
+### Execute an Algorithm [POST /algorithm-execution]
+
+Executes an algorithm.
+It takes a JSON object containing all parameters needed to execute the algorithm. 
+The JSON object of the execution is returned.
+
++ Request (application/json)
+
+        {  
+           "algorithmId":6,
+           "executionIdentifier":"tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642",
+           "requirements":[  
+              {  
+                 "type":"ConfigurationRequirementRelationalInput",
+                 "identifier":"Relational Input",
+                 "required":true,
+                 "numberOfSettings":1,
+                 "minNumberOfSettings":1,
+                 "maxNumberOfSettings":1,
+                 "settings":[  
+                    {  
+                       "type":"ConfigurationSettingFileInput",
+                       "fileName":"/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+                       "advanced":false,
+                       "separatorChar":",",
+                       "quoteChar":"\"",
+                       "escapeChar":"\\",
+                       "strictQuotes":false,
+                       "ignoreLeadingWhiteSpace":true,
+                       "skipLines":0,
+                       "header":true,
+                       "skipDifferingLines":false,
+                       "nullValue":null,
+                       "id":7
+                    }
+                 ]
+              }
+           ],
+           "cacheResults":false,
+           "writeResults":false,
+           "countResults":true,
+           "memory":""
+        }
+
+
++ Response 200 (application/json)
+
+        {
+          "id": 80,
+          "algorithm": {
+            "id": 6,
+            "fileName": "tane_algorithm-0.0.2-SNAPSHOT.jar",
+            "name": "tane_algorithm-0.0.2-SNAPSHOT",
+            "author": null,
+            "description": null,
+            "ind": false,
+            "fd": true,
+            "ucc": false,
+            "cucc": false,
+            "od": false,
+            "relationalInput": true,
+            "databaseConnection": false,
+            "tableInput": false,
+            "fileInput": false,
+            "basicStat": false
+          },
+          "begin": 1436519204953,
+          "end": 1436519205151,
+          "identifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642",
+          "config": null,
+          "countResult": true,
+          "inputs": [
+            {
+              "type": "fileInput",
+              "id": 7,
+              "name": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+              "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planets.csv",
+              "separator": ",",
+              "quoteChar": "\"",
+              "escapeChar": "\\\\",
+              "skipLines": 0,
+              "strictQuotes": false,
+              "ignoreLeadingWhiteSpace": true,
+              "hasHeader": true,
+              "skipDifferingLines": false,
+              "comment": null,
+              "nullValue": ""
+            }
+          ],
+          "results": [
+            {
+              "id": 81,
+              "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642_fds",
+              "type": "FD"
+            }
+          ],
+          "hardwareDescription": null,
+          "description": null,
+          "executionSetting": {
+            "id": 80,
+            "executionIdentifier": "tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642",
+            "cacheResults": false,
+            "writeResults": false,
+            "countResults": true
+          },
+          "aborted": false
+        }
+
+
+### Stop an Algorithm Execution [GET /algorithm-execution/stop/{execution_identifier}]
+
+Stops the algorithm execution for the given exeuction identifier.
+
++ Parameters
+    + execution_identifier: tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642 (required, string) - Identifier of the algorithm execution
+    
++ Response 204
+
+
+## Group Result Store
+
+The results of an algorithm are persisted in memory after it successful execution. 
+This resource handles all request against this result store.
+
+### Get all Results from X to Y [GET /result-store/get-from-to/{type}/{sort_property}/{sort_order}/{start}/{end}]
+
+Returns a sublist of the persisted results. 
+
++ Parameters
+    + type: Functional Dependency (required, string) - Name of the result tpye
+    + sort_property: determinant (required, string) - Name of the sort property
+    + sort_order: true (required, boolean) - True, if the sort order is ascending, false otherwise
+    + start: 1 (required, number) -  Start index for the sublist (inclusive)
+    + end: 3 (required, number) - End index for the sublist (exclusive)
+
++ Response 200 (application/json)
+
+        [
+          {
+            "type": "FunctionalDependencyResult",
+            "result": {
+              "type": "FunctionalDependency",
+              "determinant": {
+                "columnIdentifiers": [
+                  {
+                    "tableIdentifier": "WDC_planets.csv",
+                    "columnIdentifier": "Atmosphere"
+                  }
+                ]
+              },
+              "dependant": {
+                "tableIdentifier": "WDC_planets.csv",
+                "columnIdentifier": "Type"
+              }
+            },
+            "determinantTableName": "WDC_planets",
+            "dependantTableName": "WDC_planets",
+            "extendedDependant": {
+              "columnIdentifiers": [
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Rings"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Type"
+                }
+              ]
+            },
+            "dependantColumnRatio": 0.6666667,
+            "determinantColumnRatio": 0.33333334,
+            "generalCoverage": 0.3,
+            "dependantOccurrenceRatio": 0.1,
+            "determinantOccurrenceRatio": 0.071428575,
+            "dependantUniquenessRatio": 0,
+            "determinantUniquenessRatio": 0,
+            "pollution": 0,
+            "pollutionColumn": "",
+            "informationGainBytes": 0,
+            "informationGainCells": 0,
+            "dependant": {
+              "tableIdentifier": "WDC_planets.csv",
+              "columnIdentifier": "Type"
+            },
+            "determinant": {
+              "columnIdentifiers": [
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Atmosphere"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FunctionalDependencyResult",
+            "result": {
+              "type": "FunctionalDependency",
+              "determinant": {
+                "columnIdentifiers": [
+                  {
+                    "tableIdentifier": "WDC_planets.csv",
+                    "columnIdentifier": "Confirmed_moons"
+                  },
+                  {
+                    "tableIdentifier": "WDC_planets.csv",
+                    "columnIdentifier": "Atmosphere"
+                  }
+                ]
+              },
+              "dependant": {
+                "tableIdentifier": "WDC_planets.csv",
+                "columnIdentifier": "Name"
+              }
+            },
+            "determinantTableName": "WDC_planets",
+            "dependantTableName": "WDC_planets",
+            "extendedDependant": {
+              "columnIdentifiers": [
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Orbital_radius"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Rings"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Name"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Mass"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Type"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Orbital_period"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Equatorial_diameter"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Rotation_period"
+                }
+              ]
+            },
+            "dependantColumnRatio": 0.8,
+            "determinantColumnRatio": 0.2,
+            "generalCoverage": 1,
+            "dependantOccurrenceRatio": 0.07272727,
+            "determinantOccurrenceRatio": 0.071428575,
+            "dependantUniquenessRatio": 0,
+            "determinantUniquenessRatio": 0,
+            "pollution": 0,
+            "pollutionColumn": "",
+            "informationGainBytes": 0,
+            "informationGainCells": 0,
+            "dependant": {
+              "tableIdentifier": "WDC_planets.csv",
+              "columnIdentifier": "Name"
+            },
+            "determinant": {
+              "columnIdentifiers": [
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Confirmed_moons"
+                },
+                {
+                  "tableIdentifier": "WDC_planets.csv",
+                  "columnIdentifier": "Atmosphere"
+                }
+              ]
+            }
+          }
+        ]
+
+### Count Results [GET /result-store/count/{type}]
+
+Counts the persisted results of the given type.
+
++ Parameters
+    + type: Functional Dependency (required, string) - Name of the result tpye
+
++ Response 200 (application/json)
+
+        66
+
+
+### Load Results for Execution [GET /result-store/load-execution/{execution_id}/{data_independent}]
+
+Loads the results of the given execution, analyzes them and stores them in the result store.
+
++ Parameters
+    + execution_id: 1 (required, number) - The ID of the execution
+    + data_independent: true (required, boolean) - True, if the results should not be analyzed using the acutal data, false otherwise
+
++ Response 204
+
+### Load Results for File Input [GET /result-store/load-results/{file_input_id}/{data_independent}]
+
+Loads the results of the given file input, analyzes them and stores them in the result store.
+A list of the result types is returned.
+
++ Parameters
+    + file_input_id: 2 (required, number) - The ID of the file input
+    + data_independent: true (required, boolean) - True, if the results should not be analyzed using the acutal data, false otherwise
+
++ Response 200 (application/json)
+
+        [
+          "Order Dependency",
+          "Functional Dependency"
+        ]
+
+
+
