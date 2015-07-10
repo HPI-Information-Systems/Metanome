@@ -76,6 +76,14 @@ public class FunctionalDependencyRanking extends Ranking {
   @Override
   public void calculateDataDependentRankings()
       throws InputGenerationException, InputIterationException {
+
+    TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
+
+    if (this.tableInformationMap.size() == 1) {
+      this.PLIs = createPLIs(tableInformation);
+      tableInformation.setPLIs(PLIs);
+    }
+
     for (FunctionalDependencyResult result : this.results) {
       calculateColumnRatios(result);
       calculateGeneralCoverage(result);
@@ -85,14 +93,9 @@ public class FunctionalDependencyRanking extends Ranking {
       // The pollution rank and information gain are
       // only defined on one table
       if (this.tableInformationMap.size() == 1) {
-        TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
-        this.PLIs = createPLIs(tableInformation);
-
         calculatePollution(result, tableInformation);
         calculateInformationGainCells(result, tableInformation);
         calculateInformationGainBytes(result, tableInformation);
-
-        tableInformation.setPLIs(PLIs);
       }
     }
   }
