@@ -22,18 +22,14 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
-import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
@@ -162,7 +158,7 @@ public class AlgorithmExecutorTest {
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an ind algorithm.
-   */
+   *
 
 
   @Test
