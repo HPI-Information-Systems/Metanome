@@ -118,7 +118,8 @@ public class AlgorithmExecutorTest {
 
     // Execute functionality
     Execution
-        execution = executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
+        execution = executor.executeAlgorithm(algorithm, configs, null, "identifier",
+                                              genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -148,7 +149,8 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    Execution execution = executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
+    Execution execution = executor.executeAlgorithm(algorithm, configs, null, "identifier",
+                                                    genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
@@ -160,8 +162,8 @@ public class AlgorithmExecutorTest {
   /**
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an ind algorithm.
-   * Todo: fixme
    */
+
 
   @Test
   public void testExecuteInclusionDependency()
@@ -199,6 +201,7 @@ public class AlgorithmExecutorTest {
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
    * from a file.
    */
+
 
 
   @Test
@@ -313,7 +316,8 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier",
+                              genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));

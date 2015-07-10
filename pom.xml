@@ -104,7 +104,7 @@
                     <version>2.6</version>
                     <configuration>
                         <check>
-                        <haltOnFailure>false</haltOnFailure>
+                        <haltOnFailure>true</haltOnFailure>
                         </check>
                         <formats>
                             <format>xml</format>
