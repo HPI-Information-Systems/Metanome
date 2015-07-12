@@ -216,7 +216,7 @@ public class AlgorithmExecutorTest {
             ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     requirementRelationalInput.checkAndSetSettings(new ConfigurationSettingFileInput(path));
 
-    //Todo: usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
+    //usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
     configurationValues.add(requirementRelationalInput.build(configurationFactory));
 
     Algorithm algorithm = new Algorithm("example_relational_input_algorithm.jar");
@@ -451,7 +451,7 @@ public class AlgorithmExecutorTest {
 
     configurationValues.add(specification.build(configurationFactory));
 
-    //Todo: usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
+    //usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
 
     Algorithm algorithm = new Algorithm("example_basic_stat_algorithm.jar");
     algorithm = resource.store(algorithm);
