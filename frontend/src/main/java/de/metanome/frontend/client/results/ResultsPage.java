@@ -17,6 +17,7 @@
 package de.metanome.frontend.client.results;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,6 +26,7 @@ import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -113,7 +115,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
 
     // Add button for calculating data dependent result statistics
     if (!this.countResults && !this.clickedAdvancedResults) {
-      this.add(getAdvancedResultsButton(execution));
+      this.add(getMoreStatisticsLabel(execution));
     }
 
     // Add the result table
@@ -135,8 +137,10 @@ public class ResultsPage extends FlowPanel implements TabContent {
    * @param execution the execution
    * @return the button
    */
-  protected Button getAdvancedResultsButton(final Execution execution) {
-    return new Button("Calculate Data Dependent Statistics", new ClickHandler() {
+  protected Label getMoreStatisticsLabel(final Execution execution) {
+    HTML label = new HTML("<p margin-top: 30px>To get more statistics click <b><ins>here</ins></b>.</p>");
+    label.getElement().getStyle().setCursor(Style.Cursor.POINTER);
+    label.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         clear();
@@ -158,6 +162,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
         });
       }
     });
+    return label;
   }
 
   /**
