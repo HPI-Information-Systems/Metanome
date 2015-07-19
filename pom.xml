@@ -105,6 +105,9 @@
                     <configuration>
                         <check>
                             <haltOnFailure>false</haltOnFailure>
+                            <!-- Project-wide threshold  -->
+                            <totalLineRate>30</totalLineRate>
+                            <totalBranchRate>30</totalBranchRate>
                         </check>
                         <formats>
                             <format>xml</format>
