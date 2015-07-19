@@ -103,20 +103,16 @@
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>2.6</version>
                     <configuration>
-                        <!--
                         <check>
-                            <haltOnFailure>false</haltOnFailure>
-                            Project-wide threshold
-                            <totalLineRate>30</totalLineRate>
-                            <totalBranchRate>30</totalBranchRate>
+                            <haltOnFailure>true</haltOnFailure>
                         </check>
-                        -->
                         <formats>
                             <format>xml</format>
                         </formats>
                         <aggregate>true</aggregate>
                         <instrumentation>
                             <exclude>de/metanome/test_helper/**/*.class</exclude>
+                            <exclude>de/metanome/frontend/**/*.class</exclude>
                         </instrumentation>
                     </configuration>
                 </plugin>
