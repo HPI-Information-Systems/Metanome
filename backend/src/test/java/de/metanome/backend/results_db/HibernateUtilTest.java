@@ -385,7 +385,9 @@ public class HibernateUtilTest {
     HibernateUtil.clear();
 
     // Check result
-    Algorithm actualAlgorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithmId);
+    Algorithm
+        actualAlgorithm =
+        (Algorithm) HibernateUtil.retrieve(Algorithm.class, expectedAlgorithmId);
     assertNull(actualAlgorithm);
 
     // Cleanup

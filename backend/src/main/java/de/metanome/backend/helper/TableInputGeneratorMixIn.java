@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package de.metanome.algorithm_integration.algorithm_types;
+package de.metanome.backend.helper;
 
-import de.metanome.algorithm_integration.Algorithm;
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-/**
- * An {@link Algorithm} that estimates it's own progress.
- *
- * @author Jakob Zwiener
- */
-public interface ProgressEstimatingAlgorithm extends Algorithm {
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
-  /**
-   * @param progressReceiver receiving the algorithm's progress
-   */
-  void setProgressReceiver(ProgressReceiver progressReceiver);
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = DefaultFileInputGenerator.class, name = "defaultTableInputGenerator")})
+public abstract class TableInputGeneratorMixIn {
+
 }

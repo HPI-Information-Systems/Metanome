@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.ListBox;
 
 
 public class AlgorithmCategoryChangeHandler implements ChangeHandler {
+
   @Override
   public void onChange(ChangeEvent event) {
     ListBox box = (ListBox) event.getSource();

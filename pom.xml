@@ -104,7 +104,7 @@
                     <version>2.6</version>
                     <configuration>
                         <check>
-                            <haltOnFailure>false</haltOnFailure>
+                            <haltOnFailure>true</haltOnFailure>
                         </check>
                         <formats>
                             <format>xml</format>
@@ -112,6 +112,7 @@
                         <aggregate>true</aggregate>
                         <instrumentation>
                             <exclude>de/metanome/test_helper/**/*.class</exclude>
+                            <exclude>de/metanome/frontend/**/*.class</exclude>
                         </instrumentation>
                     </configuration>
                 </plugin>

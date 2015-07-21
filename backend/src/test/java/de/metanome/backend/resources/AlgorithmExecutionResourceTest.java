@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,141 +16,117 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.backend.results_db.ResultType;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
+import de.metanome.backend.algorithm_execution.AlgorithmExecution;
+import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
+import de.metanome.backend.configuration.ConfigurationValueString;
+import de.metanome.backend.input.file.FileFixture;
+import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.Input;
 
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.util.EnumMap;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static junit.framework.TestCase.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionResourceTest {
 
-  AlgorithmExecutionResource executionService = new AlgorithmExecutionResource();
+  AlgorithmExecutionResource algorithmExecutionResource = new AlgorithmExecutionResource();
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#executeAlgorithm(AlgorithmExecutionParams)}
+   */
 
   @Test
-  public void testFetchNewResults() throws Exception {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCacheResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
-
-    // Execute functionality
-    AlgorithmExecutionCache.getResultCache(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    List<Result>
-        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
-
-    // Check result
-    assertFalse(actualResult.isEmpty());
-    assertTrue(actualResult.contains(expectedUcc));
+  public void testExecuteAlgorithm() throws Exception {
+    //Todo: maybe find way to test - currently not possible because database creation in tests is not completely consistent with application
   }
 
   /**
-   * Test method for {@link AlgorithmExecutionResource#fetchProgress(String)}
-   *
-   * When fetching the current progress for an execution the correct progress should be returned.
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#buildExecutionSetting(AlgorithmExecutionParams)}
    */
-  @Test
-  public void testFetchProgress() throws FileNotFoundException, UnsupportedEncodingException {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-    float expectedProgress = 0.42f;
-
-    // Execute functionality
-    AlgorithmExecutionCache.getProgressCache(expectedExecutionIdentifier)
-        .updateProgress(expectedProgress);
-    float actualProgress = executionService.fetchProgress(expectedExecutionIdentifier);
-
-    // Check result
-    assertEquals(expectedProgress, actualProgress, 0.0);
-  }
-
-
-  @Test(expected = WebException.class)
-  public void testFetchResultsNotPossible() throws FileNotFoundException, UnsupportedEncodingException {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
-
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(true);
-
-    // Expected values
-    executionService.buildExecutor(params);
-
-    // Check
-    List<Result>
-        actualResult = executionService.getCacheResults(expectedExecutionIdentifier);
-  }
 
   @Test
-  public void testGetCounterResults() throws Exception {
+  public void testBuildExecutionSetting() throws Exception {
     // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
+    int expectedAlgorithmId = 42;
+    String expectedExecutionIdentifier = "myIdentifier";
+    Boolean expectedCountResults = true;
+    List<ConfigurationRequirement> expectedRequirements = new ArrayList<>();
+    ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
+        ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
+    String path = new FileFixture("some file content").getTestData("some file name").getPath();
+    requirement.checkAndSetSettings(new ConfigurationSettingFileInput(path));
+    expectedRequirements.add(requirement);
 
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(true);
+    AlgorithmExecutionParams params = new AlgorithmExecutionParams()
+        .setAlgorithmId(expectedAlgorithmId)
+        .setExecutionIdentifier(expectedExecutionIdentifier)
+        .setCountResults(expectedCountResults)
+        .setRequirements(expectedRequirements);
 
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
 
-    // Execute functionality
-    AlgorithmExecutionCache.getResultCounter(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    EnumMap<ResultType, Integer>
-        results = executionService.getCounterResults(expectedExecutionIdentifier);
+    ConfigurationValueFileInputGenerator expectedConfigValue = new ConfigurationValueFileInputGenerator(requirement);
 
-    // Check result
-    assertFalse(results.isEmpty());
-    assertTrue(results.get(ResultType.UCC) == 1);
+        //execute functionality
+    ExecutionSetting executionSetting = algorithmExecutionResource.buildExecutionSetting(params);
+
+    //check result
+    assertEquals(expectedCountResults, executionSetting.getCountResults());
+    assertEquals(expectedExecutionIdentifier, executionSetting.getExecutionIdentifier());
+
+    List<ConfigurationValue> configurationValues = AlgorithmExecution.parseConfigurationValues(executionSetting.getParameterValuesJson());
+    ConfigurationValue configValue = configurationValues.get(0);
+
+    assertTrue(configValue instanceof ConfigurationValueFileInputGenerator);
+    ConfigurationValueFileInputGenerator actualConfigValue = (ConfigurationValueFileInputGenerator) configValue;
+
+    assertEquals(expectedConfigValue.getIdentifier(), actualConfigValue.getIdentifier());
   }
+
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#configurationValuesToJson(java.util.List)}
+   */
 
   @Test
-  public void testGetPrinterResults() throws Exception {
-    // Setup
-    String expectedExecutionIdentifier = "executionIdentifier";
+  public void testConfigurationValuesToJson() throws Exception {
+    List<ConfigurationValue> configValues = new ArrayList<>();
+    configValues.add(
+        new ConfigurationValueString("pathToOutputFile", "path/to/file1", "path/to/file1"));
 
-    AlgorithmExecutionParams params = new AlgorithmExecutionParams();
-    params.setExecutionIdentifier(expectedExecutionIdentifier)
-        .setWriteResults(true);
+    List<String> configJsons = algorithmExecutionResource.configurationValuesToJson(configValues);
 
-    // Expected values
-    executionService.buildExecutor(params);
-    UniqueColumnCombination expectedUcc = new UniqueColumnCombination(new ColumnIdentifier("table", "column"));
-    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).setResultTestDir();
+    String expectedJson =  "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}";
 
-    // Execute functionality
-    AlgorithmExecutionCache.getResultPrinter(expectedExecutionIdentifier).receiveResult(
-        expectedUcc);
-    List<Result> results = executionService.getPrinterResults(expectedExecutionIdentifier);
 
-    // Check result
-    assertFalse(results.isEmpty());
-    assertTrue(results.contains(expectedUcc));
+    assertThat(configJsons, contains(expectedJson));
+
   }
 
+  /**
+   * Test method for {@link de.metanome.backend.resources.AlgorithmExecutionResource#inputsToJson(java.util.List)}
+   */
+
+  @Test
+  public void testInputsToJson() throws Exception {
+    List<Input> inputValues = new ArrayList<>();
+    inputValues.add(new Input("myFile"));
+
+    List<String> inputsJson = algorithmExecutionResource.inputsToJson(inputValues);
+
+    String expectedJson = "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"identifier\":\"0\"}";
+
+    assertThat(inputsJson, contains(expectedJson));
+
+
+  }
 }

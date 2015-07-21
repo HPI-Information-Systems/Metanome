@@ -71,8 +71,8 @@ public class ResultCacheTest {
   }
 
   /**
-   * Test method for {@link ResultCache#fetchNewResults()} <p/> Should return all results once. After
-   * receiving the list it should be cleared and only filled by new results.
+   * Test method for {@link ResultCache#fetchNewResults()} <p/> Should return all results once.
+   * After receiving the list it should be cleared and only filled by new results.
    */
   @Test
   public void testGetNewResults() {

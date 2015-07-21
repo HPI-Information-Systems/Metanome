@@ -94,7 +94,6 @@ public class ExampleAlgorithm
           )
       );
     } catch (CouldNotReceiveResultException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

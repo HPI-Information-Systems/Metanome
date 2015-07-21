@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
- * A ConfigurationSettingPrimitive represents those settings, which store simple data types,
- * such as String, Boolean or Integer.
- * @param <T>
+ * A ConfigurationSettingPrimitive represents those settings, which store simple data types, such as
+ * String, Boolean or Integer.
  */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -41,7 +40,8 @@ public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSett
   /**
    * Exists for GWT serialization.
    */
-  public ConfigurationSettingPrimitive() {}
+  public ConfigurationSettingPrimitive() {
+  }
 
   public ConfigurationSettingPrimitive(T value) {
     this.value = value;

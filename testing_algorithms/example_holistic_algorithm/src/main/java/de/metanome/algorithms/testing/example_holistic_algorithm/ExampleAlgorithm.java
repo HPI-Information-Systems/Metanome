@@ -74,7 +74,7 @@ public class ExampleAlgorithm
             new ColumnIdentifier("table1", "column5"),
             new ColumnIdentifier("table1", "column6")));
       } catch (CouldNotReceiveResultException e) {
-       throw new AlgorithmConfigurationException("Could not write result.");
+        throw new AlgorithmConfigurationException("Could not write result.");
       }
     }
   }

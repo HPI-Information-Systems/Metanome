@@ -54,6 +54,8 @@ public class ConfigurationRequirementDefaultValueTest {
 
   /**
    * Test method for {@link ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   *
+   * If the number of default values does not match the number of settings an exception is thrown.
    */
   @Test(expected = AlgorithmConfigurationException.class)
   public void testCheckAndSetDefaultValuesException() throws AlgorithmConfigurationException {
@@ -71,7 +73,9 @@ public class ConfigurationRequirementDefaultValueTest {
 
 
   /**
-   * Test method for {@link ConfigurationRequirementDefaultValue <String>#checkAndSetDefaultValues(String...)}
+   * Test method for {@link ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}
+   *
+   * The default values should be correctly settable on the specification.
    */
   @Test
   public void testSetDefaultValues() throws AlgorithmConfigurationException {
@@ -146,7 +150,8 @@ public class ConfigurationRequirementDefaultValueTest {
 
     // Execute functionality
     try {
-      configSpec.checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
+      configSpec
+          .checkAndSetSettings(expectedValue0, expectedValue1, expectedValue2, expectedValue3);
     } catch (AlgorithmConfigurationException e) {
       fail();
     }
@@ -160,7 +165,7 @@ public class ConfigurationRequirementDefaultValueTest {
    *
    * Setting a wrong number of settings should throw an Exception.
    */
-  @Test(expected=AlgorithmExecutionException.class)
+  @Test(expected = AlgorithmExecutionException.class)
   public void testCheckAndSetSettingsWithWrongNumber() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementBoolean
@@ -179,7 +184,7 @@ public class ConfigurationRequirementDefaultValueTest {
    *
    * Setting a wrong number of settings should throw an Exception.
    */
-  @Test(expected=AlgorithmExecutionException.class)
+  @Test(expected = AlgorithmExecutionException.class)
   public void testCheckAndSetSettingsWithWrongNumberRange() throws AlgorithmConfigurationException {
     // Setup
     ConfigurationRequirementInteger configSpec =

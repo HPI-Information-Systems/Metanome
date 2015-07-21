@@ -82,7 +82,7 @@ public class AlgorithmFinderTest {
   }
 
   /**
-   * TODO docs
+   * Test method for {@link de.metanome.backend.algorithm_loading.AlgorithmFinder#getAvailableAlgorithmFileNames}
    */
   @Test
   public void retrieveAllJarFiles() throws IOException, ClassNotFoundException {

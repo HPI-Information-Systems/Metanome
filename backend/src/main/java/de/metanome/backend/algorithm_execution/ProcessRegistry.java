@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 by the Metanome project
+ * Copyright 2015 by the Metanome project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,38 +16,35 @@
 
 package de.metanome.backend.algorithm_execution;
 
-import de.metanome.algorithm_integration.algorithm_execution.ProgressReceiver;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Stores received progress estimations.
- *
- * @author Jakob Zwiener
+ * Used to manage/maintain process instances
  */
-public class ProgressCache implements ProgressReceiver {
+public class ProcessRegistry {
 
-  protected float progress;
+  public static class Key {
 
-  public ProgressCache() {
-    progress = 0;
   }
 
-  /**
-   * @return progress
-   */
-  public float getProgress() {
-    return progress;
+  private static final ProcessRegistry INSTANCE = new ProcessRegistry();
+
+  public static ProcessRegistry getInstance() {
+    return INSTANCE;
   }
 
-  @Override
-  public boolean updateProgress(float progress) {
-    // Progress should be between 0 and 1 including bounds.
-    if ((progress < 0) || (progress > 1)) {
-      return false;
-    }
+  private final Map<String, Process> _processes = new HashMap<String, Process>();
 
-    this.progress = progress;
-
-    return true;
+  public void put(String key, Process p) {
+    _processes.put(key, p);
   }
 
+  public Process get(String key) {
+    return _processes.get(key);
+  }
+
+  public void remove(String key) {
+    _processes.remove(key);
+  }
 }

@@ -67,7 +67,8 @@ public class InputParameterDatabaseConnectionWidget extends InputParameterDataSo
       }
     }
 
-    specification.setSettings(values.toArray(new ConfigurationSettingDatabaseConnection[values.size()]));
+    specification
+        .setSettings(values.toArray(new ConfigurationSettingDatabaseConnection[values.size()]));
 
     return this.specification;
   }

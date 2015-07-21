@@ -17,7 +17,6 @@
 package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_types.ProgressEstimatingAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 
@@ -77,7 +76,6 @@ public class ConfigurationValueTableInputGeneratorTest {
     TableInputParameterAlgorithm algorithm = mock(TableInputParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(ProgressEstimatingAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     TableInputGenerator[]

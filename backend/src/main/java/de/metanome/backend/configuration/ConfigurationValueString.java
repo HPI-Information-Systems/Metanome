@@ -32,6 +32,9 @@ import java.util.Set;
 public class ConfigurationValueString
     extends ConfigurationValue<String, ConfigurationRequirementString> {
 
+  protected ConfigurationValueString() {
+  }
+
   public ConfigurationValueString(String identifier, String... values) {
     super(identifier, values);
   }

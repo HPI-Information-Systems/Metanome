@@ -24,8 +24,8 @@ import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorith
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
-import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 
@@ -50,8 +50,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 /**
- * Responsible for the database communication for algorithm and for
- * handling all restful calls of algorithms.
+ * Responsible for the database communication for algorithm and for handling all restful calls of
+ * algorithms.
  *
  * @author Tanja Bergmann
  */
@@ -61,6 +61,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
   /**
    * Adds a algorithm to the database.
+   *
    * @param algorithm the algorithm
    * @return the stored algorithm
    */
@@ -71,7 +72,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Override
   public Algorithm store(Algorithm algorithm) {
     algorithm = setAlgorithmTypes(algorithm);
-    
+
     try {
       HibernateUtil.store(algorithm);
     } catch (EntityStorageException e) {
@@ -83,6 +84,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
   /**
    * Deletes the algorithm, which has the given id, from the database.
+   *
    * @param id the id of the algorithm, which should be deleted
    */
   @DELETE
@@ -221,7 +223,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * @param algorithmClass the implemented algorithm interface.
    * @return the algorithms
    */
-  protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass) throws EntityStorageException {
+  protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass)
+      throws EntityStorageException {
     // Cannot directly use array, as some interfaces might not be relevant for query.
     ArrayList<Criterion> criteria = new ArrayList<>(algorithmClass.length);
 
@@ -284,6 +287,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
   /**
    * Updates an algorithm in the database.
+   *
    * @param algorithm the algorithm
    * @return the updated algorithm
    */

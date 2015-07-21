@@ -27,7 +27,8 @@ public class ConfigurationSettingTableInputTest {
 
 
   /**
-   * Test method for {@link ConfigurationSettingTableInput#ConfigurationSettingTableInput(String, ConfigurationSettingDatabaseConnection)}
+   * Test method for {@link ConfigurationSettingTableInput#ConfigurationSettingTableInput(String,
+   * ConfigurationSettingDatabaseConnection)}
    */
   @Test
   public void testConstructor() {
@@ -42,7 +43,7 @@ public class ConfigurationSettingTableInputTest {
     ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
 
     // Execute functionality
     ConfigurationSettingTableInput
@@ -70,13 +71,15 @@ public class ConfigurationSettingTableInputTest {
     ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
 
     ConfigurationSettingTableInput
         setting =
         new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
 
-    String expectedValuesString = expectedTable + "; " + expectedDatabaseConnection.getValueAsString();
+    String
+        expectedValuesString =
+        expectedTable + "; " + expectedDatabaseConnection.getValueAsString();
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();
@@ -101,7 +104,7 @@ public class ConfigurationSettingTableInputTest {
     ConfigurationSettingDatabaseConnection
         expectedDatabaseConnection =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
 
     ConfigurationSettingTableInput
         setting =
@@ -112,7 +115,11 @@ public class ConfigurationSettingTableInputTest {
     ConfigurationSettingTableInput notEqualSettingTable =
         new ConfigurationSettingTableInput("some other table", expectedDatabaseConnection);
     ConfigurationSettingTableInput notEqualSettingDatabaseConnection =
-        new ConfigurationSettingTableInput(expectedTable, new ConfigurationSettingDatabaseConnection(expectedUrl, "some other username", expectedPassword, expectedSystem));
+        new ConfigurationSettingTableInput(expectedTable,
+                                           new ConfigurationSettingDatabaseConnection(expectedUrl,
+                                                                                      "some other username",
+                                                                                      expectedPassword,
+                                                                                      expectedSystem));
 
     // Execute functionality
     // Check result
@@ -122,13 +129,17 @@ public class ConfigurationSettingTableInputTest {
   }
 
   /**
-   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection}
-   * are serializable in GWT.
+   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection} are serializable in
+   * GWT.
    */
   @Test
   public void testGwtSerialization() {
     GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingTableInput("table", new ConfigurationSettingDatabaseConnection("dbUrl", "username", "password", DbSystem.DB2)));
+        new ConfigurationSettingTableInput("table",
+                                           new ConfigurationSettingDatabaseConnection("dbUrl",
+                                                                                      "username",
+                                                                                      "password",
+                                                                                      DbSystem.DB2)));
   }
 
 }

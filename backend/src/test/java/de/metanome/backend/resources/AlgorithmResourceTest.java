@@ -39,7 +39,6 @@ public class AlgorithmResourceTest {
 
   /**
    * Test method for {@link de.metanome.backend.resources.AlgorithmResource#getAll()}
-   * @throws Exception
    */
   @Test
   public void testGetAll() throws Exception {
@@ -67,8 +66,8 @@ public class AlgorithmResourceTest {
   /**
    * Test method for {@link de.metanome.backend.resources.AlgorithmResource#getAll()}
    *
-   * When the database has never been accessed, the list of algorithms should still be
-   * retrievable and empty.
+   * When the database has never been accessed, the list of algorithms should still be retrievable
+   * and empty.
    */
   @Test
   public void testGetAllEmpty() throws EntityStorageException {
@@ -219,7 +218,6 @@ public class AlgorithmResourceTest {
 
   /**
    * Test method for {@link de.metanome.backend.resources.AlgorithmResource#delete(long)}
-   * @throws Exception
    */
   @Test
   public void testDelete() throws Exception {
@@ -246,7 +244,6 @@ public class AlgorithmResourceTest {
    * Test method for {@link AlgorithmResource#listAvailableAlgorithmFiles()}
    *
    * The list of available algorithms should not be emtpy.
-   * @throws Exception
    */
   @Test
   public void testListAvailableAlgorithmFiles() throws Exception {

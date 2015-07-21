@@ -88,7 +88,8 @@ public class ExampleAlgorithmTest {
     String expectedConfigurationValue = "test";
 
     // Execute functionality
-    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValue, expectedConfigurationValue);
+    this.algorithm.setStringConfigurationValue(pathIdentifier, expectedConfigurationValue,
+                                               expectedConfigurationValue);
 
     // Check result
     assertEquals(expectedConfigurationValue, this.algorithm.path);

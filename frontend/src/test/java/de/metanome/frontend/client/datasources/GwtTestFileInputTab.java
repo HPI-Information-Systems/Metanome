@@ -33,6 +33,25 @@ import java.util.ArrayList;
 public class GwtTestFileInputTab extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#FileInputTab(DataSourcePage)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    FileInputTab input = new FileInputTab(new DataSourcePage(new BasePage()));
+
+    // Check
+    assertNotNull(input.fileInputList);
+    assertNotNull(input.fileInputService);
+    assertNotNull(input.parent);
+    assertNotNull(input.editForm);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#addFileInputToTable(de.metanome.backend.results_db.FileInput)}
    */
   public void testAddFileInputToTable() {
@@ -53,7 +72,7 @@ public class GwtTestFileInputTab extends GWTTestCase {
   /**
    * Test method for {@link de.metanome.frontend.client.datasources.DatabaseConnectionTab#listDatabaseConnections(java.util.List)}
    */
-  public void testListDatabaseConnections() {
+  public void testListFileInputs() {
     //Setup
     FileInput fileInput1 = new FileInput();
     fileInput1.setFileName("name");
@@ -121,7 +140,8 @@ public class GwtTestFileInputTab extends GWTTestCase {
 
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#updateFileInputInTable(de.metanome.backend.results_db.FileInput, de.metanome.backend.results_db.FileInput)}
+   * Test method for {@link de.metanome.frontend.client.datasources.FileInputTab#updateFileInputInTable(de.metanome.backend.results_db.FileInput,
+   * de.metanome.backend.results_db.FileInput)}
    */
   public void testUpdateFileInput() {
     // Setup
@@ -147,7 +167,8 @@ public class GwtTestFileInputTab extends GWTTestCase {
 
     // Check
     assertEquals(2, fileInputTab.fileInputList.getRowCount());
-    assertTrue(((HTML) (fileInputTab.fileInputList.getWidget(1, 0))).getText().contains(expectedValue));
+    assertTrue(
+        ((HTML) (fileInputTab.fileInputList.getWidget(1, 0))).getText().contains(expectedValue));
     assertTrue(fileInputTab.fileInputList.getText(1, 1).contains(expectedValue));
 
     // Clean up

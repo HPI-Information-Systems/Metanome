@@ -27,7 +27,11 @@ import java.util.Set;
 /**
  * Represents boolean configuration values for {@link Algorithm}s.
  */
-public class ConfigurationValueBoolean extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
+public class ConfigurationValueBoolean
+    extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
+
+  protected ConfigurationValueBoolean() {
+  }
 
   public ConfigurationValueBoolean(String identifier, Boolean... values) {
     super(identifier, values);
@@ -40,7 +44,7 @@ public class ConfigurationValueBoolean extends ConfigurationValue<Boolean, Confi
 
   @Override
   protected Boolean[] convertToValues(ConfigurationRequirementBoolean requirement)
-    throws AlgorithmConfigurationException {
+      throws AlgorithmConfigurationException {
     ConfigurationSettingBoolean[] settings = requirement.getSettings();
     Boolean[] configValues = new Boolean[settings.length];
     int i = 0;

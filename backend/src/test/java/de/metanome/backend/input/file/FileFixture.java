@@ -18,14 +18,14 @@ package de.metanome.backend.input.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 /**
  * Creates a file for testing. The file content is stored upon construction and every call to {@link
- * de.metanome.backend.input.file.FileFixture#getTestData(String)} writes and returns a file with the
- * content to the given path.
+ * de.metanome.backend.input.file.FileFixture#getTestData(String)} writes and returns a file with
+ * the content to the given path.
  *
  * @author Jakob Zwiener
  */
@@ -39,9 +39,14 @@ public class FileFixture {
 
   public File getTestData(String fileName)
       throws FileNotFoundException, UnsupportedEncodingException {
-    String filePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    filePath += fileName;
-    File file = new File(URLDecoder.decode(filePath, "utf-8"));
+    File file = new File(System.getProperty("java.io.tmpdir"), fileName);
+    if(!file.exists()){
+      try {
+        file.createNewFile();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
     // Mark files for deletion once vm exits.
     file.deleteOnExit();
 

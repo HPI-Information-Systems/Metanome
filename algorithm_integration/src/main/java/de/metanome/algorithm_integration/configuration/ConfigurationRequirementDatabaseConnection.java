@@ -41,7 +41,8 @@ public class ConfigurationRequirementDatabaseConnection
 
   private List<String> acceptedDBSystems;
 
-  public ConfigurationRequirementDatabaseConnection() { }
+  public ConfigurationRequirementDatabaseConnection() {
+  }
 
   public ConfigurationRequirementDatabaseConnection(String identifier) {
     super(identifier);
@@ -51,7 +52,8 @@ public class ConfigurationRequirementDatabaseConnection
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementDatabaseConnection(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementDatabaseConnection(String identifier, int minNumberOfSetting,
+                                                    int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

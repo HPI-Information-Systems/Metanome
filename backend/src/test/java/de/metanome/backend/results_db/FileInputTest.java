@@ -37,8 +37,8 @@ public class FileInputTest {
   private FileInputResource fileInputResource = new FileInputResource();
 
   /**
-   * Test method for {@link FileInput#FileInput(String)} <p/> After calling the constructor the default
-   * parser parameters should be set.
+   * Test method for {@link FileInput#FileInput(String)} <p/> After calling the constructor the
+   * default parser parameters should be set.
    */
   @Test
   public void testConstructor() {

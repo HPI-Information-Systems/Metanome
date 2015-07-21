@@ -792,8 +792,8 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)}
-   * <p/> Only the correct identifiers should be found in the {@link ColumnCombination}.
+   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)} <p/> Only
+   * the correct identifiers should be found in the {@link ColumnCombination}.
    */
   @Test
   public void testCreateColumnCombination() {
@@ -819,9 +819,9 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)}
-   * <p/> An empty {@link ColumnCombinationBitset} should generate an empty {@link
-   * ColumnCombination} with no identifiers.
+   * Test method for {@link ColumnCombinationBitset#createColumnCombination(String, List)} <p/> An
+   * empty {@link ColumnCombinationBitset} should generate an empty {@link ColumnCombination} with
+   * no identifiers.
    */
   @Test
   public void testCreateColumnCombinationFromEmpty() {
@@ -839,8 +839,9 @@ public class ColumnCombinationBitsetTest {
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#containsColumn(int...)} and {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsColumn(int)} <p/> Should return true iff
-   * the bit at bitIndex is set.
+   * Test method for {@link ColumnCombinationBitset#containsColumn(int...)} and {@link
+   * de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset#containsColumn(int)} <p/>
+   * Should return true iff the bit at bitIndex is set.
    */
   @Test
   public void testTestBit() {

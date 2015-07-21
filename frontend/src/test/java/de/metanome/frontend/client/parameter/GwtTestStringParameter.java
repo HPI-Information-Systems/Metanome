@@ -95,13 +95,14 @@ public class GwtTestStringParameter extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean, boolean, int)}
+   * Test method for {@link de.metanome.frontend.client.parameter.InputParameterStringWidget#addInputField(boolean,
+   * boolean, int)}
    */
   public void testAddInput() throws AlgorithmConfigurationException, InputValidationException {
     //Setup
     String expectedValue = "test";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
-                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                                                      ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     specification.checkAndSetDefaultValues(expectedValue);
     InputParameterStringWidget
         widget =
@@ -124,7 +125,7 @@ public class GwtTestStringParameter extends GWTTestCase {
   public void testRemoveInput() throws AlgorithmConfigurationException {
     //Setup
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
-                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                                                      ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());
@@ -147,7 +148,7 @@ public class GwtTestStringParameter extends GWTTestCase {
     //Setup
     String value = "something";
     ConfigurationRequirementString specification = new ConfigurationRequirementString("bool",
-                                                                                          ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                                                      ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterStringWidget
         widget =
         new InputParameterStringWidget(specification, new TabWrapper());

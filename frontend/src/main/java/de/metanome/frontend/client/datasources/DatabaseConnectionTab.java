@@ -42,24 +42,25 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   protected FlexTable connectionInputList;
   protected DatabaseConnectionEditForm editForm;
 
-  private DatabaseConnectionRestService databaseConnectionService;
-  private TableInputRestService lemma;
+  protected DatabaseConnectionRestService databaseConnectionService;
+  protected TableInputRestService tableInputService;
 
-  private DataSourcePage parent;
-  private TabWrapper messageReceiver;
+  protected DataSourcePage parent;
+  protected TabWrapper messageReceiver;
 
   /**
    * @param parent the parent page
    */
   public DatabaseConnectionTab(DataSourcePage parent) {
-    this.databaseConnectionService = com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
-    this.lemma = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
+    this.databaseConnectionService =
+        com.google.gwt.core.client.GWT.create(DatabaseConnectionRestService.class);
+    this.tableInputService = com.google.gwt.core.client.GWT.create(TableInputRestService.class);
     this.parent = parent;
 
     this.connectionInputList = new FlexTable();
     this.editForm = new DatabaseConnectionEditForm(this);
 
-    this.addDatabaseConnectionsToList(this);
+    this.addDatabaseConnectionsToList();
   }
 
   private void addEditForm() {
@@ -70,10 +71,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Gets all Database Connections available in the database and adds them to the table.
-   *
-   * @param panel the parent widget of the table
    */
-  private void addDatabaseConnectionsToList(final FlowPanel panel) {
+  private void addDatabaseConnectionsToList() {
     this.databaseConnectionService.listDatabaseConnections(
         new MethodCallback<List<DatabaseConnection>>() {
           @Override
@@ -88,7 +87,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
             addEditForm();
 
             // disable all delete button of database connection which are referenced by a table input
-            lemma.listTableInputs(new MethodCallback<List<TableInput>>() {
+            tableInputService.listTableInputs(new MethodCallback<List<TableInput>>() {
               @Override
               public void onFailure(Method method, Throwable throwable) {
                 messageReceiver.addError(method.getResponse().getText());
@@ -177,8 +176,8 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
   private ConfigurationSettingDataSource convertDatabaseConnectionToDataSource(
       DatabaseConnection input) {
     return new ConfigurationSettingDatabaseConnection(input.getUrl(), input.getUsername(),
-                                               input.getPassword(),
-                                               input.getSystem());
+                                                      input.getPassword(),
+                                                      input.getSystem());
   }
 
   /**
@@ -232,11 +231,12 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
    * @return The callback
    */
   protected MethodCallback<Void> getDeleteCallback(final DatabaseConnection connection) {
-    return new  MethodCallback<Void>() {
+    return new MethodCallback<Void>() {
 
       @Override
       public void onFailure(Method method, Throwable throwable) {
-        messageReceiver.addError("Could not delete database connection: " + method.getResponse().getText());
+        messageReceiver
+            .addError("Could not delete database connection: " + method.getResponse().getText());
       }
 
       @Override
@@ -249,6 +249,7 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row in the table, which contains the given database connection.
+   *
    * @param connection the database connection
    * @return the row number
    */
@@ -272,15 +273,18 @@ public class DatabaseConnectionTab extends FlowPanel implements TabContent {
 
   /**
    * Find the row of the old database connection and updates the values.
+   *
    * @param updatedDatabaseConnection the updated database connection
    * @param oldDatabaseConnection     the old database connection
    */
-  public void updateDatabaseConnectionInTable(final DatabaseConnection updatedDatabaseConnection, DatabaseConnection oldDatabaseConnection) {
+  public void updateDatabaseConnectionInTable(final DatabaseConnection updatedDatabaseConnection,
+                                              DatabaseConnection oldDatabaseConnection) {
     int row = this.findRow(oldDatabaseConnection);
 
     this.connectionInputList.setWidget(row, 0, new HTML(updatedDatabaseConnection.getUrl()));
     this.connectionInputList.setWidget(row, 1, new HTML(updatedDatabaseConnection.getUsername()));
-    this.connectionInputList.setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
+    this.connectionInputList
+        .setWidget(row, 2, new HTML(updatedDatabaseConnection.getSystem().name()));
     this.connectionInputList.setText(row, 3, updatedDatabaseConnection.getComment());
 
     Button editButton = new Button("Edit");

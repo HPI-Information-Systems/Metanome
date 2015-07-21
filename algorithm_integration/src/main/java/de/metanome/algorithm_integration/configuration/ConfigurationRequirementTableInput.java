@@ -37,7 +37,8 @@ public class ConfigurationRequirementTableInput
   // Needed for restful serialization
   public String type = "ConfigurationRequirementTableInput";
 
-  public ConfigurationRequirementTableInput() { }
+  public ConfigurationRequirementTableInput() {
+  }
 
   public ConfigurationRequirementTableInput(String identifier) {
     super(identifier);
@@ -47,7 +48,8 @@ public class ConfigurationRequirementTableInput
     super(identifier, numberOfSettings);
   }
 
-  public ConfigurationRequirementTableInput(String identifier, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementTableInput(String identifier, int minNumberOfSetting,
+                                            int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
   }
 

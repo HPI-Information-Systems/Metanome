@@ -31,9 +31,9 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestFileInputInput extends GWTTestCase {
 
   /**
-   * Test method for {@link FileInputInput#FileInputInput(boolean, boolean, de.metanome.frontend.client.TabWrapper)}
-   * <p/> After calling the constructor the optional parameter should be set correctly and all
-   * widgets should be initialized.
+   * Test method for {@link FileInputInput#FileInputInput(boolean, boolean,
+   * de.metanome.frontend.client.TabWrapper)} <p/> After calling the constructor the optional
+   * parameter should be set correctly and all widgets should be initialized.
    */
   public void testConstructor() {
     // Set up

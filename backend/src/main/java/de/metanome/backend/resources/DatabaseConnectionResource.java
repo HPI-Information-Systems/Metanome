@@ -15,6 +15,7 @@
  */
 
 package de.metanome.backend.resources;
+
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -31,14 +32,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 /**
- * Responsible for the database communication for DatabaseConnection and for
- * handling all restful calls of DatabaseConnections.
+ * Responsible for the database communication for DatabaseConnection and for handling all restful
+ * calls of DatabaseConnections.
  *
  * @author Moritz Finke
  */
 
 @Path("dbConnections")
-public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
+public class DatabaseConnectionResource implements Resource<DatabaseConnection> {
 
   /**
    * @return all DatabaseConnections in the database
@@ -56,6 +57,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
 
   /**
    * retrieves a DatabaseConnection
+   *
    * @param id the id of the DatabaseConnection
    * @return the retrieved DatabaseConnection
    */
@@ -73,6 +75,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
 
   /**
    * Adds a DatabaseConnection to the database.
+   *
    * @param dbConnection the database to be stored
    * @return the stored DatabaseConnection
    */
@@ -92,6 +95,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
 
   /**
    * Deletes the DatabaseConnection, which has the given id, from the database.
+   *
    * @param id the id of the DatabaseConnection, which should be deleted
    */
   @DELETE
@@ -99,7 +103,9 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
   @Override
   public void delete(@PathParam("id") long id) {
     try {
-      DatabaseConnection dbConnection = (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+      DatabaseConnection
+          dbConnection =
+          (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
       HibernateUtil.delete(dbConnection);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -108,6 +114,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection>{
 
   /**
    * Updates a database connection in the database.
+   *
    * @param databaseConnection the database connection
    * @return the updated database connection
    */

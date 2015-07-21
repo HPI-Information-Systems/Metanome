@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 
 /**
- * TODO docs
+ * Example Algorithm for sql profiling tasks (test purposes)
  *
  * @author Jakob Zwiener
  */

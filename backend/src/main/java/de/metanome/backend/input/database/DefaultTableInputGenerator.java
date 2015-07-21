@@ -41,6 +41,9 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   protected DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator;
   protected String table;
 
+  protected DefaultTableInputGenerator() {
+  }
+
   /**
    * Exists for tests.
    */
@@ -52,7 +55,8 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
 
   /**
    * @param setting the table input setting to construct the table input generator from
-   * @throws AlgorithmConfigurationException is thrown if the underlying {@link DefaultDatabaseConnectionGenerator} cannot be instantiated.
+   * @throws AlgorithmConfigurationException is thrown if the underlying {@link DefaultDatabaseConnectionGenerator}
+   *                                         cannot be instantiated.
    */
   public DefaultTableInputGenerator(ConfigurationSettingTableInput setting)
       throws AlgorithmConfigurationException {
@@ -62,7 +66,8 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   }
 
   /**
-   * Generates a new {@link de.metanome.algorithm_integration.input.RelationalInput} to iterate over the data in the table.
+   * Generates a new {@link de.metanome.algorithm_integration.input.RelationalInput} to iterate over
+   * the data in the table.
    *
    * @return the {@link de.metanome.algorithm_integration.input.RelationalInput}
    * @throws InputGenerationException if the database statement could not be executed
@@ -76,7 +81,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
 
   @Override
   public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException {
-    String query = String.format(SORT_STATEMENT, table, column, descending? "DESC" : "ASC");
+    String query = String.format(SORT_STATEMENT, table, column, descending ? "DESC" : "ASC");
     return defaultDatabaseConnectionGenerator
         .generateResultSetFromSql(query);
   }

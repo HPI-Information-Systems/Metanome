@@ -39,8 +39,8 @@ import java.util.ArrayList;
  * @author Jakob Zwiener
  */
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
-                                                 RelationalInputParameterAlgorithm,
-                                                 TableInputParameterAlgorithm {
+                                         RelationalInputParameterAlgorithm,
+                                         TableInputParameterAlgorithm {
 
 
   public static final String RELATIONAL_INPUT_IDENTIFIER = "relationalInput";
@@ -54,8 +54,12 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
 
-    ConfigurationRequirementRelationalInput requirementRelationalInput = new ConfigurationRequirementRelationalInput(RELATIONAL_INPUT_IDENTIFIER);
-    ConfigurationRequirementTableInput requirementTableInput = new ConfigurationRequirementTableInput(TABLE_INPUT_IDENTIFIER);
+    ConfigurationRequirementRelationalInput
+        requirementRelationalInput =
+        new ConfigurationRequirementRelationalInput(RELATIONAL_INPUT_IDENTIFIER);
+    ConfigurationRequirementTableInput
+        requirementTableInput =
+        new ConfigurationRequirementTableInput(TABLE_INPUT_IDENTIFIER);
 
     configurationRequirements.add(requirementRelationalInput);
     configurationRequirements.add(requirementTableInput);

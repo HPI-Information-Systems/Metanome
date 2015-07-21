@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
- * Allows initialization of the input through double dispatch.
- * The input can be generated from both a file or database table.
+ * Allows initialization of the input through double dispatch. The input can be generated from both
+ * a file or database table.
  *
  * @author Jakob Zwiener
  */

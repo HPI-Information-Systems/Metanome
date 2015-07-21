@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -49,9 +50,9 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
 
   private String fileName;
   private boolean advanced;
-  private String separatorChar; //Todo: atm needs to be String instead of char for serialization
-  private String quoteChar;     //Todo: atm needs to be String instead of char for serialization
-  private String escapeChar;    //Todo: atm needs to be String instead of char for serialization
+  private String separatorChar;
+  private String quoteChar;
+  private String escapeChar;
   private boolean strictQuotes;
   private boolean ignoreLeadingWhiteSpace;
   private int skipLines;
@@ -204,15 +205,23 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   }
 
   @XmlTransient
-  public char getSeparatorAsChar() { return toChar(this.separatorChar); }
+  @JsonIgnore
+  public char getSeparatorAsChar() {
+    return toChar(this.separatorChar);
+  }
+
   @XmlTransient
+  @JsonIgnore
   public char getQuoteCharAsChar() {
     return toChar(this.quoteChar);
   }
+
   @XmlTransient
+  @JsonIgnore
   public char getEscapeCharAsChar() {
     return toChar(this.escapeChar);
   }
+
   @XmlTransient
   private char toChar(String str) {
     if (str.isEmpty()) {
@@ -235,6 +244,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
 
   @Override
   @XmlTransient
+  @JsonIgnore
   public String getValueAsString() {
     return fileName;
   }

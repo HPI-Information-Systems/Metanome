@@ -42,19 +42,22 @@ public class ConfigurationRequirementListBox
 
   private List<String> values;
 
-  public ConfigurationRequirementListBox() { }
+  public ConfigurationRequirementListBox() {
+  }
 
   public ConfigurationRequirementListBox(String identifier, List<String> values) {
     super(identifier);
     this.values = values;
   }
 
-  public ConfigurationRequirementListBox(String identifier, List<String> values, int numberOfSettings) {
+  public ConfigurationRequirementListBox(String identifier, List<String> values,
+                                         int numberOfSettings) {
     super(identifier, numberOfSettings);
     this.values = values;
   }
 
-  public ConfigurationRequirementListBox(String identifier, List<String> values, int minNumberOfSetting, int maxNumberOfSetting) {
+  public ConfigurationRequirementListBox(String identifier, List<String> values,
+                                         int minNumberOfSetting, int maxNumberOfSetting) {
     super(identifier, minNumberOfSetting, maxNumberOfSetting);
     this.values = values;
   }
@@ -66,6 +69,7 @@ public class ConfigurationRequirementListBox
   public void setValues(List<String> values) {
     this.values = values;
   }
+
   /**
    * {@inheritDoc}
    */

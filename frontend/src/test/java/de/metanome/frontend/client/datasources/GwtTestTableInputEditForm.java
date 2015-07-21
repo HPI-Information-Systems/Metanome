@@ -31,13 +31,40 @@ import de.metanome.frontend.client.helpers.InputValidationException;
 public class GwtTestTableInputEditForm extends GWTTestCase {
 
   /**
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#TableInputEditForm(TableInputTab)}
+   */
+  public void testSetUp() {
+    // Setup
+    TestHelper.resetDatabaseSync();
+
+    // Execute
+    TableInputEditForm
+        input =
+        new TableInputEditForm(new TableInputTab(new DataSourcePage(new BasePage())));
+
+    // Check
+    assertNotNull(input.parent);
+    assertNotNull(input.tableInputService);
+    assertNotNull(input.databaseConnectionService);
+    assertNotNull(input.dbConnectionListBox);
+    assertNotNull(input.commentTextbox);
+    assertNotNull(input.tableNameTextbox);
+    assertNotNull(input.updateButton);
+    assertNotNull(input.saveButton);
+
+    TestHelper.resetDatabaseSync();
+  }
+
+  /**
    * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#getValue()}
    */
   public void testGetValue() throws EntityStorageException, InputValidationException {
     // Set up
     TestHelper.resetDatabaseSync();
 
-    DatabaseConnection dbConnection = new DatabaseConnection("url", "user", "password", DbSystem.DB2);
+    DatabaseConnection
+        dbConnection =
+        new DatabaseConnection("url", "user", "password", DbSystem.DB2);
 
     TableInputEditForm
         editForm =
@@ -121,12 +148,12 @@ public class GwtTestTableInputEditForm extends GWTTestCase {
   }
 
   /**
-   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#updateTableInput(TableInput tableInput)}
-   * and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#showSaveButton}
+   * Test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#updateTableInput(TableInput
+   * tableInput)} and test method for {@link de.metanome.frontend.client.datasources.TableInputEditForm#showSaveButton}
    *
-   * If the edit button for a table input is clicked, the edit form should contain the values
-   * of that table input and the edit form should show a update button instead of an save button.
-   * If the method 'show save button' is called, the save button should be visible again.
+   * If the edit button for a table input is clicked, the edit form should contain the values of
+   * that table input and the edit form should show a update button instead of an save button. If
+   * the method 'show save button' is called, the save button should be visible again.
    */
   public void testEditButtonClicked() throws InputValidationException {
     // Setup

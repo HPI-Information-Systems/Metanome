@@ -16,27 +16,42 @@
 
 package de.metanome.backend.resources;
 
-
-import de.metanome.algorithm_integration.AlgorithmExecutionException;
-import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.backend.algorithm_execution.AlgorithmExecutor;
-import de.metanome.backend.algorithm_execution.ProgressCache;
-import de.metanome.backend.algorithm_execution.TempFileGenerator;
-import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.result_receiver.ResultReader;
-import de.metanome.backend.result_receiver.ResultCache;
-import de.metanome.backend.result_receiver.ResultCounter;
-import de.metanome.backend.result_receiver.ResultPrinter;
-import de.metanome.backend.result_receiver.ResultReceiver;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.results.JsonConverter;
+import de.metanome.backend.algorithm_execution.AlgorithmExecution;
+import de.metanome.backend.algorithm_execution.ProcessRegistry;
+import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.FileInputGeneratorMixIn;
+import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
+import de.metanome.backend.helper.TableInputGeneratorMixIn;
+import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.ResultType;
+import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Input;
 
-import java.io.FileNotFoundException;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.EnumMap;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -50,138 +65,217 @@ import javax.ws.rs.core.Response;
 @Path("algorithm_execution")
 public class AlgorithmExecutionResource {
 
+  private static final Class algorithmExecutionClass = AlgorithmExecution.class;
+
+  /**
+   * Stops the algorithm with the given identifier.
+   *
+   * @param executionIdentifier the execution identifier.
+   */
+  @GET
+  @Path("/stop/{identifier}")
+  @Produces("application/json")
+  public void stopExecution(@PathParam("identifier") String executionIdentifier) {
+    Process process = ProcessRegistry.getInstance().get(executionIdentifier);
+    ProcessRegistry.getInstance().remove(executionIdentifier);
+    process.destroy();
+  }
+
   /**
    * Executes an algorithm.
+   *
    * @param params all parameters to execute the algorithm
-   * @return the execution time
+   * @return the resulting execution
    */
   @POST
   @Consumes("application/json")
   @Produces("application/json")
   public Execution executeAlgorithm(AlgorithmExecutionParams params) {
-    AlgorithmExecutor executor;
+    String executionIdentifier = params.getExecutionIdentifier();
 
+    // Build the execution setting and store it.
+    ExecutionSetting executionSetting = buildExecutionSetting(params);
     try {
-      executor = buildExecutor(params);
-    } catch (FileNotFoundException e) {
-      throw new WebException("Could not generate result file", Response.Status.BAD_REQUEST);
-    } catch (UnsupportedEncodingException e) {
-      throw new WebException("Could not build temporary file generator", Response.Status.BAD_REQUEST);
-    }
-
-    AlgorithmResource algorithmResource = new AlgorithmResource();
-    Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
-
-    Execution execution = null;
-    try {
-      execution = executor.executeAlgorithm(algorithm, params.getRequirements(), params.getExecutionIdentifier());
-    } catch (AlgorithmLoadingException | AlgorithmExecutionException e) {
+      HibernateUtil.store(executionSetting);
+    } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
     try {
-      executor.close();
-    } catch (IOException e) {
-      throw new WebException("Could not close algorithm executor", Response.Status.BAD_REQUEST);
+      // Start the process, which executes the algorithm
+      Process process =
+          executeAlgorithm(String.valueOf(params.getAlgorithmId()),
+                           executionIdentifier,
+                           params.getMemory());
+      ProcessRegistry.getInstance().put(executionIdentifier, process);
+
+      // Forward messages from the process to the console output
+      InputStreamReader isr = new InputStreamReader(process.getInputStream());
+      BufferedReader br = new BufferedReader(isr);
+      String lineRead;
+      while ((lineRead = br.readLine()) != null) {
+        System.out.println(lineRead);
+      }
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
     }
 
+    Execution execution;
+    try {
+      // The algorithm execution was successful
+      // Get the execution from hibernate
+      ArrayList<Criterion> criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("identifier", executionIdentifier));
+      execution = (Execution) HibernateUtil.queryCriteria(Execution.class,
+                                                          criteria.toArray(
+                                                              new Criterion[criteria.size()]))
+          .get(0);
+    } catch (EntityStorageException | IndexOutOfBoundsException e) {
+      // The execution process got killed - execution object is created anyway (with abortion flag set)
+      AlgorithmResource algorithmResource = new AlgorithmResource();
+      Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
+
+      execution = new Execution(algorithm)
+          .setExecutionSetting(executionSetting)
+          .setAborted(true)
+          .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
+      ExecutionResource executionResource = new ExecutionResource();
+      executionResource.store(execution);
+    }
+
+    // Execute the result post processing
+    if (!executionSetting.getCountResults()) {
+      try {
+        ResultPostProcessor.extractAndStoreResults(execution);
+      } catch (Exception e) {
+        throw new WebException("Could not execute result post processing: " + e.getMessage(),
+                               Response.Status.BAD_REQUEST);
+      }
+    }
     return execution;
   }
 
-  @GET
-  @Path("/result_cache/{identifier}")
-  @Produces("application/json")
-  public List<Result> getCacheResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getResultCache(executionIdentifier).fetchNewResults();
-    } catch (Exception e) {
-      throw new WebException("Could not find any results to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
+  /**
+   * builds ExecutionSetting Object to persist information in AlgorithmExecutionParams to Database
+   */
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
+    ExecutionSetting executionSetting = null;
 
-  @GET
-  @Path("/fetch_progress/{identifier}")
-  @Produces("application/json")
-  public float fetchProgress(@PathParam("identifier") String executionIdentifier) {
     try {
-      return AlgorithmExecutionCache.getProgressCache(executionIdentifier).getProgress();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
+      DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
+      List<ConfigurationValue>
+          parameterValues = new LinkedList<>();
+      List<Input> inputs = new ArrayList<>();
+      FileInputResource fileInputResource = new FileInputResource();
+      TableInputResource tableInputResource = new TableInputResource();
+      DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
-  @GET
-  @Path("/result_counter/{identifier}")
-  @Produces("application/json")
-  public EnumMap<ResultType, Integer> getCounterResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getResultCounter(executionIdentifier).getResults();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
+      // build configuration values
+      for (ConfigurationRequirement requirement : params.getRequirements()) {
+        // no value was set in the frontend
+        // do not create a configuration value, so that the value can not be set
+        // on the algorithm
+        if (requirement.getSettings().length == 0) {
+          continue;
+        }
 
-  @GET
-  @Path("/result_printer/{identifier}")
-  @Produces("application/json")
-  public List<Result> getPrinterResults(@PathParam("identifier") String executionIdentifier) {
-    try {
-      return AlgorithmExecutionCache.getResultPrinter(executionIdentifier).getResults();
-    } catch (Exception e) {
-      throw new WebException("Could not find any progress to the given identifier",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
+        // convert the requirement and add it to the parameters
+        parameterValues.add(requirement.build(configurationFactory));
 
-  @GET
-  @Path("/read_result/{file_name}/{type}")
-  @Produces("application/json")
-  public List<Result> readResultFromFile(@PathParam("file_name") String fileName, @PathParam("type") String type) {
-    try {
-      return ResultReader.readResultsFromFile(fileName, type);
-    } catch (Exception e) {
-      throw new WebException("Could not read result file",
-                             Response.Status.BAD_REQUEST);
-    }
-  }
+        // add inputs
+        for (ConfigurationSetting setting : requirement.getSettings()) {
+          if (setting instanceof ConfigurationSettingFileInput) {
+            inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
+          } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
+            inputs.add(databaseConnectionResource
+                           .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+          } else if (setting instanceof ConfigurationSettingTableInput) {
+            inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
+          }
+        }
+      }
 
+      // convert configuration values to json strings
+      List<String> parameterValuesJson = configurationValuesToJson(parameterValues);
+
+      // convert inputs to json strings
+      List<String> inputsJson = inputsToJson(inputs);
+
+      // create a new execution setting object
+      executionSetting =
+          new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+              .setCacheResults(params.getCacheResults())
+              .setWriteResults(params.getWriteResults())
+              .setCountResults(params.getCountResults());
+    } catch (AlgorithmConfigurationException e) {
+      e.printStackTrace();
+    }
+
+    return executionSetting;
+  }
 
   /**
-   * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with stacked {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}s to write
-   * result files and cache results for the frontend.
+   * Converts a list of ConfigurationValues to their Json representations
    *
-   * @param params all parameters for executing the algorithm
-   * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
-   * @throws java.io.FileNotFoundException        when the result files cannot be opened
-   * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
+   * @param parameterValues all parameters to execute the algorithm
+   * @return the resulting list of Json Strings
    */
-  protected AlgorithmExecutor buildExecutor(AlgorithmExecutionParams params)
-      throws FileNotFoundException, UnsupportedEncodingException {
-    String identifier = params.getExecutionIdentifier();
-    FileGenerator fileGenerator = new TempFileGenerator();
-    ProgressCache progressCache = new ProgressCache();
+  public List<String> configurationValuesToJson(List<ConfigurationValue> parameterValues) {
+    JsonConverter<ConfigurationValue>
+        jsonConverter = new JsonConverter<>();
+    jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+    return jsonConverter.toJsonStrings(parameterValues);
+  }
 
-    ResultReceiver resultReceiver = null;
-    if (params.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier);
-      AlgorithmExecutionCache.add(identifier, (ResultCache) resultReceiver);
-    } else if (params.getCountResults()) {
-      resultReceiver = new ResultCounter(identifier);
-      AlgorithmExecutionCache.add(identifier, (ResultCounter) resultReceiver);
-    } else if (params.getWriteResults()) {
-      resultReceiver = new ResultPrinter(identifier);
-      AlgorithmExecutionCache.add(identifier, (ResultPrinter) resultReceiver);
+  public List<String> inputsToJson(List<Input> inputs) {
+    JsonConverter<Input> jsonConverter = new JsonConverter<Input>();
+    return jsonConverter.toJsonStrings(inputs);
+  }
+
+  /**
+   * starts execution of Algorithm in separate Process
+   *
+   * @param algorithmId         id of algorithm to be executed
+   * @param executionIdentifier identifier for the upcoming algorithm execution
+   * @param memory              memory argument for the process running the algorithm execution
+   * @return resulting process object for the algorithm execution
+   */
+  private Process executeAlgorithm(String algorithmId, String executionIdentifier,
+                                         String memory) throws IOException,
+                                                               InterruptedException {
+    String javaHome = System.getProperty("java.home");
+    String javaBin = javaHome +
+                     File.separator + "bin" +
+                     File.separator + "java";
+    String myPath = System.getProperty("java.class.path");
+    String className = algorithmExecutionClass.getCanonicalName();
+
+    try {
+      URL baseUrl = algorithmExecutionClass.getProtectionDomain().getCodeSource().getLocation();
+      File file = new File(baseUrl.toURI());
+      String parent = file.getAbsoluteFile().getParent();
+      String classesFolder =
+          file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
+      String parentPathWildCard = parent + File.separator + "*";
+      myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
+    } catch (URISyntaxException ex) {
+      ex.printStackTrace();
     }
 
-    AlgorithmExecutionCache.add(identifier, progressCache);
+    ProcessBuilder builder;
+    if (!memory.equals("")) {
+      builder = new ProcessBuilder(
+          javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
+          algorithmId, executionIdentifier);
+    } else {
+      builder = new ProcessBuilder(
+          javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
+    }
+    builder.redirectErrorStream(true);
 
-    AlgorithmExecutor executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
-    executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
-
-    return executor;
+    return builder.start();
   }
 
 }

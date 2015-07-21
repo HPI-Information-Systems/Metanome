@@ -16,11 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 /**
  * Tests for {@link ResultsDbEntity}
  *

@@ -18,26 +18,22 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
-import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
-import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
+import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
@@ -47,6 +43,7 @@ import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
@@ -56,7 +53,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
@@ -68,7 +64,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,26 +75,27 @@ import static org.mockito.Mockito.when;
 public class AlgorithmExecutorTest {
 
   private CloseableOmniscientResultReceiver resultReceiver;
-  private ProgressCache progressCache;
   private FileGenerator fileGenerator;
   private AlgorithmExecutor executor;
   private AlgorithmResource resource;
+  private ExecutionSetting genericExecutionSetting;
 
   @Before
   public void setUp() throws UnsupportedEncodingException {
     resultReceiver = mock(CloseableOmniscientResultReceiver.class);
-    progressCache = mock(ProgressCache.class);
     fileGenerator = new TempFileGenerator();
     resource = new AlgorithmResource();
+    genericExecutionSetting = new ExecutionSetting(null, null, null);
 
-    executor = new AlgorithmExecutor(resultReceiver, progressCache, fileGenerator);
+    executor = new AlgorithmExecutor(resultReceiver, fileGenerator);
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an fd algorithm. The elapsed time should be greater than
    * 0ns.
    */
+
   @Test
   public void testExecuteFunctionalDependencyAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
@@ -116,7 +113,9 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    Execution execution = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    Execution
+        execution = executor.executeAlgorithm(algorithm, configs, null, "identifier",
+                                              genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -126,10 +125,11 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an od algorithm. The elapsed time should be greater than
    * 0ns.
    */
+
   @Test
   public void testExecuteOrderDependencyAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
@@ -145,7 +145,8 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    Execution execution = executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    Execution execution = executor.executeAlgorithm(algorithm, configs, null, "identifier",
+                                                    genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(OrderDependency.class));
@@ -155,9 +156,11 @@ public class AlgorithmExecutorTest {
   }
   
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an ind algorithm.
-   */
+   *
+
+
   @Test
   public void testExecuteInclusionDependency()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
@@ -179,7 +182,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(InclusionDependency.class));
@@ -188,42 +191,49 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    *
    * The {@link de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm}
    * should be executable by generating a {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
    * from a file.
    */
+
+
+
   @Test
   public void testRelationalInputAlgorithm()
       throws AlgorithmExecutionException, AlgorithmLoadingException, EntityStorageException,
-             FileNotFoundException, UnsupportedEncodingException {
+             IOException, IllegalAccessException, InstantiationException, NoSuchMethodException,
+             InvocationTargetException, ClassNotFoundException {
     HibernateUtil.clear();
-
+    DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
     // Setup
     String path = new FileFixture("some file content").getTestData("some file name").getPath();
-    List<ConfigurationRequirement> requirements = new ArrayList<>();
+    List<ConfigurationValue> configurationValues = new ArrayList<>();
     ConfigurationRequirementRelationalInput
         requirementRelationalInput =
         new ConfigurationRequirementRelationalInput(
             ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     requirementRelationalInput.checkAndSetSettings(new ConfigurationSettingFileInput(path));
-    requirements.add(requirementRelationalInput);
+
+    //usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
+    configurationValues.add(requirementRelationalInput.build(configurationFactory));
 
     Algorithm algorithm = new Algorithm("example_relational_input_algorithm.jar");
     algorithm = resource.store(algorithm);
 
     // Execute functionality
     // Check result
-    executor.executeAlgorithm(algorithm, requirements, "identifier");
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
 
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an Ucc algorithm.
    */
+
   @Test
   public void testExecuteUniqueColumnCombinationsAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
@@ -240,20 +250,21 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
     // After finishing the progress should be 1;
-    verify(progressCache).updateProgress(1);
+    //verify(progressCache).updateProgress(1);
 
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of an holistic algorithm.
    */
+
   @Test
   public void testExecuteHolisticAlgorithm()
       throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
@@ -270,7 +281,7 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configs, null, "identifier");
+    executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
@@ -280,10 +291,11 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Algorithms that do not implement the metanome interfaces directly should
    * still be executable.
    */
+
   @Test
   public void testExecuteIndirectInterfaceAlgorithm()
       throws IllegalAccessException, IOException, InstantiationException,
@@ -300,7 +312,8 @@ public class AlgorithmExecutorTest {
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, null, "identifier");
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier",
+                              genericExecutionSetting);
 
     // Check result
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
@@ -309,10 +322,11 @@ public class AlgorithmExecutorTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithmWithValues(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * When executing an {@link de.metanome.algorithm_integration.Algorithm} an
    * {@link de.metanome.backend.results_db.Execution} should be saved in the results database.
    */
+
   @Test
   public void testExecutionStoredInDatabase()
       throws IllegalAccessException, IOException, InstantiationException,
@@ -336,7 +350,7 @@ public class AlgorithmExecutorTest {
     inputs.add(expectedInput);
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, inputs, "identifier");
+    executor.executeAlgorithm(algorithm, configurationValues, inputs, "identifier", genericExecutionSetting);
     ExecutionResource executionResource = new ExecutionResource();
     List<Execution> actualExecutions = executionResource.getAll();
 
@@ -362,7 +376,6 @@ public class AlgorithmExecutorTest {
 
     assertTrue(actualExecution.getResults().size() > 0);
 
-    // TODO assert other execution fields
 
     // Cleanup
     HibernateUtil.clear();
@@ -383,27 +396,30 @@ public class AlgorithmExecutorTest {
     Algorithm algorithm = new Algorithm("wrong_algorithm.jar");
 
     // Execute functionality
-    executor.executeAlgorithmWithValues(algorithm, configurationValues, null, "identifier");
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
 
     // Setup
     HibernateUtil.clear();
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, String)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
    * Tests the execution of a basic statistics algorithm that requires several
    * {@link de.metanome.algorithm_integration.input.FileInputGenerator}s to run.
    */
+
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
       throws AlgorithmExecutionException, AlgorithmLoadingException, IOException,
-             EntityStorageException {
+             EntityStorageException, ClassNotFoundException, InvocationTargetException,
+             InstantiationException, NoSuchMethodException, IllegalAccessException {
     HibernateUtil.clear();
 
     // Setup
     // Build file input specification
     int numberOfInputs = 5;
-    List<ConfigurationRequirement> configurationRequirements = new LinkedList<>();
+    List<ConfigurationValue> configurationValues = new LinkedList<>();
+    DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
     ConfigurationRequirementFileInput
         specification =
         new ConfigurationRequirementFileInput(BasicStatAlgorithm.INPUT_FILE_IDENTIFIER,
@@ -433,13 +449,15 @@ public class AlgorithmExecutorTest {
     settings[4] = lastSetting;
     specification.checkAndSetSettings(settings);
 
-    configurationRequirements.add(specification);
+    configurationValues.add(specification.build(configurationFactory));
+
+    //usually input parsing would/should happen here as well (compare AlgorithmExecutionResource)
 
     Algorithm algorithm = new Algorithm("example_basic_stat_algorithm.jar");
     algorithm = resource.store(algorithm);
 
     // Execute functionality
-    executor.executeAlgorithm(algorithm, configurationRequirements, "identifier");
+    executor.executeAlgorithm(algorithm, configurationValues, null, "identifier", genericExecutionSetting);
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
@@ -453,6 +471,7 @@ public class AlgorithmExecutorTest {
    * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#close()} <p/>
    * When closing the executor all attached result receiver should be closed.
    */
+
   @Test
   public void testClose() throws IOException {
     // Execute functionality

@@ -69,11 +69,9 @@ public class ColumnPermutationTest {
   }
 
   /**
-   * Test method for {@link ColumnPermutation#equals(Object)} and
-   * {@link ColumnPermutation#hashCode()}
-   * <p/>
-   * {@link ColumnPermutation}s containing the same {@link ColumnIdentifier}s in different order are
-   * not considered equal.
+   * Test method for {@link ColumnPermutation#equals(Object)} and {@link
+   * ColumnPermutation#hashCode()} <p/> {@link ColumnPermutation}s containing the same {@link
+   * ColumnIdentifier}s in different order are not considered equal.
    */
   @Test
   public void testEqualsHashCode() {
@@ -93,7 +91,8 @@ public class ColumnPermutationTest {
 
     final EqualsAndHashCodeTester<ColumnPermutation> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(expectedColumnPermutation1,
-        expectedColumnPermutation2, expectedColumnPermutationNotEquals);
+                                               expectedColumnPermutation2,
+                                               expectedColumnPermutationNotEquals);
 
   }
 
@@ -127,10 +126,9 @@ public class ColumnPermutationTest {
   }
 
   /**
-   * Test method for {@link ColumnPermutation#toString()}
-   * <p/>
-   * A {@link ColumnPermutation} should return {@link ColumnIdentifier}s in insertion order as
-   * string representation. E.g. "[column1, column2]".
+   * Test method for {@link ColumnPermutation#toString()} <p/> A {@link ColumnPermutation} should
+   * return {@link ColumnIdentifier}s in insertion order as string representation. E.g. "[column1,
+   * column2]".
    */
   @Test
   public void testToString() {

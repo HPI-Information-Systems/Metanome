@@ -32,7 +32,11 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueDatabaseConnectionGenerator
-    extends ConfigurationValue<DatabaseConnectionGenerator, ConfigurationRequirementDatabaseConnection> {
+    extends
+    ConfigurationValue<DatabaseConnectionGenerator, ConfigurationRequirementDatabaseConnection> {
+
+  protected ConfigurationValueDatabaseConnectionGenerator() {
+  }
 
   public ConfigurationValueDatabaseConnectionGenerator(String identifier,
                                                        DatabaseConnectionGenerator... values) {

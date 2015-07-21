@@ -28,8 +28,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A fixture generating a file file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and 4
- * (long)).
+ * A fixture generating a file file with 4 rows. Rows 2 and 4 have differing lengths (2 (short) and
+ * 4 (long)).
  *
  * @author Tanja Bergmann
  */
@@ -60,8 +60,9 @@ public class CsvFileNullValuesFixture {
         .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
-                            new StringReader(Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
-                         Joiner.on(',').join(getSecondLineWithEmptyStrings())),
+                            new StringReader(
+                                Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
+                                Joiner.on(',').join(getSecondLineWithEmptyStrings())),
                             setting);
   }
 
@@ -72,6 +73,7 @@ public class CsvFileNullValuesFixture {
     list.add("three");
     return Collections.unmodifiableList(list);
   }
+
   public List<String> getSecondLineWithEmptyStrings() {
     List<String> list = new ArrayList<>();
     list.add("four");
@@ -87,6 +89,7 @@ public class CsvFileNullValuesFixture {
     list.add("three");
     return Collections.unmodifiableList(list);
   }
+
   public List<String> getSecondLineWithNullValues() {
     List<String> list = new ArrayList<>();
     list.add("four");

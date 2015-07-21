@@ -59,7 +59,9 @@ public class ExampleAlgorithm
   public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
     ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
 
-    ConfigurationRequirementFileInput requirementFileInput = new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
+    ConfigurationRequirementFileInput
+        requirementFileInput =
+        new ConfigurationRequirementFileInput(CSV_FILE_IDENTIFIER);
     ConfigurationRequirementString
         requirementString = new ConfigurationRequirementString(STRING_IDENTIFIER);
     ConfigurationRequirementInteger

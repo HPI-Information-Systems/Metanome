@@ -95,7 +95,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     //Setup
     ConfigurationRequirementInteger
         specification = new ConfigurationRequirementInteger("integer",
-                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     Integer expectedValue = 5;
     specification.checkAndSetDefaultValues(expectedValue);
     InputParameterIntegerWidget
@@ -118,7 +118,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     //Setup
     ConfigurationRequirementInteger
         specification = new ConfigurationRequirementInteger("bool",
-                                                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget =
         new InputParameterIntegerWidget(specification, new TabWrapper());
@@ -142,7 +142,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     ConfigurationRequirementInteger
         specification1 =
         new ConfigurationRequirementInteger("integer",
-                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget1 =
         new InputParameterIntegerWidget(specification1, new TabWrapper());
@@ -150,7 +150,7 @@ public class GwtTestIntegerParameter extends GWTTestCase {
     ConfigurationRequirementInteger
         specification2 =
         new ConfigurationRequirementInteger("integer",
-                                              ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
+                                            ConfigurationRequirement.ARBITRARY_NUMBER_OF_VALUES);
     InputParameterIntegerWidget
         widget2 =
         new InputParameterIntegerWidget(specification2, new TabWrapper());

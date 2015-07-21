@@ -389,7 +389,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                       newArc.startAngle = relatedChord.currentAngle;
                       relatedChord.currentAngle =
                       relatedChord.currentAngle + (Number(1) / relatedChord.value)
-                          * (relatedChord.endAngle - relatedChord.startAngle);
+                                                  * (relatedChord.endAngle
+                                                     - relatedChord.startAngle);
                       newArc.endAngle = relatedChord.currentAngle;
                       newArc.value = Number(1);
                       var arc = d3.svg.arc(d, i).innerRadius(linkRadius).outerRadius(innerRadius);
@@ -417,7 +418,7 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                       diag += "L" + String(diagonal(d.links[1], i)).substr(1);
                       diag +=
                       "A" + (linkRadius) + "," + (linkRadius) + " 0 0,0 " + d.links[0].source.x
-                          + "," + d.links[0].source.y;
+                      + "," + d.links[0].source.y;
                       1
 
                       return diag;
@@ -450,12 +451,12 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                       var relatedNode = nodesById[d.FD_ID];
                       relatedNode.currentAmount = relatedNode.currentAmount - Number(20);
                       var ratio = ((relatedNode.Amount - relatedNode.currentAmount)
-                          / relatedNode.Amount);
+                                   / relatedNode.Amount);
                       return relatedNode.r * ratio;
                   })
             .attr("transform", function (d, i) {
                       return "translate(" + (d.links[0].target.x) + "," + (d.links[0].target.y)
-                          + ")";
+                             + ")";
                   })
 
         linkGroup.exit().remove();
@@ -476,7 +477,7 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             var a = relatedChord.currentLinkAngle - 1.57079633; //-90 degrees
             relatedChord.currentLinkAngle =
             relatedChord.currentLinkAngle + (Number(1) / relatedChord.value)
-                * (relatedChord.endAngle - relatedChord.startAngle);
+                                            * (relatedChord.endAngle - relatedChord.startAngle);
             var a1 = relatedChord.currentLinkAngle - 1.57079633;
 
             source.x = (r * Math.cos(a));
@@ -574,8 +575,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                   })
             .attr("transform", function (d) {
                       return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                                 + "translate(" + (innerRadius + 6) + ")"
-                          + (d.angle > Math.PI ? "rotate(180)" : "");
+                             + "translate(" + (innerRadius + 6) + ")"
+                             + (d.angle > Math.PI ? "rotate(180)" : "");
                   })
             .text(function (d) {
                       return trimLabel(columnsById[office + "_" + d.label].COLUMN_NAME);
@@ -598,8 +599,8 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
                   })
             .attr("transform", function (d) {
                       return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                                 + "translate(" + (innerRadius + 6) + ")"
-                          + (d.angle > Math.PI ? "rotate(180)" : "");
+                             + "translate(" + (innerRadius + 6) + ")"
+                             + (d.angle > Math.PI ? "rotate(180)" : "");
                   })
             .style("fill", "#777")
             .text(function (d) {
@@ -612,7 +613,7 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .style("stroke-opacity", 0.4)
             .attr("d", function (d, i) {
                       var arc = d3.svg.arc(d, i).innerRadius(innerRadius
-                                                                 - 20).outerRadius(innerRadius);
+                                                             - 20).outerRadius(innerRadius);
                       return arc(d.source, i);
                   });
 
@@ -620,7 +621,7 @@ function draw_fd(svgDiv, mainDiv, bpgDiv, toolTipDiv, header1Div, header2Div, he
             .select("path")
             .attr("d", function (d, i) {
                       var arc = d3.svg.arc(d, i).innerRadius(innerRadius
-                                                                 - 20).outerRadius(innerRadius);
+                                                             - 20).outerRadius(innerRadius);
                       return arc(d.source, i);
                   });
 

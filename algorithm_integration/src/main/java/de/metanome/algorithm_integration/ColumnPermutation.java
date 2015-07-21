@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Represents column permutations. In contrast to {@link ColumnCombination}s
- *  the order of the column is not necessarily lexicographically.
+ * Represents column permutations. In contrast to {@link ColumnCombination}s the order of the column
+ * is not necessarily lexicographically.
  */
 public class ColumnPermutation implements Serializable {
 
@@ -54,7 +54,9 @@ public class ColumnPermutation implements Serializable {
     return columnIdentifiers;
   }
 
-  public void setColumnIdentifiers(List<ColumnIdentifier> identifiers) { this.columnIdentifiers = identifiers; }
+  public void setColumnIdentifiers(List<ColumnIdentifier> identifiers) {
+    this.columnIdentifiers = identifiers;
+  }
 
   @Override
   public String toString() {

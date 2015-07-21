@@ -80,7 +80,9 @@ public class GwtTestRelationalInputParameter extends GWTTestCase {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput();
     setting.setFileName(aFileName);
 
-    ConfigurationRequirementRelationalInput configSpec = new ConfigurationRequirementRelationalInput("test");
+    ConfigurationRequirementRelationalInput
+        configSpec =
+        new ConfigurationRequirementRelationalInput("test");
     InputParameterRelationalInputWidget
         dataSourceWidget =
         new InputParameterRelationalInputWidget(configSpec, tabWrapper);

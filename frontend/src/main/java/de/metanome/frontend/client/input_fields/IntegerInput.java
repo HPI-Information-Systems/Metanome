@@ -43,12 +43,12 @@ public class IntegerInput extends InputField {
   }
 
   /**
-   * Checks if the input field contains only numbers and returns the inserted number.
-   * If the input field is empty and the value is not required, -1 is returned.
+   * Checks if the input field contains only numbers and returns the inserted number. If the input
+   * field is empty and the value is not required, -1 is returned.
    *
    * @return the value of the input field
-   * @throws InputValidationException if the value cannot be parsed as an int
-   *                                  or if the value was not set, but is required
+   * @throws InputValidationException if the value cannot be parsed as an int or if the value was
+   *                                  not set, but is required
    */
   public int getValue() throws InputValidationException {
     Integer val;

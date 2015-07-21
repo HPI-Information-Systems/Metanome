@@ -47,7 +47,7 @@ public class ConfigurationSettingDatabaseConnectionTest {
     ConfigurationSettingDatabaseConnection
         actualSetting =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
 
     // Check result
     assertEquals(expectedUrl, actualSetting.getDbUrl());
@@ -69,8 +69,10 @@ public class ConfigurationSettingDatabaseConnectionTest {
     DbSystem expectedSystem = DbSystem.PostgreSQL;
     ConfigurationSettingDatabaseConnection setting =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
-    String expectedValuesString = expectedUrl + "; " + expectedUsername + "; " + DbSystem.PostgreSQL.name();
+                                                   expectedSystem);
+    String
+        expectedValuesString =
+        expectedUrl + "; " + expectedUsername + "; " + DbSystem.PostgreSQL.name();
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();
@@ -80,8 +82,8 @@ public class ConfigurationSettingDatabaseConnectionTest {
   }
 
   /**
-   * Test method for {@link ConfigurationSettingDatabaseConnection#equals(Object)}
-   * and {@link ConfigurationSettingDatabaseConnection#hashCode()}
+   * Test method for {@link ConfigurationSettingDatabaseConnection#equals(Object)} and {@link
+   * ConfigurationSettingDatabaseConnection#hashCode()}
    */
   @Test
   public void testEqualsHashCode() {
@@ -93,22 +95,22 @@ public class ConfigurationSettingDatabaseConnectionTest {
     DbSystem expectedSystem = DbSystem.Oracle;
     ConfigurationSettingDatabaseConnection setting =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
     ConfigurationSettingDatabaseConnection equalSetting =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
     ConfigurationSettingDatabaseConnection notEqualSettingUrl =
         new ConfigurationSettingDatabaseConnection("some other url", expectedUsername,
-                                            expectedPassword, expectedSystem);
+                                                   expectedPassword, expectedSystem);
     ConfigurationSettingDatabaseConnection notEqualSettingUsername =
         new ConfigurationSettingDatabaseConnection(expectedUrl, "some other user", expectedPassword,
-                                            expectedSystem);
+                                                   expectedSystem);
     ConfigurationSettingDatabaseConnection notEqualSettingPassword =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername,
-                                            "some other password", expectedSystem);
+                                                   "some other password", expectedSystem);
     ConfigurationSettingDatabaseConnection notEqualSettingSystem =
         new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                            DbSystem.PostgreSQL);
+                                                   DbSystem.PostgreSQL);
 
     // Execute functionality
     // Check result
@@ -119,8 +121,8 @@ public class ConfigurationSettingDatabaseConnectionTest {
   }
 
   /**
-   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection}
-   * are serializable in GWT.
+   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection} are serializable in
+   * GWT.
    */
   @Test
   public void testGwtSerialization() {
