@@ -150,7 +150,6 @@ public class AlgorithmExecutionResource {
                                Response.Status.BAD_REQUEST);
       }
     }
-
     return execution;
   }
 
