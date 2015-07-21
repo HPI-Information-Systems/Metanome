@@ -49,11 +49,11 @@ public class TableInformation {
   /**
    * Computes table metadata on the input data
    *
-   * @param relationalInputGenerator   The input data generator providing access to the input data
-   *                                   stream
+   * @param relationalInputGenerator     The input data generator providing access to the input data
+   *                                     stream
    * @param useDataIndependentStatistics true, if data dependent statistics should be calculated,
-   *                                   false otherwise
-   * @param bitSet                     bit set, which represents this table
+   *                                     false otherwise
+   * @param bitSet                       bit set, which represents this table
    * @throws InputGenerationException Will be thrown if the input data is not accessible
    */
   public TableInformation(RelationalInputGenerator relationalInputGenerator,

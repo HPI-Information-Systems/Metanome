@@ -83,13 +83,15 @@ public class FunctionalDependencyResultComparator
       return Float.compare(fd1.getDependantOccurrenceRatio(), fd2.getDependantOccurrenceRatio());
     }
     if (DETERMINANT_OCCURRENCE_RATIO.equals(sortProperty)) {
-      return Float.compare(fd1.getDeterminantOccurrenceRatio(), fd2.getDeterminantOccurrenceRatio());
+      return Float
+          .compare(fd1.getDeterminantOccurrenceRatio(), fd2.getDeterminantOccurrenceRatio());
     }
     if (DEPENDANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(fd1.getDependantUniquenessRatio(), fd2.getDependantUniquenessRatio());
     }
     if (DETERMINANT_UNIQUENESS_RATIO.equals(sortProperty)) {
-      return Float.compare(fd1.getDeterminantUniquenessRatio(), fd2.getDeterminantUniquenessRatio());
+      return Float
+          .compare(fd1.getDeterminantUniquenessRatio(), fd2.getDeterminantUniquenessRatio());
     }
     if (POLLUTION.equals(sortProperty)) {
       return Float.compare(fd1.getPollution(), fd2.getPollution());

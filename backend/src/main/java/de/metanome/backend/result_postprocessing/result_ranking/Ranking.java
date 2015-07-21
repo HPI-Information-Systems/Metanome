@@ -82,8 +82,7 @@ public abstract class Ranking {
   }
 
   /**
-   * Calculate the ratio of the given number of columns and the overall occurrence of the
-   * columns.
+   * Calculate the ratio of the given number of columns and the overall occurrence of the columns.
    *
    * @param columns   the columns
    * @param tableName the table name
@@ -100,8 +99,7 @@ public abstract class Ranking {
   }
 
   /**
-   * Calculate the ratio of the given number of columns and the overall occurrence of the
-   * columns.
+   * Calculate the ratio of the given number of columns and the overall occurrence of the columns.
    *
    * @param columns   the columns
    * @param tableName the table name

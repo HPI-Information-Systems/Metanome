@@ -112,9 +112,8 @@ public class UniqueColumnCombinationRanking extends Ranking {
   }
 
   /**
-   * Calculates how unique the given column combination is.
-   * Therefor the uniqueness of each column of the column combination is
-   * determined and multiplied. Afterward this value is normalized.
+   * Calculates how unique the given column combination is. Therefor the uniqueness of each column
+   * of the column combination is determined and multiplied. Afterward this value is normalized.
    *
    * @param result the result
    */
@@ -128,7 +127,9 @@ public class UniqueColumnCombinationRanking extends Ranking {
     float distinctValue = 1;
 
     for (ColumnIdentifier column : columns) {
-      distinctValue = distinctValue * columnInformationMap.get(column.getColumnIdentifier()).getDistinctValuesCount();
+      distinctValue =
+          distinctValue * columnInformationMap.get(column.getColumnIdentifier())
+              .getDistinctValuesCount();
     }
 
     float randomness = (distinctValue - min) / (max - min);

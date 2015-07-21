@@ -90,7 +90,7 @@ public class UniqueColumnCombinationVisualization {
       printCluster(clusterFile, kMeans.getClusterInformation());
       printClusterData(dataFile, kMeans.getClusters());
       printColumnCombinations(histogramFile,
-          getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
+                              getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
     }
 
   }
@@ -185,7 +185,7 @@ public class UniqueColumnCombinationVisualization {
    */
   @SuppressWarnings("unchecked")
   public void printCluster(String filePath,
-                                  List<HashMap<String, Double>> clusters) {
+                           List<HashMap<String, Double>> clusters) {
     JSONArray jsonCluster = new JSONArray();
 
     for (int i = 0; i < clusters.size(); i++) {
@@ -210,7 +210,7 @@ public class UniqueColumnCombinationVisualization {
    */
   @SuppressWarnings("unchecked")
   public void printClusterData(String filePath,
-                                      List<List<UniqueColumnCombinationVisualizationData>> clusterData) {
+                               List<List<UniqueColumnCombinationVisualizationData>> clusterData) {
     JSONArray jsonData = new JSONArray();
     int id = 0;
 
@@ -247,7 +247,7 @@ public class UniqueColumnCombinationVisualization {
    */
   @SuppressWarnings("unchecked")
   public void printColumnCombinations(String filePath,
-                                             List<List<HashMap<String, Double>>> clusters) {
+                                      List<List<HashMap<String, Double>>> clusters) {
     JSONArray json = new JSONArray();
     int id = 0;
 

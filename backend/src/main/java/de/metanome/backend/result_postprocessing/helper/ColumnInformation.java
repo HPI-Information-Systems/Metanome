@@ -64,7 +64,8 @@ public class ColumnInformation {
    * @param columnIndex index of the column
    * @param bitSet      bit set representing this column
    */
-  public ColumnInformation(String columnName, int columnIndex, BitSet bitSet) throws InputIterationException {
+  public ColumnInformation(String columnName, int columnIndex, BitSet bitSet)
+      throws InputIterationException {
     this(columnName, columnIndex, bitSet, null, false);
   }
 
