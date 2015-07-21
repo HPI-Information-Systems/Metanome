@@ -112,6 +112,7 @@ public class FunctionalDependencyResultAnalyzer
 
   /**
    * Gets the bit set of the dependant column.
+   *
    * @param result the result
    * @return bit set of the dependant column.
    */
@@ -124,6 +125,7 @@ public class FunctionalDependencyResultAnalyzer
 
   /**
    * Gets the bit set of the determinant column.
+   *
    * @param result the result
    * @return bit set of the determinant column.
    */
@@ -138,8 +140,7 @@ public class FunctionalDependencyResultAnalyzer
   }
 
   /**
-   * Extend the dependant side by merging results with the same determinant and using
-   * transitivity.
+   * Extend the dependant side by merging results with the same determinant and using transitivity.
    *
    * @param results the results
    * @return the results with the extended dependant side

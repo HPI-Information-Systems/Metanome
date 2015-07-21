@@ -87,8 +87,8 @@ public class ConditionalUniqueColumnCombinationRanking extends Ranking {
   }
 
   /**
-   * Calculates the ratio of the column count and the overall occurrence of the
-   * columns in the result.
+   * Calculates the ratio of the column count and the overall occurrence of the columns in the
+   * result.
    *
    * @param result the result
    */

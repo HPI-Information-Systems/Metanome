@@ -34,7 +34,8 @@ public class BasicStatisticResultAnalyzer
 
   public BasicStatisticResultAnalyzer(
       List<RelationalInputGenerator> inputGenerators,
-      boolean useDataIndependentStatistics) throws InputGenerationException, InputIterationException {
+      boolean useDataIndependentStatistics)
+      throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 

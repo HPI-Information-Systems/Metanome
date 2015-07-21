@@ -119,11 +119,16 @@ public class FunctionalDependencyVisualization {
 
     for (ColumnIdentifier dependantColumn : dependantColumns) {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
-      BitSet dependantAsBitSet = tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier()).getBitSet();
+      BitSet
+          dependantAsBitSet =
+          tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier())
+              .getBitSet();
 
       // create a JSON for the dependant column
       BitSet path = new BitSet();
-      JSONObject dependantJSON = printRecursive(dependantAsBitSet, determinants, path, -1, 0, determinants.size(), "");
+      JSONObject
+          dependantJSON =
+          printRecursive(dependantAsBitSet, determinants, path, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
       dependantJSON.put("name", dependantColumn.getColumnIdentifier());
@@ -137,15 +142,10 @@ public class FunctionalDependencyVisualization {
   }
 
   /**
-   * Recursive helper function for printing prefix trees as JSON.
-   * The resulting JSON should look like this:
-   * dependant
-   *   - first column of first determinant
-   *       - second column of first determinant
-   *       - third column of first determinant
-   *   - first column of second determinant
-   *   - first column of third determinant
-   *       - second column of third determinant
+   * Recursive helper function for printing prefix trees as JSON. The resulting JSON should look
+   * like this: dependant - first column of first determinant - second column of first determinant -
+   * third column of first determinant - first column of second determinant - first column of third
+   * determinant - second column of third determinant
    *
    * @return the prefix tree branch as JSON defined by the parameters
    */
@@ -168,7 +168,8 @@ public class FunctionalDependencyVisualization {
       path.set(columnInformation.getColumnIndex());
       result.put("name", columnName);
       result.put("size", columnInformation.getUniquenessRate());
-      result.put("keyError",  Math.abs(calculateKeyError(path) - calculateKeyError(path, dependant)));
+      result
+          .put("keyError", Math.abs(calculateKeyError(path) - calculateKeyError(path, dependant)));
     }
 
     // Add all columns of determinants at index 'columnIndex + 1'
@@ -192,7 +193,8 @@ public class FunctionalDependencyVisualization {
     ColumnIdentifier column = getColumnIdentifier(determinants, lastStart, columnIndex + 1);
     if (column != null) {
       children.add(
-          printRecursive(dependant, determinants, path, columnIndex + 1, lastStart, determinantEndIndex,
+          printRecursive(dependant, determinants, path, columnIndex + 1, lastStart,
+                         determinantEndIndex,
                          column.getColumnIdentifier()));
     }
 
@@ -206,8 +208,8 @@ public class FunctionalDependencyVisualization {
 
 
   /**
-   * Combines the bit sets of the determinants and dependant and calls
-   * calculate key error.
+   * Combines the bit sets of the determinants and dependant and calls calculate key error.
+   *
    * @param determinants the determinants as bit set
    * @param dependant    the dependant as bit set
    * @return the key error
@@ -219,9 +221,8 @@ public class FunctionalDependencyVisualization {
   }
 
   /**
-   * Calculates the key error for the given columns using the PLIs of the table.
-   * The key error is equal to the number of entries, which has to be removed,
-   * so that the columns become unique.
+   * Calculates the key error for the given columns using the PLIs of the table. The key error is
+   * equal to the number of entries, which has to be removed, so that the columns become unique.
    *
    * @param columnBitSet the columns as bit set
    * @return the key error
@@ -291,14 +292,16 @@ public class FunctionalDependencyVisualization {
   }
 
   /**
-   * Gets the column identifier on given index of the column combination, which
-   * is at the given index of the given set.
+   * Gets the column identifier on given index of the column combination, which is at the given
+   * index of the given set.
+   *
    * @param columnCombinations the column combinations
    * @param index              the index of the column combination in the set
    * @param columnIndex        the index of the column in the column combination
    * @return the required column identifier
    */
-  protected ColumnIdentifier getColumnIdentifier(Set<ColumnCombination> columnCombinations, int index,
+  protected ColumnIdentifier getColumnIdentifier(Set<ColumnCombination> columnCombinations,
+                                                 int index,
                                                  int columnIndex) {
     int curIndex = -1;
     for (ColumnCombination combination : columnCombinations) {

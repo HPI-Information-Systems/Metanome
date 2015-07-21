@@ -59,7 +59,7 @@ public class KMeans {
       do {
         findClusters(data);
         updateCentroids();
-      } while(!isFinished());
+      } while (!isFinished());
 
       // calculate the cohesion
       cohesion = calculateCohesion();
