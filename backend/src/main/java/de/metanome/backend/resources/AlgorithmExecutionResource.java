@@ -28,7 +28,6 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_execution.AlgorithmExecution;
-import de.metanome.backend.algorithm_execution.ProcessExecutor;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
@@ -46,8 +45,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,6 +64,8 @@ import javax.ws.rs.core.Response;
 
 @Path("algorithm-execution")
 public class AlgorithmExecutionResource {
+
+  private static final Class algorithmExecutionClass = AlgorithmExecution.class;
 
   /**
    * Stops the algorithm with the given identifier.
@@ -96,16 +100,12 @@ public class AlgorithmExecutionResource {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
-    // TODO Why we need to shut down hibernate
-    HibernateUtil.shutdown();
-
     try {
       // Start the process, which executes the algorithm
       Process process =
-          ProcessExecutor.exec(AlgorithmExecution.class,
-                               String.valueOf(params.getAlgorithmId()),
-                               executionIdentifier,
-                               params.getMemory());
+          executeAlgorithm(String.valueOf(params.getAlgorithmId()),
+                           executionIdentifier,
+                           params.getMemory());
       ProcessRegistry.getInstance().put(executionIdentifier, process);
 
       // Forward messages from the process to the console output
@@ -127,17 +127,17 @@ public class AlgorithmExecutionResource {
       criteria.add(Restrictions.eq("identifier", executionIdentifier));
       execution = (Execution) HibernateUtil.queryCriteria(Execution.class,
                                                           criteria.toArray(
-                                                              new Criterion[criteria.size()])).get(0);
+                                                              new Criterion[criteria.size()]))
+          .get(0);
     } catch (EntityStorageException | IndexOutOfBoundsException e) {
-      // The execution process got killed
-      // Create an execution object anyway
+      // The execution process got killed - execution object is created anyway (with abortion flag set)
       AlgorithmResource algorithmResource = new AlgorithmResource();
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
       execution = new Execution(algorithm)
           .setExecutionSetting(executionSetting)
           .setAborted(true)
-          .setInputs(AlgorithmExecution.parseInputs(executionSetting));
+          .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
       HibernateUtil.store(execution);
     }
 
@@ -174,9 +174,9 @@ public class AlgorithmExecutionResource {
         // no value was set in the frontend
         // do not create a configuration value, so that the value can not be set
         // on the algorithm
-        // TODO test
-        if (requirement.getSettings().length == 0)
+        if (requirement.getSettings().length == 0) {
           continue;
+        }
 
         // convert the requirement and add it to the parameters
         parameterValues.add(requirement.build(configurationFactory));
@@ -219,7 +219,7 @@ public class AlgorithmExecutionResource {
    * @param parameterValues all parameters to execute the algorithm
    * @return the resulting list of Json Strings
    */
-  public List<String> configurationValuesToJson(List<ConfigurationValue> parameterValues){
+  public List<String> configurationValuesToJson(List<ConfigurationValue> parameterValues) {
     JsonConverter<ConfigurationValue>
         jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
@@ -228,9 +228,53 @@ public class AlgorithmExecutionResource {
     return jsonConverter.toJsonStrings(parameterValues);
   }
 
-  public List<String> inputsToJson(List<Input> inputs){
+  public List<String> inputsToJson(List<Input> inputs) {
     JsonConverter<Input> jsonConverter = new JsonConverter<Input>();
     return jsonConverter.toJsonStrings(inputs);
+  }
+
+  /**
+   * starts execution of Algorithm in separate Process
+   *
+   * @param algorithmId         id of algorithm to be executed
+   * @param executionIdentifier identifier for the upcoming algorithm execution
+   * @param memory              memory argument for the process running the algorithm execution
+   * @return resulting process object for the algorithm execution
+   */
+  private Process executeAlgorithm(String algorithmId, String executionIdentifier,
+                                         String memory) throws IOException,
+                                                               InterruptedException {
+    String javaHome = System.getProperty("java.home");
+    String javaBin = javaHome +
+                     File.separator + "bin" +
+                     File.separator + "java";
+    String myPath = System.getProperty("java.class.path");
+    String className = algorithmExecutionClass.getCanonicalName();
+
+    try {
+      URL baseUrl = algorithmExecutionClass.getProtectionDomain().getCodeSource().getLocation();
+      File file = new File(baseUrl.toURI());
+      String parent = file.getAbsoluteFile().getParent();
+      String classesFolder =
+          file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
+      String parentPathWildCard = parent + File.separator + "*";
+      myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
+    } catch (URISyntaxException ex) {
+      ex.printStackTrace();
+    }
+
+    ProcessBuilder builder;
+    if (!memory.equals("")) {
+      builder = new ProcessBuilder(
+          javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
+          algorithmId, executionIdentifier);
+    } else {
+      builder = new ProcessBuilder(
+          javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
+    }
+    builder.redirectErrorStream(true);
+
+    return builder.start();
   }
 
 }
