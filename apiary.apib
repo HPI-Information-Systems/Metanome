@@ -1164,7 +1164,8 @@ Returns a list of all *Executions* currently stored in the database.
               {
                 "id": 1,
                 "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918_fds",
-                "type": "FD"
+                "type": "FD",
+                "typeName": "Functional Dependency"
               }
             ],
             "hardwareDescription": null,
@@ -1224,7 +1225,8 @@ Returns a list of all *Executions* currently stored in the database.
               {
                 "id": 2,
                 "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T203527_fds",
-                "type": "FD"
+                "type": "FD",
+                "typeName": "Functional Dependency"
               }
             ],
             "hardwareDescription": null,
@@ -1284,7 +1286,8 @@ Returns a list of all *Executions* currently stored in the database.
               {
                 "id": 31,
                 "fileName": "results/ducc_for_metanome-0.0.2-SNAPSHOT.jar2015-07-03T091423_uccs",
-                "type": "UCC"
+                "type": "UCC",
+                "typeName": "Unique Column Combination"
               }
             ],
             "hardwareDescription": null,
@@ -1360,7 +1363,8 @@ Returns a list of all *Executions* currently stored in the database.
               {
                 "id": 32,
                 "fileName": "results/BINDERFile-0.0.2-SNAPSHOT.jar2015-07-03T091831_inds",
-                "type": "IND"
+                "type": "IND",
+                "typeName": "Inclusion Dependency"
               }
             ],
             "hardwareDescription": null,
@@ -1431,7 +1435,8 @@ Returns a specific *Execution*.
             {
               "id": 1,
               "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-06-29T202918_fds",
-              "type": "FD"
+              "type": "FD",
+              "typeName": "Functional Dependency"
             }
           ],
           "hardwareDescription": null,
@@ -1512,6 +1517,8 @@ Returns a list of all parameters ( *Configuration Requirements* ) requested by t
             ]
           }
         ]
+        
+
 
 
 ## Group Algorithm Execution
@@ -1561,6 +1568,183 @@ The JSON object of the execution is returned.
            "countResults":true,
            "memory":""
         }
+        
+    + Schema
+    
+            {
+                "type": "ConfigurationRequirementString",
+                "defaultValues": null,
+                "identifier": "path to output file",
+                "required": false,
+                "numberOfSettings": 1,
+                "minNumberOfSettings": 1,
+                "maxNumberOfSettings": 1,
+                "settings": [
+                    {
+                        "type": "ConfigurationSettingString",
+                        "value": "path to file"
+                    }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementListBox",
+                "values": [
+                    "column 1",
+                    "column 2",
+                    "column 3"
+                ],
+                "defaultValues": null,
+                "identifier": "column names",
+                "required": false,
+                "numberOfSettings": 1,
+                "minNumberOfSettings": 1,
+                "maxNumberOfSettings": 1,
+                "settings": [
+                    {
+                        "type": "ConfigurationSettingListBox",
+                        "value": "column 2"
+                    }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementInteger",
+                "defaultValues": [
+                    2
+                ],
+                "identifier": "row limit",
+                "required": false,
+                "numberOfSettings": 1,
+                "minNumberOfSettings": 1,
+                "maxNumberOfSettings": 1,
+                "settings": [
+                    {
+                        "type": "ConfigurationSettingInteger",
+                        "value": 9
+                    }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementBoolean",
+                "defaultValues": [
+                    true
+                ],
+                "identifier": "clean directory",
+                "required": true,
+                "numberOfSettings": 1,
+                "minNumberOfSettings": 1,
+                "maxNumberOfSettings": 1,
+                "settings": [
+                    {
+                        "type": "ConfigurationSettingBoolean",
+                        "value": true
+                    }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementFileInput",
+                "identifier": "input file",
+                "required": false,
+                "numberOfSettings": 5,
+                "minNumberOfSettings": 3,
+                "maxNumberOfSettings": 5,
+                "settings": [
+                    {
+                        "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_appearances.csv",
+                        "advanced": false,
+                        "separatorChar": ",",
+                        "quoteChar": "\"",
+                        "escapeChar": "\\",
+                        "strictQuotes": false,
+                        "ignoreLeadingWhiteSpace": true,
+                        "skipLines": 0,
+                        "header": true,
+                        "skipDifferingLines": false,
+                        "nullValue": "",
+                        "type": "ConfigurationSettingFileInput",
+                        "id": 2
+                    },
+                    {
+                        "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planetz.csv",
+                        "advanced": false,
+                        "separatorChar": ",",
+                        "quoteChar": "\"",
+                        "escapeChar": "\\",
+                        "strictQuotes": false,
+                        "ignoreLeadingWhiteSpace": true,
+                        "skipLines": 0,
+                        "header": true,
+                        "skipDifferingLines": false,
+                        "nullValue": "",
+                        "type": "ConfigurationSettingFileInput",
+                        "id": 3
+                    },
+                    {
+                        "fileName": "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/fd_reduced_15.csv",
+                        "advanced": false,
+                        "separatorChar": ",",
+                        "quoteChar": "\"",
+                        "escapeChar": "\\",
+                        "strictQuotes": false,
+                        "ignoreLeadingWhiteSpace": true,
+                        "skipLines": 0,
+                        "header": true,
+                        "skipDifferingLines": false,
+                        "nullValue": "",
+                        "type": "ConfigurationSettingFileInput",
+                        "id": 4
+                    }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementTableInput",
+                "identifier": "table input",
+                "required": false,
+                "numberOfSettings": 2,
+                "minNumberOfSettings": 0,
+                "maxNumberOfSettings": 2,
+                "settings": [
+                    {
+                        "type": "tableInput",
+                        "id": 1,
+                        "name": "user_names; jdbc:mysql://localhost:8888; user; MySQL",
+                        "tableName": "user_names",
+                        "databaseConnection": {
+                          "type": "databaseConnection",
+                          "id": 1,
+                          "name": "jdbc:mysql://localhost:8888; user; MySQL",
+                          "url": "jdbc:mysql://localhost:8888",
+                          "username": "user",
+                          "password": "password",
+                          "system": "MySQL",
+                          "comment": "",
+                          "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+                        },
+                        "comment": ""
+                      }
+                ]
+            },
+            {
+                "type": "ConfigurationRequirementDatabaseConnection",
+                "identifier": "database connection",
+                "required": false,
+                "numberOfSettings": 1,
+                "minNumberOfSettings": 1,
+                "maxNumberOfSettings": 1,
+                "settings": [
+                    {
+                        "type": "databaseConnection",
+                        "id": 1,
+                        "name": "jdbc:mysql://localhost:8888; user; MySQL",
+                        "url": "jdbc:mysql://localhost:8888",
+                        "username": "user",
+                        "password": "password",
+                        "system": "MySQL",
+                        "comment": "",
+                        "identifier": "jdbc:mysql://localhost:8888; user; MySQL"
+                    }
+                ]
+            }
+            
 
 
 + Response 200 (application/json)
@@ -1611,7 +1795,8 @@ The JSON object of the execution is returned.
             {
               "id": 81,
               "fileName": "results/tane_algorithm-0.0.2-SNAPSHOT.jar2015-07-10T110642_fds",
-              "type": "FD"
+              "type": "FD",
+              "typeName": "Functional Dependency"
             }
           ],
           "hardwareDescription": null,
@@ -1625,6 +1810,7 @@ The JSON object of the execution is returned.
           },
           "aborted": false
         }
+
 
 
 ### Stop an Algorithm Execution [GET /algorithm-execution/stop/{execution_identifier}]
