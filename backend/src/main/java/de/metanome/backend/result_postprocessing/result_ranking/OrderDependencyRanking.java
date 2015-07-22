@@ -78,8 +78,8 @@ public class OrderDependencyRanking extends Ranking {
   }
 
   /**
-   * Calculates the ratio of the lhs/rhs column count and the column count of the
-   * corresponding table.
+   * Calculates the ratio of the lhs/rhs column count and the column count of the corresponding
+   * table.
    *
    * @param result the result
    */
@@ -121,8 +121,8 @@ public class OrderDependencyRanking extends Ranking {
   }
 
   /**
-   * Calculates the ratio of the lhs/rhs column count and the overall occurrence of the
-   * lhs/rhs columns in the result.
+   * Calculates the ratio of the lhs/rhs column count and the overall occurrence of the lhs/rhs
+   * columns in the result.
    *
    * @param result the result
    */
@@ -139,8 +139,8 @@ public class OrderDependencyRanking extends Ranking {
   }
 
   /**
-   * Calculates the ratio of columns of the lhs/rhs side, which are almost unique, and
-   * the column count of the lhs/rhs side.
+   * Calculates the ratio of columns of the lhs/rhs side, which are almost unique, and the column
+   * count of the lhs/rhs side.
    *
    * @param result the result
    */

@@ -18,11 +18,12 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.backend.configuration.ConfigurationValue;
+import de.metanome.backend.helper.ConfigurationValueMixIn;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
@@ -32,7 +33,6 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
@@ -83,19 +83,20 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Generates a list of ConfigurationValues from an ExecutionSetting
+   * Generates a list of ConfigurationValues from an List of ConfigurationValue json-strings
    *
-   * @param setting the execution settings
+   * @param parameterValuesJson List of parameter values in json format
    * @return a list of all configuration values
    */
-  public static List<ConfigurationValue> parseConfigurationValues(ExecutionSetting setting) {
+  public static List<ConfigurationValue> parseConfigurationValues(List<String> parameterValuesJson) {
     JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
     jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(ConfigurationValue.class, ConfigurationValueMixIn.class);
 
     List<ConfigurationValue> parameterValues = new ArrayList<>();
-    for (String json : setting.getParameterValuesJson()) {
+    for (String json : parameterValuesJson) {
       try {
         parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
       } catch (IOException e) {
@@ -107,16 +108,16 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Generates a list of Inputs from an ExecutionSetting
+   * Generates a list of Inputs from an List of Input json-strings
    *
-   * @param setting the execution settings
+   * @param inputsJson inputs in json format
    * @return a list of inputs
    */
-  public  static List<Input> parseInputs(ExecutionSetting setting) {
+  public static List<Input> parseInputs(List<String> inputsJson) {
     JsonConverter<Input> jsonConverterInput = new JsonConverter<>();
     List<Input> inputs = new ArrayList<>();
 
-    for (String json : setting.getInputsJson()) {
+    for (String json : inputsJson) {
       try {
         inputs.add(jsonConverterInput.fromJsonString(json, Input.class));
       } catch (IOException e1) {
@@ -128,9 +129,9 @@ public class AlgorithmExecution {
   }
 
   /**
-   * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and ExecutionSetting
-   * from the database, which are then used to execute the specified Algorithm with the specified
-   * setting in the designated process
+   * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and
+   * ExecutionSetting from the database, which are then used to execute the specified Algorithm with
+   * the specified setting in the designated process
    */
   public static void main(String args[])
       throws FileNotFoundException, UnsupportedEncodingException {
@@ -148,8 +149,8 @@ public class AlgorithmExecution {
     ExecutionSetting executionSetting = (ExecutionSetting) cr2.list().get(0);
 
     // Parse the parameters
-    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting);
-    List<Input> inputs = parseInputs(executionSetting);
+    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting.getParameterValuesJson());
+    List<Input> inputs = parseInputs(executionSetting.getInputsJson());
 
     session.close();
 
@@ -158,13 +159,9 @@ public class AlgorithmExecution {
 
     // Execute the algorithm
     try {
-      Execution execution = executor
+      executor
           .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
-                            executionSetting.getCountResults());
-
-      // Set the settings to the execution and store it
-      execution.setExecutionSetting(executionSetting);
-      HibernateUtil.store(execution);
+                            executionSetting);
 
       executor.close();
     } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException

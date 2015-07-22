@@ -264,7 +264,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param tableInformation the table
    */
   protected void calculateInformationGainCells(FunctionalDependencyResult result,
-                                             TableInformation tableInformation) {
+                                               TableInformation tableInformation) {
     long rowCount = tableInformation.getRowCount();
     long columnCount = tableInformation.getColumnCount();
     int determinantColumnCount = result.getDeterminant().getColumnIdentifiers().size();
@@ -294,7 +294,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @param tableInformation the table
    */
   protected void calculateInformationGainBytes(FunctionalDependencyResult result,
-                                             TableInformation tableInformation) {
+                                               TableInformation tableInformation) {
     long rowCount = tableInformation.getRowCount();
 
     // Get the information content of the whole table in bytes

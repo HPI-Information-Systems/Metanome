@@ -89,4 +89,12 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
   public abstract void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
       throws AlgorithmConfigurationException;
 
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public T[] getValues() {
+    return values;
+  }
 }
+

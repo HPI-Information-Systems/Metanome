@@ -26,12 +26,14 @@ import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgo
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
-import de.metanome.backend.configuration.ConfigurationValue;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.Result;
 import de.metanome.backend.results_db.ResultType;
@@ -74,7 +76,7 @@ public class AlgorithmExecutor implements Closeable {
    * @param parameters          parameters for algorithm execution
    * @param inputs              inputs for algorithm execution
    * @param executionIdentifier identifier for execution
-   * @param countResult         true, if the results of the execution are just count results
+   * @param executionSetting    setting for the execution
    * @return the execution
    */
 
@@ -83,7 +85,7 @@ public class AlgorithmExecutor implements Closeable {
       List<ConfigurationValue> parameters,
       List<Input> inputs,
       String executionIdentifier,
-      Boolean countResult)
+      ExecutionSetting executionSetting)
       throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
              InstantiationException, IllegalAccessException, InvocationTargetException,
              NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
@@ -160,11 +162,15 @@ public class AlgorithmExecutor implements Closeable {
         .setInputs(inputs)
         .setIdentifier(executionIdentifier)
         .setResults(results)
-        .setCountResult(countResult);
+        .setCountResult(executionSetting.getCountResults());
 
     for (Result result : results) {
       result.setExecution(execution);
     }
+
+    // Set the settings to the execution and store it
+    execution.setExecutionSetting(executionSetting);
+    HibernateUtil.store(execution);
 
     return execution;
   }

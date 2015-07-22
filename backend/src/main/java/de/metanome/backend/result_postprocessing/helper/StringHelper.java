@@ -23,6 +23,7 @@ public class StringHelper {
 
   /**
    * Removes the file ending "csv" and "tsv" from the given string.
+   *
    * @param fileName the file name
    * @return the file name without file ending
    */
