@@ -12,7 +12,7 @@
                <md-list-item class="md-2-line" ng-repeat="item in algorithms.algorithms">
                  <div class="algo-in-list md-list-item-text">
                    <h4>{{ item.name }}</h4>
-                   <p class="algo-desc">{{ item.desc }}</p>
+                   <p class="algo-desc">{{ item.description || "No description" }}</p>
                  </div>
                </md-list-item>
                <md-divider></md-divider>

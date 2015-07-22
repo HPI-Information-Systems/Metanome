@@ -1,7 +1,46 @@
 'use strict';
 
 angular.module('v2')
-  .controller('NewCtrl', function ($scope, $log, ngDialog) {
+  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms) {
+    $scope.category = []
+
+    var algorithmCategories = [
+      {
+        name: "inclusion-dependency-algorithms",
+        display: "Inclusion Dependency Algorithms"
+      },      
+      {
+        name: "functional-dependency-algorithms",
+        display: "Functional Dependency Algorithms"
+      },      
+      {
+        name: "unique-column-combination-algorithms",
+        display: "Unique Column Combination Algorithms"
+      },      
+      {
+        name: "conditional-unique-column-combination-algorithms",
+        display: "Conditional Unique Column Combination Algorithms"
+      },
+      {
+        name: "order-dependency-algorithms",
+        display: "Order Dependency Algorithms"
+      },
+      {
+        name: "basic-statistics-algorithms",
+        display: "Basic Statistics Algorithms"
+      }
+    ]
+    
+    algorithmCategories.forEach(function(category){
+      Algorithms.get({type: category.name}, function(result){
+        console.log(result[0])
+        $scope.category.push({
+            name: category.display,
+            algorithms: result
+        })
+       })
+    })
+
     $scope.datasources = [
       {
         name: 'File input',
@@ -34,43 +73,6 @@ angular.module('v2')
         datasource: [
           {
             name: 'Super Table',
-            desc: 'Example description',
-          }
-        ]
-      }
-    ]
-    $scope.category = [
-      {
-        name: 'Unique Column Combinations',
-        algorithms: [
-          {
-            name: 'example_holistic_algorithm',
-            desc: 'Example description',
-          },
-          {
-            name: 'example_relational_input_algorithm',
-            desc: 'Example description',
-          },
-          {
-            name: 'example_ucc_algorithm',
-            desc: 'Example description'
-          }
-        ]
-      },
-      {
-        name: 'Conditional Unique Column Combinations',
-        algorithms: [
-          {
-            name: 'example_cucc_algorithm',
-            desc: 'Example description',
-          }
-        ]
-      },
-      {
-        name: 'Functional Dependencies',
-        algorithms: [
-          {
-            name: 'example_cucc_algorithm',
             desc: 'Example description',
           }
         ]
