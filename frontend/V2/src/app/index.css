@@ -163,6 +163,13 @@ section.jumbotron h1 {
   margin-top: -18px;
   margin-bottom: 10px;
 }
+.new-controller .algo-in-list {
+ padding: 0 5px 0 5px;
+}
+
+.new-controller .algo-in-list.active {
+  background: #8BC34A !important;
+}
 
 .new-controller .algo-in-list:hover {
   background: #C5E1A5;

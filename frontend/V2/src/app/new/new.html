@@ -10,7 +10,7 @@
               <div ng-repeat="algorithms in category">
                <md-subheader class="md-no-sticky" ng-bind="algorithms.name"></md-subheader>
                <md-list-item class="md-2-line" ng-repeat="item in algorithms.algorithms">
-                 <div class="algo-in-list md-list-item-text">
+                 <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="activateAlgorithm(item)">
                    <h4>{{ item.name }}</h4>
                    <p class="algo-desc">{{ item.description || "No description" }}</p>
                  </div>
@@ -34,7 +34,7 @@
                <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
                <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="data.cb5" class="md-primary">
                  <div class="algo-in-list md-list-item-text">
-                   <h4>{{ item.name }} ({{ item.desc }})</h4>
+                   <h4>{{ item.name }} ({{ item.desc || "No description" }})</h4>
                  </div>
                </md-checkbox>
                </md-list-item>

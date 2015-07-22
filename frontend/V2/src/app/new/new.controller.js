@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('v2')
-  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms) {
+  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms, Datasource) {
     $scope.category = []
+    $scope.datasources = []
 
     var algorithmCategories = [
       {
@@ -30,54 +31,45 @@ angular.module('v2')
         display: "Basic Statistics Algorithms"
       }
     ]
+
+    var inputCategories = [
+      {
+        name: "file-inputs",
+        display: "File Input"
+      },
+      {
+        name: "database-connections",
+        display: "Database Connection"
+      },
+      {
+        name: "table-inputs",
+        display: "Table Inputs"
+      }
+    ]
     
     algorithmCategories.forEach(function(category){
       Algorithms.get({type: category.name}, function(result){
-        console.log(result[0])
         $scope.category.push({
             name: category.display,
             algorithms: result
         })
        })
     })
+     
+    inputCategories.forEach(function(category){
+      Datasource.get({type: category.name}, function(result){
+        //Remove path from element name
+        result.forEach(function(element){
+          element.name = element.name.replace(/^.*[\\\/]/, '')
+        })
 
-    $scope.datasources = [
-      {
-        name: 'File input',
-        datasource: [
-          {
-            name: 'File 1',
-            desc: 'Example description',
-          },
-          {
-            name: 'File 2',
-            desc: 'Example description',
-          },
-          {
-            name: 'File 3',
-            desc: 'Example description'
-          }
-        ]
-      },
-      {
-        name: 'Database connection',
-        datasource: [
-          {
-            name: 'DB1',
-            desc: 'Example description',
-          }
-        ]
-      },
-      {
-        name: 'Table input',
-        datasource: [
-          {
-            name: 'Super Table',
-            desc: 'Example description',
-          }
-        ]
-      }
-    ]
+        $scope.datasources.push({
+            name: category.display,
+            datasource: result
+        })
+       })
+    })
+
     $scope.openAlgorithmSettings = function() {
       ngDialog.open({ 
         template: '/assets/settings-algorithm.html',
@@ -96,5 +88,12 @@ angular.module('v2')
         scope: $scope
       });
     };
+    $scope.activateAlgorithm = function(algorithm) {
+      algorithm.active = true
+      if($scope.activeAlgorithm) {
+        $scope.activeAlgorithm.active = false
+      }
+      $scope.activeAlgorithm = algorithm
+    }
 
   });
