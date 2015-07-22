@@ -65,7 +65,8 @@ angular.module('v2')
 
         $scope.datasources.push({
             name: category.display,
-            datasource: result
+            datasource: result,
+            possible: true
         })
        })
     })
@@ -94,6 +95,16 @@ angular.module('v2')
         $scope.activeAlgorithm.active = false
       }
       $scope.activeAlgorithm = algorithm
+      
+      $scope.datasources.forEach(function(datasource){
+        if(datasource.name == "Table Inputs"){
+           datasource.possible = algorithm.tableInput
+        } else if(datasource.name == "Database Connection"){
+           datasource.possible = algorithm.databaseConnection
+        } else if(datasource.name == "File Input"){
+           datasource.possible = algorithm.fileInput
+        }
+      })
     }
 
   });
