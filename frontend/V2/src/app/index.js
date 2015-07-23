@@ -7,7 +7,8 @@ angular.module('v2', [
   'ngResource', 
   'ui.router', 
   'ngMaterial',
-  'ngDialog'
+  'ngDialog',
+  'schemaForm'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
