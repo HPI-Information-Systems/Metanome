@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('v2')
-  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms, Datasource) {
+  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms, Datasource, Parameter) {
     $scope.category = []
     $scope.datasources = []
 
@@ -89,13 +89,22 @@ angular.module('v2')
         scope: $scope
       });
     };
+
     $scope.activateAlgorithm = function(algorithm) {
+      highlightAlgorithm(algorithm)
+      updateAvailableDatasources(algorithm)
+      updateParameter(algorithm)
+    }
+
+    function highlightAlgorithm(algorithm){
       algorithm.active = true
       if($scope.activeAlgorithm) {
         $scope.activeAlgorithm.active = false
       }
-      $scope.activeAlgorithm = algorithm
-      
+      $scope.activeAlgorithm = algorithm 
+    }
+
+    function updateAvailableDatasources(algorithm) {
       $scope.datasources.forEach(function(datasource){
         if(datasource.name == "Table Inputs"){
            datasource.possible = algorithm.tableInput
@@ -107,4 +116,40 @@ angular.module('v2')
       })
     }
 
+    function updateParameter(algorithm){
+      Parameter.get({algorithm: algorithm.fileName}, function(parameter) {
+        console.log(parameter)
+        parameter.forEach(function(param){
+          switch (param.type) {
+            case 'ConfigurationRequirementFileInput':
+              configureFileInputs(param)
+              break;
+            case 'ConfigurationRequirementDatabaseConnection':
+            case 'ConfigurationRequirementListBox':
+            case 'ConfigurationRequirementString':
+              console.log(param.type)
+              break;
+          }
+        })
+      })
+    }
+
+    function configureFileInputs(param){
+      console.log("ConfigureFileInputs")
+      var index = -1
+      $.grep($scope.datasources, function(element, i) {
+        if(element != undefined && element.name != undefined && element.name == 'File Input'){
+          index = i
+          return true
+        } else {
+          return false 
+        }
+      })
+      if(param.minNumberOfSettings == param.maxNumberOfSettings) {
+        $scope.datasources[index].name = "File Input (choose " + param.minNumberOfSettings + ")"
+      } else {
+        $scope.datasources[index].name = "File Input (min: " + param.minNumberOfSettings + " | max: " + param.maxNumberOfSettings + ")"
+      }
+    }
+    
   });
