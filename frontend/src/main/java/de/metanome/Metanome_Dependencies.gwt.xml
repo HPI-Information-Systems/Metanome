@@ -107,7 +107,7 @@
         <include name="WebException.java"/>
         <include name="AlgorithmExecutionResource.java"/>
         <include name="AlgorithmExecutionParams.java"/>
-        <include name="ParameterResource"/>
+        <include name="ParameterResource.java"/>
     </source>
     <source path="backend/result_receiver">
         <include name="ResultHandler.java"/>
