@@ -50,7 +50,6 @@ angular.module('v2')
     initializeDatasources()
     resetParameter()
 
-    // **************************
     // ** FUNCTION DEFINITIONS **
     // **************************
 
