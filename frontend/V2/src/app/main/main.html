@@ -5,7 +5,7 @@
       <md-tabs md-selected="selectedIndex" md-border-bottom>
         <md-tab ng-repeat="tab in tabs"
                 label="{{tab.title}}">
-          <div class="metanome-tab tab{{$index%4}}" style="padding: 25px;">
+          <div class="metanome-tab tab{{$index%4}}" style="padding-top: 10px;">
             <div ui-view="{{tab.view}}"></div> 
           </div>
         </md-tab>

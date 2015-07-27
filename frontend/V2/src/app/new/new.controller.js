@@ -228,16 +228,14 @@ angular.module('v2')
       currentParameter = []
       Parameter.get({algorithm: algorithm.fileName}, function(parameter) {
         parameter.forEach(function(param){
+          currentParameter.push(param)
           switch (param.type) {
             case 'ConfigurationRequirementRelationalInput':
               configureParamInputs(param, 'File Input')
               configureParamInputs(param, 'Table Inputs')
               configureParamInputs(param, 'Database Connection')
-              // parameter was added 2 times too much
-              currentParameter.pop()
-              currentParameter.pop()
               break
-             case 'ConfigurationRequirementFileInput':
+            case 'ConfigurationRequirementFileInput':
               configureParamInputs(param, 'File Input')
               break
             case 'ConfigurationRequirementTableInput':
@@ -247,10 +245,13 @@ angular.module('v2')
               configureParamInputs(param, 'Database Connection')
               break
             case 'ConfigurationRequirementInteger':
-              addParamToList(param, 'integer')
+              addParamToList(param, 'integer', false)
               break
-             case 'ConfigurationRequirementString':
-              addParamToList(param, 'string')
+            case 'ConfigurationRequirementListBox':
+              addParamToList(param, 'string', true)
+              break
+            case 'ConfigurationRequirementString':
+              addParamToList(param, 'string', false)
               break
             default:
               console.error("Parameter type " + param.type + " not supported yet")
@@ -262,7 +263,6 @@ angular.module('v2')
 
     // Parameter Helpers
     function configureParamInputs(param, input){
-      currentParameter.push(param)
       var index = -1
       $.grep($scope.datasources, function(element, i) {
         if(element !== undefined && element.name !== undefined && element.name.indexOf(input) > -1){
@@ -272,15 +272,13 @@ angular.module('v2')
           return false
         }
       })
-      console.log(index)
       if(param.minNumberOfSettings === param.maxNumberOfSettings) {
         $scope.datasources[index].name = input + ' (choose ' + param.minNumberOfSettings + ')'
       } else {
         $scope.datasources[index].name = input + ' (min: ' + param.minNumberOfSettings + ' | max: ' + param.maxNumberOfSettings + ')'
       }
     }
-    function addParamToList(param, type) {
-      currentParameter.push(param)
+    function addParamToList(param, type, dropdown) {
       $scope.algorithmHasCustomProperties = true
       var i = 0
       if(param.maxNumberOfSettings > 1){
@@ -289,13 +287,25 @@ angular.module('v2')
               'title': param.identifier + '-' + i,
               'type': type
             }
+            if(dropdown){
+              $scope.schema.properties[param.identifier + '-' + i].enum = param.values
+            }
         }
       } else {
             $scope.schema.properties[param.identifier] = {
               'title': param.identifier,
               'type': type
             }
+            if(dropdown){
+              $scope.schema.properties[param.identifier].enum = param.values
+            }
       }
+    }
+    function addDropdownToList(param) {
+      $scope.schema.properties[param.identifier] = {
+              'title': param.identifier,
+              'type': type
+            }
     }
 
     // Other Helpers

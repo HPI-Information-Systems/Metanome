@@ -12,6 +12,11 @@ md-card, md-card-content, md-list-item, .md-header, .resultsTable md-content{
   background-color: #ffffff !important;
 }
 
+.md-header {
+ padding-left: 25px;
+ padding-right: 25px;
+}
+
 h1, h2 {
   color: #263238;
 }
