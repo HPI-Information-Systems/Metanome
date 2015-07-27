@@ -314,6 +314,8 @@ angular.module('v2')
                     'value': $scope.model[params[i].identifier]
                   })
               }
+              //needed because same fields vary in different places in backend - workaround!
+              delete params[i].fixNumberOfSettings
             break
             case 'ConfigurationRequirementFileInput':
                 //order seems to be from last to first in Java UI V1
