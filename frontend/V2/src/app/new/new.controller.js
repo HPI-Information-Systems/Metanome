@@ -316,54 +316,72 @@ angular.module('v2')
       var i, j
       for(i=0; i < params.length; i++) {
         params[i].settings = []
-          switch(params[i].type) {
-            case 'ConfigurationRequirementString':
-              if(params[i].maxNumberOfSettings > 1){
-                //order seems to be from last to first in Java UI V1
-                for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
-                  params[i].settings.push({
-                    'type':'ConfigurationSettingString',
-                    'value': $scope.model[params[i].identifier+'-'+j]
-                  })
-                }
-              } else {
-                  params[i].settings.push({
-                    'type':'ConfigurationSettingString',
-                    'value': $scope.model[params[i].identifier]
-                  })
+        //needed because same fields vary in different places in backend - workaround!
+        if(params[i].fixNumberOfSettings !== undefined) {
+          delete params[i].fixNumberOfSettings
+        }
+        switch(params[i].type) {
+          case 'ConfigurationRequirementInteger':
+            if(params[i].maxNumberOfSettings > 1){
+              //order seems to be from last to first in Java UI V1
+              for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
+                params[i].settings.push({
+                  'type':'ConfigurationSettingInteger',
+                  'value': $scope.model[params[i].identifier+'-'+j]
+                })
               }
-              //needed because same fields vary in different places in backend - workaround!
-              delete params[i].fixNumberOfSettings
-            break
-            case 'ConfigurationRequirementFileInput':
-                //order seems to be from last to first in Java UI V1
-                var checked = activeDataSources.fileInput.slice(0)
-                for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
-                  var item = dataSources.fileInput[''+checked.pop()]
-                  //needed because same fields are named different in different places in backend - workaround!
-                  var param = {
-                     'fileName':item.fileName,
-                     'advanced':false,
-                     'separatorChar':item.separator,
-                     'quoteChar':item.quoteChar,
-                     'escapeChar':item.escapeChar,
-                     'strictQuotes':item.strictQuotes,
-                     'ignoreLeadingWhiteSpace':item.ignoreLeadingWhiteSpace,
-                     'skipLines':item.skipLines,
-                     'header':item.hasHeader,
-                     'skipDifferingLines':item.skipDifferingLines,
-                     'nullValue':item.nullValue,
-                     'type':'ConfigurationSettingFileInput',
-                     'id':item.id
-                  }
-                   params[i].settings.push(param)
-                   //needed because same fields different in different places in backend - workaround!
-                   delete params[i].fixNumberOfSettings
+            } else {
+                params[i].settings.push({
+                  'type':'ConfigurationSettingInteger',
+                  'value': $scope.model[params[i].identifier]
+                })
+            }
+          break
+           case 'ConfigurationRequirementString':
+            if(params[i].maxNumberOfSettings > 1){
+              //order seems to be from last to first in Java UI V1
+              for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
+                params[i].settings.push({
+                  'type':'ConfigurationSettingString',
+                  'value': $scope.model[params[i].identifier+'-'+j]
+                })
+              }
+            } else {
+                params[i].settings.push({
+                  'type':'ConfigurationSettingString',
+                  'value': $scope.model[params[i].identifier]
+                })
+            }
+          break
+          case 'ConfigurationRequirementFileInput':
+              //order seems to be from last to first in Java UI V1
+              var checked = activeDataSources.fileInput.slice(0)
+              for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
+                var item = dataSources.fileInput[''+checked.pop()]
+                //needed because same fields are named different in different places in backend - workaround!
+                var param = {
+                   'fileName':item.fileName,
+                   'advanced':false,
+                   'separatorChar':item.separator,
+                   'quoteChar':item.quoteChar,
+                   'escapeChar':item.escapeChar,
+                   'strictQuotes':item.strictQuotes,
+                   'ignoreLeadingWhiteSpace':item.ignoreLeadingWhiteSpace,
+                   'skipLines':item.skipLines,
+                   'header':item.hasHeader,
+                   'skipDifferingLines':item.skipDifferingLines,
+                   'nullValue':item.nullValue,
+                   'type':'ConfigurationSettingFileInput',
+                   'id':item.id
                 }
+                 params[i].settings.push(param)
+                 //needed because same fields different in different places in backend - workaround!
+                 delete params[i].fixNumberOfSettings
+              }
+          break
+          default:
+            console.error('Parameter Type '+params[i].type+' not not supported yet for execution!')
             break
-            default:
-              console.error('Parameter Type '+params[i].type+' not not supported yet for execution!')
-              break
           }
         }
       return params
