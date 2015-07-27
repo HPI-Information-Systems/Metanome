@@ -192,11 +192,11 @@ angular.module('v2')
     function updateAvailableDatasources(algorithm) {
       $scope.datasources.forEach(function(datasource){
         if(datasource.name === 'Table Inputs'){
-           datasource.possible = algorithm.tableInput
+           datasource.possible = algorithm.tableInput || algorithm.relationalInput
         } else if(datasource.name === 'Database Connection'){
-           datasource.possible = algorithm.databaseConnection
+           datasource.possible = algorithm.databaseConnection || algorithm.relationalInput
         } else if(datasource.name === 'File Input'){
-           datasource.possible = algorithm.fileInput
+           datasource.possible = algorithm.fileInput || algorithm.relationalInput
         }
       })
     }
@@ -229,7 +229,15 @@ angular.module('v2')
       Parameter.get({algorithm: algorithm.fileName}, function(parameter) {
         parameter.forEach(function(param){
           switch (param.type) {
-            case 'ConfigurationRequirementFileInput':
+            case 'ConfigurationRequirementRelationalInput':
+              configureParamInputs(param, 'File Input')
+              configureParamInputs(param, 'Table Inputs')
+              configureParamInputs(param, 'Database Connection')
+              // parameter was added 2 times too much
+              currentParameter.pop()
+              currentParameter.pop()
+              break
+             case 'ConfigurationRequirementFileInput':
               configureParamInputs(param, 'File Input')
               break
             case 'ConfigurationRequirementTableInput':
@@ -264,6 +272,7 @@ angular.module('v2')
           return false
         }
       })
+      console.log(index)
       if(param.minNumberOfSettings === param.maxNumberOfSettings) {
         $scope.datasources[index].name = input + ' (choose ' + param.minNumberOfSettings + ')'
       } else {
