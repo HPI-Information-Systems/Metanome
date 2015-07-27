@@ -32,7 +32,7 @@
               <div ng-repeat="datasource in datasources | filter:{ possible: true }">
                <md-subheader class="md-no-sticky" ng-bind="datasource.name"></md-subheader>
                <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
-               <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="data.cb5" class="md-primary">
+                 <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-click="toggleDatasource(item)" class="md-primary">
                  <div class="algo-in-list md-list-item-text">
                    <h4>{{ item.name }} ({{ item.desc || "No description" }})</h4>
                  </div>

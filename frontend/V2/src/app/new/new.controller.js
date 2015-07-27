@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('v2')
-  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms, Datasource, Parameter) {
+  .controller('NewCtrl', function ($scope, $log, ngDialog, Algorithms, Datasource, Parameter, AlgorithmExecution) {
     $scope.category = []
     $scope.datasources = []
 
@@ -12,8 +12,22 @@ angular.module('v2')
       type: "object",
       properties: {}
     };
+    $scope.executeAlgorithm = executeAlgorithm
+    $scope.toggleDatasource = toggleDatasource
 
     resetParameter()
+
+    var activeDataSources = {
+      'fileInput': [],
+      'tableInput': [],
+      'databaseConnection': []
+     }
+
+    var dataSources = {
+      'fileInput': {},
+      'tableInput': {},
+      'databaseConnection': {}
+     }
 
     var algorithmCategories = [
       {
@@ -71,6 +85,7 @@ angular.module('v2')
         //Remove path from element name
         result.forEach(function(element){
           element.name = element.name.replace(/^.*[\\\/]/, '')
+          dataSources[element.type][''+element.id] = element
         })
 
         $scope.datasources.push({
@@ -99,7 +114,15 @@ angular.module('v2')
         scope: $scope
       });
     };
+    function toggleDatasource(datasource){
+      var index = activeDataSources[datasource.type].indexOf(datasource.id);
 
+      if (index === -1) {
+          activeDataSources[datasource.type].push(datasource.id);
+      } else {
+          activeDataSources[datasource.type].splice(datasource.id, 1);
+      }
+    }
     $scope.activateAlgorithm = function(algorithm) {
       initializeForm()
       highlightAlgorithm(algorithm)
@@ -111,12 +134,18 @@ angular.module('v2')
 
     function initializeForm() {
      $scope.form = [
-        "*",
-        {
-          type: "submit",
-          title: "Execute"
+       "*",
+       {
+          "type": "actions",
+          "items": [
+           {
+              "type": "button",
+              "title": "Execute",
+              "onClick": "executeAlgorithm()"
+            }
+          ]
         }
-      ];
+     ];
     }
     function highlightAlgorithm(algorithm){
       if($scope.activeAlgorithm) {
@@ -158,8 +187,11 @@ angular.module('v2')
             case 'ConfigurationRequirementDatabaseConnection':
               configureParamInputs(param, 'Database Connection')
               break;
-            case 'ConfigurationRequirementString':
-              configureParamStrings(param)
+            case 'ConfigurationRequirementInteger':
+              addParamToList(param, "integer")
+              break
+             case 'ConfigurationRequirementString':
+              addParamToList(param, "string")
               break
             case 'ConfigurationRequirementListBox':
               console.log(param.type)
@@ -185,16 +217,99 @@ angular.module('v2')
         $scope.datasources[index].name = input + ' (min: ' + param.minNumberOfSettings + ' | max: ' + param.maxNumberOfSettings + ')'
       }
     }
-    function configureParamStrings(param) {
+    function addParamToList(param, type) {
       $scope.params.push(param)
       var i = 0
-      for (i; i < param.maxNumberOfSettings; i++){
-          $scope.schema.properties[param.identifier + "-" + i] = {
-            "title": param.identifier + "-" + i,
-            "type": "string"
-          }
-          //$scope.form.splice($scope.form.length-1, 0, param.identifier + "-" + i)
+      if(param.maxNumberOfSettings > 1){
+        for (i; i < param.maxNumberOfSettings; i++){
+            $scope.schema.properties[param.identifier + "-" + i] = {
+              "title": param.identifier + "-" + i,
+              "type": type
+            }
+        }
+      } else {
+            $scope.schema.properties[param.identifier] = {
+              "title": param.identifier,
+              "type": type
+            }
       }
     }
-    
+    function twoDigetDate(number){
+      return (number < 10 ? '0'+number : ''+number)
+    }
+    function readParams(params){
+      var i, j;
+      for(i=0; i < params.length; i++) {
+        params[i].settings = []
+          switch(params[i].type) {
+            case 'ConfigurationRequirementString':
+              if(params[i].maxNumberOfSettings > 1){
+                //order seems to be from last to first in Java UI V1
+                for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
+                  params[i].settings.push({  
+                    "type":"ConfigurationSettingString",
+                    "value": $scope.model[params[i].identifier+'-'+j] 
+                  })
+                }
+              } else {
+                  params[i].settings.push({  
+                    "type":"ConfigurationSettingString",
+                    "value": $scope.model[params[i].identifier] 
+                  })
+              }
+            break;
+            case 'ConfigurationRequirementFileInput':
+                //order seems to be from last to first in Java UI V1
+                var checked = activeDataSources['fileInput'].slice(0)
+                for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
+                  var item = dataSources['fileInput'][''+checked.pop()]
+                  //needed because same fields are named different in different places in backend - workaround!
+                  var param = {  
+                     "fileName":item.fileName,
+                     "advanced":false,
+                     "separatorChar":item.separator,
+                     "quoteChar":item.quoteChar,
+                     "escapeChar":item.escapeChar,
+                     "strictQuotes":item.strictQuotes,
+                     "ignoreLeadingWhiteSpace":item.ignoreLeadingWhiteSpace,
+                     "skipLines":item.skipLines,
+                     "header":item.hasHeader,
+                     "skipDifferingLines":item.skipDifferingLines,
+                     "nullValue":item.nullValue,
+                     "type":"ConfigurationSettingFileInput",
+                     "id":item.id
+                  } 
+                   params[i].settings.push(param)
+                   //needed because same fields different in different places in backend - workaround!
+                   delete params[i]['fixNumberOfSettings']
+                }
+            break;
+            default:
+              alert('Error! ParamsType '+params[i].type+' not implemented!')
+              break;
+          }
+        }
+      return params
+    }
+    function executeAlgorithm(){
+      var algorithm = $scope.activeAlgorithm
+      var params = readParams($scope.params)
+      var date = new Date();
+      var executionIdentifierDate = date.getFullYear()+'-'+twoDigetDate(date.getMonth()+1)+'-'
+                                       +twoDigetDate(date.getDate())+'T'+twoDigetDate(date.getHours())
+                                       +twoDigetDate(date.getMinutes())+twoDigetDate(date.getSeconds())
+      var payload =  {
+         "algorithmId":algorithm.id,
+         "executionIdentifier":algorithm.fileName+executionIdentifierDate ,
+         "requirements": params,
+         "cacheResults":true,
+         "writeResults":false,
+         "countResults":false,
+         "memory":""
+      }
+      AlgorithmExecution.run({}, payload, function(result) {
+
+      })
+     console.log(payload)
+    }
   });
