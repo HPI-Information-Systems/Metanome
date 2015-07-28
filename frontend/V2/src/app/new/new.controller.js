@@ -353,7 +353,31 @@ angular.module('v2')
                 })
             }
           break
-          case 'ConfigurationRequirementFileInput':
+          case 'ConfigurationRequirementTableInput':
+              //order seems to be from last to first in Java UI V1
+              var checked = activeDataSources.tableInput.slice(0)
+              console.log(activeDataSources)
+              console.log(dataSources)
+              for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
+                var item = dataSources.tableInput[''+checked.pop()]
+                //needed because same fields are named different in different places in backend - workaround!
+                var param = {
+                  "table": item.tableName,
+                  "databaseConnection":{  
+                    "dbUrl":item.databaseConnection.url,
+                    "username":item.databaseConnection.username,
+                    "password":item.databaseConnection.password,
+                    "system":item.databaseConnection.system,
+                    "type":"ConfigurationSettingDatabaseConnection",
+                    "id":item.databaseConnection.id
+                   },
+                   "type":"ConfigurationSettingTableInput",
+                   "id":item.id
+                }    
+                params[i].settings.push(param)
+              }
+          break
+           case 'ConfigurationRequirementFileInput':
               //order seems to be from last to first in Java UI V1
               var checked = activeDataSources.fileInput.slice(0)
               for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
@@ -375,8 +399,6 @@ angular.module('v2')
                    'id':item.id
                 }
                  params[i].settings.push(param)
-                 //needed because same fields different in different places in backend - workaround!
-                 delete params[i].fixNumberOfSettings
               }
           break
           default:
