@@ -8,7 +8,8 @@ angular.module('v2')
                   method: 'GET',
                   params: {
                     type: '@type'
-                  }, isArray: true
+                  }, 
+                  isArray: true
               }
           });
       }
