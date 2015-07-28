@@ -2,24 +2,43 @@
 
 var app = angular.module('v2')
  
-app.controller('HistoryCtrl', function ($scope, $log) {
-   $scope.toggleSearch = false;   
-    $scope.headers = [
-      {
-        name:'',
-        field:'thumb'
-      },{
-        name: 'Name', 
-        field: 'name'
-      },{
-        name:'Description', 
-        field: 'description'
-      },{
-        name: 'Last Modified', 
-        field: 'last_modified'
-      }
-    ];
-    
+app.controller('HistoryCtrl', function ($scope, $log, Executions) {
+
+  //Public variables
+  $scope.toggleSearch = false;   
+  $scope.headers = [
+    {
+      name:'Algorithm Name',
+      field:'name'
+    },{
+      name: 'Date', 
+      field: 'date'
+    },{
+      name:'Execution Time (HH:mm:ss)', 
+      field: 'time'
+    },{
+      name: 'Inputs', 
+      field: 'inputs'
+    },{
+      name:'Result Types', 
+      field: 'resultType'
+    },{
+      name: '',
+      field: 'actions'
+    }
+  ];
+      // ** FUNCTION DEFINITIONS **
+    // **************************
+
+ 
+    function loadExecutions() {
+      Executions.all(function(executions) {
+        $scope.content = []
+        executions.forEach(execution) {
+
+        }
+      })
+    }
     $scope.content = [
       {
         thumb:'https://lh3.googleusercontent.com/-5NfcdlvGQhs/AAAAAAAAAAI/AAAAAAAAABY/ibGrApGYTuQ/photo.jpg', 
