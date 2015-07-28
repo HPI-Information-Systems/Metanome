@@ -9,6 +9,9 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
   $scope.content = []
   $scope.headers = [
     {
+      name:'',
+      field:'id'
+    },{
       name:'Algorithm Name',
       field:'name'
     },{
@@ -42,22 +45,41 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       executions = result
       $scope.content = []
       result.forEach(function(execution) {
+        var duration = execution.end - execution.begin
+        var inputs = []
+        var results = []
+        execution.inputs.forEach(function(input) {
+            input.name = input.name.replace(/^.*[\\\/]/, '')
+            inputs.push(input.name)
+        })
+        execution.results.forEach(function(result) {
+            results.push(result.type)
+        })
+        if(execution.aborted) {
+          results = ['EXECUTION ABORTED']
+        }
         $scope.content.push({
+          id: execution.id,
           name: execution.algorithm.name,
           date: $filter('date')(execution.begin, 'yyyy-MM-dd HH:mm:ss'),
-          time: 'time',
-          inputs: 'inputs',
-          resultType: 'resultType',
+          time: twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60)),
+          inputs: inputs.join(', '),
+          resultType: results.join(', '),
           actions: ''
         })
       })
+        var orderBy = $filter('orderBy');
+        $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
   }
    
     $scope.custom = {name: 'bold', date:'grey', time: 'grey'};
-    $scope.sortable = ['date', 'name', 'time', 'inputs', 'resultType'];
+    $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
 //    $scope.thumbs = 'thumb';
     $scope.count = 10;
+    function twoDigets(number) {
+      return (number < 10 ? '0'+number : ''+number)
+    }
   });
 
   app.directive('mdTable', function () {
@@ -78,16 +100,16 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         $scope.nbOfPages = function () {
           return Math.ceil($scope.content.length / $scope.count);
         },
-          $scope.handleSort = function (field) {
-            if ($scope.sortable.indexOf(field) > -1) { return true; } else { return false; }
+        $scope.handleSort = function (field) {
+          if ($scope.sortable.indexOf(field) > -1) { return true; } else { return false; }
         };
         $scope.order = function(predicate, reverse) {
-            $scope.content = orderBy($scope.content, predicate, reverse);
-            $scope.predicate = predicate;
+          $scope.content = orderBy($scope.content, predicate, reverse);
+          $scope.predicate = predicate;
         };
-        $scope.order($scope.sortable[0],false);
+        $scope.order($scope.sortable[0],true);
         $scope.getNumber = function (num) {
-                              return new Array(num);
+          return new Array(num);
         };
         $scope.goToPage = function (page) {
           $scope.tablePage = page;
