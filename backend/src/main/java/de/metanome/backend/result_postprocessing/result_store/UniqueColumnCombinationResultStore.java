@@ -16,14 +16,15 @@
 
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.UniqueColumnCombinationResultComparator;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 
 /**
  * Stores unique column combination results of one execution.
  */
-public class UniqueColumnCombinationResultStore extends ResultsStore<UniqueColumnCombination> {
+public class UniqueColumnCombinationResultStore
+    extends ResultsStore<UniqueColumnCombinationResult> {
 
   /**
    * Defines an unique column combination result comparator
@@ -33,8 +34,8 @@ public class UniqueColumnCombinationResultStore extends ResultsStore<UniqueColum
    * @return Returns a new unique column combination result comparator
    */
   @Override
-  protected ResultComparator<UniqueColumnCombination> getResultComparator(String sortProperty,
-                                                                          boolean ascending) {
+  protected ResultComparator<UniqueColumnCombinationResult> getResultComparator(String sortProperty,
+                                                                                boolean ascending) {
     return new UniqueColumnCombinationResultComparator(sortProperty, ascending);
   }
 

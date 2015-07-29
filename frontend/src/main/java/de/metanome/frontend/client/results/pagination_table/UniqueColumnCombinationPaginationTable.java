@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.result_comparator.UniqueColumnCombinationResultComparator;
+import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for unique column combination results.
  */
 public class UniqueColumnCombinationPaginationTable
-    extends AbstractPaginationTable<UniqueColumnCombination> {
+    extends AbstractPaginationTable<UniqueColumnCombinationResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,16 +50,65 @@ public class UniqueColumnCombinationPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Unique Column Combination column
-    TextColumn<UniqueColumnCombination>
+    TextColumn<UniqueColumnCombinationResult>
         columnCombinationColumn =
-        new TextColumn<UniqueColumnCombination>() {
+        new TextColumn<UniqueColumnCombinationResult>() {
           @Override
-          public String getValue(UniqueColumnCombination functionalDependency) {
-            return functionalDependency.getColumnCombination().toString();
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return uniqueColumnCombination.getColumnCombination().toString();
           }
         };
     this.table.addColumn(columnCombinationColumn, "Column Combination");
     columnNames.add(UniqueColumnCombinationResultComparator.COLUMN_COMBINATION_COLUMN);
+
+    // Column ratio column
+    TextColumn<UniqueColumnCombinationResult>
+        columnRatioColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getColumnRatio());
+          }
+        };
+    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    columnNames.add(UniqueColumnCombinationResultComparator.COLUMN_RATIO);
+
+    // Occurrence ratio column
+    TextColumn<UniqueColumnCombinationResult>
+        occurrenceRatioColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getOccurrenceRatio());
+          }
+        };
+    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio");
+    columnNames.add(UniqueColumnCombinationResultComparator.OCCURRENCE_RATIO);
+
+    // Uniqueness ratio column
+    TextColumn<UniqueColumnCombinationResult>
+        uniquenessRatioColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getUniquenessRatio());
+          }
+        };
+    this.table.addColumn(uniquenessRatioColumn, "Uniqueness Ratio*");
+    columnNames.add(UniqueColumnCombinationResultComparator.UNIQUENESS_RATIO);
+
+    // randomness column
+    TextColumn<UniqueColumnCombinationResult>
+        randomnessColumn =
+        new TextColumn<UniqueColumnCombinationResult>() {
+          @Override
+          public String getValue(UniqueColumnCombinationResult uniqueColumnCombination) {
+            return String.valueOf(uniqueColumnCombination.getRandomness());
+          }
+        };
+    this.table.addColumn(randomnessColumn, "Randomness*");
+    columnNames.add(UniqueColumnCombinationResultComparator.RANDOMNESS);
+
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.FunctionalDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
 /**
  * Stores Functional Dependency results of one execution.
  */
-public class FunctionalDependencyResultStore extends ResultsStore<FunctionalDependency> {
+public class FunctionalDependencyResultStore extends ResultsStore<FunctionalDependencyResult> {
 
   /**
    * Defines an Functional Dependency result comparator
@@ -33,8 +33,8 @@ public class FunctionalDependencyResultStore extends ResultsStore<FunctionalDepe
    * @return Returns a new Functional Dependency result comparator
    */
   @Override
-  protected ResultComparator<FunctionalDependency> getResultComparator(String sortProperty,
-                                                                       boolean ascending) {
+  protected ResultComparator<FunctionalDependencyResult> getResultComparator(String sortProperty,
+                                                                             boolean ascending) {
     return new FunctionalDependencyResultComparator(sortProperty, ascending);
   }
 

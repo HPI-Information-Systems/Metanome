@@ -26,13 +26,14 @@ import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgo
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.backend.resources.ExecutionResource;
+import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.Input;
 import de.metanome.backend.results_db.Result;
@@ -170,8 +171,7 @@ public class AlgorithmExecutor implements Closeable {
 
     // Set the settings to the execution and store it
     execution.setExecutionSetting(executionSetting);
-    ExecutionResource executionResource = new ExecutionResource();
-    executionResource.store(execution);
+    HibernateUtil.store(execution);
 
     return execution;
   }

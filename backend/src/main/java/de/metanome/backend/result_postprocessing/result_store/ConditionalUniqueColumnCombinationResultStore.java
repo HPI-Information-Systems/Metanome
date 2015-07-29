@@ -16,15 +16,15 @@
 
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.result_comparator.ConditionalUniqueColumnCombinationResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
 /**
  * Stores conditional unique column combination results of one execution.
  */
 public class ConditionalUniqueColumnCombinationResultStore
-    extends ResultsStore<ConditionalUniqueColumnCombination> {
+    extends ResultsStore<ConditionalUniqueColumnCombinationResult> {
 
   /**
    * Defines a conditional unique column combination result comparator
@@ -34,7 +34,7 @@ public class ConditionalUniqueColumnCombinationResultStore
    * @return Returns a new conditional unique column combination result comparator
    */
   @Override
-  protected ResultComparator<ConditionalUniqueColumnCombination> getResultComparator(
+  protected ResultComparator<ConditionalUniqueColumnCombinationResult> getResultComparator(
       String sortProperty,
       boolean ascending) {
     return new ConditionalUniqueColumnCombinationResultComparator(sortProperty, ascending);

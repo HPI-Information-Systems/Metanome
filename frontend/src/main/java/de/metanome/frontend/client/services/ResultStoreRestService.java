@@ -16,7 +16,7 @@
 
 package de.metanome.frontend.client.services;
 
-import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.results.RankingResult;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
@@ -27,22 +27,17 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/result_store")
+@Path("/api/result-store")
 public interface ResultStoreRestService extends RestService {
 
   @GET
-  @Path("/getAll/{type}")
-  public void listAll(@PathParam("type") String type,
-                      MethodCallback<List<Result>> callback);
-
-  @GET
-  @Path("/getAllFromTo/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
+  @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   public void listAllFromTo(@PathParam("type") String type,
                             @PathParam("sortProperty") String sortProperty,
                             @PathParam("sortOrder") boolean ascending,
                             @PathParam("start") int start,
                             @PathParam("end") int end,
-                            MethodCallback<List<Result>> callback);
+                            MethodCallback<List<RankingResult>> callback);
 
   @GET
   @Path("/count/{type}")
@@ -50,11 +45,11 @@ public interface ResultStoreRestService extends RestService {
                     MethodCallback<Integer> callback);
 
   @GET
-  @Path("/loadExecution/{executionId}")
-  public void loadExecution(@PathParam("executionId") long id, MethodCallback<Void> callback);
+  @Path("/load-execution/{executionId}/{dataIndependent}")
+  public void loadExecution(@PathParam("executionId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<Void> callback);
 
   @GET
-  @Path("/loadResults/{fileInputId}")
-  public void loadResults(@PathParam("fileInputId") long id, MethodCallback<List<String>> callback);
+  @Path("/load-results/{fileInputId}/{dataIndependent}")
+  public void loadResults(@PathParam("fileInputId") long id, @PathParam("dataIndependent") boolean dataIndependent, MethodCallback<List<String>> callback);
 
 }

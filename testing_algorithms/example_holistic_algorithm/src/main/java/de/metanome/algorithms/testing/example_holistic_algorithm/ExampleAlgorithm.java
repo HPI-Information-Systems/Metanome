@@ -61,9 +61,9 @@ public class ExampleAlgorithm
         fdResultReceiver.receiveResult(
             new FunctionalDependency(
                 new ColumnCombination(
-                    new ColumnIdentifier("table1", "column1"),
-                    new ColumnIdentifier("table1", "column2")),
-                new ColumnIdentifier("table1", "column5")
+                    new ColumnIdentifier("WDC_planets.csv", "Name"),
+                    new ColumnIdentifier("WDC_planets.csv", "Type")),
+                new ColumnIdentifier("WDC_planets.csv", "Mass")
             )
         );
       } catch (CouldNotReceiveResultException e) {
@@ -71,8 +71,8 @@ public class ExampleAlgorithm
       }
       try {
         uccResultReceiver.receiveResult(new UniqueColumnCombination(
-            new ColumnIdentifier("table1", "column5"),
-            new ColumnIdentifier("table1", "column6")));
+            new ColumnIdentifier("WDC_planets.csv", "Rings"),
+            new ColumnIdentifier("WDC_planets.csv", "Name")));
       } catch (CouldNotReceiveResultException e) {
         throw new AlgorithmConfigurationException("Could not write result.");
       }

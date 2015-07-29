@@ -54,7 +54,7 @@ public class ResultStoreResourceTest {
     execution.addResult(expectedResult1);
     execution.addResult(expectedResult2);
     execution.addResult(expectedResult3);
-    executionResource.store(execution);
+    HibernateUtil.store(execution);
 
     // Execute functionality
     Set<Result> actualResults = resource.getResults(input);

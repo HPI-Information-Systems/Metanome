@@ -29,14 +29,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/fileInputs")
+@Path("/api/file-inputs")
 public interface FileInputRestService extends RestService {
 
   @GET
   public void listFileInputs(MethodCallback<List<FileInput>> callback);
 
   @GET
-  @Path("/availableInputFiles")
+  @Path("/available-input-files")
   public void listAvailableInputFiles(MethodCallback<List<String>> callback);
 
   @GET

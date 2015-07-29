@@ -75,8 +75,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
       System.out.println("UCC Algorithm executing");
       try {
         resultReceiver.receiveResult(new UniqueColumnCombination(
-            new ColumnIdentifier("table1", "column1"),
-            new ColumnIdentifier("table2", "column2")));
+            new ColumnIdentifier("WDC_planets.csv", "Name"),
+            new ColumnIdentifier("WDC_planets.csv", "Type")));
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();
       }

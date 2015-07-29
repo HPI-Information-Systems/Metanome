@@ -20,7 +20,9 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,28 +33,38 @@ import static org.junit.Assert.assertTrue;
 
 public class ResultsStoreTest {
 
-  ColumnPermutation expectedDependant1 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column1"));
-  ColumnPermutation expectedReferenced1 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column2"));
-  InclusionDependency ind1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+  InclusionDependencyResult ind1;
+  InclusionDependencyResult ind2;
+  InclusionDependencyResult ind3;
 
-  ColumnPermutation expectedDependant2 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column2"));
-  ColumnPermutation expectedReferenced2 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column1"));
-  InclusionDependency ind2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
+  @Before
+  public void setUp() {
+    ColumnPermutation expectedDependant1 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column1"));
+    ColumnPermutation expectedReferenced1 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2"));
+    InclusionDependency result1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+    ind1 = new InclusionDependencyResult(result1);
 
-  ColumnPermutation expectedDependant3 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column3"));
-  ColumnPermutation expectedReferenced3 = new ColumnPermutation(
-      new ColumnIdentifier("table1", "column3"));
-  InclusionDependency ind3 = new InclusionDependency(expectedDependant3, expectedReferenced3);
+    ColumnPermutation expectedDependant2 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2"));
+    ColumnPermutation expectedReferenced2 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column1"));
+    InclusionDependency result2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
+    ind2 = new InclusionDependencyResult(result2);
+
+    ColumnPermutation expectedDependant3 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column3"));
+    ColumnPermutation expectedReferenced3 = new ColumnPermutation(
+        new ColumnIdentifier("table1", "column3"));
+    InclusionDependency result3 = new InclusionDependency(expectedDependant3, expectedReferenced3);
+    ind3 = new InclusionDependencyResult(result3);
+  }
 
   @Test
   public void testList() {
     // Set Up
-    List<InclusionDependency> expectedResults = new ArrayList<>();
+    List<InclusionDependencyResult> expectedResults = new ArrayList<>();
     expectedResults.add(ind1);
     expectedResults.add(ind2);
 
@@ -60,7 +72,7 @@ public class ResultsStoreTest {
 
     // Execute functionality
     resultsStore.store(expectedResults);
-    List<InclusionDependency> actualResults = resultsStore.list();
+    List<InclusionDependencyResult> actualResults = resultsStore.list();
 
     // Check
     assertEquals(expectedResults, actualResults);
@@ -69,7 +81,7 @@ public class ResultsStoreTest {
   @Test
   public void testClear() {
     // Set Up
-    List<InclusionDependency> expectedResults = new ArrayList<>();
+    List<InclusionDependencyResult> expectedResults = new ArrayList<>();
     expectedResults.add(ind1);
     expectedResults.add(ind2);
 
@@ -92,7 +104,7 @@ public class ResultsStoreTest {
   @Test
   public void testCount() {
     // Set Up
-    List<InclusionDependency> expectedResults = new ArrayList<>();
+    List<InclusionDependencyResult> expectedResults = new ArrayList<>();
     expectedResults.add(ind1);
     expectedResults.add(ind2);
 
@@ -109,7 +121,7 @@ public class ResultsStoreTest {
   @Test
   public void testSubList1() {
     // Set Up
-    List<InclusionDependency> results = new ArrayList<>();
+    List<InclusionDependencyResult> results = new ArrayList<>();
     results.add(ind1);
     results.add(ind2);
 
@@ -117,7 +129,7 @@ public class ResultsStoreTest {
     resultsStore.store(results);
 
     // Execute functionality
-    List<InclusionDependency> actualResults = resultsStore.subList("referencedAsString", true,
+    List<InclusionDependencyResult> actualResults = resultsStore.subList("referencedAsString", true,
                                                                    1, 2);
 
     // Check
@@ -128,7 +140,7 @@ public class ResultsStoreTest {
   @Test
   public void testSubList2() {
     // Set Up
-    List<InclusionDependency> results = new ArrayList<>();
+    List<InclusionDependencyResult> results = new ArrayList<>();
     results.add(ind1);
     results.add(ind2);
     results.add(ind3);
@@ -137,7 +149,7 @@ public class ResultsStoreTest {
     resultsStore.store(results);
 
     // Execute functionality
-    List<InclusionDependency> actualResults =
+    List<InclusionDependencyResult> actualResults =
         resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
 
     // Check

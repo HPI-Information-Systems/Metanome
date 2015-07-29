@@ -16,17 +16,24 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
 
 /**
  * Defines an order dependency comparator based on a predefined sort property and sort direction
  * order.
  */
 public class OrderDependencyResultComparator
-    extends ResultComparator<OrderDependency> {
+    extends ResultComparator<OrderDependencyResult> {
 
   public static final String LHS_COLUMN = "lhs";
   public static final String RHS_COLUMN = "rhs";
+  public static final String LHS_COLUMN_RATIO = "lhs_column_ratio";
+  public static final String RHS_COLUMN_RATIO = "rhs_column_ratio";
+  public static final String COVERAGE = "coverage";
+  public static final String LHS_OCCURRENCE_RATIO = "lhs_occurrence_ratio";
+  public static final String RHS_OCCURRENCE_RATIO = "rhs_occurrence_ratio";
+  public static final String LHS_UNIQUENESS_RATIO = "lhs_uniqueness_ratio";
+  public static final String RHS_UNIQUENESS_RATIO = "rhs_uniqueness_ratio";
 
   /**
    * Creates an order dependency result comparator for given property and direction
@@ -48,14 +55,35 @@ public class OrderDependencyResultComparator
    * @return Returns 1 if od1 is greater than od2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(OrderDependency od1,
-                        OrderDependency od2, String sortProperty) {
+  protected int compare(OrderDependencyResult od1,
+                        OrderDependencyResult od2, String sortProperty) {
     if (LHS_COLUMN.equals(sortProperty)) {
       return od1.getLhs().toString()
           .compareTo(od2.getLhs().toString());
     }
     if (RHS_COLUMN.equals(sortProperty)) {
       return od1.getRhs().toString().compareTo(od2.getRhs().toString());
+    }
+    if (LHS_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsColumnRatio(), od2.getLhsColumnRatio());
+    }
+    if (RHS_COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsColumnRatio(), od2.getRhsColumnRatio());
+    }
+    if (COVERAGE.equals(sortProperty)) {
+      return Float.compare(od1.getGeneralCoverage(), od2.getGeneralCoverage());
+    }
+    if (LHS_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsOccurrenceRatio(), od2.getLhsOccurrenceRatio());
+    }
+    if (RHS_OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsOccurrenceRatio(), od2.getRhsOccurrenceRatio());
+    }
+    if (LHS_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getLhsUniquenessRatio(), od2.getLhsUniquenessRatio());
+    }
+    if (RHS_UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(od1.getRhsUniquenessRatio(), od2.getRhsUniquenessRatio());
     }
 
     return 0;

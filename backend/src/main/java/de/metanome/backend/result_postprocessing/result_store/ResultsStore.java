@@ -1,6 +1,5 @@
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
 
 import java.util.Collections;
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * Abstract class providing basic functionality for storing ranking results of one execution
  */
-public abstract class ResultsStore<ResultType extends Result> {
+public abstract class ResultsStore<ResultType> {
 
   // List of results
   protected List<ResultType> results = null;

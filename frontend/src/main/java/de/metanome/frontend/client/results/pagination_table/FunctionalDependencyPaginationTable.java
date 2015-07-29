@@ -18,8 +18,8 @@ package de.metanome.frontend.client.results.pagination_table;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.FunctionalDependencyResultComparator;
+import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 import de.metanome.backend.results_db.ResultType;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Pagination table for functional dependency results.
  */
 public class FunctionalDependencyPaginationTable
-    extends AbstractPaginationTable<FunctionalDependency> {
+    extends AbstractPaginationTable<FunctionalDependencyResult> {
 
   /**
    * Constructs the table for given result type
@@ -50,9 +50,9 @@ public class FunctionalDependencyPaginationTable
     List<String> columnNames = new ArrayList<>();
 
     // Determinant column
-    TextColumn<FunctionalDependency> determinantColumn = new TextColumn<FunctionalDependency>() {
+    TextColumn<FunctionalDependencyResult> determinantColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
-      public String getValue(FunctionalDependency functionalDependency) {
+      public String getValue(FunctionalDependencyResult functionalDependency) {
         return functionalDependency.getDeterminant().toString();
       }
 
@@ -60,15 +60,137 @@ public class FunctionalDependencyPaginationTable
     this.table.addColumn(determinantColumn, "Determinant");
     columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN);
 
-    // Determinant column
-    TextColumn<FunctionalDependency> dependantColumn = new TextColumn<FunctionalDependency>() {
+    // Dependant column
+    TextColumn<FunctionalDependencyResult> dependantColumn = new TextColumn<FunctionalDependencyResult>() {
       @Override
-      public String getValue(FunctionalDependency functionalDependency) {
+      public String getValue(FunctionalDependencyResult functionalDependency) {
         return functionalDependency.getDependant().toString();
       }
     };
     this.table.addColumn(dependantColumn, "Dependant");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN);
+
+    // Extended dependant column
+    TextColumn<FunctionalDependencyResult> extendedDependantColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return functionalDependency.getExtendedDependant().toString();
+      }
+    };
+    this.table.addColumn(extendedDependantColumn, "Extended Dependant");
+    columnNames.add(FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN);
+
+    // Determinant column ratio column
+    TextColumn<FunctionalDependencyResult> determinantColumnRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantColumnRatio());
+      }
+
+    };
+    this.table.addColumn(determinantColumnRatioColumn, "Determinant Column Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN_RATIO);
+
+    // Dependant column ratio column
+    TextColumn<FunctionalDependencyResult> dependantColumnRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantColumnRatio());
+      }
+    };
+    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
+
+    // Determinant occurrence ratio column
+    TextColumn<FunctionalDependencyResult> determinantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO);
+
+    // Dependant occurrence ratio column
+    TextColumn<FunctionalDependencyResult> dependantOccurrenceRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantOccurrenceRatio());
+      }
+    };
+    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO);
+
+    // General coverage column
+    TextColumn<FunctionalDependencyResult> coverageColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getGeneralCoverage());
+      }
+    };
+    this.table.addColumn(coverageColumn, "General Coverage");
+    columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
+
+    // Determinant uniqueness ratio column
+    TextColumn<FunctionalDependencyResult> determinantUniquenessRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDeterminantUniquenessRatio());
+      }
+    };
+    this.table.addColumn(determinantUniquenessRatioColumn, "Determinant Uniqueness Ratio*");
+    columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_UNIQUENESS_RATIO);
+
+    // Dependant uniqueness ratio column
+    TextColumn<FunctionalDependencyResult> dependantUniquenessRatioColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getDependantUniquenessRatio());
+      }
+    };
+    this.table.addColumn(dependantUniquenessRatioColumn, "Dependant Uniqueness Ratio*");
+    columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_UNIQUENESS_RATIO);
+
+    // Pollution column
+    TextColumn<FunctionalDependencyResult> pollutionColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getPollution());
+      }
+    };
+    this.table.addColumn(pollutionColumn, "Pollution*");
+    columnNames.add(FunctionalDependencyResultComparator.POLLUTION);
+
+    // Pollution column column
+    TextColumn<FunctionalDependencyResult> pollutionColumnColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return functionalDependency.getPollutionColumn();
+      }
+    };
+    this.table.addColumn(pollutionColumnColumn, "Pollution Column*");
+    columnNames.add(FunctionalDependencyResultComparator.POLLUTION_COLUMN);
+
+    // Information gain cell column
+    TextColumn<FunctionalDependencyResult> informationGainCellColumn = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getInformationGainCells());
+      }
+    };
+    this.table.addColumn(informationGainCellColumn, "Information Gain Cell*");
+    columnNames.add(FunctionalDependencyResultComparator.INFORMATION_GAIN_CELL);
+
+
+    // Information gain byte column
+    TextColumn<FunctionalDependencyResult> informationGainByte = new TextColumn<FunctionalDependencyResult>() {
+      @Override
+      public String getValue(FunctionalDependencyResult functionalDependency) {
+        return String.valueOf(functionalDependency.getInformationGainBytes());
+      }
+    };
+    this.table.addColumn(informationGainByte, "Information Gain Byte*");
+    columnNames.add(FunctionalDependencyResultComparator.INFORMATION_GAIN_BYTE);
 
     // Set all columns as sortable
     for (int i = 0; i < table.getColumnCount(); i++) {

@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.backend.resources.FileInputResource;
-import de.metanome.backend.resources.InputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 
@@ -32,7 +31,6 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class InputTest {
 
-  private InputResource inputResource = new InputResource();
   private FileInputResource fileInputResource = new FileInputResource();
   private TableInputResource tableInputResource = new TableInputResource();
 
@@ -49,10 +47,10 @@ public class InputTest {
     // Execute functionality
     // Check result
     long oldId = input.getId();
-    inputResource.store(input);
+    HibernateUtil.store(input);
     assertNotEquals(oldId, input.getId());
     oldId = input.getId();
-    inputResource.store(input);
+    HibernateUtil.store(input);
     assertNotEquals(oldId, input.getId());
 
     // Cleanup

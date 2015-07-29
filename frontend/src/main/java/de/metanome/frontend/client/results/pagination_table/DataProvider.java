@@ -23,7 +23,7 @@ import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 
-import de.metanome.algorithm_integration.results.Result;
+import de.metanome.backend.result_postprocessing.results.RankingResult;
 import de.metanome.frontend.client.services.ResultStoreRestService;
 
 import org.fusesource.restygwt.client.Method;
@@ -31,7 +31,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.List;
 
-public class DataProvider<CellType extends Result> extends AsyncDataProvider<CellType> {
+public class DataProvider<CellType extends RankingResult> extends AsyncDataProvider<CellType> {
 
   protected final ResultStoreRestService restService = GWT.create(ResultStoreRestService.class);
 
@@ -118,14 +118,14 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
    *
    * @return Returns a callback for retrieving page data and updating the table
    */
-  private MethodCallback<List<Result>> getResultsRetrieveCallback() {
-    return new MethodCallback<List<Result>>() {
+  private MethodCallback<List<RankingResult>> getResultsRetrieveCallback() {
+    return new MethodCallback<List<RankingResult>>() {
       @Override
       public void onFailure(Method method, Throwable throwable) {
       }
 
       @Override
-      public void onSuccess(Method method, List<Result> retrievedResults) {
+      public void onSuccess(Method method, List<RankingResult> retrievedResults) {
         // Update end index if needed
         end = Math.min(end, totalResultsCount);
 
@@ -155,7 +155,7 @@ public class DataProvider<CellType extends Result> extends AsyncDataProvider<Cel
    * @param resultsRetrieveCallback Callback which should be called after retrieving the results
    */
   protected void getResultsFromTo(
-      MethodCallback<List<Result>> resultsRetrieveCallback) {
+      MethodCallback<List<RankingResult>> resultsRetrieveCallback) {
     restService
         .listAllFromTo(resultTypeName, sortPropertyName, isAscending, start, end,
                        resultsRetrieveCallback);

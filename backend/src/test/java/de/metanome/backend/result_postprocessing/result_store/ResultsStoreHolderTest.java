@@ -19,6 +19,7 @@ package de.metanome.backend.result_postprocessing.result_store;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
 
 import org.junit.Test;
 
@@ -41,7 +42,7 @@ public class ResultsStoreHolderTest {
 
     // Check
     assertEquals(InclusionDependencyResultsStore.class, actualStore.getClass());
-    assertEquals(expectedStore, (InclusionDependencyResultsStore) actualStore);
+    assertEquals(expectedStore, actualStore);
   }
 
   @Test
@@ -51,9 +52,10 @@ public class ResultsStoreHolderTest {
         new ColumnIdentifier("table1", "column1"));
     ColumnPermutation expectedReferenced1 = new ColumnPermutation(
         new ColumnIdentifier("table1", "column2"));
-    InclusionDependency ind1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
+    InclusionDependency result = new InclusionDependency(expectedDependant1, expectedReferenced1);
+    InclusionDependencyResult ind1 = new InclusionDependencyResult(result);
 
-    List<InclusionDependency> expectedResults = new ArrayList<>();
+    List<InclusionDependencyResult> expectedResults = new ArrayList<>();
     expectedResults.add(ind1);
 
     InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();

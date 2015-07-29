@@ -107,11 +107,11 @@ public class ExampleAlgorithm
       resultReceiver.receiveResult(
           new InclusionDependency(
               new ColumnPermutation(
-                  new ColumnIdentifier(tableName1, "column1"),
-                  new ColumnIdentifier("table1", "column2")),
+                  new ColumnIdentifier("WDC_planets.csv", "Name"),
+                  new ColumnIdentifier("WDC_planets.csv", "Type")),
               new ColumnPermutation(
-                  new ColumnIdentifier("table2", "column3"),
-                  new ColumnIdentifier("table2", "column2"))
+                  new ColumnIdentifier("WDC_planets.csv", "Mass"),
+                  new ColumnIdentifier("WDC_planets.csv", "Rings"))
           )
       );
     }

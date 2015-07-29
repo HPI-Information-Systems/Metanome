@@ -18,6 +18,9 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.metanome.algorithm_integration.configuration.DbSystem;
 
 import java.io.Serializable;
@@ -32,6 +35,13 @@ import javax.persistence.Transient;
  */
 @Entity
 @GwtCompatible
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
+})
 public class DatabaseConnection extends Input implements Serializable {
 
   protected String url;

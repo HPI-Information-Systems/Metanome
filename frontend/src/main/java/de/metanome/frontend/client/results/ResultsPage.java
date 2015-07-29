@@ -16,6 +16,8 @@
 
 package de.metanome.frontend.client.results;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,6 +26,7 @@ import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -36,6 +39,7 @@ import de.metanome.frontend.client.TabContent;
 import de.metanome.frontend.client.TabWrapper;
 import de.metanome.frontend.client.helpers.FilePathHelper;
 import de.metanome.frontend.client.services.AlgorithmExecutionRestService;
+import de.metanome.frontend.client.services.ResultStoreRestService;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -65,11 +69,15 @@ public class ResultsPage extends FlowPanel implements TabContent {
   protected Button stopButton;
 
   protected ResultsPaginationTablePage tablePage;
+  protected ResultsVisualizationPage visualizationPage;
 
   protected String executionIdentifier;
   private String algorithmFileName;
 
   private AlgorithmExecutionRestService executionRestService;
+  protected ResultStoreRestService resultStoreService;
+
+  private boolean clickedAdvancedResults;
 
   /**
    * Constructs the tab, creating a full height {@link TabLayoutPanel} with 1cm headers.
@@ -79,7 +87,9 @@ public class ResultsPage extends FlowPanel implements TabContent {
   public ResultsPage(BasePage parent) {
     super();
     this.basePage = parent;
+    this.clickedAdvancedResults = false;
     this.add(new Label("There are no results yet."));
+    this.resultStoreService = GWT.create(ResultStoreRestService.class);
   }
 
   /**
@@ -103,6 +113,11 @@ public class ResultsPage extends FlowPanel implements TabContent {
                                            execution.getEnd() - execution.getBegin())),
                 0);
 
+    // Add button for calculating data dependent result statistics
+    if (!this.countResults && !this.clickedAdvancedResults) {
+      this.add(getMoreStatisticsLabel(execution));
+    }
+
     // Add the result table
     this.addChildPages();
 
@@ -110,7 +125,44 @@ public class ResultsPage extends FlowPanel implements TabContent {
       this.tablePage.addCountResults(execution);
     } else {
       this.tablePage.addTables(execution);
+      if (this.clickedAdvancedResults) {
+        this.visualizationPage.addVisualisations(execution);
+      }
     }
+  }
+
+  /**
+   * Button for calculating advanced result statistics for the results of the
+   * given execution..
+   * @param execution the execution
+   * @return the button
+   */
+  protected Label getMoreStatisticsLabel(final Execution execution) {
+    HTML label = new HTML("<p margin-top: 30px>To get more statistics click <b><ins>here</ins></b>.</p>");
+    label.getElement().getStyle().setCursor(Style.Cursor.POINTER);
+    label.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        clear();
+        clickedAdvancedResults = true;
+        // Add a running indicator
+        runningIndicator = new Image("ajax-loader.gif");
+        add(runningIndicator);
+        resultStoreService.loadExecution(execution.getId(), false, new MethodCallback<Void>() {
+          @Override
+          public void onFailure(Method method, Throwable throwable) {
+            clear();
+            messageReceiver.addError(method.getResponse().getText());
+          }
+
+          @Override
+          public void onSuccess(Method method, Void aVoid) {
+            updateOnSuccess(execution);
+          }
+        });
+      }
+    });
+    return label;
   }
 
   /**
@@ -132,6 +184,7 @@ public class ResultsPage extends FlowPanel implements TabContent {
    */
   public void startPolling() {
     this.clear();
+    this.clickedAdvancedResults = false;
 
     // Add label for the algorithm, which is executed at the moment
     this.algorithmLabel = new Label("Executing algorithm " + this.algorithmFileName);
@@ -231,19 +284,19 @@ public class ResultsPage extends FlowPanel implements TabContent {
   private void addChildPages() {
     // Create new tab with result table
     this.tablePage = new ResultsPaginationTablePage();
-    tablePage.setMessageReceiver(this.messageReceiver);
-    tablePage.setStyleName("result_inner_tab");
+    this.tablePage.setMessageReceiver(this.messageReceiver);
+    this.tablePage.setStyleName("result_inner_tab");
 
     // Create new tab with visualization page
-    ResultsVisualizationPage visualizationPage = new ResultsVisualizationPage();
-    visualizationPage.setMessageReceiver(this.messageReceiver);
-    visualizationPage.setStyleName("result_inner_tab");
+    this.visualizationPage = new ResultsVisualizationPage();
+    this.visualizationPage.setMessageReceiver(this.messageReceiver);
+    this.visualizationPage.setStyleName("result_inner_tab");
 
     // Add the result table
     this.panel = new TabLayoutPanel(1, Unit.CM);
-    panel.add(new ScrollPanel(tablePage), "Table");
-    panel.add(new ScrollPanel(visualizationPage), "Visualization");
-    this.add(panel);
+    this.panel.add(new ScrollPanel(this.tablePage), "Table");
+    this.panel.add(new ScrollPanel(this.visualizationPage), "Visualization");
+    this.add(this.panel);
   }
 
   /**

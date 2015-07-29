@@ -16,14 +16,14 @@
 
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.backend.result_postprocessing.result_comparator.BasicStatisticResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
+import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 
 /**
  * Stores basic statistic results of one execution.
  */
-public class BasicStatisticResultStore extends ResultsStore<BasicStatistic> {
+public class BasicStatisticResultStore extends ResultsStore<BasicStatisticResult> {
 
   /**
    * Defines a basic statistic result comparator
@@ -33,8 +33,8 @@ public class BasicStatisticResultStore extends ResultsStore<BasicStatistic> {
    * @return Returns a new basic statistic result comparator
    */
   @Override
-  protected ResultComparator<BasicStatistic> getResultComparator(String sortProperty,
-                                                                 boolean ascending) {
+  protected ResultComparator<BasicStatisticResult> getResultComparator(String sortProperty,
+                                                                       boolean ascending) {
     return new BasicStatisticResultComparator(sortProperty, ascending);
   }
 

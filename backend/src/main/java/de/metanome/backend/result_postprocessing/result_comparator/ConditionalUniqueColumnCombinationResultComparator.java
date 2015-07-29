@@ -16,18 +16,21 @@
 
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
 
 /**
  * Defines a conditional unique column combination comparator based on a predefined sort property
  * and sort direction order.
  */
 public class ConditionalUniqueColumnCombinationResultComparator
-    extends ResultComparator<ConditionalUniqueColumnCombination> {
+    extends ResultComparator<ConditionalUniqueColumnCombinationResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String CONDITION_COLUMN = "condition";
   public static final String COVERAGE_COLUMN = "coverage";
+  public static final String COLUMN_RATIO = "column_ratio";
+  public static final String OCCURRENCE_RATIO = "occurrence_ratio";
+  public static final String UNIQUENESS_RATIO = "uniqueness_ratio";
 
   /**
    * Creates a conditional unique column combination result comparator for given property and
@@ -51,8 +54,8 @@ public class ConditionalUniqueColumnCombinationResultComparator
    * @return Returns 1 if cucc1 is greater than cucc2, 0 if both are equal, -1 otherwise
    */
   @Override
-  protected int compare(ConditionalUniqueColumnCombination cucc1,
-                        ConditionalUniqueColumnCombination cucc2, String sortProperty) {
+  protected int compare(ConditionalUniqueColumnCombinationResult cucc1,
+                        ConditionalUniqueColumnCombinationResult cucc2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return cucc1.getColumnCombination().toString()
           .compareTo(cucc2.getColumnCombination().toString());
@@ -62,6 +65,15 @@ public class ConditionalUniqueColumnCombinationResultComparator
     }
     if (COVERAGE_COLUMN.equals(sortProperty)) {
       return Float.compare(cucc1.getCondition().getCoverage(), cucc2.getCondition().getCoverage());
+    }
+    if (COLUMN_RATIO.equals(sortProperty)) {
+      return Float.compare(cucc1.getColumnRatio(), cucc2.getColumnRatio());
+    }
+    if (OCCURRENCE_RATIO.equals(sortProperty)) {
+      return Float.compare(cucc1.getOccurrenceRatio(), cucc2.getOccurrenceRatio());
+    }
+    if (UNIQUENESS_RATIO.equals(sortProperty)) {
+      return Float.compare(cucc1.getUniquenessRatio(), cucc2.getUniquenessRatio());
     }
 
     return 0;

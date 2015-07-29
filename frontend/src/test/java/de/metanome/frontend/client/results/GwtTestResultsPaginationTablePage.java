@@ -27,14 +27,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GwtTestPaginationTablePage extends GWTTestCase {
+public class GwtTestResultsPaginationTablePage extends GWTTestCase {
 
   public void testSetup() {
     // Execute
     ResultsPaginationTablePage page = new ResultsPaginationTablePage();
 
     // Check
-    assertNotNull(page.resultService);
+    assertNotNull(page.executionService);
     assertNotNull(page.resultStoreService);
   }
 

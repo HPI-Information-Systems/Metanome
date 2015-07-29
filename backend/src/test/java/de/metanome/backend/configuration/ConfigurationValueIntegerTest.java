@@ -18,6 +18,7 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 
@@ -67,13 +68,14 @@ public class ConfigurationValueIntegerTest {
     // Expected values
     Integer[] expectedValues = {3, 6, 12309478};
     String expectedIdentifier = "some identifier";
-    ConfigurationRequirementInteger
+    ConfigurationRequirement<ConfigurationSettingInteger>
         requirement =
         new ConfigurationRequirementInteger(expectedIdentifier, 3);
     requirement.checkAndSetSettings(buildSettings(expectedValues));
 
     // Execute functionality
-    ConfigurationValueInteger actualConfigValue = new ConfigurationValueInteger(requirement);
+    ConfigurationValueInteger actualConfigValue = new ConfigurationValueInteger(
+        (ConfigurationRequirementInteger) requirement);
 
     // Check result
     assertArrayEquals(actualConfigValue.values, expectedValues);
