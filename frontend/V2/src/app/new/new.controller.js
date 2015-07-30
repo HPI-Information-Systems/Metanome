@@ -9,7 +9,8 @@ angular.module('v2')
   Datasource,
   Parameter,
   AlgorithmExecution,
-  usSpinnerService
+  usSpinnerService,
+  $rootScope
 ) {
 
   //Exported functions
@@ -179,6 +180,8 @@ angular.module('v2')
     startSpin()
     AlgorithmExecution.run({}, payload, function(result) {
       stopSpin()
+      $rootScope.$broadcast('updateExecutionList');
+      $rootScope.selectedIndex = 1
     }, function(error){
       stopSpin()
       alert("Error!")

@@ -2,10 +2,9 @@
 
 var app = angular.module('v2')
  
-app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
+app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $timeout, $rootScope) {
 
   // Public variables
-  $scope.toggleSearch = false;   
   $scope.content = []
   $scope.headers = [
     {
@@ -32,10 +31,15 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
     }
   ];
 
-  // Private variables
+  $scope.showResult = showResult
+
+  // Private varias
   var executions
 
   loadExecutions()
+  $rootScope.$on('updateExecutionList', function(event, data) { 
+    loadExecutions()
+  });
 
   // ** FUNCTION DEFINITIONS **
   // **************************
@@ -53,7 +57,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
             inputs.push(input.name)
         })
         execution.results.forEach(function(result) {
-            results.push(result.type)
+            results.push(result.typeName)
         })
         if(execution.aborted) {
           results = ['EXECUTION ABORTED']
@@ -72,6 +76,11 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
   }
+  function showResult(result) {
+    console.log("showResult")
+    console.log(result)
+    //$rootScope.addTab('Result', 'result')
+  }
    
     $scope.custom = {name: 'bold', date:'grey', time: 'grey'};
     $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
@@ -82,7 +91,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
     }
   });
 
-  app.directive('mdTable', function () {
+app.directive('mdTable', function () {
     return {
       restrict: 'E',
       scope: { 
@@ -94,7 +103,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         thumbs:'=', 
         count: '=' 
       },
-      controller: function ($scope,$filter,$window) {
+      controller: function ($scope,$filter,$window, $rootScope, $timeout, LoadResults) {
         var orderBy = $filter('orderBy');
         $scope.tablePage = 0;
         $scope.nbOfPages = function () {
@@ -113,6 +122,13 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         };
         $scope.goToPage = function (page) {
           $scope.tablePage = page;
+        };
+        $scope.showResult = function(result) {
+          console.log(result)
+          $rootScope.addTab('Result ' + result.id, 'result')
+          $timeout(function() {$rootScope.$broadcast('changeTab', -1) }, 10)
+          LoadResults.load({id: result.id, detailed: false}, function() {
+          })
         };
       },
       template: angular.element(document.querySelector('#md-table-template')).html()

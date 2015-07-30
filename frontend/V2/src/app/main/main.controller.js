@@ -20,12 +20,16 @@ angular.module('v2.home', [
            'history@home': {
               controller: 'HistoryCtrl',
               templateUrl: 'app/history/history.html'
+           },
+           'result@home': {
+              controller: 'ResultCtrl',
+              templateUrl: 'app/result/result.html'
            }
         }
       })
   })
 
-  .controller('MainCtrl', function ($scope, $log) {
+  .controller('MainCtrl', function ($scope, $log, $rootScope) {
     var tabs = [
       { 
         title: 'New', 
@@ -35,26 +39,35 @@ angular.module('v2.home', [
         title: 'History', 
         view: 'history'
       }
-    ],
+   ],
       selected = null,
       previous = null
     $scope.tabs = tabs
     $scope.selectedIndex = 0
     $scope.$watch('selectedIndex', function(current, old){
       previous = selected
-      selected = tabs[current]
+      selected = $scope.tabs[current]
       if(old && (old !== current)){
         $log.debug('Hide ' + previous.title + '!')
       }
       if(current){
         $log.debug('Show ' + selected.title + '!')
       }
+      $rootScope.currentTab = selected.title
     })
-    $scope.addTab = function (title, view) {
+    $rootScope.$on('changeTab', function(event, data) { 
+      //Go to last tab
+      if(data = -1) {
+        $scope.selectedIndex = $scope.tabs.length - 1
+      } else {
+        $scope.selectedIndex = data
+      }
+    });
+    $rootScope.addTab = function (title, view) {
       view = view || title + ' Content View'
-      tabs.push({ title: title, content: view, disabled: false})
+      tabs.push({ title: title, view: view, disabled: false})
     }
-    $scope.removeTab = function (tab) {
+    $rootScope.removeTab = function (tab) {
       var index = tabs.indexOf(tab)
       tabs.splice(index, 1)
     };
