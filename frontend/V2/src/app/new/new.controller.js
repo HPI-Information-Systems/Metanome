@@ -8,7 +8,8 @@ angular.module('v2')
     Algorithms,
     Datasource,
     Parameter,
-    AlgorithmExecution
+    AlgorithmExecution,
+    usSpinnerService
   ) {
 
     //Exported functions
@@ -52,7 +53,6 @@ angular.module('v2')
 
     // ** FUNCTION DEFINITIONS **
     // **************************
-
     // Initialization
     function initializeAlgorithmList() {
       var algorithmCategoryNames = [
@@ -176,8 +176,12 @@ angular.module('v2')
          'countResults':false,
          'memory':''
       }
+      startSpin()
       AlgorithmExecution.run({}, payload, function(result) {
-
+        stopSpin()
+      }, function(error){
+        alert("Error!")
+        stopSpin()
       })
     }
 
@@ -309,6 +313,13 @@ angular.module('v2')
     }
 
     // Other Helpers
+    
+    function startSpin(){
+        usSpinnerService.spin('spinner-1');
+    }
+    function stopSpin(){
+        usSpinnerService.stop('spinner-1');
+    }
     function twoDigetDate(number) {
       return (number < 10 ? '0'+number : ''+number)
     }
@@ -377,7 +388,24 @@ angular.module('v2')
                 params[i].settings.push(param)
               }
           break
-           case 'ConfigurationRequirementFileInput':
+           case 'ConfigurationRequirementDatabaseConnection':
+              //order seems to be from last to first in Java UI V1
+              var checked = activeDataSources.databaseConnection.slice(0)
+              for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
+                var item = dataSources.databaseConnection[''+checked.pop()]
+                //needed because same fields are named different in different places in backend - workaround!
+                var param = {
+                    "dbUrl":item.url,
+                    "username":item.username,
+                    "password":item.password,
+                    "system":item.system,
+                    "type":"ConfigurationSettingDatabaseConnection",
+                    "id":item.id
+                }
+                 params[i].settings.push(param)
+              }
+          break
+            case 'ConfigurationRequirementFileInput':
               //order seems to be from last to first in Java UI V1
               var checked = activeDataSources.fileInput.slice(0)
               for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){

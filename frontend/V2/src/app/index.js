@@ -8,7 +8,8 @@ angular.module('v2', [
   'ui.router', 
   'ngMaterial',
   'ngDialog',
-  'schemaForm'
+  'schemaForm',
+  'angularSpinner'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
