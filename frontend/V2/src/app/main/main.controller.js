@@ -63,11 +63,16 @@ angular.module('v2.home', [
         $scope.selectedIndex = data
       }
     });
-    $rootScope.addTab = function (title, view) {
+    $rootScope.addResultsTab = function(){
+      if($scope.tabs.length < 3) {
+        $scope.addTab('Result', 'result')
+      }
+    }
+    $scope.addTab = function (title, view) {
       view = view || title + ' Content View'
       tabs.push({ title: title, view: view, disabled: false})
     }
-    $rootScope.removeTab = function (tab) {
+    $scope.removeTab = function (tab) {
       var index = tabs.indexOf(tab)
       tabs.splice(index, 1)
     };

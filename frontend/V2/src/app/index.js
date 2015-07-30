@@ -9,7 +9,8 @@ angular.module('v2', [
   'ngMaterial',
   'ngDialog',
   'schemaForm',
-  'angularSpinner'
+  'angularSpinner',
+  'ngTasty'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');

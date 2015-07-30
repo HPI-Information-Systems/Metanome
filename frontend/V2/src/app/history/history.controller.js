@@ -125,10 +125,10 @@ app.directive('mdTable', function () {
         };
         $scope.showResult = function(result) {
           console.log(result)
-          $rootScope.addTab('Result ' + result.id, 'result')
+          $rootScope.addResultsTab()
           $timeout(function() {$rootScope.$broadcast('changeTab', -1) }, 10)
-          LoadResults.load({id: result.id, detailed: false}, function() {
-          })
+          //LoadResults.load({id: result.id, detailed: false}, function() {
+          //})
         };
       },
       template: angular.element(document.querySelector('#md-table-template')).html()
