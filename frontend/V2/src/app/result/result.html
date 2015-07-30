@@ -1,19 +1,34 @@
-<div tasty-table bind-resource-callback="getResource">
-  <table class="table table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Star</th>
-        <th>SF Location</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr ng-repeat="row in rows">
-        <td>{{ row.name }}</td>
-        <td>{{ row.star }}</td>
-        <td>{{ row['sf-location'] }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <div tasty-pagination></div>
-</div>
+<md-card>
+  <md-data-table-toolbar ng-show="!selected.length">
+    <h2 class="md-title">Unique Column Combination</h2>
+  </md-data-table-toolbar>
+
+  <md-data-table-toolbar class="alternate" ng-show="selected.length">
+    <div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>
+  </md-data-table-toolbar>
+
+  <md-data-table-container>
+    <table md-data-table class="md-primary" md-progress="deferred">
+      <thead md-order="query.order" md-trigger="onorderchange">
+        <tr>
+          <th order-by="columnCombination" name="Column Combination"></th>
+          <th numeric order-by="columnRatio" name="Column Ratio"></th>
+          <th numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
+          <th numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
+          <th numeric order-by="randomness" name="Randomness"></th>       
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in uniqueColumnCombination.data | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+          <td>{{item.columnCombination}}</td>
+          <td>{{item.columnRatio}}</td>
+          <td>{{item.occurrenceRatio}}</td>
+          <td>{{item.uniquenessRatio}}</td>
+          <td>{{item.randomness}}</td>       
+        </tr>
+      </tbody>
+    </table>
+  </md-data-table-container>
+
+  <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+</md-card>

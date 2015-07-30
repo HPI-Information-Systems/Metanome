@@ -1,72 +1,83 @@
 'use strict';
 
 var app = angular.module('v2')
- 
-app.controller('ResultCtrl', function ($scope, $log, Executions, $rootScope, $http) {
 
- var response = {
-  "header": [
-    {
-      "key": "name",
-      "name": "Name"
-    },
-    {
-      "key": "star",
-      "name": "Star"
-    },
-    {
-      "key": "sf-location",
-      "name": "SF Location"
-    }
-  ],
-  "rows": [
-    {
-      "name": "Andytown Coffee Roasters",
-      "star": "★★★",
-      "sf-location": "Outer Sunset"
-    },
-    {
-      "name": "Beanery",
-      "star": "★★★",
-      "sf-location": "Inner Sunset"
-    },
-    {
-      "name": "Biscoff Coffee Corner",
-      "star": "★★★",
-      "sf-location": "Fisherman’s Wharf"
-    },
-    {
-      "name": "Blue Bottle",
-      "star": "★★★★★",
-      "sf-location": "Hayes Valley"
-    },
-    {
-      "name": "Blue Bottle",
-      "star": "★★★★★",
-      "sf-location": "Embarcadero"
-    }
-  ],
-  "pagination": {
-    "count": 5,
-    "page": 1,
-    "pages": 7,
-    "size": 34
-  },
-  "sort-by": "name",
-  "sort-order": "asc"
-}
+app.controller('ResultCtrl', function ($scope, $log, Executions, $rootScope, $http, $q, $timeout) {
 
-  $scope.getResource = function (params, paramsObj) {
-    var urlApi = '?' + params;
-    return $http.get(urlApi).then(function (res) {
-      return {
-        'rows': response.rows,
-        'header': response.header,
-        'pagination': response.pagination,
-        'sortBy': response['sort-by'],
-        'sortOrder': response['sort-order']
-      }
-    });
+  $scope.selected = [];
+
+  $scope.query = {
+    order: 'name',
+    limit: 5,
+    page: 1
+  };
+
+  $scope.uniqueColumnCombination = {
+    count: 0,
+    data: []
   }
 
+  $scope.onpagechange = function(page, limit) {
+    var deferred = $q.defer();
+
+    $timeout(function () {
+      deferred.resolve();
+    }, 2000);
+
+    return deferred.promise;
+  };
+
+  $scope.onorderchange = function(order) {
+    var deferred = $q.defer();
+
+    $timeout(function () {
+      deferred.resolve();
+    }, 2000);
+
+    return deferred.promise;
+  };
+
+
+      $http.get('http://127.0.0.1:8888/api/result-store/get-from-to/Unique Column Combination/x/true/0/15').then(function(res) {
+      switch('Unique Column Combination') {
+        case 'Unique Column Combination':
+          var rows = []
+          res.data.forEach(function(result) {
+            var combinations = []
+            result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
+              combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+            })
+            rows.push({
+              columnCombination: '[' + combinations.join(',') + ']',
+              columnRatio: result.columnRatio,
+              occurrenceRatio: result.occurrenceRatio,
+              uniquenessRatio: result.uniquenessRatio,
+              randomness: result.randomness
+            })
+          })
+          var headers = [{
+              name: 'Column Combination',
+              key: 'columnCombination'
+            },
+            {
+              name: 'Column Ratio',
+              key: 'columnRatio'
+            },
+            {
+              name: 'Occurrence Ratio',
+              key: 'occurrenceRatio'
+            },
+            {
+              name: 'Uniqueness Ratio*',
+              key: 'uniquenessRatio'
+            },
+            {
+              name: 'Randomness*',
+              key: 'randomness'
+            }
+          ]
+          $scope.uniqueColumnCombination.data = rows
+          break
+      }
+   });
 })
