@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('v2', [
-  'v2.home',
   'ngAnimate', 
   'ngCookies', 
   'ngResource', 
@@ -13,6 +12,6 @@ angular.module('v2', [
   'md.data.table'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/new');
   })
 ;

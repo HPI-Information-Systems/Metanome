@@ -1,15 +1,21 @@
+<div class="main-container">
+
+ <div class="tabbar">
+  <div class="tabbar-content">
+    <a ng-href='#/new' class="tabLink"><div class="tab"><span>NEW</span></div></a>
+    <a ng-href='#/history' class="tabLink"><div class="tab"><span>HISTORY</span></div></a>
+    <a class="tabLink active"><div class="tab"><span>RESULT</span></div></a>
+  </div>
+</div>
+
 <md-card>
-  <md-data-table-toolbar ng-show="!selected.length">
+  <md-data-table-toolbar>
     <h2 class="md-title">Unique Column Combination</h2>
   </md-data-table-toolbar>
 
-  <md-data-table-toolbar class="alternate" ng-show="selected.length">
-    <div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>
-  </md-data-table-toolbar>
-
   <md-data-table-container>
-    <table md-data-table class="md-primary" md-progress="deferred">
-      <thead md-order="query.order" md-trigger="onorderchange">
+    <table md-data-table class="md-primary">
+      <thead md-order="uniqueColumnCombination.query.order" md-trigger="onorderchange">
         <tr>
           <th order-by="columnCombination" name="Column Combination"></th>
           <th numeric order-by="columnRatio" name="Column Ratio"></th>
@@ -19,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in uniqueColumnCombination.data | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+        <tr ng-repeat="item in uniqueColumnCombination.data | orderBy: uniqueColumnCombination.query.order | limitTo: uniqueColumnCombination.query.limit: (uniqueColumnCombination.query.page - 1) * uniqueColumnCombination.query.limit">
           <td>{{item.columnCombination}}</td>
           <td>{{item.columnRatio}}</td>
           <td>{{item.occurrenceRatio}}</td>
@@ -30,5 +36,7 @@
     </table>
   </md-data-table-container>
 
-  <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+  <md-data-table-pagination md-limit="uniqueColumnCombination.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
 </md-card>
+
+</div>

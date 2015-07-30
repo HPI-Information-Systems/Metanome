@@ -1,6 +1,20 @@
 'use strict'
 
 angular.module('v2')
+
+.config(function config( $stateProvider ) {
+  $stateProvider
+    .state('new', {
+      url: '/new',
+      views: {
+        'main@': {
+            controller: 'NewCtrl',
+            templateUrl: 'app/new/new.html'
+         }
+      }
+    })
+})
+
 .controller('NewCtrl', function (
   $scope,
   $log,
@@ -9,8 +23,7 @@ angular.module('v2')
   Datasource,
   Parameter,
   AlgorithmExecution,
-  usSpinnerService,
-  $rootScope
+  usSpinnerService
 ) {
 
   //Exported functions
@@ -46,6 +59,16 @@ angular.module('v2')
   }
   var currentParameter
 
+  $scope.tabs = [
+    { 
+      title: 'New', 
+      view: 'new'
+    },
+    { 
+      title: 'History', 
+      view: 'history'
+    }
+  ]
 
   // Execute initialization
   initializeAlgorithmList()
@@ -180,8 +203,6 @@ angular.module('v2')
     startSpin()
     AlgorithmExecution.run({}, payload, function(result) {
       stopSpin()
-      $rootScope.$broadcast('updateExecutionList');
-      $rootScope.selectedIndex = 1
     }, function(error){
       stopSpin()
       alert("Error!")

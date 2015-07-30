@@ -1,8 +1,21 @@
 'use strict';
 
 var app = angular.module('v2')
- 
-app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $timeout, $rootScope) {
+
+.config(function config( $stateProvider ) {
+  $stateProvider
+    .state('history', {
+      url: '/history',
+      views: {
+        'main@': {
+            controller: 'HistoryCtrl',
+            templateUrl: 'app/history/history.html'
+         }
+      }
+    })
+})
+
+app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
 
   // Public variables
   $scope.content = []
@@ -31,15 +44,10 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $time
     }
   ];
 
-  $scope.showResult = showResult
-
   // Private varias
   var executions
 
   loadExecutions()
-  $rootScope.$on('updateExecutionList', function(event, data) { 
-    loadExecutions()
-  });
 
   // ** FUNCTION DEFINITIONS **
   // **************************
@@ -76,11 +84,6 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $time
         $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
   }
-  function showResult(result) {
-    console.log("showResult")
-    console.log(result)
-    //$rootScope.addTab('Result', 'result')
-  }
    
     $scope.custom = {name: 'bold', date:'grey', time: 'grey'};
     $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
@@ -103,7 +106,7 @@ app.directive('mdTable', function () {
         thumbs:'=', 
         count: '=' 
       },
-      controller: function ($scope,$filter,$window, $rootScope, $timeout, LoadResults) {
+      controller: function ($scope,$filter,$window, $timeout, LoadResults, $location) {
         var orderBy = $filter('orderBy');
         $scope.tablePage = 0;
         $scope.nbOfPages = function () {
@@ -124,9 +127,7 @@ app.directive('mdTable', function () {
           $scope.tablePage = page;
         };
         $scope.showResult = function(result) {
-          console.log(result)
-          $rootScope.addResultsTab()
-          $timeout(function() {$rootScope.$broadcast('changeTab', -1) }, 10)
+          $location.url('/result/'+result.id);
           //LoadResults.load({id: result.id, detailed: false}, function() {
           //})
         };

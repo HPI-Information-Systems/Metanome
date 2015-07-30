@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('v2')
-  .factory('AlgorithmResults', ['$resource',
+  .factory('Results', ['$resource',
       function ($resource) {
           return $resource('http://127.0.0.1:8888/api/result-store/get-from-to/:type/:sort/true/:from/:to', {}, {
               get: {
