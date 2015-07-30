@@ -5,10 +5,11 @@
     <a ng-href='#/new' class="tabLink"><div class="tab"><span>NEW</span></div></a>
     <a ng-href='#/history' class="tabLink"><div class="tab"><span>HISTORY</span></div></a>
     <a class="tabLink active"><div class="tab"><span>RESULT</span></div></a>
+    <a  ng-href='#/visualization/{{id}}' class="tabLink"><div class="tab"><span>VISUALIZATION</span></div></a>
   </div>
 </div>
 
-  <md-card>
+  <md-card ng-if="uniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Unique Column Combination</h2>
     </md-data-table-toolbar>
@@ -36,10 +37,10 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="uniqueColumnCombination.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
   </md-card>
 
-  <md-card>
+  <md-card ng-if="functionalDependency.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Functional Dependency</h2>
     </md-data-table-toolbar>
@@ -48,6 +49,8 @@
       <table md-data-table class="md-primary">
         <thead md-order="functionalDependency.query.order" md-trigger="onorderchange">
         <tr>
+          <th numeric order-by="determinant" name="Determinant"></th>
+          <th numeric order-by="dependant" name="Dependant"></th>
           <th order-by="extendedDependant" name="Extended Dependant"></th>
           <th order-by="determinantColumnRatio" name="Determinant Column Ratio"></th>
           <th numeric order-by="dependantColumnRatio" name="Dependant Column Ratio"></th>
@@ -64,6 +67,8 @@
         </thead>
         <tbody>
         <tr ng-repeat="item in functionalDependency.data | orderBy: functionalDependency.query.order | limitTo: functionalDependency.query.limit: (functionalDependency.query.page - 1) * functionalDependency.query.limit">
+          <td>{{item.determinant}}</td>
+          <td>{{item.dependant}}</td>
           <td>{{item.extendedDependant}}</td>
           <td>{{item.determinantColumnRatio}}</td>
           <td>{{item.dependantColumnRatio}}</td>
@@ -81,6 +86,76 @@
     </md-data-table-container>
 
     <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page" md-total="{{functionalDependency.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+
+  <md-card ng-if="basicStatistic.count > 0">
+    <md-data-table-toolbar>
+      <h2 class="md-title">Basic Statistic</h2>
+    </md-data-table-toolbar>
+
+    <md-data-table-container>
+      <table md-data-table class="md-primary">
+        <thead md-order="basicStatistic.query.order" md-trigger="onorderchange">
+        <tr>
+          <th order-by="statisticName" name="Statistic Name"></th>
+          <th order-by="columnCombination" name="Column Combination"></th>
+          <th numeric order-by="valueColumnRatio" name="Value Column Ratio"></th>
+          <th numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
+          <th numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in basicStatistic.data | orderBy: basicStatistic.query.order | limitTo: basicStatistic.query.limit: (basicStatistic.query.page - 1) * basicStatistic.query.limit">
+          <td>{{item.statisticName}}</td>
+          <td>{{item.columnCombination}}</td>
+          <td>{{item.valueColumnRatio}}</td>
+          <td>{{item.occurrenceRatio}}</td>
+          <td>{{item.uniquenessRatio}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page" md-total="{{basicStatistic.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+
+  <md-card ng-if="inclusionDependency.count > 0">
+    <md-data-table-toolbar>
+      <h2 class="md-title">Inclusion Dependency</h2>
+    </md-data-table-toolbar>
+
+    <md-data-table-container>
+      <table md-data-table class="md-primary">
+        <thead md-order="inclusionDependency.query.order" md-trigger="onorderchange">
+        <tr>
+          <th order-by="dependant" name="Dependant"></th>
+          <th order-by="referenced" name="Referenced"></th>
+          <th numeric order-by="dependantColumnRatio" name="Dependant Column Ratio"></th>
+          <th numeric order-by="referencedColumnRatio" name="Referenced Column Ratio "></th>
+          <th numeric order-by="dependantOccurrenceRatio" name="Dependant Occurrence Ratio"></th>
+          <th numeric order-by="referencedOccurrenceRatio" name="Referenced Occurrence Ratio "></th>
+          <th numeric order-by="generalCoverage" name="General  Coverage"></th>
+          <th numeric order-by="dependantUniquenessRatio" name="Dependant Uniqueness Ratio"></th>
+          <th numeric order-by="referencedUniquenessRatio" name="Referenced Uniqueness Ratio"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in inclusionDependency.data | orderBy: inclusionDependency.query.order | limitTo: inclusionDependency.query.limit: (inclusionDependency.query.page - 1) * inclusionDependency.query.limit">
+          <td>{{item.dependant}}</td>
+          <td>{{item.referenced}}</td>
+          <td>{{item.dependantColumnRatio}}</td>
+          <td>{{item.referencedColumnRatio}}</td>
+          <td>{{item.dependantOccurrenceRatio}}</td>
+          <td>{{item.referencedOccurrenceRatio}}</td>
+          <td>{{item.generalCoverage}}</td>
+          <td>{{item.dependantUniquenessRatio}}</td>
+          <td>{{item.referencedUniquenessRatio}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="inclusionDependency.query.limit" md-page="inclusionDependency.query.page" md-total="{{inclusionDependency.count}}" md-trigger="onpagechange"></md-data-table-pagination>
   </md-card>
 
 </div>
