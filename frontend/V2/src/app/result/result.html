@@ -8,35 +8,79 @@
   </div>
 </div>
 
-<md-card>
-  <md-data-table-toolbar>
-    <h2 class="md-title">Unique Column Combination</h2>
-  </md-data-table-toolbar>
+  <md-card>
+    <md-data-table-toolbar>
+      <h2 class="md-title">Unique Column Combination</h2>
+    </md-data-table-toolbar>
 
-  <md-data-table-container>
-    <table md-data-table class="md-primary">
-      <thead md-order="uniqueColumnCombination.query.order" md-trigger="onorderchange">
+    <md-data-table-container>
+      <table md-data-table class="md-primary">
+        <thead md-order="uniqueColumnCombination.query.order" md-trigger="onorderchange">
         <tr>
           <th order-by="columnCombination" name="Column Combination"></th>
           <th numeric order-by="columnRatio" name="Column Ratio"></th>
           <th numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
           <th numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
-          <th numeric order-by="randomness" name="Randomness"></th>       
+          <th numeric order-by="randomness" name="Randomness"></th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <tr ng-repeat="item in uniqueColumnCombination.data | orderBy: uniqueColumnCombination.query.order | limitTo: uniqueColumnCombination.query.limit: (uniqueColumnCombination.query.page - 1) * uniqueColumnCombination.query.limit">
           <td>{{item.columnCombination}}</td>
           <td>{{item.columnRatio}}</td>
           <td>{{item.occurrenceRatio}}</td>
           <td>{{item.uniquenessRatio}}</td>
-          <td>{{item.randomness}}</td>       
+          <td>{{item.randomness}}</td>
         </tr>
-      </tbody>
-    </table>
-  </md-data-table-container>
+        </tbody>
+      </table>
+    </md-data-table-container>
 
-  <md-data-table-pagination md-limit="uniqueColumnCombination.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
-</md-card>
+    <md-data-table-pagination md-limit="uniqueColumnCombination.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+
+  <md-card>
+    <md-data-table-toolbar>
+      <h2 class="md-title">Functional Dependency</h2>
+    </md-data-table-toolbar>
+
+    <md-data-table-container>
+      <table md-data-table class="md-primary">
+        <thead md-order="functionalDependency.query.order" md-trigger="onorderchange">
+        <tr>
+          <th order-by="extendedDependant" name="Extended Dependant"></th>
+          <th order-by="determinantColumnRatio" name="Determinant Column Ratio"></th>
+          <th numeric order-by="dependantColumnRatio" name="Dependant Column Ratio"></th>
+          <th numeric order-by="determinantOccurrenceRatio" name="Determinant Occurrence Ratio"></th>
+          <th numeric order-by="dependantOccurrenceRatio" name="Dependant Occurrence Ratio"></th>
+          <th numeric order-by="generalCoverage" name="General Coverage"></th>
+          <th numeric order-by="determinantUniquenessRatio" name="Determinant Uniqueness Ratio"></th>
+          <th numeric order-by="dependantUniquenessRatio" name="Dependant Uniqueness Ratio"></th>
+          <th numeric order-by="pollution" name="Pollution"></th>
+          <th numeric order-by="pollutionColumn" name="Pollution Column"></th>
+          <th numeric order-by="informationGainCell" name="Information Gain Cell"></th>
+          <th numeric order-by="informationGainByte" name="Information Gain Byte"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in functionalDependency.data | orderBy: functionalDependency.query.order | limitTo: functionalDependency.query.limit: (functionalDependency.query.page - 1) * functionalDependency.query.limit">
+          <td>{{item.extendedDependant}}</td>
+          <td>{{item.determinantColumnRatio}}</td>
+          <td>{{item.dependantColumnRatio}}</td>
+          <td>{{item.determinantOccurrenceRatio}}</td>
+          <td>{{item.dependantOccurrenceRatio}}</td>
+          <td>{{item.generalCoverage}}</td>
+          <td>{{item.determinantUniquenessRatio}}</td>
+          <td>{{item.dependantUniquenessRatio}}</td>
+          <td>{{item.pollution}}</td><td>{{item.pollutionColumn}}</td>
+          <td>{{item.informationGainCell}}</td>
+          <td>{{item.informationGainByte}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page" md-total="{{functionalDependency.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
 
 </div>

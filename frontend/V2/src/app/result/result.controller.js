@@ -21,9 +21,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
     count: 0,
     data: [],
     query: {
-        order: '',
-        limit: 5,
-        page: 1
+      order: '',
+      limit: 5,
+      page: 1
     },
     selected: [],
     params: {
@@ -34,10 +34,29 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
     }
   }
 
-  loadResult()
+  $scope.functionalDependency = {
+    count: 0,
+    data: [],
+    query: {
+      order: '',
+      limit: 5,
+      page: 1
+    },
+    selected: [],
+    params: {
+      type: 'Functional Dependency',
+      sort: 'Determinant',
+      from: '0',
+      to: '10'
+    }
+  }
 
-  function loadResult() {
-    console.log("Load Result")
+  $scope.onpagechange = onpagechange
+
+  loadColumnCombination()
+  loadFunctionalDependency()
+
+  function loadColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function(res) {
        var rows = []
        res.forEach(function(result) {
@@ -78,7 +97,57 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
      })
   }
 
-  $scope.onpagechange = function(page, limit) {
+  function loadFunctionalDependency() {
+    Results.get($scope.functionalDependency.params, function(res) {
+      var rows = []
+      res.forEach(function(result) {
+        var combinations = []
+        result.result.determinant.columnIdentifiers.forEach(function(combination) {
+          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        })
+        rows.push({
+          determinant: '[' + combinations.join(',') + ']',
+          dependant: result.dependant.tableIdentifier + '.' + result.dependant.columnIdentifier,
+          extendedDependant: result.extendedDependant,
+          determinantColumnRatio: result.determinantColumnRatio,
+          dependantColumnRatio: result.dependantColumnRatio,
+          determinantOccurrenceRatio: result.determinantOccurrenceRatio,
+          dependantOccurrenceRatio: result.dependantOccurrenceRatio,
+          generalCoverage: result.generalCoverage,
+          determinantUniquenessRatio: result.determinantUniquenessRatio,
+          dependantUniquenessRatio: result.dependantUniquenessRatio,
+          pollution: result.pollution,
+          pollutionColumn: result.pollutionColumn,
+          informationGainCell: result.informationGainCell,
+          informationGainByte: result.informationGainByte
+        })
+      })
+      var headers = [{
+        name: 'Column Combination',
+        key: 'columnCombination'
+      },
+        {
+          name: 'Column Ratio',
+          key: 'columnRatio'
+        },
+        {
+          name: 'Occurrence Ratio',
+          key: 'occurrenceRatio'
+        },
+        {
+          name: 'Uniqueness Ratio*',
+          key: 'uniquenessRatio'
+        },
+        {
+          name: 'Randomness*',
+          key: 'randomness'
+        }
+      ]
+      $scope.functionalDependency.data = rows
+    })
+  }
+
+  function onpagechange(page, limit) {
     var deferred = $q.defer();
 
     $timeout(function () {
@@ -86,16 +155,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
     }, 2000);
 
     return deferred.promise;
-  };
-
-  $scope.onorderchange = function(order) {
-    var deferred = $q.defer();
-
-    $timeout(function () {
-      deferred.resolve();
-    }, 2000);
-
-    return deferred.promise;
-  };
+  }
 
 })
