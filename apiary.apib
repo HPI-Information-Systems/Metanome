@@ -1094,6 +1094,253 @@ Lists all jar files, which are located in the resource folder for *Algorithms*.
           "example_sql_profiling_algorithm.jar",
           "BINDERDatabase-0.0.2-SNAPSHOT.jar"
         ]
+        
+### List all Algorithms for File Inputs [GET /algorithms/algorithms-for-file-inputs]
+
+Lists all *Algorithms*, which are using File Inputs.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 8,
+                "fileName": "SPIDERFile-0.0.2-SNAPSHOT.jar",
+                "name": "SPIDERFile-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": true,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 9,
+                "fileName": "dfdMetanome-0.0.2-SNAPSHOT.jar",
+                "name": "dfdMetanome-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": true,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 10,
+                "fileName": "example_basic_stat_algorithm.jar",
+                "name": "example_basic_stat_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": true
+            },
+            {
+                "id": 11,
+                "fileName": "example_fd_algorithm.jar",
+                "name": "example_fd_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": true,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            }
+        ]
+
+### List all Algorithms for Table Inputs [GET /algorithms/algorithms-for-table-inputs]
+
+Lists all *Algorithms*, which are using Table Inputs.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 8,
+                "fileName": "SPIDERFile-0.0.2-SNAPSHOT.jar",
+                "name": "SPIDERFile-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": true,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 9,
+                "fileName": "dfdMetanome-0.0.2-SNAPSHOT.jar",
+                "name": "dfdMetanome-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": true,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 10,
+                "fileName": "example_basic_stat_algorithm.jar",
+                "name": "example_basic_stat_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": true
+            },
+            {
+                "id": 11,
+                "fileName": "example_fd_algorithm.jar",
+                "name": "example_fd_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": true,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 12,
+                "fileName": "BINDERFile-0.0.2-SNAPSHOT.jar",
+                "name": "BINDERFile-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": true,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": false,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            }
+        ]
+### List all Algorithms for Database Connections [GET /algorithms/algorithms-for-database-connections]
+
+Lists all *Algorithms*, which are using Database Connections.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 2,
+                "fileName": "SPIDERDatabase-0.0.2-SNAPSHOT.jar",
+                "name": "SPIDERDatabase-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": true,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": false,
+                "basicStat": false
+            },
+            {
+                "id": 11,
+                "fileName": "example_fd_algorithm.jar",
+                "name": "example_fd_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": true,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": true,
+                "basicStat": false
+            },
+            {
+                "id": 23,
+                "fileName": "example_sql_profiling_algorithm.jar",
+                "name": "example_sql_profiling_algorithm",
+                "author": null,
+                "description": null,
+                "ind": false,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": false,
+                "basicStat": false
+            },
+            {
+                "id": 24,
+                "fileName": "BINDERDatabase-0.0.2-SNAPSHOT.jar",
+                "name": "BINDERDatabase-0.0.2-SNAPSHOT",
+                "author": null,
+                "description": null,
+                "ind": true,
+                "fd": false,
+                "ucc": false,
+                "cucc": false,
+                "od": false,
+                "relationalInput": false,
+                "databaseConnection": true,
+                "tableInput": false,
+                "fileInput": false,
+                "basicStat": false
+            }
+        ]
 
 ## Group Execution
 
