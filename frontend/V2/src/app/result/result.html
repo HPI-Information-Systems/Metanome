@@ -5,24 +5,26 @@
     <a ng-href='#/new' class="tabLink"><div class="tab"><span>NEW</span></div></a>
     <a ng-href='#/history' class="tabLink"><div class="tab"><span>HISTORY</span></div></a>
     <a class="tabLink active"><div class="tab"><span>RESULT</span></div></a>
-    <a  ng-href='#/visualization/{{id}}' class="tabLink"><div class="tab"><span>VISUALIZATION</span></div></a>
+    <!--<a  ng-href='#/visualization/{{id}}' class="tabLink"><div class="tab"><span>VISUALIZATION</span></div></a>-->
   </div>
 </div>
 
   <md-card ng-if="file">
     <p style="margin-left: 20px">Results for file '{{file.fileName}}'
+      <a ng-if="!extended" ng-href="#/result/{{id}}?extended=true" style="margin-right: 10px; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
     </p>
   </md-card>
   <md-card ng-if="execution">
     <p style="margin-left: 20px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
       <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
+      <a ng-if="!extended" ng-href="#/result/{{id}}?extended=true" style="margin-right: 10px; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
     </p>
   </md-card>
 
 
   <md-card ng-if="uniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
-      <h2 class="md-title">Unique Column Combination</h2>
+      <h2 class="md-title">Unique Column Combination <md-button ng-click="openUCCVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: 2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
     </md-data-table-toolbar>
 
     <md-data-table-container>
@@ -53,7 +55,7 @@
 
   <md-card ng-if="functionalDependency.count > 0">
     <md-data-table-toolbar>
-      <h2 class="md-title">Functional Dependency</h2>
+      <h2 class="md-title">Functional Dependency  <md-button ng-click="openFDVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: 2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
     </md-data-table-toolbar>
 
     <md-data-table-container>

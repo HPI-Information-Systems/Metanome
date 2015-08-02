@@ -5,7 +5,7 @@ var app = angular.module('v2')
 .config(function config( $stateProvider ) {
   $stateProvider
     .state('result', {
-      url: '/result/:resultId?cached&file',
+      url: '/result/:resultId?cached&file&extended',
       views: {
         'main@': {
             controller: 'ResultCtrl',
@@ -16,9 +16,13 @@ var app = angular.module('v2')
 })
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
-                                       $timeout, $stateParams, LoadResults, Execution, File) {
+                                       $timeout, $stateParams, LoadResults, Execution, File, ngDialog) {
 
   $scope.id = $stateParams.resultId
+  $scope.extended = $stateParams.extended || false
+
+  $scope.openFDVisualization = openFDVisualization
+  $scope.openUCCVisualization = openUCCVisualization
 
   $scope.uniqueColumnCombination = {
     count: 0,
@@ -92,7 +96,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   if (!$stateParams.cached && !$stateParams.file) {
     startSpin()
-    LoadResults.load({id: $scope.id, detailed: false}, function () {
+    LoadResults.load({id: $scope.id, detailed: ($stateParams.extended || false)}, function () {
       stopSpin()
       init()
       loadDetailsForExecution()
@@ -100,13 +104,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   } else if ($stateParams.file) {
       startSpin()
       console.log("File")
-      LoadResults.file({id: $scope.id, detailed: false}, function () {
+      LoadResults.file({id: $scope.id, detailed: ($stateParams.extended || false)}, function () {
         loadDetailsForFile()
         init()
         stopSpin()
       })
   } else {
-    console.log("no")
     init()
     loadDetailsForExecution()
   }
@@ -236,6 +239,21 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       })
       $scope.inclusionDependency.data = rows
       $scope.inclusionDependency.count = rows.length
+    })
+  }
+
+  function openFDVisualization() {
+    $scope.openVisualizationType = 'FD'
+    ngDialog.open({
+      template: '/assets/visualization.html',
+      scope: $scope
+    })
+  }
+  function openUCCVisualization() {
+    $scope.openVisualizationType = 'UCC'
+    ngDialog.open({
+      template: '/assets/visualization.html',
+      scope: $scope
     })
   }
 

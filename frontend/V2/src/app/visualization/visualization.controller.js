@@ -5,7 +5,7 @@ var app = angular.module('v2')
 .config(function config( $stateProvider ) {
   $stateProvider
     .state('visualization', {
-      url: '/visualization/:resultId',
+      url: '/visualization/:type',
       views: {
         'main@': {
             controller: 'VisualizationCtrl',
@@ -16,6 +16,5 @@ var app = angular.module('v2')
 })
 
 app.controller('VisualizationCtrl', function ($scope, $stateParams) {
-  $scope.id = $stateParams.resultId
-
+  $scope.type = $stateParams.type
 })

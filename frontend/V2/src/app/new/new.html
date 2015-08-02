@@ -67,7 +67,7 @@
                 <md-radio-button value="count" aria-label="Label 3">Just count the results.</md-radio-button>
               </md-radio-group>
               <p style="margin-top: -10px">Memory (in MB): <input ng-model="memory"/></p>
-              <button class="btn btn-default" type="button" ng-click="executeAlgorithm(cachingSelection, memory)" >Execute</button>
+              <md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Execute</md-button>
             </md-card-content>
           </md-card>
         </div>
