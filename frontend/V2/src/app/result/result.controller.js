@@ -16,7 +16,7 @@ var app = angular.module('v2')
 })
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
-                                       $timeout, $stateParams, LoadResults) {
+                                       $timeout, $stateParams, LoadResults, Execution) {
 
   $scope.id = $stateParams.resultId
 
@@ -91,6 +91,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onpagechange = onpagechange
 
   startSpin()
+  loadDetails()
 //  LoadResults.load({id: $scope.id, detailed: false}, function() {
     loadColumnCombination()
     loadFunctionalDependency()
@@ -98,6 +99,14 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     loadInclusionDependency()
     //stopSpin()
 //  })
+
+  function loadDetails() {
+    Execution.get({id: $scope.id}, function(result) {
+      $scope.execution = result
+      var duration = result.end - result.begin
+      $scope.duration = Math.floor(duration/(60*60*24))+'d '+twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60))
+    })
+  }
 
   function loadColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function(res) {
@@ -222,6 +231,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
   function stopSpin(){
     usSpinnerService.stop('spinner-2');
+  }
+  function twoDigets(number) {
+    return (number < 10 ? '0'+number : ''+number)
   }
 
 })

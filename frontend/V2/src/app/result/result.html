@@ -9,6 +9,14 @@
   </div>
 </div>
 
+  <md-card>
+    <p style="margin-left: 20px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
+    <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
+    </p>
+
+  </md-card>
+
+
   <md-card ng-if="uniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Unique Column Combination</h2>

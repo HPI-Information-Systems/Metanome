@@ -30,7 +30,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       name: 'Date', 
       field: 'date'
     },{
-      name:'Execution Time (HH:mm:ss)', 
+      name:'Execution Time (d HH:mm:ss)',
       field: 'time'
     },{
       name: 'Inputs', 
@@ -58,6 +58,9 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       $scope.content = []
       result.forEach(function(execution) {
         var duration = execution.end - execution.begin
+        if(execution.end == 0) {
+          duration = 0
+        }
         var inputs = []
         var results = []
         execution.inputs.forEach(function(input) {
@@ -74,7 +77,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
           id: execution.id,
           name: execution.algorithm.name,
           date: $filter('date')(execution.begin, 'yyyy-MM-dd HH:mm:ss'),
-          time: twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60)),
+          time: Math.floor(duration/(60*60*24))+' '+twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60)),
           inputs: inputs.join(', '),
           resultType: results.join(', '),
           actions: ''
