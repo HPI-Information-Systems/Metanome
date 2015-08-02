@@ -8,63 +8,66 @@
 </div>
 
 
- <div class="new-controller">
-  <div layout="row" layout-wrap>
-    <div flex="50">
-      <md-card>
-        <md-card-content>
-          <h2>Choose algorithm</h2>
-          <a class="settings-algorithm" ng-click="openAlgorithmSettings()"><i class="fa fa-cog fa-2x"></i></a>
-          <div class="algorithms-container">
-            <md-list>
-              <div ng-repeat="algorithmsList in algorithms">
-               <md-subheader class="md-no-sticky" ng-bind="algorithmsList.name"></md-subheader>
-               <md-list-item class="md-2-line" ng-repeat="item in algorithmsList.algorithms">
-                 <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="activateAlgorithm(item)">
-                   <h4>{{ item.name }}</h4>
-                   <p class="algo-desc">{{ item.description || "No description" }}</p>
-                 </div>
-               </md-list-item>
-               <md-divider></md-divider>
+     <div class="new-controller">
+      <div layout="row" layout-wrap>
+        <div flex="50">
+          <md-card>
+            <md-card-content>
+              <h2>Choose algorithm</h2>
+              <a class="settings-algorithm" ng-click="openAlgorithmSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <div class="algorithms-container">
+                <md-list>
+                  <div ng-repeat="algorithmsList in algorithms">
+                   <md-subheader class="md-no-sticky" ng-bind="algorithmsList.name"></md-subheader>
+                   <md-list-item class="md-2-line" ng-repeat="item in algorithmsList.algorithms">
+                     <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="activateAlgorithm(item)">
+                       <h4>{{ item.name }} <i class="zmdi zmdi-delete zmdi-hc-lg algorithmIcon"></i> <i class="zmdi zmdi-edit zmdi-hc-lg algorithmIcon"></i></h4>
+                       <p class="algo-desc">{{ item.description || "No description" }}</p>
+                     </div>
+                   </md-list-item>
+                   <md-divider></md-divider>
+                  </div>
+               </md-list>
               </div>
-           </md-list>
-          </div>
-        </md-card-content>
-      </md-card>
-    </div>
-    <div flex="50">
-      <md-card>
-        <md-card-content>
-          <h2>Select datasource</h2>
-          <a class="settings-datasources" ng-click="openDatasourceSettings()"><i class="fa fa-cog fa-2x"></i></a>
-          <div class="datasources-container">
-            <md-list>
-              <div ng-repeat="datasource in datasources | filter:{ possible: true }">
-               <md-subheader class="md-no-sticky" ng-bind="datasource.name"></md-subheader>
-               <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
-                 <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-click="toggleDatasource(item)" class="md-primary">
-                 <div class="algo-in-list md-list-item-text">
-                   <h4>{{ item.name }} ({{ item.desc || "No description" }})</h4>
-                 </div>
-               </md-checkbox>
-               </md-list-item>
-               <md-divider></md-divider>
+            </md-card-content>
+          </md-card>
+        </div>
+        <div flex="50">
+          <md-card>
+            <md-card-content>
+              <h2>Select datasource</h2>
+              <a class="settings-datasources" ng-click="openDatasourceSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <div class="datasources-container">
+                <md-list>
+                  <div ng-repeat="datasource in datasources | filter:{ possible: true }">
+                   <md-subheader class="md-no-sticky" ng-bind="datasource.name"></md-subheader>
+                   <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource">
+                     <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-click="toggleDatasource(item)" class="md-primary">
+                     <div class="algo-in-list md-list-item-text">
+                       <h4>{{ item.name }} ({{ item.desc || "No description" }})</h4>
+                     </div>
+                   </md-checkbox>
+                       <span class="datasourceActions"> <i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i>  <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon"></i>  </span>
+                   </md-list-item>
+                   <md-divider></md-divider>
+                  </div>
+               </md-list>
               </div>
-           </md-list>
-          </div>
-        </md-card-content>
-      </md-card>
+            </md-card-content>
+          </md-card>
+        </div>
+        <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-1"></span>
+        <div flex="100">
+          <md-card>
+            <md-card-content ng-if="activeAlgorithm">
+              <h2>Additional configuration</h2>
+              <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
+              <button class="btn btn-default" type="button" ng-if="!algorithmHasCustomProperties" ng-click="executeAlgorithm()" >Execute</button>
+            </md-card-content>
+          </md-card>
+        </div>
+      </div>
     </div>
-    <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-1"></span>
-    <div flex="100">
-      <md-card>
-        <md-card-content ng-if="activeAlgorithm">
-          <h2>Additional configuration</h2>
-          <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
-          <button class="btn btn-default" type="button" ng-if="!algorithmHasCustomProperties" ng-click="executeAlgorithm()" >Execute</button>
-        </md-card-content>
-      </md-card>
     </div>
-  </div>
-</div>
 
+<ng-include src="partials/footer.html"></ng-include>

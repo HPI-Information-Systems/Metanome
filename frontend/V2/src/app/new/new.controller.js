@@ -23,16 +23,24 @@ angular.module('v2')
   Datasource,
   Parameter,
   AlgorithmExecution,
-  usSpinnerService
+  usSpinnerService,
+  $location,
+  NewAlgorithm,
+  AvailableAlgorithmFiles,
+  AvailableInputFiles
 ) {
 
   //Exported functions
-  $scope.openAlgorithmSettings = openAlgorithmSettings
-  $scope.openDatasourceSettings = openDatasourceSettings
-  $scope.openNewDatasource = openNewDatasource
+  $scope.openAlgorithmSettings = openNewAlgorithm
+  $scope.openDatasourceSettings = openNewDatasource
   $scope.executeAlgorithm = executeAlgorithm
   $scope.toggleDatasource = toggleDatasource
   $scope.activateAlgorithm = activateAlgorithm
+
+  //Exports for dialogs
+  $scope.NewAlgorithm = NewAlgorithm
+  $scope.AvailableAlgorithmFiles = AvailableAlgorithmFiles
+  $scope.AvailableInputFiles = AvailableInputFiles
 
   //Exported variables
   $scope.algorithms = []  // algorithm categories + algorithms
@@ -60,12 +68,12 @@ angular.module('v2')
   var currentParameter
 
   $scope.tabs = [
-    { 
-      title: 'New', 
+    {
+      title: 'New',
       view: 'new'
     },
-    { 
-      title: 'History', 
+    {
+      title: 'History',
       view: 'history'
     }
   ]
@@ -148,22 +156,89 @@ angular.module('v2')
   }
 
   // Open Dialogs
-  function openAlgorithmSettings() {
+  function openNewAlgorithm() {
     ngDialog.open({
-      template: '/assets/settings-algorithm.html',
-      scope: $scope
-    })
-  }
-  function openDatasourceSettings() {
-    ngDialog.open({
-      template: '/assets/settings-datasource.html',
-      scope: $scope
+      template: '/assets/new-algorithm.html',
+      scope: $scope,
+      controller: ['$scope', function($scope) {
+        $scope.saveNewAlgorithm = saveNewAlgorithm
+        $scope.algorithmFiles = []
+        loadAvailableAlgorithms()
+        function loadAvailableAlgorithms() {
+            $scope.$parent.AvailableAlgorithmFiles.get(function(result) {
+                $scope.$parent.algorithms.forEach(function(algorithmCategory){
+                    algorithmCategory.algorithms.forEach(function(algorithm) {
+                        var index = result.indexOf(algorithm.fileName);
+                        if (index !== -1) {
+                            result.splice(index, 1);
+                        }
+                    })
+                })
+                $scope.algorithmFiles = result
+            })
+        }
+        function saveNewAlgorithm(algorithm) {
+            console.log($scope.$parent.dialogExports)
+            $scope.$parent.NewAlgorithm.store({
+              "id": 1,
+              "fileName": algorithm.fileName,
+              "name": algorithm.name,
+              "author": algorithm.author,
+              "description": algorithm.description,
+              "ind": true,
+              "fd": false,
+              "ucc": false,
+              "cucc": false,
+              "od": false,
+              "relationalInput": false,
+              "databaseConnection": false,
+              "tableInput": false,
+              "fileInput": true,
+              "basicStat": false
+          }, function() {
+              initializeAlgorithmList()
+          })
+        }
+      }]
     })
   }
   function openNewDatasource() {
     ngDialog.open({
       template: '/assets/new-datasource.html',
-      scope: $scope
+      scope: $scope,
+      controller: ['$scope', function($scope) {
+        $scope.selectDatasourceCategory = selectDatasourceCategory
+        $scope.newDataSourceCategory = 'file'
+        $scope.files = []
+        $scope.databaseConnections = []
+        loadAvailableFiles()
+        loadAvailableDatasources()
+        function selectDatasourceCategory(category) {
+          $scope.newDataSourceCategory = category
+        }
+        function loadAvailableFiles() {
+          $scope.AvailableInputFiles.get(function(result) {
+            $scope.$parent.datasources.forEach(function(category){
+              if (category.name == 'File Input') {
+                category.datasource.forEach(function(file){
+                  var index = result.indexOf(file.fileName);
+                  if (index !== -1) {
+                    result.splice(index, 1);
+                  }
+                })
+              }
+            })
+            $scope.files = result
+          })
+        }
+        function loadAvailableDatasources() {
+          $scope.$parent.datasources.forEach(function (category) {
+            if (category.name == 'Database Connection') {
+              $scope.databaseConnections = category.datasource
+            }
+          })
+        }
+      }]
     })
   }
 
@@ -203,6 +278,7 @@ angular.module('v2')
     startSpin()
     AlgorithmExecution.run({}, payload, function(result) {
       stopSpin()
+      $location.url('/result/'+result.id);
     }, function(error){
       stopSpin()
       alert("Error!")
@@ -337,7 +413,6 @@ angular.module('v2')
   }
 
   // Other Helpers
-
   function startSpin(){
     usSpinnerService.spin('spinner-1');
   }
@@ -412,7 +487,7 @@ angular.module('v2')
           //needed because same fields are named different in different places in backend - workaround!
           var param = {
             "table": item.tableName,
-            "databaseConnection":{  
+            "databaseConnection":{
               "dbUrl":item.databaseConnection.url,
               "username":item.databaseConnection.username,
               "password":item.databaseConnection.password,
@@ -422,7 +497,7 @@ angular.module('v2')
             },
             "type":"ConfigurationSettingTableInput",
             "id":item.id
-          }    
+          }
           params[i].settings.push(param)
         }
         break
@@ -474,4 +549,5 @@ angular.module('v2')
     }
     return params
   }
+
 })

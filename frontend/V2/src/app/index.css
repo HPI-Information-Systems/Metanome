@@ -23,6 +23,10 @@ md-card, md-card-content, md-list-item, .md-header, .resultsTable md-content{
   background-color: #ffffff !important;
 }
 
+md-card-content h2 {
+  margin-top: 10px;
+}
+
 .md-header {
  padding-left: 25px;
  padding-right: 25px;
@@ -210,8 +214,8 @@ section.jumbotron h1 {
 .new-controller .settings-algorithm {
   position: absolute;
   right: 50%;
-  top: 80px;
-  margin-right: 30px;
+  top: 100px;
+  margin-right: 35px;
   margin-top: 30px;
   cursor: pointer;
 }
@@ -219,8 +223,8 @@ section.jumbotron h1 {
 .new-controller .settings-datasources{
   position: absolute;
   right: 0;
-  top: 80px;
-  margin-right: 50px;
+  top: 100px;
+  margin-right: 65px;
   margin-top: 30px;
   cursor: pointer;
 }
@@ -456,6 +460,10 @@ md-table {
   margin-right: 7px;
   margin-bottom: 10px;
 }
+
+.tabLink.highlighted {
+  font-weight: bold;
+}
 .tabbar-content {
   display: table;
 }
@@ -473,3 +481,40 @@ md-content {
   margin-left: 35px;
   margin-right: 35px;
 }
+
+.main-container {
+  min-height: 100%;
+  margin-bottom: -40px;
+  background-color: #CFD8DC;
+}
+.main-container:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  height: 40px;
+}
+.site-footer {
+  background-color: #CFD8DC;
+}
+
+.algorithmIcon, .datasourceIcon {
+  float: right;
+  margin-right: 10px;
+}
+
+.datasourceIcon {
+  float: right;
+  margin-top: -10px;
+  padding-right: 5px !important;
+}
+
+.tabsdemoDynamicHeight md-content {
+  background-color: transparent !important; }
+.tabsdemoDynamicHeight md-content md-tabs {
+  background: #f6f6f6;
+  border: 1px solid #e1e1e1; }
+.tabsdemoDynamicHeight md-content md-tabs md-tabs-canvas {
+  background: white; }
+.tabsdemoDynamicHeight md-content h1:first-child {
+  margin-top: 0; }

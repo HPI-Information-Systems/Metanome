@@ -15,7 +15,8 @@ var app = angular.module('v2')
     })
 })
 
-app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $timeout, $stateParams) {
+app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
+                                       $timeout, $stateParams, LoadResults) {
 
   $scope.id = $stateParams.resultId
 
@@ -89,10 +90,14 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
 
   $scope.onpagechange = onpagechange
 
-  loadColumnCombination()
-  loadFunctionalDependency()
-  loadBasicStatistic()
-  loadInclusionDependency()
+  startSpin()
+//  LoadResults.load({id: $scope.id, detailed: false}, function() {
+    loadColumnCombination()
+    loadFunctionalDependency()
+    loadBasicStatistic()
+    loadInclusionDependency()
+    //stopSpin()
+//  })
 
   function loadColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function(res) {
@@ -145,7 +150,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
         })
       })
       $scope.functionalDependency.data = rows
-      console.log(rows)
       $scope.functionalDependency.count = rows.length
     })
   }
@@ -210,6 +214,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, $t
     }, 2000);
 
     return deferred.promise;
+  }
+  function startSpin(){
+    usSpinnerService.spin('spinner-2');
+  }
+  function stopSpin(){
+    usSpinnerService.stop('spinner-2');
   }
 
 })

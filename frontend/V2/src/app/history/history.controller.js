@@ -128,8 +128,6 @@ app.directive('mdTable', function () {
         };
         $scope.showResult = function(result) {
           $location.url('/result/'+result.id);
-          //LoadResults.load({id: result.id, detailed: false}, function() {
-          //})
         };
       },
       template: angular.element(document.querySelector('#md-table-template')).html()
