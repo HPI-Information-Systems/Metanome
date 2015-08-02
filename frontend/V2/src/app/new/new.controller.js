@@ -58,6 +58,7 @@ angular.module('v2')
   }
   $scope.algorithmHasCustomProperties
   $scope.activeAlgorithm
+  $scope.cachingSelection = 'cache'
 
   //Private variables
   var activeDataSources = {
@@ -317,7 +318,7 @@ angular.module('v2')
     initializeForm()
     updateParameter(algorithm)
   }
-  function executeAlgorithm(){
+  function executeAlgorithm(caching, memory){
     var algorithm = $scope.activeAlgorithm
     var params = readParamsIntoBackendFormat(currentParameter)
     var date = new Date()
@@ -328,11 +329,12 @@ angular.module('v2')
       'algorithmId':algorithm.id,
       'executionIdentifier':algorithm.fileName+executionIdentifierDate ,
       'requirements': params,
-      'cacheResults':true,
-      'writeResults':false,
-      'countResults':false,
-      'memory':''
+      'cacheResults':(caching == 'cache'),
+      'writeResults':(caching == 'disk'),
+      'countResults':(caching == 'count'),
+      'memory':memory
     }
+    console.log(payload)
     $scope.payload = payload
     $scope.canceled = false
     $scope.cancelFunction = function(){
@@ -401,11 +403,6 @@ angular.module('v2')
       {
         'type': 'actions',
         'items': [
-          {
-            'type': 'button',
-            'title': 'Execute',
-            'onClick': 'executeAlgorithm()'
-          }
         ]
       }
     ]

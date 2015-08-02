@@ -43,6 +43,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       field: 'actions'
     }
   ];
+  $scope.loadExecutions = loadExecutions
 
   // Private varias
   var executions
@@ -109,7 +110,7 @@ app.directive('mdTable', function () {
         thumbs:'=', 
         count: '=' 
       },
-      controller: function ($scope,$filter,$window, $timeout, LoadResults, $location) {
+      controller: function ($scope,$filter,$window, $timeout, LoadResults, $location, Delete) {
         var orderBy = $filter('orderBy');
         $scope.tablePage = 0;
         $scope.nbOfPages = function () {
@@ -132,6 +133,11 @@ app.directive('mdTable', function () {
         $scope.showResult = function(result) {
           $location.url('/result/'+result.id);
         };
+        $scope.deleteExecution = function(execution) {
+          Delete.execution({id: execution.id}, function(result) {
+            $scope.$parent.loadExecutions()
+          })
+        }
       },
       template: angular.element(document.querySelector('#md-table-template')).html()
     }

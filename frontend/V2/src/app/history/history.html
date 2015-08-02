@@ -25,7 +25,7 @@
       <tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count" class="md-table-content-row" ng-click="showResult(c)">
         <td ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs" class="md-table-content">{{(h.field.indexOf('date') > 0) ? $filter('date')(c[h.field]) : c[h.field];}}</td>
         <td class="md-table-td-more">
-          <md-button aria-label="Info"><i class="ion-android-more-vertical"></i></md-button>
+          <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="$event.stopPropagation(); deleteExecution(c)"></i>
         </td>
       </tr>
     </tbody>

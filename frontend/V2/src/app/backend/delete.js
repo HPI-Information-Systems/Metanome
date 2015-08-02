@@ -31,6 +31,13 @@ angular.module('v2')
                         input: 'algorithms',
                         id: '@id'
                     }
+                },
+                execution: {
+                    method: 'DELETE',
+                    params: {
+                        input: 'executions',
+                        id: '@id'
+                    }
                 }
             });
         }
