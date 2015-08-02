@@ -9,7 +9,8 @@ angular.module('v2', [
   'ngDialog',
   'schemaForm',
   'angularSpinner',
-  'md.data.table'
+  'md.data.table',
+  'timer'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/new');

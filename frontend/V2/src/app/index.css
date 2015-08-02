@@ -88,7 +88,7 @@ section.jumbotron h1 {
 
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   width: 800px !important;
-  height: 95% !important;
+  height: auto;
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-content .settings-container {
@@ -524,3 +524,8 @@ md-content {
   background: white; }
 .tabsdemoDynamicHeight md-content h1:first-child {
   margin-top: 0; }
+
+.ngdialog.ngdialog-theme-default .ngdialog-button.ngdialog-button-warning {
+  background: #F44336;
+  color: #FFEBEE;
+}

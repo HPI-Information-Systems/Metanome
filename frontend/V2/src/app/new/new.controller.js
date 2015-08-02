@@ -249,7 +249,7 @@ angular.module('v2')
     })
   }
   function confirmDelete(item) {
-    $scope.confirmText = "Are you sure you want to delete this?"
+    $scope.confirmText = "Are you sure you want to delete it?"
     $scope.confirmItem = item
     $scope.confirmFuntion = function(){
       switch ($scope.confirmItem.type) {
@@ -288,7 +288,7 @@ angular.module('v2')
                 <p>{{$parent.confirmText}}</p>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
-                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="$parent.confirmDialog(1)">Yes</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-warning" ng-click="$parent.confirmDialog(1)">Yes</button>\
                 </div>',
       plain: true,
       scope: $scope
@@ -331,12 +331,22 @@ angular.module('v2')
       'countResults':false,
       'memory':''
     }
-    startSpin()
+    ngDialog.openConfirm({
+      template: '\
+                <h3>Execution running</h3>\
+                <timer interval="1000">Elapsed time: {{days}} days, {{hours}} hour{{hoursS}}, {{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.</timer>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-warning" ng-click="cancelExecution()">Cancel Execution</button>\
+                </div>',
+      plain: true,
+      scope: $scope,
+      controller: ['$scope', function($scope) {
+      }]
+    })
     AlgorithmExecution.run({}, payload, function(result) {
-      stopSpin()
+      ngDialog.closeAll()
       $location.url('/result/'+result.id);
     }, function(error){
-      stopSpin()
       alert("Error!")
     })
   }
