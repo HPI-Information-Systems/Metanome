@@ -382,7 +382,7 @@ angular.module('v2')
       if(datasource.name === 'Table Inputs'){
         datasource.possible = algorithm.tableInput || algorithm.relationalInput
       } else if(datasource.name === 'Database Connection'){
-        datasource.possible = algorithm.databaseConnection || algorithm.relationalInput
+        datasource.possible = algorithm.databaseConnection
       } else if(datasource.name === 'File Input'){
         datasource.possible = algorithm.fileInput || algorithm.relationalInput
       }
@@ -415,8 +415,7 @@ angular.module('v2')
         switch (param.type) {
           case 'ConfigurationRequirementRelationalInput':
             configureParamInputs(param, 'File Input')
-          configureParamInputs(param, 'Table Inputs')
-          configureParamInputs(param, 'Database Connection')
+            configureParamInputs(param, 'Table Inputs')
           break
           case 'ConfigurationRequirementFileInput':
             configureParamInputs(param, 'File Input')
