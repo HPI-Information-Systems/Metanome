@@ -129,9 +129,11 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           determinant.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
         })
         var extendedDependant = []
-        result.extendedDependant.columnIdentifiers.forEach(function(combination) {
-          extendedDependant.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
-        })
+        if(result.extendedDependant) {
+          result.extendedDependant.columnIdentifiers.forEach(function (combination) {
+            extendedDependant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
+          })
+        }
         rows.push({
           determinant: '[' + determinant.join(',') + ']',
           dependant: result.dependant.tableIdentifier + '.' + result.dependant.columnIdentifier,
