@@ -27,7 +27,8 @@ angular.module('v2')
   $location,
   NewAlgorithm,
   AvailableAlgorithmFiles,
-  AvailableInputFiles
+  AvailableInputFiles,
+  Delete
 ) {
 
   //Exported functions
@@ -36,6 +37,8 @@ angular.module('v2')
   $scope.executeAlgorithm = executeAlgorithm
   $scope.toggleDatasource = toggleDatasource
   $scope.activateAlgorithm = activateAlgorithm
+  $scope.confirmDelete = confirmDelete
+  $scope.confirmDialog = confirmDialog
 
   //Exports for dialogs
   $scope.NewAlgorithm = NewAlgorithm
@@ -114,6 +117,8 @@ angular.module('v2')
       }
     ]
 
+    $scope.algorithms = []
+
     algorithmCategoryNames.forEach(function(category){
       Algorithms.get({type: category.name}, function(result){
         $scope.algorithms.push({
@@ -138,6 +143,8 @@ angular.module('v2')
         display: 'Table Inputs'
       }
     ]
+
+    $scope.datasources = []
 
     inputCategories.forEach(function(category){
       Datasource.get({type: category.name}, function(result){
@@ -240,6 +247,55 @@ angular.module('v2')
         }
       }]
     })
+  }
+  function confirmDelete(item) {
+    $scope.confirmText = "Are you sure you want to delete this?"
+    $scope.confirmItem = item
+    $scope.confirmFuntion = function(){
+      switch ($scope.confirmItem.type) {
+        case 'fileInput':
+          Delete.file({id: $scope.confirmItem.id}, function(){
+            initializeDatasources()
+            ngDialog.closeAll()
+          })
+          break
+        case 'databaseConnection':
+          Delete.database({id: $scope.confirmItem.id}, function(){
+            initializeDatasources()
+            ngDialog.closeAll()
+          })
+          break
+        case 'tableInput':
+          Delete.table({id: $scope.confirmItem.id}, function(){
+            initializeDatasources()
+            ngDialog.closeAll()
+          })
+          break
+        default:
+          Delete.algorithm({id: $scope.confirmItem.id}, function(){
+            initializeAlgorithmList()
+            ngDialog.closeAll()
+          })
+          break
+      }
+    }
+    openConfirm()
+  }
+  function openConfirm() {
+    ngDialog.openConfirm({
+      template:'\
+                <h3>Confirm</h3>\
+                <p>{{$parent.confirmText}}</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="$parent.confirmDialog(1)">Yes</button>\
+                </div>',
+      plain: true,
+      scope: $scope
+    })
+  }
+  function confirmDialog() {
+    $scope.confirmFuntion()
   }
 
   // Actions
