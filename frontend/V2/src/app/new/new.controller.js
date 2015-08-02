@@ -28,7 +28,8 @@ angular.module('v2')
   NewAlgorithm,
   AvailableAlgorithmFiles,
   AvailableInputFiles,
-  Delete
+  Delete,
+  StopExecution
 ) {
 
   //Exported functions
@@ -44,6 +45,7 @@ angular.module('v2')
   $scope.NewAlgorithm = NewAlgorithm
   $scope.AvailableAlgorithmFiles = AvailableAlgorithmFiles
   $scope.AvailableInputFiles = AvailableInputFiles
+  $scope.StopExecution = StopExecution
 
   //Exported variables
   $scope.algorithms = []  // algorithm categories + algorithms
@@ -331,6 +333,11 @@ angular.module('v2')
       'countResults':false,
       'memory':''
     }
+    $scope.payload = payload
+    $scope.canceled = false
+    $scope.cancelFunction = function(){
+      $scope.canceled = true
+    }
     ngDialog.openConfirm({
       template: '\
                 <h3>Execution running</h3>\
@@ -341,11 +348,20 @@ angular.module('v2')
       plain: true,
       scope: $scope,
       controller: ['$scope', function($scope) {
+        $scope.cancelExecution = function(){
+          $scope.$parent.cancelFunction()
+          var params = {identifier : $scope.$parent.payload.executionIdentifier}
+          $scope.$parent.StopExecution.stop(params, function(){
+            ngDialog.closeAll()
+          })
+        }
       }]
     })
     AlgorithmExecution.run({}, payload, function(result) {
       ngDialog.closeAll()
-      $location.url('/result/'+result.id);
+      if(!$scope.canceled) {
+        $location.url('/result/'+result.id);
+      }
     }, function(error){
       alert("Error!")
     })
