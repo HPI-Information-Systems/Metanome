@@ -482,12 +482,14 @@ md-content {
   margin-right: 35px;
 }
 
-.main-container {
-  min-height: 100%;
-  margin-bottom: -40px;
+.main {
+  min-height: 100% !important;
+  height: 900px;
+  margin-bottom: -70px;
   background-color: #CFD8DC;
+  z-index: 10
 }
-.main-container:after {
+.main:after {
   content: "";
   display: block;
 }
@@ -496,6 +498,10 @@ md-content {
 }
 .site-footer {
   background-color: #CFD8DC;
+  width: 100%;
+  text-align: center;
+  height: 45px;
+  z-index: -1;
 }
 
 .algorithmIcon, .datasourceIcon {
