@@ -5,7 +5,7 @@ var app = angular.module('v2')
 .config(function config( $stateProvider ) {
   $stateProvider
     .state('result', {
-      url: '/result/:resultId',
+      url: '/result/:resultId?cached&file',
       views: {
         'main@': {
             controller: 'ResultCtrl',
@@ -16,7 +16,7 @@ var app = angular.module('v2')
 })
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
-                                       $timeout, $stateParams, LoadResults, Execution) {
+                                       $timeout, $stateParams, LoadResults, Execution, File) {
 
   $scope.id = $stateParams.resultId
 
@@ -90,17 +90,39 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   $scope.onpagechange = onpagechange
 
-  startSpin()
-  loadDetails()
-//  LoadResults.load({id: $scope.id, detailed: false}, function() {
+  if (!$stateParams.cached && !$stateParams.file) {
+    startSpin()
+    LoadResults.load({id: $scope.id, detailed: false}, function () {
+      stopSpin()
+      init()
+      loadDetailsForExecution()
+    })
+  } else if ($stateParams.file) {
+      startSpin()
+      console.log("File")
+      LoadResults.file({id: $scope.id, detailed: false}, function () {
+        loadDetailsForFile()
+        init()
+        stopSpin()
+      })
+  } else {
+    console.log("no")
+    init()
+    loadDetailsForExecution()
+  }
+
+  function init() {
     loadColumnCombination()
     loadFunctionalDependency()
     loadBasicStatistic()
     loadInclusionDependency()
-    //stopSpin()
-//  })
-
-  function loadDetails() {
+  }
+  function loadDetailsForFile() {
+    File.get({id: $scope.id}, function(result) {
+      $scope.file = result
+    })
+  }
+  function loadDetailsForExecution() {
     Execution.get({id: $scope.id}, function(result) {
       $scope.execution = result
       var duration = result.end - result.begin

@@ -45,7 +45,7 @@
                        <h4>{{ item.name }} ({{ item.desc || "No description" }})</h4>
                      </div>
                    </md-checkbox>
-                       <span class="datasourceActions"> <i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i>  <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="confirmDelete(item)"></i>  </span>
+                       <span class="datasourceActions"> <a ng-if="datasource.name == 'File Input'" style="color: black" ng-href="#/result/{{item.id}}?cached=false&file=true"><i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i></a>  <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="confirmDelete(item)"></i>  </span>
                    </md-list-item>
                    <md-divider></md-divider>
                   </div>

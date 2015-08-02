@@ -9,11 +9,14 @@
   </div>
 </div>
 
-  <md-card>
-    <p style="margin-left: 20px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
-    <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
+  <md-card ng-if="file">
+    <p style="margin-left: 20px">Results for file '{{file.fileName}}'
     </p>
-
+  </md-card>
+  <md-card ng-if="execution">
+    <p style="margin-left: 20px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
+      <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
+    </p>
   </md-card>
 
 

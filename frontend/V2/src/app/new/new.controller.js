@@ -332,7 +332,7 @@ angular.module('v2')
       'cacheResults':(caching == 'cache'),
       'writeResults':(caching == 'disk'),
       'countResults':(caching == 'count'),
-      'memory':memory
+      'memory':memory || ''
     }
     console.log(payload)
     $scope.payload = payload
@@ -362,7 +362,11 @@ angular.module('v2')
     AlgorithmExecution.run({}, payload, function(result) {
       ngDialog.closeAll()
       if(!$scope.canceled) {
-        $location.url('/result/'+result.id);
+        if(caching = 'cache') {
+          $location.url('/result/' + result.id + '?cached=true');
+        } else {
+          $location.url('/result/' + result.id);
+        }
       }
     }, function(error){
       alert("Error!")
@@ -499,6 +503,9 @@ angular.module('v2')
   }
   function twoDigetDate(number) {
     return (number < 10 ? '0'+number : ''+number)
+  }
+  function loadResultsForFileInput() {
+    LoadResults
   }
   function readParamsIntoBackendFormat(params){
     var i, j
