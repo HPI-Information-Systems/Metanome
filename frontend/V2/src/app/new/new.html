@@ -41,7 +41,7 @@
                    <md-subheader style="padding: 15px 0 15px 0" ng-bind="datasource.name"></md-subheader>
                    <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource | filter:{ disabled: false }" style="min-height: 20px">
                        <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="toggleDatasource(item)"  style="margin: 0 -13px 0 -20px; padding: 6px 0 6px 4px;">
-                           <h3 style="font-weight: bold">{{ item.name }} ({{ item.desc || "No description" }})  <span class="datasourceActions"> <a ng-if="datasource.name == 'File Input'" style="color: black" ng-href="#/result/{{item.id}}?cached=false&file=true"><i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i></a>  <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="confirmDelete(item)"></i>  </span></h3>
+                           <h3 style="font-weight: bold">{{ item.name }} ({{ item.desc || "No description" }})  <span class="datasourceActions"> <a ng-if="datasource.name == 'File Input'" style="color: black" ng-href="#/result/{{item.id}}?cached=false&file=true"><i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i></a>  <a ng-click="editDatasource(item)"><i class="zmdi zmdi-edit zmdi-hc-lg datasourceIcon"></i></a><i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="confirmDelete(item)"></i>  </span></h3>
                        </div>
                    </md-list-item>
                    <md-divider></md-divider>

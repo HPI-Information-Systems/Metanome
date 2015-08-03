@@ -25,7 +25,7 @@ angular.module('v2')
   AlgorithmExecution,
   usSpinnerService,
   $location,
-  New,
+  InputStore,
   AvailableAlgorithmFiles,
   AvailableInputFiles,
   Delete,
@@ -40,12 +40,15 @@ angular.module('v2')
   $scope.activateAlgorithm = activateAlgorithm
   $scope.confirmDelete = confirmDelete
   $scope.confirmDialog = confirmDialog
+  $scope.editAlgorithm = editAlgorithm
+  $scope.editDatasource = editDatasource
 
   //Exports for dialogs
-  $scope.New = New
+  $scope.InputStore = InputStore
   $scope.AvailableAlgorithmFiles = AvailableAlgorithmFiles
   $scope.AvailableInputFiles = AvailableInputFiles
   $scope.StopExecution = StopExecution
+  $scope.doneEditingDatasources = doneEditingDatasources
 
   //Exported variables
   $scope.algorithms = []  // algorithm categories + algorithms
@@ -220,15 +223,33 @@ angular.module('v2')
     ngDialog.open({
       template: '/assets/new-datasource.html',
       scope: $scope,
+      preCloseCallback: function() {
+        doneEditingDatasources()
+      },
       controller: ['$scope', function($scope) {
         $scope.selectDatasourceCategory = selectDatasourceCategory
         $scope.saveNewFileInput = saveNewFileInput
         $scope.saveDatabaseInput = saveDatabaseInput
         $scope.saveTableInput = saveTableInput
         $scope.newDataSourceCategory = 'file'
-        $scope.file = {}
-        $scope.database = {}
-        $scope.table = {}
+        if($scope.$parent.editFileInput){
+          $scope.file = $scope.$parent.editFileInput
+          $scope.newDataSourceCategory = 'file'
+        } else {
+          $scope.file = {}
+        }
+        if($scope.$parent.editDatabaseInput){
+          $scope.database = $scope.$parent.editDatabaseInput
+          $scope.newDataSourceCategory = 'database'
+        } else {
+          $scope.database = {}
+        }
+        if($scope.$parent.editTableInput){
+          $scope.table = $scope.$parent.editTableInput
+          $scope.newDataSourceCategory = 'table'
+        } else {
+          $scope.table = {}
+        }
         $scope.files = []
         $scope.databaseConnections = []
         loadAvailableFiles()
@@ -259,52 +280,71 @@ angular.module('v2')
           })
         }
         function saveNewFileInput(file) {
-          $scope.$parent.New.fileInput({
+          var obj = {
             "type": "fileInput",
             "id": 1,
             "name": file.fileName || '',
-            "fileName": file.fileName,
-            "separator": file.separator,
-            "quoteChar": file.quoteCharacter,
-            "escapeChar": file.escapeCharacter,
-            "skipLines": file.line,
-            "strictQuotes": file.strictQuotes,
-            "ignoreLeadingWhiteSpace": file.ignoreLeadingWhiteSpace,
-            "hasHeader": file.hasHeader,
-            "skipDifferingLines": file.skipDifferingLines,
-            "comment": file.comment,
-            "nullValue": file.nullValue
-          }, function() {
-            initializeDatasources()
-            ngDialog.closeAll()
-          }, function() {
-            alert("An error occured when loading this datasource!")
-          })
+            "fileName": file.fileName || '',
+            "separator": file.separator || '',
+            "quoteChar": file.quoteCharacter || '',
+            "escapeChar": file.escapeCharacter || '',
+            "skipLines": file.line || '',
+            "strictQuotes": file.strictQuotes || false,
+            "ignoreLeadingWhiteSpace": file.ignoreLeadingWhiteSpace || false,
+            "hasHeader": file.hasHeader || false,
+            "skipDifferingLines": file.skipDifferingLines || false,
+            "comment": file.comment || '',
+            "nullValue": file.nullValue || ''
+          }
+          if($scope.$parent.editFileInput){
+            $scope.$parent.InputStore.updateFileInput(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          } else {
+            $scope.$parent.InputStore.newFileInput(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          }
         }
         function saveDatabaseInput(database) {
-          $scope.$parent.New.databaseConnection(  {
+          var obj = {
             "type": "databaseConnection",
             "id": 1,
             "name": database.url+'; '+database.userName+'; '+database.system,
-            "url": database.url,
-            "username": database.userName,
-            "password": database.password,
-            "system": database.system,
-            "comment": database.comment
-          }, function() {
-            initializeDatasources()
-            ngDialog.closeAll()
-          }, function() {
-            alert("An error occured when loading this datasource!")
-          })
+            "url": database.url || '',
+            "username": database.username || '',
+            "password": database.password || '',
+            "system": database.system || '',
+            "comment": database.comment || ''
+          }
+          if($scope.$parent.saveDatabaseInput){
+            $scope.$parent.InputStore.updateDatabaseConnection(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          } else {
+            $scope.$parent.InputStore.newDatabaseConnection(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          }
         }
         function saveTableInput(table) {
-          console.log(table)
-          $scope.$parent.New.tableInput({
+          var obj = {
             "type": "tableInput",
             "id": 1,
-            "name": table.name + ";  "+table.database.name,
-            "tableName": table.name,
+            "name": table.tableName + ";  "+table.database.name || '',
+            "tableName": table.tableName || '',
             "databaseConnection": {
               "type": "databaseConnection",
               "id": table.database.id,
@@ -315,13 +355,23 @@ angular.module('v2')
               "system": table.database.system,
               "comment": table.database.comment
             },
-            "comment": table.comment
-          }, function() {
-            initializeDatasources()
-            ngDialog.closeAll()
-          }, function() {
-            alert("An error occured when loading this datasource!")
-          })
+            "comment": table.comment || ''
+          }
+          if($scope.$parent.saveTableInput) {
+            $scope.$parent.InputStore.updateTableInput(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          } else{
+            $scope.$parent.InputStore.newTableInput(obj, function () {
+              initializeDatasources()
+              ngDialog.closeAll()
+            }, function () {
+              alert("An error occured when loading this datasource!")
+            })
+          }
         }
       }]
     })
@@ -556,6 +606,30 @@ angular.module('v2')
         }
       })
     })
+  }
+  function editDatasource(datasource) {
+    console.log(datasource)
+    switch(datasource.type) {
+      case 'fileInput':
+        $scope.editFileInput = datasource
+        break;
+      case 'databaseConnection':
+        $scope.editDatabaseInput = datasource
+        break;
+      case 'tableInput':
+        $scope.editTableInput = datasource
+        break;
+    }
+    openNewDatasource()
+  }
+  function doneEditingDatasources(){
+    $scope.editFileInput = null
+    $scope.editDatabaseInput = null
+    $scope.editTableInput = null
+  }
+  function editAlgorithm(algorithm) {
+    $scope.editAlgorithm = algorithm
+    openNewDatasource()
   }
 
   // Parameter Helpers
