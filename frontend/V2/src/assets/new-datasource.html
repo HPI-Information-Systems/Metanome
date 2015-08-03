@@ -26,27 +26,54 @@
           <label>Separator</label>
           <input type="text" ng-model="file.separator"/>
         </md-input-container>
-         <md-input-container>
+        <md-input-container>
           <label>Escape Character</label>
           <input type="text" ng-model="file.escapeCharacter"/>
         </md-input-container>
-         <md-input-container>
-          <label>Line</label>
-          <input type="text" ng-model="file.line"/>
+        <md-input-container>
+          <label>Quote Character</label>
+          <input type="text" ng-model="file.quoteCharacter"/>
         </md-input-container>
       </div>
       <div layout="row">
          <md-input-container style="margin-top: -30px;">
+          <label>Line</label>
+          <input type="text" ng-model="file.line"/>
+        </md-input-container>
+         <md-input-container style="margin-top: -30px;">
           <label>Null Value</label>
           <input type="text" ng-model="file.nullValue">
         </md-input-container>
-        <md-input-container style="margin-top: -30px;">
-          <label>Strict Quotes</label>
-          <input type="text" ng-model="file.strictQuotes"/>
-        </md-input-container>
       </div>
-    </div>
-   </div>
+
+        <md-checkbox
+                ng-model="file.strictQuotes"
+                aria-label="Strict Quotes"
+                class="md-primary">
+          Strict Quotes
+        </md-checkbox>
+        <md-checkbox
+                ng-model="file.ignoreLeadingWhiteSpace"
+                aria-label="Ignore Leading Whitespace"
+                class="md-primary">
+          Ignore Leading Whitespace
+        </md-checkbox>
+        <md-checkbox
+                ng-model="file.hasHeader"
+                aria-label="Has Header"
+                class="md-primary">
+          Has Header
+        </md-checkbox>
+        <md-checkbox
+                ng-model="file.skipDifferingLines"
+                aria-label="Skip Lines With Differing Length"
+                class="md-primary">
+          Skip Lines With Differing Length
+        </md-checkbox>
+      </div>
+    <md-button class="md-raised md-primary" ng-click="saveNewFileInput(file)" style="margin-left: 10px;">Save</md-button>
+  </div>
+</div>
   <div ng-if="newDataSourceCategory=='database'">
     <div layout="row" style="margin-left: 10px;">
       <md-input-container>
@@ -79,6 +106,7 @@
         <input type="text" ng-model="database.comment"/>
       </md-input-container>
     </div>
+    <md-button class="md-raised md-primary" ng-click="saveDatabaseInput(database)" style="margin-left: 10px;">Save</md-button>
   </div>
   <div ng-if="newDataSourceCategory=='table'">
     <div layout="row">
@@ -97,9 +125,9 @@
         <input type="text" ng-model="table.comment"/>
       </md-input-container>
     </div>
+    <md-button class="md-raised md-primary" ng-click="saveTableInput(table)" style="margin-left: 10px;">Save</md-button>
   </div>
 
   <br>
-  <md-button class="md-raised md-primary" ng-click="closeThisDialog('save')" style="margin-left: 10px;">Save</md-button>
 
 </div>
