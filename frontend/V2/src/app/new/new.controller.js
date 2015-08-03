@@ -175,7 +175,15 @@ angular.module('v2')
     ngDialog.open({
       template: '/assets/new-algorithm.html',
       scope: $scope,
+      preCloseCallback: function() {
+        doneEditingAlgorithm()
+      },
       controller: ['$scope', function($scope) {
+        if($scope.$parent.AlgorithmToEdit) {
+          $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit
+        } else {
+          $scope.newAlgorithm = {}
+        }
         $scope.saveNewAlgorithm = saveNewAlgorithm
         $scope.algorithmFiles = []
         loadAvailableAlgorithms()
@@ -193,28 +201,39 @@ angular.module('v2')
             })
         }
         function saveNewAlgorithm(algorithm) {
-            $scope.$parent.New.algorithm({
-              "id": 10,
-              "fileName": algorithm.fileName,
-              "name": algorithm.name,
-              "author": algorithm.author,
-              "description": algorithm.description,
-              "ind": false,
-              "fd": false,
-              "ucc": false,
-              "cucc": false,
-              "od": false,
-              "relationalInput": false,
-              "databaseConnection": false,
-              "tableInput": false,
-              "fileInput": false,
-              "basicStat": false
-          }, function() {
+          var obj = {
+            "id": 10,
+            "fileName": algorithm.fileName,
+            "name": algorithm.name,
+            "author": algorithm.author,
+            "description": algorithm.description,
+            "ind": algorithm.ind,
+            "fd": algorithm.fd,
+            "ucc": algorithm.ucc,
+            "cucc": algorithm.cucc,
+            "od": algorithm.od,
+            "relationalInput": algorithm.relationalInput,
+            "databaseConnection": algorithm.databaseConnection,
+            "tableInput": algorithm.tableInput,
+            "fileInput": algorithm.fileInput,
+            "basicStat": algorithm.basicStat
+          }
+          if($scope.$parent.AlgorithmToEdit){
+            $scope.$parent.InputStore.updateAlgorithm(obj, function() {
               initializeAlgorithmList()
               ngDialog.closeAll()
-          }, function() {
+            }, function() {
               alert("An error occured when loading this algorithm! Maybe constrains are violated?")
             })
+          }
+          else {
+            $scope.$parent.InputStore.newAlgorithm(obj, function() {
+              initializeAlgorithmList()
+              ngDialog.closeAll()
+            }, function() {
+              alert("An error occured when loading this algorithm! Maybe constrains are violated?")
+            })
+          }
         }
       }]
     })
@@ -627,9 +646,12 @@ angular.module('v2')
     $scope.editDatabaseInput = null
     $scope.editTableInput = null
   }
+  function doneEditingAlgorithm(){
+    $scope.AlgorithmToEdit = null
+  }
   function editAlgorithm(algorithm) {
-    $scope.editAlgorithm = algorithm
-    openNewDatasource()
+    $scope.AlgorithmToEdit = algorithm
+    openNewAlgorithm()
   }
 
   // Parameter Helpers
