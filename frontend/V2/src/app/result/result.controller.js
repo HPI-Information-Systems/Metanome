@@ -92,10 +92,28 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
   }
 
+  $scope.conditionalUniqueColumnCombination = {
+    count: 0,
+    data: [],
+    query: {
+      order: '',
+      limit: 10,
+      page: 1
+    },
+    selected: [],
+    params: {
+      type: 'Conditional Unique Column Combination',
+      sort: 'Dependant',
+      from: '0',
+      to: '15'
+    }
+  }
+
   $scope.onPageChangeBS = onPageChangeBS
   $scope.onPageChangeUCC = onPageChangeUCC
   $scope.onPageChangeFD = onPageChangeFD
   $scope.onPageChangeID = onPageChangeID
+  $scope.onPageChangeCUCC = onPageChangeCUCC
 
   if (!$stateParams.cached && !$stateParams.file) {
     startSpin()
@@ -143,13 +161,21 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         }
     })
     $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
-      then(function(response) {
-        var count = response.data
-        if(count > 0){
-          $scope.inclusionDependency.count = count
-          loadInclusionDependency()
-        }
-      })
+        then(function(response) {
+          var count = response.data
+          if(count > 0){
+            $scope.inclusionDependency.count = count
+            loadInclusionDependency()
+          }
+        })
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
+        then(function(response) {
+          var count = response.data
+          if(count > 0){
+            $scope.conditionalUniqueColumnCombination.count = count
+            loadConditionalUniqueColumnCombination()
+          }
+        })
   }
   function loadDetailsForFile() {
     File.get({id: $scope.id}, function(result) {
@@ -166,22 +192,43 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function loadColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function(res) {
-       var rows = []
-       res.forEach(function(result) {
-         var combinations = []
-         result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
-           combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
-         })
-         rows.push({
-           columnCombination: '[' + combinations.join(',') + ']',
-           columnRatio: result.columnRatio,
-           occurrenceRatio: result.occurrenceRatio,
-           uniquenessRatio: result.uniquenessRatio,
-           randomness: result.randomness
-         })
-       })
+      var rows = []
+      res.forEach(function(result) {
+        var combinations = []
+        result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
+          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        })
+        rows.push({
+          columnCombination: '[' + combinations.join(',') + ']',
+          columnRatio: result.columnRatio,
+          occurrenceRatio: result.occurrenceRatio,
+          uniquenessRatio: result.uniquenessRatio,
+          randomness: result.randomness
+        })
+      })
       $scope.uniqueColumnCombination.data = $scope.uniqueColumnCombination.data.concat(rows)
-     })
+    })
+  }
+
+  function loadConditionalUniqueColumnCombination() {
+    Results.get($scope.conditionalUniqueColumnCombination.params, function(res) {
+      var rows = []
+      res.forEach(function(result) {
+        var combinations = []
+        result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
+          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        })
+        rows.push({
+          columnCombination: '[' + combinations.join(',') + ']',
+          condition: result.result.condition.columnIdentifier.tableIdentifier + '.' + result.result.condition.columnIdentifier.columnIdentifier + (result.result.condition.negated ? '!=':'=') + result.result.condition.columnValue,
+          coverage: result.result.condition.coverage,
+          columnRatio: result.columnRatio,
+          occurrenceRatio: result.occurrenceRatio,
+          uniquenessRatio: result.uniquenessRatio
+        })
+      })
+      $scope.conditionalUniqueColumnCombination.data = $scope.conditionalUniqueColumnCombination.data.concat(rows)
+    })
   }
 
   function loadFunctionalDependency() {
@@ -332,6 +379,20 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       $scope.inclusionDependency.params.from += $scope.inclusionDependency.params.to + 1
       $scope.inclusionDependency.params.to += Math.max(limit, $scope.inclusionDependency.count)
       loadInclusionDependency()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
+  function onPageChangeCUCC(page, limit) {
+    var deferred = $q.defer();
+    if($scope.conditionalUniqueColumnCombination.params.to < $scope.conditionalUniqueColumnCombination.count) {
+      $scope.conditionalUniqueColumnCombination.params.from += $scope.conditionalUniqueColumnCombination.params.to + 1
+      $scope.conditionalUniqueColumnCombination.params.to += Math.max(limit, $scope.conditionalUniqueColumnCombination.count)
+      loadConditionalUniqueColumnCombinationy()
       $timeout(function () {
         deferred.resolve();
       }, 500);

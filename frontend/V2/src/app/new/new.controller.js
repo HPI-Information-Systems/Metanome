@@ -520,6 +520,9 @@ angular.module('v2')
                 </div>',
       plain: true,
       scope: $scope,
+      showClose: false,
+      closeByEscape: false,
+      closeByDocument: false,
       controller: ['$scope', function($scope) {
         $scope.cancelExecution = function(){
           $scope.$parent.cancelFunction()
