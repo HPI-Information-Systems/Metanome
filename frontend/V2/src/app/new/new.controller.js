@@ -309,8 +309,6 @@ angular.module('v2')
     datasource.active = datasource.active || false
     datasource.active = !datasource.active
 
-    console.log(activeDataSources)
-
     if (index === -1) {
       activeDataSources[datasource.type].push(datasource.id)
     } else {
@@ -326,9 +324,6 @@ angular.module('v2')
     } else if(datasource.type == 'tableInput'){
       type = 'Table Inputs'
     }
-    //
-    //console.log($scope.maxNumberOfSetting)
-    //console.log($scope.maxNumberOfSetting[type] + '/' + activeDataSources[datasource.type].length)
 
     if($scope.maxNumberOfSetting[type] <= activeDataSources[datasource.type].length) {
       $scope.datasources.forEach(function(ds) {

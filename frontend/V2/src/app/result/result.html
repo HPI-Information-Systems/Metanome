@@ -49,8 +49,7 @@
       </table>
     </md-data-table-container>
 
-    <!--NOTICE! THE NUMBER OF ELEMENTS PER PAGE SETTINGS FIELD IS HIDDEN VIA CSS SINCE ITS NOT IMPLEMENTED YET-->
-    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onPageChangeUCC"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="functionalDependency.count > 0">
@@ -98,8 +97,7 @@
       </table>
     </md-data-table-container>
 
-    <!--NOTICE! THE NUMBER OF ELEMENTS PER PAGE SETTINGS FIELD IS HIDDEN VIA CSS SINCE ITS NOT IMPLEMENTED YET-->
-    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page" md-total="{{functionalDependency.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page" md-total="{{functionalDependency.count}}" md-trigger="onPageChangeFD"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="basicStatistic.count > 0">
@@ -131,7 +129,7 @@
     </md-data-table-container>
 
     <!--NOTICE! THE NUMBER OF ELEMENTS PER PAGE SETTINGS FIELD IS HIDDEN VIA CSS SINCE ITS NOT IMPLEMENTED YET-->
-    <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page" md-total="{{basicStatistic.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page" md-total="{{basicStatistic.count}}" md-trigger="onPageChangeBS"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="inclusionDependency.count > 0">
@@ -170,8 +168,7 @@
       </table>
     </md-data-table-container>
 
-    <!--NOTICE! THE NUMBER OF ELEMENTS PER PAGE SETTINGS FIELD IS HIDDEN VIA CSS SINCE ITS NOT IMPLEMENTED YET-->
-    <md-data-table-pagination md-limit="inclusionDependency.query.limit" md-page="inclusionDependency.query.page" md-total="{{inclusionDependency.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="inclusionDependency.query.limit" md-page="inclusionDependency.query.page" md-total="{{inclusionDependency.count}}" md-trigger="onPageChangeID"></md-data-table-pagination>
   </md-card>
 
   <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-2"></span>

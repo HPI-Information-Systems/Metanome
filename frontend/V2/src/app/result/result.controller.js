@@ -16,7 +16,7 @@ var app = angular.module('v2')
 })
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
-                                       $timeout, $stateParams, LoadResults, Execution, File, ngDialog) {
+                                       $timeout, $stateParams, LoadResults, Execution, File, ngDialog, $http) {
 
   $scope.id = $stateParams.resultId
   $scope.extended = $stateParams.extended || false
@@ -36,8 +36,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     params: {
       type: 'Unique Column Combination',
       sort: 'Column Combination',
-      from: '0',
-      to: '50'
+      from: 0,
+      to: 50
     }
   }
 
@@ -53,8 +53,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     params: {
       type: 'Functional Dependency',
       sort: 'Determinant',
-      from: '0',
-      to: '50'
+      from: 0,
+      to: 50
     }
   }
 
@@ -70,8 +70,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     params: {
       type: 'Basic Statistic',
       sort: 'Statistic Name',
-      from: '0',
-      to: '50'
+      from: 0,
+      to: 50
     }
   }
 
@@ -92,7 +92,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
   }
 
-  $scope.onpagechange = onpagechange
+  $scope.onPageChangeBS = onPageChangeBS
+  $scope.onPageChangeUCC = onPageChangeUCC
+  $scope.onPageChangeFD = onPageChangeFD
+  $scope.onPageChangeID = onPageChangeID
 
   if (!$stateParams.cached && !$stateParams.file) {
     startSpin()
@@ -115,10 +118,38 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function init() {
-    loadColumnCombination()
-    loadFunctionalDependency()
-    loadBasicStatistic()
-    loadInclusionDependency()
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
+        then(function(response) {
+          var count = response.data
+          if(count > 0){
+            $scope.uniqueColumnCombination.count = count
+            loadColumnCombination()
+          }
+    })
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.functionalDependency.params.type).
+        then(function(response) {
+          var count = response.data
+          if(count > 0){
+            $scope.functionalDependency.count = count
+            loadFunctionalDependency()
+          }
+    })
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.basicStatistic.params.type).
+      then(function(response) {
+        var count = response.data
+        if(count > 0){
+          $scope.basicStatistic.count = count
+          loadBasicStatistic()
+        }
+    })
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
+      then(function(response) {
+        var count = response.data
+        if(count > 0){
+          $scope.inclusionDependency.count = count
+          loadInclusionDependency()
+        }
+      })
   }
   function loadDetailsForFile() {
     File.get({id: $scope.id}, function(result) {
@@ -149,8 +180,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
            randomness: result.randomness
          })
        })
-       $scope.uniqueColumnCombination.data = rows
-      $scope.uniqueColumnCombination.count = rows.length
+      $scope.uniqueColumnCombination.data = $scope.uniqueColumnCombination.data.concat(rows)
      })
   }
 
@@ -185,8 +215,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           informationGainByte: result.informationGainByte
         })
       })
-      $scope.functionalDependency.data = rows
-      $scope.functionalDependency.count = rows.length
+      $scope.functionalDependency.data = $scope.functionalDependency.data.concat(rows)
     })
   }
 
@@ -207,8 +236,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           uniquenessRatio: result.uniquenessRatio
         })
       })
-      $scope.basicStatistic.data = rows
-      $scope.basicStatistic.count = rows.length
+      $scope.basicStatistic.data = $scope.basicStatistic.data.concat(rows)
     })
   }
 
@@ -237,8 +265,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           referencedUniquenessRatio: result.referencedUniquenessRatio
         })
       })
-      $scope.inclusionDependency.data = rows
-      $scope.inclusionDependency.count = rows.length
+      $scope.inclusionDependency.data = $scope.inclusionDependency.data.concat(rows)
     })
   }
 
@@ -257,13 +284,60 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
-  function onpagechange(page, limit) {
+  function onPageChangeFD(page, limit) {
     var deferred = $q.defer();
-
-    $timeout(function () {
-      deferred.resolve();
-    }, 2000);
-
+    if($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
+      $scope.functionalDependency.params.from += $scope.functionalDependency.params.to + 1
+      $scope.functionalDependency.params.to += Math.max(limit, $scope.functionalDependency.count)
+      loadFunctionalDependency()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
+  function onPageChangeUCC(page, limit) {
+    var deferred = $q.defer();
+    if($scope.uniqueColumnCombination.params.to < $scope.uniqueColumnCombination.count) {
+      $scope.uniqueColumnCombination.params.from += $scope.uniqueColumnCombination.params.to + 1
+      $scope.uniqueColumnCombination.params.to += Math.max(limit, $scope.uniqueColumnCombination.count)
+      loadColumnCombination()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
+  function onPageChangeBS(page, limit) {
+    var deferred = $q.defer();
+    if($scope.basicStatistic.params.to < $scope.basicStatistic.count) {
+      $scope.basicStatistic.params.from += $scope.basicStatistic.params.to + 1
+      $scope.basicStatistic.params.to += Math.max(limit, $scope.basicStatistic.count)
+      loadBasicStatistic()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
+  function onPageChangeID(page, limit) {
+    var deferred = $q.defer();
+    if($scope.inclusionDependency.params.to < $scope.inclusionDependency.count) {
+      $scope.inclusionDependency.params.from += $scope.inclusionDependency.params.to + 1
+      $scope.inclusionDependency.params.to += Math.max(limit, $scope.inclusionDependency.count)
+      loadInclusionDependency()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
     return deferred.promise;
   }
   function startSpin(){
