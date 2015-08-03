@@ -506,7 +506,6 @@ angular.module('v2')
       'countResults':(caching == 'count'),
       'memory':memory || ''
     }
-    console.log(payload)
     $scope.payload = payload
     $scope.canceled = false
     $scope.cancelFunction = function(){
@@ -541,6 +540,7 @@ angular.module('v2')
         }
       }
     }, function(error){
+      ngDialog.closeAll()
       alert("Error!")
     })
   }
@@ -555,8 +555,6 @@ angular.module('v2')
   }
   function updateAvailableDatasources(algorithm) {
     $scope.datasources.forEach(function(datasource){
-      console.log(datasource.name)
-      console.log(algorithm)
       if(datasource.name.indexOf('Table Inputs') > -1){
         datasource.possible = algorithm.tableInput || algorithm.relationalInput
       } else if(datasource.name.indexOf('Database Connection') > -1){
@@ -627,7 +625,6 @@ angular.module('v2')
     })
   }
   function editDatasource(datasource) {
-    console.log(datasource)
     switch(datasource.type) {
       case 'fileInput':
         $scope.editFileInput = datasource
