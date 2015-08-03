@@ -188,11 +188,11 @@ section.jumbotron h1 {
 }
 
 .new-controller .algo-in-list.active {
-  background: #8BC34A !important;
+  background: #9FA8DA !important;
 }
 
 .new-controller .algo-in-list:hover {
-  background: #C5E1A5;
+  background: #E8EAF6;
   cursor: pointer;
 }
 
@@ -482,27 +482,27 @@ md-content {
   margin-right: 35px;
 }
 
-.main {
-  min-height: 100% !important;
-  height: 900px;
-  margin-bottom: -70px;
-  background-color: #CFD8DC;
-  z-index: 10
-}
-.main:after {
-  content: "";
-  display: block;
-}
-.site-footer, .page-wrap:after {
-  height: 40px;
-}
-.site-footer {
-  background-color: #CFD8DC;
-  width: 100%;
-  text-align: center;
-  height: 45px;
-  z-index: -1;
-}
+/*.main {*/
+  /*min-height: 100% !important;*/
+  /*height: 900px;*/
+  /*margin-bottom: -70px;*/
+  /*background-color: #CFD8DC;*/
+  /*z-index: 10*/
+/*}*/
+/*.main:after {*/
+  /*content: "";*/
+  /*display: block;*/
+/*}*/
+/*.site-footer, .page-wrap:after {*/
+  /*height: 40px;*/
+/*}*/
+/*.site-footer {*/
+  /*background-color: #CFD8DC;*/
+  /*width: 100%;*/
+  /*text-align: center;*/
+  /*height: 45px;*/
+  /*z-index: -1;*/
+/*}*/
 
 .algorithmIcon, .datasourceIcon {
   float: right;
@@ -511,7 +511,6 @@ md-content {
 
 .datasourceIcon {
   float: right;
-  margin-top: -10px;
   padding-right: 5px !important;
 }
 
@@ -538,4 +537,8 @@ md-content {
   top: 0;
   background-color: #CFD8DC;
   z-index: -100000;
+}
+
+md-data-table-toolbar h2 {
+  margin-top: 25px;
 }

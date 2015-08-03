@@ -29,7 +29,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     data: [],
     query: {
       order: '',
-      limit: 15,
+      limit: 10,
       page: 1
     },
     selected: [],
@@ -37,7 +37,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Unique Column Combination',
       sort: 'Column Combination',
       from: '0',
-      to: '15'
+      to: '50'
     }
   }
 
@@ -46,7 +46,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     data: [],
     query: {
       order: '',
-      limit: 15,
+      limit: 10,
       page: 1
     },
     selected: [],
@@ -54,7 +54,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Functional Dependency',
       sort: 'Determinant',
       from: '0',
-      to: '15'
+      to: '50'
     }
   }
 
@@ -63,7 +63,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     data: [],
     query: {
       order: '',
-      limit: 15,
+      limit: 10,
       page: 1
     },
     selected: [],
@@ -71,7 +71,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Basic Statistic',
       sort: 'Statistic Name',
       from: '0',
-      to: '15'
+      to: '50'
     }
   }
 
@@ -80,7 +80,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     data: [],
     query: {
       order: '',
-      limit: 15,
+      limit: 10,
       page: 1
     },
     selected: [],

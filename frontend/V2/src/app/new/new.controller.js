@@ -50,6 +50,7 @@ angular.module('v2')
   //Exported variables
   $scope.algorithms = []  // algorithm categories + algorithms
   $scope.datasources = [] // datasource
+  $scope.maxNumberOfSetting = {}
   $scope.model = {} // saved params go here
   $scope.form = []  // params form
   $scope.schema = {  // schema of params section
@@ -154,6 +155,7 @@ angular.module('v2')
         //Remove path from element name
         result.forEach(function(element){
           element.name = element.name.replace(/^.*[\\\/]/, '')
+          element.disabled = false
           dataSources[element.type][''+element.id] = element
         })
         $scope.datasources.push({
@@ -304,16 +306,49 @@ angular.module('v2')
   // Actions
   function toggleDatasource(datasource){
     var index = activeDataSources[datasource.type].indexOf(datasource.id)
+    datasource.active = datasource.active || false
+    datasource.active = !datasource.active
+
+    console.log(activeDataSources)
 
     if (index === -1) {
       activeDataSources[datasource.type].push(datasource.id)
     } else {
-      activeDataSources[datasource.type].splice(datasource.id, 1)
+      activeDataSources[datasource.type].splice(index, 1)
+      enableAllInputs()
+    }
+
+    var type = ''
+    if(datasource.type == 'fileInput'){
+      type = 'File Input'
+    } else if(datasource.type == 'databaseConnection'){
+      type = 'Database Connection'
+    } else if(datasource.type == 'tableInput'){
+      type = 'Table Inputs'
+    }
+    //
+    //console.log($scope.maxNumberOfSetting)
+    //console.log($scope.maxNumberOfSetting[type] + '/' + activeDataSources[datasource.type].length)
+
+    if($scope.maxNumberOfSetting[type] <= activeDataSources[datasource.type].length) {
+      $scope.datasources.forEach(function(ds) {
+        if(ds.name.indexOf(type) > -1) {
+          ds.datasource.forEach(function(element) {
+            if(element.active === undefined || element.active == false){
+              element.disabled = true
+            }
+          })
+        }
+      })
+    } else {
+      enableAllInputs()
     }
   }
   function activateAlgorithm(algorithm) {
     highlightAlgorithm(algorithm)
     updateAvailableDatasources(algorithm)
+    enableAllInputs()
+    unselectAllInputs()
     resetParameter()
     initializeForm()
     updateParameter(algorithm)
@@ -383,11 +418,13 @@ angular.module('v2')
   }
   function updateAvailableDatasources(algorithm) {
     $scope.datasources.forEach(function(datasource){
-      if(datasource.name === 'Table Inputs'){
+      console.log(datasource.name)
+      console.log(algorithm)
+      if(datasource.name.indexOf('Table Inputs') > -1){
         datasource.possible = algorithm.tableInput || algorithm.relationalInput
-      } else if(datasource.name === 'Database Connection'){
+      } else if(datasource.name.indexOf('Database Connection') > -1){
         datasource.possible = algorithm.databaseConnection
-      } else if(datasource.name === 'File Input'){
+      } else if(datasource.name.indexOf('File Input') > -1){
         datasource.possible = algorithm.fileInput || algorithm.relationalInput
       }
     })
@@ -413,6 +450,12 @@ angular.module('v2')
   }
   function updateParameter(algorithm){
     currentParameter = []
+    $scope.maxNumberOfSetting = {}
+    activeDataSources = {
+      'fileInput': [],
+      'tableInput': [],
+      'databaseConnection': []
+    }
     Parameter.get({algorithm: algorithm.fileName}, function(parameter) {
       parameter.forEach(function(param){
         currentParameter.push(param)
@@ -463,6 +506,8 @@ angular.module('v2')
     } else {
       $scope.datasources[index].name = input + ' (min: ' + param.minNumberOfSettings + ' | max: ' + param.maxNumberOfSettings + ')'
     }
+    $scope.maxNumberOfSetting[input] = $scope.maxNumberOfSetting[input] || 0
+    $scope.maxNumberOfSetting[input] += param.maxNumberOfSettings
   }
   function addParamToList(param, type, dropdown) {
     $scope.algorithmHasCustomProperties = true
@@ -506,6 +551,32 @@ angular.module('v2')
   }
   function loadResultsForFileInput() {
     LoadResults
+  }
+  function unselectAllInputs() {
+    [
+      'File Input',
+      'Database Connection',
+      'Table Inputs'
+    ].forEach(function(type) {
+          $scope.datasources.forEach(function (ds) {
+            ds.datasource.forEach(function (element) {
+              element.active = false
+            })
+          })
+        })
+  }
+  function enableAllInputs() {
+    [
+      'File Input',
+      'Database Connection',
+      'Table Inputs'
+    ].forEach(function(type) {
+          $scope.datasources.forEach(function (ds) {
+            ds.datasource.forEach(function (element) {
+              element.disabled = false
+            })
+          })
+        })
   }
   function readParamsIntoBackendFormat(params){
     var i, j
