@@ -133,7 +133,7 @@
 
   <md-card ng-if="conditionalUniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
-      <h2 class="md-title">Inclusion Dependency</h2>
+      <h2 class="md-title">Conditional Unique Column Combination</h2>
     </md-data-table-toolbar>
 
     <md-data-table-container>
@@ -163,7 +163,46 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="conditionalUniqueColumnCombination.query.limit" md-page="conditionalUniqueColumnCombination.query.page" md-total="{{conditionalUniqueColumnCombination.count}}" md-trigger="onPageChangeID"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="conditionalUniqueColumnCombination.query.limit" md-page="conditionalUniqueColumnCombination.query.page" md-total="{{conditionalUniqueColumnCombination.count}}" md-trigger="onPageChangeCUCC"></md-data-table-pagination>
+  </md-card>
+
+  <md-card ng-if="orderDependency.count > 0">
+    <md-data-table-toolbar>
+      <h2 class="md-title">Order Dependency</h2>
+    </md-data-table-toolbar>
+
+    <md-data-table-container>
+      <table md-data-table class="md-primary">
+        <thead md-order="orderDependency.query.order" md-trigger="onorderchange">
+        <tr>
+          <th order-by="LHS" name="LHS"></th>
+          <th order-by="RHS" name="RHS "></th>
+          <th order-by="LHSColumnRatio" name="LHS Column Ratio"></th>
+          <th order-by="RHSColumnRatio" name="RHS Column Ratio"></th>
+          <th order-by="GeneralCoverage" name="General Coverage"></th>
+          <th order-by="LHSOccurrenceRatio" name="LHS Occurrence Ratio"></th>
+          <th order-by="RHSOccurrenceRatio" name="RHS Occurrence Ratio"></th>
+          <th order-by="LHSUniquenessRatio" name="LHS Uniqueness Ratio"></th>
+          <th order-by="RHSUniquenessRatio" name="RHS Uniqueness Ratio"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in orderDependency.data | orderBy: orderDependency.query.order | limitTo: orderDependency.query.limit: (orderDependency.query.page - 1) * orderDependency.query.limit">
+          <td>{{item.LHS}}</td>
+          <td>{{item.RHS}}</td>
+          <td>{{item.LHSColumnRatio}}</td>
+          <td>{{item.RHSColumnRatio}}</td>
+          <td>{{item.GeneralCoverage}}</td>
+          <td>{{item.LHSOccurrenceRatio}}</td>
+          <td>{{item.RHSOccurrenceRatio}}</td>
+          <td>{{item.LHSUniquenessRatio}}</td>
+          <td>{{item.RHSUniquenessRatio}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="orderDependency.query.limit" md-page="orderDependency.query.page" md-total="{{orderDependency.count}}" md-trigger="onPageChangeOD"></md-data-table-pagination>
   </md-card>
 
   <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-2"></span>

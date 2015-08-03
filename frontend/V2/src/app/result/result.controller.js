@@ -109,11 +109,29 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
   }
 
+  $scope.orderDependency = {
+    count: 0,
+    data: [],
+    query: {
+      order: '',
+      limit: 10,
+      page: 1
+    },
+    selected: [],
+    params: {
+      type: 'Order Dependency',
+      sort: 'LHS',
+      from: '0',
+      to: '15'
+    }
+  }
+
   $scope.onPageChangeBS = onPageChangeBS
   $scope.onPageChangeUCC = onPageChangeUCC
   $scope.onPageChangeFD = onPageChangeFD
   $scope.onPageChangeID = onPageChangeID
   $scope.onPageChangeCUCC = onPageChangeCUCC
+  $scope.onPageChangeOD = onPageChangeOD
 
   if (!$stateParams.cached && !$stateParams.file) {
     startSpin()
@@ -174,6 +192,14 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           if(count > 0){
             $scope.conditionalUniqueColumnCombination.count = count
             loadConditionalUniqueColumnCombination()
+          }
+        })
+    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.orderDependency.params.type).
+        then(function(response) {
+          var count = response.data
+          if(count > 0){
+            $scope.orderDependency.count = count
+            loadOrderDependency()
           }
         })
   }
@@ -316,6 +342,34 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  function loadOrderDependency() {
+    Results.get($scope.orderDependency.params, function(res) {
+      var rows = []
+      res.forEach(function(result) {
+        var combinations = []
+        result.result.lhs.columnIdentifiers.forEach(function(combination) {
+          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        })
+        var referenced = []
+        result.result.rhs.columnIdentifiers.forEach(function(combination) {
+          referenced.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        })
+        rows.push({
+          LHS: '[' + combinations.join(',') + ']',
+          RHS: '[' + referenced.join(',') + ']',
+          LHSColumnRatio: result.lhsColumnRatio,
+          RHSColumnRatio: result.rhsColumnRatio,
+          GeneralCoverage: result.generalCoverage,
+          LHSOccurrenceRatio: result.lhsOccurrenceRatio,
+          RHSOccurrenceRatio: result.rhsOccurrenceRatio,
+          LHSUniquenessRatio: result.lhsUniquenessRatio,
+          RHSUniquenessRatio: result.rhsUniquenessRatio
+        })
+      })
+      $scope.orderDependency.data = $scope.orderDependency.data.concat(rows)
+    })
+  }
+
   function openFDVisualization() {
     $scope.openVisualizationType = 'FD'
     ngDialog.open({
@@ -393,6 +447,20 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       $scope.conditionalUniqueColumnCombination.params.from += $scope.conditionalUniqueColumnCombination.params.to + 1
       $scope.conditionalUniqueColumnCombination.params.to += Math.max(limit, $scope.conditionalUniqueColumnCombination.count)
       loadConditionalUniqueColumnCombinationy()
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
+  function onPageChangeOD(page, limit) {
+    var deferred = $q.defer();
+    if($scope.orderDependency.params.to < $scope.orderDependency.count) {
+      $scope.orderDependency.params.from += $scope.orderDependency.params.to + 1
+      $scope.orderDependency.params.to += Math.max(limit, $scope.orderDependency.count)
+      loadOrderDependency()
       $timeout(function () {
         deferred.resolve();
       }, 500);
