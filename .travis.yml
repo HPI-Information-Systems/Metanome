@@ -14,4 +14,4 @@ script: bash ./build.sh
 
 after_success:
   - mvn -q coveralls:cobertura
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_JDK_VERSION" == "oraclejdk7" ]]; then mvn deploy --settings deploysettings.xml; else echo "Deployments are only done for the master branch and oraclejdk7. "; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_JDK_VERSION" == "oraclejdk7" ]]; then mvn deploy -q --settings deploysettings.xml; else echo "Deployments are only done for the master branch and oraclejdk7. "; fi
