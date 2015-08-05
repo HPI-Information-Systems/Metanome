@@ -32,7 +32,8 @@
     <repositories>
         <repository>
             <id>metanomeRepo</id>
-            <url>https://www.hpi.uni-potsdam.de/naumann/sites/metanome/maven/</url>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/dacry/Metanome</url>
         </repository>
     </repositories>
 
