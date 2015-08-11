@@ -33,7 +33,7 @@
         <repository>
             <id>bintray</id>
             <name>bintray</name>
-            <url>https://api.bintray.com/maven/dacry/maven/Metanome/1.0</url>
+            <url>https://api.bintray.com/maven/dacry/maven/Metanome</url>
         </repository>
     </repositories>
 
