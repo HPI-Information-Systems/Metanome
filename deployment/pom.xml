@@ -31,9 +31,9 @@
 
     <repositories>
         <repository>
-            <id>metanomeRepo</id>
+            <id>bintray</id>
             <name>bintray</name>
-            <url>http://dl.bintray.com/dacry/Metanome</url>
+            <url>https://api.bintray.com/maven/dacry/Metanome/1.0</url>
         </repository>
     </repositories>
 

@@ -24,5 +24,10 @@
             <username>${sonatype_user}</username>
             <password>${sonatype_pw}</password>
         </server>
+        <server>
+            <id>bintray</id>
+            <username>${bintray-user}</username>
+            <password>${bintray-api-key}</password>
+        </server>
     </servers>
 </settings>
