@@ -32,8 +32,8 @@ public class OrderDependencyResult implements RankingResult {
   protected OrderDependency result;
 
   // Table names of the dependant/referenced columns
-  protected String lhsTableName;
-  protected String rhsTableName;
+  protected String lhsTableName = "";
+  protected String rhsTableName = "";
 
   // How many columns of the table are involved
   // in the lhs/rhs of the result?

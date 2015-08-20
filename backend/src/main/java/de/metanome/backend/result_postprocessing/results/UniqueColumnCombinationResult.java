@@ -32,7 +32,7 @@ public class UniqueColumnCombinationResult implements RankingResult {
   protected UniqueColumnCombination result;
 
   // Table name of the column combination
-  protected String tableName;
+  protected String tableName = "";
 
   // How many columns of the table are involved
   // in the lhs/rhs of the result?

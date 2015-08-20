@@ -86,7 +86,7 @@ public class BasicStatisticPaginationTable
         return String.valueOf(basicStatistic.getColumnRatio());
       }
     };
-    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    this.table.addColumn(columnRatioColumn, "Column Ratio*");
     columnNames.add(BasicStatisticResultComparator.COLUMN_RATIO);
 
     // occurrence ratio
@@ -96,7 +96,7 @@ public class BasicStatisticPaginationTable
         return String.valueOf(basicStatistic.getOccurrenceRatio());
       }
     };
-    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio");
+    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio*");
     columnNames.add(BasicStatisticResultComparator.OCCURRENCE_RATIO);
 
     // uniqueness ratio

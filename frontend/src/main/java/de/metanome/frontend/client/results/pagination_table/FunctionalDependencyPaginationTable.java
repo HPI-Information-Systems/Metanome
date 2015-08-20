@@ -77,7 +77,7 @@ public class FunctionalDependencyPaginationTable
         return functionalDependency.getExtendedDependant().toString();
       }
     };
-    this.table.addColumn(extendedDependantColumn, "Extended Dependant");
+    this.table.addColumn(extendedDependantColumn, "Extended Dependant*");
     columnNames.add(FunctionalDependencyResultComparator.EXTENDED_DEPENDANT_COLUMN);
 
     // Determinant column ratio column
@@ -88,7 +88,7 @@ public class FunctionalDependencyPaginationTable
       }
 
     };
-    this.table.addColumn(determinantColumnRatioColumn, "Determinant Column Ratio");
+    this.table.addColumn(determinantColumnRatioColumn, "Determinant Column Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_COLUMN_RATIO);
 
     // Dependant column ratio column
@@ -98,7 +98,7 @@ public class FunctionalDependencyPaginationTable
         return String.valueOf(functionalDependency.getDependantColumnRatio());
       }
     };
-    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
+    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
 
     // Determinant occurrence ratio column
@@ -108,7 +108,7 @@ public class FunctionalDependencyPaginationTable
         return String.valueOf(functionalDependency.getDeterminantOccurrenceRatio());
       }
     };
-    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio");
+    this.table.addColumn(determinantOccurrenceRatioColumn, "Determinant Occurrence Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DETERMINANT_OCCURRENCE_RATIO);
 
     // Dependant occurrence ratio column
@@ -118,7 +118,7 @@ public class FunctionalDependencyPaginationTable
         return String.valueOf(functionalDependency.getDependantOccurrenceRatio());
       }
     };
-    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio");
+    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio*");
     columnNames.add(FunctionalDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO);
 
     // General coverage column
@@ -128,7 +128,7 @@ public class FunctionalDependencyPaginationTable
         return String.valueOf(functionalDependency.getGeneralCoverage());
       }
     };
-    this.table.addColumn(coverageColumn, "General Coverage");
+    this.table.addColumn(coverageColumn, "General Coverage*");
     columnNames.add(FunctionalDependencyResultComparator.GENERAL_COVERAGE);
 
     // Determinant uniqueness ratio column

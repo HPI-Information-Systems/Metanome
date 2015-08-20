@@ -32,7 +32,7 @@ public class BasicStatisticResult implements RankingResult {
   protected BasicStatistic result;
 
   // The table name of the columns
-  protected String tableName;
+  protected String tableName = "";
 
   // How many columns of the table are involved
   // in the column combination of the result?

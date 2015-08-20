@@ -76,7 +76,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getLhsColumnRatio());
       }
     };
-    this.table.addColumn(lhsColumnRatioColumn, "LHS Column Ratio");
+    this.table.addColumn(lhsColumnRatioColumn, "LHS Column Ratio*");
     columnNames.add(OrderDependencyResultComparator.LHS_COLUMN_RATIO);
 
     // rhs column ratio column
@@ -86,7 +86,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getRhsColumnRatio());
       }
     };
-    this.table.addColumn(rhsColumnRatioColumn, "RHS Column Ratio");
+    this.table.addColumn(rhsColumnRatioColumn, "RHS Column Ratio*");
     columnNames.add(OrderDependencyResultComparator.RHS_COLUMN_RATIO);
 
     // coverage column
@@ -96,7 +96,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getGeneralCoverage());
       }
     };
-    this.table.addColumn(coverageColumn, "General Coverage");
+    this.table.addColumn(coverageColumn, "General Coverage*");
     columnNames.add(OrderDependencyResultComparator.COVERAGE);
 
     // lhs occurrence ratio column
@@ -106,7 +106,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getLhsOccurrenceRatio());
       }
     };
-    this.table.addColumn(lhsOccurrenceRatioColumn, "LHS Occurrence Ratio");
+    this.table.addColumn(lhsOccurrenceRatioColumn, "LHS Occurrence Ratio*");
     columnNames.add(OrderDependencyResultComparator.LHS_OCCURRENCE_RATIO);
 
     // rhs occurrence ratio column
@@ -116,7 +116,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getRhsOccurrenceRatio());
       }
     };
-    this.table.addColumn(rhsOccurrenceRatioColumn, "RHS Occurrence Ratio");
+    this.table.addColumn(rhsOccurrenceRatioColumn, "RHS Occurrence Ratio*");
     columnNames.add(OrderDependencyResultComparator.RHS_OCCURRENCE_RATIO);
 
     // lhs uniqueness ratio column
@@ -136,7 +136,7 @@ public class OrderDependencyPaginationTable
         return String.valueOf(orderDependency.getRhsUniquenessRatio());
       }
     };
-    this.table.addColumn(rhsUniquenessRatioColumn, "RHS Uniqueness Ratio");
+    this.table.addColumn(rhsUniquenessRatioColumn, "RHS Uniqueness Ratio*");
     columnNames.add(OrderDependencyResultComparator.RHS_UNIQUENESS_RATIO);
 
     // Set all columns as sortable
