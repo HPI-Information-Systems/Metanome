@@ -38,11 +38,11 @@ public class FunctionalDependencyResult implements RankingResult {
   protected FunctionalDependency result;
 
   // Table names of the determinant/dependent columns
-  protected String determinantTableName;
-  protected String dependantTableName;
+  protected String determinantTableName = "";
+  protected String dependantTableName = "";
 
   // Extended dependant column
-  protected ColumnCombination extendedDependant;
+  protected ColumnCombination extendedDependant = new ColumnCombination();
 
   // How many columns of the whole result are involved
   // in the dependant/determinant side of the result?
@@ -72,10 +72,10 @@ public class FunctionalDependencyResult implements RankingResult {
 
   // Approximate number of bytes, which can be saved,
   // when using the functional dependency for normalization
-  private float informationGainBytes;
+  private float informationGainBytes = 0.0f;
   // Approximate number of cells, which can be saved,
   // when using the functional dependency for normalization
-  private float informationGainCells;
+  private float informationGainCells = 0.0f;
 
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)

@@ -50,16 +50,16 @@ public class FunctionalDependencyResultAnalyzer
       List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
-    try {
-      if (!this.tableInformationMap.isEmpty()) {
-        results = extendDependantSide(results);
-        FunctionalDependencyRanking ranking =
-            new FunctionalDependencyRanking(results, tableInformationMap);
-        ranking.calculateDataIndependentRankings();
-      }
-    } catch (Exception e) {
-      // Could not analyze results due to error
-    }
+//    try {
+//      if (!this.tableInformationMap.isEmpty()) {
+//        results = extendDependantSide(results);
+//        FunctionalDependencyRanking ranking =
+//            new FunctionalDependencyRanking(results, tableInformationMap);
+//        ranking.calculateDataIndependentRankings();
+//      }
+//    } catch (Exception e) {
+//      // Could not analyze results due to error
+//    }
 
     return results;
   }

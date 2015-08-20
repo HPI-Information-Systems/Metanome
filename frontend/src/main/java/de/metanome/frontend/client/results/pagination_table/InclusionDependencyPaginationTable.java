@@ -77,7 +77,7 @@ public class InclusionDependencyPaginationTable
         return String.valueOf(inclusionDependency.getDependantColumnRatio());
       }
     };
-    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio");
+    this.table.addColumn(dependantColumnRatioColumn, "Dependant Column Ratio*");
     columnNames.add(InclusionDependencyResultComparator.DEPENDANT_COLUMN_RATIO);
 
     // Referenced column ratio column
@@ -87,7 +87,7 @@ public class InclusionDependencyPaginationTable
         return String.valueOf(inclusionDependency.getReferencedColumnRatio());
       }
     };
-    this.table.addColumn(referencedColumnRatioColumn, "Referenced Column Ratio");
+    this.table.addColumn(referencedColumnRatioColumn, "Referenced Column Ratio*");
     columnNames.add(InclusionDependencyResultComparator.REFERENCED_COLUMN_RATIO);
 
     // Dependant occurrence ratio column
@@ -97,7 +97,7 @@ public class InclusionDependencyPaginationTable
         return String.valueOf(inclusionDependency.getDependantOccurrenceRatio());
       }
     };
-    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio");
+    this.table.addColumn(dependantOccurrenceRatioColumn, "Dependant Occurrence Ratio*");
     columnNames.add(InclusionDependencyResultComparator.DEPENDANT_OCCURRENCE_RATIO);
 
     // Reference occurrence ratio column
@@ -107,7 +107,7 @@ public class InclusionDependencyPaginationTable
         return String.valueOf(inclusionDependency.getReferencedOccurrenceRatio());
       }
     };
-    this.table.addColumn(referencedOccurrenceRatioColumn, "Referenced Occurrence Ratio");
+    this.table.addColumn(referencedOccurrenceRatioColumn, "Referenced Occurrence Ratio*");
     columnNames.add(InclusionDependencyResultComparator.REFERENCED_OCCURRENCE_RATIO);
 
     // Coverage column
@@ -117,7 +117,7 @@ public class InclusionDependencyPaginationTable
         return String.valueOf(inclusionDependency.getGeneralCoverage());
       }
     };
-    this.table.addColumn(coverageColumn, "General Coverage");
+    this.table.addColumn(coverageColumn, "General Coverage*");
     columnNames.add(InclusionDependencyResultComparator.COVERAGE);
 
     // Dependant uniqueness ratio

@@ -33,8 +33,8 @@ public class InclusionDependencyResult implements RankingResult {
   protected InclusionDependency result;
 
   // Table names of the dependant/referenced columns
-  protected String dependantTableName;
-  protected String referencedTableName;
+  protected String dependantTableName = "";
+  protected String referencedTableName = "";
 
   // How many columns of the table are involved
   // in the dependant/referenced side of the result?

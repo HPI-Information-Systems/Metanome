@@ -44,15 +44,15 @@ public class OrderDependencyResultAnalyzer
       List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
-    try {
-      if (!this.tableInformationMap.isEmpty()) {
-        OrderDependencyRanking ranking =
-            new OrderDependencyRanking(results, tableInformationMap);
-        ranking.calculateDataIndependentRankings();
-      }
-    } catch (Exception e) {
-      // Could not analyze results due to error
-    }
+//    try {
+//      if (!this.tableInformationMap.isEmpty()) {
+//        OrderDependencyRanking ranking =
+//            new OrderDependencyRanking(results, tableInformationMap);
+//        ranking.calculateDataIndependentRankings();
+//      }
+//    } catch (Exception e) {
+//      // Could not analyze results due to error
+//    }
 
     return results;
   }

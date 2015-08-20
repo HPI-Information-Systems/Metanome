@@ -94,7 +94,7 @@ public class ConditionalUniqueColumnCombinationPaginationTable
             return String.valueOf(columnCombination.getColumnRatio());
           }
         };
-    this.table.addColumn(columnRatioColumn, "Column Ratio");
+    this.table.addColumn(columnRatioColumn, "Column Ratio*");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.COLUMN_RATIO);
 
     // occurrence ratio column
@@ -106,7 +106,7 @@ public class ConditionalUniqueColumnCombinationPaginationTable
             return String.valueOf(columnCombination.getOccurrenceRatio());
           }
         };
-    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio");
+    this.table.addColumn(occurrenceRatioColumn, "Occurrence Ratio*");
     columnNames.add(ConditionalUniqueColumnCombinationResultComparator.OCCURRENCE_RATIO);
 
     // uniqueness ratio column

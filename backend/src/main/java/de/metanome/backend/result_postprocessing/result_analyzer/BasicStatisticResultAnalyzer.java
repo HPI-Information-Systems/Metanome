@@ -44,16 +44,16 @@ public class BasicStatisticResultAnalyzer
       List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
 
-    try {
-      if (!this.tableInformationMap.isEmpty()) {
-        BasicStatisticRanking
-            ranking =
-            new BasicStatisticRanking(results, tableInformationMap);
-        ranking.calculateDataIndependentRankings();
-      }
-    } catch (Exception e) {
-      // Could not analyze results due to error
-    }
+//    try {
+//      if (!this.tableInformationMap.isEmpty()) {
+//        BasicStatisticRanking
+//            ranking =
+//            new BasicStatisticRanking(results, tableInformationMap);
+//        ranking.calculateDataIndependentRankings();
+//      }
+//    } catch (Exception e) {
+//      // Could not analyze results due to error
+//    }
 
     return results;
   }

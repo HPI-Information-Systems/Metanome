@@ -43,16 +43,16 @@ public class InclusionDependencyResultAnalyzer
       List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
-    try {
-      if (!this.tableInformationMap.isEmpty()) {
-        InclusionDependencyRanking
-            ranking =
-            new InclusionDependencyRanking(results, tableInformationMap);
-        ranking.calculateDataIndependentRankings();
-      }
-    } catch (Exception e) {
-      // Could not analyze results due to error
-    }
+//    try {
+//      if (!this.tableInformationMap.isEmpty()) {
+//        InclusionDependencyRanking
+//            ranking =
+//            new InclusionDependencyRanking(results, tableInformationMap);
+//        ranking.calculateDataIndependentRankings();
+//      }
+//    } catch (Exception e) {
+//      // Could not analyze results due to error
+//    }
 
     return results;
   }
