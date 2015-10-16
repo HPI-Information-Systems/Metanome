@@ -132,6 +132,7 @@ angular.module('v2')
           name: category.display,
           algorithms: result
         })
+        $scope.algorithms.sort(function(a, b) { return a.name.localeCompare(b.name) } )
       })
     })
   }
@@ -503,7 +504,13 @@ angular.module('v2')
   }
   function executeAlgorithm(caching, memory){
     var algorithm = $scope.activeAlgorithm
-    var params = readParamsIntoBackendFormat(currentParameter)
+    try {
+      var params = readParamsIntoBackendFormat(currentParameter)
+    } catch (e) {
+      alert(e.message)
+      return;
+    }
+
     var date = new Date()
     var executionIdentifierDate = date.getFullYear()+'-'+twoDigetDate(date.getMonth()+1)+'-' +
       twoDigetDate(date.getDate())+'T'+twoDigetDate(date.getHours()) +
@@ -756,89 +763,71 @@ angular.module('v2')
           })
         })
   }
-  function readParamsIntoBackendFormat(params){
-    var i, j
-    for(i=0; i < params.length; i++) {
-      params[i].settings = []
+
+  function readSetting(param, typeValue) {
+    var settingValue;
+    var j;
+
+    if (param.numberOfSettings > 1) {
+      for (j = param.numberOfSettings - 1; j >= 0; j--) {
+        settingValue = $scope.model[param.identifier + '-' + j];
+        // only set the value if it is set
+        if (settingValue !== undefined) {
+          param.settings.push({
+            'type': typeValue,
+            'value': settingValue
+          })
+        }
+      }
+    } else {
+      settingValue = $scope.model[param.identifier];
+      if (settingValue !== undefined) {
+        param.settings.push({
+          'type': typeValue,
+          'value': settingValue
+        })
+      }
+    }
+
+    return param
+  }
+
+  function readParamsIntoBackendFormat(params) {
+    var i, j;
+    var checked, param, item;
+
+    for (i=0; i < params.length; i++) {
+      params[i].settings = [];
+
       //needed because same fields vary in different places in backend - workaround!
-      if(params[i].fixNumberOfSettings !== undefined) {
+      if (params[i].fixNumberOfSettings !== undefined) {
         delete params[i].fixNumberOfSettings
       }
+
       switch(params[i].type) {
+
         case 'ConfigurationRequirementInteger':
-          if(params[i].maxNumberOfSettings > 1){
-          //order seems to be from last to first in Java UI V1
-          for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
-            params[i].settings.push({
-              'type':'ConfigurationSettingInteger',
-              'value': $scope.model[params[i].identifier+'-'+j]
-            })
-          }
-        } else {
-          params[i].settings.push({
-            'type':'ConfigurationSettingInteger',
-            'value': $scope.model[params[i].identifier]
-          })
-        }
-        break
+          params[i] = readSetting(params[i], 'ConfigurationSettingInteger');
+          break;
+
         case 'ConfigurationRequirementString':
-          if(params[i].maxNumberOfSettings > 1){
-          //order seems to be from last to first in Java UI V1
-          for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
-            params[i].settings.push({
-              'type':'ConfigurationSettingString',
-              'value': $scope.model[params[i].identifier+'-'+j]
-            })
-          }
-        } else {
-          params[i].settings.push({
-            'type':'ConfigurationSettingString',
-            'value': $scope.model[params[i].identifier]
-          })
-        }
-        break
+          params[i] = readSetting(params[i], 'ConfigurationSettingString');
+          break;
+
         case 'ConfigurationRequirementBoolean':
-          if(params[i].maxNumberOfSettings > 1){
-            //order seems to be from last to first in Java UI V1
-            for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
-              params[i].settings.push({
-                'type':'ConfigurationSettingBoolean',
-                'value': $scope.model[params[i].identifier+'-'+j]
-              })
-            }
-          } else {
-            params[i].settings.push({
-              'type':'ConfigurationSettingBoolean',
-              'value': $scope.model[params[i].identifier]
-            })
-          }
-          break
+          params[i] = readSetting(params[i], 'ConfigurationSettingBoolean');
+          break;
+
         case 'ConfigurationRequirementListBox':
-          if(params[i].maxNumberOfSettings > 1){
-          //order seems to be from last to first in Java UI V1
-          for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
-            params[i].settings.push({
-              'type':'ConfigurationSettingListBox',
-              'value': $scope.model[params[i].identifier+'-'+j]
-            })
-          }
-        } else {
-          params[i].settings.push({
-            'type':'ConfigurationSettingListBox',
-            'value': $scope.model[params[i].identifier]
-          })
-        }
-        break
+          params[i] = readSetting(params[i], 'ConfigurationSettingListBox');
+          break;
 
-
-        case 'ConfigurationRequirementRelationalInput':
-          //order seems to be from last to first in Java UI V1
-          var numberOfTableInputs = activeDataSources.tableInput.slice(0).length
-          var checked = activeDataSources.tableInput.slice(0).concat(activeDataSources.fileInput.slice(0))
-          for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0 && j < numberOfTableInputs; j++){
-            var item = dataSources.tableInput[''+checked.pop()]
+        case 'ConfigurationRequirementTableInput':
+          checked = activeDataSources.tableInput.slice(0);
+          for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            item = dataSources.tableInput['' + checked.pop()];
             //needed because same fields are named different in different places in backend - workaround!
-            var param = {
+            param = {
               "table": item.tableName,
               "databaseConnection":{
                 "dbUrl":item.databaseConnection.url,
@@ -850,13 +839,34 @@ angular.module('v2')
               },
               "type":"ConfigurationSettingTableInput",
               "id":item.id
-            }
+            };
             params[i].settings.push(param)
           }
-          for(j; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
-            var item = dataSources.fileInput[''+checked.pop()]
+          break;
+
+        case 'ConfigurationRequirementDatabaseConnection':
+          checked = activeDataSources.databaseConnection.slice(0);
+          for(j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            item = dataSources.databaseConnection['' + checked.pop()];
             //needed because same fields are named different in different places in backend - workaround!
-            var param = {
+            param = {
+              "dbUrl":item.url,
+              "username":item.username,
+              "password":item.password,
+              "system":item.system,
+              "type":"ConfigurationSettingDatabaseConnection",
+              "id":item.id
+            };
+            params[i].settings.push(param)
+          }
+          break;
+
+        case 'ConfigurationRequirementFileInput':
+          checked = activeDataSources.fileInput.slice(0);
+          for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            item = dataSources.fileInput['' + checked.pop()];
+            // needed because same fields are named different in different places in backend - workaround!
+            param = {
               'fileName':item.fileName,
               'advanced':false,
               'separatorChar':item.separator,
@@ -870,81 +880,81 @@ angular.module('v2')
               'nullValue':item.nullValue,
               'type':'ConfigurationSettingFileInput',
               'id':item.id
-            }
+            };
             params[i].settings.push(param)
           }
-          break
+          break;
 
+        case 'ConfigurationRequirementRelationalInput':
+          // add table inputs
+          checked = activeDataSources.tableInput.slice(0);
+          for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            item = dataSources.tableInput['' + checked.pop()];
+            //needed because same fields are named different in different places in backend - workaround!
+            param = {
+              "table": item.tableName,
+              "databaseConnection":{
+                "dbUrl":item.databaseConnection.url,
+                "username":item.databaseConnection.username,
+                "password":item.databaseConnection.password,
+                "system":item.databaseConnection.system,
+                "type":"ConfigurationSettingDatabaseConnection",
+                "id":item.databaseConnection.id
+              },
+              "type":"ConfigurationSettingTableInput",
+              "id":item.id
+            };
+            params[i].settings.push(param)
+          }
+          // add file inputs
+          checked = activeDataSources.fileInput.slice(0);
+          for(j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            item = dataSources.fileInput['' + checked.pop()];
+            //needed because same fields are named different in different places in backend - workaround!
+            param = {
+              'fileName':item.fileName,
+              'advanced':false,
+              'separatorChar':item.separator,
+              'quoteChar':item.quoteChar,
+              'escapeChar':item.escapeChar,
+              'strictQuotes':item.strictQuotes,
+              'ignoreLeadingWhiteSpace':item.ignoreLeadingWhiteSpace,
+              'skipLines':item.skipLines,
+              'header':item.hasHeader,
+              'skipDifferingLines':item.skipDifferingLines,
+              'nullValue':item.nullValue,
+              'type':'ConfigurationSettingFileInput',
+              'id':item.id
+            };
+            params[i].settings.push(param)
+          }
+          break;
 
-         case 'ConfigurationRequirementTableInput':
-          //order seems to be from last to first in Java UI V1
-          var checked = activeDataSources.tableInput.slice(0)
-        for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
-          var item = dataSources.tableInput[''+checked.pop()]
-          //needed because same fields are named different in different places in backend - workaround!
-          var param = {
-            "table": item.tableName,
-            "databaseConnection":{
-              "dbUrl":item.databaseConnection.url,
-              "username":item.databaseConnection.username,
-              "password":item.databaseConnection.password,
-              "system":item.databaseConnection.system,
-              "type":"ConfigurationSettingDatabaseConnection",
-              "id":item.databaseConnection.id
-            },
-            "type":"ConfigurationSettingTableInput",
-            "id":item.id
-          }
-          params[i].settings.push(param)
-        }
-        break
-        case 'ConfigurationRequirementDatabaseConnection':
-          //order seems to be from last to first in Java UI V1
-          var checked = activeDataSources.databaseConnection.slice(0)
-        for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
-          var item = dataSources.databaseConnection[''+checked.pop()]
-          //needed because same fields are named different in different places in backend - workaround!
-          var param = {
-            "dbUrl":item.url,
-            "username":item.username,
-            "password":item.password,
-            "system":item.system,
-            "type":"ConfigurationSettingDatabaseConnection",
-            "id":item.id
-          }
-          params[i].settings.push(param)
-        }
-        break
-        case 'ConfigurationRequirementFileInput':
-          //order seems to be from last to first in Java UI V1
-          var checked = activeDataSources.fileInput.slice(0)
-        for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
-          var item = dataSources.fileInput[''+checked.pop()]
-          //needed because same fields are named different in different places in backend - workaround!
-          var param = {
-            'fileName':item.fileName,
-            'advanced':false,
-            'separatorChar':item.separator,
-            'quoteChar':item.quoteChar,
-            'escapeChar':item.escapeChar,
-            'strictQuotes':item.strictQuotes,
-            'ignoreLeadingWhiteSpace':item.ignoreLeadingWhiteSpace,
-            'skipLines':item.skipLines,
-            'header':item.hasHeader,
-            'skipDifferingLines':item.skipDifferingLines,
-            'nullValue':item.nullValue,
-            'type':'ConfigurationSettingFileInput',
-            'id':item.id
-          }
-          params[i].settings.push(param)
-        }
-        break
         default:
-          console.error('Parameter Type '+params[i].type+' not not supported yet for execution!')
-        break
+          console.error('Parameter Type '+params[i].type+' not not supported yet for execution!');
+        break;
+      }
+
+      // check if required number of parameters are set
+      var numberOfSettings = params[i].settings.length;
+      if (params[i].required &&
+          params[i].numberOfSettings != -1 &&
+          numberOfSettings != params[i].numberOfSettings &&
+          (numberOfSettings < params[i].minNumberOfSettings ||
+           numberOfSettings > params[i].maxNumberOfSettings)
+      ) {
+        console.error('Wrong number of settings for parameter type ' + params[i].type + '!');
+        throw new WrongParameterError('Wrong number of settings for parameter type ' + params[i].type + '!')
       }
     }
+
     return params
   }
 
-})
+  function WrongParameterError(message) {
+    this.name = "WrongParameterError";
+    this.message = (message || "");
+  }
+  WrongParameterError.prototype = Error.prototype;
+
+});
