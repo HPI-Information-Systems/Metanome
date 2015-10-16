@@ -552,3 +552,7 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
   color:rgb(63, 81, 181);
   font-weight: bold !important;
 }
+
+.form-input {
+  margin-bottom: 30px;
+}

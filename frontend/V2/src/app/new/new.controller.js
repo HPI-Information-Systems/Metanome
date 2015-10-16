@@ -57,7 +57,8 @@ angular.module('v2')
     $scope.form = [];  // params form
     $scope.schema = {  // schema of params section
       type: 'object',
-      properties: {}
+      properties: {},
+      required: []
     };
     $scope.algorithmHasCustomProperties;
     $scope.activeAlgorithm;
@@ -92,8 +93,11 @@ angular.module('v2')
     initializeDatasources();
     resetParameter();
 
+
     // ** FUNCTION DEFINITIONS **
     // **************************
+
+
     // Initialization
     function initializeAlgorithmList() {
       var algorithmCategoryNames = [
@@ -648,6 +652,8 @@ angular.module('v2')
         'tableInput': [],
         'databaseConnection': []
       };
+      $scope.schema.required = [];
+
       Parameter.get({algorithm: algorithm.fileName}, function (parameter) {
         parameter.forEach(function (param) {
           currentParameter.push(param);
@@ -666,13 +672,14 @@ angular.module('v2')
               configureParamInputs(param, 'Database Connection');
               break;
             case 'ConfigurationRequirementInteger':
-              addParamToList(param, 'integer', false);
+              addParamToList(param, 'number', false);
               break;
             case 'ConfigurationRequirementListBox':
               addParamToList(param, 'string', true);
               break;
             case 'ConfigurationRequirementString':
               addParamToList(param, 'string', false);
+
               break;
             case 'ConfigurationRequirementBoolean':
               addParamToList(param, 'boolean', false);
@@ -741,32 +748,46 @@ angular.module('v2')
 
     function addParamToList(param, type, dropdown) {
       $scope.algorithmHasCustomProperties = true;
-      var i = 0;
-      if (param.maxNumberOfSettings > 1) {
-        for (i; i < param.maxNumberOfSettings; i++) {
-          $scope.schema.properties[param.identifier + '-' + i] = {
-            'title': param.identifier + '-' + i,
+      var identifier;
+
+      if (param.numberOfSettings > 1) {
+        for (var i = 1; i <= param.numberOfSettings; i++) {
+          identifier = param.identifier + ' (' + i + ')';
+          $scope.schema.properties[identifier] = {
+            'title': identifier,
             'type': type
           };
           if (dropdown) {
-            $scope.schema.properties[param.identifier + '-' + i].enum = param.values
+            $scope.schema.properties[identifier].enum = [];
+            param.values.forEach( function (v) {
+              $scope.schema.properties[identifier].enum.push( v )
+            })
+          }
+          if (param.required) {
+            $scope.schema.required.push(identifier)
+          }
+          if (param.defaultValues !== null && param.defaultValues !== undefined) {
+            $scope.schema.properties[identifier].default = param.defaultValues[i]
           }
         }
       } else {
-        $scope.schema.properties[param.identifier] = {
-          'title': param.identifier,
+        identifier = param.identifier;
+        $scope.schema.properties[identifier] = {
+          'title': identifier,
           'type': type
         };
         if (dropdown) {
-          $scope.schema.properties[param.identifier].enum = param.values
+          $scope.schema.properties[identifier].enum = [];
+          param.values.forEach( function (v) {
+            $scope.schema.properties[identifier].enum.push( v )
+          })
         }
-      }
-    }
-
-    function addDropdownToList(param) {
-      $scope.schema.properties[param.identifier] = {
-        'title': param.identifier,
-        'type': type
+        if (param.required) {
+          $scope.schema.required.push(identifier)
+        }
+        if (param.defaultValues !== null && param.defaultValues !== undefined) {
+          $scope.schema.properties[identifier].default = param.defaultValues[0]
+        }
       }
     }
 
@@ -820,8 +841,8 @@ angular.module('v2')
       var j;
 
       if (param.numberOfSettings > 1) {
-        for (j = param.numberOfSettings - 1; j >= 0; j--) {
-          settingValue = $scope.model[param.identifier + '-' + j];
+        for (j = param.numberOfSettings; j > 0; j--) {
+          settingValue = $scope.model[param.identifier + ' (' + j + ')'];
           // only set the value if it is set
           if (settingValue !== undefined) {
             param.settings.push({
@@ -875,7 +896,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementTableInput':
             checked = activeDataSources.tableInput.slice(0);
-            for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
               item = dataSources.tableInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -898,7 +919,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementDatabaseConnection':
             checked = activeDataSources.databaseConnection.slice(0);
-            for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
               item = dataSources.databaseConnection['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -916,7 +937,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementFileInput':
             checked = activeDataSources.fileInput.slice(0);
-            for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
               item = dataSources.fileInput['' + checked.pop()];
               // needed because same fields are named different in different places in
               // backend - workaround!
@@ -942,7 +963,7 @@ angular.module('v2')
           case 'ConfigurationRequirementRelationalInput':
             // add table inputs
             checked = activeDataSources.tableInput.slice(0);
-            for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
               item = dataSources.tableInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -963,7 +984,7 @@ angular.module('v2')
             }
             // add file inputs
             checked = activeDataSources.fileInput.slice(0);
-            for (j = 0; j < params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
               item = dataSources.fileInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
