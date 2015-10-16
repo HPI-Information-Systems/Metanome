@@ -201,6 +201,7 @@ angular.module('v2')
             })
         }
         function saveNewAlgorithm(algorithm) {
+          startSpin()
           var obj = {
             "id": 10,
             "fileName": algorithm.fileName,
@@ -220,6 +221,7 @@ angular.module('v2')
           }
           if($scope.$parent.AlgorithmToEdit){
             $scope.$parent.InputStore.updateAlgorithm(obj, function() {
+              stopSpin()
               initializeAlgorithmList()
               ngDialog.closeAll()
             }, function() {
@@ -228,6 +230,7 @@ angular.module('v2')
           }
           else {
             $scope.$parent.InputStore.newAlgorithm(obj, function() {
+              stopSpin()
               initializeAlgorithmList()
               ngDialog.closeAll()
             }, function() {
@@ -401,25 +404,33 @@ angular.module('v2')
     $scope.confirmFuntion = function(){
       switch ($scope.confirmItem.type) {
         case 'fileInput':
+          startSpin()
           Delete.file({id: $scope.confirmItem.id}, function(){
+            stopSpin()
             initializeDatasources()
             ngDialog.closeAll()
           })
           break
         case 'databaseConnection':
+          startSpin()
           Delete.database({id: $scope.confirmItem.id}, function(){
+            stopSpin()
             initializeDatasources()
             ngDialog.closeAll()
           })
           break
         case 'tableInput':
+          startSpin()
           Delete.table({id: $scope.confirmItem.id}, function(){
+            stopSpin()
             initializeDatasources()
             ngDialog.closeAll()
           })
           break
         default:
+          startSpin()
           Delete.algorithm({id: $scope.confirmItem.id}, function(){
+            stopSpin()
             initializeAlgorithmList()
             ngDialog.closeAll()
           })
@@ -620,6 +631,9 @@ angular.module('v2')
           case 'ConfigurationRequirementString':
             addParamToList(param, 'string', false)
           break
+          case 'ConfigurationRequirementBoolean':
+            addParamToList(param, 'boolean', false)
+            break
           default:
             console.error("Parameter type " + param.type + " not supported yet")
           break
@@ -783,6 +797,22 @@ angular.module('v2')
           })
         }
         break
+        case 'ConfigurationRequirementBoolean':
+          if(params[i].maxNumberOfSettings > 1){
+            //order seems to be from last to first in Java UI V1
+            for(j=params[i].maxNumberOfSettings-1; j >= 0; j--){
+              params[i].settings.push({
+                'type':'ConfigurationSettingBoolean',
+                'value': $scope.model[params[i].identifier+'-'+j]
+              })
+            }
+          } else {
+            params[i].settings.push({
+              'type':'ConfigurationSettingBoolean',
+              'value': $scope.model[params[i].identifier]
+            })
+          }
+          break
         case 'ConfigurationRequirementListBox':
           if(params[i].maxNumberOfSettings > 1){
           //order seems to be from last to first in Java UI V1
@@ -799,6 +829,53 @@ angular.module('v2')
           })
         }
         break
+
+
+        case 'ConfigurationRequirementRelationalInput':
+          //order seems to be from last to first in Java UI V1
+          var numberOfTableInputs = activeDataSources.tableInput.slice(0).length
+          var checked = activeDataSources.tableInput.slice(0).concat(activeDataSources.fileInput.slice(0))
+          for(j=0; j < params[i].maxNumberOfSettings && checked.length > 0 && j < numberOfTableInputs; j++){
+            var item = dataSources.tableInput[''+checked.pop()]
+            //needed because same fields are named different in different places in backend - workaround!
+            var param = {
+              "table": item.tableName,
+              "databaseConnection":{
+                "dbUrl":item.databaseConnection.url,
+                "username":item.databaseConnection.username,
+                "password":item.databaseConnection.password,
+                "system":item.databaseConnection.system,
+                "type":"ConfigurationSettingDatabaseConnection",
+                "id":item.databaseConnection.id
+              },
+              "type":"ConfigurationSettingTableInput",
+              "id":item.id
+            }
+            params[i].settings.push(param)
+          }
+          for(j; j < params[i].maxNumberOfSettings && checked.length > 0; j++){
+            var item = dataSources.fileInput[''+checked.pop()]
+            //needed because same fields are named different in different places in backend - workaround!
+            var param = {
+              'fileName':item.fileName,
+              'advanced':false,
+              'separatorChar':item.separator,
+              'quoteChar':item.quoteChar,
+              'escapeChar':item.escapeChar,
+              'strictQuotes':item.strictQuotes,
+              'ignoreLeadingWhiteSpace':item.ignoreLeadingWhiteSpace,
+              'skipLines':item.skipLines,
+              'header':item.hasHeader,
+              'skipDifferingLines':item.skipDifferingLines,
+              'nullValue':item.nullValue,
+              'type':'ConfigurationSettingFileInput',
+              'id':item.id
+            }
+            params[i].settings.push(param)
+          }
+          break
+
+
          case 'ConfigurationRequirementTableInput':
           //order seems to be from last to first in Java UI V1
           var checked = activeDataSources.tableInput.slice(0)
