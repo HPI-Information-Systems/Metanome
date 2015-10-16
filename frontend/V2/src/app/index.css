@@ -163,7 +163,7 @@ section.jumbotron h1 {
 }
 
 /* ##### NEW CONTROLLER #### */
-/*Hack to always show scrollbar on OSX http://stackoverflow.com/questions/7492062/css-overflow-scroll-always-show-vertical-scroll-bar 
+/*Hack to always show scrollbar on OSX http://stackoverflow.com/questions/7492062/css-overflow-scroll-always-show-vertical-scroll-bar
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -239,12 +239,12 @@ section.jumbotron h1 {
 }
 
 .new-controller .datasources-container md-divider{
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .settings-container .algo-desc {
   margin-top: -30px;
-} 
+}
 
 .settings-container .settings {
   margin-top: -65px;
@@ -307,7 +307,7 @@ h4.additional-settings {
 }
 
 .resultsTable .md-breadcrumb {
-  padding-left:88px;  
+  padding-left:88px;
 }
 
 .resultsTable .JCLRgrip:first-child {
@@ -545,4 +545,10 @@ md-data-table-toolbar h2 {
 
 md-data-table-pagination div button:first-child, md-data-table-pagination div button:last-child {
   display: none !important;
+}
+
+.list-category {
+  padding: 25px 0 15px 0;
+  color:rgb(63, 81, 181);
+  font-weight: bold !important;
 }

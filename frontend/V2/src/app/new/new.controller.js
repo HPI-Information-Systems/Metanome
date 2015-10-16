@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('v2')
 
@@ -33,15 +33,15 @@ angular.module('v2')
 ) {
 
   //Exported functions
-  $scope.openAlgorithmSettings = openNewAlgorithm
-  $scope.openDatasourceSettings = openNewDatasource
-  $scope.executeAlgorithm = executeAlgorithm
-  $scope.toggleDatasource = toggleDatasource
-  $scope.activateAlgorithm = activateAlgorithm
-  $scope.confirmDelete = confirmDelete
-  $scope.confirmDialog = confirmDialog
-  $scope.editAlgorithm = editAlgorithm
-  $scope.editDatasource = editDatasource
+  $scope.openAlgorithmSettings = openNewAlgorithm;
+  $scope.openDatasourceSettings = openNewDatasource;
+  $scope.executeAlgorithm = executeAlgorithm;
+  $scope.toggleDatasource = toggleDatasource;
+  $scope.activateAlgorithm = activateAlgorithm;
+  $scope.confirmDelete = confirmDelete;
+  $scope.confirmDialog = confirmDialog;
+  $scope.editAlgorithm = editAlgorithm;
+  $scope.editDatasource = editDatasource;
 
   //Exports for dialogs
   $scope.InputStore = InputStore
@@ -122,16 +122,16 @@ angular.module('v2')
         name: 'basic-statistics-algorithms',
         display: 'Basic Statistics Algorithms'
       }
-    ]
+    ];
 
-    $scope.algorithms = []
+    $scope.algorithms = [];
 
     algorithmCategoryNames.forEach(function(category){
       Algorithms.get({type: category.name}, function(result){
         $scope.algorithms.push({
           name: category.display,
-          algorithms: result
-        })
+          algorithms: result.sort(function(a, b) { return a.name.localeCompare(b.name) } )
+        });
         $scope.algorithms.sort(function(a, b) { return a.name.localeCompare(b.name) } )
       })
     })
@@ -150,23 +150,24 @@ angular.module('v2')
         name: 'table-inputs',
         display: 'Table Inputs'
       }
-    ]
+    ];
 
-    $scope.datasources = []
+    $scope.datasources = [];
 
     inputCategories.forEach(function(category){
       Datasource.get({type: category.name}, function(result){
         //Remove path from element name
         result.forEach(function(element){
-          element.name = element.name.replace(/^.*[\\\/]/, '')
-          element.disabled = false
+          element.name = element.name.replace(/^.*[\\\/]/, '');
+          element.disabled = false;
           dataSources[element.type][''+element.id] = element
-        })
+        });
         $scope.datasources.push({
           name: category.display,
-          datasource: result,
+          datasource: result.sort(function(a, b) { return a.name.localeCompare(b.name) } ),
           possible: true
-        })
+        });
+        $scope.datasources.sort(function(a, b) { return a.name.localeCompare(b.name) } )
       })
     })
   }
