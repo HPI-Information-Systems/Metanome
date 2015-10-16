@@ -58,13 +58,13 @@
             <md-card-content ng-if="activeAlgorithm">
               <h2>Additional configuration</h2>
               <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
-              <h4 style=" margin-bottom: -10px;">Result handling</h4>
+              <h4 style=" margin-bottom: -10px; margin-top: 20px">Result handling</h4>
               <md-radio-group ng-model="cachingSelection">
                 <md-radio-button style="margin-bottom: -8px" value="cache" aria-label="Label 1">Cache result and write it to disk when the algorithm is finished.</md-radio-button>
                 <md-radio-button style="margin-bottom: -8px" value="disk"> Write result immediately to disk. </md-radio-button>
                 <md-radio-button value="count" aria-label="Label 3">Just count the results.</md-radio-button>
               </md-radio-group>
-              <p style="margin-top: -10px">Memory (in MB): <input ng-model="memory"/></p>
+              <p style="margin-top: 20px">Memory (in MB): <input ng-model="memory"/></p>
               <md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Execute</md-button>
             </md-card-content>
           </md-card>
