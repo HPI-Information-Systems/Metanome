@@ -274,7 +274,17 @@ angular.module('v2')
             $scope.file = $scope.$parent.editFileInput;
             $scope.newDataSourceCategory = 'file'
           } else {
-            $scope.file = {}
+            $scope.file = {
+              "separator": ',',
+              "quoteChar": '"',
+              "escapeChar": '\\',
+              "skipLines": '0',
+              "strictQuotes": false,
+              "ignoreLeadingWhiteSpace": true,
+              "hasHeader": true,
+              "skipDifferingLines": false,
+              "nullValue": ''
+            }
           }
           if ($scope.$parent.editDatabaseInput) {
             $scope.database = $scope.$parent.editDatabaseInput;

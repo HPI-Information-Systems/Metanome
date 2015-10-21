@@ -1,5 +1,4 @@
 <div class="settings-container">
-  <br>
   <div class="tabbar">
     <div class="tabbar-content">
       <a class="tabLink" ng-class="{highlighted: newDataSourceCategory == 'file'}" ng-click="selectDatasourceCategory('file')"><div class="tab"><span>File Input</span></div></a>
@@ -31,17 +30,17 @@
         </md-input-container>
         <md-input-container>
           <label>Escape Character</label>
-          <input type="text" ng-model="file.escapeCharacter"/>
+          <input type="text" ng-model="file.escapeChar"/>
         </md-input-container>
         <md-input-container>
           <label>Quote Character</label>
-          <input type="text" ng-model="file.quoteCharacter"/>
+          <input type="text" ng-model="file.quoteChar"/>
         </md-input-container>
       </div>
       <div layout="row">
          <md-input-container style="margin-top: -30px;">
           <label>Line</label>
-          <input type="text" ng-model="file.line"/>
+          <input type="text" ng-model="file.skipLines"/>
         </md-input-container>
          <md-input-container style="margin-top: -30px;">
           <label>Null Value</label>
