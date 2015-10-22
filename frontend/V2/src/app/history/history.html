@@ -25,7 +25,7 @@
       <tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count" class="md-table-content-row" ng-click="showResult(c)">
         <td ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs" class="md-table-content">{{(h.field.indexOf('date') > 0) ? $filter('date')(c[h.field]) : c[h.field];}}</td>
         <td class="md-table-td-more">
-          <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="$event.stopPropagation(); deleteExecution(c)"></i>
+          <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="$event.stopPropagation(); confirmDelete(c)"></i>
         </td>
       </tr>
     </tbody>
@@ -37,6 +37,6 @@
       <md-button ng-disabled="tablePage==0" ng-click="tablePage=tablePage-1" aria-label="Previous Page" class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-left"></i></md-button><a ng-repeat="i in getNumber(nbOfPages()) track by $index">
         <md-button ng-click="goToPage($index)" class="md-primary md-hue-2 md-table-footer-item"><span ng-class="{ 'md-table-active-page': tablePage==$index}">{{$index+1}}</span></md-button></a>
       <md-button ng-disabled="tablePage==nbOfPages()-1" ng-click="tablePage=tablePage+1" aria-label="Next Page" class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-right"></i></md-button></span></div>
-</div> 
+</div>
 </div>
 </div>

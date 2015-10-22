@@ -441,7 +441,7 @@ angular.module('v2')
     function confirmDelete(item) {
       $scope.confirmText = "Are you sure you want to delete it?";
       $scope.confirmItem = item;
-      $scope.confirmFuntion = function () {
+      $scope.confirmFunction = function () {
         switch ($scope.confirmItem.type) {
           case 'fileInput':
             startSpin();
@@ -495,7 +495,7 @@ angular.module('v2')
     }
 
     function confirmDialog() {
-      $scope.confirmFuntion()
+      $scope.confirmFunction()
     }
 
     // Actions

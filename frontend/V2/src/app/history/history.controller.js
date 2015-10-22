@@ -13,12 +13,12 @@ var app = angular.module('v2')
          }
       }
     })
-})
+});
 
-app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
+app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDialog) {
 
   // Public variables
-  $scope.content = []
+  $scope.content = [];
   $scope.headers = [
     {
       name:'',
@@ -27,28 +27,29 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       name:'Algorithm Name',
       field:'name'
     },{
-      name: 'Date', 
+      name: 'Date',
       field: 'date'
     },{
       name:'Execution Time (d HH:mm:ss)',
       field: 'time'
     },{
-      name: 'Inputs', 
+      name: 'Inputs',
       field: 'inputs'
     },{
-      name:'Result Types', 
+      name:'Result Types',
       field: 'resultType'
     },{
       name: '',
       field: 'actions'
     }
   ];
-  $scope.loadExecutions = loadExecutions
+  $scope.loadExecutions = loadExecutions;
+
 
   // Private varias
-  var executions
+  var executions;
 
-  loadExecutions()
+  loadExecutions();
 
   // ** FUNCTION DEFINITIONS **
   // **************************
@@ -88,7 +89,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
   }
-   
+
     $scope.custom = {name: 'bold', date:'grey', time: 'grey'};
     $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
 //    $scope.thumbs = 'thumb';
@@ -101,23 +102,23 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
 app.directive('mdTable', function () {
     return {
       restrict: 'E',
-      scope: { 
-        headers: '=', 
-        content: '=', 
-        sortable: '=', 
+      scope: {
+        headers: '=',
+        content: '=',
+        sortable: '=',
         filters: '=',
         customClass: '=customClass',
-        thumbs:'=', 
-        count: '=' 
+        thumbs:'=',
+        count: '='
       },
-      controller: function ($scope,$filter,$window, $timeout, LoadResults, $location, Delete) {
+      controller: function ($scope,$filter,$window, $timeout, LoadResults, $location, Delete, ngDialog, usSpinnerService) {
         var orderBy = $filter('orderBy');
         $scope.tablePage = 0;
         $scope.nbOfPages = function () {
           return Math.ceil($scope.content.length / $scope.count);
-        },
+        };
         $scope.handleSort = function (field) {
-          if ($scope.sortable.indexOf(field) > -1) { return true; } else { return false; }
+          return $scope.sortable.indexOf(field) > -1;
         };
         $scope.order = function(predicate, reverse) {
           $scope.content = orderBy($scope.content, predicate, reverse);
@@ -137,11 +138,44 @@ app.directive('mdTable', function () {
           Delete.execution({id: execution.id}, function(result) {
             $scope.$parent.loadExecutions()
           })
+        };
+        $scope.startSpin = function() {
+          usSpinnerService.spin('spinner-1');
+        };
+        $scope.stopSpin = function() {
+          usSpinnerService.stop('spinner-1');
+        };
+        $scope.confirmDelete = function(execution) {
+          $scope.confirmText = "Are you sure you want to delete it?";
+          $scope.confirmItem = execution;
+          $scope.confirmFunction = function () {
+            $scope.startSpin();
+            Delete.execution({id: $scope.confirmItem.id}, function(result) {
+              $scope.$parent.loadExecutions()
+            });
+            $scope.stopSpin();
+            ngDialog.closeAll();
+          };
+          ngDialog.openConfirm({
+            template: '\
+                <h3>Confirm</h3>\
+                <p>{{$parent.confirmText}}</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-warning" ng-click="$parent.confirmFunction(1)">Yes</button>\
+                </div>',
+            plain: true,
+            scope: $scope
+          })
         }
+
+
       },
       template: angular.element(document.querySelector('#md-table-template')).html()
     }
   });
+
+
 
 app.directive('mdColresize', function ($timeout) {
   return {
@@ -151,7 +185,7 @@ app.directive('mdColresize', function ($timeout) {
 //        $timeout(function(){ $(element).colResizable({
 //          liveDrag: true,
 //          fixed: true
-          
+
 //        });},100);
 //      });
     }
