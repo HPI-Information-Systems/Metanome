@@ -245,6 +245,13 @@
     <md-data-table-pagination md-limit="orderDependency.query.limit" md-page="orderDependency.query.page" md-total="{{orderDependency.count}}" md-trigger="onPageChangeOD"></md-data-table-pagination>
   </md-card>
 
+
+  <md-card ng-if="uniqueColumnCombination.count == 0 && orderDependency.count == 0 &&
+  conditionalUniqueColumnCombination.count == 0 && basicStatistic.count == 0 && functionalDependency.count == 0 &&
+  inclusionDependency.count == 0">
+    <h3 style="margin: 20px" class="md-title">No results found!</h3>
+  </md-card>
+
   <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-2"></span>
 
 </div>
