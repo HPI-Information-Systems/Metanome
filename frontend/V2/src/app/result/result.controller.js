@@ -303,7 +303,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         rows.push({
           statisticName: result.statisticName,
           columnCombination: '[' + combinations.join(', ') + ']',
-          value: result.value,
+          value: result.statisticValue,
           columnRatio: result.columnRatio,
           occurenceRatio: result.occurenceRatio,
           uniquenessRatio: result.uniquenessRatio
