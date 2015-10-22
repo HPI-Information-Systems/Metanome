@@ -225,7 +225,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
         })
         rows.push({
-          columnCombination: '[' + combinations.join(',') + ']',
+          columnCombination: '[' + combinations.join(', ') + ']',
           columnRatio: result.columnRatio,
           occurrenceRatio: result.occurrenceRatio,
           uniquenessRatio: result.uniquenessRatio,
@@ -245,8 +245,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
         })
         rows.push({
-          columnCombination: '[' + combinations.join(',') + ']',
-          condition: result.result.condition.columnIdentifier.tableIdentifier + '.' + result.result.condition.columnIdentifier.columnIdentifier + (result.result.condition.negated ? '!=':'=') + result.result.condition.columnValue,
+          columnCombination: '[' + combinations.join(', ') + ']',
+          condition: result.result.condition.columnIdentifier.tableIdentifier + '.' + result.result.condition.columnIdentifier.columnIdentifier + (result.result.condition.negated ? ' != ' : ' = ') + result.result.condition.columnValue,
           coverage: result.result.condition.coverage,
           columnRatio: result.columnRatio,
           occurrenceRatio: result.occurrenceRatio,
@@ -272,9 +272,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           })
         }
         rows.push({
-          determinant: '[' + determinant.join(',') + ']',
+          determinant: '[' + determinant.join(', ') + ']',
           dependant: result.dependant.tableIdentifier + '.' + result.dependant.columnIdentifier,
-          extendedDependant: '[' + extendedDependant.join(',') + ']',
+          extendedDependant: '[' + extendedDependant.join(', ') + ']',
           determinantColumnRatio: result.determinantColumnRatio,
           dependantColumnRatio: result.dependantColumnRatio,
           determinantOccurrenceRatio: result.determinantOccurrenceRatio,
@@ -302,7 +302,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         })
         rows.push({
           statisticName: result.statisticName,
-          columnCombination: '[' + combinations.join(',') + ']',
+          columnCombination: '[' + combinations.join(', ') + ']',
           value: result.value,
           columnRatio: result.columnRatio,
           occurenceRatio: result.occurenceRatio,
@@ -327,8 +327,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           referenced.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
         })
         rows.push({
-          dependant: '[' + combinations.join(',') + ']',
-          referenced: '[' + referenced.join(',') + ']',
+          dependant: '[' + combinations.join(', ') + ']',
+          referenced: '[' + referenced.join(', ') + ']',
           dependantColumnRatio: result.dependantColumnRatio,
           referencedColumnRatio: result.referencedColumnRatio,
           dependantOccurrenceRatio: result.dependantOccurrenceRatio,
@@ -355,8 +355,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           referenced.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
         })
         rows.push({
-          LHS: '[' + combinations.join(',') + ']',
-          RHS: '[' + referenced.join(',') + ']',
+          LHS: '[' + combinations.join(', ') + ']',
+          RHS: '[' + referenced.join(', ') + ']',
           LHSColumnRatio: result.lhsColumnRatio,
           RHSColumnRatio: result.rhsColumnRatio,
           GeneralCoverage: result.generalCoverage,
