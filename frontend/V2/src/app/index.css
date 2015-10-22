@@ -218,6 +218,7 @@ section.jumbotron h1 {
   margin-right: 35px;
   margin-top: 30px;
   cursor: pointer;
+  color: black;
 }
 
 .new-controller .settings-datasources{
@@ -227,6 +228,7 @@ section.jumbotron h1 {
   margin-right: 65px;
   margin-top: 30px;
   cursor: pointer;
+  color: black;
 }
 
 .new-controller md-checkbox .md-label {

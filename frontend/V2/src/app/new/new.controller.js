@@ -665,6 +665,11 @@ angular.module('v2')
       $scope.schema.required = [];
 
       Parameter.get({algorithm: algorithm.fileName}, function (parameter) {
+        // sort parameter, so that the same type of parameter is listed
+        // next to each other in the form
+        parameter.sort(function(a, b) {
+          return a.type.localeCompare(b.type) * -1;
+        });
         parameter.forEach(function (param) {
           currentParameter.push(param);
           switch (param.type) {
@@ -689,7 +694,6 @@ angular.module('v2')
               break;
             case 'ConfigurationRequirementString':
               addParamToList(param, 'string', false);
-
               break;
             case 'ConfigurationRequirementBoolean':
               addParamToList(param, 'boolean', false);
