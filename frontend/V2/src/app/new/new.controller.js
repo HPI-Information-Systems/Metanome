@@ -344,6 +344,7 @@ angular.module('v2')
           }
 
           function saveNewFileInput(file) {
+            startSpin();
             var obj = {
               "type": "fileInput",
               "id": file.id || 1,
@@ -364,65 +365,77 @@ angular.module('v2')
             if ($scope.$parent.editFileInput) {
               $scope.$parent.InputStore.updateFileInput(obj, function () {
                 initializeDatasources();
-                ngDialog.closeAll()
+                ngDialog.closeAll();
+                stopSpin();
               }, function () {
-                alert("An error occured when loading this datasource!")
+                alert("An error occured when loading this datasource!");
+                stopSpin();
               })
             } else {
               $scope.$parent.InputStore.newFileInput(obj, function () {
                 initializeDatasources();
-                ngDialog.closeAll()
+                ngDialog.closeAll();
+                stopSpin();
               }, function () {
-                alert("An error occured when loading this datasource!")
+                alert("An error occured when loading this datasource!");
+                stopSpin();
               })
             }
           }
 
           function saveDatabaseInput(database) {
+            startSpin();
             var obj = {
               "type": "databaseConnection",
               "id": database.id || 1,
-              "name": database.url + '; ' + database.userName + '; '
-              + database.system,
+              "name": database.url + '; ' + database.userName + '; ' + database.system || '',
               "url": database.url || '',
               "username": database.username || '',
               "password": database.password || '',
               "system": database.system || '',
               "comment": database.comment || ''
             };
-            if ($scope.$parent.saveDatabaseInput) {
+            if ($scope.$parent.editDatabaseInput) {
               $scope.$parent.InputStore.updateDatabaseConnection(obj,
                 function () {
                   initializeDatasources();
-                  ngDialog.closeAll()
+                  ngDialog.closeAll();
+                  stopSpin();
                 },
                 function () {
-                  alert("An error occured when loading this datasource!")
+                  alert("An error occured when loading this datasource!");
+                  stopSpin();
                 })
             } else {
               $scope.$parent.InputStore.newDatabaseConnection(obj,
                 function () {
                   initializeDatasources();
-                  ngDialog.closeAll()
+                  ngDialog.closeAll();
+                  stopSpin();
                 },
                 function () {
-                  alert("An error occured when loading this datasource!")
+                  alert("An error occured when loading this datasource!");
+                  stopSpin();
                 })
             }
           }
 
           function saveTableInput(table) {
+            if (table.database === undefined) {
+              alert("Your table input has no database!");
+              return;
+            }
+            startSpin();
             var obj = {
               "type": "tableInput",
               "id": table.id || 1,
-              "name": table.tableName + ";  " + table.database.name
-              || '',
+              "name": table.tableName + "; " + table.database.name || '',
               "tableName": table.tableName || '',
               "databaseConnection": {
                 "type": "databaseConnection",
                 "id": table.database.id,
                 "name": table.database.name,
-                "url": table.database.id.url,
+                "url": table.database.url,
                 "username": table.database.username,
                 "password": table.database.password,
                 "system": table.database.system,
@@ -430,20 +443,24 @@ angular.module('v2')
               },
               "comment": table.comment || ''
             };
-            if ($scope.$parent.saveTableInput) {
+            if ($scope.$parent.editTableInput) {
               $scope.$parent.InputStore.updateTableInput(obj,
                 function () {
                   initializeDatasources();
+                  stopSpin();
                   ngDialog.closeAll()
                 }, function () {
-                  alert("An error occured when loading this datasource!")
+                  alert("An error occured when loading this datasource!");
+                  stopSpin();
                 })
             } else {
               $scope.$parent.InputStore.newTableInput(obj, function () {
                 initializeDatasources();
-                ngDialog.closeAll()
+                ngDialog.closeAll();
+                stopSpin();
               }, function () {
-                alert("An error occured when loading this datasource!")
+                alert("An error occured when loading this datasource!");
+                stopSpin();
               })
             }
           }
