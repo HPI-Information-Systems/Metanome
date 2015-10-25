@@ -558,3 +558,8 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
 .form-input {
   margin-bottom: 30px;
 }
+
+.unselect {
+  margin-bottom: 20px;
+  cursor: pointer;
+}

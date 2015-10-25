@@ -9,8 +9,8 @@
 
   <div ng-if="newDataSourceCategory=='file'">
     <div layout="row">
-      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Select file: </span><select ng-model="file.fileName" style="margin-top: 10px; width: 50%" ng-options="file for file in files">
-      </select>
+      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Select file: </span>
+      <select ng-model="file.fileName" style="margin-top: 10px; width: 50%" ng-options="file for file in files"></select>
       </div>
     <div layout="row" style="margin-left: 10px; ">
       {{file.fileName}}

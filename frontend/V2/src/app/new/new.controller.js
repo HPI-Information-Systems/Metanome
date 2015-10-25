@@ -41,6 +41,7 @@ angular.module('v2')
     $scope.confirmDialog = confirmDialog;
     $scope.editAlgorithm = editAlgorithm;
     $scope.editDatasource = editDatasource;
+    $scope.clearAll = clearAll;
 
     //Exports for dialogs
     $scope.InputStore = InputStore;
@@ -856,6 +857,13 @@ angular.module('v2')
 
     function loadResultsForFileInput() {
       LoadResults
+    }
+
+    function clearAll() {
+      initializeAlgorithmList();
+      initializeDatasources();
+      resetParameter();
+      $scope.activeAlgorithm = undefined
     }
 
     function unselectAllInputs() {
