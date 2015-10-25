@@ -98,7 +98,10 @@ angular.module('v2')
     // **************************
 
 
+    // ***
     // Initialization
+    // ***
+
     function initializeAlgorithmList() {
       var algorithmCategoryNames = [
         {
@@ -129,6 +132,8 @@ angular.module('v2')
 
       $scope.algorithms = [];
 
+      // Get all algorithms for each category from the database
+      // and sort them alphabetically
       algorithmCategoryNames.forEach(function (category) {
         Algorithms.get({type: category.name}, function (result) {
           $scope.algorithms.push({
@@ -162,6 +167,8 @@ angular.module('v2')
 
       $scope.datasources = [];
 
+      // Get all data sources for each categroy from the database
+      // and sort them alphabetically
       inputCategories.forEach(function (category) {
         Datasource.get({type: category.name}, function (result) {
           //Remove path from element name
@@ -184,7 +191,11 @@ angular.module('v2')
       })
     }
 
-    // Open Dialogs
+
+    // ***
+    // Dialogs
+    // ***
+
     function openNewAlgorithm() {
       ngDialog.open({
         template: '/assets/new-algorithm.html',
@@ -498,7 +509,10 @@ angular.module('v2')
       $scope.confirmFunction()
     }
 
+    // ***
     // Actions
+    // ***
+
     function toggleDatasource(datasource) {
       var index = activeDataSources[datasource.type].indexOf(datasource.id);
       datasource.active = datasource.active || false;
@@ -520,8 +534,8 @@ angular.module('v2')
         type = 'Table Inputs'
       }
 
-      if ($scope.maxNumberOfSetting[type]
-        <= activeDataSources[datasource.type].length) {
+      if ($scope.maxNumberOfSetting[type] !== -1 &&
+        $scope.maxNumberOfSetting[type] <= activeDataSources[datasource.type].length) {
         $scope.datasources.forEach(function (ds) {
           if (ds.name.indexOf(type) > -1) {
             ds.datasource.forEach(function (element) {
@@ -748,7 +762,10 @@ angular.module('v2')
           return false
         }
       });
-      if (param.minNumberOfSettings === param.maxNumberOfSettings) {
+      if (param.numberOfSettings === -1) {
+        $scope.datasources[index].name =
+          input + ' (choose an arbitrary number)'
+      } else if (param.minNumberOfSettings === param.maxNumberOfSettings) {
         $scope.datasources[index].name =
           input + ' (choose ' + param.minNumberOfSettings + ')'
       } else {
@@ -880,7 +897,7 @@ angular.module('v2')
 
     function readParamsIntoBackendFormat(params) {
       var i, j;
-      var checked, param, item;
+      var checked, param, item, paramNumberOfSettings;
 
       for (i = 0; i < params.length; i++) {
         params[i].settings = [];
@@ -889,6 +906,8 @@ angular.module('v2')
         if (params[i].fixNumberOfSettings !== undefined) {
           delete params[i].fixNumberOfSettings
         }
+
+        paramNumberOfSettings = (params[i].numberOfSettings !== -1) ? params[i].numberOfSettings : 1000;
 
         switch (params[i].type) {
 
@@ -910,7 +929,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementTableInput':
             checked = activeDataSources.tableInput.slice(0);
-            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= paramNumberOfSettings && checked.length > 0; j++) {
               item = dataSources.tableInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -933,7 +952,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementDatabaseConnection':
             checked = activeDataSources.databaseConnection.slice(0);
-            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= paramNumberOfSettings && checked.length > 0; j++) {
               item = dataSources.databaseConnection['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -951,7 +970,7 @@ angular.module('v2')
 
           case 'ConfigurationRequirementFileInput':
             checked = activeDataSources.fileInput.slice(0);
-            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= paramNumberOfSettings && checked.length > 0; j++) {
               item = dataSources.fileInput['' + checked.pop()];
               // needed because same fields are named different in different places in
               // backend - workaround!
@@ -977,7 +996,7 @@ angular.module('v2')
           case 'ConfigurationRequirementRelationalInput':
             // add table inputs
             checked = activeDataSources.tableInput.slice(0);
-            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= paramNumberOfSettings && checked.length > 0; j++) {
               item = dataSources.tableInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
@@ -998,7 +1017,7 @@ angular.module('v2')
             }
             // add file inputs
             checked = activeDataSources.fileInput.slice(0);
-            for (j = 1; j <= params[i].numberOfSettings && checked.length > 0; j++) {
+            for (j = 1; j <= paramNumberOfSettings && checked.length > 0; j++) {
               item = dataSources.fileInput['' + checked.pop()];
               //needed because same fields are named different in different places in
               // backend - workaround!
