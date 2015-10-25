@@ -173,7 +173,7 @@ angular.module('v2')
         Datasource.get({type: category.name}, function (result) {
           //Remove path from element name
           result.forEach(function (element) {
-            element.name = element.name.replace(/^.*[\\\/]/, '');
+            if (category.name == 'file-inputs') element.name = element.name.replace(/^.*[\\\/]/, '');
             element.disabled = false;
             dataSources[element.type]['' + element.id] = element
           });
@@ -229,7 +229,7 @@ angular.module('v2')
           function saveNewAlgorithm(algorithm) {
             startSpin();
             var obj = {
-              "id": 10,
+              "id": algorithm.id,
               "fileName": algorithm.fileName,
               "name": algorithm.name,
               "author": algorithm.author,
@@ -251,6 +251,7 @@ angular.module('v2')
                 initializeAlgorithmList();
                 ngDialog.closeAll()
               }, function () {
+                stopSpin();
                 alert("An error occured when loading this algorithm! Maybe constrains are violated?")
               })
             }
@@ -260,6 +261,7 @@ angular.module('v2')
                 initializeAlgorithmList();
                 ngDialog.closeAll()
               }, function () {
+                stopSpin();
                 alert("An error occured when loading this algorithm! Maybe constrains are violated?")
               })
             }
@@ -344,7 +346,7 @@ angular.module('v2')
           function saveNewFileInput(file) {
             var obj = {
               "type": "fileInput",
-              "id": 1,
+              "id": file.id || 1,
               "name": file.fileName || '',
               "fileName": file.fileName || '',
               "separator": file.separator || '',
@@ -379,7 +381,7 @@ angular.module('v2')
           function saveDatabaseInput(database) {
             var obj = {
               "type": "databaseConnection",
-              "id": 1,
+              "id": database.id || 1,
               "name": database.url + '; ' + database.userName + '; '
               + database.system,
               "url": database.url || '',
@@ -412,7 +414,7 @@ angular.module('v2')
           function saveTableInput(table) {
             var obj = {
               "type": "tableInput",
-              "id": 1,
+              "id": table.id || 1,
               "name": table.tableName + ";  " + table.database.name
               || '',
               "tableName": table.tableName || '',
