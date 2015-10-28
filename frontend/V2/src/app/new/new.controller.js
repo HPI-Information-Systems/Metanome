@@ -41,7 +41,8 @@ angular.module('v2')
     $scope.confirmDialog = confirmDialog;
     $scope.editAlgorithm = editAlgorithm;
     $scope.editDatasource = editDatasource;
-    $scope.clearAll = clearAll;
+    $scope.resetAlgorithm = resetAlgorithm;
+    $scope.resetDataSources = resetDataSources;
 
     //Exports for dialogs
     $scope.InputStore = InputStore;
@@ -859,11 +860,17 @@ angular.module('v2')
       LoadResults
     }
 
-    function clearAll() {
+    function resetAlgorithm() {
       initializeAlgorithmList();
       initializeDatasources();
       resetParameter();
       $scope.activeAlgorithm = undefined
+    }
+
+    function resetDataSources() {
+      enableAllInputs();
+      unselectAllInputs();
+      resetParameter();
     }
 
     function unselectAllInputs() {

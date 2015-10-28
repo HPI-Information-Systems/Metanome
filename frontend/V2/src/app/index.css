@@ -559,7 +559,15 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
   margin-bottom: 30px;
 }
 
-.unselect {
-  margin-bottom: 20px;
+.reset-algorithm {
   cursor: pointer;
+  position: absolute;
+  right: 81%;
+  top: 141px;
+}
+.reset-datasources {
+  cursor: pointer;
+  position: absolute;
+  right: 31%;
+  top: 141px;
 }
