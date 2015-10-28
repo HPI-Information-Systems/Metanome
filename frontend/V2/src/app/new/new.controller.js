@@ -212,7 +212,7 @@ angular.module('v2')
             $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit;
             $scope.defaultAlgorithmText = $scope.newAlgorithm.name;
           } else {
-            $scope.newAlgorithm = {}
+            $scope.newAlgorithm = {};
             $scope.defaultAlgorithmText = "--choose an algorithm--"
           }
           $scope.saveNewAlgorithm = saveNewAlgorithm;

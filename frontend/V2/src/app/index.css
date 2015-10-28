@@ -201,7 +201,7 @@ section.jumbotron h1 {
 }
 
 .new-controller .algorithms-container, .new-controller .datasources-container {
-  overflow: scroll;
+  overflow: auto;
   height: 330px;
   overflow-y: scroll;
 }
@@ -570,4 +570,8 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
   position: absolute;
   right: 31%;
   top: 141px;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-close:before {
+  visibility: hidden;
 }
