@@ -66,6 +66,8 @@ angular.module('v2')
     $scope.activeAlgorithm;
     $scope.cachingSelection = 'cache';
 
+    $scope.saveUpdateButton = "Save";
+
     //Private variables
     var activeDataSources = {
       'fileInput': [],
@@ -207,9 +209,11 @@ angular.module('v2')
         },
         controller: ['$scope', function ($scope) {
           if ($scope.$parent.AlgorithmToEdit) {
-            $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit
+            $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit;
+            $scope.defaultAlgorithmText = $scope.newAlgorithm.name;
           } else {
             $scope.newAlgorithm = {}
+            $scope.defaultAlgorithmText = "--choose an algorithm--"
           }
           $scope.saveNewAlgorithm = saveNewAlgorithm;
           $scope.algorithmFiles = [];
@@ -766,6 +770,7 @@ angular.module('v2')
 
     function editDatasource(datasource) {
       $scope.edit = true;
+      $scope.saveUpdateButton = "Update";
       switch (datasource.type) {
         case 'fileInput':
           $scope.editFileInput = datasource;
@@ -785,13 +790,18 @@ angular.module('v2')
       $scope.editDatabaseInput = null;
       $scope.editTableInput = null;
       $scope.edit = false;
+      $scope.saveUpdateButton = "Save";
     }
 
     function doneEditingAlgorithm() {
       $scope.AlgorithmToEdit = null;
+      $scope.edit = false;
+      $scope.saveUpdateButton = "Save";
     }
 
     function editAlgorithm(algorithm) {
+      $scope.edit = true;
+      $scope.saveUpdateButton = "Update";
       $scope.AlgorithmToEdit = algorithm;
       openNewAlgorithm();
     }

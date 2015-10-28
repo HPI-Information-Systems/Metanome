@@ -8,10 +8,8 @@
     <div>
         <div layout="row">
             <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span><select ng-model="newAlgorithm.fileName" style="margin-top: 10px; " ng-options="file for file in algorithmFiles">
+          <option selected value="">{{defaultAlgorithmText}}</option>
         </select>
-        </div>
-        <div layout="row" style="margin-left: 10px; ">
-            {{newAlgorithm.fileName}}
         </div>
         <div layout="row">
             <md-input-container style="margin-left: 10px;">
@@ -34,6 +32,6 @@
             </div>
         </div>
     </div>
-    <md-button class="md-raised md-primary" ng-click="saveNewAlgorithm(newAlgorithm) && closeThisDialog('save')" style="margin-left: 10px;">Save</md-button>
+    <md-button class="md-raised md-primary" ng-click="saveNewAlgorithm(newAlgorithm) && closeThisDialog('save')" style="margin-left: 10px;">{{saveUpdateButton}}</md-button>
 
 </div>
