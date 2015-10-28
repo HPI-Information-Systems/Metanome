@@ -153,9 +153,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     });
   // load all results for a file
   } else if ($scope.file) {
+      loadDetailsForFile();
       startSpin();
       LoadResults.file({id: $scope.id, notDetailed: true}, function () {
-        loadDetailsForFile();
         init();
         stopSpin()
       });
@@ -231,7 +231,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function loadDetailsForFile() {
     File.get({id: $scope.id}, function(result) {
-      $scope.file = result
+      $scope.file = result;
+      $scope.file.shortFileName = $scope.file.fileName.replace(/^.*[\\\/]/, '');
     })
   }
   function loadDetailsForExecution() {

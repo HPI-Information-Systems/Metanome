@@ -503,7 +503,7 @@ angular.module('v2')
             startSpin();
             Delete.algorithm({id: $scope.confirmItem.id}, function () {
               stopSpin();
-              initializeAlgorithmList();
+              resetAlgorithm();
               ngDialog.closeAll()
             });
             break
