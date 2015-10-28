@@ -17,11 +17,11 @@
   <md-card ng-if="execution">
     <p style="margin-left: 20px; margin-top: 15px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
       <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
-      <a ng-if="!extended && execution.end > 0" ng-href="#/result/{{id}}?extended=true" style="margin: -10px 10px -10px 0; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
+      <a ng-if="!extended && !count && execution.end > 0" ng-href="#/result/{{id}}?extended=true" style="margin: -10px 10px -10px 0; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
     </p>
   </md-card>
 
-  <md-card ng-if="uniqueColumnCombination.count > 0">
+  <md-card ng-if="(cached || file || extended)  && uniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Unique Column Combination <md-button ng-if="extended" ng-click="openUCCVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
     </md-data-table-toolbar>
@@ -52,7 +52,7 @@
     <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onPageChangeUCC"></md-data-table-pagination>
   </md-card>
 
-  <md-card ng-if="functionalDependency.count > 0">
+  <md-card ng-if="(cached || file || extended)  && functionalDependency.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Functional Dependency  <md-button ng-if="extended" ng-click="openFDVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
     </md-data-table-toolbar>
@@ -102,7 +102,7 @@
 
 
 
-  <md-card ng-if="inclusionDependency.count > 0">
+  <md-card ng-if="(cached || file || extended)  && inclusionDependency.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Inclusion Dependency</h2>
     </md-data-table-toolbar>
@@ -140,7 +140,7 @@
   </md-card>
 
 
-  <md-card ng-if="basicStatistic.count > 0">
+  <md-card ng-if="(cached || file || extended)  && basicStatistic.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Basic Statistic</h2>
     </md-data-table-toolbar>
@@ -173,7 +173,7 @@
     <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page" md-total="{{basicStatistic.count}}" md-trigger="onPageChangeBS"></md-data-table-pagination>
   </md-card>
 
-  <md-card ng-if="conditionalUniqueColumnCombination.count > 0">
+  <md-card ng-if="(cached || file || extended)  && conditionalUniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Conditional Unique Column Combination</h2>
     </md-data-table-toolbar>
@@ -206,7 +206,7 @@
     <md-data-table-pagination md-limit="conditionalUniqueColumnCombination.query.limit" md-page="conditionalUniqueColumnCombination.query.page" md-total="{{conditionalUniqueColumnCombination.count}}" md-trigger="onPageChangeCUCC"></md-data-table-pagination>
   </md-card>
 
-  <md-card ng-if="orderDependency.count > 0">
+  <md-card ng-if="(cached || file || extended) && orderDependency.count > 0">
     <md-data-table-toolbar>
       <h2 class="md-title">Order Dependency</h2>
     </md-data-table-toolbar>
@@ -245,12 +245,49 @@
     <md-data-table-pagination md-limit="orderDependency.query.limit" md-page="orderDependency.query.page" md-total="{{orderDependency.count}}" md-trigger="onPageChangeOD"></md-data-table-pagination>
   </md-card>
 
+  <md-card ng-if="count && uniqueColumnCombination.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Unique Column Combination</h2>
+      {{uniqueColumnCombination.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && functionalDependency.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Functional Dependency</h2>
+      {{functionalDependency.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && inclusionDependency.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Inclusion Dependency</h2>
+      {{inclusionDependency.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && orderDependency.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Order Dependency</h2>
+      {{orderDependency.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && conditionalUniqueColumnCombination.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Conditional Unique Column Combination</h2>
+      {{conditionalUniqueColumnCombination.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && basicStatistic.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Basic Statistic</h2>
+      {{basicStatistic.count}}
+    </md-card-content>
+  </md-card>
 
   <md-card ng-if="uniqueColumnCombination.count == 0 && orderDependency.count == 0 &&
   conditionalUniqueColumnCombination.count == 0 && basicStatistic.count == 0 && functionalDependency.count == 0 &&
   inclusionDependency.count == 0">
     <h3 style="margin: 20px" class="md-title">No results found!</h3>
   </md-card>
+
 
   <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-2"></span>
 

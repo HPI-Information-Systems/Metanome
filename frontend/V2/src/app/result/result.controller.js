@@ -5,7 +5,7 @@ var app = angular.module('v2')
 .config(function config( $stateProvider ) {
   $stateProvider
     .state('result', {
-      url: '/result/:resultId?cached&file&extended',
+      url: '/result/:resultId?cached&count&file&extended&ind&od&ucc&cucc&fd&basicStat',
       views: {
         'main@': {
             controller: 'ResultCtrl',
@@ -16,10 +16,20 @@ var app = angular.module('v2')
 });
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
-                                       $timeout, $stateParams, LoadResults, Execution, File, ngDialog, $http) {
+                                       $timeout, $stateParams, LoadResults, CountResults, Execution, File,
+                                       ngDialog, $http) {
 
   $scope.id = $stateParams.resultId;
-  $scope.extended = $stateParams.extended || false;
+  $scope.extended = ($stateParams.extended == 'true');
+  $scope.cached = ($stateParams.cached == 'true');
+  $scope.file = ($stateParams.file == 'true');
+  $scope.count = ($stateParams.count == 'true');
+  $scope.fd = ($stateParams.fd == 'true');
+  $scope.ind = ($stateParams.ind == 'true');
+  $scope.ucc = ($stateParams.ucc == 'true');
+  $scope.cucc = ($stateParams.cucc == 'true');
+  $scope.od = ($stateParams.od == 'true');
+  $scope.basicStat = ($stateParams.basicStat == 'true');
 
   $scope.openFDVisualization = openFDVisualization;
   $scope.openUCCVisualization = openUCCVisualization;
@@ -133,76 +143,92 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onPageChangeCUCC = onPageChangeCUCC;
   $scope.onPageChangeOD = onPageChangeOD;
 
-  if (!$stateParams.cached && !$stateParams.file) {
+  // load extended results
+  if ($scope.extended) {
     startSpin();
-    LoadResults.load({id: $scope.id, detailed: ($stateParams.extended || false)}, function () {
+    LoadResults.load({id: $scope.id, detailed: true}, function () {
       stopSpin();
       init();
       loadDetailsForExecution()
-    })
-  } else if ($stateParams.file) {
+    });
+  // load all results for a file
+  } else if ($scope.file) {
       startSpin();
-      console.log("File");
-      LoadResults.file({id: $scope.id, detailed: ($stateParams.extended || false)}, function () {
+      LoadResults.file({id: $scope.id, detailed: false}, function () {
         loadDetailsForFile();
         init();
         stopSpin()
-      })
+      });
+  // load results
   } else {
     init();
-    loadDetailsForExecution()
+    loadDetailsForExecution();
+    stopSpin();
   }
 
   function init() {
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
-        then(function(response) {
+    if ($scope.ucc || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
+        then(function (response) {
           var count = response.data;
-          if(count > 0){
+          if (count > 0) {
             $scope.uniqueColumnCombination.count = count;
-            loadColumnCombination()
+            if (!$scope.count) loadColumnCombination()
           }
-    });
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.functionalDependency.params.type).
-        then(function(response) {
+        });
+    }
+    if ($scope.fd || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.functionalDependency.params.type).
+        then(function (response) {
           var count = response.data;
-          if(count > 0){
+          if (count > 0) {
             $scope.functionalDependency.count = count;
-            loadFunctionalDependency()
+            if (!$scope.count) loadFunctionalDependency()
           }
-    });
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.basicStatistic.params.type).
-      then(function(response) {
-        var count = response.data;
-        if(count > 0){
-          $scope.basicStatistic.count = count;
-          loadBasicStatistic()
-        }
-    });
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
-        then(function(response) {
+        });
+    }
+    if ($scope.basicStat || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.basicStatistic.params.type).
+        then(function (response) {
           var count = response.data;
-          if(count > 0){
+          if (count > 0) {
+            $scope.basicStatistic.count = count;
+            if (!$scope.count) loadBasicStatistic()
+          }
+        });
+    }
+    if ($scope.ind || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
             $scope.inclusionDependency.count = count;
-            loadInclusionDependency()
+            if (!$scope.count) loadInclusionDependency()
           }
         });
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
-        then(function(response) {
+    }
+    if ($scope.cucc || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
+        then(function (response) {
           var count = response.data;
-          if(count > 0){
+          if (count > 0) {
             $scope.conditionalUniqueColumnCombination.count = count;
-            loadConditionalUniqueColumnCombination()
+            if (!$scope.count) loadConditionalUniqueColumnCombination()
           }
         });
-    $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.orderDependency.params.type).
-        then(function(response) {
+    }
+    if ($scope.od || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.orderDependency.params.type).
+        then(function (response) {
           var count = response.data;
-          if(count > 0){
+          if (count > 0) {
             $scope.orderDependency.count = count;
-            loadOrderDependency()
+            if (!$scope.count) loadOrderDependency()
           }
         })
+    }
   }
+
   function loadDetailsForFile() {
     File.get({id: $scope.id}, function(result) {
       $scope.file = result

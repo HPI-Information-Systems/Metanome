@@ -56,22 +56,22 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDia
 
   function loadExecutions() {
     Executions.getAll({}, function(result) {
-      executions = result
-      $scope.content = []
+      executions = result;
+      $scope.content = [];
       result.forEach(function(execution) {
-        var duration = execution.end - execution.begin
+        var duration = execution.end - execution.begin;
         if(execution.end == 0) {
           duration = 0
         }
-        var inputs = []
-        var results = []
+        var inputs = [];
+        var results = [];
         execution.inputs.forEach(function(input) {
-            input.name = input.name.replace(/^.*[\\\/]/, '')
+            input.name = input.name.replace(/^.*[\\\/]/, '');
             inputs.push(input.name)
-        })
+        });
         execution.results.forEach(function(result) {
             results.push(result.typeName)
-        })
+        });
         if(execution.aborted) {
           results = ['EXECUTION ABORTED']
         }
@@ -82,9 +82,18 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDia
           time: Math.floor(duration/(60*60*24))+' '+twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60)),
           inputs: inputs.join(', '),
           resultType: results.join(', '),
-          actions: ''
+          actions: '',
+          aborted: execution.aborted,
+          count: execution.countResult,
+          cached: !execution.countResult,
+          fd: execution.algorithm.fd,
+          ind: execution.algorithm.ind,
+          ucc: execution.algorithm.ucc,
+          cucc: execution.algorithm.cucc,
+          od: execution.algorithm.od,
+          basicStat: execution.algorithm.basicStat
         })
-      })
+      });
         var orderBy = $filter('orderBy');
         $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
@@ -132,7 +141,10 @@ app.directive('mdTable', function () {
           $scope.tablePage = page;
         };
         $scope.showResult = function(result) {
-          $location.url('/result/'+result.id);
+          if (!result.aborted)
+            $location.url('/result/' + result.id + '?count=' + result.count + '&cached=' + result.cached +
+            '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
+            '&cucc=' + result.cucc + '&od=' + result.od + '&basicStat=' + result.basicStat);
         };
         $scope.deleteExecution = function(execution) {
           Delete.execution({id: execution.id}, function(result) {

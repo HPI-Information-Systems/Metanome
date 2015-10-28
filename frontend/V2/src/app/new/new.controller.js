@@ -634,12 +634,14 @@ angular.module('v2')
         }]
       });
       AlgorithmExecution.run({}, payload, function (result) {
+        var typeStr = '&ind=' + result.algorithm.ind + '&fd=' + result.algorithm.fd + '&ucc=' + result.algorithm.ucc +
+          '&cucc=' + result.algorithm.cucc + '&od=' + result.algorithm.od + '&basicStat=' + result.algorithm.basicStat;
         ngDialog.closeAll();
         if (!$scope.canceled) {
-          if (caching = 'cache') {
-            $location.url('/result/' + result.id + '?cached=true');
+          if (caching == 'cache' || caching == 'disk') {
+            $location.url('/result/' + result.id + '?cached=true' + typeStr);
           } else {
-            $location.url('/result/' + result.id);
+            $location.url('/result/' + result.id + '?count=true' + typeStr);
           }
         }
       }, function (error) {
