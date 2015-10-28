@@ -256,9 +256,9 @@ angular.module('v2')
                 stopSpin();
                 initializeAlgorithmList();
                 ngDialog.closeAll()
-              }, function () {
+              }, function(errorMessage) {
                 stopSpin();
-                alert("An error occured when loading this algorithm! Maybe constrains are violated?")
+                openError("An error occured when updating this algorithm: " + errorMessage.data)
               })
             }
             else {
@@ -266,9 +266,9 @@ angular.module('v2')
                 stopSpin();
                 initializeAlgorithmList();
                 ngDialog.closeAll()
-              }, function () {
+              }, function(errorMessage) {
                 stopSpin();
-                alert("An error occured when loading this algorithm! Maybe constrains are violated?")
+                openError("An error occured when saving this algorithm: " + errorMessage.data)
               })
             }
           }
@@ -394,8 +394,8 @@ angular.module('v2')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function () {
-                alert("An error occured when loading this datasource!");
+              }, function(errorMessage) {
+                openError("An error occured when updating this datasource: " + errorMessage.data);
                 stopSpin();
               })
             } else {
@@ -403,8 +403,8 @@ angular.module('v2')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function () {
-                alert("An error occured when loading this datasource!");
+              }, function(errorMessage) {
+                openError("An error occured when saving this datasource: " + errorMessage.data);
                 stopSpin();
               })
             }
@@ -429,8 +429,8 @@ angular.module('v2')
                   ngDialog.closeAll();
                   stopSpin();
                 },
-                function () {
-                  alert("An error occured when loading this datasource!");
+                function (errorMessage) {
+                  openError("An error occured when updating this datasource: " + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -440,8 +440,8 @@ angular.module('v2')
                   ngDialog.closeAll();
                   stopSpin();
                 },
-                function () {
-                  alert("An error occured when loading this datasource!");
+                function(errorMessage) {
+                  openError("An error occured when saving this datasource: " + errorMessage.data);
                   stopSpin();
                 })
             }
@@ -449,7 +449,7 @@ angular.module('v2')
 
           function saveTableInput(table) {
             if (table.databaseConnection === undefined) {
-              alert("Your table input has no database!");
+              openError("Your table input has no database!");
               return;
             }
             startSpin();
@@ -476,8 +476,8 @@ angular.module('v2')
                   initializeDatasources();
                   stopSpin();
                   ngDialog.closeAll()
-                }, function () {
-                  alert("An error occured when loading this datasource!");
+                }, function(errorMessage) {
+                  openError("An error occured when updating this datasource: " + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -485,8 +485,8 @@ angular.module('v2')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function () {
-                alert("An error occured when loading this datasource!");
+              }, function(errorMessage) {
+                openError("An error occured when saving this datasource: " + errorMessage.data);
                 stopSpin();
               })
             }
@@ -611,7 +611,7 @@ angular.module('v2')
       try {
         var params = readParamsIntoBackendFormat(currentParameter)
       } catch (e) {
-        alert(e.message);
+        openError(e.message);
         return;
       }
 
@@ -669,9 +669,9 @@ angular.module('v2')
             $location.url('/result/' + result.id + '?count=true' + typeStr);
           }
         }
-      }, function (error) {
+      }, function(errorMessage) {
         ngDialog.closeAll();
-        alert("Error!")
+        openError("The algorithm execution was not successful: " + errorMessage.data);
       })
     }
 
@@ -1123,10 +1123,7 @@ angular.module('v2')
           (numberOfSettings < params[i].minNumberOfSettings ||
           numberOfSettings > params[i].maxNumberOfSettings)
         ) {
-          console.error('Wrong number of settings for parameter type ' + params[i].type
-          + '!');
-          throw new WrongParameterError('Wrong number of settings for parameter type '
-          + params[i].type + '!')
+          throw new WrongParameterError('Wrong value or number for parameter ' + params[i].identifier + '!')
         }
       }
 
@@ -1139,5 +1136,19 @@ angular.module('v2')
     }
 
     WrongParameterError.prototype = Error.prototype;
+
+    function openError(message) {
+      $scope.errorMessage = message;
+      ngDialog.open({
+        template: '\
+                <h3 style="color: #F44336">ERROR</h3>\
+                <p>{{errorMessage}}</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Ok</button>\
+                </div>',
+        plain: true,
+        scope: $scope
+      })
+    }
 
   });
