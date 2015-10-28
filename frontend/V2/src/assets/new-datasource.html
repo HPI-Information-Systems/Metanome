@@ -10,11 +10,10 @@
   <div ng-if="newDataSourceCategory=='file'">
     <div layout="row">
       <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Select file: </span>
-      <select ng-model="file.fileName" style="margin-top: 10px; width: 50%" ng-options="file for file in files"></select>
+      <select ng-model="file.fileName" style="margin-top: 10px; width: 50%" ng-options="file.fileName as file.shortFileName for file in files">
+        <option selected value="">{{defaultFileText}}</option>
+      </select>
       </div>
-    <div layout="row" style="margin-left: 10px; ">
-      {{file.fileName}}
-    </div>
     <div layout="row">
       <md-input-container style="margin-left: 10px;">
         <label>Comment</label>
@@ -85,11 +84,12 @@
     </div>
     <div layout="row" style="margin-left: 10px;">
       <select ng-model="database.system">
-      <option value="DB2">DB2</option>
-      <option value="MySQL">MySQL</option>
-      <option value="PostgreSQL">PostgreSQL</option>
-      <option value="HANA">HANA</option>
-      <option value="Oracle">Oracle</option>
+        <option selected value="">--chose a system--</option>
+        <option value="DB2">DB2</option>
+        <option value="MySQL">MySQL</option>
+        <option value="PostgreSQL">PostgreSQL</option>
+        <option value="HANA">HANA</option>
+        <option value="Oracle">Oracle</option>
     </select> <span style="margin-left: 10px; color: rgba(0,0,0,0.25)">Database System </span>
     </div>
     <div layout="row" style="margin-left: 10px;">
@@ -112,7 +112,8 @@
   </div>
   <div ng-if="newDataSourceCategory=='table'">
     <div layout="row">
-      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Database Connection: </span><select ng-model="table.database" style="margin-top: 10px;" ng-options="connection.name for connection in databaseConnections">
+      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Database Connection: </span><select ng-model="table.databaseConnection" style="margin-top: 10px;" ng-options="connection.name for connection in databaseConnections">
+        <option selected value="">{{defaultDatabaseConnectionText}}</option>
     </select>
     </div>
     <div layout="row">

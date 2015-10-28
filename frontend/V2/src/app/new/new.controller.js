@@ -285,10 +285,13 @@ angular.module('v2')
           $scope.saveDatabaseInput = saveDatabaseInput;
           $scope.saveTableInput = saveTableInput;
           $scope.newDataSourceCategory = 'file';
+
           if ($scope.$parent.editFileInput) {
             $scope.file = $scope.$parent.editFileInput;
+            $scope.defaultFileText = $scope.file.fileName.replace(/^.*[\\\/]/, '');
             $scope.newDataSourceCategory = 'file'
           } else {
+            $scope.defaultFileText = "--choose a file--";
             $scope.file = {
               "separator": ',',
               "quoteChar": '"',
@@ -309,10 +312,13 @@ angular.module('v2')
           }
           if ($scope.$parent.editTableInput) {
             $scope.table = $scope.$parent.editTableInput;
-            $scope.newDataSourceCategory = 'table'
+            $scope.newDataSourceCategory = 'table';
+            $scope.defaultDatabaseConnectionText = $scope.table.databaseConnection.name;
           } else {
-            $scope.table = {}
+            $scope.table = {};
+            $scope.defaultDatabaseConnectionText = "--choose a database connection--";
           }
+
           $scope.files = [];
           $scope.databaseConnections = [];
           loadAvailableFiles();
@@ -333,7 +339,12 @@ angular.module('v2')
                   })
                 }
               });
-              $scope.files = result
+              result.forEach(function(file) {
+                $scope.files.push({
+                  fileName: file,
+                  shortFileName: file.replace(/^.*[\\\/]/, '')
+                })
+              })
             })
           }
 
@@ -342,7 +353,17 @@ angular.module('v2')
               if (category.name == 'Database Connection') {
                 $scope.databaseConnections = category.datasource
               }
-            })
+            });
+            if ($scope.$parent.editTableInput) {
+              var index = -1;
+              $scope.databaseConnections.find(function(element, i, array) {
+                if (element.identifier == $scope.table.databaseConnection.identifier)
+                  index = i;
+              });
+              if (index > -1) {
+                $scope.databaseConnections.splice(index, 1);
+              }
+            }
           }
 
           function saveNewFileInput(file) {
@@ -423,7 +444,7 @@ angular.module('v2')
           }
 
           function saveTableInput(table) {
-            if (table.database === undefined) {
+            if (table.databaseConnection === undefined) {
               alert("Your table input has no database!");
               return;
             }
@@ -431,17 +452,17 @@ angular.module('v2')
             var obj = {
               "type": "tableInput",
               "id": table.id || 1,
-              "name": table.tableName + "; " + table.database.name || '',
+              "name": table.tableName + "; " + table.databaseConnection.name || '',
               "tableName": table.tableName || '',
               "databaseConnection": {
                 "type": "databaseConnection",
-                "id": table.database.id,
-                "name": table.database.name,
-                "url": table.database.url,
-                "username": table.database.username,
-                "password": table.database.password,
-                "system": table.database.system,
-                "comment": table.database.comment
+                "id": table.databaseConnection.id,
+                "name": table.databaseConnection.name,
+                "url": table.databaseConnection.url,
+                "username": table.databaseConnection.username,
+                "password": table.databaseConnection.password,
+                "system": table.databaseConnection.system,
+                "comment": table.databaseConnection.comment
               },
               "comment": table.comment || ''
             };
@@ -744,6 +765,7 @@ angular.module('v2')
     }
 
     function editDatasource(datasource) {
+      $scope.edit = true;
       switch (datasource.type) {
         case 'fileInput':
           $scope.editFileInput = datasource;
@@ -762,6 +784,7 @@ angular.module('v2')
       $scope.editFileInput = null;
       $scope.editDatabaseInput = null;
       $scope.editTableInput = null;
+      $scope.edit = false;
     }
 
     function doneEditingAlgorithm() {
