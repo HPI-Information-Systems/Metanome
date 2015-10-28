@@ -146,7 +146,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   // load extended results
   if ($scope.extended) {
     startSpin();
-    LoadResults.load({id: $scope.id, detailed: true}, function () {
+    LoadResults.load({id: $scope.id, notDetailed: false}, function () {
       stopSpin();
       init();
       loadDetailsForExecution()
@@ -154,7 +154,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   // load all results for a file
   } else if ($scope.file) {
       startSpin();
-      LoadResults.file({id: $scope.id, detailed: false}, function () {
+      LoadResults.file({id: $scope.id, notDetailed: true}, function () {
         loadDetailsForFile();
         init();
         stopSpin()

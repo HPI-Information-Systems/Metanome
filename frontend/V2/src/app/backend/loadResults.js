@@ -3,12 +3,12 @@
 angular.module('v2')
   .factory('LoadResults', ['$resource',
       function ($resource) {
-          return $resource('http://127.0.0.1:8888/api/result-store/:type/:id/:detailed', {}, {
+          return $resource('http://127.0.0.1:8888/api/result-store/:type/:id/:notDetailed', {}, {
               load: {
                   method: 'GET',
                   params: {
                       id: '@id',
-                      detailed: '@detailed',
+                      notDetailed: '@notDetailed',
                       type: 'load-execution'
                   },
                   isArray: true
@@ -17,7 +17,7 @@ angular.module('v2')
                   method: 'GET',
                   params: {
                       id: '@id',
-                      detailed: '@detailed',
+                      notDetailed: '@notDetailed',
                       type: 'load-results'
                   },
                   isArray: true
@@ -26,4 +26,4 @@ angular.module('v2')
       }
   ])
 
-; 
+;
