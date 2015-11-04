@@ -76,9 +76,9 @@
         <module>algorithm_integration</module>
         <module>algorithm_template_root</module>
         <module>backend</module>
-        <module>frontend</module>
         <module>testing_algorithms</module>
         <module>test_helper</module>
+        <module>frontend</module>
     </modules>
 
     <profiles>
@@ -92,7 +92,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gwtVersion>2.6.1</gwtVersion>
+        <jersey.version>2.15</jersey.version>
+        <jetty.version>9.2.6.v20141205</jetty.version>
     </properties>
 
     <build>
@@ -148,6 +149,17 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution><goals><goal>java</goal></goals></execution>
+                </executions>
+                <configuration>
+                    <mainClass>org.example.HelloWorld</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.6</version>
                 <executions>
@@ -171,6 +183,56 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlets</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.servlet.jsp</artifactId>
+                <version>2.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-moxy</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet-core</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-jetty-http</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -214,16 +276,6 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-jackson</artifactId>
-                <version>2.14</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet-core</artifactId>
-                <version>2.14</version>
-            </dependency>
-            <dependency>
                 <groupId>org.jparsec</groupId>
                 <artifactId>jparsec</artifactId>
                 <version>2.2.1</version>
@@ -263,34 +315,6 @@
                 <artifactId>commons-io</artifactId>
                 <version>2.4</version>
                 <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>jsr311-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-servlet</artifactId>
-                <version>${gwtVersion}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-user</artifactId>
-                <version>${gwtVersion}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava-gwt</artifactId>
-                <version>17.0</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.fusesource.restygwt</groupId>
-                <artifactId>restygwt</artifactId>
-                <version>2.0</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.json-simple</groupId>

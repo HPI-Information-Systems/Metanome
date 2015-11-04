@@ -19,15 +19,9 @@
  */
 package de.metanome.algorithm_integration.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnConditionAnd;
-import de.metanome.algorithm_integration.ColumnConditionOr;
-import de.metanome.algorithm_integration.ColumnConditionValue;
-import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.*;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,15 +109,6 @@ public class ConditionalUniqueColumnCombinationTest {
                  actualConditionalColumnCombination.buildPatternTableau());
   }
 
-  /**
-   * Tests that the instances of {@link de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination}
-   * are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(
-        new ConditionalUniqueColumnCombination(mock(ColumnCombination.class),
-                                               mock(ColumnConditionAnd.class)));
-  }
+
 
 }

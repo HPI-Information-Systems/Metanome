@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_integration;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -80,11 +78,4 @@ public class AlgorithmExecutionExceptionTest {
     assertEquals(expectedCause, actualCause);
   }
 
-  /**
-   * Tests that the instances of {@link AlgorithmExecutionException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new AlgorithmExecutionException(""));
-  }
 }

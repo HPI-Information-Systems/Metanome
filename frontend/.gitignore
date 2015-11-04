@@ -1,10 +1,13 @@
+node_modules/
+bower_components/
+.sass-cache/
+.tmp/
+.idea/
+dist/
 /target
 .classpath
 .project
 /.settings
-/.gwt
-/gwt-unitCache
-/www-test
 /src/main/resources/algorithms
 /results
 /war

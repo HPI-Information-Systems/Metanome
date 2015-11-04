@@ -16,7 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.test_helper.GwtSerializationTester;
 
 import org.junit.Test;
 
@@ -79,11 +78,4 @@ public class EntityStorageExceptionTest {
     assertEquals(expectedCause, actualCause);
   }
 
-  /**
-   * Tests that the instances of {@link EntityStorageException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new EntityStorageException(""));
-  }
 }

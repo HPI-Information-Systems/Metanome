@@ -16,18 +16,13 @@
 
 package de.metanome.algorithm_integration;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.metanome.algorithm_integration.ColumnCombination}
@@ -178,12 +173,5 @@ public class ColumnCombinationTest {
     assertTrue(columnCombination2.compareTo(columnCombination1) < 0);
   }
 
-  /**
-   * Tests that the instances of {@link ColumnCombination} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester
-        .checkGwtSerializability(new ColumnCombination(new ColumnIdentifier("table1", "column1")));
-  }
+
 }

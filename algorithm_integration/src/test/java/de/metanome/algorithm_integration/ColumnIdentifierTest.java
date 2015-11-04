@@ -16,18 +16,12 @@
 
 package de.metanome.algorithm_integration;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link de.metanome.algorithm_integration.ColumnIdentifier}
@@ -200,12 +194,5 @@ public class ColumnIdentifierTest {
     assertThat(identifier3, equalTo(identifier3));
   }
 
-  /**
-   * Tests that the instances of {@link ColumnIdentifier} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new ColumnIdentifier("table1", "column1"));
-  }
 
 }

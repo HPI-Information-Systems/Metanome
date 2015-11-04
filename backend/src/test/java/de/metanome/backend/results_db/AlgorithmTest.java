@@ -16,20 +16,9 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
@@ -37,10 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link de.metanome.backend.results_db.Algorithm}
@@ -258,12 +244,4 @@ public class AlgorithmTest {
   }
 
 
-  /**
-   * Tests that the instances of {@link de.metanome.backend.results_db.Algorithm} are serializable
-   * in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new Algorithm("some file path"));
-  }
 }

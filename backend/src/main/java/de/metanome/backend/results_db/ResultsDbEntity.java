@@ -16,8 +16,6 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 
 /**
@@ -33,13 +31,11 @@ public abstract class ResultsDbEntity implements Serializable {
    *
    * @return the stored entity
    */
-  @GwtIncompatible("Storing objects in the database is not gwt compatible.")
   public abstract Object store() throws EntityStorageException;
 
   /**
    * Deletes the entity from the database.
    */
-  @GwtIncompatible("HibernateUtil is not gwt compatible.")
   public void delete() {
     try {
       HibernateUtil.delete(this);

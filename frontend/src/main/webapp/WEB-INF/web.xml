@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2014 by the Metanome project
+  ~ Copyright 2015 by the Metanome project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,47 +15,44 @@
   ~ limitations under the License.
   -->
 
-<web-app>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
 
-    <!-- Default page to serve -->
-    <welcome-file-list>
-        <welcome-file>Metanome.html</welcome-file>
-    </welcome-file-list>
+  <servlet>
+    <servlet-name>rest</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>de.metanome.backend.resources</param-value>
+    </init-param>
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>de.metanome.backend.api.ApplicationConfig</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>rest</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
 
-    <!-- Servlets -->
-    <servlet>
-        <servlet-name>rest</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>de.metanome.backend.resources</param-value>
-        </init-param>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>de.metanome.backend.api.ApplicationConfig</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>rest</servlet-name>
-        <url-pattern>/api/*</url-pattern>
-    </servlet-mapping>
+  <servlet>
+    <servlet-name>default</servlet-name>
+    <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+    <init-param>
+      <param-name>useFileMappedBuffer</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
 
-    <servlet>
-        <servlet-name>default</servlet-name>
-        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
-        <init-param>
-            <param-name>useFileMappedBuffer</param-name>
-            <param-value>false</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <listener>
-        <listener-class>de.metanome.frontend.server.DatabaseInitializer
-        </listener-class>
-    </listener>
+  <listener>
+    <listener-class>de.metanome.frontend.DatabaseInitializer
+    </listener-class>
+  </listener>
 
 </web-app>
