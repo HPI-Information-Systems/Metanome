@@ -22,25 +22,12 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
 import de.metanome.backend.result_postprocessing.results.RankingResult;
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Input;
-import de.metanome.backend.results_db.ResultType;
+import de.metanome.backend.results_db.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.*;
 
 @Path("result-store")
 public class ResultStoreResource {
@@ -94,7 +81,7 @@ public class ResultStoreResource {
    *
    * @param id Execution id of the execution
    */
-  @GET
+  @POST
   @Path("/load-execution/{executionId}/{dataIndependent}")
   public void loadExecution(@PathParam("executionId") long id,
                             @PathParam("dataIndependent") boolean dataIndependent) {

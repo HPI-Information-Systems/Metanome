@@ -17,12 +17,7 @@
 package de.metanome.backend.resources;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
@@ -34,16 +29,12 @@ import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
-import de.metanome.backend.results_db.Algorithm;
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.ExecutionSetting;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Input;
-
+import de.metanome.backend.results_db.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -53,14 +44,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 @Path("algorithm-execution")
 public class AlgorithmExecutionResource {
@@ -72,7 +55,7 @@ public class AlgorithmExecutionResource {
    *
    * @param executionIdentifier the execution identifier.
    */
-  @GET
+  @POST
   @Path("/stop/{identifier}")
   public void stopExecution(@PathParam("identifier") String executionIdentifier) {
     Process process = ProcessRegistry.getInstance().get(executionIdentifier);

@@ -18,12 +18,10 @@ package de.metanome.frontend;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
-import de.metanome.backend.resources.AlgorithmResource;
-import de.metanome.backend.resources.FileInputResource;
-import de.metanome.backend.resources.WebException;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
+import de.metanome.backend.results_db.HibernateUtil;
 import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.Server;
 import org.hsqldb.server.ServerAcl;
@@ -33,6 +31,7 @@ import javax.servlet.ServletContextListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,10 +41,7 @@ import java.util.Set;
  */
 public class DatabaseInitializer implements ServletContextListener {
 
-    AlgorithmResource algorithmResource = new AlgorithmResource();
-    FileInputResource inputResource = new FileInputResource();
     Server server = new Server();
-
 
     /**
      * Initializes the database.
@@ -55,7 +51,6 @@ public class DatabaseInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            System.out.println("Starting Database");
             HsqlProperties p = new HsqlProperties();
             p.setProperty("server.database.0",
                     "file:" + new File(".").getAbsolutePath() + "/db/metanomedb");
@@ -65,10 +60,8 @@ public class DatabaseInitializer implements ServletContextListener {
             server.setLogWriter(null); // can use custom writer
             server.setErrWriter(null); // can use custom writer
             server.start();
-        } catch (ServerAcl.AclFormatException afex) {
+        } catch (ServerAcl.AclFormatException | IOException afex) {
             afex.printStackTrace();
-        } catch (IOException ioex) {
-            ioex.printStackTrace();
         }
         try {
             addAlgorithms();
@@ -90,24 +83,23 @@ public class DatabaseInitializer implements ServletContextListener {
      */
     protected void addAlgorithms() throws IOException, ClassNotFoundException,
             EntityStorageException {
-        // only prefill algorithms table if it is currently empty
-        if (!algorithmResource.getAll().isEmpty()) {
+        List<Algorithm> algorithmList = HibernateUtil.queryCriteria(Algorithm.class);
+        if (!algorithmList.isEmpty()) {
             return;
         }
 
         AlgorithmFinder jarFinder = new AlgorithmFinder();
 
-        // FIXME: do I really want these exceptions here?
         String[] algorithmFileNames;
         algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
         for (String filePath : algorithmFileNames) {
             try {
-                Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-                algorithmResource.store(new Algorithm(filePath, algorithmInterfaces)
-                        .setName(filePath.replaceAll(".jar", "")));
-            } catch (WebException e) {
-                // Do something with this exception
+            Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+            HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
+                    .setName(filePath.replaceAll(".jar", "")));
+            } catch (Exception e) {
+                // Could not store algorithm
             }
         }
     }
@@ -119,18 +111,21 @@ public class DatabaseInitializer implements ServletContextListener {
      * @throws EntityStorageException       when the existing inputs cannot be queried
      */
     protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
-        // only prefill input table if currently empty
-        if (!inputResource.getAll().isEmpty()) {
+        List<FileInput> inputList = HibernateUtil.queryCriteria(FileInput.class);
+        if (!inputList.isEmpty()) {
             return;
         }
 
         InputDataFinder inputDataFinder = new InputDataFinder();
-
         File[] inputs = inputDataFinder.getAvailableFiles();
 
         for (File input : inputs) {
-            FileInput fileInput = new FileInput(input.getPath());
-            inputResource.store(fileInput);
+            try {
+                FileInput fileInput = new FileInput(input.getPath());
+                HibernateUtil.store(fileInput);
+            } catch (Exception e) {
+                // Could not store file input
+            }
         }
     }
 
