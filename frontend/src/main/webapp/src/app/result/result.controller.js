@@ -20,16 +20,16 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
                                        ngDialog, $http) {
 
   $scope.id = $stateParams.resultId;
-  $scope.extended = ($stateParams.extended == 'true');
-  $scope.cached = ($stateParams.cached == 'true');
-  $scope.file = ($stateParams.file == 'true');
-  $scope.count = ($stateParams.count == 'true');
-  $scope.fd = ($stateParams.fd == 'true');
-  $scope.ind = ($stateParams.ind == 'true');
-  $scope.ucc = ($stateParams.ucc == 'true');
-  $scope.cucc = ($stateParams.cucc == 'true');
-  $scope.od = ($stateParams.od == 'true');
-  $scope.basicStat = ($stateParams.basicStat == 'true');
+  $scope.extended = ($stateParams.extended === 'true');
+  $scope.cached = ($stateParams.cached === 'true');
+  $scope.file = ($stateParams.file === 'true');
+  $scope.count = ($stateParams.count === 'true');
+  $scope.fd = ($stateParams.fd === 'true');
+  $scope.ind = ($stateParams.ind === 'true');
+  $scope.ucc = ($stateParams.ucc === 'true');
+  $scope.cucc = ($stateParams.cucc === 'true');
+  $scope.od = ($stateParams.od === 'true');
+  $scope.basicStat = ($stateParams.basicStat === 'true');
 
   $scope.openFDVisualization = openFDVisualization;
   $scope.openUCCVisualization = openUCCVisualization;
@@ -173,7 +173,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.uniqueColumnCombination.count = count;
-            if (!$scope.count) loadColumnCombination()
+            if (!$scope.count) { loadColumnCombination() }
           }
         });
     }
@@ -183,7 +183,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.functionalDependency.count = count;
-            if (!$scope.count) loadFunctionalDependency()
+            if (!$scope.count) { loadFunctionalDependency() }
           }
         });
     }
@@ -193,7 +193,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.basicStatistic.count = count;
-            if (!$scope.count) loadBasicStatistic()
+            if (!$scope.count) { loadBasicStatistic() }
           }
         });
     }
@@ -203,7 +203,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.inclusionDependency.count = count;
-            if (!$scope.count) loadInclusionDependency()
+            if (!$scope.count) { loadInclusionDependency() }
           }
         });
     }
@@ -213,7 +213,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.conditionalUniqueColumnCombination.count = count;
-            if (!$scope.count) loadConditionalUniqueColumnCombination()
+            if (!$scope.count) { loadConditionalUniqueColumnCombination() }
           }
         });
     }
@@ -223,7 +223,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.orderDependency.count = count;
-            if (!$scope.count) loadOrderDependency()
+            if (!$scope.count) { loadOrderDependency() }
           }
         })
     }
@@ -412,11 +412,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
-
-  function loadExtendedResults() {
-
-  }
-
   function onPageChangeFD(page, limit) {
     var deferred = $q.defer();
     if($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
@@ -478,7 +473,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     if($scope.conditionalUniqueColumnCombination.params.to < $scope.conditionalUniqueColumnCombination.count) {
       $scope.conditionalUniqueColumnCombination.params.from += $scope.conditionalUniqueColumnCombination.params.to + 1;
       $scope.conditionalUniqueColumnCombination.params.to += Math.max(limit, $scope.conditionalUniqueColumnCombination.count);
-      loadConditionalUniqueColumnCombinationy();
+      loadConditionalUniqueColumnCombination();
       $timeout(function () {
         deferred.resolve();
       }, 500);

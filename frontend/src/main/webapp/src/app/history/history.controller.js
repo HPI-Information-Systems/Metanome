@@ -15,7 +15,7 @@ var app = angular.module('Metanome')
     })
 });
 
-app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDialog) {
+app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
 
   // Public variables
   $scope.content = [];
@@ -49,8 +49,6 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDia
   // Private varias
   var executions;
 
-  loadExecutions();
-
   // ** FUNCTION DEFINITIONS **
   // **************************
 
@@ -60,7 +58,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDia
       $scope.content = [];
       result.forEach(function(execution) {
         var duration = execution.end - execution.begin;
-        if(execution.end == 0) {
+        if(execution.end === 0) {
           duration = 0
         }
         var inputs = [];
@@ -98,6 +96,8 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, ngDia
         $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
   }
+
+    loadExecutions();
 
     $scope.custom = {name: 'bold', date:'grey', time: 'grey'};
     $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
@@ -141,13 +141,14 @@ app.directive('mdTable', function () {
           $scope.tablePage = page;
         };
         $scope.showResult = function(result) {
-          if (!result.aborted)
+          if (!result.aborted) {
             $location.url('/result/' + result.id + '?count=' + result.count + '&cached=' + result.cached +
             '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
             '&cucc=' + result.cucc + '&od=' + result.od + '&basicStat=' + result.basicStat);
+          }
         };
         $scope.deleteExecution = function(execution) {
-          Delete.execution({id: execution.id}, function(result) {
+          Delete.execution({id: execution.id}, function() {
             $scope.$parent.loadExecutions()
           })
         };
@@ -158,17 +159,18 @@ app.directive('mdTable', function () {
           usSpinnerService.stop('spinner-1');
         };
         $scope.confirmDelete = function(execution) {
-          $scope.confirmText = "Are you sure you want to delete it?";
+          $scope.confirmText = 'Are you sure you want to delete it?';
           $scope.confirmItem = execution;
           $scope.confirmFunction = function () {
             $scope.startSpin();
-            Delete.execution({id: $scope.confirmItem.id}, function(result) {
+            Delete.execution({id: $scope.confirmItem.id}, function() {
               $scope.$parent.loadExecutions()
             });
             $scope.stopSpin();
             ngDialog.closeAll();
           };
           ngDialog.openConfirm({
+            /*jshint multistr: true */
             template: '\
                 <h3>Confirm</h3>\
                 <p>{{$parent.confirmText}}</p>\
@@ -183,16 +185,16 @@ app.directive('mdTable', function () {
 
 
       },
-      template: angular.element(document.querySelector('#md-table-template')).html()
+      template: angular.element(angular.document.querySelector('#md-table-template')).html()
     }
   });
 
 
 
-app.directive('mdColresize', function ($timeout) {
+app.directive('mdColresize', function () {
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function () {
 //      scope.$evalAsync(function () {
 //        $timeout(function(){ $(element).colResizable({
 //          liveDrag: true,

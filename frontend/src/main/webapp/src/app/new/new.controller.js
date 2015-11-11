@@ -62,11 +62,11 @@ angular.module('Metanome')
       properties: {},
       required: []
     };
-    $scope.algorithmHasCustomProperties;
-    $scope.activeAlgorithm;
+    $scope.algorithmHasCustomProperties = false;
+    $scope.activeAlgorithm = {};
     $scope.cachingSelection = 'cache';
 
-    $scope.saveUpdateButton = "Save";
+    $scope.saveUpdateButton = 'Save';
 
     //Private variables
     var activeDataSources = {
@@ -177,7 +177,7 @@ angular.module('Metanome')
         Datasource.get({type: category.name}, function (result) {
           //Remove path from element name
           result.forEach(function (element) {
-            if (category.name == 'file-inputs') element.name = element.name.replace(/^.*[\\\/]/, '');
+            if (category.name === 'file-inputs') { element.name = element.name.replace(/^.*[\\\/]/, '') }
             element.disabled = false;
             dataSources[element.type]['' + element.id] = element
           });
@@ -213,7 +213,7 @@ angular.module('Metanome')
             $scope.defaultAlgorithmText = $scope.newAlgorithm.name;
           } else {
             $scope.newAlgorithm = {};
-            $scope.defaultAlgorithmText = "--choose an algorithm--"
+            $scope.defaultAlgorithmText = '--choose an algorithm--'
           }
           $scope.saveNewAlgorithm = saveNewAlgorithm;
           $scope.algorithmFiles = [];
@@ -235,21 +235,21 @@ angular.module('Metanome')
           function saveNewAlgorithm(algorithm) {
             startSpin();
             var obj = {
-              "id": algorithm.id,
-              "fileName": algorithm.fileName,
-              "name": algorithm.name,
-              "author": algorithm.author,
-              "description": algorithm.description,
-              "ind": algorithm.ind,
-              "fd": algorithm.fd,
-              "ucc": algorithm.ucc,
-              "cucc": algorithm.cucc,
-              "od": algorithm.od,
-              "relationalInput": algorithm.relationalInput,
-              "databaseConnection": algorithm.databaseConnection,
-              "tableInput": algorithm.tableInput,
-              "fileInput": algorithm.fileInput,
-              "basicStat": algorithm.basicStat
+              'id': algorithm.id,
+              'fileName': algorithm.fileName,
+              'name': algorithm.name,
+              'author': algorithm.author,
+              'description': algorithm.description,
+              'ind': algorithm.ind,
+              'fd': algorithm.fd,
+              'ucc': algorithm.ucc,
+              'cucc': algorithm.cucc,
+              'od': algorithm.od,
+              'relationalInput': algorithm.relationalInput,
+              'databaseConnection': algorithm.databaseConnection,
+              'tableInput': algorithm.tableInput,
+              'fileInput': algorithm.fileInput,
+              'basicStat': algorithm.basicStat
             };
             if ($scope.$parent.AlgorithmToEdit) {
               $scope.$parent.InputStore.updateAlgorithm(obj, function () {
@@ -258,7 +258,7 @@ angular.module('Metanome')
                 ngDialog.closeAll()
               }, function(errorMessage) {
                 stopSpin();
-                openError("An error occured when updating this algorithm: " + errorMessage.data)
+                openError('An error occured when updating this algorithm: ' + errorMessage.data)
               })
             }
             else {
@@ -268,7 +268,7 @@ angular.module('Metanome')
                 ngDialog.closeAll()
               }, function(errorMessage) {
                 stopSpin();
-                openError("An error occured when saving this algorithm: " + errorMessage.data)
+                openError('An error occured when saving this algorithm: ' + errorMessage.data)
               })
             }
           }
@@ -295,17 +295,17 @@ angular.module('Metanome')
             $scope.defaultFileText = $scope.file.fileName.replace(/^.*[\\\/]/, '');
             $scope.newDataSourceCategory = 'file'
           } else {
-            $scope.defaultFileText = "--choose a file--";
+            $scope.defaultFileText = '--choose a file--';
             $scope.file = {
-              "separator": ',',
-              "quoteChar": '"',
-              "escapeChar": '\\',
-              "skipLines": '0',
-              "strictQuotes": false,
-              "ignoreLeadingWhiteSpace": true,
-              "hasHeader": true,
-              "skipDifferingLines": false,
-              "nullValue": ''
+              'separator': ',',
+              'quoteChar': '\'',
+              'escapeChar': '\\',
+              'skipLines': '0',
+              'strictQuotes': false,
+              'ignoreLeadingWhiteSpace': true,
+              'hasHeader': true,
+              'skipDifferingLines': false,
+              'nullValue': ''
             }
           }
           if ($scope.$parent.editDatabaseInput) {
@@ -320,7 +320,7 @@ angular.module('Metanome')
             $scope.defaultDatabaseConnectionText = $scope.table.databaseConnection.name;
           } else {
             $scope.table = {};
-            $scope.defaultDatabaseConnectionText = "--choose a database connection--";
+            $scope.defaultDatabaseConnectionText = '--choose a database connection--';
           }
 
           $scope.files = [];
@@ -334,7 +334,7 @@ angular.module('Metanome')
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
               $scope.$parent.datasources.forEach(function (category) {
-                if (category.name == 'File Input') {
+                if (category.name === 'File Input') {
                   category.datasource.forEach(function (file) {
                     var index = result.indexOf(file.fileName);
                     if (index !== -1) {
@@ -357,15 +357,16 @@ angular.module('Metanome')
 
           function loadAvailableDatasources() {
             $scope.$parent.datasources.forEach(function (category) {
-              if (category.name == 'Database Connection') {
+              if (category.name === 'Database Connection') {
                 $scope.databaseConnections = category.datasource
               }
             });
             if ($scope.$parent.editTableInput) {
               var index = -1;
-              $scope.databaseConnections.find(function(element, i, array) {
-                if (element.identifier == $scope.table.databaseConnection.identifier)
+              $scope.databaseConnections.find(function(element, i) {
+                if (element.identifier === $scope.table.databaseConnection.identifier) {
                   index = i;
+                }
               });
               if (index > -1) {
                 $scope.databaseConnections.splice(index, 1);
@@ -376,21 +377,20 @@ angular.module('Metanome')
           function saveNewFileInput(file) {
             startSpin();
             var obj = {
-              "type": "fileInput",
-              "id": file.id || 1,
-              "name": file.fileName || '',
-              "fileName": file.fileName || '',
-              "separator": file.separator || '',
-              "quoteChar": file.quoteCharacter || '',
-              "escapeChar": file.escapeCharacter || '',
-              "skipLines": file.line || '',
-              "strictQuotes": file.strictQuotes || false,
-              "ignoreLeadingWhiteSpace": file.ignoreLeadingWhiteSpace
-              || false,
-              "hasHeader": file.hasHeader || false,
-              "skipDifferingLines": file.skipDifferingLines || false,
-              "comment": file.comment || '',
-              "nullValue": file.nullValue || ''
+              'type': 'fileInput',
+              'id': file.id || 1,
+              'name': file.fileName || '',
+              'fileName': file.fileName || '',
+              'separator': file.separator || '',
+              'quoteChar': file.quoteCharacter || '',
+              'escapeChar': file.escapeCharacter || '',
+              'skipLines': file.line || '',
+              'strictQuotes': file.strictQuotes || false,
+              'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
+              'hasHeader': file.hasHeader || false,
+              'skipDifferingLines': file.skipDifferingLines || false,
+              'comment': file.comment || '',
+              'nullValue': file.nullValue || ''
             };
             if ($scope.$parent.editFileInput) {
               $scope.$parent.InputStore.updateFileInput(obj, function () {
@@ -398,7 +398,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function(errorMessage) {
-                openError("An error occured when updating this datasource: " + errorMessage.data);
+                openError('An error occured when updating this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             } else {
@@ -407,7 +407,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function(errorMessage) {
-                openError("An error occured when saving this datasource: " + errorMessage.data);
+                openError('An error occured when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             }
@@ -416,14 +416,14 @@ angular.module('Metanome')
           function saveDatabaseInput(database) {
             startSpin();
             var obj = {
-              "type": "databaseConnection",
-              "id": database.id || 1,
-              "name": database.url + '; ' + database.userName + '; ' + database.system || '',
-              "url": database.url || '',
-              "username": database.username || '',
-              "password": database.password || '',
-              "system": database.system || '',
-              "comment": database.comment || ''
+              'type': 'databaseConnection',
+              'id': database.id || 1,
+              'name': database.url + '; ' + database.userName + '; ' + database.system || '',
+              'url': database.url || '',
+              'username': database.username || '',
+              'password': database.password || '',
+              'system': database.system || '',
+              'comment': database.comment || ''
             };
             if ($scope.$parent.editDatabaseInput) {
               $scope.$parent.InputStore.updateDatabaseConnection(obj,
@@ -433,7 +433,7 @@ angular.module('Metanome')
                   stopSpin();
                 },
                 function (errorMessage) {
-                  openError("An error occured when updating this datasource: " + errorMessage.data);
+                  openError('An error occured when updating this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -444,7 +444,7 @@ angular.module('Metanome')
                   stopSpin();
                 },
                 function(errorMessage) {
-                  openError("An error occured when saving this datasource: " + errorMessage.data);
+                  openError('An error occured when saving this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             }
@@ -452,26 +452,26 @@ angular.module('Metanome')
 
           function saveTableInput(table) {
             if (table.databaseConnection === undefined) {
-              openError("Your table input has no database!");
+              openError('Your table input has no database!');
               return;
             }
             startSpin();
             var obj = {
-              "type": "tableInput",
-              "id": table.id || 1,
-              "name": table.tableName + "; " + table.databaseConnection.name || '',
-              "tableName": table.tableName || '',
-              "databaseConnection": {
-                "type": "databaseConnection",
-                "id": table.databaseConnection.id,
-                "name": table.databaseConnection.name,
-                "url": table.databaseConnection.url,
-                "username": table.databaseConnection.username,
-                "password": table.databaseConnection.password,
-                "system": table.databaseConnection.system,
-                "comment": table.databaseConnection.comment
+              'type': 'tableInput',
+              'id': table.id || 1,
+              'name': table.tableName + '; ' + table.databaseConnection.name || '',
+              'tableName': table.tableName || '',
+              'databaseConnection': {
+                'type': 'databaseConnection',
+                'id': table.databaseConnection.id,
+                'name': table.databaseConnection.name,
+                'url': table.databaseConnection.url,
+                'username': table.databaseConnection.username,
+                'password': table.databaseConnection.password,
+                'system': table.databaseConnection.system,
+                'comment': table.databaseConnection.comment
               },
-              "comment": table.comment || ''
+              'comment': table.comment || ''
             };
             if ($scope.$parent.editTableInput) {
               $scope.$parent.InputStore.updateTableInput(obj,
@@ -480,7 +480,7 @@ angular.module('Metanome')
                   stopSpin();
                   ngDialog.closeAll()
                 }, function(errorMessage) {
-                  openError("An error occured when updating this datasource: " + errorMessage.data);
+                  openError('An error occured when updating this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -489,7 +489,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function(errorMessage) {
-                openError("An error occured when saving this datasource: " + errorMessage.data);
+                openError('An error occured when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             }
@@ -499,7 +499,7 @@ angular.module('Metanome')
     }
 
     function confirmDelete(item) {
-      $scope.confirmText = "Are you sure you want to delete it?";
+      $scope.confirmText = 'Are you sure you want to delete it?';
       $scope.confirmItem = item;
       $scope.confirmFunction = function () {
         switch ($scope.confirmItem.type) {
@@ -542,6 +542,7 @@ angular.module('Metanome')
 
     function openConfirm() {
       ngDialog.openConfirm({
+        /*jshint multistr: true */
         template: '\
                 <h3>Confirm</h3>\
                 <p>{{$parent.confirmText}}</p>\
@@ -575,11 +576,11 @@ angular.module('Metanome')
       }
 
       var type = '';
-      if (datasource.type == 'fileInput') {
+      if (datasource.type === 'fileInput') {
         type = 'File Input'
-      } else if (datasource.type == 'databaseConnection') {
+      } else if (datasource.type === 'databaseConnection') {
         type = 'Database Connection'
-      } else if (datasource.type == 'tableInput') {
+      } else if (datasource.type === 'tableInput') {
         type = 'Table Inputs'
       }
 
@@ -588,7 +589,7 @@ angular.module('Metanome')
         $scope.datasources.forEach(function (ds) {
           if (ds.name.indexOf(type) > -1) {
             ds.datasource.forEach(function (element) {
-              if (element.active === undefined || element.active == false) {
+              if (element.active === undefined || element.active === false) {
                 element.disabled = true
               }
             })
@@ -611,27 +612,28 @@ angular.module('Metanome')
 
     function executeAlgorithm(caching, memory) {
       var algorithm = $scope.activeAlgorithm;
+      var params;
       try {
-        var params = readParamsIntoBackendFormat(currentParameter)
+        params = readParamsIntoBackendFormat(currentParameter)
       } catch (e) {
         openError(e.message);
         return;
       }
 
       var date = new Date();
-      var executionIdentifierDate = date.getFullYear() + '-'
-        + twoDigetDate(date.getMonth() + 1) + '-' +
-        twoDigetDate(date.getDate()) + 'T'
-        + twoDigetDate(date.getHours()) +
-        twoDigetDate(date.getMinutes())
-        + twoDigetDate(date.getSeconds());
+      var executionIdentifierDate = date.getFullYear() + '-' +
+        twoDigetDate(date.getMonth() + 1) + '-' +
+        twoDigetDate(date.getDate()) + 'T' +
+        twoDigetDate(date.getHours()) +
+        twoDigetDate(date.getMinutes()) +
+        twoDigetDate(date.getSeconds());
       var payload = {
         'algorithmId': algorithm.id,
         'executionIdentifier': algorithm.fileName + executionIdentifierDate,
         'requirements': params,
-        'cacheResults': (caching == 'cache'),
-        'writeResults': (caching == 'disk'),
-        'countResults': (caching == 'count'),
+        'cacheResults': (caching === 'cache'),
+        'writeResults': (caching === 'disk'),
+        'countResults': (caching === 'count'),
         'memory': memory || ''
       };
       $scope.payload = payload;
@@ -640,6 +642,7 @@ angular.module('Metanome')
         $scope.canceled = true
       };
       ngDialog.openConfirm({
+        /*jshint multistr: true */
         template: '\
                 <h3>Execution running</h3>\
                 <timer interval="1000">Elapsed time: {{days}} days, {{hours}} hour{{hoursS}}, {{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.</timer>\
@@ -666,7 +669,7 @@ angular.module('Metanome')
           '&cucc=' + result.algorithm.cucc + '&od=' + result.algorithm.od + '&basicStat=' + result.algorithm.basicStat;
         ngDialog.closeAll();
         if (!$scope.canceled) {
-          if (caching == 'cache' || caching == 'disk') {
+          if (caching === 'cache' || caching === 'disk') {
             $location.url('/result/' + result.id + '?cached=true' + typeStr);
           } else {
             $location.url('/result/' + result.id + '?count=true' + typeStr);
@@ -674,7 +677,7 @@ angular.module('Metanome')
         }
       }, function(errorMessage) {
         ngDialog.closeAll();
-        openError("The algorithm execution was not successful: " + errorMessage.data);
+        openError('The algorithm execution was not successful: ' + errorMessage.data);
       })
     }
 
@@ -764,7 +767,7 @@ angular.module('Metanome')
               addParamToList(param, 'boolean', false);
               break;
             default:
-              console.error("Parameter type " + param.type + " not supported yet");
+              $scope.console.error('Parameter type ' + param.type + ' not supported yet');
               break
           }
         })
@@ -773,7 +776,7 @@ angular.module('Metanome')
 
     function editDatasource(datasource) {
       $scope.edit = true;
-      $scope.saveUpdateButton = "Update";
+      $scope.saveUpdateButton = 'Update';
       switch (datasource.type) {
         case 'fileInput':
           $scope.editFileInput = datasource;
@@ -793,18 +796,18 @@ angular.module('Metanome')
       $scope.editDatabaseInput = null;
       $scope.editTableInput = null;
       $scope.edit = false;
-      $scope.saveUpdateButton = "Save";
+      $scope.saveUpdateButton = 'Save';
     }
 
     function doneEditingAlgorithm() {
       $scope.AlgorithmToEdit = null;
       $scope.edit = false;
-      $scope.saveUpdateButton = "Save";
+      $scope.saveUpdateButton = 'Save';
     }
 
     function editAlgorithm(algorithm) {
       $scope.edit = true;
-      $scope.saveUpdateButton = "Update";
+      $scope.saveUpdateButton = 'Update';
       $scope.AlgorithmToEdit = algorithm;
       openNewAlgorithm();
     }
@@ -813,8 +816,7 @@ angular.module('Metanome')
     function configureParamInputs(param, input) {
       var index = -1;
       $.grep($scope.datasources, function (element, i) {
-        if (element !== undefined && element.name !== undefined
-          && element.name.indexOf(input) > -1) {
+        if (element !== undefined && element.name !== undefined && element.name.indexOf(input) > -1) {
           index = i;
           return true
         } else {
@@ -829,8 +831,7 @@ angular.module('Metanome')
           input + ' (choose ' + param.minNumberOfSettings + ')'
       } else {
         $scope.datasources[index].name =
-          input + ' (min: ' + param.minNumberOfSettings + ' | max: '
-          + param.maxNumberOfSettings + ')'
+          input + ' (min: ' + param.minNumberOfSettings + ' | max: ' + param.maxNumberOfSettings + ')'
       }
       $scope.maxNumberOfSetting[input] = $scope.maxNumberOfSetting[input] || 0;
       $scope.maxNumberOfSetting[input] += param.maxNumberOfSettings;
@@ -894,9 +895,9 @@ angular.module('Metanome')
       return (number < 10 ? '0' + number : '' + number)
     }
 
-    function loadResultsForFileInput() {
-      LoadResults
-    }
+    //function loadResultsForFileInput() {
+    //  LoadResults
+    //}
 
     function resetAlgorithm() {
       initializeAlgorithmList();
@@ -916,7 +917,7 @@ angular.module('Metanome')
         'File Input',
         'Database Connection',
         'Table Inputs'
-      ].forEach(function (type) {
+      ].forEach(function () {
           $scope.datasources.forEach(function (ds) {
             ds.datasource.forEach(function (element) {
               element.active = false
@@ -930,7 +931,7 @@ angular.module('Metanome')
         'File Input',
         'Database Connection',
         'Table Inputs'
-      ].forEach(function (type) {
+      ].forEach(function () {
           $scope.datasources.forEach(function (ds) {
             ds.datasource.forEach(function (element) {
               element.disabled = false
@@ -1006,17 +1007,17 @@ angular.module('Metanome')
               //needed because same fields are named different in different places in
               // backend - workaround!
               param = {
-                "table": item.tableName,
-                "databaseConnection": {
-                  "dbUrl": item.databaseConnection.url,
-                  "username": item.databaseConnection.username,
-                  "password": item.databaseConnection.password,
-                  "system": item.databaseConnection.system,
-                  "type": "ConfigurationSettingDatabaseConnection",
-                  "id": item.databaseConnection.id
+                'table': item.tableName,
+                'databaseConnection': {
+                  'dbUrl': item.databaseConnection.url,
+                  'username': item.databaseConnection.username,
+                  'password': item.databaseConnection.password,
+                  'system': item.databaseConnection.system,
+                  'type': 'ConfigurationSettingDatabaseConnection',
+                  'id': item.databaseConnection.id
                 },
-                "type": "ConfigurationSettingTableInput",
-                "id": item.id
+                'type': 'ConfigurationSettingTableInput',
+                'id': item.id
               };
               params[i].settings.push(param)
             }
@@ -1029,12 +1030,12 @@ angular.module('Metanome')
               //needed because same fields are named different in different places in
               // backend - workaround!
               param = {
-                "dbUrl": item.url,
-                "username": item.username,
-                "password": item.password,
-                "system": item.system,
-                "type": "ConfigurationSettingDatabaseConnection",
-                "id": item.id
+                'dbUrl': item.url,
+                'username': item.username,
+                'password': item.password,
+                'system': item.system,
+                'type': 'ConfigurationSettingDatabaseConnection',
+                'id': item.id
               };
               params[i].settings.push(param)
             }
@@ -1073,17 +1074,17 @@ angular.module('Metanome')
               //needed because same fields are named different in different places in
               // backend - workaround!
               param = {
-                "table": item.tableName,
-                "databaseConnection": {
-                  "dbUrl": item.databaseConnection.url,
-                  "username": item.databaseConnection.username,
-                  "password": item.databaseConnection.password,
-                  "system": item.databaseConnection.system,
-                  "type": "ConfigurationSettingDatabaseConnection",
-                  "id": item.databaseConnection.id
+                'table': item.tableName,
+                'databaseConnection': {
+                  'dbUrl': item.databaseConnection.url,
+                  'username': item.databaseConnection.username,
+                  'password': item.databaseConnection.password,
+                  'system': item.databaseConnection.system,
+                  'type': 'ConfigurationSettingDatabaseConnection',
+                  'id': item.databaseConnection.id
                 },
-                "type": "ConfigurationSettingTableInput",
-                "id": item.id
+                'type': 'ConfigurationSettingTableInput',
+                'id': item.id
               };
               params[i].settings.push(param)
             }
@@ -1113,16 +1114,14 @@ angular.module('Metanome')
             break;
 
           default:
-            console.error('Parameter Type ' + params[i].type
-            + ' not not supported yet for execution!');
+            $scope.console.error('Parameter Type ' + params[i].type + ' not not supported yet for execution!');
             break;
         }
 
         // check if required number of parameters are set
         var numberOfSettings = params[i].settings.length;
-        if (params[i].required &&
-          params[i].numberOfSettings != -1 &&
-          numberOfSettings != params[i].numberOfSettings &&
+        if (params[i].required && params[i].numberOfSettings !== -1 &&
+          numberOfSettings !== params[i].numberOfSettings &&
           (numberOfSettings < params[i].minNumberOfSettings ||
           numberOfSettings > params[i].maxNumberOfSettings)
         ) {
@@ -1134,8 +1133,8 @@ angular.module('Metanome')
     }
 
     function WrongParameterError(message) {
-      this.name = "WrongParameterError";
-      this.message = (message || "");
+      this.name = 'WrongParameterError';
+      this.message = (message || '');
     }
 
     WrongParameterError.prototype = Error.prototype;
@@ -1143,6 +1142,7 @@ angular.module('Metanome')
     function openError(message) {
       $scope.errorMessage = message;
       ngDialog.open({
+        /*jshint multistr: true */
         template: '\
                 <h3 style="color: #F44336">ERROR</h3>\
                 <p>{{errorMessage}}</p>\
