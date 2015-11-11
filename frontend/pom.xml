@@ -58,28 +58,9 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.core</groupId>-->
-            <!--<artifactId>jersey-server</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
-            <!--<artifactId>jersey-container-servlet-core</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
-            <!--<artifactId>jersey-container-jetty-http</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.media</groupId>-->
-            <!--<artifactId>jersey-media-moxy</artifactId>-->
-        <!--</dependency>-->
     </dependencies>
 
     <build>
-
-        <!-- Generate compiled stuff in the folder used for development mode -->
-        <!--<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>-->
 
         <plugins>
 
@@ -116,10 +97,53 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
                 <configuration>
-                    <jettyXml>jetty.xml</jettyXml>
+                    <jettyXml>src/main/webapp/WEB-INF/jetty.xml</jettyXml>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                 </configuration>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>com.github.eirslett</groupId>-->
+                <!--<artifactId>frontend-maven-plugin</artifactId>-->
+                <!--&lt;!&ndash; Use the latest released version:-->
+                <!--https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ &ndash;&gt;-->
+                <!--<version>0.0.26</version>-->
+                <!--<configuration>-->
+                    <!--<workingDirectory>src/main/webapp</workingDirectory>-->
+                    <!--<installDirectory>target</installDirectory>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>npm install</id>-->
+                        <!--<goals>-->
+                            <!--<goal>npm</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash; Optional configuration which provides for running any npm command &ndash;&gt;-->
+                        <!--<configuration>-->
+                            <!--<arguments>install</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>bower install</id>-->
+                        <!--<goals>-->
+                            <!--<goal>bower</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<arguments>install</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>gulp build</id>-->
+                        <!--<goals>-->
+                            <!--<goal>gulp</goal>-->
+                        <!--</goals>-->
+                        <!--<phase>generate-resources</phase>-->
+                        <!--<configuration>-->
+                            <!--<arguments>build</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
         </plugins>
     </build>
