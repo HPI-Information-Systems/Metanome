@@ -348,7 +348,10 @@ angular.module('Metanome')
                   fileName: file,
                   shortFileName: file.replace(/^.*[\\\/]/, '')
                 })
-              })
+              });
+              $scope.files.sort(function(a, b) {
+                return a.shortFileName.localeCompare(b.shortFileName);
+              });
             })
           }
 
