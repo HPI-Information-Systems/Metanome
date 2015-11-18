@@ -1,6 +1,6 @@
 <head>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="visualization/dimple.v2.1.2.min.js"></script>
+    <script type="text/javascript" src="dimple.v2.1.2.min.js"></script>
 </head>
 
 <body>
@@ -15,16 +15,29 @@
                }
                return(false);
             };
-            
 
-            
-            
-            
+
+
+
+
             var histogramSVG = dimple.newSvg("#chartContainer", "100%", "100%");
             var histogramChart;
-            
 
-            d3.json("visualization/UCCResultAnalyzer/UCCHistograms.json", function (data) {
+            /**
+             * @return {boolean}
+             */
+            function UrlExists(url) {
+              var http = new XMLHttpRequest();
+              http.open('HEAD', url, false);
+              http.send();
+              return http.status != 404;
+            }
+            var data_url = "UCCResultAnalyzer/UCCHistograms.json";
+            if (!UrlExists(data_url)) {
+              data_url = "http://localhost:8888/src/visualization/UCCResultAnalyzer/UCCHistograms.json";
+            }
+
+            d3.json(data_url, function (data) {
                 data = dimple.filterData(data, "UCCid", getQueryVariable("id"));
                 data = data[0]["histogramData"];
                 histogramChart = new dimple.chart(histogramSVG, data);
@@ -33,18 +46,18 @@
                 var xaxis = histogramChart.addMeasureAxis("y", "Uniqueness");
                 xaxis.overrideMin = 0;
                 xaxis.overrideMax = 1;
-                
+
                 histogramChart.addSeries(null, dimple.plot.bar);
                 histogramChart.draw();
-                
+
             });
             window.onresize = function () {
                 // As of 1.1.0 the second parameter here allows you to draw
                 // without reprocessing data.  This saves a lot on performance
                 // when you know the data won't have changed.
                 histogramChart.draw(0, true);
-            };            
-            
+            };
+
         </script>
-    </script>  
+    </script>
 </body>

@@ -2,18 +2,32 @@
 
 <head>
   <meta charset="utf-8">
-  
-  <link rel="stylesheet" type="text/css" href="visualization/CSS/prefix-tree.css">
-  
+
+  <link rel="stylesheet" type="text/css" href="CSS/prefix-tree.css">
+
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="visualization/D3Diagrams/d3-prefix-tree.js"></script>
+  <script src="D3Diagrams/d3-prefix-tree.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script>
-  
-  d3_prefix_tree("visualization/FDResultAnalyzer/PrefixTree.json", 
-                 $(window).width()-25, 
+
+  /**
+   * @return {boolean}
+   */
+  function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+  }
+  var data_url = "FDResultAnalyzer/PrefixTree.json";
+  if (!UrlExists(data_url)) {
+    data_url = "http://localhost:8888/src/visualization/FDResultAnalyzer/PrefixTree.json";
+  }
+
+  d3_prefix_tree(data_url,
+                 $(window).width()-25,
                  $(window).height()-25);
-  
+
   </script>
 </head>
 
