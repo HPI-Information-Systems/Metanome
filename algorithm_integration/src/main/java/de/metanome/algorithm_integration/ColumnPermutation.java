@@ -30,9 +30,10 @@ public class ColumnPermutation implements Serializable {
   protected List<ColumnIdentifier> columnIdentifiers;
 
   /**
-   * Exists for GWT serialization.
+   * Creates an empty column permutation.
+   * Needed for serialization.
    */
-  protected ColumnPermutation() {
+  public ColumnPermutation() {
     columnIdentifiers = new ArrayList<>();
   }
 

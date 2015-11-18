@@ -19,12 +19,7 @@ package de.metanome.algorithm_integration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Logical "or" used in the composite pattern to represent column condition. Contains subcondition
@@ -39,9 +34,6 @@ public class ColumnConditionOr implements ColumnCondition {
   protected Set<ColumnCondition> columnValues;
   protected float coverage = Float.NaN;
 
-  /**
-   * Exists for Gwt serialization
-   */
   protected ColumnConditionOr() {
     this.columnValues = new TreeSet<>();
   }
@@ -59,9 +51,7 @@ public class ColumnConditionOr implements ColumnCondition {
 
   public ColumnConditionOr(ColumnCondition... conditions) {
     this();
-    for (ColumnCondition condition : conditions) {
-      this.columnValues.add(condition);
-    }
+    Collections.addAll(this.columnValues, conditions);
   }
 
   public ColumnConditionOr(ColumnIdentifier identifier, String... values) {
