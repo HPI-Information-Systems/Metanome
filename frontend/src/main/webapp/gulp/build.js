@@ -75,7 +75,7 @@ module.exports = function(options) {
   gulp.task('other', function () {
     return gulp.src([
       options.src + '/**/*',
-      '!' + options.src + '/**/*.{html,css,js}'
+      '!' + options.src + '/**/*.{html,js}'
     ])
       .pipe(gulp.dest(options.dist + '/'));
   });
