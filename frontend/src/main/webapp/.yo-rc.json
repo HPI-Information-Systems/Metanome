@@ -2,7 +2,7 @@
   "generator-gulp-angular": {
     "version": "0.11.0",
     "props": {
-      "angularVersion": "~1.4.7",
+      "angularVersion": "~1.4.1",
       "angularModules": [
         {
           "key": "animate",
