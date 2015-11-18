@@ -63,7 +63,7 @@ angular.module('Metanome')
       required: []
     };
     $scope.algorithmHasCustomProperties = false;
-    $scope.activeAlgorithm = {};
+    $scope.activeAlgorithm = undefined;
     $scope.cachingSelection = 'cache';
 
     $scope.saveUpdateButton = 'Save';
