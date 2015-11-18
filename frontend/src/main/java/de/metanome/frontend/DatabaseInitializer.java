@@ -83,7 +83,7 @@ public class DatabaseInitializer implements ServletContextListener {
      */
     protected void addAlgorithms() throws IOException, ClassNotFoundException,
             EntityStorageException {
-        List<Algorithm> algorithmList = HibernateUtil.queryCriteria(Algorithm.class);
+        List algorithmList = HibernateUtil.queryCriteria(Algorithm.class);
         if (!algorithmList.isEmpty()) {
             return;
         }
@@ -111,7 +111,7 @@ public class DatabaseInitializer implements ServletContextListener {
      * @throws EntityStorageException       when the existing inputs cannot be queried
      */
     protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
-        List<FileInput> inputList = HibernateUtil.queryCriteria(FileInput.class);
+        List inputList = HibernateUtil.queryCriteria(FileInput.class);
         if (!inputList.isEmpty()) {
             return;
         }

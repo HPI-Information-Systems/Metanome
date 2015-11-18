@@ -185,7 +185,7 @@ app.directive('mdTable', function () {
 
 
       },
-      template: angular.element(angular.document.querySelector('#md-table-template')).html()
+      template: angular.element(document.querySelector('#md-table-template')).html()
     }
   });
 
