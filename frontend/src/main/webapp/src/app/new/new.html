@@ -1,0 +1,78 @@
+<div class="main-container">
+
+ <div class="tabbar">
+  <div class="tabbar-content">
+    <a ng-href='#/new' class="tabLink active"><div class="tab"><span>NEW</span></div></a>
+    <a ng-href='#/history' class="tabLink"><div class="tab"><span>HISTORY</span></div></a>
+  </div>
+</div>
+     <div class="new-controller">
+      <div layout="row" layout-wrap>
+        <div flex="50">
+          <md-card>
+            <md-card-content>
+              <h2 style="margin-bottom: 10px;">Choose algorithm</h2>
+              <a class="reset-algorithm" ng-click="resetAlgorithm()">Reset</i></a>
+              <a class="settings-algorithm" ng-click="openAlgorithmSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <div class="algorithms-container">
+                <md-list style="padding-top: 4px;">
+                  <div ng-repeat="algorithmsList in algorithms">
+                  <md-subheader class="list-category" ng-bind="algorithmsList.name"></md-subheader>
+                   <md-list-item class="md-2-line" ng-repeat="item in algorithmsList.algorithms" >
+                     <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="activateAlgorithm(item)"  style="margin: 0 -13px 0 -20px; padding: 3px 0 3px 4px;">
+                       <h3>{{ item.name }} <i class="zmdi zmdi-delete zmdi-hc-lg algorithmIcon" ng-click="confirmDelete(item)"></i> <a style="color: black" ng-click="editAlgorithm(item)"><i class="zmdi zmdi-edit zmdi-hc-lg algorithmIcon"></i></a></h3>
+                       <p class="algo-desc">{{ item.description || "No description" }}</p>
+                     </div>
+                   </md-list-item>
+                   <md-divider></md-divider>
+                  </div>
+               </md-list>
+              </div>
+            </md-card-content>
+          </md-card>
+        </div>
+        <div flex="50">
+          <md-card>
+            <md-card-content>
+              <h2 style="margin-bottom: 10px;">Select datasource</h2>
+              <a class="reset-datasources" ng-click="resetDataSources()">Reset</i></a>
+              <a class="settings-datasources" ng-click="openDatasourceSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <div class="datasources-container">
+                <md-list style="padding-top: 4px;">
+                  <div ng-repeat="datasource in datasources | filter:{ possible: true }">
+                   <md-subheader class="list-category" ng-bind="datasource.name"></md-subheader>
+                   <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource | filter:{ disabled: false }" style="min-height: 20px">
+                       <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}" ng-click="toggleDatasource(item)"  style="margin: 0 -13px 0 -20px; padding: 6px 0 6px 4px;">
+                         <h3>{{ item.name }} <span class="datasourceActions"> <a ng-if="datasource.name == 'File Input'" style="color: black" ng-href="#/result/{{item.id}}?cached=false&file=true"><i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i></a><i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon" ng-click="confirmDelete(item)"></i><a style="color: black" ng-click="editDatasource(item)"><i class="zmdi zmdi-edit zmdi-hc-lg datasourceIcon"></i></a></span></h3>
+                         <p class="algo-desc">{{ item.comment || "No description" }}</p>
+                       </div>
+                   </md-list-item>
+                   <md-divider></md-divider>
+                  </div>
+               </md-list>
+              </div>
+            </md-card-content>
+          </md-card>
+        </div>
+        <span us-spinner="{radius:50, width:20, length: 26}" spinner-key="spinner-1"></span>
+        <div flex="100">
+          <md-card>
+            <md-card-content ng-if="activeAlgorithm">
+              <h2 style="margin-bottom: 10px;">Additional configuration</h2>
+              <div style="width: 50%; margin-bottom: -15px">
+                <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
+              </div>
+              <h4 style=" margin-bottom: -10px; margin-top: 20px">Result handling</h4>
+              <md-radio-group ng-model="cachingSelection">
+                <md-radio-button style="margin-bottom: -8px" value="cache" aria-label="Label 1">Cache result and write it to disk when the algorithm is finished.</md-radio-button>
+                <md-radio-button style="margin-bottom: -8px" value="disk"> Write result immediately to disk. </md-radio-button>
+                <md-radio-button value="count" aria-label="Label 3">Just count the results.</md-radio-button>
+              </md-radio-group>
+              <p style="margin-top: 20px">Memory (in MB): <input ng-model="memory"/></p>
+              <md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Execute</md-button>
+            </md-card-content>
+          </md-card>
+        </div>
+      </div>
+    </div>
+</div>

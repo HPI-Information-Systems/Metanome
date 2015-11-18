@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_integration.input;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,12 +94,6 @@ public class InputIterationExceptionTest {
     assertEquals(expectedCause, actualCause);
   }
 
-  /**
-   * Tests that the instances of {@link InputIterationException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new InputIterationException(""));
-  }
+
 
 }

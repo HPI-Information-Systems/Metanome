@@ -16,8 +16,6 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -108,13 +106,5 @@ public class ConfigurationSettingFileInputTest {
     assertTrue(otherSetting.compareTo(oneSetting) < 0);
   }
 
-  /**
-   * Tests that the instances of {@link ConfigurationSettingFileInput} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingFileInput("fileName", true, ',', '"', '\\', true, true, 2, true,
-                                          true, ""));
-  }
+
 }

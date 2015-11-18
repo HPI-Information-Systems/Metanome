@@ -328,4 +328,89 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     return algorithm;
   }
+
+
+  @GET
+  @Path("/algorithms-for-file-inputs")
+  @Produces("application/json")
+  public List<Algorithm> getAlgorithmsForFileInputs() {
+    ArrayList<Criterion> criteria = new ArrayList<>();
+    criteria.add(Restrictions.eq("fileInput", true));
+
+    List<Algorithm> algorithms = null;
+    try {
+      algorithms =
+          HibernateUtil
+              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+    } catch (EntityStorageException e) {
+      // Algorithm should implement Entity, so the exception should not occur.
+      e.printStackTrace();
+    }
+
+    criteria = new ArrayList<>();
+    criteria.add(Restrictions.eq("relationalInput", true));
+    try {
+      algorithms.addAll(
+          HibernateUtil
+              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()])));
+    } catch (EntityStorageException e) {
+      // Algorithm should implement Entity, so the exception should not occur.
+      e.printStackTrace();
+    }
+
+    return algorithms;
+  }
+
+  @GET
+  @Path("/algorithms-for-table-inputs")
+  @Produces("application/json")
+  public List<Algorithm> getAlgorithmsForTableInputs() {
+    ArrayList<Criterion> criteria = new ArrayList<>();
+    criteria.add(Restrictions.eq("fileInput", true));
+
+    List<Algorithm> algorithms = null;
+    try {
+      algorithms =
+          HibernateUtil
+              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+    } catch (EntityStorageException e) {
+      // Algorithm should implement Entity, so the exception should not occur.
+      e.printStackTrace();
+    }
+
+    criteria = new ArrayList<>();
+    criteria.add(Restrictions.eq("relationalInput", true));
+    try {
+      algorithms.addAll(
+          HibernateUtil
+              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()])));
+    } catch (EntityStorageException e) {
+      // Algorithm should implement Entity, so the exception should not occur.
+      e.printStackTrace();
+    }
+
+    return algorithms;
+  }
+
+  @GET
+  @Path("/algorithms-for-database-connections")
+  @Produces("application/json")
+  public List<Algorithm> getAlgorithmsForDatabaseConnections() {
+    ArrayList<Criterion> criteria = new ArrayList<>();
+    criteria.add(Restrictions.eq("databaseConnection", true));
+
+    List<Algorithm> algorithms = null;
+    try {
+      algorithms =
+          HibernateUtil
+              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+    } catch (EntityStorageException e) {
+      // Algorithm should implement Entity, so the exception should not occur.
+      e.printStackTrace();
+    }
+
+    return algorithms;
+  }
+
+
 }

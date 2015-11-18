@@ -15,8 +15,6 @@
 package de.metanome.algorithm_integration;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,15 +112,6 @@ public class ColumnPermutationTest {
     assertTrue(actualColumnIdentifiers.get(0).equals(expectedColumn2));
     assertTrue(actualColumnIdentifiers.get(1).equals(expectedColumn3));
     assertTrue(actualColumnIdentifiers.get(2).equals(expectedColumn1));
-  }
-
-  /**
-   * Tests that the instances of {@link ColumnPermutation} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new ColumnPermutation(new ColumnIdentifier(
-        "table1", "column1")));
   }
 
   /**

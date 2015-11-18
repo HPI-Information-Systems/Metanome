@@ -20,11 +20,10 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertSame;
@@ -51,7 +50,7 @@ public class SqlProfilingAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationRequirement>
+      ArrayList<ConfigurationRequirement>
         actualConfigurationRequirements =
         algorithm.getConfigurationRequirements();
 

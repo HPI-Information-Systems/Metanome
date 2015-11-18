@@ -23,15 +23,11 @@ import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -178,13 +174,5 @@ public class UniqueColumnCombinationTest {
                     expectedColumnCombinationNotEquals.hashCode());
   }
 
-  /**
-   * Tests that the instances of {@link UniqueColumnCombination} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester
-        .checkGwtSerializability(new UniqueColumnCombination(mock(ColumnIdentifier.class)));
-  }
 
 }

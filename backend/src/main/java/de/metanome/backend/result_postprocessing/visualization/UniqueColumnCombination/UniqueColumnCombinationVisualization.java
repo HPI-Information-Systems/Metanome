@@ -63,7 +63,7 @@ public class UniqueColumnCombinationVisualization {
   public void createVisualizationData() throws FileNotFoundException {
     // Get paths for the json files
     String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    currentPath = currentPath + "../../visualization/UCCResultAnalyzer/";
+    currentPath = currentPath + "../../src/visualization/UCCResultAnalyzer/";
     String clusterFile = currentPath + "/UCCClusters.json";
     String dataFile = currentPath + "/UCCData.json";
     String histogramFile = currentPath + "/UCCHistograms.json";

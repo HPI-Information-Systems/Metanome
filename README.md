@@ -10,9 +10,7 @@ The Metanome tool is supplied under Apache License. You can use and extend the t
 #### Building Metanome
 Metanome is a maven project, which can be build by executing:
 
-```mvn verify```
-
-The verify phase should be executed as GWTTests are executed in this phase of the build.
+```mvn clean install```
 
 Metanome can be packaged together with a jetty webserver and profiling algorithms. 
 To speedup builds this package is not created in the default maven profile. 
@@ -23,6 +21,12 @@ The deployment package can be created by executing the build with the deployment
 or by executing package on the deployment project directly (if metanome has not been installed dependencies will be retrieved online): 
 
 ```mvn -f deployment/pom.xml package```
+
+To start the Metanome frontend you then have to execute the following steps in the deployment folder:
+
+1. Unzip `target/deployment-0.0.2-SNAPSHOT-package_with_jetty.zip`
+2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
+4. Open a browser at [http://localhost:8888/](http://localhost:8888/)
 
 #### Downloads
 Metanome releases can be found on the download page at:

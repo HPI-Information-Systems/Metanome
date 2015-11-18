@@ -19,8 +19,6 @@
  */
 package de.metanome.algorithm_integration.algorithm_execution;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -99,14 +97,6 @@ public class FileCreationExceptionTest {
     // Check result
     assertEquals(expectedMessage, actualMessage);
     assertEquals(expectedCause, actualCause);
-  }
-
-  /**
-   * Tests that the instances of {@link FileCreationException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new FileCreationException(""));
   }
 
 }

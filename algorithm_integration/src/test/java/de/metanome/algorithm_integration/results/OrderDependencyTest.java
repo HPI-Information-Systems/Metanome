@@ -21,8 +21,6 @@ import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceive
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,15 +103,6 @@ public class OrderDependencyTest {
                                                expectedNotEqualRhsOd);
   }
 
-  /**
-   * Tests that the instances of {@link OrderDependency} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new OrderDependency(
-        mock(ColumnPermutation.class), mock(ColumnPermutation.class), OrderType.LEXICOGRAPHICAL,
-        ComparisonOperator.SMALLER_EQUAL));
-  }
 
   /**
    * Test method for {@link OrderDependency#sendResultTo(OmniscientResultReceiver)} <p/> The {@link

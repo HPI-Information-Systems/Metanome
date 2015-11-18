@@ -17,3 +17,4 @@ metanomedb.properties
 metanomedb.script
 /metanomedb.tmp
 .classpath
+*.paw

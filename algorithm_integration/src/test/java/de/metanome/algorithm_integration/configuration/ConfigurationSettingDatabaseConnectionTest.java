@@ -17,8 +17,6 @@
 package de.metanome.algorithm_integration.configuration;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -120,13 +118,5 @@ public class ConfigurationSettingDatabaseConnectionTest {
                                              notEqualSettingSystem);
   }
 
-  /**
-   * Tests that the instances of {@link ConfigurationSettingDatabaseConnection} are serializable in
-   * GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(
-        new ConfigurationSettingDatabaseConnection("dbUrl", "username", "password", DbSystem.DB2));
-  }
+
 }

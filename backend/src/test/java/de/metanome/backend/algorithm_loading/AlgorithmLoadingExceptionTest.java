@@ -16,8 +16,6 @@
 
 package de.metanome.backend.algorithm_loading;
 
-import de.metanome.test_helper.GwtSerializationTester;
-
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -80,11 +78,5 @@ public class AlgorithmLoadingExceptionTest {
     assertEquals(expectedCause, actualCause);
   }
 
-  /**
-   * Tests that the instances of {@link AlgorithmLoadingException} are serializable in GWT.
-   */
-  @Test
-  public void testGwtSerialization() {
-    GwtSerializationTester.checkGwtSerializability(new AlgorithmLoadingException(""));
-  }
+
 }

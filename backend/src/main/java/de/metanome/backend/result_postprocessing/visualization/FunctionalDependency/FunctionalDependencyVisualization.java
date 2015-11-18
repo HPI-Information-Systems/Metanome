@@ -59,7 +59,7 @@ public class FunctionalDependencyVisualization {
   public void createVisualizationData() throws FileNotFoundException {
     // set the path to store the data
     String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    String relativeVisualizationPath = "../../visualization/FDResultAnalyzer/";
+    String relativeVisualizationPath = "../../src/visualization/FDResultAnalyzer/";
     this.prefixTreeJsonFile =
         combinePaths(currentPath + relativeVisualizationPath, "PrefixTree.json");
 
