@@ -23,11 +23,56 @@
     </formats>
     <fileSets>
         <fileSet>
+            <directory>${project.basedir}/target/metanome/app</directory>
+            <outputDirectory>/app</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/metanome/assets</directory>
+            <outputDirectory>/assets</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/metanome/scripts</directory>
+            <outputDirectory>/scripts</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/metanome/styles</directory>
+            <outputDirectory>/styles</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/metanome/visualization</directory>
+            <outputDirectory>/visualization</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
             <directory>${project.basedir}/target/</directory>
             <outputDirectory>/</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
             <includes>
-                <include>/metanome/**</include>
+                <include>/WEB-INF/**</include>
             </includes>
             <excludes>
                 <exclude>*.jar</exclude>
@@ -59,6 +104,9 @@
         </file>
         <file>
             <source>${project.basedir}/run.bat</source>
+        </file>
+        <file>
+            <source>${project.basedir}/target/metanome/index.html</source>
         </file>
     </files>
 </assembly>

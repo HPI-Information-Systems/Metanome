@@ -86,7 +86,7 @@
                                     <artifactId>frontend</artifactId>
                                     <version>${project.version}</version>
                                     <type>war</type>
-                                    <outputDirectory>target/metanome</outputDirectory>
+                                    <outputDirectory>target/</outputDirectory>
                                     <includes>
                                         WEB-INF/,
                                         metanome/
