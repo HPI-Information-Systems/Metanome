@@ -65,6 +65,43 @@
         <plugins>
 
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/webapp/</directory>
+                            <includes>
+                                <include>etc/**</include>
+                                <include>.tmp/**</include>
+                                <include>bower_components/**</include>
+                                <include>etc/**</include>
+                                <include>metanome/**</include>
+                                <include>node/**</include>
+                                <include>node_modules/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>e2e/**</exclude>
+                                <exclude>gulp/**</exclude>
+                                <exclude>src/**</exclude>
+                                <exclude>WEB-INF/**</exclude>
+                                <exclude>.bowerrc</exclude>
+                                <exclude>.editorconfig</exclude>
+                                <exclude>.jshintrc</exclude>
+                                <exclude>.yo-rc.json</exclude>
+                                <exclude>bower.json</exclude>
+                                <exclude>gulpfile.js</exclude>
+                                <exclude>karma.conf.js</exclude>
+                                <exclude>package.json</exclude>
+                                <exclude>protractor.conf.js</exclude>
+                            </excludes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
