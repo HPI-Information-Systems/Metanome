@@ -17,10 +17,8 @@
 package de.metanome.backend.input.database;
 
 import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-import de.metanome.backend.helper.ExceptionParser;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -63,8 +61,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         hasNext = resultSet.next();
       } catch (SQLException e) {
-        throw new InputIterationException(
-            ExceptionParser.parse(e, "Could not retrieve next row"), e);
+        throw new InputIterationException("Could not retrieve next row", e);
       }
       nextCalled = true;
     }
@@ -79,8 +76,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         resultSet.next();
       } catch (SQLException e) {
-        throw new InputIterationException(
-            ExceptionParser.parse(e, "Could not retrieve next row"), e);
+        throw new InputIterationException("Could not retrieve next row", e);
       }
     }
 
@@ -92,8 +88,7 @@ public class ResultSetIterator implements RelationalInput {
       try {
         resultRow[columnIndex] = resultSet.getString(columnIndex + 1);
       } catch (SQLException e) {
-        throw new InputIterationException(
-            ExceptionParser.parse(e, "Could not retrieve values from result set"), e);
+        throw new InputIterationException("Could not retrieve values from result set", e);
       }
     }
 

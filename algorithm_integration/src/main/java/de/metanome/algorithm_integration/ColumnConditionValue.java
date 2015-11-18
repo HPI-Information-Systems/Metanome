@@ -39,12 +39,9 @@ public class ColumnConditionValue implements ColumnCondition {
   protected boolean isNegated;
   protected float coverage = 0;
 
-  /**
-   * Exists for Gwt serialization
-   */
-  protected ColumnConditionValue() {
+  public ColumnConditionValue() {
     this.columnIdentifier = new ColumnIdentifier();
-    this.columnValue = new String();
+    this.columnValue = "";
     this.isNegated = false;
   }
 

@@ -30,9 +30,6 @@ public enum ResultType implements Serializable {
   private String ending;
   private String name;
 
-  ResultType() {
-  } // For GWT
-
   ResultType(String ending, String name) {
     this.name = name;
     this.ending = ending;

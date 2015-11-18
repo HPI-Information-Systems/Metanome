@@ -30,9 +30,10 @@ public class ColumnCombination implements Serializable, Comparable {
   protected Set<ColumnIdentifier> columnIdentifiers;
 
   /**
-   * Exists for GWT serialization.
+   * Creates an empty column combination.
+   * Needed for serialization.
    */
-  protected ColumnCombination() {
+  public ColumnCombination() {
     columnIdentifiers = new TreeSet<>();
   }
 

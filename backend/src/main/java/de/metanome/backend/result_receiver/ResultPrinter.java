@@ -17,26 +17,11 @@
 package de.metanome.backend.result_receiver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-import de.metanome.backend.helper.ExceptionParser;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -139,8 +124,7 @@ public class ResultPrinter extends ResultReceiver {
     try {
       return new PrintStream(new FileOutputStream(getOutputFilePathPrefix() + fileSuffix), true);
     } catch (FileNotFoundException e) {
-      throw new CouldNotReceiveResultException(
-          ExceptionParser.parse(e, "Could not open result file for writing"), e);
+      throw new CouldNotReceiveResultException("Could not open result file for writing", e);
     }
   }
 
