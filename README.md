@@ -26,7 +26,7 @@ To start the Metanome frontend you then have to execute the following steps in t
 
 1. Unzip `target/deployment-0.0.2-SNAPSHOT-package_with_jetty.zip`
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
-4. Open a browser at [http://localhost:8888/metanome/](http://localhost:8888/metanome/)
+4. Open a browser at [http://localhost:8888/](http://localhost:8888/)
 
 #### Downloads
 Metanome releases can be found on the download page at:
