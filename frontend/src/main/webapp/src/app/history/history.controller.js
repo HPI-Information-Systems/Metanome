@@ -143,7 +143,7 @@ app.directive('mdTable', function () {
         $scope.showResult = function(result) {
           if (!result.aborted) {
             $location.url('/result/' + result.id + '?count=' + result.count + '&cached=' + result.cached +
-            '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
+            '&load=true' + '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
             '&cucc=' + result.cucc + '&od=' + result.od + '&basicStat=' + result.basicStat);
           }
         };

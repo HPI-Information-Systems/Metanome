@@ -5,7 +5,7 @@ var app = angular.module('Metanome')
 .config(function config( $stateProvider ) {
   $stateProvider
     .state('result', {
-      url: '/result/:resultId?cached&count&file&extended&ind&od&ucc&cucc&fd&basicStat',
+      url: '/result/:resultId?cached&count&load&file&extended&ind&od&ucc&cucc&fd&basicStat',
       views: {
         'main@': {
             controller: 'ResultCtrl',
@@ -30,6 +30,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.cucc = ($stateParams.cucc === 'true');
   $scope.od = ($stateParams.od === 'true');
   $scope.basicStat = ($stateParams.basicStat === 'true');
+  $scope.load = ($stateParams.load === 'true');
 
   $scope.openFDVisualization = openFDVisualization;
   $scope.openUCCVisualization = openUCCVisualization;
@@ -153,12 +154,20 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     });
   // load all results for a file
   } else if ($scope.file) {
-      loadDetailsForFile();
-      startSpin();
-      LoadResults.file({id: $scope.id, notDetailed: true}, function () {
-        init();
-        stopSpin()
-      });
+    loadDetailsForFile();
+    startSpin();
+    LoadResults.file({id: $scope.id, notDetailed: true}, function () {
+      init();
+      stopSpin()
+    });
+  // load result (coming from history)
+  } else if ($scope.load) {
+    startSpin();
+    LoadResults.load({id: $scope.id, notDetailed: true}, function () {
+      stopSpin();
+      init();
+      loadDetailsForExecution()
+    });
   // load results
   } else {
     init();
