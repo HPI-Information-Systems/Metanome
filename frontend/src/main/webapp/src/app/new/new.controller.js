@@ -157,15 +157,18 @@ angular.module('Metanome')
       var inputCategories = [
         {
           name: 'file-inputs',
-          display: 'File Input'
+          display: 'File Input',
+          order: 1
         },
         {
           name: 'database-connections',
-          display: 'Database Connection'
+          display: 'Database Connection',
+          order: 2
         },
         {
           name: 'table-inputs',
-          display: 'Table Inputs'
+          display: 'Table Inputs',
+          order: 3
         }
       ];
 
@@ -183,13 +186,14 @@ angular.module('Metanome')
           });
           $scope.datasources.push({
             name: category.display,
+            order: category.order,
             datasource: result.sort(function (a, b) {
               return a.name.localeCompare(b.name)
             }),
             possible: true
           });
           $scope.datasources.sort(function (a, b) {
-            return a.name.localeCompare(b.name)
+            return a.order - b.order
           })
         })
       })
@@ -499,12 +503,24 @@ angular.module('Metanome')
     }
 
     function confirmDelete(item) {
-      $scope.confirmText = 'Are you sure you want to delete it?';
-
-      if (item.type !== 'fileInput' && item.type !== 'databaseConnection' && item.type !== 'tableInput') {
-        $scope.confirmText = 'Deleting this algorithm results also in deleting all executions of this algorithm. ' +
-        'However, the result files remain on disk. Are you sure you want to delete the algorithm?'
+      var objectToDelete;
+      switch (item.type) {
+        case 'fileInput':
+          objectToDelete = 'file input';
+          break;
+        case 'databaseConnection':
+          objectToDelete = 'database connection';
+          break;
+        case 'tableInput':
+          objectToDelete = 'table input';
+          break;
+        default:
+          objectToDelete = 'algorithm';
       }
+
+      $scope.confirmText = 'Are you sure you want to delete the ' + objectToDelete + ' ?';
+      $scope.confirmDescription = 'Deleting this ' + objectToDelete + ' results also in deleting all executions of this ' + objectToDelete + '. ' +
+      'However, the result files remain on disk.';
 
       $scope.confirmItem = item;
       $scope.confirmFunction = function () {
@@ -551,6 +567,7 @@ angular.module('Metanome')
         /*jshint multistr: true */
         template: '\
                 <h3>Confirm</h3>\
+                <p>{{$parent.confirmDescription}}</p>\
                 <p>{{$parent.confirmText}}</p>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
