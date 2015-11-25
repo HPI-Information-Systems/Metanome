@@ -468,6 +468,7 @@ md-table {
 }
 .tabbar-content {
   display: table;
+  width: 100%
 }
 
 .tabbar-content .active {
