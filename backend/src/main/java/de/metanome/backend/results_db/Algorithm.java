@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.metanome.algorithm_integration.algorithm_types.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -259,13 +260,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   }
 
   @XmlTransient
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "algorithm")
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "algorithm")
   @OnDelete(action = OnDeleteAction.CASCADE)
   public List<Execution> getExecutions() {
     return executions;
   }
 
   @XmlTransient
+  @JsonIgnore
   public Algorithm setExecutions(List<Execution> executions) {
     this.executions = executions;
     return this;

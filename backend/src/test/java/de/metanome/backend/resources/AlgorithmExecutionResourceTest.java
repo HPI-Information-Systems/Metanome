@@ -123,7 +123,7 @@ public class AlgorithmExecutionResourceTest {
 
     List<String> inputsJson = algorithmExecutionResource.inputsToJson(inputValues);
 
-    String expectedJson = "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"executions\":[],\"identifier\":\"0\"}";
+    String expectedJson = "{\"type\":\"Input\",\"id\":0,\"name\":\"myFile\",\"identifier\":\"0\"}";
 
     assertThat(inputsJson, contains(expectedJson));
 

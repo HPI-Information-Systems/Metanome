@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
@@ -77,12 +78,14 @@ public class Input implements Serializable {
   }
 
   @XmlTransient
+  @JsonIgnore
   @ManyToMany( fetch = FetchType.EAGER, mappedBy = "inputs", cascade = CascadeType.ALL  )
   public List<Execution> getExecutions() {
     return executions;
   }
 
   @XmlTransient
+  @JsonIgnore
   public void setExecutions(List<Execution> executions) {
     this.executions = executions;
   }
