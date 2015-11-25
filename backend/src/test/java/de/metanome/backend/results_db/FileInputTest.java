@@ -18,12 +18,15 @@ package de.metanome.backend.results_db;
 
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-
 import de.metanome.backend.input.file.FileIterator;
+import de.metanome.backend.resources.AlgorithmResource;
+import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
+
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -113,5 +116,40 @@ public class FileInputTest {
 
     // Check
     assertEquals(fileName, actualIdentifier);
+  }
+
+  @Test
+  public void testCascadingDelete() throws EntityStorageException {
+    AlgorithmResource algorithmResource = new AlgorithmResource();
+    ExecutionResource executionResource = new ExecutionResource();
+
+    // Setup
+    HibernateUtil.clear();
+
+    // Store prerequisite objects in the database
+    Algorithm algorithm = new Algorithm("example_ind_algorithm.jar");
+    algorithmResource.store(algorithm);
+
+    // Expected values
+    long begin = new Date().getTime();
+    Execution expectedExecution = new Execution(algorithm, begin);
+    // Adding results and inputs
+    // Results
+    Result result = new Result("some result file path");
+    expectedExecution.addResult(result);
+    // Inputs
+    FileInput expectedFileInput = new FileInput("fileInput");
+    expectedExecution.addInput(expectedFileInput);
+
+    // Execute functionality
+    HibernateUtil.store(expectedFileInput);
+    HibernateUtil.store(expectedExecution);
+
+    // Execute
+    fileInputResource.delete(expectedFileInput.id);
+
+    // Check
+    List<Execution> actualExecutions = executionResource.getAll();
+    assertEquals(0, actualExecutions.size());
   }
 }
