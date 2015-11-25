@@ -8,11 +8,16 @@ The [Metanome project](http://hpi.de/naumann/projects/data-profiling-and-analyti
 The Metanome tool is supplied under Apache License. You can use and extend the tool to develop your own profiling algorithms. The profiling algorithms contained in our downloadable Metanome build have HPI copyright. You are free to use and distribute them for research purposes. 
 
 #### Building Metanome
-Metanome is a maven project, which can be build by executing:
+Metanome is a java maven project. So in order to build the sources, the following development tools are needed:
+
+1. Java JDK 1.7 or later
+2. Maven 3
+
+Metanome can be build by executing:
 
 ```mvn clean install```
 
-Metanome can be packaged together with a jetty webserver and profiling algorithms. 
+Metanome can be packaged together with a jetty webserver, some test data, and some test algorithms. 
 To speedup builds this package is not created in the default maven profile. 
 The deployment package can be created by executing the build with the deployment profile: 
 
