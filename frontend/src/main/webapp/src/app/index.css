@@ -220,7 +220,24 @@ section.jumbotron h1 {
   cursor: pointer;
   color: black;
 }
-
+.new-controller .reset-algorithm {
+  position: absolute;
+  right: 54%;
+  top: 100px;
+  margin-right: 35px;
+  margin-top: 30px;
+  cursor: pointer;
+  color: black;
+}
+.new-controller .reset-datasources {
+  position: absolute;
+  right: 4%;
+  top: 100px;
+  margin-right: 65px;
+  margin-top: 30px;
+  cursor: pointer;
+  color: black;
+}
 .new-controller .settings-datasources{
   position: absolute;
   right: 0;
@@ -557,18 +574,7 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
   margin-bottom: 30px;
 }
 
-.reset-algorithm {
-  cursor: pointer;
-  position: absolute;
-  right: 81%;
-  top: 141px;
-}
-.reset-datasources {
-  cursor: pointer;
-  position: absolute;
-  right: 31%;
-  top: 141px;
-}
+
 
 .ngdialog.ngdialog-theme-default .ngdialog-close:before {
   visibility: hidden;

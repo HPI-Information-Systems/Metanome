@@ -14,8 +14,8 @@
           <md-card>
             <md-card-content>
               <h2 style="margin-bottom: 10px;">Choose algorithm</h2>
-              <a class="reset-algorithm" ng-click="resetAlgorithm()">Reset</a>
-              <a class="settings-algorithm" ng-click="openAlgorithmSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <a class="reset-algorithm" title="Reset selection" ng-click="resetAlgorithm()"><i class="zmdi zmdi-refresh zmdi-hc-2x"></i></a>
+              <a class="settings-algorithm" title="Add new algorithm" ng-click="openAlgorithmSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
               <div class="algorithms-container">
                 <md-list style="padding-top: 4px;">
                   <div ng-repeat="algorithmsList in algorithms">
@@ -37,8 +37,8 @@
           <md-card>
             <md-card-content>
               <h2 style="margin-bottom: 10px;">Select datasource</h2>
-              <a class="reset-datasources" ng-click="resetDataSources()">Reset</a>
-              <a class="settings-datasources" ng-click="openDatasourceSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
+              <a class="reset-datasources" title="Reset selection" ng-click="resetDataSources()"><i class="zmdi zmdi-refresh zmdi-hc-2x"></i></a>
+              <a class="settings-datasources" title="Add new datasource" ng-click="openDatasourceSettings()"><i class="zmdi zmdi-plus-square zmdi-hc-2x"></i></a>
               <div class="datasources-container">
                 <md-list style="padding-top: 4px;">
                   <div ng-repeat="datasource in datasources | filter:{ possible: true }">
