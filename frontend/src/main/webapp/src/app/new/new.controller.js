@@ -500,6 +500,12 @@ angular.module('Metanome')
 
     function confirmDelete(item) {
       $scope.confirmText = 'Are you sure you want to delete it?';
+
+      if (item.type !== 'fileInput' && item.type !== 'databaseConnection' && item.type !== 'tableInput') {
+        $scope.confirmText = 'Deleting this algorithm results also in deleting all executions of this algorithm. ' +
+        'However, the result files remain on disk. Are you sure you want to delete the algorithm?'
+      }
+
       $scope.confirmItem = item;
       $scope.confirmFunction = function () {
         switch ($scope.confirmItem.type) {
